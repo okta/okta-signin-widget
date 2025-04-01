@@ -191,6 +191,9 @@ const baseConfig: Partial<Configuration> = {
       '@mui/styled-engine': '@mui/styled-engine/legacy',
       '@mui/system': '@mui/system/legacy',
       '@mui/utils': '@mui/utils/legacy',
+
+      // @mui/x-date-pickers
+      '@mui/x-date-pickers/AdapterLuxon': '@mui/x-date-pickers/AdapterLuxon/index.js',
     },
   },
   plugins: [

@@ -3,338 +3,349 @@
 exports[`authenticator-verification-okta-verify-push-code Polling should display reminder prompt when waiting on page for >= 30 secs 1`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                tabindex="-1"
-              />
               <div
-                aria-hidden="true"
-                class="MuiBox-root emotion-7"
-                data-se="factor-beacon mfa-okta-verify "
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header authCoinSpacing"
               >
-                <svg
-                  aria-labelledby="mfa-okta-verify"
-                  fill="none"
-                  height="2.85714286rem"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="2.85714286rem"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-okta-verify"
-                  >
-                    Okta Verify
-                  </title>
-                  <path
-                    clip-rule="evenodd"
-                    d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
-                    fill="#00297A"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
-                aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-              >
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  tabindex="-1"
+                />
                 <div
-                  class="MuiBox-root emotion-10"
+                  aria-hidden="true"
+                  class="MuiBox-root emotion-8"
+                  data-se="factor-beacon mfa-okta-verify "
+                >
+                  <svg
+                    aria-labelledby="mfa-okta-verify"
+                    fill="none"
+                    height="2.85714286rem"
+                    role="img"
+                    viewBox="0 0 48 48"
+                    width="2.85714286rem"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title
+                      id="mfa-okta-verify"
+                    >
+                      Okta Verify
+                    </title>
+                    <path
+                      clip-rule="evenodd"
+                      d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
+                      fill="#00297A"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-9"
+              >
+                <form
+                  aria-live="polite"
+                  class="o-form MuiBox-root emotion-10"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
                     class="MuiBox-root emotion-11"
                   >
                     <div
                       class="MuiBox-root emotion-12"
-                      data-se="identifier-container"
-                      title="tester@okta1.com"
                     >
                       <div
-                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
-                        data-se="identifier"
-                        translate="no"
+                        class="MuiBox-root emotion-13"
+                        data-se="identifier-container"
+                        title="tester@okta1.com"
                       >
                         <div
-                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-14"
+                          data-se="identifier"
+                          translate="no"
                         >
-                          <svg
-                            aria-label="User"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
-                            fill="none"
-                            focusable="false"
-                            role="img"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
+                          <div
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-15"
                           >
-                            <path
-                              clip-rule="evenodd"
-                              d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                            <title>
-                              User
-                            </title>
-                          </svg>
+                            <svg
+                              aria-label="User"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+                              fill="none"
+                              focusable="false"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                              <title>
+                                User
+                              </title>
+                            </svg>
+                          </div>
+                          <span
+                            class="MuiChip-label MuiChip-labelMedium emotion-17"
+                          >
+                            tester@okta1.com
+                          </span>
                         </div>
-                        <span
-                          class="MuiChip-label MuiChip-labelMedium emotion-16"
-                        >
-                          tester@okta1.com
-                        </span>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-1"
-                  >
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-2"
                     >
                       <div
-                        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutWarning MuiAlert-callout emotion-19"
-                        role="alert"
+                        class="MuiBox-root emotion-12"
                       >
                         <div
-                          class="MuiAlert-icon emotion-20"
+                          aria-label="warning"
+                          aria-labelledby="d6m2hj"
+                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-20"
+                          role="alert"
                         >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-21"
-                            fill="none"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="M9.342 2.918c1.123-2.144 4.192-2.144 5.315 0l7.695 14.69C23.398 19.605 21.95 22 19.695 22H4.305c-2.255 0-3.703-2.395-2.657-4.392l7.694-14.69ZM12 14a1 1 0 0 1-1-1V8h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                          </svg>
-                        </div>
-                        <div
-                          class="MuiAlert-message emotion-22"
-                        >
-                          <span
-                            class="MuiBox-root emotion-23"
-                            translate="no"
-                          >
-                            warning
-                          </span>
                           <div
-                            class="MuiBox-root emotion-1"
+                            class="MuiAlert-icon emotion-21"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
+                              fill="none"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M9.342 2.918c1.123-2.144 4.192-2.144 5.315 0l7.695 14.69C23.398 19.605 21.95 22 19.695 22H4.305c-2.255 0-3.703-2.395-2.657-4.392l7.694-14.69ZM12 14a1 1 0 0 1-1-1V8h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </div>
+                          <div
+                            class="MuiAlert-message emotion-23"
                           >
                             <div
-                              class="MuiBox-root emotion-1"
+                              class="emotion-24"
                             >
-                              Haven't received a push notification yet? Try opening the Okta Verify app on your device, or 
-                              <a
-                                class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways resend-number-challenge emotion-26"
-                                href="#"
+                              <div
+                                class="MuiBox-root emotion-25"
                               >
-                                resend the push notification
-                              </a>
-                              .
+                                <div
+                                  class="MuiBox-root emotion-2"
+                                >
+                                  Haven't received a push notification yet? Try opening the Okta Verify app on your device, or 
+                                  <a
+                                    class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways resend-number-challenge emotion-27"
+                                    href="#"
+                                  >
+                                    resend the push notification
+                                  </a>
+                                  .
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
                     <div
-                      class="MuiBox-root emotion-28"
-                    >
-                      <h2
-                        class="MuiTypography-root MuiTypography-h4 emotion-29"
-                        data-se="o-form-head"
-                        tabindex="-1"
-                      >
-                        Push notification sent
-                      </h2>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <fieldset
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-31"
-                    >
-                      <legend
-                        class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-32"
-                      >
-                        
-                         
-                        
-                      </legend>
-                      <div
-                        aria-labelledby="autoChallenge-label"
-                        class="MuiFormGroup-root emotion-33"
-                        id="autoChallenge"
-                      >
-                        <label
-                          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-34"
-                          id="autoChallenge-checkbox"
-                        >
-                          <span
-                            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-35"
-                          >
-                            <input
-                              class="PrivateSwitchBase-input emotion-36"
-                              data-indeterminate="false"
-                              data-se="autoChallenge"
-                              name="autoChallenge"
-                              type="checkbox"
-                            />
-                          </span>
-                          <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-37"
-                          >
-                            Send push automatically
-                          </span>
-                        </label>
-                      </div>
-                    </fieldset>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-28"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 emotion-37"
-                        data-se="numberchallenge-instr-value"
-                        tabindex="-1"
-                      >
-                        On your mobile device, open the Okta Verify prompt, then tap 
-                        <span
-                          class="strong"
-                        >
-                          52
-                        </span>
-                         in Okta Verify to continue.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-42"
-                      id="code"
+                      class="MuiBox-root emotion-12"
                     >
                       <div
-                        class="MuiBox-root emotion-43"
-                        data-se="icon-code"
+                        class="MuiBox-root emotion-29"
                       >
-                        <svg
-                          aria-hidden="true"
-                          fill="none"
-                          height="4rem"
-                          role="img"
-                          viewBox="0 0 64 64"
-                          width="4rem"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <title>
-                            Mobile Device
-                          </title>
-                          <path
-                            class="siwIconFillPrimaryDark"
-                            clip-rule="evenodd"
-                            d="M21.7496 62.7498H44.2496C45.957 62.6872 47.5708 61.9538 48.7409 60.7089C49.9109 59.4639 50.5429 57.8078 50.4996 56.0998V6.99981C50.5564 5.28333 49.9304 3.61435 48.7589 2.35851C47.5874 1.10268 45.9659 0.362378 44.2496 0.299805H21.7496C20.0334 0.362378 18.4119 1.10268 17.2404 2.35851C16.0689 3.61435 15.4429 5.28333 15.4996 6.99981V28.1311H17.9996V6.99981C17.9658 6.47429 18.036 5.94727 18.2063 5.44896C18.3766 4.95065 18.6436 4.49087 18.992 4.09601C19.3404 3.70114 19.7634 3.37896 20.2366 3.14794C20.7098 2.91693 21.224 2.78163 21.7496 2.74981L44.2496 2.7998C45.3021 2.86429 46.2865 3.34172 46.9888 4.12826C47.691 4.91479 48.0543 5.9468 47.9996 6.99981V56.0498C48.0335 56.5753 47.9633 57.1023 47.793 57.6007C47.6227 58.099 47.3557 58.5587 47.0073 58.9536C46.6589 59.3485 46.2359 59.6707 45.7627 59.9017C45.2895 60.1327 44.7753 60.268 44.2496 60.2998H21.7496C20.6972 60.2353 19.7128 59.7579 19.0105 58.9714C18.3082 58.1848 17.9449 57.1528 17.9996 56.0998V34.6311H15.4996V56.0498C15.4429 57.7663 16.0689 59.4353 17.2404 60.6911C18.4119 61.9469 20.0334 62.6872 21.7496 62.7498ZM38 55.25H28V57.75H38V55.25ZM33 5.25C34.3807 5.25 35.5 6.36929 35.5 7.75C35.5 9.13071 34.3807 10.25 33 10.25C31.6193 10.25 30.5 9.13071 30.5 7.75C30.5 6.36929 31.6193 5.25 33 5.25Z"
-                            fill="#00297A"
-                            fill-rule="evenodd"
-                          />
-                          <path
-                            class="siwIconFillSecondary"
-                            clip-rule="evenodd"
-                            d="M26.2191 32.6309L20.85 38L22.62 39.76L31 31.38L22.62 23L20.85 24.76L26.2209 30.1309H2.98047V32.6309H26.2191Z"
-                            fill="#A7B5EC"
-                            fill-rule="evenodd"
-                          />
-                        </svg>
-                      </div>
-                      <div
-                        class="MuiBox-root emotion-1"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 emotion-37"
-                          data-se="text-code"
+                        <h2
+                          class="MuiTypography-root MuiTypography-h4 emotion-30"
+                          data-se="o-form-head"
                           tabindex="-1"
-                          translate="no"
                         >
-                          52
-                        </span>
+                          Push notification sent
+                        </h2>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-47"
-                      data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
+                    <div
+                      class="MuiBox-root emotion-12"
                     >
-                      Verify with something else
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-47"
-                      data-se="cancel"
-                      role="link"
-                      type="button"
+                      <fieldset
+                        class="MuiFormControl-root MuiFormControl-marginNormal emotion-32"
+                      >
+                        <legend
+                          class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-33"
+                          id="autoChallenge-label"
+                        >
+                          
+                           
+                          
+                        </legend>
+                        <div
+                          aria-labelledby="autoChallenge-label"
+                          class="MuiFormGroup-root emotion-34"
+                          id="autoChallenge"
+                        >
+                          <label
+                            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-35"
+                            id="autoChallenge-checkbox"
+                          >
+                            <span
+                              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-36"
+                            >
+                              <input
+                                aria-readonly="false"
+                                class="PrivateSwitchBase-input emotion-37"
+                                data-indeterminate="false"
+                                data-se="autoChallenge"
+                                name="autoChallenge"
+                                type="checkbox"
+                              />
+                            </span>
+                            <span
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-38"
+                            >
+                              <span
+                                class="MuiTypography-root MuiTypography-body1 emotion-38"
+                                tabindex="-1"
+                              >
+                                Send push automatically
+                              </span>
+                            </span>
+                          </label>
+                        </div>
+                      </fieldset>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
                     >
-                      Back to sign in
-                    </button>
+                      <div
+                        class="MuiBox-root emotion-29"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 emotion-38"
+                          data-se="numberchallenge-instr-value"
+                          tabindex="-1"
+                        >
+                          On your mobile device, open the Okta Verify prompt, then tap 
+                          <span
+                            class="strong"
+                          >
+                            52
+                          </span>
+                           in Okta Verify to continue.
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <div
+                        class="MuiBox-root emotion-44"
+                        id="code"
+                      >
+                        <div
+                          class="MuiBox-root emotion-45"
+                          data-se="icon-code"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="none"
+                            height="4rem"
+                            role="img"
+                            viewBox="0 0 64 64"
+                            width="4rem"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title>
+                              Mobile Device
+                            </title>
+                            <path
+                              class="siwIconFillPrimaryDark"
+                              clip-rule="evenodd"
+                              d="M21.7496 62.7498H44.2496C45.957 62.6872 47.5708 61.9538 48.7409 60.7089C49.9109 59.4639 50.5429 57.8078 50.4996 56.0998V6.99981C50.5564 5.28333 49.9304 3.61435 48.7589 2.35851C47.5874 1.10268 45.9659 0.362378 44.2496 0.299805H21.7496C20.0334 0.362378 18.4119 1.10268 17.2404 2.35851C16.0689 3.61435 15.4429 5.28333 15.4996 6.99981V28.1311H17.9996V6.99981C17.9658 6.47429 18.036 5.94727 18.2063 5.44896C18.3766 4.95065 18.6436 4.49087 18.992 4.09601C19.3404 3.70114 19.7634 3.37896 20.2366 3.14794C20.7098 2.91693 21.224 2.78163 21.7496 2.74981L44.2496 2.7998C45.3021 2.86429 46.2865 3.34172 46.9888 4.12826C47.691 4.91479 48.0543 5.9468 47.9996 6.99981V56.0498C48.0335 56.5753 47.9633 57.1023 47.793 57.6007C47.6227 58.099 47.3557 58.5587 47.0073 58.9536C46.6589 59.3485 46.2359 59.6707 45.7627 59.9017C45.2895 60.1327 44.7753 60.268 44.2496 60.2998H21.7496C20.6972 60.2353 19.7128 59.7579 19.0105 58.9714C18.3082 58.1848 17.9449 57.1528 17.9996 56.0998V34.6311H15.4996V56.0498C15.4429 57.7663 16.0689 59.4353 17.2404 60.6911C18.4119 61.9469 20.0334 62.6872 21.7496 62.7498ZM38 55.25H28V57.75H38V55.25ZM33 5.25C34.3807 5.25 35.5 6.36929 35.5 7.75C35.5 9.13071 34.3807 10.25 33 10.25C31.6193 10.25 30.5 9.13071 30.5 7.75C30.5 6.36929 31.6193 5.25 33 5.25Z"
+                              fill="#00297A"
+                              fill-rule="evenodd"
+                            />
+                            <path
+                              class="siwIconFillSecondary"
+                              clip-rule="evenodd"
+                              d="M26.2191 32.6309L20.85 38L22.62 39.76L31 31.38L22.62 23L20.85 24.76L26.2209 30.1309H2.98047V32.6309H26.2191Z"
+                              fill="#A7B5EC"
+                              fill-rule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                        <div
+                          class="MuiBox-root emotion-2"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 emotion-38"
+                            data-se="text-code"
+                            tabindex="-1"
+                            translate="no"
+                          >
+                            52
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-49"
+                        data-se="switchAuthenticator"
+                        role="link"
+                        type="button"
+                      >
+                        Verify with something else
+                      </button>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-49"
+                        data-se="cancel"
+                        role="link"
+                        type="button"
+                      >
+                        Back to sign in
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;
@@ -342,283 +353,294 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
 exports[`authenticator-verification-okta-verify-push-code should render form 1`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                tabindex="-1"
-              />
               <div
-                aria-hidden="true"
-                class="MuiBox-root emotion-7"
-                data-se="factor-beacon mfa-okta-verify "
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header authCoinSpacing"
               >
-                <svg
-                  aria-labelledby="mfa-okta-verify"
-                  fill="none"
-                  height="2.85714286rem"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="2.85714286rem"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-okta-verify"
-                  >
-                    Okta Verify
-                  </title>
-                  <path
-                    clip-rule="evenodd"
-                    d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
-                    fill="#00297A"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
-                aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-              >
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  tabindex="-1"
+                />
                 <div
-                  class="MuiBox-root emotion-10"
+                  aria-hidden="true"
+                  class="MuiBox-root emotion-8"
+                  data-se="factor-beacon mfa-okta-verify "
+                >
+                  <svg
+                    aria-labelledby="mfa-okta-verify"
+                    fill="none"
+                    height="2.85714286rem"
+                    role="img"
+                    viewBox="0 0 48 48"
+                    width="2.85714286rem"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title
+                      id="mfa-okta-verify"
+                    >
+                      Okta Verify
+                    </title>
+                    <path
+                      clip-rule="evenodd"
+                      d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
+                      fill="#00297A"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-9"
+              >
+                <form
+                  aria-live="polite"
+                  class="o-form MuiBox-root emotion-10"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
                     class="MuiBox-root emotion-11"
                   >
                     <div
                       class="MuiBox-root emotion-12"
-                      data-se="identifier-container"
-                      title="tester@okta1.com"
                     >
                       <div
-                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
-                        data-se="identifier"
-                        translate="no"
+                        class="MuiBox-root emotion-13"
+                        data-se="identifier-container"
+                        title="tester@okta1.com"
                       >
                         <div
-                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
-                        >
-                          <svg
-                            aria-label="User"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
-                            fill="none"
-                            focusable="false"
-                            role="img"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                            <title>
-                              User
-                            </title>
-                          </svg>
-                        </div>
-                        <span
-                          class="MuiChip-label MuiChip-labelMedium emotion-16"
-                        >
-                          tester@okta1.com
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-1"
-                  />
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-19"
-                    >
-                      <h2
-                        class="MuiTypography-root MuiTypography-h4 emotion-20"
-                        data-se="o-form-head"
-                        tabindex="-1"
-                      >
-                        Push notification sent
-                      </h2>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <fieldset
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-22"
-                    >
-                      <legend
-                        class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-23"
-                      >
-                        
-                         
-                        
-                      </legend>
-                      <div
-                        aria-labelledby="autoChallenge-label"
-                        class="MuiFormGroup-root emotion-24"
-                        id="autoChallenge"
-                      >
-                        <label
-                          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-25"
-                          id="autoChallenge-checkbox"
-                        >
-                          <span
-                            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-26"
-                          >
-                            <input
-                              class="PrivateSwitchBase-input emotion-27"
-                              data-indeterminate="false"
-                              data-se="autoChallenge"
-                              name="autoChallenge"
-                              type="checkbox"
-                            />
-                          </span>
-                          <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-28"
-                          >
-                            Send push automatically
-                          </span>
-                        </label>
-                      </div>
-                    </fieldset>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-19"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 emotion-28"
-                        data-se="numberchallenge-instr-value"
-                        tabindex="-1"
-                      >
-                        On your mobile device, open the Okta Verify prompt, then tap 
-                        <span
-                          class="strong"
-                        >
-                          52
-                        </span>
-                         in Okta Verify to continue.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-33"
-                      id="code"
-                    >
-                      <div
-                        class="MuiBox-root emotion-34"
-                        data-se="icon-code"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          fill="none"
-                          height="4rem"
-                          role="img"
-                          viewBox="0 0 64 64"
-                          width="4rem"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <title>
-                            Mobile Device
-                          </title>
-                          <path
-                            class="siwIconFillPrimaryDark"
-                            clip-rule="evenodd"
-                            d="M21.7496 62.7498H44.2496C45.957 62.6872 47.5708 61.9538 48.7409 60.7089C49.9109 59.4639 50.5429 57.8078 50.4996 56.0998V6.99981C50.5564 5.28333 49.9304 3.61435 48.7589 2.35851C47.5874 1.10268 45.9659 0.362378 44.2496 0.299805H21.7496C20.0334 0.362378 18.4119 1.10268 17.2404 2.35851C16.0689 3.61435 15.4429 5.28333 15.4996 6.99981V28.1311H17.9996V6.99981C17.9658 6.47429 18.036 5.94727 18.2063 5.44896C18.3766 4.95065 18.6436 4.49087 18.992 4.09601C19.3404 3.70114 19.7634 3.37896 20.2366 3.14794C20.7098 2.91693 21.224 2.78163 21.7496 2.74981L44.2496 2.7998C45.3021 2.86429 46.2865 3.34172 46.9888 4.12826C47.691 4.91479 48.0543 5.9468 47.9996 6.99981V56.0498C48.0335 56.5753 47.9633 57.1023 47.793 57.6007C47.6227 58.099 47.3557 58.5587 47.0073 58.9536C46.6589 59.3485 46.2359 59.6707 45.7627 59.9017C45.2895 60.1327 44.7753 60.268 44.2496 60.2998H21.7496C20.6972 60.2353 19.7128 59.7579 19.0105 58.9714C18.3082 58.1848 17.9449 57.1528 17.9996 56.0998V34.6311H15.4996V56.0498C15.4429 57.7663 16.0689 59.4353 17.2404 60.6911C18.4119 61.9469 20.0334 62.6872 21.7496 62.7498ZM38 55.25H28V57.75H38V55.25ZM33 5.25C34.3807 5.25 35.5 6.36929 35.5 7.75C35.5 9.13071 34.3807 10.25 33 10.25C31.6193 10.25 30.5 9.13071 30.5 7.75C30.5 6.36929 31.6193 5.25 33 5.25Z"
-                            fill="#00297A"
-                            fill-rule="evenodd"
-                          />
-                          <path
-                            class="siwIconFillSecondary"
-                            clip-rule="evenodd"
-                            d="M26.2191 32.6309L20.85 38L22.62 39.76L31 31.38L22.62 23L20.85 24.76L26.2209 30.1309H2.98047V32.6309H26.2191Z"
-                            fill="#A7B5EC"
-                            fill-rule="evenodd"
-                          />
-                        </svg>
-                      </div>
-                      <div
-                        class="MuiBox-root emotion-1"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 emotion-28"
-                          data-se="text-code"
-                          tabindex="-1"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-14"
+                          data-se="identifier"
                           translate="no"
                         >
-                          52
-                        </span>
+                          <div
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-15"
+                          >
+                            <svg
+                              aria-label="User"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+                              fill="none"
+                              focusable="false"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                              <title>
+                                User
+                              </title>
+                            </svg>
+                          </div>
+                          <span
+                            class="MuiChip-label MuiChip-labelMedium emotion-17"
+                          >
+                            tester@okta1.com
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-38"
-                      data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
+                    <div
+                      class="MuiBox-root emotion-2"
+                    />
+                    <div
+                      class="MuiBox-root emotion-12"
                     >
-                      Verify with something else
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-38"
-                      data-se="cancel"
-                      role="link"
-                      type="button"
+                      <div
+                        class="MuiBox-root emotion-20"
+                      >
+                        <h2
+                          class="MuiTypography-root MuiTypography-h4 emotion-21"
+                          data-se="o-form-head"
+                          tabindex="-1"
+                        >
+                          Push notification sent
+                        </h2>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
                     >
-                      Back to sign in
-                    </button>
+                      <fieldset
+                        class="MuiFormControl-root MuiFormControl-marginNormal emotion-23"
+                      >
+                        <legend
+                          class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-24"
+                          id="autoChallenge-label"
+                        >
+                          
+                           
+                          
+                        </legend>
+                        <div
+                          aria-labelledby="autoChallenge-label"
+                          class="MuiFormGroup-root emotion-25"
+                          id="autoChallenge"
+                        >
+                          <label
+                            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-26"
+                            id="autoChallenge-checkbox"
+                          >
+                            <span
+                              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-27"
+                            >
+                              <input
+                                aria-readonly="false"
+                                class="PrivateSwitchBase-input emotion-28"
+                                data-indeterminate="false"
+                                data-se="autoChallenge"
+                                name="autoChallenge"
+                                type="checkbox"
+                              />
+                            </span>
+                            <span
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-29"
+                            >
+                              <span
+                                class="MuiTypography-root MuiTypography-body1 emotion-29"
+                                tabindex="-1"
+                              >
+                                Send push automatically
+                              </span>
+                            </span>
+                          </label>
+                        </div>
+                      </fieldset>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <div
+                        class="MuiBox-root emotion-20"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 emotion-29"
+                          data-se="numberchallenge-instr-value"
+                          tabindex="-1"
+                        >
+                          On your mobile device, open the Okta Verify prompt, then tap 
+                          <span
+                            class="strong"
+                          >
+                            52
+                          </span>
+                           in Okta Verify to continue.
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <div
+                        class="MuiBox-root emotion-35"
+                        id="code"
+                      >
+                        <div
+                          class="MuiBox-root emotion-36"
+                          data-se="icon-code"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="none"
+                            height="4rem"
+                            role="img"
+                            viewBox="0 0 64 64"
+                            width="4rem"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title>
+                              Mobile Device
+                            </title>
+                            <path
+                              class="siwIconFillPrimaryDark"
+                              clip-rule="evenodd"
+                              d="M21.7496 62.7498H44.2496C45.957 62.6872 47.5708 61.9538 48.7409 60.7089C49.9109 59.4639 50.5429 57.8078 50.4996 56.0998V6.99981C50.5564 5.28333 49.9304 3.61435 48.7589 2.35851C47.5874 1.10268 45.9659 0.362378 44.2496 0.299805H21.7496C20.0334 0.362378 18.4119 1.10268 17.2404 2.35851C16.0689 3.61435 15.4429 5.28333 15.4996 6.99981V28.1311H17.9996V6.99981C17.9658 6.47429 18.036 5.94727 18.2063 5.44896C18.3766 4.95065 18.6436 4.49087 18.992 4.09601C19.3404 3.70114 19.7634 3.37896 20.2366 3.14794C20.7098 2.91693 21.224 2.78163 21.7496 2.74981L44.2496 2.7998C45.3021 2.86429 46.2865 3.34172 46.9888 4.12826C47.691 4.91479 48.0543 5.9468 47.9996 6.99981V56.0498C48.0335 56.5753 47.9633 57.1023 47.793 57.6007C47.6227 58.099 47.3557 58.5587 47.0073 58.9536C46.6589 59.3485 46.2359 59.6707 45.7627 59.9017C45.2895 60.1327 44.7753 60.268 44.2496 60.2998H21.7496C20.6972 60.2353 19.7128 59.7579 19.0105 58.9714C18.3082 58.1848 17.9449 57.1528 17.9996 56.0998V34.6311H15.4996V56.0498C15.4429 57.7663 16.0689 59.4353 17.2404 60.6911C18.4119 61.9469 20.0334 62.6872 21.7496 62.7498ZM38 55.25H28V57.75H38V55.25ZM33 5.25C34.3807 5.25 35.5 6.36929 35.5 7.75C35.5 9.13071 34.3807 10.25 33 10.25C31.6193 10.25 30.5 9.13071 30.5 7.75C30.5 6.36929 31.6193 5.25 33 5.25Z"
+                              fill="#00297A"
+                              fill-rule="evenodd"
+                            />
+                            <path
+                              class="siwIconFillSecondary"
+                              clip-rule="evenodd"
+                              d="M26.2191 32.6309L20.85 38L22.62 39.76L31 31.38L22.62 23L20.85 24.76L26.2209 30.1309H2.98047V32.6309H26.2191Z"
+                              fill="#A7B5EC"
+                              fill-rule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                        <div
+                          class="MuiBox-root emotion-2"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 emotion-29"
+                            data-se="text-code"
+                            tabindex="-1"
+                            translate="no"
+                          >
+                            52
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
+                        data-se="switchAuthenticator"
+                        role="link"
+                        type="button"
+                      >
+                        Verify with something else
+                      </button>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
+                        data-se="cancel"
+                        role="link"
+                        type="button"
+                      >
+                        Back to sign in
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;
