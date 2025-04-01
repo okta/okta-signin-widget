@@ -1,22 +1,20 @@
-/**
- * Use this function to mock out Math.random to be monotonically incrementing
- * integers, starting at 1. Each invocation will increment the value returned.
+/*
+ * Copyright (c) 2025-present, Okta, Inc. and/or its affiliates. All rights reserved.
+ * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
- * This is particularly useful for stabilizing the value of the random
- * unique ID values that some Odyssey components generate internally using
- * the Math.random method in JavaScript.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *
- * Place this in your test file's `beforeEach` hook:
-
-  beforeEach(() => {
-    mockMathRandom();
-  });
-
+ * See the License for the specific language governing permissions and limitations under the License.
  */
-  export const mockMathRandom = () => {
-    let count = 1;
-    jest.spyOn(Math, 'random').mockImplementation(() => {
-      return count++;
-    });
-  };
-  
+
+// eslint-disable-next-line import/prefer-default-export
+export const mockMathRandom = () => {
+  let count = 1;
+  jest.spyOn(Math, 'random').mockImplementation(() => {
+    count += 1;
+    return count;
+  });
+};

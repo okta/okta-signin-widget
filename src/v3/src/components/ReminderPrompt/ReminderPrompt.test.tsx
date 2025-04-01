@@ -20,11 +20,11 @@ import { h } from 'preact';
 import { act } from 'preact/test-utils';
 import { getLinkReplacerFn } from 'src/util';
 
+import { mockMathRandom } from '../../../test/utils/mockMathRandom';
 import {
   ReminderElement,
   UISchemaElementComponentProps,
 } from '../../types';
-import { mockMathRandom } from '../../../test/utils/mockMathRandom';
 import ReminderPrompt, { DEFAULT_TIMEOUT_MS } from './ReminderPrompt';
 
 // @ts-expect-error Expected 0 arguments, but got 1

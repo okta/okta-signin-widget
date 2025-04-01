@@ -16,7 +16,7 @@ import { createAuthJsPayloadArgs, setup } from './util';
 import authenticatorVerificationEmail from '../../src/mocks/response/idp/idx/challenge/default.json';
 import authenticatorVerificationEmailInvalidOtp from '../../src/mocks/response/idp/idx/challenge/error-401-invalid-otp-passcode.json';
 import sessionExpiredResponse from '../../src/mocks/response/idp/idx/identify/error-session-expired.json';
-import { mockMathRandom } from '../utils/mockMathRandom'
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('Email authenticator verification when email magic link = undefined', () => {
   beforeEach(() => {
