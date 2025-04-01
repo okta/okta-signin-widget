@@ -30,6 +30,7 @@ import {
   areTransactionsEqual,
   containsMessageKey,
   getErrorEventContext,
+  getEventContext,
   getImmutableData,
   isConfigRecoverFlow,
   isOauth2Enabled,
@@ -43,7 +44,6 @@ import {
   transformIdentifier,
   triggerRegistrationErrorMessages,
 } from '../util';
-import { getEventContext } from '../util/getEventContext';
 
 type OnSubmitHandlerOptions = {
   includeData?: boolean;
@@ -245,14 +245,21 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       const transactionHasWarning = (newTransaction.messages || []).some(
         (message) => message.class === MessageType.WARNING.toString(),
       );
+
+      // A client transaction is an interaction where we hit the server and the server gives a failure response (hence !newTransaction.requestDidSucceed),
+      // but the response is remediable and requires the SIW to render a client-side message
+      // E.g: User attempts to create a new profile w/ existing email and server responds w/ failure but SIW must display: "A user with this Email already exists"
       const isClientTransaction = (!newTransaction.requestDidSucceed
           // do not preserve field data on token change errors
-          && !containsMessageKey(ON_PREM_TOKEN_CHANGE_ERROR_KEY, newTransaction.messages))
-        || (areTransactionsEqual(currTransaction, newTransaction) && transactionHasWarning);
+          && !containsMessageKey(ON_PREM_TOKEN_CHANGE_ERROR_KEY, newTransaction.messages)
+          // do not preserve field data when auth-js sets `stepUp` for expected 401 error used by Apple SSOE flow
+          && !newTransaction.stepUp
+      ) || (areTransactionsEqual(currTransaction, newTransaction) && transactionHasWarning);
 
       const onSuccess = (resolve?: (val: unknown) => void) => {
         setIdxTransaction(newTransaction);
-        if (newTransaction.requestDidSucceed === false) {
+        // Do not emit errors when auth-js sets `stepUp` for expected 401 error used by Apple SSOE flow
+        if (newTransaction.requestDidSucceed === false && !newTransaction.stepUp) {
           eventEmitter.emit(
             'afterError',
             getEventContext(newTransaction),
