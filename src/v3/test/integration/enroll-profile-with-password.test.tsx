@@ -15,8 +15,13 @@ import { waitFor } from '@testing-library/preact';
 import mockResponse from '../../src/mocks/response/idp/idx/enroll/enroll-profile-with-password-full-requirements.json';
 // import mockResponseWithFullRequirements from '../../src/mocks/response/idp/idx/enroll/enroll-profile-with-password-full-requirements.json';
 import { createAuthJsPayloadArgs, setup } from './util';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('enroll-profile-with-password', () => {
+  beforeEach(() => {
+    mockMathRandom();
+  });
+
   it('should render form', async () => {
     const { container, findByText, findByLabelText } = await setup({ mockResponse });
     await findByText(/Sign up/);

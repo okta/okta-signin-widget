@@ -14,11 +14,13 @@ import { setup, getMockCredentialsResponse, createAuthJsPayloadArgs } from './ut
 
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/webauthn-enroll-mfa.json';
 import mockResponseWithRequiredUserVerification from '../../src/mocks/response/idp/idx/authenticator-enroll-webauthn-userverification-required.json';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('webauthn-enroll', () => {
   let mockCredentialsContainer: CredentialsContainer | undefined;
 
   beforeEach(() => {
+    mockMathRandom();
     mockCredentialsContainer = {
       create: jest.fn().mockResolvedValueOnce(
         getMockCredentialsResponse(),

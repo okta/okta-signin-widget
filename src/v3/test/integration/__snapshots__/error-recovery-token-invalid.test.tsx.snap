@@ -56,7 +56,7 @@ exports[`error-recovery-token-invalid should render form 1`] = `
                       >
                         <div
                           aria-label="error"
-                          aria-labelledby="ckpxrs"
+                          aria-labelledby="f0bdsr"
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-13"
                           data-se="callout"
                           role="alert"

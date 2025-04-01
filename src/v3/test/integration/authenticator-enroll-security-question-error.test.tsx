@@ -16,10 +16,12 @@ import { createAuthJsPayloadArgs, setup, updateStateHandleInMock } from './util'
 
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/securityquestion-enroll-mfa.json';
 import responseWithCharacterLimitError from '../../src/mocks/response/idp/idx/challenge/answer/enroll-security-question-with-character-limit-error.json';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('authenticator-enroll-security-question-error', () => {
   let mockRequestClientWithError: HttpRequestClient;
   beforeEach(() => {
+    mockMathRandom();
     mockRequestClientWithError = jest.fn().mockImplementation((_, url, options) => {
       updateStateHandleInMock(mockResponse);
       updateStateHandleInMock(responseWithCharacterLimitError);

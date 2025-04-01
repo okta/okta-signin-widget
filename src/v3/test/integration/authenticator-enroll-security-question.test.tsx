@@ -14,8 +14,13 @@ import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/securityquestion-enroll-mfa.json';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('authenticator-enroll-security-question', () => {
+  beforeEach(() => {
+    mockMathRandom();
+  });
+
   describe('predefined question', () => {
     it('renders correct form', async () => {
       const { container, findByText } = await setup({

@@ -16,10 +16,12 @@ import emailPollingResponse from '../../src/mocks/response/idp/idx/challenge/unl
 import webauthnChallengeResponse from '../../src/mocks/response/idp/idx/challenge/unlock-account-sms-verify-webauthn.json';
 
 import { setup, updateStateHandleInMock } from './util';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('flow-unlock-account-email-polling-to-mfa-challenge-authenticator', () => {
   beforeEach(() => {
     jest.useFakeTimers();
+    mockMathRandom();
   });
 
   afterEach(() => {

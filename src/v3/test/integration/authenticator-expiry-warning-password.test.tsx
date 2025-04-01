@@ -14,8 +14,13 @@ import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup, updateDynamicAttribute } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/identify/authenticator-expiry-warning-password.json';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('authenticator-expiry-warning-password', () => {
+  beforeEach(() => {
+    mockMathRandom();
+  });
+
   it('should render form', async () => {
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/Your password will expire in/);

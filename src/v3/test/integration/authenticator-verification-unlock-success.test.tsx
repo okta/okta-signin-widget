@@ -13,8 +13,13 @@
 import { setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/authenticator-verification-unlock-success.json';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('authenticator-verification-unlock-success', () => {
+  beforeEach(() => {
+    mockMathRandom();
+  });
+
   it('should render form', async () => {
     const { container, findByRole } = await setup({ mockResponse });
     const heading = await findByRole('heading', { level: 2 });

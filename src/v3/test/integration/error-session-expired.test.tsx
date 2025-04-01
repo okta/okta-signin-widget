@@ -15,8 +15,13 @@ import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/identify/error-session-expired.json';
 import identifyWithPassword from '../../src/mocks/response/idp/idx/introspect/default.json';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('error-session-expired', () => {
+  beforeEach(() => {
+    mockMathRandom();
+  });
+
   it('should render form', async () => {
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/You have been logged out due to inactivity. Refresh or return to the sign in screen./);

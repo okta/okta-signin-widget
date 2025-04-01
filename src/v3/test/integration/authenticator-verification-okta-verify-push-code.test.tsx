@@ -13,8 +13,13 @@
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/challenge/verify-ov-push-manual.json';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('authenticator-verification-okta-verify-push-code', () => {
+  beforeEach(() => {
+    mockMathRandom();
+  });
+
   it('should render form', async () => {
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/Push notification sent/);

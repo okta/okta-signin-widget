@@ -3,13 +3,13 @@
 exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should poll for Magic link email consent and advance to webauthn challenge once consent is provided 1`] = `
 <div>
   <div
-    class="emotion-0"
+    class="-o3ihhy"
   >
     <div
-      class="MuiScopedCssBaseline-root emotion-1"
+      class="MuiScopedCssBaseline-root -tofwhl-MuiScopedCssBaseline-root"
     >
       <main
-        class="MuiBox-root emotion-2"
+        class="MuiBox-root emotion-0"
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-se="auth-container main-container"
         data-version="0.0.0"
@@ -18,25 +18,25 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
         lang="en"
       >
         <div
-          class="MuiScopedCssBaseline-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-1"
         >
           <div
-            class="MuiBox-root emotion-4"
+            class="MuiBox-root emotion-2"
           >
             <div
-              class="MuiBox-root emotion-5"
+              class="MuiBox-root emotion-3"
             >
               <div
-                class="MuiBox-root emotion-6"
+                class="MuiBox-root emotion-4"
                 data-se="okta-sign-in-header auth-header authCoinSpacing"
               >
                 <h1
-                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  class="MuiTypography-root MuiTypography-h1 -5c6fpu-MuiTypography-root"
                   tabindex="-1"
                 />
                 <div
                   aria-hidden="true"
-                  class="MuiBox-root emotion-8"
+                  class="MuiBox-root emotion-5"
                   data-se="factor-beacon mfa-webauthn "
                 >
                   <svg
@@ -87,36 +87,36 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-9"
+                class="MuiBox-root emotion-6"
               >
                 <form
                   aria-live="polite"
-                  class="o-form MuiBox-root emotion-10"
+                  class="o-form MuiBox-root emotion-7"
                   data-se="o-form"
                   novalidate=""
                 >
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-8"
                   >
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-13"
+                        class="MuiBox-root emotion-10"
                         data-se="identifier-container"
                         title="tester@okta1.com"
                       >
                         <div
-                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-14"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault -187ub75-MuiChip-root"
                           data-se="identifier"
                           translate="no"
                         >
                           <div
-                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-15"
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-11"
                           >
                             <svg
                               aria-label="User"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit -465vn1-MuiSvgIcon-root"
                               fill="none"
                               focusable="false"
                               role="img"
@@ -135,7 +135,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                             </svg>
                           </div>
                           <span
-                            class="MuiChip-label MuiChip-labelMedium emotion-17"
+                            class="MuiChip-label MuiChip-labelMedium -1w7chno-MuiChip-label"
                           >
                             tester@okta1.com
                           </span>
@@ -143,13 +143,13 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-19"
+                        class="MuiBox-root emotion-13"
                       >
                         <h2
-                          class="MuiTypography-root MuiTypography-h4 emotion-20"
+                          class="MuiTypography-root MuiTypography-h4 -6zkiit-MuiTypography-root"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
@@ -158,25 +158,25 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-22"
+                        class="MuiBox-root emotion-15"
                         data-se="infobox-error"
                       >
                         <div
                           aria-label="error"
-                          aria-labelledby="9hba5m"
-                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-23"
+                          aria-labelledby="3o"
+                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout -12m9hbj-MuiPaper-root-MuiAlert-root"
                           data-se="callout"
                           role="alert"
                         >
                           <div
-                            class="MuiAlert-icon emotion-24"
+                            class="MuiAlert-icon -1d59v4p-MuiAlert-icon"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-25"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit -6cbkjc-MuiSvgIcon-root"
                               fill="none"
                               focusable="false"
                               viewBox="0 0 24 24"
@@ -191,13 +191,13 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                             </svg>
                           </div>
                           <div
-                            class="MuiAlert-message emotion-26"
+                            class="MuiAlert-message -1fo9dcf-MuiAlert-message"
                           >
                             <div
-                              class="emotion-27"
+                              class="-u4dvyj"
                             >
                               <div
-                                class="MuiBox-root emotion-28"
+                                class="MuiBox-root -0"
                               >
                                 Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance.
                               </div>
@@ -207,39 +207,39 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-2"
+                      class="MuiBox-root emotion-0"
                     >
                       <div
-                        class="MuiBox-root emotion-12"
+                        class="MuiBox-root emotion-9"
                       >
                         <div
-                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded emotion-31"
+                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded -6o4q51-MuiPaper-root-MuiAccordion-root"
                           data-ods-variant="default"
                         >
                           <div
                             aria-controls="cant-verify-content"
                             aria-expanded="false"
-                            class="MuiButtonBase-root MuiAccordionSummary-root emotion-32"
+                            class="MuiButtonBase-root MuiAccordionSummary-root -luhu3q-MuiButtonBase-root-MuiAccordionSummary-root"
                             id="cant-verify-header"
                             role="button"
                             tabindex="0"
                           >
                             <div
-                              class="MuiAccordionSummary-content emotion-33"
+                              class="MuiAccordionSummary-content -aschmy-MuiAccordionSummary-content"
                             >
                               <div
-                                class="MuiTypography-root MuiTypography-subtitle2 emotion-34"
+                                class="MuiTypography-root MuiTypography-subtitle2 -vwgx6l-MuiTypography-root"
                                 tabindex="-1"
                               >
                                 Can't verify?
                               </div>
                             </div>
                             <div
-                              class="MuiAccordionSummary-expandIconWrapper emotion-35"
+                              class="MuiAccordionSummary-expandIconWrapper -yw020d-MuiAccordionSummary-expandIconWrapper"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-25"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit -6cbkjc-MuiSvgIcon-root"
                                 fill="none"
                                 focusable="false"
                                 viewBox="0 0 24 24"
@@ -255,14 +255,14 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                             </div>
                           </div>
                           <div
-                            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-37"
+                            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden -bz4dnt-MuiCollapse-root"
                             style="min-height: 0px;"
                           >
                             <div
-                              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-38"
+                              class="MuiCollapse-wrapper MuiCollapse-vertical -smkl36-MuiCollapse-wrapper"
                             >
                               <div
-                                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-39"
+                                class="MuiCollapse-wrapperInner MuiCollapse-vertical -9l5vo-MuiCollapse-wrapperInner"
                               >
                                 <div
                                   aria-labelledby="cant-verify-header"
@@ -272,19 +272,19 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                                 >
                                   <div
                                     aria-labelledby="cant-verify-header"
-                                    class="MuiAccordionDetails-root emotion-40"
+                                    class="MuiAccordionDetails-root -1th4vit-MuiAccordionDetails-root"
                                   >
                                     <div
-                                      class="MuiBox-root emotion-11"
+                                      class="MuiBox-root emotion-8"
                                     >
                                       <div
-                                        class="MuiBox-root emotion-2"
+                                        class="MuiBox-root emotion-0"
                                       >
                                         <div
-                                          class="MuiBox-root emotion-19"
+                                          class="MuiBox-root emotion-13"
                                         >
                                           <h3
-                                            class="MuiTypography-root MuiTypography-h6 emotion-44"
+                                            class="MuiTypography-root MuiTypography-h6 -1si4r4j-MuiTypography-root"
                                             tabindex="-1"
                                           >
                                             Are you trying to use a biometric authenticator?
@@ -292,13 +292,13 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                                         </div>
                                       </div>
                                       <div
-                                        class="MuiBox-root emotion-2"
+                                        class="MuiBox-root emotion-0"
                                       >
                                         <div
-                                          class="MuiBox-root emotion-19"
+                                          class="MuiBox-root emotion-13"
                                         >
                                           <p
-                                            class="MuiTypography-root MuiTypography-body1 emotion-47"
+                                            class="MuiTypography-root MuiTypography-body1 -179xm2l-MuiTypography-root"
                                             data-se="o-form-explain"
                                             tabindex="-1"
                                           >
@@ -307,13 +307,13 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                                         </div>
                                       </div>
                                       <div
-                                        class="MuiBox-root emotion-12"
+                                        class="MuiBox-root emotion-9"
                                       >
                                         <div
-                                          class="MuiBox-root emotion-19"
+                                          class="MuiBox-root emotion-13"
                                         >
                                           <p
-                                            class="MuiTypography-root MuiTypography-body1 emotion-47"
+                                            class="MuiTypography-root MuiTypography-body1 -179xm2l-MuiTypography-root"
                                             data-se="o-form-explain"
                                             tabindex="-1"
                                           >
@@ -322,13 +322,13 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                                         </div>
                                       </div>
                                       <div
-                                        class="MuiBox-root emotion-2"
+                                        class="MuiBox-root emotion-0"
                                       >
                                         <div
-                                          class="MuiBox-root emotion-19"
+                                          class="MuiBox-root emotion-13"
                                         >
                                           <h3
-                                            class="MuiTypography-root MuiTypography-h6 emotion-44"
+                                            class="MuiTypography-root MuiTypography-h6 -1si4r4j-MuiTypography-root"
                                             tabindex="-1"
                                           >
                                             Are you trying to use a security key?
@@ -336,13 +336,13 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                                         </div>
                                       </div>
                                       <div
-                                        class="MuiBox-root emotion-12"
+                                        class="MuiBox-root emotion-9"
                                       >
                                         <div
-                                          class="MuiBox-root emotion-19"
+                                          class="MuiBox-root emotion-13"
                                         >
                                           <p
-                                            class="MuiTypography-root MuiTypography-body1 emotion-47"
+                                            class="MuiTypography-root MuiTypography-body1 -179xm2l-MuiTypography-root"
                                             data-se="o-form-explain"
                                             tabindex="-1"
                                           >
@@ -360,10 +360,10 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-9"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button Mui-focusVisible emotion-58"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button Mui-focusVisible emotion-30"
                         data-se="switchAuthenticator"
                         role="link"
                         type="button"
@@ -372,10 +372,10 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                       </button>
                     </div>
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-9"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-58"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-30"
                         data-se="cancel"
                         role="link"
                         type="button"

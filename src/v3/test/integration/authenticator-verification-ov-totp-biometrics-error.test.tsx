@@ -12,8 +12,13 @@
 
 import mockResponse from '../../../../playground/mocks/data/idp/idx/error-okta-verify-uv-totp-verify-enable-biometrics.json';
 import { setup } from './util';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('authenticator-verification-ov-totp-biometrics-error', () => {
+  beforeEach(() => {
+    mockMathRandom();
+  });
+
   it('should render form with Biometrics error', async () => {
     const { container, findAllByRole, findByRole } = await setup({ mockResponse });
     const [alertBoxTitle, pageTitle] = await findAllByRole('heading', { level: 2 });

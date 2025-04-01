@@ -13,8 +13,13 @@
 import { waitFor } from '@testing-library/preact';
 import enrollProfileUpdatMockResponse from '../../../../playground/mocks/data/idp/idx/enroll-profile-update-params.json';
 import { setup } from './util';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('enroll-profile-update-required-field', () => {
+  beforeEach(() => {
+    mockMathRandom();
+  });
+
   it('should render form with one required field', async () => {
     const { container, findByTestId, findByRole } = await setup(
       { mockResponse: enrollProfileUpdatMockResponse },

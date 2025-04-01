@@ -13,8 +13,13 @@
 import { waitFor } from '@testing-library/preact';
 import mockResponse from '../../../../playground/mocks/data/idp/idx/enroll-profile-submit.json';
 import { createAuthJsPayloadArgs, setup } from './util';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('enroll-profile-update', () => {
+  beforeEach(() => {
+    mockMathRandom();
+  });
+
   it('should render form', async () => {
     const { container, findByLabelText, findByRole } = await setup({ mockResponse });
     const heading = await findByRole('heading', { level: 2 });

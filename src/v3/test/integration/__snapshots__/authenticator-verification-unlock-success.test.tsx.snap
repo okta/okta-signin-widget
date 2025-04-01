@@ -3,13 +3,13 @@
 exports[`authenticator-verification-unlock-success should render form 1`] = `
 <div>
   <div
-    class="emotion-0"
+    class="-o3ihhy"
   >
     <div
-      class="MuiScopedCssBaseline-root emotion-1"
+      class="MuiScopedCssBaseline-root -tofwhl-MuiScopedCssBaseline-root"
     >
       <main
-        class="MuiBox-root emotion-2"
+        class="MuiBox-root emotion-0"
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-se="auth-container main-container"
         data-version="0.0.0"
@@ -18,25 +18,25 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
         lang="en"
       >
         <div
-          class="MuiScopedCssBaseline-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-1"
         >
           <div
-            class="MuiBox-root emotion-4"
+            class="MuiBox-root emotion-2"
           >
             <div
-              class="MuiBox-root emotion-5"
+              class="MuiBox-root emotion-3"
             >
               <div
-                class="MuiBox-root emotion-6"
+                class="MuiBox-root emotion-4"
                 data-se="okta-sign-in-header auth-header authCoinSpacing"
               >
                 <h1
-                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  class="MuiTypography-root MuiTypography-h1 -5c6fpu-MuiTypography-root"
                   tabindex="-1"
                 />
                 <div
                   aria-hidden="true"
-                  class="MuiBox-root emotion-8"
+                  class="MuiBox-root emotion-5"
                   data-se="factor-beacon mfa-okta-password "
                 >
                   <svg
@@ -67,36 +67,36 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-9"
+                class="MuiBox-root emotion-6"
               >
                 <form
                   aria-live="polite"
-                  class="o-form MuiBox-root emotion-10"
+                  class="o-form MuiBox-root emotion-7"
                   data-se="o-form"
                   novalidate=""
                 >
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-8"
                   >
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-13"
+                        class="MuiBox-root emotion-10"
                         data-se="identifier-container"
                         title="tester.test@okta.com"
                       >
                         <div
-                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-14"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault -187ub75-MuiChip-root"
                           data-se="identifier"
                           translate="no"
                         >
                           <div
-                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-15"
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-11"
                           >
                             <svg
                               aria-label="User"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit -465vn1-MuiSvgIcon-root"
                               fill="none"
                               focusable="false"
                               role="img"
@@ -115,7 +115,7 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                             </svg>
                           </div>
                           <span
-                            class="MuiChip-label MuiChip-labelMedium emotion-17"
+                            class="MuiChip-label MuiChip-labelMedium -1w7chno-MuiChip-label"
                           >
                             tester.test@okta.com
                           </span>
@@ -123,25 +123,25 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-19"
+                        class="MuiBox-root emotion-13"
                         data-se="infobox-info"
                       >
                         <div
                           aria-label="info"
-                          aria-labelledby="z6a1zy"
-                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-calloutInfo MuiAlert-callout emotion-20"
+                          aria-labelledby="3m"
+                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-calloutInfo MuiAlert-callout -1caojjz-MuiPaper-root-MuiAlert-root"
                           data-se="callout"
                           role="alert"
                         >
                           <div
-                            class="MuiAlert-icon emotion-21"
+                            class="MuiAlert-icon -pwacet-MuiAlert-icon"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit -6cbkjc-MuiSvgIcon-root"
                               fill="none"
                               focusable="false"
                               viewBox="0 0 24 24"
@@ -156,13 +156,13 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                             </svg>
                           </div>
                           <div
-                            class="MuiAlert-message emotion-23"
+                            class="MuiAlert-message -1fo9dcf-MuiAlert-message"
                           >
                             <div
-                              class="emotion-24"
+                              class="-u4dvyj"
                             >
                               <div
-                                class="MuiBox-root emotion-25"
+                                class="MuiBox-root -0"
                               >
                                 Account successfully unlocked! Verify your account with a security method to continue.
                               </div>
@@ -172,13 +172,13 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-27"
+                        class="MuiBox-root emotion-15"
                       >
                         <h2
-                          class="MuiTypography-root MuiTypography-h4 emotion-28"
+                          class="MuiTypography-root MuiTypography-h4 -6zkiit-MuiTypography-root"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
@@ -187,23 +187,23 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-2"
+                      class="MuiBox-root emotion-0"
                     >
                       <input
-                        class="MuiBox-root emotion-30"
+                        class="MuiBox-root emotion-17"
                         id="username"
                         name="username"
                         type="text"
                       />
                     </div>
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-32"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-33"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="credentials.passcode"
                           id="credentials.passcode-label"
@@ -213,14 +213,14 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-34"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd -i5rkor-MuiInputBase-root"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="credentials.passcode-label"
                             autocomplete="current-password"
-                            class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-35"
+                            class="MuiInputBase-input MuiInputBase-inputAdornedEnd -9q1fac-MuiInputBase-input"
                             data-se="credentials.passcode"
                             id="credentials.passcode"
                             name="credentials.passcode"
@@ -229,19 +229,19 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                             type="password"
                           />
                           <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-36"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium -k4xn2b-MuiInputAdornment-root"
                           >
                             <button
                               aria-controls="credentials.passcode"
                               aria-label="Show password"
                               aria-pressed="false"
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-37"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium -8djs0b-MuiButtonBase-root-MuiIconButton-root"
                               tabindex="0"
                               type="button"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit -6cbkjc-MuiSvgIcon-root"
                                 fill="none"
                                 focusable="false"
                                 viewBox="0 0 24 24"
@@ -260,10 +260,10 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-9"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-40"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth -1sx3il5-MuiButtonBase-root-MuiButton-root"
                         data-se="save"
                         tabindex="0"
                         type="submit"
@@ -272,10 +272,10 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                       </button>
                     </div>
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-9"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-21"
                         data-se="forgot-password"
                         role="link"
                         type="button"
@@ -284,10 +284,10 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                       </button>
                     </div>
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-9"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-21"
                         data-se="cancel"
                         role="link"
                         type="button"

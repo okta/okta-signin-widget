@@ -14,8 +14,13 @@ import '@testing-library/jest-dom';
 import { setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-ov-qr-version-upgrade.json';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('okta-verify-enrollment-version-upgrade', () => {
+  beforeEach(() => {
+    mockMathRandom();
+  });
+
   it('should render form', async () => {
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/The device used to set up Okta Verify does not meet/);

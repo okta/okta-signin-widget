@@ -24,6 +24,7 @@ import {
   ReminderElement,
   UISchemaElementComponentProps,
 } from '../../types';
+import { mockMathRandom } from '../../../test/utils/mockMathRandom';
 import ReminderPrompt, { DEFAULT_TIMEOUT_MS } from './ReminderPrompt';
 
 // @ts-expect-error Expected 0 arguments, but got 1
@@ -45,6 +46,7 @@ jest.mock('../../contexts', () => ({
 describe('ReminderPrompt', () => {
   beforeEach(() => {
     mockSubmitHook.mockRestore();
+    mockMathRandom();
   });
 
   afterEach(() => {

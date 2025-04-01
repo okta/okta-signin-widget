@@ -13,8 +13,13 @@
 import { setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/enroll/new/error-account-creation.json';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('error-account-creation', () => {
+  beforeEach(() => {
+    mockMathRandom();
+  });
+
   it('should render form', async () => {
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/There was an error creating your account. Please try registering again./);

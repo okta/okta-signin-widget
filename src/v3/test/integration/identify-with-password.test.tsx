@@ -16,8 +16,13 @@ import { createAuthJsPayloadArgs, setup } from './util';
 import * as cookieUtils from '../../src/util/cookieUtils';
 import mockResponse from '../../src/mocks/response/idp/idx/introspect/default.json';
 import { WidgetOptions } from '../../../types';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('identify-with-password', () => {
+  beforeEach(() => {
+    mockMathRandom();
+  });
+
   it('should display Identifier & Password hint labels', async () => {
     const usernameHint = 'This is your username';
     const passwordHint = 'This is your password';

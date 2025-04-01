@@ -12,8 +12,13 @@
 
 import mockResponse from '../../../../playground/mocks/data/idp/idx/request-activation-email.json';
 import { createAuthJsPayloadArgs, setup } from './util';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('request-activation-email', () => {
+  beforeEach(() => {
+    mockMathRandom();
+  });
+
   it('renders form', async () => {
     const { container, findByRole } = await setup({ mockResponse });
     await findByRole('heading', { level: 2, name: 'Activation link has expired' });

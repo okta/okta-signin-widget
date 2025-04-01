@@ -3,13 +3,13 @@
 exports[`enroll-profile-with-password should add new field to view and remove it from the payload before submission 1`] = `
 <div>
   <div
-    class="emotion-0"
+    class="-o3ihhy"
   >
     <div
-      class="MuiScopedCssBaseline-root emotion-1"
+      class="MuiScopedCssBaseline-root -tofwhl-MuiScopedCssBaseline-root"
     >
       <main
-        class="MuiBox-root emotion-2"
+        class="MuiBox-root emotion-0"
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-se="auth-container main-container"
         data-version="0.0.0"
@@ -18,43 +18,43 @@ exports[`enroll-profile-with-password should add new field to view and remove it
         lang="en"
       >
         <div
-          class="MuiScopedCssBaseline-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-1"
         >
           <div
-            class="MuiBox-root emotion-4"
+            class="MuiBox-root emotion-2"
           >
             <div
-              class="MuiBox-root emotion-5"
+              class="MuiBox-root emotion-3"
             >
               <div
-                class="MuiBox-root emotion-6"
+                class="MuiBox-root emotion-4"
                 data-se="okta-sign-in-header auth-header "
               >
                 <h1
-                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  class="MuiTypography-root MuiTypography-h1 -5c6fpu-MuiTypography-root"
                   tabindex="-1"
                 />
               </div>
               <div
-                class="MuiBox-root emotion-8"
+                class="MuiBox-root emotion-5"
               >
                 <form
                   aria-live="polite"
-                  class="o-form MuiBox-root emotion-9"
+                  class="o-form MuiBox-root emotion-6"
                   data-se="o-form"
                   novalidate=""
                 >
                   <div
-                    class="MuiBox-root emotion-10"
+                    class="MuiBox-root emotion-7"
                   >
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <div
-                        class="MuiBox-root emotion-12"
+                        class="MuiBox-root emotion-9"
                       >
                         <h2
-                          class="MuiTypography-root MuiTypography-h4 emotion-13"
+                          class="MuiTypography-root MuiTypography-h4 -6zkiit-MuiTypography-root"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
@@ -63,13 +63,13 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <div
-                        class="MuiBox-root emotion-12"
+                        class="MuiBox-root emotion-9"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-16"
+                          class="MuiTypography-root MuiTypography-body1 -179xm2l-MuiTypography-root"
                           data-se="o-form-explain"
                           tabindex="-1"
                         >
@@ -78,13 +78,13 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-18"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-19"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.lastName"
                           id="userProfile.lastName-label"
@@ -94,14 +94,14 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-20"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.lastName-label"
                             autocomplete="family-name"
-                            class="MuiInputBase-input emotion-21"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.lastName"
                             id="userProfile.lastName"
                             name="userProfile.lastName"
@@ -112,13 +112,13 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-18"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-19"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.firstName"
                           id="userProfile.firstName-label"
@@ -128,14 +128,14 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-20"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.firstName-label"
                             autocomplete="given-name"
-                            class="MuiInputBase-input emotion-21"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.firstName"
                             id="userProfile.firstName"
                             name="userProfile.firstName"
@@ -146,13 +146,13 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-18"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-19"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.email"
                           id="userProfile.email-label"
@@ -162,14 +162,14 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-20"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.email-label"
                             autocomplete="email"
-                            class="MuiInputBase-input emotion-21"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.email"
                             id="userProfile.email"
                             inputmode="email"
@@ -181,13 +181,13 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-18"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-19"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.login"
                           id="userProfile.login-label"
@@ -197,13 +197,13 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-20"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.login-label"
-                            class="MuiInputBase-input emotion-21"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.login"
                             id="userProfile.login"
                             name="userProfile.login"
@@ -214,13 +214,13 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-18"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-19"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.address"
                           id="userProfile.address-label"
@@ -230,13 +230,13 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-20"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.address-label"
-                            class="MuiInputBase-input emotion-21"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.address"
                             id="userProfile.address"
                             name="userProfile.address"
@@ -247,10 +247,10 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-43"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth -1sx3il5-MuiButtonBase-root-MuiButton-root"
                         data-se="save"
                         tabindex="0"
                         type="submit"
@@ -259,24 +259,24 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                       </button>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <hr
-                        class="MuiDivider-root MuiDivider-fullWidth emotion-45"
+                        class="MuiDivider-root MuiDivider-fullWidth emotion-19"
                         data-se="separation-line"
                       />
                     </div>
                     <div
-                      class="MuiBox-root emotion-46"
+                      class="MuiBox-root emotion-20"
                     >
                       <div
-                        class="MuiBox-root emotion-47"
+                        class="MuiBox-root emotion-21"
                       >
                         <div
-                          class="MuiBox-root emotion-12"
+                          class="MuiBox-root emotion-9"
                         >
                           <p
-                            class="MuiTypography-root MuiTypography-body1 emotion-16"
+                            class="MuiTypography-root MuiTypography-body1 -179xm2l-MuiTypography-root"
                             data-se="haveaccount"
                             tabindex="-1"
                           >
@@ -285,10 +285,10 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                         </div>
                       </div>
                       <div
-                        class="MuiBox-root emotion-47"
+                        class="MuiBox-root emotion-21"
                       >
                         <button
-                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-51"
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-24"
                           data-se="back"
                           role="link"
                           type="button"
@@ -312,13 +312,13 @@ exports[`enroll-profile-with-password should add new field to view and remove it
 exports[`enroll-profile-with-password should show custom error message and prevent submission when failure is triggered in preSubmit callback 1`] = `
 <div>
   <div
-    class="emotion-0"
+    class="-o3ihhy"
   >
     <div
-      class="MuiScopedCssBaseline-root emotion-1"
+      class="MuiScopedCssBaseline-root -tofwhl-MuiScopedCssBaseline-root"
     >
       <main
-        class="MuiBox-root emotion-2"
+        class="MuiBox-root emotion-0"
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-se="auth-container main-container"
         data-version="0.0.0"
@@ -327,47 +327,47 @@ exports[`enroll-profile-with-password should show custom error message and preve
         lang="en"
       >
         <div
-          class="MuiScopedCssBaseline-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-1"
         >
           <div
-            class="MuiBox-root emotion-4"
+            class="MuiBox-root emotion-2"
           >
             <div
-              class="MuiBox-root emotion-5"
+              class="MuiBox-root emotion-3"
             >
               <div
-                class="MuiBox-root emotion-6"
+                class="MuiBox-root emotion-4"
                 data-se="okta-sign-in-header auth-header "
               >
                 <h1
-                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  class="MuiTypography-root MuiTypography-h1 -5c6fpu-MuiTypography-root"
                   tabindex="-1"
                 />
               </div>
               <div
-                class="MuiBox-root emotion-8"
+                class="MuiBox-root emotion-5"
               >
                 <form
                   aria-live="polite"
-                  class="o-form MuiBox-root emotion-9"
+                  class="o-form MuiBox-root emotion-6"
                   data-se="o-form"
                   novalidate=""
                 >
                   <div
-                    class="MuiBox-root emotion-10"
+                    class="MuiBox-root emotion-7"
                   >
                     <div
                       aria-label="error"
-                      aria-labelledby="kpv2ka"
-                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-11"
+                      aria-labelledby="6"
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout -12m9hbj-MuiPaper-root-MuiAlert-root"
                       role="alert"
                     >
                       <div
-                        class="MuiAlert-icon emotion-12"
+                        class="MuiAlert-icon -1d59v4p-MuiAlert-icon"
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit -6cbkjc-MuiSvgIcon-root"
                           fill="none"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -382,13 +382,13 @@ exports[`enroll-profile-with-password should show custom error message and preve
                         </svg>
                       </div>
                       <div
-                        class="MuiAlert-message emotion-14"
+                        class="MuiAlert-message -1fo9dcf-MuiAlert-message"
                       >
                         <div
-                          class="emotion-15"
+                          class="-u4dvyj"
                         >
                           <div
-                            class="MuiBox-root emotion-16"
+                            class="MuiBox-root -0"
                           >
                             This is my custom global message
                           </div>
@@ -397,16 +397,16 @@ exports[`enroll-profile-with-password should show custom error message and preve
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-17"
+                    class="MuiBox-root emotion-8"
                   >
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-19"
+                        class="MuiBox-root emotion-10"
                       >
                         <h2
-                          class="MuiTypography-root MuiTypography-h4 emotion-20"
+                          class="MuiTypography-root MuiTypography-h4 -6zkiit-MuiTypography-root"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
@@ -415,13 +415,13 @@ exports[`enroll-profile-with-password should show custom error message and preve
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-19"
+                        class="MuiBox-root emotion-10"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-23"
+                          class="MuiTypography-root MuiTypography-body1 -179xm2l-MuiTypography-root"
                           data-se="o-form-explain"
                           tabindex="-1"
                         >
@@ -430,13 +430,13 @@ exports[`enroll-profile-with-password should show custom error message and preve
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.lastName"
                           id="userProfile.lastName-label"
@@ -446,7 +446,7 @@ exports[`enroll-profile-with-password should show custom error message and preve
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
@@ -455,7 +455,7 @@ exports[`enroll-profile-with-password should show custom error message and preve
                             aria-invalid="true"
                             aria-labelledby="userProfile.lastName-label"
                             autocomplete="family-name"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.lastName"
                             id="userProfile.lastName"
                             name="userProfile.lastName"
@@ -464,16 +464,16 @@ exports[`enroll-profile-with-password should show custom error message and preve
                           />
                         </div>
                         <div
-                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-filled emotion-29"
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-filled -1den0xp-MuiFormHelperText-root"
                           id="userProfile.lastName-error"
                         >
                           <span
-                            class="MuiBox-root emotion-30"
+                            class="MuiBox-root -1gab2mw"
                           >
                             Error:
                           </span>
                           <div
-                            class="MuiBox-root emotion-16"
+                            class="MuiBox-root -0"
                           >
                             Custom preSubmit error
                           </div>
@@ -481,13 +481,13 @@ exports[`enroll-profile-with-password should show custom error message and preve
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.firstName"
                           id="userProfile.firstName-label"
@@ -497,14 +497,14 @@ exports[`enroll-profile-with-password should show custom error message and preve
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.firstName-label"
                             autocomplete="given-name"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.firstName"
                             id="userProfile.firstName"
                             name="userProfile.firstName"
@@ -515,13 +515,13 @@ exports[`enroll-profile-with-password should show custom error message and preve
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.email"
                           id="userProfile.email-label"
@@ -531,14 +531,14 @@ exports[`enroll-profile-with-password should show custom error message and preve
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.email-label"
                             autocomplete="email"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.email"
                             id="userProfile.email"
                             inputmode="email"
@@ -550,13 +550,13 @@ exports[`enroll-profile-with-password should show custom error message and preve
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.login"
                           id="userProfile.login-label"
@@ -566,13 +566,13 @@ exports[`enroll-profile-with-password should show custom error message and preve
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.login-label"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.login"
                             id="userProfile.login"
                             name="userProfile.login"
@@ -583,10 +583,10 @@ exports[`enroll-profile-with-password should show custom error message and preve
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-48"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth -1sx3il5-MuiButtonBase-root-MuiButton-root"
                         data-se="save"
                         tabindex="0"
                         type="submit"
@@ -595,24 +595,24 @@ exports[`enroll-profile-with-password should show custom error message and preve
                       </button>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <hr
-                        class="MuiDivider-root MuiDivider-fullWidth emotion-50"
+                        class="MuiDivider-root MuiDivider-fullWidth emotion-19"
                         data-se="separation-line"
                       />
                     </div>
                     <div
-                      class="MuiBox-root emotion-51"
+                      class="MuiBox-root emotion-20"
                     >
                       <div
-                        class="MuiBox-root emotion-52"
+                        class="MuiBox-root emotion-21"
                       >
                         <div
-                          class="MuiBox-root emotion-19"
+                          class="MuiBox-root emotion-10"
                         >
                           <p
-                            class="MuiTypography-root MuiTypography-body1 emotion-23"
+                            class="MuiTypography-root MuiTypography-body1 -179xm2l-MuiTypography-root"
                             data-se="haveaccount"
                             tabindex="-1"
                           >
@@ -621,10 +621,10 @@ exports[`enroll-profile-with-password should show custom error message and preve
                         </div>
                       </div>
                       <div
-                        class="MuiBox-root emotion-52"
+                        class="MuiBox-root emotion-21"
                       >
                         <button
-                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-56"
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-24"
                           data-se="back"
                           role="link"
                           type="button"
@@ -648,13 +648,13 @@ exports[`enroll-profile-with-password should show custom error message and preve
 exports[`enroll-profile-with-password should show custom field level error message and custom global message on page load 1`] = `
 <div>
   <div
-    class="emotion-0"
+    class="-o3ihhy"
   >
     <div
-      class="MuiScopedCssBaseline-root emotion-1"
+      class="MuiScopedCssBaseline-root -tofwhl-MuiScopedCssBaseline-root"
     >
       <main
-        class="MuiBox-root emotion-2"
+        class="MuiBox-root emotion-0"
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-se="auth-container main-container"
         data-version="0.0.0"
@@ -663,47 +663,47 @@ exports[`enroll-profile-with-password should show custom field level error messa
         lang="en"
       >
         <div
-          class="MuiScopedCssBaseline-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-1"
         >
           <div
-            class="MuiBox-root emotion-4"
+            class="MuiBox-root emotion-2"
           >
             <div
-              class="MuiBox-root emotion-5"
+              class="MuiBox-root emotion-3"
             >
               <div
-                class="MuiBox-root emotion-6"
+                class="MuiBox-root emotion-4"
                 data-se="okta-sign-in-header auth-header "
               >
                 <h1
-                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  class="MuiTypography-root MuiTypography-h1 -5c6fpu-MuiTypography-root"
                   tabindex="-1"
                 />
               </div>
               <div
-                class="MuiBox-root emotion-8"
+                class="MuiBox-root emotion-5"
               >
                 <form
                   aria-live="polite"
-                  class="o-form MuiBox-root emotion-9"
+                  class="o-form MuiBox-root emotion-6"
                   data-se="o-form"
                   novalidate=""
                 >
                   <div
-                    class="MuiBox-root emotion-10"
+                    class="MuiBox-root emotion-7"
                   >
                     <div
                       aria-label="error"
-                      aria-labelledby="4z63ex"
-                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-11"
+                      aria-labelledby="3m"
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout -12m9hbj-MuiPaper-root-MuiAlert-root"
                       role="alert"
                     >
                       <div
-                        class="MuiAlert-icon emotion-12"
+                        class="MuiAlert-icon -1d59v4p-MuiAlert-icon"
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit -6cbkjc-MuiSvgIcon-root"
                           fill="none"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -718,13 +718,13 @@ exports[`enroll-profile-with-password should show custom field level error messa
                         </svg>
                       </div>
                       <div
-                        class="MuiAlert-message emotion-14"
+                        class="MuiAlert-message -1fo9dcf-MuiAlert-message"
                       >
                         <div
-                          class="emotion-15"
+                          class="-u4dvyj"
                         >
                           <div
-                            class="MuiBox-root emotion-16"
+                            class="MuiBox-root -0"
                           >
                             This is my custom global message
                           </div>
@@ -733,16 +733,16 @@ exports[`enroll-profile-with-password should show custom field level error messa
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-17"
+                    class="MuiBox-root emotion-8"
                   >
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-19"
+                        class="MuiBox-root emotion-10"
                       >
                         <h2
-                          class="MuiTypography-root MuiTypography-h4 emotion-20"
+                          class="MuiTypography-root MuiTypography-h4 -6zkiit-MuiTypography-root"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
@@ -751,13 +751,13 @@ exports[`enroll-profile-with-password should show custom field level error messa
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-19"
+                        class="MuiBox-root emotion-10"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-23"
+                          class="MuiTypography-root MuiTypography-body1 -179xm2l-MuiTypography-root"
                           data-se="o-form-explain"
                           tabindex="-1"
                         >
@@ -766,13 +766,13 @@ exports[`enroll-profile-with-password should show custom field level error messa
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.lastName"
                           id="userProfile.lastName-label"
@@ -782,7 +782,7 @@ exports[`enroll-profile-with-password should show custom field level error messa
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
@@ -791,7 +791,7 @@ exports[`enroll-profile-with-password should show custom field level error messa
                             aria-invalid="true"
                             aria-labelledby="userProfile.lastName-label"
                             autocomplete="family-name"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.lastName"
                             id="userProfile.lastName"
                             name="userProfile.lastName"
@@ -800,16 +800,16 @@ exports[`enroll-profile-with-password should show custom field level error messa
                           />
                         </div>
                         <div
-                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-29"
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium -1den0xp-MuiFormHelperText-root"
                           id="userProfile.lastName-error"
                         >
                           <span
-                            class="MuiBox-root emotion-30"
+                            class="MuiBox-root -1gab2mw"
                           >
                             Error:
                           </span>
                           <div
-                            class="MuiBox-root emotion-16"
+                            class="MuiBox-root -0"
                           >
                             Custom parseSchema error
                           </div>
@@ -817,13 +817,13 @@ exports[`enroll-profile-with-password should show custom field level error messa
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.firstName"
                           id="userProfile.firstName-label"
@@ -833,14 +833,14 @@ exports[`enroll-profile-with-password should show custom field level error messa
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.firstName-label"
                             autocomplete="given-name"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.firstName"
                             id="userProfile.firstName"
                             name="userProfile.firstName"
@@ -851,13 +851,13 @@ exports[`enroll-profile-with-password should show custom field level error messa
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.email"
                           id="userProfile.email-label"
@@ -867,14 +867,14 @@ exports[`enroll-profile-with-password should show custom field level error messa
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.email-label"
                             autocomplete="email"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.email"
                             id="userProfile.email"
                             inputmode="email"
@@ -886,13 +886,13 @@ exports[`enroll-profile-with-password should show custom field level error messa
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.login"
                           id="userProfile.login-label"
@@ -902,13 +902,13 @@ exports[`enroll-profile-with-password should show custom field level error messa
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.login-label"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.login"
                             id="userProfile.login"
                             name="userProfile.login"
@@ -919,10 +919,10 @@ exports[`enroll-profile-with-password should show custom field level error messa
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-48"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth -1sx3il5-MuiButtonBase-root-MuiButton-root"
                         data-se="save"
                         tabindex="0"
                         type="submit"
@@ -931,24 +931,24 @@ exports[`enroll-profile-with-password should show custom field level error messa
                       </button>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <hr
-                        class="MuiDivider-root MuiDivider-fullWidth emotion-50"
+                        class="MuiDivider-root MuiDivider-fullWidth emotion-19"
                         data-se="separation-line"
                       />
                     </div>
                     <div
-                      class="MuiBox-root emotion-51"
+                      class="MuiBox-root emotion-20"
                     >
                       <div
-                        class="MuiBox-root emotion-52"
+                        class="MuiBox-root emotion-21"
                       >
                         <div
-                          class="MuiBox-root emotion-19"
+                          class="MuiBox-root emotion-10"
                         >
                           <p
-                            class="MuiTypography-root MuiTypography-body1 emotion-23"
+                            class="MuiTypography-root MuiTypography-body1 -179xm2l-MuiTypography-root"
                             data-se="haveaccount"
                             tabindex="-1"
                           >
@@ -957,10 +957,10 @@ exports[`enroll-profile-with-password should show custom field level error messa
                         </div>
                       </div>
                       <div
-                        class="MuiBox-root emotion-52"
+                        class="MuiBox-root emotion-21"
                       >
                         <button
-                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-56"
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-24"
                           data-se="back"
                           role="link"
                           type="button"
@@ -984,13 +984,13 @@ exports[`enroll-profile-with-password should show custom field level error messa
 exports[`enroll-profile-with-password should show generic error message and prevent updated view rendering when failure is triggered in postSubmit callback 1`] = `
 <div>
   <div
-    class="emotion-0"
+    class="-o3ihhy"
   >
     <div
-      class="MuiScopedCssBaseline-root emotion-1"
+      class="MuiScopedCssBaseline-root -tofwhl-MuiScopedCssBaseline-root"
     >
       <main
-        class="MuiBox-root emotion-2"
+        class="MuiBox-root emotion-0"
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-se="auth-container main-container"
         data-version="0.0.0"
@@ -999,47 +999,47 @@ exports[`enroll-profile-with-password should show generic error message and prev
         lang="en"
       >
         <div
-          class="MuiScopedCssBaseline-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-1"
         >
           <div
-            class="MuiBox-root emotion-4"
+            class="MuiBox-root emotion-2"
           >
             <div
-              class="MuiBox-root emotion-5"
+              class="MuiBox-root emotion-3"
             >
               <div
-                class="MuiBox-root emotion-6"
+                class="MuiBox-root emotion-4"
                 data-se="okta-sign-in-header auth-header "
               >
                 <h1
-                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  class="MuiTypography-root MuiTypography-h1 -5c6fpu-MuiTypography-root"
                   tabindex="-1"
                 />
               </div>
               <div
-                class="MuiBox-root emotion-8"
+                class="MuiBox-root emotion-5"
               >
                 <form
                   aria-live="polite"
-                  class="o-form MuiBox-root emotion-9"
+                  class="o-form MuiBox-root emotion-6"
                   data-se="o-form"
                   novalidate=""
                 >
                   <div
-                    class="MuiBox-root emotion-10"
+                    class="MuiBox-root emotion-7"
                   >
                     <div
                       aria-label="error"
-                      aria-labelledby="zvdrph"
-                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-11"
+                      aria-labelledby="6"
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout -12m9hbj-MuiPaper-root-MuiAlert-root"
                       role="alert"
                     >
                       <div
-                        class="MuiAlert-icon emotion-12"
+                        class="MuiAlert-icon -1d59v4p-MuiAlert-icon"
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit -6cbkjc-MuiSvgIcon-root"
                           fill="none"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -1054,13 +1054,13 @@ exports[`enroll-profile-with-password should show generic error message and prev
                         </svg>
                       </div>
                       <div
-                        class="MuiAlert-message emotion-14"
+                        class="MuiAlert-message -1fo9dcf-MuiAlert-message"
                       >
                         <div
-                          class="emotion-15"
+                          class="-u4dvyj"
                         >
                           <div
-                            class="MuiBox-root emotion-16"
+                            class="MuiBox-root -0"
                           >
                             We could not process your registration at this time. Please try again later.
                           </div>
@@ -1069,16 +1069,16 @@ exports[`enroll-profile-with-password should show generic error message and prev
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-17"
+                    class="MuiBox-root emotion-8"
                   >
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-19"
+                        class="MuiBox-root emotion-10"
                       >
                         <h2
-                          class="MuiTypography-root MuiTypography-h4 emotion-20"
+                          class="MuiTypography-root MuiTypography-h4 -6zkiit-MuiTypography-root"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
@@ -1087,13 +1087,13 @@ exports[`enroll-profile-with-password should show generic error message and prev
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-19"
+                        class="MuiBox-root emotion-10"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-23"
+                          class="MuiTypography-root MuiTypography-body1 -179xm2l-MuiTypography-root"
                           data-se="o-form-explain"
                           tabindex="-1"
                         >
@@ -1102,13 +1102,13 @@ exports[`enroll-profile-with-password should show generic error message and prev
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.lastName"
                           id="userProfile.lastName-label"
@@ -1118,14 +1118,14 @@ exports[`enroll-profile-with-password should show generic error message and prev
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.lastName-label"
                             autocomplete="family-name"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.lastName"
                             id="userProfile.lastName"
                             name="userProfile.lastName"
@@ -1136,13 +1136,13 @@ exports[`enroll-profile-with-password should show generic error message and prev
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.firstName"
                           id="userProfile.firstName-label"
@@ -1152,14 +1152,14 @@ exports[`enroll-profile-with-password should show generic error message and prev
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.firstName-label"
                             autocomplete="given-name"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.firstName"
                             id="userProfile.firstName"
                             name="userProfile.firstName"
@@ -1170,13 +1170,13 @@ exports[`enroll-profile-with-password should show generic error message and prev
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.email"
                           id="userProfile.email-label"
@@ -1186,14 +1186,14 @@ exports[`enroll-profile-with-password should show generic error message and prev
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.email-label"
                             autocomplete="email"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.email"
                             id="userProfile.email"
                             inputmode="email"
@@ -1205,13 +1205,13 @@ exports[`enroll-profile-with-password should show generic error message and prev
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.login"
                           id="userProfile.login-label"
@@ -1221,13 +1221,13 @@ exports[`enroll-profile-with-password should show generic error message and prev
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.login-label"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.login"
                             id="userProfile.login"
                             name="userProfile.login"
@@ -1238,10 +1238,10 @@ exports[`enroll-profile-with-password should show generic error message and prev
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-45"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth -1sx3il5-MuiButtonBase-root-MuiButton-root"
                         data-se="save"
                         tabindex="0"
                         type="submit"
@@ -1250,24 +1250,24 @@ exports[`enroll-profile-with-password should show generic error message and prev
                       </button>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <hr
-                        class="MuiDivider-root MuiDivider-fullWidth emotion-47"
+                        class="MuiDivider-root MuiDivider-fullWidth emotion-19"
                         data-se="separation-line"
                       />
                     </div>
                     <div
-                      class="MuiBox-root emotion-48"
+                      class="MuiBox-root emotion-20"
                     >
                       <div
-                        class="MuiBox-root emotion-49"
+                        class="MuiBox-root emotion-21"
                       >
                         <div
-                          class="MuiBox-root emotion-19"
+                          class="MuiBox-root emotion-10"
                         >
                           <p
-                            class="MuiTypography-root MuiTypography-body1 emotion-23"
+                            class="MuiTypography-root MuiTypography-body1 -179xm2l-MuiTypography-root"
                             data-se="haveaccount"
                             tabindex="-1"
                           >
@@ -1276,10 +1276,10 @@ exports[`enroll-profile-with-password should show generic error message and prev
                         </div>
                       </div>
                       <div
-                        class="MuiBox-root emotion-49"
+                        class="MuiBox-root emotion-21"
                       >
                         <button
-                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-53"
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-24"
                           data-se="back"
                           role="link"
                           type="button"
@@ -1303,13 +1303,13 @@ exports[`enroll-profile-with-password should show generic error message and prev
 exports[`enroll-profile-with-password should show validation error messages on all fields when submitted without completing required fields 1`] = `
 <div>
   <div
-    class="emotion-0"
+    class="-o3ihhy"
   >
     <div
-      class="MuiScopedCssBaseline-root emotion-1"
+      class="MuiScopedCssBaseline-root -tofwhl-MuiScopedCssBaseline-root"
     >
       <main
-        class="MuiBox-root emotion-2"
+        class="MuiBox-root emotion-0"
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-se="auth-container main-container"
         data-version="0.0.0"
@@ -1318,47 +1318,47 @@ exports[`enroll-profile-with-password should show validation error messages on a
         lang="en"
       >
         <div
-          class="MuiScopedCssBaseline-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-1"
         >
           <div
-            class="MuiBox-root emotion-4"
+            class="MuiBox-root emotion-2"
           >
             <div
-              class="MuiBox-root emotion-5"
+              class="MuiBox-root emotion-3"
             >
               <div
-                class="MuiBox-root emotion-6"
+                class="MuiBox-root emotion-4"
                 data-se="okta-sign-in-header auth-header "
               >
                 <h1
-                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  class="MuiTypography-root MuiTypography-h1 -5c6fpu-MuiTypography-root"
                   tabindex="-1"
                 />
               </div>
               <div
-                class="MuiBox-root emotion-8"
+                class="MuiBox-root emotion-5"
               >
                 <form
                   aria-live="polite"
-                  class="o-form MuiBox-root emotion-9"
+                  class="o-form MuiBox-root emotion-6"
                   data-se="o-form"
                   novalidate=""
                 >
                   <div
-                    class="MuiBox-root emotion-10"
+                    class="MuiBox-root emotion-7"
                   >
                     <div
                       aria-label="error"
-                      aria-labelledby="1li7ta"
-                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-11"
+                      aria-labelledby="3r"
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout -12m9hbj-MuiPaper-root-MuiAlert-root"
                       role="alert"
                     >
                       <div
-                        class="MuiAlert-icon emotion-12"
+                        class="MuiAlert-icon -1d59v4p-MuiAlert-icon"
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit -6cbkjc-MuiSvgIcon-root"
                           fill="none"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -1373,13 +1373,13 @@ exports[`enroll-profile-with-password should show validation error messages on a
                         </svg>
                       </div>
                       <div
-                        class="MuiAlert-message emotion-14"
+                        class="MuiAlert-message -1fo9dcf-MuiAlert-message"
                       >
                         <div
-                          class="emotion-15"
+                          class="-u4dvyj"
                         >
                           <div
-                            class="MuiBox-root emotion-16"
+                            class="MuiBox-root -0"
                           >
                             We found some errors. Please review the form and make corrections.
                           </div>
@@ -1388,16 +1388,16 @@ exports[`enroll-profile-with-password should show validation error messages on a
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-17"
+                    class="MuiBox-root emotion-8"
                   >
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-19"
+                        class="MuiBox-root emotion-10"
                       >
                         <h2
-                          class="MuiTypography-root MuiTypography-h4 emotion-20"
+                          class="MuiTypography-root MuiTypography-h4 -6zkiit-MuiTypography-root"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
@@ -1406,13 +1406,13 @@ exports[`enroll-profile-with-password should show validation error messages on a
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-19"
+                        class="MuiBox-root emotion-10"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-23"
+                          class="MuiTypography-root MuiTypography-body1 -179xm2l-MuiTypography-root"
                           data-se="o-form-explain"
                           tabindex="-1"
                         >
@@ -1421,13 +1421,13 @@ exports[`enroll-profile-with-password should show validation error messages on a
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.lastName"
                           id="userProfile.lastName-label"
@@ -1437,7 +1437,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
@@ -1446,7 +1446,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                             aria-invalid="true"
                             aria-labelledby="userProfile.lastName-label"
                             autocomplete="family-name"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.lastName"
                             id="userProfile.lastName"
                             name="userProfile.lastName"
@@ -1455,16 +1455,16 @@ exports[`enroll-profile-with-password should show validation error messages on a
                           />
                         </div>
                         <div
-                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-29"
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium -1den0xp-MuiFormHelperText-root"
                           id="userProfile.lastName-error"
                         >
                           <span
-                            class="MuiBox-root emotion-30"
+                            class="MuiBox-root -1gab2mw"
                           >
                             Error:
                           </span>
                           <div
-                            class="MuiBox-root emotion-16"
+                            class="MuiBox-root -0"
                           >
                             This field cannot be left blank
                           </div>
@@ -1472,13 +1472,13 @@ exports[`enroll-profile-with-password should show validation error messages on a
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.firstName"
                           id="userProfile.firstName-label"
@@ -1488,7 +1488,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
@@ -1497,7 +1497,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                             aria-invalid="true"
                             aria-labelledby="userProfile.firstName-label"
                             autocomplete="given-name"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.firstName"
                             id="userProfile.firstName"
                             name="userProfile.firstName"
@@ -1506,16 +1506,16 @@ exports[`enroll-profile-with-password should show validation error messages on a
                           />
                         </div>
                         <div
-                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-29"
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium -1den0xp-MuiFormHelperText-root"
                           id="userProfile.firstName-error"
                         >
                           <span
-                            class="MuiBox-root emotion-30"
+                            class="MuiBox-root -1gab2mw"
                           >
                             Error:
                           </span>
                           <div
-                            class="MuiBox-root emotion-16"
+                            class="MuiBox-root -0"
                           >
                             This field cannot be left blank
                           </div>
@@ -1523,13 +1523,13 @@ exports[`enroll-profile-with-password should show validation error messages on a
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.email"
                           id="userProfile.email-label"
@@ -1539,7 +1539,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
@@ -1548,7 +1548,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                             aria-invalid="true"
                             aria-labelledby="userProfile.email-label"
                             autocomplete="email"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.email"
                             id="userProfile.email"
                             inputmode="email"
@@ -1558,16 +1558,16 @@ exports[`enroll-profile-with-password should show validation error messages on a
                           />
                         </div>
                         <div
-                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-29"
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium -1den0xp-MuiFormHelperText-root"
                           id="userProfile.email-error"
                         >
                           <span
-                            class="MuiBox-root emotion-30"
+                            class="MuiBox-root -1gab2mw"
                           >
                             Error:
                           </span>
                           <div
-                            class="MuiBox-root emotion-16"
+                            class="MuiBox-root -0"
                           >
                             This field cannot be left blank
                           </div>
@@ -1575,13 +1575,13 @@ exports[`enroll-profile-with-password should show validation error messages on a
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.login"
                           id="userProfile.login-label"
@@ -1591,7 +1591,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
@@ -1599,7 +1599,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                             aria-errormessage="userProfile.login-error"
                             aria-invalid="true"
                             aria-labelledby="userProfile.login-label"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.login"
                             id="userProfile.login"
                             name="userProfile.login"
@@ -1608,16 +1608,16 @@ exports[`enroll-profile-with-password should show validation error messages on a
                           />
                         </div>
                         <div
-                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-29"
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium -1den0xp-MuiFormHelperText-root"
                           id="userProfile.login-error"
                         >
                           <span
-                            class="MuiBox-root emotion-30"
+                            class="MuiBox-root -1gab2mw"
                           >
                             Error:
                           </span>
                           <div
-                            class="MuiBox-root emotion-16"
+                            class="MuiBox-root -0"
                           >
                             This field cannot be left blank
                           </div>
@@ -1625,13 +1625,13 @@ exports[`enroll-profile-with-password should show validation error messages on a
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.address"
                           id="userProfile.address-label"
@@ -1641,7 +1641,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
@@ -1649,7 +1649,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                             aria-errormessage="userProfile.address-error"
                             aria-invalid="true"
                             aria-labelledby="userProfile.address-label"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.address"
                             id="userProfile.address"
                             name="userProfile.address"
@@ -1658,16 +1658,16 @@ exports[`enroll-profile-with-password should show validation error messages on a
                           />
                         </div>
                         <div
-                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-29"
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium -1den0xp-MuiFormHelperText-root"
                           id="userProfile.address-error"
                         >
                           <span
-                            class="MuiBox-root emotion-30"
+                            class="MuiBox-root -1gab2mw"
                           >
                             Error:
                           </span>
                           <div
-                            class="MuiBox-root emotion-16"
+                            class="MuiBox-root -0"
                           >
                             This field cannot be left blank
                           </div>
@@ -1675,10 +1675,10 @@ exports[`enroll-profile-with-password should show validation error messages on a
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-65"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth -1sx3il5-MuiButtonBase-root-MuiButton-root"
                         data-se="save"
                         tabindex="0"
                         type="submit"
@@ -1687,24 +1687,24 @@ exports[`enroll-profile-with-password should show validation error messages on a
                       </button>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <hr
-                        class="MuiDivider-root MuiDivider-fullWidth emotion-67"
+                        class="MuiDivider-root MuiDivider-fullWidth emotion-20"
                         data-se="separation-line"
                       />
                     </div>
                     <div
-                      class="MuiBox-root emotion-68"
+                      class="MuiBox-root emotion-21"
                     >
                       <div
-                        class="MuiBox-root emotion-69"
+                        class="MuiBox-root emotion-22"
                       >
                         <div
-                          class="MuiBox-root emotion-19"
+                          class="MuiBox-root emotion-10"
                         >
                           <p
-                            class="MuiTypography-root MuiTypography-body1 emotion-23"
+                            class="MuiTypography-root MuiTypography-body1 -179xm2l-MuiTypography-root"
                             data-se="haveaccount"
                             tabindex="-1"
                           >
@@ -1713,10 +1713,10 @@ exports[`enroll-profile-with-password should show validation error messages on a
                         </div>
                       </div>
                       <div
-                        class="MuiBox-root emotion-69"
+                        class="MuiBox-root emotion-22"
                       >
                         <button
-                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-73"
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-25"
                           data-se="back"
                           role="link"
                           type="button"

@@ -3,13 +3,13 @@
 exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
 <div>
   <div
-    class="emotion-0"
+    class="-o3ihhy"
   >
     <div
-      class="MuiScopedCssBaseline-root emotion-1"
+      class="MuiScopedCssBaseline-root -tofwhl-MuiScopedCssBaseline-root"
     >
       <main
-        class="MuiBox-root emotion-2"
+        class="MuiBox-root emotion-0"
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-se="auth-container main-container"
         data-version="0.0.0"
@@ -18,25 +18,25 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
         lang="en"
       >
         <div
-          class="MuiScopedCssBaseline-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-1"
         >
           <div
-            class="MuiBox-root emotion-4"
+            class="MuiBox-root emotion-2"
           >
             <div
-              class="MuiBox-root emotion-5"
+              class="MuiBox-root emotion-3"
             >
               <div
-                class="MuiBox-root emotion-6"
+                class="MuiBox-root emotion-4"
                 data-se="okta-sign-in-header auth-header authCoinSpacing"
               >
                 <h1
-                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  class="MuiTypography-root MuiTypography-h1 -5c6fpu-MuiTypography-root"
                   tabindex="-1"
                 />
                 <div
                   aria-hidden="true"
-                  class="MuiBox-root emotion-8"
+                  class="MuiBox-root emotion-5"
                   data-se="factor-beacon mfa-okta-verify "
                 >
                   <svg
@@ -63,36 +63,36 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-9"
+                class="MuiBox-root emotion-6"
               >
                 <form
                   aria-live="polite"
-                  class="o-form MuiBox-root emotion-10"
+                  class="o-form MuiBox-root emotion-7"
                   data-se="o-form"
                   novalidate=""
                 >
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-8"
                   >
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-13"
+                        class="MuiBox-root emotion-10"
                         data-se="identifier-container"
                         title="testUser@okta.com"
                       >
                         <div
-                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-14"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault -187ub75-MuiChip-root"
                           data-se="identifier"
                           translate="no"
                         >
                           <div
-                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-15"
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-11"
                           >
                             <svg
                               aria-label="User"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit -465vn1-MuiSvgIcon-root"
                               fill="none"
                               focusable="false"
                               role="img"
@@ -111,7 +111,7 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                             </svg>
                           </div>
                           <span
-                            class="MuiChip-label MuiChip-labelMedium emotion-17"
+                            class="MuiChip-label MuiChip-labelMedium -1w7chno-MuiChip-label"
                           >
                             testUser@okta.com
                           </span>
@@ -119,25 +119,25 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-19"
+                        class="MuiBox-root emotion-13"
                         data-se="infobox-error"
                       >
                         <div
                           aria-label="error"
-                          aria-labelledby="mkw86j"
-                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-20"
+                          aria-labelledby="3m"
+                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout -12m9hbj-MuiPaper-root-MuiAlert-root"
                           data-se="callout"
                           role="alert"
                         >
                           <div
-                            class="MuiAlert-icon emotion-21"
+                            class="MuiAlert-icon -1d59v4p-MuiAlert-icon"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit -6cbkjc-MuiSvgIcon-root"
                               fill="none"
                               focusable="false"
                               viewBox="0 0 24 24"
@@ -152,16 +152,16 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                             </svg>
                           </div>
                           <div
-                            class="MuiAlert-message emotion-23"
+                            class="MuiAlert-message -1fo9dcf-MuiAlert-message"
                           >
                             <div
-                              class="emotion-24"
+                              class="-u4dvyj"
                             >
                               <div
-                                class="MuiBox-root emotion-25"
+                                class="MuiBox-root -0"
                               >
                                 <h2
-                                  class="MuiTypography-root MuiTypography-h6 emotion-26"
+                                  class="MuiTypography-root MuiTypography-h6 -1si4r4j-MuiTypography-root"
                                   tabindex="-1"
                                 >
                                   Update Okta Verify
@@ -174,16 +174,16 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <div
-                        class="MuiBox-root emotion-12"
+                        class="MuiBox-root emotion-9"
                       >
                         <div
-                          class="MuiBox-root emotion-29"
+                          class="MuiBox-root emotion-16"
                         >
                           <h2
-                            class="MuiTypography-root MuiTypography-h4 emotion-30"
+                            class="MuiTypography-root MuiTypography-h4 -6zkiit-MuiTypography-root"
                             data-se="o-form-head"
                             tabindex="-1"
                           >
@@ -192,26 +192,26 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                         </div>
                       </div>
                       <div
-                        class="MuiBox-root emotion-2"
+                        class="MuiBox-root emotion-0"
                       >
                         <div
-                          class="MuiBox-root emotion-32"
+                          class="MuiBox-root emotion-18"
                         >
                           <ol
-                            class="MuiList-root MuiList-padding emotion-33"
+                            class="MuiList-root MuiList-padding emotion-19"
                           >
                             <li
-                              class="MuiListItem-root emotion-34"
+                              class="MuiListItem-root emotion-20"
                             >
                               On your other device, download the Okta Verify app from the App Store® (iPhone® and iPad®) or on Google Play (Android® devices).
                             </li>
                             <li
-                              class="MuiListItem-root emotion-34"
+                              class="MuiListItem-root emotion-20"
                             >
                               Open the app and follow the instructions to add your account
                             </li>
                             <li
-                              class="MuiListItem-root emotion-34"
+                              class="MuiListItem-root emotion-20"
                             >
                               When prompted, tap 
                               <span
@@ -225,18 +225,18 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                         </div>
                       </div>
                       <div
-                        class="MuiBox-root emotion-12"
+                        class="MuiBox-root emotion-9"
                       >
                         <div
-                          class="MuiBox-root emotion-38"
+                          class="MuiBox-root emotion-24"
                           data-se="qrContainer"
                         >
                           <div
-                            class="MuiBox-root emotion-39"
+                            class="MuiBox-root emotion-25"
                           >
                             <img
                               alt="QR code. If you can't scan, click on the link below to select an alternative activation method"
-                              class="MuiBox-root emotion-40"
+                              class="MuiBox-root emotion-26"
                               data-se="qrImg"
                               src="data:image/png;base64,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"
                             />
@@ -244,11 +244,11 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                         </div>
                       </div>
                       <div
-                        class="MuiBox-root emotion-12"
+                        class="MuiBox-root emotion-9"
                       >
                         <button
                           aria-label="Setup without scanning a QR code."
-                          class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-42"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth -7f2ni3-MuiButtonBase-root-MuiButton-root"
                           tabindex="0"
                           type="button"
                         >
@@ -257,10 +257,10 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-9"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-29"
                         data-se="switchAuthenticator"
                         role="link"
                         type="button"
@@ -269,10 +269,10 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                       </button>
                     </div>
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-9"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-29"
                         data-se="cancel"
                         role="link"
                         type="button"

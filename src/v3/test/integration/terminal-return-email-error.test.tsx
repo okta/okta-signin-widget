@@ -13,8 +13,13 @@
 import { setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/introspect/terminal-return-email-error.json';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('terminal-return-email-error', () => {
+  beforeEach(() => {
+    mockMathRandom();
+  });
+
   it('should render form', async () => {
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/Could not process this email link. Return to the screen where you requested it./);

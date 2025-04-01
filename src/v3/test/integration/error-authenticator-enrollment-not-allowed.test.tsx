@@ -13,8 +13,13 @@
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/authenticator-enrollment-not-allowed.json';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('error-authenticator-enrollment-not-allowed', () => {
+  beforeEach(() => {
+    mockMathRandom();
+  });
+
   it('should render form', async () => {
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/Authenticator enrollment is not allowed at this time./);

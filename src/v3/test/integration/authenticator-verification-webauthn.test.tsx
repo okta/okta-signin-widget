@@ -14,8 +14,13 @@ import mockResponseWithRequiredUserVerification from '../../../../playground/moc
 import { setup, getMockCredentialsResponse } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/challenge/unlock-account-email-verify-webauthn.json';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('authenticator-verification-webauthn', () => {
+  beforeEach(() => {
+    mockMathRandom();
+  });
+
   it('renders form - webauthn supported', async () => {
     const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
     navigatorCredentials.mockReturnValue(

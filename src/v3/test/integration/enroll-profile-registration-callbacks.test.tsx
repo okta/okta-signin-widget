@@ -22,8 +22,13 @@ import enrollProfileResponse from '../../../../playground/mocks/data/idp/idx/enr
 import enrollProfileTerminalResponse from '../../../../playground/mocks/data/idp/idx/terminal-registration.json';
 import { createAuthJsPayloadArgs, setup } from './util';
 import { RegistrationErrorCallback, RegistrationPostSubmitCallback } from '../../../types';
+import { mockMathRandom } from '../utils/mockMathRandom';
 
 describe('enroll-profile-with-password', () => {
+  beforeEach(() => {
+    mockMathRandom();
+  });
+
   it('should add new field to view and remove it from the payload before submission', async () => {
     const mockExternalApi = jest.fn();
     const {

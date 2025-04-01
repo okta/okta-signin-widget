@@ -3,13 +3,13 @@
 exports[`enroll-profile-update-required-field fails client side validation with empty required fields 1`] = `
 <div>
   <div
-    class="emotion-0"
+    class="-o3ihhy"
   >
     <div
-      class="MuiScopedCssBaseline-root emotion-1"
+      class="MuiScopedCssBaseline-root -tofwhl-MuiScopedCssBaseline-root"
     >
       <main
-        class="MuiBox-root emotion-2"
+        class="MuiBox-root emotion-0"
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-se="auth-container main-container"
         data-version="0.0.0"
@@ -18,47 +18,47 @@ exports[`enroll-profile-update-required-field fails client side validation with 
         lang="en"
       >
         <div
-          class="MuiScopedCssBaseline-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-1"
         >
           <div
-            class="MuiBox-root emotion-4"
+            class="MuiBox-root emotion-2"
           >
             <div
-              class="MuiBox-root emotion-5"
+              class="MuiBox-root emotion-3"
             >
               <div
-                class="MuiBox-root emotion-6"
+                class="MuiBox-root emotion-4"
                 data-se="okta-sign-in-header auth-header "
               >
                 <h1
-                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  class="MuiTypography-root MuiTypography-h1 -5c6fpu-MuiTypography-root"
                   tabindex="-1"
                 />
               </div>
               <div
-                class="MuiBox-root emotion-8"
+                class="MuiBox-root emotion-5"
               >
                 <form
                   aria-live="polite"
-                  class="o-form MuiBox-root emotion-9"
+                  class="o-form MuiBox-root emotion-6"
                   data-se="o-form"
                   novalidate=""
                 >
                   <div
-                    class="MuiBox-root emotion-10"
+                    class="MuiBox-root emotion-7"
                   >
                     <div
                       aria-label="error"
-                      aria-labelledby="43k7o9"
-                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-11"
+                      aria-labelledby="5"
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout -12m9hbj-MuiPaper-root-MuiAlert-root"
                       role="alert"
                     >
                       <div
-                        class="MuiAlert-icon emotion-12"
+                        class="MuiAlert-icon -1d59v4p-MuiAlert-icon"
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit -6cbkjc-MuiSvgIcon-root"
                           fill="none"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -73,13 +73,13 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                         </svg>
                       </div>
                       <div
-                        class="MuiAlert-message emotion-14"
+                        class="MuiAlert-message -1fo9dcf-MuiAlert-message"
                       >
                         <div
-                          class="emotion-15"
+                          class="-u4dvyj"
                         >
                           <div
-                            class="MuiBox-root emotion-16"
+                            class="MuiBox-root -0"
                           >
                             We found some errors. Please review the form and make corrections.
                           </div>
@@ -88,27 +88,27 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-17"
+                    class="MuiBox-root emotion-8"
                   >
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-19"
+                        class="MuiBox-root emotion-10"
                         data-se="identifier-container"
                         title="testUser@okta.com"
                       >
                         <div
-                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-20"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault -187ub75-MuiChip-root"
                           data-se="identifier"
                           translate="no"
                         >
                           <div
-                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-21"
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-11"
                           >
                             <svg
                               aria-label="User"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit -465vn1-MuiSvgIcon-root"
                               fill="none"
                               focusable="false"
                               role="img"
@@ -127,7 +127,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                             </svg>
                           </div>
                           <span
-                            class="MuiChip-label MuiChip-labelMedium emotion-23"
+                            class="MuiChip-label MuiChip-labelMedium -1w7chno-MuiChip-label"
                           >
                             testUser@okta.com
                           </span>
@@ -135,13 +135,13 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-25"
+                        class="MuiBox-root emotion-13"
                       >
                         <h2
-                          class="MuiTypography-root MuiTypography-h4 emotion-26"
+                          class="MuiTypography-root MuiTypography-h4 -6zkiit-MuiTypography-root"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
@@ -150,13 +150,13 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiBox-root emotion-25"
+                        class="MuiBox-root emotion-13"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-29"
+                          class="MuiTypography-root MuiTypography-body1 -179xm2l-MuiTypography-root"
                           data-se="o-form-explain"
                           tabindex="-1"
                         >
@@ -165,13 +165,13 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-31"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-32"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.newAttribute"
                           id="userProfile.newAttribute-label"
@@ -180,19 +180,19 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                             Some custom attribute
                           </span>
                           <p
-                            class="MuiTypography-root MuiTypography-subtitle1 emotion-33"
+                            class="MuiTypography-root MuiTypography-subtitle1 -z5kyig-MuiTypography-root"
                             tabindex="-1"
                           >
                             Optional
                           </p>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-34"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.newAttribute-label"
-                            class="MuiInputBase-input emotion-35"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.newAttribute"
                             id="userProfile.newAttribute"
                             name="userProfile.newAttribute"
@@ -202,13 +202,13 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-31"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-32"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.secondEmail"
                           id="userProfile.secondEmail-label"
@@ -217,14 +217,14 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                             Secondary email
                           </span>
                           <p
-                            class="MuiTypography-root MuiTypography-subtitle1 emotion-33"
+                            class="MuiTypography-root MuiTypography-subtitle1 -z5kyig-MuiTypography-root"
                             tabindex="-1"
                           >
                             Optional
                           </p>
                         </label>
                         <p
-                          class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-40"
+                          class="MuiFormHelperText-root MuiFormHelperText-sizeMedium -1den0xp-MuiFormHelperText-root"
                           id="userProfile.secondEmail-hint"
                         >
                           Use a second email to 
@@ -236,13 +236,13 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                            in case you become locked out. This email must be verified after setup.
                         </p>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-34"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                         >
                           <input
                             aria-describedby="userProfile.secondEmail-hint"
                             aria-invalid="false"
                             aria-labelledby="userProfile.secondEmail-label"
-                            class="MuiInputBase-input emotion-35"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.secondEmail"
                             id="userProfile.secondEmail"
                             name="userProfile.secondEmail"
@@ -252,13 +252,13 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-31"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-32"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.newAttribute2"
                           id="userProfile.newAttribute2-label"
@@ -268,7 +268,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-34"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
@@ -276,7 +276,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                             aria-errormessage="userProfile.newAttribute2-error"
                             aria-invalid="true"
                             aria-labelledby="userProfile.newAttribute2-label"
-                            class="MuiInputBase-input emotion-35"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.newAttribute2"
                             id="userProfile.newAttribute2"
                             name="userProfile.newAttribute2"
@@ -285,16 +285,16 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                           />
                         </div>
                         <div
-                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-40"
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium -1den0xp-MuiFormHelperText-root"
                           id="userProfile.newAttribute2-error"
                         >
                           <span
-                            class="MuiBox-root emotion-49"
+                            class="MuiBox-root -1gab2mw"
                           >
                             Error:
                           </span>
                           <div
-                            class="MuiBox-root emotion-16"
+                            class="MuiBox-root -0"
                           >
                             This field cannot be left blank
                           </div>
@@ -302,10 +302,10 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-52"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth -1sx3il5-MuiButtonBase-root-MuiButton-root"
                         data-se="save"
                         tabindex="0"
                         type="submit"
@@ -314,10 +314,10 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                       </button>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-9"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-54"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-21"
                         data-se="cancel"
                         role="link"
                         type="button"
@@ -340,13 +340,13 @@ exports[`enroll-profile-update-required-field fails client side validation with 
 exports[`enroll-profile-update-required-field should render form with one required field 1`] = `
 <div>
   <div
-    class="emotion-0"
+    class="-o3ihhy"
   >
     <div
-      class="MuiScopedCssBaseline-root emotion-1"
+      class="MuiScopedCssBaseline-root -tofwhl-MuiScopedCssBaseline-root"
     >
       <main
-        class="MuiBox-root emotion-2"
+        class="MuiBox-root emotion-0"
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-se="auth-container main-container"
         data-version="0.0.0"
@@ -355,54 +355,54 @@ exports[`enroll-profile-update-required-field should render form with one requir
         lang="en"
       >
         <div
-          class="MuiScopedCssBaseline-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-1"
         >
           <div
-            class="MuiBox-root emotion-4"
+            class="MuiBox-root emotion-2"
           >
             <div
-              class="MuiBox-root emotion-5"
+              class="MuiBox-root emotion-3"
             >
               <div
-                class="MuiBox-root emotion-6"
+                class="MuiBox-root emotion-4"
                 data-se="okta-sign-in-header auth-header "
               >
                 <h1
-                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  class="MuiTypography-root MuiTypography-h1 -5c6fpu-MuiTypography-root"
                   tabindex="-1"
                 />
               </div>
               <div
-                class="MuiBox-root emotion-8"
+                class="MuiBox-root emotion-5"
               >
                 <form
                   aria-live="polite"
-                  class="o-form MuiBox-root emotion-9"
+                  class="o-form MuiBox-root emotion-6"
                   data-se="o-form"
                   novalidate=""
                 >
                   <div
-                    class="MuiBox-root emotion-10"
+                    class="MuiBox-root emotion-7"
                   >
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <div
-                        class="MuiBox-root emotion-12"
+                        class="MuiBox-root emotion-9"
                         data-se="identifier-container"
                         title="testUser@okta.com"
                       >
                         <div
-                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault -187ub75-MuiChip-root"
                           data-se="identifier"
                           translate="no"
                         >
                           <div
-                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-10"
                           >
                             <svg
                               aria-label="User"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit -465vn1-MuiSvgIcon-root"
                               fill="none"
                               focusable="false"
                               role="img"
@@ -421,7 +421,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                             </svg>
                           </div>
                           <span
-                            class="MuiChip-label MuiChip-labelMedium emotion-16"
+                            class="MuiChip-label MuiChip-labelMedium -1w7chno-MuiChip-label"
                           >
                             testUser@okta.com
                           </span>
@@ -429,13 +429,13 @@ exports[`enroll-profile-update-required-field should render form with one requir
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <div
-                        class="MuiBox-root emotion-18"
+                        class="MuiBox-root emotion-12"
                       >
                         <h2
-                          class="MuiTypography-root MuiTypography-h4 emotion-19"
+                          class="MuiTypography-root MuiTypography-h4 -6zkiit-MuiTypography-root"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
@@ -444,13 +444,13 @@ exports[`enroll-profile-update-required-field should render form with one requir
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <div
-                        class="MuiBox-root emotion-18"
+                        class="MuiBox-root emotion-12"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-22"
+                          class="MuiTypography-root MuiTypography-body1 -179xm2l-MuiTypography-root"
                           data-se="o-form-explain"
                           tabindex="-1"
                         >
@@ -459,13 +459,13 @@ exports[`enroll-profile-update-required-field should render form with one requir
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-24"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.newAttribute"
                           id="userProfile.newAttribute-label"
@@ -474,19 +474,19 @@ exports[`enroll-profile-update-required-field should render form with one requir
                             Some custom attribute
                           </span>
                           <p
-                            class="MuiTypography-root MuiTypography-subtitle1 emotion-26"
+                            class="MuiTypography-root MuiTypography-subtitle1 -z5kyig-MuiTypography-root"
                             tabindex="-1"
                           >
                             Optional
                           </p>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.newAttribute-label"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.newAttribute"
                             id="userProfile.newAttribute"
                             name="userProfile.newAttribute"
@@ -496,13 +496,13 @@ exports[`enroll-profile-update-required-field should render form with one requir
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-24"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.secondEmail"
                           id="userProfile.secondEmail-label"
@@ -511,14 +511,14 @@ exports[`enroll-profile-update-required-field should render form with one requir
                             Secondary email
                           </span>
                           <p
-                            class="MuiTypography-root MuiTypography-subtitle1 emotion-26"
+                            class="MuiTypography-root MuiTypography-subtitle1 -z5kyig-MuiTypography-root"
                             tabindex="-1"
                           >
                             Optional
                           </p>
                         </label>
                         <p
-                          class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-33"
+                          class="MuiFormHelperText-root MuiFormHelperText-sizeMedium -1den0xp-MuiFormHelperText-root"
                           id="userProfile.secondEmail-hint"
                         >
                           Use a second email to 
@@ -530,13 +530,13 @@ exports[`enroll-profile-update-required-field should render form with one requir
                            in case you become locked out. This email must be verified after setup.
                         </p>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                         >
                           <input
                             aria-describedby="userProfile.secondEmail-hint"
                             aria-invalid="false"
                             aria-labelledby="userProfile.secondEmail-label"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.secondEmail"
                             id="userProfile.secondEmail"
                             name="userProfile.secondEmail"
@@ -546,13 +546,13 @@ exports[`enroll-profile-update-required-field should render form with one requir
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-24"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth -1txc9or-MuiFormControl-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined -mfafpd-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for="userProfile.newAttribute2"
                           id="userProfile.newAttribute2-label"
@@ -562,13 +562,13 @@ exports[`enroll-profile-update-required-field should render form with one requir
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl -ekkn7v-MuiInputBase-root"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="userProfile.newAttribute2-label"
-                            class="MuiInputBase-input emotion-28"
+                            class="MuiInputBase-input -9q1fac-MuiInputBase-input"
                             data-se="userProfile.newAttribute2"
                             id="userProfile.newAttribute2"
                             name="userProfile.newAttribute2"
@@ -579,10 +579,10 @@ exports[`enroll-profile-update-required-field should render form with one requir
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-42"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth -1sx3il5-MuiButtonBase-root-MuiButton-root"
                         data-se="save"
                         tabindex="0"
                         type="submit"
@@ -591,10 +591,10 @@ exports[`enroll-profile-update-required-field should render form with one requir
                       </button>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-8"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-20"
                         data-se="cancel"
                         role="link"
                         type="button"
