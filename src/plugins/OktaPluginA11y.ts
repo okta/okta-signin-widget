@@ -152,7 +152,7 @@ export const init = (widget: OktaSignInAPI & { options: WidgetOptions }): void =
         if (document.querySelector('.resend-link')) {
           console.log('interval: resend-link')
           document.querySelectorAll('.resend-link')
-            .forEach((link) => link.setAttribute('href', 'javascript:void(0);'))
+            .forEach((link) => link.setAttribute('href', '#'))
           console.log('clearing interval: resend-link')
           clearInterval(intervalResend)
         }

@@ -124,15 +124,12 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
                   >
                     <div
                       class="MuiBox-root emotion-11"
-                    />
-                    <div
-                      class="MuiBox-root emotion-11"
                     >
                       <div
-                        class="MuiBox-root emotion-20"
+                        class="MuiBox-root emotion-19"
                       >
                         <h2
-                          class="MuiTypography-root MuiTypography-h4 emotion-21"
+                          class="MuiTypography-root MuiTypography-h4 emotion-20"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
@@ -142,9 +139,12 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
                     </div>
                     <div
                       class="MuiBox-root emotion-11"
+                    />
+                    <div
+                      class="MuiBox-root emotion-11"
                     >
                       <div
-                        class="MuiBox-root emotion-20"
+                        class="MuiBox-root emotion-19"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 emotion-24"
