@@ -43,7 +43,6 @@ export async function setup(options: Options): Promise<RenderResult & {
   const authClient = createAuthClient(rest);
   const eventEmitter = new EventEmitter();
   const widgetHooks = new WidgetHooks(widgetOptions.hooks);
-
   const renderResult = await render(
     <Widget
       authScheme="Oauth2"
