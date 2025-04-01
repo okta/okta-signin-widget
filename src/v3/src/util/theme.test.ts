@@ -50,7 +50,8 @@ describe('theme utilities', () => {
       main: Tokens.PalettePrimaryMain,
       light: Tokens.PalettePrimaryLight,
       lighter: Tokens.PalettePrimaryLighter,
-      dark: Tokens.HueBlue900,
+      dark: Tokens.HueBlue700,
+      darker: Tokens.HueBlue800,
       contrastText: Tokens.TypographyColorInverse,
     };
 

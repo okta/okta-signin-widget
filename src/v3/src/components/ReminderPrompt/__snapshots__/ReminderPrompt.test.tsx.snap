@@ -8,7 +8,9 @@ exports[`ReminderPrompt should show prompt with working link after default timeo
     class="MuiBox-root emotion-0"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutWarning MuiAlert-callout emotion-1"
+      aria-label="warning"
+      aria-labelledby="637gc5"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-1"
       role="alert"
     >
       <div
@@ -29,26 +31,24 @@ exports[`ReminderPrompt should show prompt with working link after default timeo
       <div
         class="MuiAlert-message emotion-4"
       >
-        <span
-          class="MuiBox-root emotion-5"
-          translate="no"
-        >
-          warning
-        </span>
         <div
-          class="MuiBox-root emotion-6"
+          class="emotion-5"
         >
           <div
-            class="MuiBox-root emotion-7"
+            class="MuiBox-root emotion-6"
           >
-            Didnt receive the email?
+            <div
+              class="MuiBox-root emotion-7"
+            >
+              Didnt receive the email?
+            </div>
+            <a
+              class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways emotion-8"
+              href="#"
+            >
+              Send again?
+            </a>
           </div>
-          <a
-            class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways emotion-8"
-            href="#"
-          >
-            Send again?
-          </a>
         </div>
       </div>
     </div>
@@ -62,7 +62,9 @@ exports[`ReminderPrompt should show prompt with working link after default timeo
     class="MuiBox-root emotion-0"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutWarning MuiAlert-callout emotion-1"
+      aria-label="warning"
+      aria-labelledby="xn29vm"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-1"
       role="alert"
     >
       <div
@@ -83,25 +85,23 @@ exports[`ReminderPrompt should show prompt with working link after default timeo
       <div
         class="MuiAlert-message emotion-4"
       >
-        <span
-          class="MuiBox-root emotion-5"
-          translate="no"
-        >
-          warning
-        </span>
         <div
-          class="MuiBox-root emotion-6"
+          class="emotion-5"
         >
           <div
             class="MuiBox-root emotion-6"
           >
-            Didn't receive the email? Click 
-            <a
-              class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways send-again emotion-8"
-              href="#"
+            <div
+              class="MuiBox-root emotion-6"
             >
-              send again
-            </a>
+              Didn't receive the email? Click 
+              <a
+                class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways send-again emotion-8"
+                href="#"
+              >
+                send again
+              </a>
+            </div>
           </div>
         </div>
       </div>

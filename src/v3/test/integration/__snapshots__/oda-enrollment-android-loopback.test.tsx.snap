@@ -3,73 +3,73 @@
 exports[`oda-enrollment-android-loopback should render form 1`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                tabindex="-1"
-              />
               <div
-                aria-hidden="true"
-                class="MuiBox-root emotion-7"
-                data-se="factor-beacon mfa-okta-verify "
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header authCoinSpacing"
               >
-                <svg
-                  aria-labelledby="mfa-okta-verify"
-                  fill="none"
-                  height="2.85714286rem"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="2.85714286rem"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-okta-verify"
-                  >
-                    Okta Verify
-                  </title>
-                  <path
-                    clip-rule="evenodd"
-                    d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
-                    fill="#00297A"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
-                aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-              >
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  tabindex="-1"
+                />
                 <div
-                  class="MuiBox-root emotion-10"
+                  aria-hidden="true"
+                  class="MuiBox-root emotion-8"
+                  data-se="factor-beacon mfa-okta-verify "
+                >
+                  <svg
+                    aria-labelledby="mfa-okta-verify"
+                    fill="none"
+                    height="2.85714286rem"
+                    role="img"
+                    viewBox="0 0 48 48"
+                    width="2.85714286rem"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title
+                      id="mfa-okta-verify"
+                    >
+                      Okta Verify
+                    </title>
+                    <path
+                      clip-rule="evenodd"
+                      d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
+                      fill="#00297A"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-9"
+              >
+                <form
+                  aria-live="polite"
+                  class="o-form MuiBox-root emotion-10"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
                     class="MuiBox-root emotion-11"
@@ -77,171 +77,175 @@ exports[`oda-enrollment-android-loopback should render form 1`] = `
                     <div
                       class="MuiBox-root emotion-12"
                     >
-                      <h2
-                        class="MuiTypography-root MuiTypography-h4 emotion-13"
-                        data-se="o-form-head"
-                        tabindex="-1"
+                      <div
+                        class="MuiBox-root emotion-13"
                       >
-                        Download Okta Verify
-                      </h2>
+                        <h2
+                          class="MuiTypography-root MuiTypography-h4 emotion-14"
+                          data-se="o-form-head"
+                          tabindex="-1"
+                        >
+                          Download Okta Verify
+                        </h2>
+                      </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
                     <div
                       class="MuiBox-root emotion-12"
                     >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 emotion-16"
-                        data-se="o-form-explain"
-                        tabindex="-1"
+                      <div
+                        class="MuiBox-root emotion-13"
                       >
-                        To sign in using Okta Verify, you will need to set up Okta Verify on this device.
-                      </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 emotion-17"
+                          data-se="o-form-explain"
+                          tabindex="-1"
+                        >
+                          To sign in using Okta Verify, you will need to set up Okta Verify on this device.
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-1"
-                  >
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-2"
                     >
-                      <ol
-                        class="MuiList-root MuiList-padding emotion-19"
+                      <div
+                        class="MuiBox-root emotion-19"
                       >
-                        <li
-                          class="MuiListItem-root emotion-20"
+                        <ol
+                          class="MuiList-root MuiList-padding emotion-20"
                         >
-                          <div
-                            class="MuiBox-root emotion-10"
+                          <li
+                            class="MuiListItem-root emotion-21"
                           >
-                            <div
-                              class="MuiBox-root emotion-1"
-                            >
-                              <div
-                                class="MuiBox-root emotion-12"
-                              >
-                                <p
-                                  class="MuiTypography-root MuiTypography-body1 emotion-16"
-                                  data-se="o-form-explain"
-                                  tabindex="-1"
-                                >
-                                  On Google Play, download the Okta Verify app.
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li
-                          class="MuiListItem-root emotion-20"
-                        >
-                          <div
-                            class="MuiBox-root emotion-10"
-                          >
-                            <div
-                              class="MuiBox-root emotion-1"
-                            >
-                              <div
-                                class="MuiBox-root emotion-12"
-                              >
-                                <p
-                                  class="MuiTypography-root MuiTypography-body1 emotion-16"
-                                  data-se="o-form-explain"
-                                  tabindex="-1"
-                                >
-                                  Open Okta Verify and follow the steps to add your account.
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li
-                          class="MuiListItem-root emotion-20"
-                        >
-                          <div
-                            class="MuiBox-root emotion-10"
-                          >
-                            <div
-                              class="MuiBox-root emotion-1"
-                            >
-                              <div
-                                class="MuiBox-root emotion-12"
-                              >
-                                <p
-                                  class="MuiTypography-root MuiTypography-body1 emotion-16"
-                                  data-se="o-form-explain"
-                                  tabindex="-1"
-                                >
-                                  When prompted, choose Sign In, then enter the sign-in URL:
-                                </p>
-                              </div>
-                            </div>
-                            <div
-                              class="MuiBox-root emotion-1"
-                            >
-                              <div
-                                class="MuiBox-root emotion-12"
-                              >
-                                <p
-                                  class="MuiTypography-root MuiTypography-body1 emotion-16"
-                                  data-se="o-form-explain"
-                                  tabindex="-1"
-                                >
-                                  <span
-                                    class="no-translate"
-                                  >
-                                    https://idx.okta1.com
-                                  </span>
-                                </p>
-                              </div>
-                            </div>
                             <div
                               class="MuiBox-root emotion-11"
                             >
-                              <button
-                                class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-39"
-                                tabindex="0"
-                                type="button"
+                              <div
+                                class="MuiBox-root emotion-2"
                               >
-                                Copy sign-in URL to clipboard
-                              </button>
+                                <div
+                                  class="MuiBox-root emotion-13"
+                                >
+                                  <p
+                                    class="MuiTypography-root MuiTypography-body1 emotion-17"
+                                    data-se="o-form-explain"
+                                    tabindex="-1"
+                                  >
+                                    On Google Play, download the Okta Verify app.
+                                  </p>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </li>
-                        <li
-                          class="MuiListItem-root emotion-20"
-                        >
-                          <div
-                            class="MuiBox-root emotion-10"
+                          </li>
+                          <li
+                            class="MuiListItem-root emotion-21"
                           >
                             <div
-                              class="MuiBox-root emotion-1"
+                              class="MuiBox-root emotion-11"
                             >
+                              <div
+                                class="MuiBox-root emotion-2"
+                              >
+                                <div
+                                  class="MuiBox-root emotion-13"
+                                >
+                                  <p
+                                    class="MuiTypography-root MuiTypography-body1 emotion-17"
+                                    data-se="o-form-explain"
+                                    tabindex="-1"
+                                  >
+                                    Open Okta Verify and follow the steps to add your account.
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                          <li
+                            class="MuiListItem-root emotion-21"
+                          >
+                            <div
+                              class="MuiBox-root emotion-11"
+                            >
+                              <div
+                                class="MuiBox-root emotion-2"
+                              >
+                                <div
+                                  class="MuiBox-root emotion-13"
+                                >
+                                  <p
+                                    class="MuiTypography-root MuiTypography-body1 emotion-17"
+                                    data-se="o-form-explain"
+                                    tabindex="-1"
+                                  >
+                                    When prompted, choose Sign In, then enter the sign-in URL:
+                                  </p>
+                                </div>
+                              </div>
+                              <div
+                                class="MuiBox-root emotion-2"
+                              >
+                                <div
+                                  class="MuiBox-root emotion-13"
+                                >
+                                  <p
+                                    class="MuiTypography-root MuiTypography-body1 emotion-17"
+                                    data-se="o-form-explain"
+                                    tabindex="-1"
+                                  >
+                                    <span
+                                      class="no-translate"
+                                    >
+                                      https://idx.okta1.com
+                                    </span>
+                                  </p>
+                                </div>
+                              </div>
                               <div
                                 class="MuiBox-root emotion-12"
                               >
-                                <p
-                                  class="MuiTypography-root MuiTypography-body1 emotion-16"
-                                  data-se="o-form-explain"
-                                  tabindex="-1"
+                                <button
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-40"
+                                  tabindex="0"
+                                  type="button"
                                 >
-                                  Finish setting up your account in Okta Verify, then try accessing this app again.
-                                </p>
+                                  Copy sign-in URL to clipboard
+                                </button>
                               </div>
                             </div>
-                          </div>
-                        </li>
-                      </ol>
+                          </li>
+                          <li
+                            class="MuiListItem-root emotion-21"
+                          >
+                            <div
+                              class="MuiBox-root emotion-11"
+                            >
+                              <div
+                                class="MuiBox-root emotion-2"
+                              >
+                                <div
+                                  class="MuiBox-root emotion-13"
+                                >
+                                  <p
+                                    class="MuiTypography-root MuiTypography-body1 emotion-17"
+                                    data-se="o-form-explain"
+                                    tabindex="-1"
+                                  >
+                                    Finish setting up your account in Okta Verify, then try accessing this app again.
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                        </ol>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;
