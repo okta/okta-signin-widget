@@ -17,8 +17,6 @@ import { render } from '@testing-library/preact';
 
 import { mergeThemes } from './mergeThemes';
 
-
-
 /*
 * Test fails after odyssey upgrade
 *
