@@ -12,8 +12,8 @@
 
 import { IdxAuthenticator, Input } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
-import TimeUtil from '../../../../../src/util/TimeUtil';
 
+import TimeUtil from '../../../../util/TimeUtil';
 import {
   AUTHENTICATOR_ALLOWED_FOR_OPTIONS,
   AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP,

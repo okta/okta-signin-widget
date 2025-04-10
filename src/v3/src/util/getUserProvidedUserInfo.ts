@@ -10,7 +10,24 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './registrationUtils';
-export * from './transactionUtils';
-export * from './triggerEmailVerifyCallback';
-export * from './widgetMessageUtils';
+import { FormBag, UserInfo } from '../types';
+
+export const getUserProvidedUserInfo = (data: FormBag['data']): UserInfo => {
+  const identifier = ('userProfile.login' in data
+    ? data['userProfile.login']
+    : data['userProfile.email']) as string;
+  const firstName = 'userProfile.firstName' in data
+    ? data['userProfile.firstName'] as string
+    : undefined;
+  const lastName = 'userProfile.lastName' in data
+    ? data['userProfile.lastName'] as string
+    : undefined;
+
+  return {
+    identifier,
+    profile: {
+      firstName,
+      lastName,
+    },
+  };
+};

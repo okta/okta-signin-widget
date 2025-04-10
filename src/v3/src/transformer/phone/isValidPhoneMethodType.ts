@@ -10,7 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './registrationUtils';
-export * from './transactionUtils';
-export * from './triggerEmailVerifyCallback';
-export * from './widgetMessageUtils';
+import { Input } from '@okta/okta-auth-js';
+import { IdxForm } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
+
+import { PhoneVerificationMethodType } from '../../types';
+
+export const isValidPhoneMethodType = (
+  methodType?: string | { form: IdxForm; } | Input[],
+): methodType is PhoneVerificationMethodType => (
+  typeof methodType !== 'undefined' && (methodType === 'sms' || methodType === 'voice')
+);

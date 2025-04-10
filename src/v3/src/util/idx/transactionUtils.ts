@@ -12,9 +12,8 @@
 
 import { IdxRemediation, IdxTransaction, NextStep } from '@okta/okta-auth-js';
 
-import { IWidgetContext } from '../../types';
-
-import { IDX_STEP } from '../../constants';
+import { AUTHENTICATOR_KEY, CONSENT_HEADER_STEPS, IDX_STEP } from '../../constants';
+import { AppInfo, IWidgetContext, UserInfo } from '../../types';
 import { getAuthenticatorKey } from '../getAuthenticatorKey';
 import { getCurrentAuthenticator } from '../getCurrentAuthenticator';
 
@@ -86,4 +85,88 @@ export const updateTransactionWithNextStep = (
     ],
     nextStep,
   });
+};
+
+export const hasMinAuthenticatorOptions = (
+  transaction: IdxTransaction,
+  stepName: string,
+  min: number,
+): boolean => {
+  const excludedPages = [
+    IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
+    IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+  ];
+  if (excludedPages.includes(transaction.nextStep?.name ?? '')) {
+    return false;
+  }
+
+  const remediation: IdxRemediation | undefined = transaction.neededToProceed.find(
+    ({ name }) => name === stepName,
+  );
+  if (!remediation) {
+    return false;
+  }
+
+  const authenticatorInput = remediation.value?.find(({ name }) => name === 'authenticator');
+  if (!authenticatorInput) {
+    return false;
+  }
+
+  // OV options are under methods
+  const ovOption = authenticatorInput.options?.find(
+    (opt) => opt.relatesTo?.key === AUTHENTICATOR_KEY.OV,
+  )?.relatesTo;
+
+  return (
+    (authenticatorInput?.options?.length ?? 0) > min
+    || (ovOption?.methods?.length ?? 0) > min
+  );
+};
+
+export const getDisplayName = (transaction: IdxTransaction): string | undefined => {
+  const authenticator = getCurrentAuthenticator(transaction);
+  return authenticator?.value?.displayName;
+};
+
+export const isVerifyFlow = (transaction: IdxTransaction): boolean => {
+  // currentAuthenticator is from enrollment flows and currentAuthenticatorEnrollment is from verify flows
+  const { context: { currentAuthenticatorEnrollment } } = transaction;
+  return typeof currentAuthenticatorEnrollment !== 'undefined';
+};
+
+// @ts-expect-error OKTA-627610 captcha missing from context type
+export const isCaptchaEnabled = (transaction: IdxTransaction): boolean => typeof transaction.context?.captcha !== 'undefined';
+
+export const isConsentStep = (transaction?: IdxTransaction): boolean => (
+  transaction?.nextStep?.name
+    ? CONSENT_HEADER_STEPS.includes(transaction.nextStep.name)
+    : false
+);
+
+export const getUserInfo = (transaction: IdxTransaction): UserInfo => {
+  const { context: { user } } = transaction;
+
+  if (!user) {
+    return {};
+  }
+  return user.value as UserInfo;
+};
+
+export const getAppInfo = (transaction: IdxTransaction): AppInfo => {
+  // @ts-expect-error OKTA-598868 app is missing from rawIdxState type
+  const { rawIdxState: { app } } = transaction;
+
+  if (!app) {
+    return {};
+  }
+  return app.value as AppInfo;
+};
+
+export const getApplicationName = (transaction?: IdxTransaction): string | null => {
+  if (typeof transaction === 'undefined') {
+    return null;
+  }
+
+  const { label } = getAppInfo(transaction);
+  return label ?? null;
 };

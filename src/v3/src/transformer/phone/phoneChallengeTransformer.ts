@@ -20,7 +20,8 @@ import {
   ReminderElement,
   TitleElement,
 } from '../../types';
-import { buildPhoneVerificationSubtitleElement, isValidPhoneMethodType, loc } from '../../util';
+import { buildPhoneVerificationSubtitleElement, loc } from '../../util';
+import { isValidPhoneMethodType } from './isValidPhoneMethodType';
 
 export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep = {} as NextStep, availableSteps } = transaction;

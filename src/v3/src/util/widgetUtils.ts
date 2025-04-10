@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { RequiredKeys, WidgetProps } from '../types';
 import { isDevelopmentEnvironment } from './environmentUtils';
 
 /* global __PREFRESH__ */
@@ -36,3 +37,7 @@ export const canBootstrapWidget = (deps: Record<string, unknown>) => {
   }
   return true;
 };
+
+export const isAuthClientSet = (
+  props: WidgetProps,
+): props is RequiredKeys<WidgetProps, 'authClient'> => !!props.authClient;

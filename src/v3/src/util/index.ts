@@ -11,6 +11,7 @@
  */
 
 export * from './browserUtils';
+export * from './buildAuthCoinProps';
 export * from './buildErrorMessageIds';
 export * from './buildFieldLevelErrorMessages';
 export * from './buildPasswordRequirementNotMetErrorList';
@@ -32,11 +33,11 @@ export * from './getImmutableData';
 export * from './getLanguageDirection';
 export * from './getPasswordExpiryContentTitleAndParams';
 export * from './getTranslation';
+export * from './getUserProvidedUserInfo';
 export * from './getValidationMessages';
 export * from './htmlContentParserUtils';
 export * from './idpIconMap';
 export * from './idx';
-export * from './idxUtils';
 export * from './isInteractiveElement';
 export * from './isLtrField';
 export * from './isPasswordRecovery';
