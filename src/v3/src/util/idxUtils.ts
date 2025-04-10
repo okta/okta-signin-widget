@@ -19,7 +19,6 @@ import {
   IdxStatus,
   IdxTransaction,
   Input,
-  NextStep,
   ProceedOptions,
 } from '@okta/okta-auth-js';
 import { IdxForm } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
@@ -37,7 +36,6 @@ import {
   AppInfo,
   AuthCoinProps,
   FormBag,
-  IWidgetContext,
   PhoneVerificationMethodType,
   RegistrationElementSchema,
   RequiredKeys,
@@ -208,76 +206,6 @@ export const hasMinAuthenticatorOptions = (
 export const isAuthClientSet = (
   props: WidgetProps,
 ): props is RequiredKeys<WidgetProps, 'authClient'> => !!props.authClient;
-
-export const areTransactionsEqual = (
-  tx1: IdxTransaction | undefined,
-  tx2: IdxTransaction | undefined,
-): boolean => {
-  if (tx1?.nextStep?.name !== tx2?.nextStep?.name) {
-    return false;
-  }
-
-  const tx1AuthKey = tx1 && getAuthenticatorKey(tx1);
-  const tx2AuthKey = tx2 && getAuthenticatorKey(tx2);
-  if (tx1AuthKey !== tx2AuthKey) {
-    return false;
-  }
-
-  const tx1AuthId = typeof tx1 !== 'undefined'
-    ? getCurrentAuthenticator(tx1)?.value?.id
-    : undefined;
-  const tx2AuthId = typeof tx2 !== 'undefined'
-    ? getCurrentAuthenticator(tx2)?.value?.id
-    : undefined;
-  if (tx1AuthId !== tx2AuthId) {
-    return false;
-  }
-
-  // on the safe mode poll remediation (IDX_STEP.POLL) we _always_
-  // want to view the incoming poll transaction as unequal to force
-  // the transformer to run again and re-render the view
-  if (typeof tx2 !== 'undefined' && tx2.nextStep?.name === IDX_STEP.POLL) {
-    return false;
-  }
-
-  return true;
-};
-
-export const updateTransactionWithNextStep = (
-  transaction: IdxTransaction,
-  nextStep: NextStep,
-  widgetContext: IWidgetContext,
-): void => {
-  const {
-    setIdxTransaction, setIsClientTransaction, setMessage, setStepToRender,
-  } = widgetContext;
-  const availableSteps = transaction.availableSteps?.filter(
-    ({ name }) => name !== nextStep.name,
-  ) || [];
-  const verifyWithOtherRemediations = transaction.neededToProceed.find(
-    ({ name }) => name === nextStep.name,
-  ) || {} as IdxRemediation;
-  const availableRemediations = transaction.neededToProceed.filter(
-    ({ name }) => name !== nextStep.name,
-  );
-
-  setMessage(undefined);
-  setStepToRender(undefined);
-  setIsClientTransaction(false);
-  setIdxTransaction({
-    ...transaction,
-    messages: [],
-    neededToProceed: [
-      verifyWithOtherRemediations,
-      ...availableRemediations,
-    ],
-    availableSteps: [
-      nextStep,
-      ...availableSteps,
-    ],
-    nextStep,
-  });
-};
 
 export const convertIdxMessageToWidgetMessage = (
   messages?: any[],
