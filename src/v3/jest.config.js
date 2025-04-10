@@ -11,6 +11,7 @@
  */
 
 const path = require('path');
+const coverageConfig = require('./coverage.config');
 
 const PROJECT_ROOT = path.resolve(__dirname, '../..');
 const PACKAGES = path.resolve(PROJECT_ROOT, 'packages');
@@ -53,6 +54,7 @@ module.exports = {
     '<rootDir>/src/mocks/.*',
     '<rootDir>/src/types/.*',
   ],
+  coverageThreshold: coverageConfig,
   coverageReporters: [
     'lcov',
     'text',
