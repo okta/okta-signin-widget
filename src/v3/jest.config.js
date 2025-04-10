@@ -53,6 +53,12 @@ module.exports = {
     '<rootDir>/src/mocks/.*',
     '<rootDir>/src/types/.*',
   ],
+  coverageReporters: [
+    'lcov',
+    'text',
+    'text-summary',
+  ],
+  coverageDirectory: REPORT_DIR,
   testURL: 'http://localhost:8080',
   testEnvironment: './config/jsdom-env-with-polyfills.js',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
