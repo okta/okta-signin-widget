@@ -29,7 +29,7 @@ const esModules = [
 const devMode = process.env.NODE_ENV === 'development';
 
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
-module.exports = {
+const sharedConfig = {
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/src/tsconfig.jest.json',
@@ -68,10 +68,6 @@ module.exports = {
   moduleDirectories: [
     'node_modules',
   ],
-  testMatch: [
-    '**/__tests__/**/*.[jt]s?(x)',
-    '**/?(*.)(test).[jt]s?(x)',
-  ],
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/src/tests/__mocks__/fileMock.js',
     '^.+\\.svg$': '<rootDir>/svgMockTransformer.js',
@@ -97,7 +93,6 @@ module.exports = {
     '^@okta/odyssey-react-mui/icons$': '<rootDir>/../../node_modules/@okta/odyssey-react-mui/dist/icons.generated/index.js',
     '^@hcaptcha/loader$': '<rootDir>/../../node_modules/@hcaptcha/loader/dist/index.cjs',
   },
-
   modulePaths: [
     '<rootDir>',
   ],
@@ -119,4 +114,34 @@ module.exports = {
   ],
   restoreMocks: true,
   testTimeout: devMode ? 1000 * 60 * 1000 : 10 * 1000,
+};
+
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
+module.exports = {
+  projects: [
+    {
+      displayName: 'UNIT',
+      runner: 'jest-runner',
+      testMatch: [
+        '**/__tests__/**/*.[jt]s?(x)',
+        '**/?(*.)(test).[jt]s?(x)',
+      ],
+      testPathIgnorePatterns: [
+        '<rootDir>/test/integration/.*',
+      ],
+      ...sharedConfig,
+    },
+    {
+      displayName: 'INTEGRATION',
+      runner: 'jest-runner',
+      maxWorkers: 2,
+      testMatch: [
+        '**/test/integration/**/*.test.[jt]s?(x)',
+      ],
+      testPathIgnorePatterns: [
+        '<rootDir>/src/.*',
+      ],
+      ...sharedConfig,
+    },
+  ],
 };
