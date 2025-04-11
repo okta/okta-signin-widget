@@ -1,13 +1,8 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    // When collecting coverage with the v8 coverage provider and ts-jest,
-    // we have to generate full inline sourcemaps so the coverage provider can
-    // map the coverage back to the original source files correctly.
     "sourceMap": true,
     "inlineSourceMap": false,
-    // Update target to a newer version once we upgrade Jest beyond v26
-    // The current jsdom version used in v26 only supports ES2019
     "target": "ES2019"
   }
 }
