@@ -12,5 +12,8 @@
 # General:
 *                             @jaredperreault-okta @lesterchoi-okta @shawyu-okta @shuowu-okta @alexchen-okta @trevoring-okta @glenfannin-okta @leemchale-okta @vijetmahabaleshwar-okta @robertdamphousse-okta
 
+# Gen3 Code Coverage:
+src/v3/coverage.config.js     @jaredperreault-okta @lesterchoi-okta @shawyu-okta @vijetmahabaleshwar-okta @priyakathirvel-okta
+
 # Localization:
 packages/@okta/pseudo-loc/    @mauriciocastillosilva-okta @michaeltamaki-okta @nikhilvenkatraman-okta @zihanwang-okta @stephanieyoshimoto-okta

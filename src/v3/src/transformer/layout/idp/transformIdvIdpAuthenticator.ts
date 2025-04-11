@@ -22,8 +22,9 @@ import {
   TitleElement,
 } from '../../../types';
 import {
-  getBackToSignInUri, getIDVDisplayInfo, loc, shouldShowCancelLink,
+  getBackToSignInUri, loc, shouldShowCancelLink,
 } from '../../../util';
+import { getIDVDisplayInfo } from './getIDVDisplayInfo';
 
 export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
   formBag,

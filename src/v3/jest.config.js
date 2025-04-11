@@ -11,6 +11,7 @@
  */
 
 const path = require('path');
+const coverageConfig = require('./coverage.config');
 
 const PROJECT_ROOT = path.resolve(__dirname, '../..');
 const PACKAGES = path.resolve(PROJECT_ROOT, 'packages');
@@ -28,10 +29,10 @@ const esModules = [
 const devMode = process.env.NODE_ENV === 'development';
 
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
-module.exports = {
+const sharedConfig = {
   globals: {
     'ts-jest': {
-      tsconfig: '<rootDir>/src/tsconfig.json',
+      tsconfig: '<rootDir>/src/tsconfig.jest.json',
       // https://kulshekhar.github.io/ts-jest/docs/26.5/getting-started/options/isolatedModules
       isolatedModules: true,
     },
@@ -40,15 +41,32 @@ module.exports = {
     '^.+\\.[jt]sx?$': 'ts-jest',
   },
   verbose: true,
+  collectCoverage: false, // Coverage only collected when run with coverage Jest CLI flag --coverage
+  coverageProvider: 'v8',
+  collectCoverageFrom: [
+    'src/**/*.[jt]s?(x)',
+  ],
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    '<rootDir>/.*\\.snap',
+    '<rootDir>/.*/__mocks__/.*',
+    '<rootDir>/src/bin/.*',
+    '<rootDir>/src/img/.*',
+    '<rootDir>/src/mocks/.*',
+    '<rootDir>/src/types/.*',
+  ],
+  coverageThreshold: coverageConfig,
+  coverageReporters: [
+    'lcov',
+    'text',
+    'text-summary',
+  ],
+  coverageDirectory: REPORT_DIR,
   testURL: 'http://localhost:8080',
   testEnvironment: './config/jsdom-env-with-polyfills.js',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   moduleDirectories: [
     'node_modules',
-  ],
-  testMatch: [
-    '**/__tests__/**/*.[jt]s?(x)',
-    '**/?(*.)(test).[jt]s?(x)',
   ],
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/src/tests/__mocks__/fileMock.js',
@@ -56,12 +74,12 @@ module.exports = {
     '\\.(css|less|scss)$': 'identity-obj-proxy',
     '^@okta/okta-i18n-bundles$': `${PROJECT_ROOT}/src/util/Bundles`,
     '^@okta/mocks/(.*)': `${PROJECT_ROOT}/playground/mocks/$1`,
-    'util/Logger': `${PROJECT_ROOT}/src/util/Logger`,
-    'util/Bundles': `${PROJECT_ROOT}/src/util/Bundles`,
-    'util/Enums': `${PROJECT_ROOT}/src/util/Enums`,
-    'util/FactorUtil': `${PROJECT_ROOT}/src/util/FactorUtil`,
-    'util/TimeUtil': `${PROJECT_ROOT}/src/util/TimeUtil`,
-    'util/BrowserFeatures': `${PROJECT_ROOT}/src/util/BrowserFeatures`,
+    '^util/Logger': `${PROJECT_ROOT}/src/util/Logger`,
+    '^util/Bundles': `${PROJECT_ROOT}/src/util/Bundles`,
+    '^util/Enums': `${PROJECT_ROOT}/src/util/Enums`,
+    '^util/FactorUtil': `${PROJECT_ROOT}/src/util/FactorUtil`,
+    '^util/TimeUtil': `${PROJECT_ROOT}/src/util/TimeUtil`,
+    '^util/BrowserFeatures': `${PROJECT_ROOT}/src/util/BrowserFeatures`,
     '^config/config.json': `${PROJECT_ROOT}/src/config/config.json`,
     '^nls$': `${PACKAGES}/@okta/i18n/src/json`,
     '^nls/(.*)': `${PACKAGES}/@okta/i18n/src/json/$1`,
@@ -75,7 +93,6 @@ module.exports = {
     '^@okta/odyssey-react-mui/icons$': '<rootDir>/../../node_modules/@okta/odyssey-react-mui/dist/icons.generated/index.js',
     '^@hcaptcha/loader$': '<rootDir>/../../node_modules/@hcaptcha/loader/dist/index.cjs',
   },
-
   modulePaths: [
     '<rootDir>',
   ],
@@ -97,4 +114,33 @@ module.exports = {
   ],
   restoreMocks: true,
   testTimeout: devMode ? 1000 * 60 * 1000 : 10 * 1000,
+};
+
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
+module.exports = {
+  projects: [
+    {
+      displayName: 'UNIT',
+      runner: 'jest-runner',
+      testMatch: [
+        '**/__tests__/**/*.[jt]s?(x)',
+        '**/?(*.)(test).[jt]s?(x)',
+      ],
+      testPathIgnorePatterns: [
+        '<rootDir>/test/integration/.*',
+      ],
+      ...sharedConfig,
+    },
+    {
+      displayName: 'INTEGRATION',
+      runner: '<rootDir>/test/jest-serial-runner.js',
+      testMatch: [
+        '**/test/integration/**/*.test.[jt]s?(x)',
+      ],
+      testPathIgnorePatterns: [
+        '<rootDir>/src/.*',
+      ],
+      ...sharedConfig,
+    },
+  ],
 };

@@ -25,7 +25,7 @@ import {
   WidgetProps,
 } from 'src/types';
 
-import * as utils from '../../../util/idxUtils';
+import * as utils from '../../../util/idx/transactionUtils';
 import { transformOktaVerifyDeviceChallengePoll } from './transformOktaVerifyDeviceChallengePoll';
 
 describe('Transform Okta Verify Device Challenge Poll Tests', () => {

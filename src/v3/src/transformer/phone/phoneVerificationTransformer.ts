@@ -22,8 +22,9 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { buildPhoneVerificationSubtitleElement, isValidPhoneMethodType, loc } from '../../util';
+import { buildPhoneVerificationSubtitleElement, loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
+import { isValidPhoneMethodType } from './isValidPhoneMethodType';
 
 const TARGET_FIELD_NAME = 'authenticator.methodType';
 

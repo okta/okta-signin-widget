@@ -20,7 +20,7 @@ import {
   SpinnerElement,
   WidgetProps,
 } from '../../../types';
-import * as utils from '../../../util/idxUtils';
+import * as utils from '../../../util/idx/transactionUtils';
 import { transformOktaVerifyFPLoopbackPoll } from './transformOktaVerifyFPLoopbackPoll';
 
 describe('Transform Okta Verify FP Loopback Poll', () => {

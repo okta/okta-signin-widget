@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "sourceMap": true,
+    "inlineSourceMap": false,
+    "target": "ES2019"
+  }
+}

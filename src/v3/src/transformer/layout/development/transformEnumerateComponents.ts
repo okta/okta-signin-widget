@@ -10,6 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+// This transformer is only for developer and VRT use, so no need to cover it with tests.
+/* istanbul ignore file */
+
 import { WindowsStoreIcon } from 'src/components/Icon';
 import {
   AppIcon,
