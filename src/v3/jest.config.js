@@ -32,7 +32,7 @@ const devMode = process.env.NODE_ENV === 'development';
 module.exports = {
   globals: {
     'ts-jest': {
-      tsconfig: '<rootDir>/src/tsconfig.json',
+      tsconfig: '<rootDir>/src/tsconfig.jest.json',
       // https://kulshekhar.github.io/ts-jest/docs/26.5/getting-started/options/isolatedModules
       isolatedModules: true,
     },
@@ -42,6 +42,7 @@ module.exports = {
   },
   verbose: true,
   collectCoverage: false, // Coverage only collected when run with coverage Jest CLI flag --coverage
+  coverageProvider: 'v8',
   collectCoverageFrom: [
     'src/**/*.[jt]s?(x)',
   ],
