@@ -133,8 +133,7 @@ module.exports = {
     },
     {
       displayName: 'INTEGRATION',
-      runner: 'jest-runner',
-      maxWorkers: 2,
+      runner: '<rootDir>/test/jest-serial-runner.js',
       testMatch: [
         '**/test/integration/**/*.test.[jt]s?(x)',
       ],
