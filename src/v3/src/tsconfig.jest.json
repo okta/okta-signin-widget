@@ -6,7 +6,6 @@
     // map the coverage back to the original source files correctly.
     "sourceMap": true,
     "inlineSourceMap": false,
-    "inlineSources": true,
     // Update target to a newer version once we upgrade Jest beyond v26
     // The current jsdom version used in v26 only supports ES2019
     "target": "ES2019"
