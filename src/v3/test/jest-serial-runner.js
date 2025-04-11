@@ -1,3 +1,4 @@
+/* eslint-disable */
 const TestRunner = require('jest-runner');
 
 class SerialRunner extends TestRunner {
