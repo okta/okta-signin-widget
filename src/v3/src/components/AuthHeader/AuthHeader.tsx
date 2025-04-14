@@ -78,7 +78,7 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
         },
       }}
     >
-      <Typography variant="h1" role="presentation">
+      <Typography variant="h1" role="presentation" tabIndex={-1}>
         { logo && (
           <Image
             alt={logoText || brandName || loc('logo.default.alt.text', 'login')}

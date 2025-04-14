@@ -29,6 +29,7 @@ exports[`error-session-expired should render form 1`] = `
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                role="presentation"
                 tabindex="-1"
               />
             </div>

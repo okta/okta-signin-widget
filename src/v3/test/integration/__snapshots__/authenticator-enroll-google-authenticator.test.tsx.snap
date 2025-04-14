@@ -29,6 +29,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                role="presentation"
                 tabindex="-1"
               />
               <div
@@ -293,6 +294,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                role="presentation"
                 tabindex="-1"
               />
               <div
@@ -548,6 +550,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                role="presentation"
                 tabindex="-1"
               />
               <div
@@ -798,6 +801,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                role="presentation"
                 tabindex="-1"
               />
               <div
