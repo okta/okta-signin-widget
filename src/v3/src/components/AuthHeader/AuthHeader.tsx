@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
-import { Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { Box, Typography } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 import { AuthCoinProps } from 'src/types';
 
@@ -78,7 +78,7 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
         },
       }}
     >
-      <Typography variant="h1">
+      <Typography variant="h1" role="presentation">
         { logo && (
           <Image
             alt={logoText || brandName || loc('logo.default.alt.text', 'login')}
