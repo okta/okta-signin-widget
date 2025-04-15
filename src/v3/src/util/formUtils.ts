@@ -20,7 +20,11 @@ import IDP from '../../../util/IDP';
 import TimeUtil from '../../../util/TimeUtil';
 import Util from '../../../util/Util';
 import {
-  CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY, GENERAL_IDP, IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY, TERMINAL_KEY,
+  CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY,
+  GENERAL_IDP,
+  IDX_STEP,
+  SOCIAL_IDP_TYPE_TO_I18KEY,
+  TERMINAL_KEY,
 } from '../constants';
 import SmartCardIconSvg from '../img/smartCardButtonIcon.svg';
 import {
@@ -249,7 +253,7 @@ export const getIdpButtonElements = (
     return {
       type: 'Button',
       label: displayName,
-      noTranslate: type ===  GENERAL_IDP,
+      noTranslate: type === GENERAL_IDP,
       options: {
         type: ButtonType.BUTTON,
         step: IDX_STEP.PIV_IDP,
