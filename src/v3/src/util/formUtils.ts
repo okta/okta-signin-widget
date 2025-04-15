@@ -83,6 +83,7 @@ export const getCustomButtonElements = (widgetProps: WidgetProps): ButtonElement
         step: '',
         dataSe: customButton.dataAttr ?? 'custom-button',
         variant: 'secondary',
+        showLoading: false,
         onClick: customButton.click,
       },
     };
@@ -112,6 +113,7 @@ const getPIVButtonElement = (
       variant: 'secondary',
       Icon: SmartCardIconSvg,
       iconAlt: loc('piv.card', 'login'),
+      showLoading: false,
       onClick: (widgetContext: IWidgetContext) => {
         // To render the PIV view, we have to use a remediation that is provided on initial load
         // This remediation doesn't allow a network request, so we have to update the transaction
