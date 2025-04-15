@@ -115,6 +115,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.symantec_vip.credentials.passcode': 'oie.symantecVip.verify.passcode.label',
   'challenge-authenticator.yubikey_token.credentials.passcode': 'oie.yubikey.passcode.label',
   'challenge-authenticator.credentials.passcode': 'oie.password.label',
+  'challenge-authenticator.nfc.credentials.passcode': 'oie.nfc.verify.passcode.label',
 
   'reset-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
   'reset-authenticator.okta_password.confirmPassword': 'oie.password.confirmPasswordLabel',

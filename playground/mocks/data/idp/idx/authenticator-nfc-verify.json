@@ -1,0 +1,243 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "02.id.sFHCfSv-psEDs26W36e3QG50Ld6GdMX1cVLIHqt_~c.3gbg9EpLxI9wg3T-1Mo3fyIvDzgn_Z5laX-66ZxmVZVgwgKhM0ODC6IyBKrK593k3KBgp6WmJh-mAk7RSne-w-I4930wjiLQyCz2ESqcoi46-uSzRHh-vXeK9dM3T0wPAbjmIvU9YXtlHZV5d0X0dmtLIPiZ-oKy7P9WcFssgfj1PBmoEMVMG-HoT0aM8N1SCp_MUWloAApJz2nN4kjlbg-OHcOFEjq-4cZp8wZGk8qUIELzCJqEttVfnSCA7vXSdw_L6VYrfI9AZNsl5WB4zddPKwGNos4suyrGPcLJu8k_6pjO2fodITxpvrgki_zXKdOITOAEsmvc8IB8rOUaX3VTlzALBPPoqJpN9rDXF3e966gXeFnmwS5mUuLOPQhjZ8aubZToeQdrICvZMlGKiIkt_wX4YWR-li1pHG2koTqhEdMPCE4GPSdWTuDhWIkE2_Fgs-OmDFKtzfn4vcZHXkSNvJtH2UzwZBeBW6YMhl-SKqNh_L79CbLWnlqz9IcAOqKpYOxZ5_BbFQ64-E-flIttQ0Prt-CM_rDiSmAa78NK2WiOhTUiHkX7R97ZPMf5IAuNjJRVxb-NnK6S6ON5GTdaPjYGt2zruTsprUVFzk0cCvJxeyYz6A6vGIJ1QeT2gVTjhf9YOw6_fB2pFXbHRXNj5q5wPhRZZrzWyTiQZYIniEQXPKf8K2DcOLR_nfG5G5qxWQj21wn5D1lo1nE_2U0ZabxC4K60Pbwec37VnS7mUVBFUE9mzp6qRFd9vW6nSTh5nx5IMeEqOlihPIGnWN6s_2ajlVTS1x1u_wLNpQ8j1zb8pwNK-6R5vyFjSPdCQ8sPWkgFAbPEUGKAYblfF498xur2atTJEeCNPu0sxdqthfXgIqef6y8S7rohZayC6zxYR4xmysupj66d5GoAfz7HuB6WRTflIGO9XL9Y142Gwndomhog2aidKCP2Rxn-a_e0jco4Sq_rAdOGaDhpu4BsDijowBf8yIYWwltu900fdHKHcIu5TWsIILK2tEJYwJgMce7gTM41yuciKD3gHSgPYVZreyVD_BqllMQeS2L7bITV91BBR7GzbMH1wcP5_XZiaABu2cgMJkfxUy0rKCT5WSZanbM-vB_etDH1Iz6OQoKtR-Bkq9Z_EpgDVk_VYqAPV5eAg2JHkT-cZVtkBnvIp-_wy-TcIh-RnB72DZioQB_M-3SK8-R37HmQYDDV",
+    "expiresAt": "2024-12-06T06:47:54.000Z",
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "challenge-authenticator",
+                "relatesTo": [
+                    "$.currentAuthenticatorEnrollment"
+                ],
+                "href": "https://local-sp.okta1.com/idp/idx/challenge/answer",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "credentials",
+                        "type": "object",
+                        "form": {
+                            "value": [
+                                {
+                                    "name": "passcode",
+                                    "label": "Enter 6 Digit Pin"
+                                }
+                            ]
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.sFHCfSv-psEDs26W36e3QG50Ld6GdMX1cVLIHqt_~c.3gbg9EpLxI9wg3T-1Mo3fyIvDzgn_Z5laX-66ZxmVZVgwgKhM0ODC6IyBKrK593k3KBgp6WmJh-mAk7RSne-w-I4930wjiLQyCz2ESqcoi46-uSzRHh-vXeK9dM3T0wPAbjmIvU9YXtlHZV5d0X0dmtLIPiZ-oKy7P9WcFssgfj1PBmoEMVMG-HoT0aM8N1SCp_MUWloAApJz2nN4kjlbg-OHcOFEjq-4cZp8wZGk8qUIELzCJqEttVfnSCA7vXSdw_L6VYrfI9AZNsl5WB4zddPKwGNos4suyrGPcLJu8k_6pjO2fodITxpvrgki_zXKdOITOAEsmvc8IB8rOUaX3VTlzALBPPoqJpN9rDXF3e966gXeFnmwS5mUuLOPQhjZ8aubZToeQdrICvZMlGKiIkt_wX4YWR-li1pHG2koTqhEdMPCE4GPSdWTuDhWIkE2_Fgs-OmDFKtzfn4vcZHXkSNvJtH2UzwZBeBW6YMhl-SKqNh_L79CbLWnlqz9IcAOqKpYOxZ5_BbFQ64-E-flIttQ0Prt-CM_rDiSmAa78NK2WiOhTUiHkX7R97ZPMf5IAuNjJRVxb-NnK6S6ON5GTdaPjYGt2zruTsprUVFzk0cCvJxeyYz6A6vGIJ1QeT2gVTjhf9YOw6_fB2pFXbHRXNj5q5wPhRZZrzWyTiQZYIniEQXPKf8K2DcOLR_nfG5G5qxWQj21wn5D1lo1nE_2U0ZabxC4K60Pbwec37VnS7mUVBFUE9mzp6qRFd9vW6nSTh5nx5IMeEqOlihPIGnWN6s_2ajlVTS1x1u_wLNpQ8j1zb8pwNK-6R5vyFjSPdCQ8sPWkgFAbPEUGKAYblfF498xur2atTJEeCNPu0sxdqthfXgIqef6y8S7rohZayC6zxYR4xmysupj66d5GoAfz7HuB6WRTflIGO9XL9Y142Gwndomhog2aidKCP2Rxn-a_e0jco4Sq_rAdOGaDhpu4BsDijowBf8yIYWwltu900fdHKHcIu5TWsIILK2tEJYwJgMce7gTM41yuciKD3gHSgPYVZreyVD_BqllMQeS2L7bITV91BBR7GzbMH1wcP5_XZiaABu2cgMJkfxUy0rKCT5WSZanbM-vB_etDH1Iz6OQoKtR-Bkq9Z_EpgDVk_VYqAPV5eAg2JHkT-cZVtkBnvIp-_wy-TcIh-RnB72DZioQB_M-3SK8-R37HmQYDDV",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "select-authenticator-authenticate",
+                "href": "https://local-sp.okta1.com/idp/idx/challenge",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "authenticator",
+                        "type": "object",
+                        "options": [
+                            {
+                                "label": "NFC + PIN Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut39884OLfC5C5eW0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "nfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[0]"
+                            },
+                            {
+                                "label": "Smart Card Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut2smrxSheamoxun0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "mfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticators.value[1]"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.sFHCfSv-psEDs26W36e3QG50Ld6GdMX1cVLIHqt_~c.3gbg9EpLxI9wg3T-1Mo3fyIvDzgn_Z5laX-66ZxmVZVgwgKhM0ODC6IyBKrK593k3KBgp6WmJh-mAk7RSne-w-I4930wjiLQyCz2ESqcoi46-uSzRHh-vXeK9dM3T0wPAbjmIvU9YXtlHZV5d0X0dmtLIPiZ-oKy7P9WcFssgfj1PBmoEMVMG-HoT0aM8N1SCp_MUWloAApJz2nN4kjlbg-OHcOFEjq-4cZp8wZGk8qUIELzCJqEttVfnSCA7vXSdw_L6VYrfI9AZNsl5WB4zddPKwGNos4suyrGPcLJu8k_6pjO2fodITxpvrgki_zXKdOITOAEsmvc8IB8rOUaX3VTlzALBPPoqJpN9rDXF3e966gXeFnmwS5mUuLOPQhjZ8aubZToeQdrICvZMlGKiIkt_wX4YWR-li1pHG2koTqhEdMPCE4GPSdWTuDhWIkE2_Fgs-OmDFKtzfn4vcZHXkSNvJtH2UzwZBeBW6YMhl-SKqNh_L79CbLWnlqz9IcAOqKpYOxZ5_BbFQ64-E-flIttQ0Prt-CM_rDiSmAa78NK2WiOhTUiHkX7R97ZPMf5IAuNjJRVxb-NnK6S6ON5GTdaPjYGt2zruTsprUVFzk0cCvJxeyYz6A6vGIJ1QeT2gVTjhf9YOw6_fB2pFXbHRXNj5q5wPhRZZrzWyTiQZYIniEQXPKf8K2DcOLR_nfG5G5qxWQj21wn5D1lo1nE_2U0ZabxC4K60Pbwec37VnS7mUVBFUE9mzp6qRFd9vW6nSTh5nx5IMeEqOlihPIGnWN6s_2ajlVTS1x1u_wLNpQ8j1zb8pwNK-6R5vyFjSPdCQ8sPWkgFAbPEUGKAYblfF498xur2atTJEeCNPu0sxdqthfXgIqef6y8S7rohZayC6zxYR4xmysupj66d5GoAfz7HuB6WRTflIGO9XL9Y142Gwndomhog2aidKCP2Rxn-a_e0jco4Sq_rAdOGaDhpu4BsDijowBf8yIYWwltu900fdHKHcIu5TWsIILK2tEJYwJgMce7gTM41yuciKD3gHSgPYVZreyVD_BqllMQeS2L7bITV91BBR7GzbMH1wcP5_XZiaABu2cgMJkfxUy0rKCT5WSZanbM-vB_etDH1Iz6OQoKtR-Bkq9Z_EpgDVk_VYqAPV5eAg2JHkT-cZVtkBnvIp-_wy-TcIh-RnB72DZioQB_M-3SK8-R37HmQYDDV",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            }
+        ]
+    },
+    "currentAuthenticatorEnrollment": {
+        "type": "object",
+        "value": {
+            "type": "security_key",
+            "key": "nfc",
+            "id": "nfc3bgiogYdqZ6GBj0g5",
+            "displayName": "NFC + PIN Authenticator",
+            "methods": [
+                {
+                    "type": "nfc"
+                }
+            ]
+        }
+    },
+    "authenticators": {
+        "type": "array",
+        "value": [
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "aut39884OLfC5C5eW0g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ],
+                "allowedFor": "none"
+            },
+            {
+                "type": "federated",
+                "key": "smart_card_idp",
+                "id": "aut2smrxSheamoxun0g5",
+                "displayName": "Smart Card Authenticator",
+                "methods": [
+                    {
+                        "type": "mfc"
+                    }
+                ],
+                "allowedFor": "none"
+            }
+        ]
+    },
+    "authenticatorEnrollments": {
+        "type": "array",
+        "value": [
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "nfc3bgiogYdqZ6GBj0g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ]
+            },
+            {
+                "profile": {
+                    "idpAppInstanceId": "0oa2rq3rRZl8gFmvf0g5"
+                },
+                "type": "federated",
+                "key": "smart_card_idp",
+                "id": "piv36jsrXHUt61oqw0g5",
+                "displayName": "Smart Card Authenticator",
+                "methods": [
+                    {
+                        "type": "mfc"
+                    }
+                ]
+            }
+        ]
+    },
+    "user": {
+        "type": "object",
+        "value": {
+            "identifier": "michael.scott@hybridaccess.org"
+        }
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "https://local-sp.okta1.com/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "02.id.sFHCfSv-psEDs26W36e3QG50Ld6GdMX1cVLIHqt_~c.3gbg9EpLxI9wg3T-1Mo3fyIvDzgn_Z5laX-66ZxmVZVgwgKhM0ODC6IyBKrK593k3KBgp6WmJh-mAk7RSne-w-I4930wjiLQyCz2ESqcoi46-uSzRHh-vXeK9dM3T0wPAbjmIvU9YXtlHZV5d0X0dmtLIPiZ-oKy7P9WcFssgfj1PBmoEMVMG-HoT0aM8N1SCp_MUWloAApJz2nN4kjlbg-OHcOFEjq-4cZp8wZGk8qUIELzCJqEttVfnSCA7vXSdw_L6VYrfI9AZNsl5WB4zddPKwGNos4suyrGPcLJu8k_6pjO2fodITxpvrgki_zXKdOITOAEsmvc8IB8rOUaX3VTlzALBPPoqJpN9rDXF3e966gXeFnmwS5mUuLOPQhjZ8aubZToeQdrICvZMlGKiIkt_wX4YWR-li1pHG2koTqhEdMPCE4GPSdWTuDhWIkE2_Fgs-OmDFKtzfn4vcZHXkSNvJtH2UzwZBeBW6YMhl-SKqNh_L79CbLWnlqz9IcAOqKpYOxZ5_BbFQ64-E-flIttQ0Prt-CM_rDiSmAa78NK2WiOhTUiHkX7R97ZPMf5IAuNjJRVxb-NnK6S6ON5GTdaPjYGt2zruTsprUVFzk0cCvJxeyYz6A6vGIJ1QeT2gVTjhf9YOw6_fB2pFXbHRXNj5q5wPhRZZrzWyTiQZYIniEQXPKf8K2DcOLR_nfG5G5qxWQj21wn5D1lo1nE_2U0ZabxC4K60Pbwec37VnS7mUVBFUE9mzp6qRFd9vW6nSTh5nx5IMeEqOlihPIGnWN6s_2ajlVTS1x1u_wLNpQ8j1zb8pwNK-6R5vyFjSPdCQ8sPWkgFAbPEUGKAYblfF498xur2atTJEeCNPu0sxdqthfXgIqef6y8S7rohZayC6zxYR4xmysupj66d5GoAfz7HuB6WRTflIGO9XL9Y142Gwndomhog2aidKCP2Rxn-a_e0jco4Sq_rAdOGaDhpu4BsDijowBf8yIYWwltu900fdHKHcIu5TWsIILK2tEJYwJgMce7gTM41yuciKD3gHSgPYVZreyVD_BqllMQeS2L7bITV91BBR7GzbMH1wcP5_XZiaABu2cgMJkfxUy0rKCT5WSZanbM-vB_etDH1Iz6OQoKtR-Bkq9Z_EpgDVk_VYqAPV5eAg2JHkT-cZVtkBnvIp-_wy-TcIh-RnB72DZioQB_M-3SK8-R37HmQYDDV",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "okta_enduser",
+            "label": "Okta Dashboard",
+            "id": "0oa14w0mpazTWEPBW0g4"
+        }
+    },
+    "authentication": {
+        "type": "object",
+        "value": {
+            "protocol": "OAUTH2.0",
+            "issuer": {
+                "name": "Local SP",
+                "uri": "https://local-sp.okta1.com"
+            },
+            "request": {
+                "max_age": -1,
+                "scope": "openid profile email okta.users.read.self okta.users.manage.self okta.internal.enduser.read okta.internal.enduser.manage okta.enduser.dashboard.read okta.enduser.dashboard.manage okta.myAccount.sessions.manage",
+                "display": "page",
+                "response_type": "code",
+                "redirect_uri": "https://local-sp.okta1.com/enduser/callback",
+                "state": "bZw5U0nQViWsreGMVNB5uxz4D0VztIKC3F3nKBF018ZG91CBhWSaVu1i1x49ZjFf",
+                "code_challenge_method": "S256",
+                "nonce": "fnASv38R2lwCO8p039bsie88qwH2MYtw6UvutTTpQMRktPnjaUGQhP2O8cxO8K93",
+                "code_challenge": "O4v00bzGjys7CsCo32W-gi-wjf-uX_zMYtvKObKvBwU",
+                "response_mode": "query"
+            }
+        }
+    }
+}
