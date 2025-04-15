@@ -256,6 +256,7 @@ export const getIdpButtonElements = (
         variant: 'secondary',
         Icon: idpIconMap[type],
         iconAlt: '',
+        showLoading: false,
         onClick: () => {
           Util.redirectWithFormGet(idpObject.href);
         },
