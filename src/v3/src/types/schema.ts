@@ -96,6 +96,7 @@ export type DeviceRemediationType = 'LOOPBACK';
 export type DeviceRemediationFallBackType = 'MESSAGE' | 'APP_LINK';
 export type DeviceRemediation = {
   name: string;
+  remediationPath: string;
   action: string;
   remediationType: DeviceRemediationType;
   platform: string;

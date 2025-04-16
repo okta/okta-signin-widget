@@ -1544,6 +1544,7 @@ exports[`byol loading custom language should load custom language with "language
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                       data-se="switchAuthenticator"
                       role="link"
+                      type="button"
                     >
                       Return to authenticator list
                     </button>
@@ -1555,6 +1556,7 @@ exports[`byol loading custom language should load custom language with "language
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>
@@ -3114,6 +3116,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                       data-se="switchAuthenticator"
                       role="link"
+                      type="button"
                     >
                       Return to authenticator list
                     </button>
@@ -3125,6 +3128,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>
@@ -4684,6 +4688,7 @@ exports[`byol loading default language should not load custom language when the 
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                       data-se="switchAuthenticator"
                       role="link"
+                      type="button"
                     >
                       Return to authenticator list
                     </button>
@@ -4695,6 +4700,7 @@ exports[`byol loading default language should not load custom language when the 
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>
@@ -6254,6 +6260,7 @@ exports[`byol loading default language should not load custom language with "lan
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                       data-se="switchAuthenticator"
                       role="link"
+                      type="button"
                     >
                       Return to authenticator list
                     </button>
@@ -6265,6 +6272,7 @@ exports[`byol loading default language should not load custom language with "lan
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>

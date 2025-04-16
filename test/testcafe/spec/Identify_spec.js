@@ -4,6 +4,7 @@ import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticato
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages, renderWidget as rerenderWidget } from '../framework/shared';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
+import xhrIdentifyWithRememberMe from '../../../playground/mocks/data/idp/idx/identify-with-remember-me';
 import xhrIdentifyWithUnlock from '../../../playground/mocks/data/idp/idx/identify-with-unlock-account-link';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
 import xhrAuthenticatorVerifySelect from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
@@ -17,6 +18,10 @@ import config from '../../../src/config/config.json';
 const baseIdentifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify);
+
+const identifyMockWithRememberMe = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentifyWithRememberMe);
 
 const identifyMockWithUnsupportedResponseError = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -488,6 +493,19 @@ test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should hide "Keep me
   // Ensure checkbox is hidden
   const rememberMeCheckbox = identityPage.getRememberMeCheckbox();
   await t.expect(rememberMeCheckbox.exists).eql(false);
+});
+
+test.requestHooks(identifyRequestLogger, identifyMockWithRememberMe)('should be able to auto check "Keep me signed in" checkbox', async t => {
+  const identityPage = await setup(t, {
+    features: {}
+  });
+  await checkA11y(t);
+
+  // Ensure checkbox is checked
+  const rememberMeCheckbox = identityPage.getRememberMeCheckbox();
+  await t.expect(rememberMeCheckbox.exists).eql(true);
+  const rememberMeValue = identityPage.getRememberMeValue();
+  await t.expect(rememberMeValue).eql(true);
 });
 
 test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should show "Keep me signed in" checkbox with config or by default', async t => {

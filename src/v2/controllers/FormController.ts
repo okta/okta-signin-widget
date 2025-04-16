@@ -259,27 +259,25 @@ export default Controller.extend({
       // Because SIW sort of finished its current /transaction/
       sessionStorageHelper.removeStateHandle();
 
-      // OKTA-635926: do not redirect without user gesture for ov enrollment on android
-      // if Util.isAndroidOVEnrollment() returns true we use a user gesture to complete the redirect in AutoRedirectView    
-      if (!Util.isAndroidOVEnrollment(this.options.appState.get('authentication'))) {
-        const currentViewState = this.options.appState.getCurrentViewState();
-        // OKTA-702402: redirect only if/when the page is visible
-        Util.executeOnVisiblePage(() => {
-          Util.redirectWithFormGet(currentViewState.href);
-        });
-      }
+      const currentViewState = this.options.appState.getCurrentViewState();
+      // OKTA-702402: redirect only if/when the page is visible
+      Util.executeOnVisiblePage(() => {
+        Util.redirectWithFormGet(currentViewState.href);
+      });
 
       return;
     }
 
     const payload = transformPayload(formName, model);
+    // NOTE: this line should be called before triggering transformIdentifier
+    const originalIdentifier = payload.identifier;
     // Run hook: transform the user name (a.k.a identifier)
     const values = this.transformIdentifier(formName, payload);
 
     // widget rememberMe feature stores the entered identifier in a cookie, to pre-fill the form on subsequent visits to page
     if (this.options.settings.get('features.rememberMe')) {
-      if (values.identifier) {
-        CookieUtil.setUsernameCookie(values.identifier);
+      if (originalIdentifier) {
+        CookieUtil.setUsernameCookie(originalIdentifier);
       }
     }
     else {

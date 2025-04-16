@@ -76,6 +76,7 @@
               "type": "object",
               "value": {
                 "name": "device-assurance-android-device-policy-app-required",
+                "remediationPath": "azt",
                 "action": "install-android-device-policy",
                 "remediationType": "LOOPBACK",
                 "platform": "ANDROID",

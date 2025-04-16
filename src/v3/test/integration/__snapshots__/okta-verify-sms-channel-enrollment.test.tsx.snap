@@ -1482,6 +1482,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                       data-se="switchAuthenticator"
                       role="link"
+                      type="button"
                     >
                       Return to authenticator list
                     </button>
@@ -1493,6 +1494,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>
@@ -2990,6 +2992,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                       data-se="switchAuthenticator"
                       role="link"
+                      type="button"
                     >
                       Return to authenticator list
                     </button>
@@ -3001,6 +3004,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>

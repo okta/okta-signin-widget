@@ -13,6 +13,7 @@
 import { IdxTransaction } from '@okta/okta-auth-js';
 import { render, waitFor } from '@testing-library/preact';
 import { h } from 'preact';
+import { act } from 'preact/test-utils';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
 import {
@@ -40,6 +41,7 @@ describe('PIVButton Tests', () => {
   let props: UISchemaElementComponentProps & { uischema: PIVButtonElement; };
 
   beforeEach(() => {
+    jest.useFakeTimers();
     mockLoading.mockReturnValue(false);
     mockTransaction.messages = undefined;
     props = {
@@ -68,6 +70,11 @@ describe('PIVButton Tests', () => {
 
   it('should render PIV button and trigger redirect with spinner visible', async () => {
     const { queryByTestId } = render(<PIVButton {...props} />);
+
+    await act(async () => {
+      // Wait for Spinner to appear
+      jest.runAllTimers();
+    });
 
     const button = queryByTestId('button');
     const spinner = queryByTestId('okta-spinner');

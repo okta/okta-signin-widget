@@ -4,22 +4,14 @@ import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
 import SuccessWithAppUser from '../../../../../../playground/mocks/data/idp/idx/success-with-app-user.json';
 import { INTERSTITIAL_REDIRECT_VIEW } from 'v2/ion/RemediationConstants';
-import utilSpy from '../../../../../../src/util/Util';
 
 describe('v2/view-builder/views/AutoRedirectView', function() {
-  const wait = (timeout) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, timeout);
-    });
-  };
-
   let testContext;
   let settings = new Settings({
     baseUrl: 'http://localhost:3000',
     'interstitialBeforeLoginRedirect': null
   });
   beforeEach(function() {
-    jest.spyOn(utilSpy, 'isAndroidOVEnrollment').mockReturnValue(false);
     testContext = {};
     testContext.init = (user = SuccessWithAppUser.user.value, app = SuccessWithAppUser.app.value) => {
       const appState = new AppState({}, {});
@@ -101,54 +93,5 @@ describe('v2/view-builder/views/AutoRedirectView', function() {
     testContext.view.render();
 
     expect(testContext.view.$el.html()).toMatchSnapshot();
-  });
-
-  describe('Android OV Enrollment', () => {
-
-    beforeEach(() => {
-      settings = new Settings({
-        baseUrl: 'http://localhost:3000',
-        'interstitialBeforeLoginRedirect': INTERSTITIAL_REDIRECT_VIEW.DEFAULT,
-      });
-
-      Object.defineProperty(window, 'location', {
-        value: {
-          href: 'https://somelink.com',
-        }
-      });
-
-      jest.spyOn(utilSpy, 'redirectWithFormGet').mockReturnValue(() => {});
-      jest.spyOn(AppState.prototype, 'getCurrentViewState').mockReturnValue({href:'https://org.okta.com/login/token/redirect?stateToken=mockedStateToken123'});
-
-      const appState = new AppState({}, {});
-      testContext.view = new AutoRedirectView({
-        appState,
-        settings,
-        currentViewState: {},
-        model: new Model(),
-      });
-    });
-
-    it.each([
-      'NONE',
-      'DEFAULT',
-      null,
-    ])('should add user gesture if OV enrollment on Android with interstitialBeforeLoginRedirect = "%s"', async function(interstitialBeforeLoginRedirect) {
-      settings = new Settings({
-        baseUrl: 'http://localhost:3000',
-        'interstitialBeforeLoginRedirect': interstitialBeforeLoginRedirect,
-      });
-      jest.spyOn(utilSpy, 'isAndroidOVEnrollment').mockReturnValue(true);
-      testContext.init();
-      await wait(300); // wait for beacon animation
-      expect(testContext.view.el).toMatchSnapshot('should show user gesture');
-    });
-
-    it('Do not add User Gesture if not OV enrollment on Android', () => {
-      jest.spyOn(utilSpy, 'isAndroidOVEnrollment').mockReturnValue(false);
-      testContext.init();
-      expect(testContext.view.el).toMatchSnapshot('should not show user gesture');
-    });
-
   });
 });

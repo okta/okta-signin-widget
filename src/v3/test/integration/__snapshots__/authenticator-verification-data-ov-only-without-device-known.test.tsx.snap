@@ -345,7 +345,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                       >
                         <button
                           aria-describedby="okta_verify_2-description"
-                          aria-label="Select Okta FastPass."
+                          aria-label="Select Okta Verify."
                           class="MuiBox-root emotion-26"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -443,6 +443,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-56"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>

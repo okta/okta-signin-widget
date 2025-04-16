@@ -84,7 +84,8 @@ const executeDeviceRemediationFallback = (fallback, action) => {
 const probe = (baseUrl, probeDetails) => {
   return checkPort(`${baseUrl}/${PROBE_PATH}`, probeDetails.probeTimeoutMillis)
     .then(() => {
-      return onPortFound(`${baseUrl}/${probeDetails.actionPath}`, probeDetails.probeTimeoutMillis)
+      const loopbackRemediationPath = `${baseUrl}/${probeDetails.remediationPath}/${probeDetails.actionPath}`;
+      return onPortFound(loopbackRemediationPath, probeDetails.probeTimeoutMillis)
         .then(() => {
           probeDetails.isSuccess = true;
         });
@@ -111,6 +112,7 @@ export const probeLoopbackAndExecute = (deviceRemediation) => {
   const totalPortCount = ports.length;
   let failedPortCount = 0;
   const probeDetails = {
+    remediationPath: deviceRemediation.remediationPath,
     actionPath:  deviceRemediation.action,
     probeTimeoutMillis: deviceRemediation.probeTimeoutMillis,
     isSuccess: false,

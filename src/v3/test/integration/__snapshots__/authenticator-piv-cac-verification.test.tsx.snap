@@ -254,6 +254,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                       data-se="forgot-password"
                       role="link"
+                      type="button"
                     >
                       Forgot password?
                     </button>
@@ -265,6 +266,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                       data-se="unlock"
                       role="link"
+                      type="button"
                     >
                       Unlock account?
                     </button>
@@ -335,6 +337,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                         data-se="enroll"
                         role="link"
+                        type="button"
                       >
                         Sign up
                       </button>
@@ -605,6 +608,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                       data-se="forgot-password"
                       role="link"
+                      type="button"
                     >
                       Forgot password?
                     </button>
@@ -616,6 +620,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                       data-se="unlock"
                       role="link"
+                      type="button"
                     >
                       Unlock account?
                     </button>
@@ -686,6 +691,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                         data-se="enroll"
                         role="link"
+                        type="button"
                       >
                         Sign up
                       </button>
@@ -956,6 +962,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                       data-se="forgot-password"
                       role="link"
+                      type="button"
                     >
                       Forgot password?
                     </button>
@@ -967,6 +974,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                       data-se="unlock"
                       role="link"
+                      type="button"
                     >
                       Unlock account?
                     </button>
@@ -1037,6 +1045,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                         data-se="enroll"
                         role="link"
+                        type="button"
                       >
                         Sign up
                       </button>
@@ -1170,6 +1179,7 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
                     >
                       <div
                         class="MuiBox-root emotion-19"
+                        role="status"
                       >
                         <span
                           aria-label="Processing..."

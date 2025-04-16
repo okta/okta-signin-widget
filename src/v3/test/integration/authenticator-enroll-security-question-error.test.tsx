@@ -91,7 +91,7 @@ describe('authenticator-enroll-security-question-error', () => {
 
     it('should show field level character count error message on multiple attempts to submit with invalid character count', async () => {
       const {
-        user, authClient, container, findByLabelText, findByText,
+        user, authClient, container, findByLabelText, findByText, queryByLabelText,
       } = await setup({ mockRequestClient: mockRequestClientWithError });
 
       expect(await findByText(/Set up security question/)).toBeInTheDocument();
@@ -121,7 +121,9 @@ describe('authenticator-enroll-security-question-error', () => {
           },
         }),
       );
-      expect(answerEle).toHaveErrorMessage(/The security question answer must be at least 4 characters in length/);
+      await waitFor(() => expect(answerEle).toHaveErrorMessage(/The security question answer must be at least 4 characters in length/));
+      // Wait for Spinner to disappear
+      await waitFor(() => expect(queryByLabelText('Processing...')).toBeNull());
       expect(container).toMatchSnapshot();
     });
 
