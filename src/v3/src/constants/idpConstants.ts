@@ -10,7 +10,4 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './idpConstants';
-export * from './idxConstants';
-export * from './passwordConstants';
-export * from './webAuthNConstants';
+export const GENERAL_IDP = 'general-idp';

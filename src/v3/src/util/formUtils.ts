@@ -20,7 +20,11 @@ import IDP from '../../../util/IDP';
 import TimeUtil from '../../../util/TimeUtil';
 import Util from '../../../util/Util';
 import {
-  CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY, IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY, TERMINAL_KEY,
+  CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY,
+  GENERAL_IDP,
+  IDX_STEP,
+  SOCIAL_IDP_TYPE_TO_I18KEY,
+  TERMINAL_KEY,
 } from '../constants';
 import SmartCardIconSvg from '../img/smartCardButtonIcon.svg';
 import {
@@ -83,6 +87,7 @@ export const getCustomButtonElements = (widgetProps: WidgetProps): ButtonElement
         step: '',
         dataSe: customButton.dataAttr ?? 'custom-button',
         variant: 'secondary',
+        showLoading: false,
         onClick: customButton.click,
       },
     };
@@ -112,6 +117,7 @@ const getPIVButtonElement = (
       variant: 'secondary',
       Icon: SmartCardIconSvg,
       iconAlt: loc('piv.card', 'login'),
+      showLoading: false,
       onClick: (widgetContext: IWidgetContext) => {
         // To render the PIV view, we have to use a remediation that is provided on initial load
         // This remediation doesn't allow a network request, so we have to update the transaction
@@ -237,7 +243,7 @@ export const getIdpButtonElements = (
 
     const buttonI18key = SOCIAL_IDP_TYPE_TO_I18KEY[type];
     if (IDP.SUPPORTED_SOCIAL_IDPS.includes(type) === false || typeof buttonI18key === 'undefined') {
-      type = 'general-idp';
+      type = GENERAL_IDP;
       // OKTA-396684 - makes sure that custom idps always have a name
       displayName = loc('customauth.sign.in.with.label', 'login', [idpObject.idp?.name]);
     } else {
@@ -247,7 +253,7 @@ export const getIdpButtonElements = (
     return {
       type: 'Button',
       label: displayName,
-      noTranslate: type === 'general-idp',
+      noTranslate: type === GENERAL_IDP,
       options: {
         type: ButtonType.BUTTON,
         step: IDX_STEP.PIV_IDP,
@@ -256,6 +262,7 @@ export const getIdpButtonElements = (
         variant: 'secondary',
         Icon: idpIconMap[type],
         iconAlt: '',
+        showLoading: false,
         onClick: () => {
           Util.redirectWithFormGet(idpObject.href);
         },
