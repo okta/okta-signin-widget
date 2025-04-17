@@ -38,6 +38,7 @@ const logger: TransformStepFn = (formbag) => {
 };
 
 export const transformIdxTransaction = (options: TransformationOptions): FormBag => {
+  console.log("transforming Captcha");
   const transformationStepFns: TransformStepFn[] = [
     transformTransactionData(options),
     transformFields(options),

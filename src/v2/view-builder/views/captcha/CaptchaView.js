@@ -20,6 +20,7 @@ const OktaSignInWidgetOnCaptchaLoadedCallback = 'OktaSignInWidgetOnCaptchaLoaded
 const OktaSignInWidgetOnCaptchaSolvedCallback = 'OktaSignInWidgetOnCaptchaSolved';
 
 const HCAPTCHA_URL = 'https://hcaptcha.com/1/api.js';
+const ALTCHA_URL = 'https://cdn.jsdelivr.net/gh/altcha-org/altcha/dist/altcha.min.js';
 const RECAPTCHAV2_URL = 'https://www.google.com/recaptcha/api.js';
 
 export default View.extend({
@@ -37,8 +38,18 @@ export default View.extend({
   `,
 
   getTemplateData: function() {
+    console.log({config: this.captchaConfig});
     if (this.captchaConfig) {
-      const className = this.captchaConfig.type === 'HCAPTCHA' ? 'h-captcha' : 'g-recaptcha';
+      let className;
+
+      if (this.captchaConfig.type === 'ALTCHA') {
+        className = 'altcha';
+      } else if (this.captchaConfig.type === 'HCAPTCHA') {
+        className = 'h-captcha';
+      } else {
+        className = 'g-recaptcha';
+      }
+
       return { 
         siteKey: this.captchaConfig.siteKey,
         isCaptchaConfigured: true,
@@ -76,7 +87,8 @@ export default View.extend({
     // Callback invoked when CAPTCHA is solved.
     const onCaptchaSolved = (token) => {
       const captchaObject = this._getCaptchaOject();
-
+      console.log('solved', {token, captchaObject});
+      console.log('ff', this.settings.get('features.skipIdpFactorVerificationBtn'));
       // We reset the Captcha. We need to reset because every time the 
       // Captcha resolves back with a token and say we have a server side error, 
       // if we submit the form again it won't work otherwise. The Captcha 
@@ -106,6 +118,12 @@ export default View.extend({
       // dummy value. We then overwrite this with the proper token in the onCaptchaSolved callback.
       this.model.set(this.options.name, 'tempToken');
 
+      // ALTCHA is a web-component: render the <altcha-widget> into the container and wire its event.
+      if (this.captchaConfig.type === 'ALTCHA') {
+        initializeAltchaWidget();
+        return;
+      }
+
       const captchaId = captchaObject.render('captcha-container', {
         sitekey: this.captchaConfig.siteKey,
         callback: onCaptchaSolved
@@ -130,11 +148,36 @@ export default View.extend({
     // the 'data-callback' attribute which the Captcha library uses to invoke the callback.
     window[OktaSignInWidgetOnCaptchaSolvedCallback] = onCaptchaSolved;
 
-    
     if (this.captchaConfig.type === 'HCAPTCHA') {
       this._loadCaptchaLib(this._getCaptchaUrl(HCAPTCHA_URL, 'hcaptcha'));
     } else if (this.captchaConfig.type === 'RECAPTCHA_V2') {
       this._loadCaptchaLib(this._getCaptchaUrl(RECAPTCHAV2_URL, 'recaptcha'));
+    } if (this.captchaConfig.type === 'ALTCHA') {
+      console.log('loading altcha');
+      this._loadCaptchaLib(this._getCaptchaUrl(ALTCHA_URL, 'altcha'));
+    }
+
+    const initializeAltchaWidget = () => {
+      const $container = this.$el.find('#captcha-container');
+      const altEl = document.createElement('altcha-widget');
+      Object.entries({
+        debug: '',
+        floating: '',
+        hidefooter: '',
+        hidelogo: '',
+        challengeurl: '/api/v1/altcha',
+      }).forEach(([k, v]) => altEl.setAttribute(k, v));
+      altEl.addEventListener && altEl.addEventListener('verified', (e) => {
+        const token = (e && e.detail && e.detail.payload) || e;
+        onCaptchaSolved(token);
+      });
+
+      window.altcha = altEl;
+      $container.empty().append(altEl);
+      // mark as bound
+      $container.attr('data-captcha-id', 'altcha');
+      // notify Baseform
+      this.options.appState.trigger('onCaptchaLoaded', altEl);
     }
   },
   
@@ -147,6 +190,29 @@ export default View.extend({
     scriptTag.src = url;
     scriptTag.async = true;
     scriptTag.defer = true;
+    scriptTag.crossOrigin = 'anonymous';
+    if (url.indexOf('altcha') !== -1) {
+      scriptTag.type = 'module';
+    }
+
+    // fallback: call global onload callback when the script loads
+    scriptTag.onload = () => {
+      try {
+        const cb = window[OktaSignInWidgetOnCaptchaLoadedCallback];
+        if (typeof cb === 'function') {
+          cb();
+        } else {
+          console.log('captcha lib loaded but no global onload callback found');
+        }
+      } catch (e) {
+        console.error('Error invoking captcha onload callback', e);
+      }
+    };
+
+    scriptTag.onerror = (evt) => {
+      console.error('Failed to load captcha script:', url, evt);
+    };
+
     document.getElementById(Enums.WIDGET_CONTAINER_ID).appendChild(scriptTag);
   },
 
@@ -170,8 +236,18 @@ export default View.extend({
   },
 
   _getCaptchaOject() {
-    const captchaObject = this.captchaConfig.type === 'HCAPTCHA' ? window.hcaptcha : window.grecaptcha;
-    return captchaObject;
+    // Return the appropriate global captcha object for the configured type.
+    if (this.captchaConfig.type === 'HCAPTCHA') {
+      return window.hcaptcha;
+    }
+    if (this.captchaConfig.type === 'RECAPTCHA_V2') {
+      return window.grecaptcha;
+    }
+    if (this.captchaConfig.type === 'ALTCHA') {
+      // Altcha may expose different globals or be used as a web component.
+      return window.altcha || null;
+    }
+    return null;
   },
 
   /**
@@ -187,6 +263,12 @@ export default View.extend({
     const scriptParams = this.options.settings.get(`${settingsKey}.scriptParams`);
 
     const baseUrl = scriptSource || defaultBaseUrl;
+
+    // Altcha is a web component / module; don't append reCAPTCHA/hCaptcha-specific query params.
+    if (settingsKey === 'altcha') {
+      return baseUrl;
+    }
+
     const params = {
       ...scriptParams,
       onload: OktaSignInWidgetOnCaptchaLoadedCallback,

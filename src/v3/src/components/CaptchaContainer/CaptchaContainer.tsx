@@ -23,6 +23,8 @@ import {
   UISchemaElementComponent,
 } from '../../types';
 
+import 'altcha';
+
 declare global {
   interface Window {
     recaptchaOptions?: {
@@ -37,6 +39,7 @@ declare global {
 const CaptchaContainer: UISchemaElementComponent<{
   uischema: CaptchaContainerElement
 }> = ({ uischema }) => {
+ 
   const {
     options: {
       siteKey,
@@ -54,8 +57,8 @@ const CaptchaContainer: UISchemaElementComponent<{
   const isHcaptchaInstance = (captchaObj: HCaptcha | ReCAPTCHA)
   : captchaObj is HCaptcha => captchaObj instanceof HCaptcha;
 
-  // Customizig reCAPTCHA script URI can be done with global `recaptchaOptions` object:
-  // https://github.com/dozoisch/react-google-recaptcha#advanced-usage
+  // // Customizig reCAPTCHA script URI can be done with global `recaptchaOptions` object:
+  // // https://github.com/dozoisch/react-google-recaptcha#advanced-usage
   if (captchaType === 'RECAPTCHA_V2' && recaptchaOptions?.scriptSource && !window.recaptchaOptions) {
     const useRecaptchaNet = recaptchaOptions.scriptSource?.includes('recaptcha.net');
     window.recaptchaOptions = {
@@ -133,6 +136,37 @@ const CaptchaContainer: UISchemaElementComponent<{
     resetCaptchaContainer();
   };
 
+  const onAltchaVerify = (ev: CustomEvent) => {
+    const payload = ev.detail.payload;
+
+    const {
+      submit: {
+        actionParams: params,
+        step,
+        includeImmutableData,
+      },
+    } = dataSchema;
+
+    const captchaSubmitParams = {
+      captchaVerify: {
+        captchaToken: payload,
+        captchaId: "altcha",
+      },
+    };
+
+    onSubmitHandler({
+      includeData: true,
+      includeImmutableData,
+      params: captchaSubmitParams,
+      step,
+    });
+
+  };
+
+  if (captchaType === 'ALTCHA') {
+    return (<altcha-widget debug floating hidefooter hidelogo onverified={onAltchaVerify} challengeurl="/api/v1/altcha"></altcha-widget>);
+  }
+
   if (captchaType === 'RECAPTCHA_V2') {
     return (
       // set z-index to 1 for ReCaptcha so the badge does not get covered by the footer
@@ -151,6 +185,7 @@ const CaptchaContainer: UISchemaElementComponent<{
       </Box>
     );
   }
+
   return (
     <HCaptcha
       // Params like `apihost` will be passed to hCaptcha loader.

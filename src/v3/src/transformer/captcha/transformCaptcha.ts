@@ -20,6 +20,8 @@ import { isCaptchaEnabled, loc } from '../../util';
 export const transformCaptcha: TransformStepFnWithOptions = ({ transaction }) => (
   formbag,
 ) => {
+  console.log("transform");
+  console.log({transaction});
   if (!isCaptchaEnabled(transaction)) {
     return formbag;
   }
@@ -37,7 +39,9 @@ export const transformCaptcha: TransformStepFnWithOptions = ({ transaction }) =>
     },
   } = transaction;
 
-  if (!['HCAPTCHA', 'RECAPTCHA_V2'].includes(captchaType)) {
+  console.log({captchaType});
+
+  if (!['HCAPTCHA', 'RECAPTCHA_V2', 'ALTCHA'].includes(captchaType)) {
     return formbag;
   }
 

@@ -2,8 +2,8 @@
 module.exports = {
   compress: {
     // Drop all console.* statements
-    drop_console: true,
-    drop_debugger: true,
+    drop_console: false,
+    drop_debugger: false,
     pure_funcs: [
       // don't drop 'Logger.*' statements
     ],

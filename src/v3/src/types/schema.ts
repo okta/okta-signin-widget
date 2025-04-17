@@ -719,7 +719,7 @@ export interface CaptchaContainerElement extends UISchemaElement {
   options: {
     captchaId: string;
     siteKey: string;
-    type: 'HCAPTCHA' | 'RECAPTCHA_V2';
+    type: 'HCAPTCHA' | 'RECAPTCHA_V2' | 'ALTCHA';
   };
 }
 
