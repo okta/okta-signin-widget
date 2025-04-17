@@ -41,10 +41,23 @@ export const updateStateHandleInMock = (res?: Record<string, unknown>) => {
   });
 };
 
-export const createAuthClient = (options: CreateAuthClientOptions): OktaAuth => {
+export const createAuthClient = (options: CreateAuthClientOptions): { authClient: OktaAuth; pauseMocks: () => void; resumeMocks: () => void; } => {
   const {
     mockResponse, mockResponses, mockRequestClient,
   } = options;
+  let resolveMockResponse: () => void = () => {};
+  let responsePrecondition: Promise<void> = Promise.resolve();
+
+  const pauseMocks = () => {
+    responsePrecondition = new Promise((resolve) => {
+      resolveMockResponse = resolve;
+    });
+  }
+  const resumeMocks = () => {
+    resolveMockResponse();
+    responsePrecondition = Promise.resolve();
+    resolveMockResponse = () => {};
+  }
 
   const authClient = new OktaAuth({
     clientId: 'dummy_client_id',
@@ -55,7 +68,9 @@ export const createAuthClient = (options: CreateAuthClientOptions): OktaAuth => 
     idx: {
       useGenericRemediator: true,
     },
-    httpRequestClient: mockRequestClient ?? jest.fn().mockImplementation((_, url) => {
+    httpRequestClient: mockRequestClient ?? jest.fn().mockImplementation(async (_, url) => {
+      // pause mocks if `pauseMocks` was called until `resumeMocks` is called
+      await responsePrecondition;
       // match request against mockResponses first
       if (mockResponses) {
         // eslint-disable-next-line no-restricted-syntax
@@ -155,5 +170,9 @@ export const createAuthClient = (options: CreateAuthClientOptions): OktaAuth => 
     'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
   });
 
-  return authClient;
+  return {
+    authClient,
+    pauseMocks,
+    resumeMocks,
+  };
 };
