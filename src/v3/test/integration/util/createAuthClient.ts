@@ -13,12 +13,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpRequestClient, OktaAuth } from '@okta/okta-auth-js';
 
-export type CreateAuthClientOptions = {
-  mockResponse?: Record<string, unknown>;
-  mockResponses?: Record<string, Record<string, unknown>>;
-  mockRequestClient?: HttpRequestClient;
-};
-
 export const updateStateHandleInMock = (res?: Record<string, unknown>) => {
   if (!res) {
     return;
@@ -41,9 +35,27 @@ export const updateStateHandleInMock = (res?: Record<string, unknown>) => {
   });
 };
 
+export type CreateAuthClientOptions = {
+  mocksPaused?: boolean;
+  mockResponse?: Record<string, unknown>;
+  mockResponses?: Record<string, Record<string, unknown>>;
+  mockRequestClient?: HttpRequestClient;
+};
+
+/**
+ * Utility to create an auth client to be used in tests.
+ * Set `mocksPaused` to have the initial state of the auth client with mocks paused.
+ *
+ * The returned `pauseMocks` and `resumeMocks` functions can be used to explicitly
+ * control when network requests are paused and resumed. This makes it possible to
+ * reliably assert during loading states in tests.
+ */
 export const createAuthClient = (options: CreateAuthClientOptions): { authClient: OktaAuth; pauseMocks: () => void; resumeMocks: () => void; } => {
   const {
-    mockResponse, mockResponses, mockRequestClient,
+    mocksPaused = false,
+    mockResponse,
+    mockResponses,
+    mockRequestClient,
   } = options;
   let resolveMockResponse: () => void = () => {};
   let responsePrecondition: Promise<void> = Promise.resolve();
@@ -57,6 +69,10 @@ export const createAuthClient = (options: CreateAuthClientOptions): { authClient
     resolveMockResponse();
     responsePrecondition = Promise.resolve();
     resolveMockResponse = () => {};
+  }
+
+  if (mocksPaused) {
+    pauseMocks();
   }
 
   const authClient = new OktaAuth({

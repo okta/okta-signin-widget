@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { waitFor } from '@testing-library/preact';
+import { screen, waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import * as cookieUtils from '../../src/util/cookieUtils';
@@ -18,6 +18,13 @@ import mockResponse from '../../src/mocks/response/idp/idx/introspect/default.js
 import { WidgetOptions } from '../../../types';
 
 describe('identify-with-password', () => {
+  it('renders the loading state first', async () => {
+    const { container, resumeMocks } = await setup({ mockResponse, mocksPaused: true });
+    await screen.findByLabelText('Processing...');
+    expect(container).toMatchSnapshot();
+    resumeMocks();
+  });
+
   it('should display Identifier & Password hint labels', async () => {
     const usernameHint = 'This is your username';
     const passwordHint = 'This is your password';
@@ -44,15 +51,9 @@ describe('identify-with-password', () => {
     expect(passwordEl).toHaveAccessibleDescription(passwordHint);
   });
 
-  it('renders the loading state first', async () => {
-    const { container, findByLabelText } = await setup({ mockResponse });
-    await findByLabelText('Processing...');
-    expect(container).toMatchSnapshot();
-  });
-
   it('renders form with focus', async () => {
-    const { container, findByLabelText } = await setup({ mockResponse });
-    const inputEle = await findByLabelText(/Username/) as HTMLInputElement;
+    const { container } = await setup({ mockResponse });
+    const inputEle = await screen.findByLabelText(/Username/) as HTMLInputElement;
     expect(container).toMatchSnapshot();
     expect(inputEle).not.toHaveFocus();
   });
