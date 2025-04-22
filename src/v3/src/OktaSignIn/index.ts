@@ -200,7 +200,6 @@ export default class OktaSignIn implements OktaSignInAPI {
   }
 
   showSignInToGetTokens(options = {}): Promise<Tokens> {
-    // @ts-expect-error isAuthorizationCodeFlow does not exist on type OktaAuth
     if (this.authClient.isAuthorizationCodeFlow() && this.authClient.isPKCE()) {
       throw new Error('"showSignInToGetTokens()" should not be used for authorization_code flow. Use "showSignInAndRedirect()" instead');
     }
