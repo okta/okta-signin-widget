@@ -45,8 +45,6 @@ describe('Flow transition from identifier-first to password challenge', () => {
     pauseMocks();
 
     await user.click(nextButton);
-    // wait for spinner to show because it has an intentional 10ms delay
-    await waitFor(() => new Promise((resolve) => setTimeout(resolve, 50)));
     const spinners = await screen.findAllByRole('progressbar', { name: 'Processing...' });
     expect(spinners.length).toEqual(1);
 
