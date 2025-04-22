@@ -171,7 +171,7 @@ export default class OktaSignIn implements OktaSignInAPI {
           : this.el;
 
         if (target) {
-          // OKTA-901691 Translation plugins break React/Preact since they directly maniuplate the DOM
+          // OKTA-901691 Translation plugins break React/Preact since they directly manipulate the DOM
           // and React/Preact does not know about it so the next conditional render will fail.
           // Setting this attribute will prevent translation plugins from affecting the Gen3 widget.
           // This is a workaround until we can find a better solution.
