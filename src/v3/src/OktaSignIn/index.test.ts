@@ -12,23 +12,19 @@
 
 import { h, render } from 'preact';
 
+import type { RenderResult } from '../../../types';
+import type { WidgetProps } from '../types';
 import OktaSignIn from '.';
 
-import type { FunctionComponent } from 'preact';
-import type { WidgetProps } from '../types';
-import type { RenderResult } from '../../../types';
-
 let onSuccessWrapper: (res: RenderResult) => void;
-jest.mock('preact', () => {
-  return {
-    ...jest.requireActual<typeof import('preact')>('preact'),
-    render: jest.fn(),
-    h: jest.fn().mockImplementation((component: FunctionComponent<WidgetProps>, props: WidgetProps) => {
-      // Extract the passsed globalSuccessFn prop so we can call it later to resolve the render promise
-      onSuccessWrapper = props.globalSuccessFn ?? onSuccessWrapper;
-    }),
-  };
-});
+jest.mock('preact', () => ({
+  ...jest.requireActual<typeof import('preact')>('preact'),
+  render: jest.fn(),
+  h: jest.fn().mockImplementation((_, props: WidgetProps) => {
+    // Extract the passsed globalSuccessFn prop so we can call it later to resolve the render promise
+    onSuccessWrapper = props.globalSuccessFn ?? onSuccessWrapper;
+  }),
+}));
 
 describe('OktaSignIn', () => {
   let container: HTMLElement;
@@ -77,7 +73,7 @@ describe('OktaSignIn', () => {
 
     const widget = new OktaSignIn(options);
 
-    expect(widget.renderEl({
+    await expect(widget.renderEl({
       el: '#non-existent',
       clientId: options.clientId,
       redirectUri: options.redirectUri,
