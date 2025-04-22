@@ -51,6 +51,7 @@ const Button: UISchemaElementComponent<{
       step,
       stepToRender,
       disabled,
+      showLoading = true,
       onClick,
     },
   } = uischema;
@@ -85,7 +86,7 @@ const Button: UISchemaElementComponent<{
       isFullWidth={wide ?? true}
       buttonRef={focusRef}
       isDisabled={loading || disabled}
-      startIcon={loading ? <Spinner /> : ButtonImageIcon}
+      startIcon={showLoading && loading ? <Spinner /> : ButtonImageIcon}
       ariaDescribedBy={ariaDescribedBy}
       testId={dataSe ?? dataType}
       ariaLabel={ariaLabel}
