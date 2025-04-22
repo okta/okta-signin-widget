@@ -50,7 +50,11 @@ export type CreateAuthClientOptions = {
  * control when network requests are paused and resumed. This makes it possible to
  * reliably assert during loading states in tests.
  */
-export const createAuthClient = (options: CreateAuthClientOptions): { authClient: OktaAuth; pauseMocks: () => void; resumeMocks: () => void; } => {
+export const createAuthClient = (options: CreateAuthClientOptions): {
+  authClient: OktaAuth;
+  pauseMocks: () => void;
+  resumeMocks: () => void;
+} => {
   const {
     mocksPaused = false,
     mockResponse,
@@ -64,12 +68,12 @@ export const createAuthClient = (options: CreateAuthClientOptions): { authClient
     responsePrecondition = new Promise((resolve) => {
       resolveMockResponse = resolve;
     });
-  }
+  };
   const resumeMocks = () => {
     resolveMockResponse();
     responsePrecondition = Promise.resolve();
     resolveMockResponse = () => {};
-  }
+  };
 
   if (mocksPaused) {
     pauseMocks();
