@@ -24,6 +24,9 @@ if ! ci-append-sha; then
   exit $FAILED_SETUP
 fi
 
+# Get preconfigured .npmrc from /root, which contains the registry paths and necessary environment variables
+cp /root/.npmrc ~/.npmrc
+
 npm config set registry ${PUBLIC_REGISTRY}
 
 # NOTE: hyphen rather than '@'
