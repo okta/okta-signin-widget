@@ -370,6 +370,7 @@ export interface ButtonElement extends UISchemaElement {
     stepToRender?: string;
     ariaLabel?: string;
     disabled?: boolean;
+    showLoading?: boolean;
     Icon?: FunctionComponent | string;
     iconAlt?: string;
     onClick?: (widgetContext: IWidgetContext) => unknown;

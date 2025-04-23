@@ -38,9 +38,11 @@ jest.unmock('util/loc');
 export async function setup(options: Options): Promise<RenderResult & {
   authClient: OktaAuth;
   user: UserEvent;
+  pauseMocks: () => void;
+  resumeMocks: () => void;
 }> {
   const { widgetOptions = {}, ...rest } = options;
-  const authClient = createAuthClient(rest);
+  const { authClient, pauseMocks, resumeMocks } = createAuthClient(rest);
   const eventEmitter = new EventEmitter();
   const widgetHooks = new WidgetHooks(widgetOptions.hooks);
   const renderResult = await render(
@@ -56,6 +58,8 @@ export async function setup(options: Options): Promise<RenderResult & {
 
   return {
     authClient,
+    pauseMocks,
+    resumeMocks,
     // https://github.com/testing-library/user-event/issues/833#issuecomment-1013632841
     user: userEvent.setup({ delay: null }),
     ...renderResult,
