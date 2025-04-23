@@ -2,8 +2,7 @@
 
 # NOTE: MUST BE RAN *AFTER* THE PUBLISH SUITE
 
-export PUBLISH_REGISTRY="${ARTIFACTORY_URL}/npm-topic"
-export PUBLIC_REGISTRY="https://registry.yarnpkg.com"
+export PUBLISH_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-topic"
 
 cd ${OKTA_HOME}/${REPO}
 
@@ -25,13 +24,12 @@ if ! ci-append-sha; then
 fi
 
 # Get preconfigured .npmrc from /root, which contains the registry paths and necessary environment variables
-cp /root/.npmrc ~/.npmrc
+cp /root/.npmrc ${OKTA_HOME}/.npmrc
 
 echo "############### NPMRC"
 cat ~/.npmrc
 echo "############### NPMRC END"
 
-npm config set registry ${PUBLIC_REGISTRY}
 npm config set @okta:registry ${PUBLISH_REGISTRY}
 
 set -x
