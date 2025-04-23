@@ -24,13 +24,6 @@ if ! ci-append-sha; then
   exit $FAILED_SETUP
 fi
 
-# Get preconfigured .npmrc from /root, which contains the registry paths and necessary environment variables
-cp /root/.npmrc ${OKTA_HOME}/.npmrc
-
-# Override registry configs to point to the public registry since this repository is public
-npm config set registry ${PUBLIC_REGISTRY}
-npm config set @okta:registry ${PUBLIC_REGISTRY}
-
 # NOTE: hyphen rather than '@'
 artifact_version="$(ci-pkginfo -t pkgname)-$(ci-pkginfo -t pkgsemver)"
 published_tarball=${PUBLISH_REGISTRY}/@okta/okta-signin-widget/-/${artifact_version}.tgz
@@ -38,6 +31,13 @@ published_tarball=${PUBLISH_REGISTRY}/@okta/okta-signin-widget/-/${artifact_vers
 # clone angular sample, using angular sample because angular toolchain is *very* opinionated about modules
 git clone --depth 1 https://github.com/okta/samples-js-angular.git test/package/angular-sample
 pushd test/package/angular-sample/custom-login
+
+# Get preconfigured .npmrc from /root, which contains the registry paths and necessary environment variables
+cp /root/.npmrc .npmrc
+
+# Override registry configs to point to the public registry since this repository is public
+npm config set registry ${PUBLIC_REGISTRY}
+npm config set @okta:registry ${PUBLIC_REGISTRY}
 
 # use npm instead of yarn to test as a community dev
 if ! npm i; then
