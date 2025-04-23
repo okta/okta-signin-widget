@@ -3,6 +3,7 @@
 # NOTE: MUST BE RAN *AFTER* THE PUBLISH SUITE
 
 export PUBLISH_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-topic"
+export PUBLIC_REGISTRY="https://registry.yarnpkg.com"
 
 cd ${OKTA_HOME}/${REPO}
 
@@ -26,13 +27,9 @@ fi
 # Get preconfigured .npmrc from /root, which contains the registry paths and necessary environment variables
 cp /root/.npmrc ${OKTA_HOME}/.npmrc
 
-echo "############### NPMRC"
-cat ~/.npmrc
-echo "############### NPMRC END"
-
-npm config set @okta:registry ${PUBLISH_REGISTRY}
-
-set -x
+# Override registry configs to point to the public registry since this repository is public
+npm config set registry ${PUBLIC_REGISTRY}
+npm config set @okta:registry ${PUBLIC_REGISTRY}
 
 # NOTE: hyphen rather than '@'
 artifact_version="$(ci-pkginfo -t pkgname)-$(ci-pkginfo -t pkgsemver)"
@@ -47,6 +44,9 @@ if ! npm i; then
   echo "install failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
+
+# Point to the internal publish registry so we can get the unpromoted version from this topic branch's publish
+npm config set @okta:registry ${PUBLISH_REGISTRY}
 
 # install the version of @okta/okta-signin-widget from artifactory that was published during the `publish` suite
 if ! npm i ${published_tarball}; then
