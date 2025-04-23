@@ -2,7 +2,7 @@
 
 # NOTE: MUST BE RAN *AFTER* THE PUBLISH SUITE
 
-export PUBLISH_REGISTRY="${ARTIFACTORY_URL}/npm-topic"
+export PUBLISH_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-okta-all"
 export PUBLIC_REGISTRY="https://registry.yarnpkg.com"
 
 cd ${OKTA_HOME}/${REPO}
@@ -24,8 +24,6 @@ if ! ci-append-sha; then
   exit $FAILED_SETUP
 fi
 
-npm config set registry ${PUBLIC_REGISTRY}
-
 # NOTE: hyphen rather than '@'
 artifact_version="$(ci-pkginfo -t pkgname)-$(ci-pkginfo -t pkgsemver)"
 published_tarball=${PUBLISH_REGISTRY}/@okta/okta-signin-widget/-/${artifact_version}.tgz
@@ -34,15 +32,25 @@ published_tarball=${PUBLISH_REGISTRY}/@okta/okta-signin-widget/-/${artifact_vers
 git clone --depth 1 https://github.com/okta/samples-js-angular.git test/package/angular-sample
 pushd test/package/angular-sample/custom-login
 
+# Get preconfigured .npmrc from /root, which contains the registry paths and necessary environment variables
+cp /root/.npmrc .npmrc
+
+# Override registry configs to point to the public registry since this repository is public
+npm config set registry ${PUBLIC_REGISTRY}
+npm config set @okta:registry ${PUBLIC_REGISTRY}
+
 # use npm instead of yarn to test as a community dev
 if ! npm i; then
   echo "install failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
 
+# Point to the internal publish registry so we can get the unpromoted version from this topic branch's publish
+npm config set @okta:registry ${PUBLISH_REGISTRY}
+
 # install the version of @okta/okta-signin-widget from artifactory that was published during the `publish` suite
 if ! npm i ${published_tarball}; then
-  echo "install ${published_tarball} failed! Exiting..."
+  echo "npm install ${published_tarball} failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
 
