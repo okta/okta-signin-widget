@@ -27,7 +27,14 @@ fi
 # Get preconfigured .npmrc from /root, which contains the registry paths and necessary environment variables
 cp /root/.npmrc ~/.npmrc
 
+echo "############### NPMRC"
+cat ~/.npmrc
+echo "############### NPMRC END"
+
 npm config set registry ${PUBLIC_REGISTRY}
+npm config set @okta:registry ${PUBLISH_REGISTRY}
+
+set -x
 
 # NOTE: hyphen rather than '@'
 artifact_version="$(ci-pkginfo -t pkgname)-$(ci-pkginfo -t pkgsemver)"
@@ -45,7 +52,7 @@ fi
 
 # install the version of @okta/okta-signin-widget from artifactory that was published during the `publish` suite
 if ! npm i ${published_tarball}; then
-  echo "install ${published_tarball} failed! Exiting..."
+  echo "npm install ${published_tarball} failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
 
