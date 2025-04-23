@@ -2,7 +2,7 @@
 
 # NOTE: MUST BE RAN *AFTER* THE PUBLISH SUITE
 
-export PUBLISH_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-topic"
+export PUBLISH_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-okta-all"
 export PUBLIC_REGISTRY="https://registry.yarnpkg.com"
 
 cd ${OKTA_HOME}/${REPO}
