@@ -16,15 +16,17 @@ import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
+  FormBag,
   IdxStepTransformer,
   ReminderElement,
   TitleElement,
+  WidgetMessage,
 } from '../../types';
 import { buildPhoneVerificationSubtitleElement, isValidPhoneMethodType, loc } from '../../util';
 
 export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep = {} as NextStep, availableSteps } = transaction;
-  const { uischema } = formBag;
+  const { uischema, dataSchema } = formBag;
 
   const { methods } = nextStep.relatesTo?.value || {};
   const methodType = methods?.[0]?.type;
@@ -89,6 +91,22 @@ export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formB
     uischema.elements.unshift(reminderElement);
   }
   uischema.elements.unshift(titleElement);
+
+  // Controls form submission validation
+  dataSchema['credentials.passcode'] = {
+    validate: (data: FormBag['data']) => {
+      const phoneCode = data['credentials.passcode'] as string;
+      const errorMessages: WidgetMessage[] = [];
+      if (phoneCode.trim() === '') {
+        errorMessages.push({
+          class: 'ERROR',
+          message: loc('model.validation.field.blank', 'login'),
+          i18n: { key: 'model.validation.field.blank' },
+        });
+      }
+      return errorMessages.length > 0 ? errorMessages : undefined;
+    },
+  };
 
   return formBag;
 };

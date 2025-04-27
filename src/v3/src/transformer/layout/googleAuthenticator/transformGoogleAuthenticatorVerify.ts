@@ -15,8 +15,10 @@ import {
   ButtonType,
   DescriptionElement,
   FieldElement,
+  FormBag,
   IdxStepTransformer,
   TitleElement,
+  WidgetMessage,
 } from '../../../types';
 import { loc } from '../../../util';
 import { getUIElementWithName } from '../../utils';
@@ -25,7 +27,7 @@ export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({
   formBag,
   transaction,
 }) => {
-  const { uischema } = formBag;
+  const { uischema, dataSchema } = formBag;
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -59,6 +61,22 @@ export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({
     passcodeElement,
     submitButtonElement,
   ];
+
+  // Controls form submission validation
+  dataSchema['credentials.passcode'] = {
+    validate: (data: FormBag['data']) => {
+      const phoneCode = data['credentials.passcode'] as string;
+      const errorMessages: WidgetMessage[] = [];
+      if (phoneCode.trim() === '') {
+        errorMessages.push({
+          class: 'ERROR',
+          message: loc('model.validation.field.blank', 'login'),
+          i18n: { key: 'model.validation.field.blank' },
+        });
+      }
+      return errorMessages.length > 0 ? errorMessages : undefined;
+    },
+  };
 
   return formBag;
 };
