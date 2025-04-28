@@ -116,7 +116,11 @@ const appendViewLinks = (
       && isCancelAvailable) {
     const backToSigninUri = getBackToSignInUri(widgetProps);
     if (backToSigninUri) {
-      cancelLink.options.href = backToSigninUri;
+      cancelLink.options.onClick = () => {
+        authClient?.transactionManager.clear();
+
+        window.location.assign(backToSigninUri);
+      };
     } else if (isOauth2Enabled(widgetProps)) {
       cancelLink.options.onClick = async () => {
         authClient?.transactionManager.clear();
