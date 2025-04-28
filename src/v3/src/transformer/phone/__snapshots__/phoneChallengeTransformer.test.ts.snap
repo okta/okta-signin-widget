@@ -4,6 +4,9 @@ exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements
 Object {
   "data": Object {},
   "dataSchema": Object {
+    "credentials.passcode": Object {
+      "validate": [Function],
+    },
     "fieldsToExclude": [Function],
     "fieldsToTrim": Array [],
     "fieldsToValidate": Array [],
@@ -53,6 +56,9 @@ exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements
 Object {
   "data": Object {},
   "dataSchema": Object {
+    "credentials.passcode": Object {
+      "validate": [Function],
+    },
     "fieldsToExclude": [Function],
     "fieldsToTrim": Array [],
     "fieldsToValidate": Array [],
@@ -102,6 +108,9 @@ exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements
 Object {
   "data": Object {},
   "dataSchema": Object {
+    "credentials.passcode": Object {
+      "validate": [Function],
+    },
     "fieldsToExclude": [Function],
     "fieldsToTrim": Array [],
     "fieldsToValidate": Array [],
@@ -151,6 +160,9 @@ exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements
 Object {
   "data": Object {},
   "dataSchema": Object {
+    "credentials.passcode": Object {
+      "validate": [Function],
+    },
     "fieldsToExclude": [Function],
     "fieldsToTrim": Array [],
     "fieldsToValidate": Array [],
@@ -212,6 +224,9 @@ exports[`PhoneChallengeTransformer Tests should create voice challenge UI elemen
 Object {
   "data": Object {},
   "dataSchema": Object {
+    "credentials.passcode": Object {
+      "validate": [Function],
+    },
     "fieldsToExclude": [Function],
     "fieldsToTrim": Array [],
     "fieldsToValidate": Array [],
@@ -261,6 +276,9 @@ exports[`PhoneChallengeTransformer Tests should create voice challenge UI elemen
 Object {
   "data": Object {},
   "dataSchema": Object {
+    "credentials.passcode": Object {
+      "validate": [Function],
+    },
     "fieldsToExclude": [Function],
     "fieldsToTrim": Array [],
     "fieldsToValidate": Array [],
@@ -310,6 +328,9 @@ exports[`PhoneChallengeTransformer Tests should create voice challenge UI elemen
 Object {
   "data": Object {},
   "dataSchema": Object {
+    "credentials.passcode": Object {
+      "validate": [Function],
+    },
     "fieldsToExclude": [Function],
     "fieldsToTrim": Array [],
     "fieldsToValidate": Array [],

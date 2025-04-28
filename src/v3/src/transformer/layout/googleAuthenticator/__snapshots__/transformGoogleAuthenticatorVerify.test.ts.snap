@@ -4,6 +4,9 @@ exports[`Google Authenticator Verify Transformer Tests should add UI elements 1`
 Object {
   "data": Object {},
   "dataSchema": Object {
+    "credentials.passcode": Object {
+      "validate": [Function],
+    },
     "fieldsToExclude": [Function],
     "fieldsToTrim": Array [],
     "fieldsToValidate": Array [],
