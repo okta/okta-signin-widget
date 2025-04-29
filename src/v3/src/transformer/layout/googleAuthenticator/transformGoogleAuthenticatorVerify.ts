@@ -65,9 +65,9 @@ export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({
   // Controls form submission validation
   dataSchema['credentials.passcode'] = {
     validate: (data: FormBag['data']) => {
-      const phoneCode = data['credentials.passcode'] as string;
+      const authenticatorCode = data['credentials.passcode'] as string;
       const errorMessages: WidgetMessage[] = [];
-      if (phoneCode.trim() === '') {
+      if (authenticatorCode.trim() === '') {
         errorMessages.push({
           class: 'ERROR',
           message: loc('model.validation.field.blank', 'login'),
