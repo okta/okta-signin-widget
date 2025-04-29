@@ -69,7 +69,7 @@ describe('Terminal Transaction Transformer Tests', () => {
     transaction = getStubTransaction(IdxStatus.TERMINAL);
     transaction.messages = [];
     widgetProps = {};
-    windowSpy = jest.spyOn(globalThis, 'window', 'get');
+    windowSpy = jest.spyOn(global, 'window', 'get');
   });
 
   afterEach(() => {
