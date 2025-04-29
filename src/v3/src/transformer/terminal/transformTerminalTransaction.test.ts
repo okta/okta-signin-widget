@@ -11,6 +11,7 @@
  */
 
 import { IdxContext, IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
+import { act } from '@testing-library/preact';
 import {
   FormBag,
   LinkElement,
@@ -20,6 +21,7 @@ import {
 
 import { TERMINAL_KEY, TERMINAL_TITLE_KEY } from '../../constants';
 import { getStubTransaction } from '../../mocks/utils/utils';
+import { SessionStorage } from '../../util';
 import { redirectTransformer } from '../redirect';
 import { transformTerminalTransaction } from '.';
 import { transformOdaEnrollment } from './odaEnrollment/transformOdaEnrollment';
@@ -48,6 +50,9 @@ jest.mock('../../util', () => {
   const originalUtil = jest.requireActual('../../util');
   return {
     ...originalUtil,
+    SessionStorage: {
+      removeStateHandle: jest.fn(),
+    },
     setUsernameCookie: jest.fn().mockImplementation(() => {}),
     removeUsernameCookie: jest.fn().mockImplementation(() => {}),
   };
@@ -57,16 +62,20 @@ describe('Terminal Transaction Transformer Tests', () => {
   let transaction: IdxTransaction;
   let mockAuthClient: any;
   let widgetProps: WidgetProps;
+  let windowSpy: jest.SpyInstance<Window>;
   const mockBootstrapFn = jest.fn();
 
   beforeEach(() => {
     transaction = getStubTransaction(IdxStatus.TERMINAL);
     transaction.messages = [];
     widgetProps = {};
+    windowSpy = jest.spyOn(globalThis, 'window', 'get');
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
+    (SessionStorage.removeStateHandle as jest.Mock).mockRestore();
+    windowSpy.mockRestore();
   });
 
   it('should add return empty formbag when interaction code flow transaction', () => {
@@ -237,7 +246,21 @@ describe('Terminal Transaction Transformer Tests', () => {
   });
 
   it('should add back to sign in link with href when backToSigninUri is set in widget options', () => {
-    widgetProps = { backToSignInLink: '/' };
+    // Mock window.location.assign function
+    const assignMock: jest.Mock = jest.fn();
+    // @ts-expect-error We do not need to fully mock the window object
+    windowSpy.mockImplementation(() => ({
+      location: {
+        assign: assignMock,
+      },
+    }));
+
+    mockAuthClient = {
+      transactionManager: {
+        clear: jest.fn(),
+      },
+    };
+    widgetProps = { backToSignInLink: '/', authClient: mockAuthClient };
     const mockErrorMessage = 'Session expired';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
@@ -245,12 +268,21 @@ describe('Terminal Transaction Transformer Tests', () => {
       TERMINAL_KEY.SESSION_EXPIRED,
     ));
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(1);
+    expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(1);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('Link');
     expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('goback');
-    expect((formBag.uischema.elements[0] as LinkElement).options?.href).toBe('/');
+    expect(typeof (formBag.uischema.elements[0] as LinkElement).options?.onClick).toBe('function');
+    act(() => {
+      (formBag.uischema.elements[0] as LinkElement).options?.onClick?.();
+    });
+    expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(2);
+    expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(2);
+    expect(assignMock).toHaveBeenCalledTimes(1);
+    expect(assignMock).toHaveBeenCalledWith('/');
   });
 
   it('should invoke oda enrollment terminal transformer when device enrollment data is present', () => {
