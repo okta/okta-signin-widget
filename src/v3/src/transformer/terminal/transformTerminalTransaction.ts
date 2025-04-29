@@ -116,6 +116,9 @@ const appendViewLinks = (
       && isCancelAvailable) {
     const backToSigninUri = getBackToSignInUri(widgetProps);
     if (backToSigninUri) {
+      // If we are in a terminal view, by definition there are no further available steps for the user
+      // to take, so we can clear the transaction manager and remove the state handle before redirecting
+      // the user to the back to sign-in URL.
       cancelLink.options.onClick = () => {
         authClient?.transactionManager.clear();
         SessionStorage.removeStateHandle();
