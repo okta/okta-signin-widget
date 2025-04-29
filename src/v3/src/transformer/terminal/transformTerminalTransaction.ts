@@ -118,6 +118,7 @@ const appendViewLinks = (
     if (backToSigninUri) {
       cancelLink.options.onClick = () => {
         authClient?.transactionManager.clear();
+        SessionStorage.removeStateHandle();
 
         window.location.assign(backToSigninUri);
       };
