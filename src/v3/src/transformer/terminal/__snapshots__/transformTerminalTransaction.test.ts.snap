@@ -13,9 +13,9 @@ Object {
         "focus": true,
         "options": Object {
           "dataSe": "cancel",
-          "href": "/",
           "isActionStep": true,
           "label": "goback",
+          "onClick": [Function],
           "step": "cancel",
         },
         "type": "Link",
