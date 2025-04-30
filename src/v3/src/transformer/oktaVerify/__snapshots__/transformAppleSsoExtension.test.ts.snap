@@ -21,9 +21,6 @@ Object {
         "type": "ActionPending",
       },
       Object {
-        "type": "Spinner",
-      },
-      Object {
         "options": Object {
           "step": "",
         },

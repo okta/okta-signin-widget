@@ -21,9 +21,6 @@ Object {
         "type": "ActionPending",
       },
       Object {
-        "type": "Spinner",
-      },
-      Object {
         "options": Object {
           "cancelStep": "currentAuthenticator-cancel",
           "deviceChallengePayload": Object {
@@ -87,9 +84,6 @@ Object {
           "content": "deviceTrust.sso.redirectText",
         },
         "type": "ActionPending",
-      },
-      Object {
-        "type": "Spinner",
       },
       Object {
         "options": Object {

@@ -39,12 +39,10 @@ describe('SSO extension Transformer Tests', () => {
     const updatedFormBag = transformAppleSsoExtension({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(3);
+    expect(updatedFormBag.uischema.elements.length).toBe(2);
     expect(updatedFormBag.uischema.elements[0].type).toBe('ActionPending');
     expect((updatedFormBag.uischema.elements[0] as ActionPendingElement).options.content)
       .toBe('deviceTrust.sso.redirectText');
-    expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
-      .toBe('Spinner');
   });
 
   it('should add Redirect element if step is device-apple-sso-extension and method is GET', () => {
@@ -59,9 +57,9 @@ describe('SSO extension Transformer Tests', () => {
       },
     ];
     const updatedFormBag = transformAppleSsoExtension({ transaction, formBag, widgetProps });
-    expect((updatedFormBag.uischema.elements[2] as RedirectElement).type)
+    expect((updatedFormBag.uischema.elements[1] as RedirectElement).type)
       .toBe('Redirect');
-    expect((updatedFormBag.uischema.elements[2] as RedirectElement).options.url)
+    expect((updatedFormBag.uischema.elements[1] as RedirectElement).options.url)
       .toBe('localhost:3000');
   });
 
@@ -76,9 +74,9 @@ describe('SSO extension Transformer Tests', () => {
       },
     ];
     const updatedFormBag = transformAppleSsoExtension({ transaction, formBag, widgetProps });
-    expect((updatedFormBag.uischema.elements[2] as AutoSubmitElement).type)
+    expect((updatedFormBag.uischema.elements[1] as AutoSubmitElement).type)
       .toBe('AutoSubmit');
-    expect((updatedFormBag.uischema.elements[2] as AutoSubmitElement).options.step)
+    expect((updatedFormBag.uischema.elements[1] as AutoSubmitElement).options.step)
       .toBe(IDX_STEP.DEVICE_APPLE_SSO_EXTENSION);
   });
 });

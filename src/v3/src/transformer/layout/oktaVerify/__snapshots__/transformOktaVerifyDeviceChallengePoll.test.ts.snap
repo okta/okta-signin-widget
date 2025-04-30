@@ -331,9 +331,6 @@ Object {
         "type": "ActionPending",
       },
       Object {
-        "type": "Spinner",
-      },
-      Object {
         "options": Object {
           "href": "okta-verify.html",
         },

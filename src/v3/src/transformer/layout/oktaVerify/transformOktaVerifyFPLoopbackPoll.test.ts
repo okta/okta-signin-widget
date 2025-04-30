@@ -17,7 +17,6 @@ import {
   ActionPendingElement,
   LinkElement,
   LoopbackProbeElement,
-  SpinnerElement,
   WidgetProps,
 } from '../../../types';
 import * as utils from '../../../util/idxUtils';
@@ -54,15 +53,13 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect(updatedFormBag.uischema.elements.length).toBe(4);
       expect(updatedFormBag.uischema.elements[0].type).toBe('ActionPending');
       expect((updatedFormBag.uischema.elements[0] as ActionPendingElement).options.content)
         .toBe('deviceTrust.sso.redirectText');
-      expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
-        .toBe('Spinner');
-      expect((updatedFormBag.uischema.elements[2] as LoopbackProbeElement).type)
+      expect((updatedFormBag.uischema.elements[1] as LoopbackProbeElement).type)
         .toBe('LoopbackProbe');
-      expect((updatedFormBag.uischema.elements[2] as LoopbackProbeElement).options)
+      expect((updatedFormBag.uischema.elements[1] as LoopbackProbeElement).options)
         .toStrictEqual({
           deviceChallengePayload: {
             ports: ['2000', '6511', '6512', '6513'],
@@ -72,11 +69,11 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
           cancelStep: 'authenticatorChallenge-cancel',
           step: 'device-challenge-poll',
         });
-      expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
+      expect((updatedFormBag.uischema.elements[2] as LinkElement).options.label)
         .toBe('oie.verification.switch.authenticator');
-      expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
+      expect((updatedFormBag.uischema.elements[3] as LinkElement).type)
         .toBe('Link');
-      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
+      expect((updatedFormBag.uischema.elements[3] as LinkElement).options.step)
         .toBe('authenticatorChallenge-cancel');
     });
   });
@@ -113,15 +110,13 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect(updatedFormBag.uischema.elements.length).toBe(4);
       expect(updatedFormBag.uischema.elements[0].type).toBe('ActionPending');
       expect((updatedFormBag.uischema.elements[0] as ActionPendingElement).options.content)
         .toBe('deviceTrust.sso.redirectText');
-      expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
-        .toBe('Spinner');
-      expect((updatedFormBag.uischema.elements[2] as LoopbackProbeElement).type)
+      expect((updatedFormBag.uischema.elements[1] as LoopbackProbeElement).type)
         .toBe('LoopbackProbe');
-      expect((updatedFormBag.uischema.elements[2] as LoopbackProbeElement).options)
+      expect((updatedFormBag.uischema.elements[1] as LoopbackProbeElement).options)
         .toStrictEqual({
           deviceChallengePayload: {
             ports: ['2000', '6511', '6512', '6513'],
@@ -131,11 +126,11 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
           cancelStep: 'currentAuthenticator-cancel',
           step: 'challenge-poll',
         });
-      expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
+      expect((updatedFormBag.uischema.elements[2] as LinkElement).options.label)
         .toBe('oie.verification.switch.authenticator');
-      expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
+      expect((updatedFormBag.uischema.elements[3] as LinkElement).type)
         .toBe('Link');
-      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
+      expect((updatedFormBag.uischema.elements[3] as LinkElement).options.step)
         .toBe('currentAuthenticator-cancel');
     });
   });

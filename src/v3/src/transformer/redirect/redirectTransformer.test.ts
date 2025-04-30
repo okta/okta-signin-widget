@@ -77,13 +77,12 @@ describe('Success Redirect Transform Tests', () => {
       widgetProps,
     );
 
-    expect(formBag.uischema.elements.length).toBe(3);
+    expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('ActionPending');
     expect((formBag.uischema.elements[0] as ActionPendingElement).options?.content)
       .toBe('oie.success.text.signingIn.with.appName.and.identifier');
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
-    expect(formBag.uischema.elements[2].type).toBe('Spinner');
   });
 
   it('should add generic description & redirect elements for DEFAULT Interstitial view '
@@ -100,13 +99,12 @@ describe('Success Redirect Transform Tests', () => {
       widgetProps,
     );
 
-    expect(formBag.uischema.elements.length).toBe(3);
+    expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('ActionPending');
     expect((formBag.uischema.elements[0] as ActionPendingElement).options?.content)
       .toBe('oie.success.text.signingIn');
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
-    expect(formBag.uischema.elements[2].type).toBe('Spinner');
   });
 
   it('should add app name to description element for DEFAULT Interstitial view '
@@ -127,12 +125,11 @@ describe('Success Redirect Transform Tests', () => {
       widgetProps,
     );
 
-    expect(formBag.uischema.elements.length).toBe(3);
+    expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('ActionPending');
     expect((formBag.uischema.elements[0] as ActionPendingElement).options?.content)
       .toBe('oie.success.text.signingIn.with.appName');
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
-    expect(formBag.uischema.elements[2].type).toBe('Spinner');
   });
 });
