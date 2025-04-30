@@ -61,7 +61,7 @@ jest.mock('../../util', () => {
 describe('Terminal Transaction Transformer Tests', () => {
   let transaction: IdxTransaction;
   let mockAuthClient: any;
-  let widgetProps: WidgetProps;
+  let widgetProps: Partial<WidgetProps>;
   let windowSpy: jest.SpyInstance<Window>;
   const mockBootstrapFn = jest.fn();
 
@@ -82,7 +82,7 @@ describe('Terminal Transaction Transformer Tests', () => {
     transaction.messages = undefined;
     transaction.interactionCode = '123456789aabbcc';
     widgetProps = { clientId: 'abcd1234', authScheme: 'oauth2' };
-    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(0);
@@ -93,7 +93,7 @@ describe('Terminal Transaction Transformer Tests', () => {
     transaction.error = {
       errorSummary: mockErrorMessage,
     };
-    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
@@ -108,7 +108,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'INFO',
       TERMINAL_KEY.RETURN_TO_ORIGINAL_TAB_KEY,
     ));
-    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
@@ -124,7 +124,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'INFO',
       TERMINAL_KEY.RETURN_LINK_EXPIRED_KEY,
     ));
-    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(2);
@@ -144,7 +144,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'idx.error.server.safe.mode.enrollment.unavailable',
     ));
     transaction.availableSteps = [{ name: 'skip', action: jest.fn() }];
-    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(2);
@@ -166,7 +166,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'ERROR',
       'idx.error.server.safe.mode.enrollment.unavailable',
     ));
-    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
@@ -187,7 +187,7 @@ describe('Terminal Transaction Transformer Tests', () => {
     mockLocation.mockReturnValue(
       { href: mockHref } as unknown as Location,
     );
-    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
@@ -204,7 +204,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'INFO',
       TERMINAL_KEY.UNLOCK_ACCOUNT_KEY,
     ));
-    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
@@ -223,7 +223,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'ERROR',
       TERMINAL_KEY.TOO_MANY_REQUESTS,
     ));
-    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
@@ -267,7 +267,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'ERROR',
       TERMINAL_KEY.SESSION_EXPIRED,
     ));
-    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
     expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(1);
     expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(1);
 
@@ -335,7 +335,7 @@ describe('Terminal Transaction Transformer Tests', () => {
         },
       },
     } as unknown as IdxContext;
-    transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
 
     expect(transformOdaEnrollment).toHaveBeenCalled();
   });
@@ -347,7 +347,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       },
     } as unknown as IdxContext;
     widgetProps = { clientId: 'abcd1234', authScheme: 'oauth2' };
-    transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
 
     expect(redirectTransformer).not.toHaveBeenCalled();
   });
@@ -358,7 +358,7 @@ describe('Terminal Transaction Transformer Tests', () => {
         href: 'www.failure.com',
       },
     } as unknown as IdxContext;
-    transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
 
     expect(redirectTransformer).toHaveBeenCalled();
   });
