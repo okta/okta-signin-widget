@@ -17,7 +17,6 @@ import {
   IWidgetContext,
   LinkElement,
   LoopbackProbeElement,
-  SpinnerElement,
 } from '../../../types';
 import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../../util';
 
@@ -31,10 +30,6 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
     type: 'ActionPending',
     options: { content: loc('deviceTrust.sso.redirectText', 'login') },
   } as ActionPendingElement);
-
-  uischema.elements.push({
-    type: 'Spinner',
-  } as SpinnerElement);
 
   const cancelStep = transaction.nextStep?.name === IDX_STEP.DEVICE_CHALLENGE_POLL
     ? 'authenticatorChallenge-cancel' : 'currentAuthenticator-cancel';

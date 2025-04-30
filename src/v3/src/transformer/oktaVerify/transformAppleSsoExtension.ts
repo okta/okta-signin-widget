@@ -34,20 +34,15 @@ export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transa
     return formBag;
   }
 
-  const titleElement: ActionPendingElement = {
+  const actionPendingElement: ActionPendingElement = {
     type: 'ActionPending',
     options: {
       content: loc('deviceTrust.sso.redirectText', 'login'),
     },
   };
 
-  const spinnerElement = {
-    type: 'Spinner',
-  } as SpinnerElement;
-
   uischema.elements = [
-    titleElement,
-    spinnerElement,
+    actionPendingElement,
   ];
 
   const autoSubmitElement: AutoSubmitElement = {
