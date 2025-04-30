@@ -246,14 +246,12 @@ describe('Terminal Transaction Transformer Tests', () => {
   });
 
   it('should clear state and use backToSigninUri', () => {
+    const mockLocation = jest.spyOn(global, 'location', 'get');
     // Mock window.location.assign function
     const assignMock: jest.Mock = jest.fn();
-    // @ts-expect-error We do not need to fully mock the window object
-    windowSpy.mockImplementation(() => ({
-      location: {
-        assign: assignMock,
-      },
-    }));
+    mockLocation.mockReturnValue({
+      assign: assignMock,
+    } as unknown as Location);
 
     mockAuthClient = {
       transactionManager: {
@@ -320,15 +318,13 @@ describe('Terminal Transaction Transformer Tests', () => {
 
   it('should clear state and reload page for verification time out', () => {
     const loginPath = 'http://example.com/login/path';
+    const mockLocation = jest.spyOn(global, 'location', 'get');
     // Mock window.location.assign function
     const assignMock: jest.Mock = jest.fn();
-    // @ts-expect-error We do not need to fully mock the window object
-    windowSpy.mockImplementation(() => ({
-      location: {
-        href: loginPath,
-        assign: assignMock,
-      },
-    }));
+    mockLocation.mockReturnValue({
+      href: loginPath,
+      assign: assignMock,
+    } as unknown as Location);
 
     mockAuthClient = {
       transactionManager: {
