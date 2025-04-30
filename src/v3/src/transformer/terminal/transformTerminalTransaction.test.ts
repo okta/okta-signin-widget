@@ -246,6 +246,7 @@ describe('Terminal Transaction Transformer Tests', () => {
   });
 
   it('should clear state and use backToSigninUri', () => {
+    const backToSigninUri = 'http://domain.com/custom/backto/signin';
     const mockLocation = jest.spyOn(global, 'location', 'get');
     // Mock window.location.assign function
     const assignMock: jest.Mock = jest.fn();
@@ -258,7 +259,10 @@ describe('Terminal Transaction Transformer Tests', () => {
         clear: jest.fn(),
       },
     };
-    widgetProps = { backToSignInLink: '/', authClient: mockAuthClient };
+    widgetProps = {
+      backToSignInLink: backToSigninUri,
+      authClient: mockAuthClient,
+    };
     const mockErrorMessage = 'Session expired';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
@@ -280,7 +284,7 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(2);
     expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(2);
     expect(assignMock).toHaveBeenCalledTimes(1);
-    expect(assignMock).toHaveBeenCalledWith('/');
+    expect(assignMock).toHaveBeenCalledWith(backToSigninUri);
   });
 
   it('should have link href to base URI for email link expired', () => {
