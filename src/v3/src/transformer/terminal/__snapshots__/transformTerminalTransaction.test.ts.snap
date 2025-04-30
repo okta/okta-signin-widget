@@ -1,31 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Terminal Transaction Transformer Tests should add back to sign in link with href when backToSigninUri is set in widget options 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
-  },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "focus": true,
-        "options": Object {
-          "dataSe": "cancel",
-          "isActionStep": true,
-          "label": "goback",
-          "onClick": [Function],
-          "step": "cancel",
-        },
-        "type": "Link",
-      },
-    ],
-    "type": "VerticalLayout",
-  },
-}
-`;
-
 exports[`Terminal Transaction Transformer Tests should add back to signin element when transaction contains API error 1`] = `
 Object {
   "data": Object {},
