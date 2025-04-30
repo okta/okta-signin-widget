@@ -116,14 +116,30 @@ const appendViewLinks = (
       && isCancelAvailable) {
     const backToSigninUri = getBackToSignInUri(widgetProps);
     if (backToSigninUri) {
-      // If we are in a terminal view, by definition there are no further available steps for the user
-      // to take, so we can clear the transaction manager and remove the state handle before redirecting
-      // the user to the back to sign-in URL.
+      // If a backtoSigninUri is set, always use it
       cancelLink.options.onClick = () => {
+        // If we are in a terminal view, by definition there are no further available steps for the user
+        // to take, so we can clear the transaction manager and remove the state handle before redirecting
+        // the user to the back to sign-in URL.
         authClient?.transactionManager.clear();
         SessionStorage.removeStateHandle();
 
         window.location.assign(backToSigninUri);
+      };
+    } else if (containsMessageKey(TERMINAL_KEY.VERIFICATION_TIMED_OUT, transaction.messages)) {
+      // This covers terminal views that should have a page reload to start a new transaction in the case
+      // that the URI is specifing a particular application to login to, so we need to stay on the same URI
+      // but start a new transaction.
+      // We may want to make this the deafult fallthrough behavior rather than needing to enumerate all of
+      // the terminal keys that should have this behavior.
+      cancelLink.options.onClick = async () => {
+        // Remove state token from storage since we want to start a new transaction, but only do it
+        // when the user clicks the cancel link since refreshing the page on the terminal view is
+        // valid and should keep the user on the same transaction until they do
+        authClient?.transactionManager.clear();
+        SessionStorage.removeStateHandle();
+        // Load the current page URI again to get a new state token
+        window.location.assign(window.location.href);
       };
     } else if (isOauth2Enabled(widgetProps)) {
       cancelLink.options.onClick = async () => {
@@ -133,6 +149,8 @@ const appendViewLinks = (
         await bootstrapFn();
       };
     } else {
+      // Fallthrough default behavior. Will send the user to the base URI, which will log them into the
+      // configured default application
       cancelLink.options.href = getBaseUrl(widgetProps);
     }
     uischema.elements.push(cancelLink);
