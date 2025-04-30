@@ -18,7 +18,6 @@ import {
   AutoSubmitElement,
   IdxStepTransformer,
   RedirectElement,
-  SpinnerElement,
 } from '../../types';
 import { loc } from '../../util';
 

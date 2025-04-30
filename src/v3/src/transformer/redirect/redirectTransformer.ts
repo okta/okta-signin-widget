@@ -17,7 +17,6 @@ import {
   ActionPendingElement,
   FormBag,
   RedirectElement,
-  SpinnerElement,
   WidgetProps,
 } from '../../types';
 import { getAppInfo, getUserInfo, loc } from '../../util';
