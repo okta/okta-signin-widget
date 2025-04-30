@@ -240,12 +240,12 @@ describe('Terminal Transaction Transformer Tests', () => {
       'ERROR',
       TERMINAL_KEY.SESSION_EXPIRED,
     ));
-    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
 
     expect(formBag.uischema.elements.length).toBe(0);
   });
 
-  it('should add back to sign in link with href when backToSigninUri is set in widget options', () => {
+  it('should clear state and use backToSigninUri', () => {
     // Mock window.location.assign function
     const assignMock: jest.Mock = jest.fn();
     // @ts-expect-error We do not need to fully mock the window object
@@ -283,6 +283,48 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(2);
     expect(assignMock).toHaveBeenCalledTimes(1);
     expect(assignMock).toHaveBeenCalledWith('/');
+  });
+
+  it('should clear state and reload page for verification time out', () => {
+    const loginPath = 'http://example.com/login/path';
+    // Mock window.location.assign function
+    const assignMock: jest.Mock = jest.fn();
+    // @ts-expect-error We do not need to fully mock the window object
+    windowSpy.mockImplementation(() => ({
+      location: {
+        href: loginPath,
+        assign: assignMock,
+      },
+    }));
+
+    mockAuthClient = {
+      transactionManager: {
+        clear: jest.fn(),
+      },
+    };
+    widgetProps = { authClient: mockAuthClient };
+    const mockErrorMessage = 'Verification timed out';
+    transaction.messages?.push(getMockMessage(
+      mockErrorMessage,
+      'ERROR',
+      TERMINAL_KEY.VERIFICATION_TIMED_OUT,
+    ));
+    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(0);
+    expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(0);
+
+    expect(formBag).toMatchSnapshot();
+    expect(formBag.uischema.elements.length).toBe(1);
+    expect(formBag.uischema.elements[0].type).toBe('Link');
+    expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('goback');
+    expect(typeof (formBag.uischema.elements[0] as LinkElement).options?.onClick).toBe('function');
+    act(() => {
+      (formBag.uischema.elements[0] as LinkElement).options?.onClick?.();
+    });
+    expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(1);
+    expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(1);
+    expect(assignMock).toHaveBeenCalledTimes(1);
+    expect(assignMock).toHaveBeenCalledWith(loginPath);
   });
 
   it('should invoke oda enrollment terminal transformer when device enrollment data is present', () => {

@@ -243,3 +243,55 @@ Object {
   },
 }
 `;
+
+exports[`Terminal Transaction Transformer Tests should clear state and reload page for verification time out 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "focus": true,
+        "options": Object {
+          "dataSe": "cancel",
+          "isActionStep": true,
+          "label": "goback",
+          "onClick": [Function],
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Transaction Transformer Tests should clear state and use backToSigninUri 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "focus": true,
+        "options": Object {
+          "dataSe": "cancel",
+          "isActionStep": true,
+          "label": "goback",
+          "onClick": [Function],
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
