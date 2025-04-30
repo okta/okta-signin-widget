@@ -61,14 +61,14 @@ jest.mock('../../util', () => {
 describe('Terminal Transaction Transformer Tests', () => {
   let transaction: IdxTransaction;
   let mockAuthClient: any;
-  let widgetProps: Partial<WidgetProps>;
+  let widgetProps: WidgetProps;
   let windowSpy: jest.SpyInstance<Window>;
   const mockBootstrapFn = jest.fn();
 
   beforeEach(() => {
     transaction = getStubTransaction(IdxStatus.TERMINAL);
     transaction.messages = [];
-    widgetProps = {};
+    widgetProps = {} as WidgetProps;
     windowSpy = jest.spyOn(global, 'window', 'get');
   });
 
@@ -81,8 +81,8 @@ describe('Terminal Transaction Transformer Tests', () => {
   it('should add return empty formbag when interaction code flow transaction', () => {
     transaction.messages = undefined;
     transaction.interactionCode = '123456789aabbcc';
-    widgetProps = { clientId: 'abcd1234', authScheme: 'oauth2' };
-    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    widgetProps = { clientId: 'abcd1234', authScheme: 'oauth2' } as WidgetProps;
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(0);
@@ -93,7 +93,7 @@ describe('Terminal Transaction Transformer Tests', () => {
     transaction.error = {
       errorSummary: mockErrorMessage,
     };
-    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
@@ -108,7 +108,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'INFO',
       TERMINAL_KEY.RETURN_TO_ORIGINAL_TAB_KEY,
     ));
-    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
@@ -124,7 +124,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'INFO',
       TERMINAL_KEY.RETURN_LINK_EXPIRED_KEY,
     ));
-    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(2);
@@ -144,7 +144,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'idx.error.server.safe.mode.enrollment.unavailable',
     ));
     transaction.availableSteps = [{ name: 'skip', action: jest.fn() }];
-    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(2);
@@ -166,7 +166,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'ERROR',
       'idx.error.server.safe.mode.enrollment.unavailable',
     ));
-    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
@@ -187,7 +187,7 @@ describe('Terminal Transaction Transformer Tests', () => {
     mockLocation.mockReturnValue(
       { href: mockHref } as unknown as Location,
     );
-    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
@@ -204,7 +204,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'INFO',
       TERMINAL_KEY.UNLOCK_ACCOUNT_KEY,
     ));
-    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
@@ -216,14 +216,14 @@ describe('Terminal Transaction Transformer Tests', () => {
   it('should add back to signin link for tooManyRequests message key when baseUrl not provided', () => {
     const mockIssueOrigin = 'http://localhost:3000/';
     mockAuthClient = { getIssuerOrigin: () => mockIssueOrigin };
-    widgetProps = { authClient: mockAuthClient };
+    widgetProps = { authClient: mockAuthClient } as WidgetProps;
     const mockErrorMessage = 'Too many requests';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
       'ERROR',
       TERMINAL_KEY.TOO_MANY_REQUESTS,
     ));
-    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
@@ -233,14 +233,14 @@ describe('Terminal Transaction Transformer Tests', () => {
   });
 
   it('should not add back to sign in link when cancel is not available', () => {
-    widgetProps = { features: { hideSignOutLinkInMFA: true } };
+    widgetProps = { features: { hideSignOutLinkInMFA: true } } as WidgetProps;
     const mockErrorMessage = 'Session expired';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
       'ERROR',
       TERMINAL_KEY.SESSION_EXPIRED,
     ));
-    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag.uischema.elements.length).toBe(0);
   });
@@ -256,14 +256,14 @@ describe('Terminal Transaction Transformer Tests', () => {
     widgetProps = {
       backToSignInLink: backToSigninUri,
       authClient: mockAuthClient,
-    };
+    } as WidgetProps;
     const mockErrorMessage = 'Session expired';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
       'ERROR',
       TERMINAL_KEY.SESSION_EXPIRED,
     ));
-    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
     expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(1);
     expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(1);
 
@@ -286,14 +286,14 @@ describe('Terminal Transaction Transformer Tests', () => {
         clear: jest.fn(),
       },
     };
-    widgetProps = { authClient: mockAuthClient };
+    widgetProps = { authClient: mockAuthClient } as WidgetProps;
     const mockErrorMessage = 'Your account activation link is no longer valid.';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
       'ERROR',
       TERMINAL_KEY.EMAIL_ACTIVATION_EMAIL_INVALID,
     ));
-    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
     expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(0);
     expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(0);
 
@@ -325,14 +325,14 @@ describe('Terminal Transaction Transformer Tests', () => {
         clear: jest.fn(),
       },
     };
-    widgetProps = { authClient: mockAuthClient };
+    widgetProps = { authClient: mockAuthClient } as WidgetProps;
     const mockErrorMessage = 'Verification timed out';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
       'ERROR',
       TERMINAL_KEY.VERIFICATION_TIMED_OUT,
     ));
-    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
     expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(0);
     expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(0);
 
@@ -358,7 +358,7 @@ describe('Terminal Transaction Transformer Tests', () => {
         },
       },
     } as unknown as IdxContext;
-    transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(transformOdaEnrollment).toHaveBeenCalled();
   });
@@ -369,8 +369,8 @@ describe('Terminal Transaction Transformer Tests', () => {
         href: 'www.failure.com',
       },
     } as unknown as IdxContext;
-    widgetProps = { clientId: 'abcd1234', authScheme: 'oauth2' };
-    transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    widgetProps = { clientId: 'abcd1234', authScheme: 'oauth2' } as WidgetProps;
+    transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(redirectTransformer).not.toHaveBeenCalled();
   });
@@ -381,7 +381,7 @@ describe('Terminal Transaction Transformer Tests', () => {
         href: 'www.failure.com',
       },
     } as unknown as IdxContext;
-    transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(redirectTransformer).toHaveBeenCalled();
   });
