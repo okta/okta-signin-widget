@@ -19,7 +19,6 @@ import {
   AutoSubmitElement,
   FormBag,
   RedirectElement,
-  SpinnerElement,
   WidgetProps,
 } from '../../types';
 import { transformAppleSsoExtension } from './transformAppleSsoExtension';
