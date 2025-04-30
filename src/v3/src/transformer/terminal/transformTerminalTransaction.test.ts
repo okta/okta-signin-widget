@@ -247,12 +247,6 @@ describe('Terminal Transaction Transformer Tests', () => {
 
   it('should clear state and use backToSigninUri', () => {
     const backToSigninUri = 'http://domain.com/custom/backto/signin';
-    const mockLocation = jest.spyOn(global, 'location', 'get');
-    // Mock window.location.assign function
-    const assignMock: jest.Mock = jest.fn();
-    mockLocation.mockReturnValue({
-      assign: assignMock,
-    } as unknown as Location);
 
     mockAuthClient = {
       transactionManager: {
@@ -277,14 +271,10 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('Link');
     expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('goback');
-    expect(typeof (formBag.uischema.elements[0] as LinkElement).options?.onClick).toBe('function');
-    act(() => {
-      (formBag.uischema.elements[0] as LinkElement).options?.onClick?.();
-    });
-    expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(2);
-    expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(2);
-    expect(assignMock).toHaveBeenCalledTimes(1);
-    expect(assignMock).toHaveBeenCalledWith(backToSigninUri);
+    expect((formBag.uischema.elements[0] as LinkElement).options?.href).toBe(backToSigninUri);
+
+    expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(1);
+    expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(1);
   });
 
   it('should have link href to base URI for email link expired', () => {

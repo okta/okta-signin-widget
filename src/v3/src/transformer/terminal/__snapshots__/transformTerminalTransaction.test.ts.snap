@@ -257,9 +257,9 @@ Object {
         "focus": true,
         "options": Object {
           "dataSe": "cancel",
+          "href": "http://domain.com/custom/backto/signin",
           "isActionStep": true,
           "label": "goback",
-          "onClick": [Function],
           "step": "cancel",
         },
         "type": "Link",

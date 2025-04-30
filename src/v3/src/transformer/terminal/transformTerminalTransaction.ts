@@ -117,15 +117,7 @@ const appendViewLinks = (
     const backToSigninUri = getBackToSignInUri(widgetProps);
     if (backToSigninUri) {
       // If a backtoSigninUri is set, always use it
-      cancelLink.options.onClick = () => {
-        // If we are in a terminal view, by definition there are no further available steps for the user
-        // to take, so we can clear the transaction manager and remove the state handle before redirecting
-        // the user to the back to sign-in URL.
-        authClient?.transactionManager.clear();
-        SessionStorage.removeStateHandle();
-
-        window.location.assign(backToSigninUri);
-      };
+      cancelLink.options.href = backToSigninUri;
     } else if (containsMessageKey(TERMINAL_KEY.VERIFICATION_TIMED_OUT, transaction.messages)) {
       // This covers terminal views that should have a page reload to start a new transaction in the case
       // that the URI is specifing a particular application to login to, so we need to stay on the same URI
