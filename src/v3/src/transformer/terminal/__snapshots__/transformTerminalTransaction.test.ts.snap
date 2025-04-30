@@ -269,3 +269,35 @@ Object {
   },
 }
 `;
+
+exports[`Terminal Transaction Transformer Tests should have link href to base URI for email link expired 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.activation.request.email.title.invalid",
+        },
+        "type": "Title",
+      },
+      Object {
+        "focus": true,
+        "options": Object {
+          "dataSe": "cancel",
+          "href": "http://localhost:3000/",
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

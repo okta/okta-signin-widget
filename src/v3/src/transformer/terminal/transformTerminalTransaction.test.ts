@@ -285,6 +285,39 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect(assignMock).toHaveBeenCalledWith('/');
   });
 
+  it('should have link href to base URI for email link expired', () => {
+    const issuerOrigin = 'http://localhost:3000/';
+
+    mockAuthClient = {
+      getIssuerOrigin: () => issuerOrigin,
+      transactionManager: {
+        clear: jest.fn(),
+      },
+    };
+    widgetProps = { authClient: mockAuthClient };
+    const mockErrorMessage = 'Your account activation link is no longer valid.';
+    transaction.messages?.push(getMockMessage(
+      mockErrorMessage,
+      'ERROR',
+      TERMINAL_KEY.EMAIL_ACTIVATION_EMAIL_INVALID,
+    ));
+    const formBag = transformTerminalTransaction(transaction, widgetProps as WidgetProps, mockBootstrapFn);
+    expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(0);
+    expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(0);
+
+    expect(formBag).toMatchSnapshot();
+    expect(formBag.uischema.elements.length).toBe(2);
+    expect(formBag.uischema.elements[0].type).toBe('Title');
+    expect(formBag.uischema.elements[1].type).toBe('Link');
+    expect((formBag.uischema.elements[1] as LinkElement).options?.label).toBe('goback');
+    expect((formBag.uischema.elements[1] as LinkElement).options?.href).toBe(issuerOrigin);
+    act(() => {
+      (formBag.uischema.elements[0] as LinkElement).options?.onClick?.();
+    });
+    expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(0);
+    expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(0);
+  });
+
   it('should clear state and reload page for verification time out', () => {
     const loginPath = 'http://example.com/login/path';
     // Mock window.location.assign function
