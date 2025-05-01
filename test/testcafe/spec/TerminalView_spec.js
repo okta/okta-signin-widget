@@ -9,6 +9,7 @@ import terminalReturnEmailConsentDenied from '../../../playground/mocks/data/idp
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import TerminalPageObjectV3 from '../framework/page-objects/TerminalPageObjectV3';
 import sessionExpired from '../../../playground/mocks/data/idp/idx/error-401-session-expired';
+import verificationTimedOut from '../../../playground/mocks/data/idp/idx/error-404-verification-timed-out';
 import noPermissionForAction from '../../../playground/mocks/data/idp/idx/error-403-security-access-denied';
 import pollingExpired from '../../../playground/mocks/data/idp/idx/terminal-polling-window-expired';
 import unlockFailed from '../../../playground/mocks/data/idp/idx/error-unlock-account';
@@ -53,6 +54,10 @@ const terminalReturnEmailConsentDeniedMock = RequestMock()
 const sessionExpiredMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(sessionExpired);
+
+const verificationTimedOutMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(verificationTimedOut);
 
 const noPermissionForActionMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -165,6 +170,7 @@ async function setup(t, widgetOptions) {
 // No need to add tests for each view here, respective test class for the flow should test it.
 [
   ['should have Back to sign in link when session expires', sessionExpiredMock],
+  ['should have Back to sign in link when verification times out', verificationTimedOutMock],
   ['should have Back to sign in link when operation cancelled', terminalReturnEmailConsentDeniedMock],
   ['should have Back to sign in link when access denied', noPermissionForActionMock],
   ['should have Back to sign in link when polling window expired', pollingExpiredMock],
