@@ -12,9 +12,8 @@
 
 import { IdxAuthenticator, Input } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
-// eslint-disable-next-line import/no-unresolved
-import TimeUtil from 'util/TimeUtil';
 
+import TimeUtil from '../../../../util/TimeUtil';
 import {
   AUTHENTICATOR_ALLOWED_FOR_OPTIONS,
   AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP,

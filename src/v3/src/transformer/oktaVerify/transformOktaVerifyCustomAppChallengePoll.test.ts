@@ -22,7 +22,7 @@ import {
 } from 'src/types';
 
 import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
-import * as utils from '../../util/idxUtils';
+import * as utils from '../../util/idx/transactionUtils';
 import { transformOktaVerifyDeviceChallengePoll } from '../layout/oktaVerify/transformOktaVerifyDeviceChallengePoll';
 import { transformOktaVerifyFPLoopbackPoll } from '../layout/oktaVerify/transformOktaVerifyFPLoopbackPoll';
 import { transformOktaVerifyCustomAppChallengePoll } from './transformOktaVerifyCustomAppChallengePoll';

@@ -21,7 +21,7 @@ import {
   WidgetMessage,
   WidgetProps,
 } from '../types';
-import { getApplicationName, isConsentStep } from './idxUtils';
+import { getApplicationName, isConsentStep } from './idx';
 import { getPageTitle } from './settingsUtils';
 
 export const extractFirstWidgetMessageStr = (

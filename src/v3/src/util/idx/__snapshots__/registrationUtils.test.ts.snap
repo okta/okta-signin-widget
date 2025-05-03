@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdxUtils Tests should convert array of Idx Input objects into an array of Registration schema objects 1`] = `
+exports[`idx/registrationUtils convertIdxInputsToRegistrationSchema should convert array of Idx Input objects into an array of Registration schema objects 1`] = `
 Array [
   Object {
     "data-se": "userProfile.firstName",
@@ -38,7 +38,7 @@ Array [
 ]
 `;
 
-exports[`IdxUtils Tests should update Idx Inputs array with modified registration schema elements when adding new field and updating existing 1`] = `
+exports[`idx/registrationUtils convertRegistrationSchemaToIdxInputs should update Idx Inputs array with modified registration schema elements when adding new field and updating existing 1`] = `
 Array [
   Object {
     "name": "userProfile",
