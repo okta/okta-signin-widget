@@ -112,7 +112,8 @@
     "test:parity-ci-flaky": "OKTA_SIW_GEN3=true OKTA_SIW_ONLY_FLAKY=true yarn test:parity-ci",
     "test:parity-enleaks-ci": "yarn codegen && run-p -r test:parity-en-leaks-setup test:testcafe-run-en-leaks-ci -- 2>/dev/null",
     "test:parity-enleaks": "run-p -r test:parity-en-leaks-setup test:testcafe-run-en-leaks -- 2>/dev/null",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
@@ -128,6 +129,8 @@
     "@babel/register": "^7.15.3",
     "@babel/runtime": "^7.10.3",
     "@babel/runtime-corejs3": "^7.10.3",
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
     "@okta/eslint-plugin-okta": "0.5.0",
     "@peculiar/webcrypto": "^1.4.3",
     "@rollup/plugin-alias": "^3.1.9",
@@ -184,6 +187,7 @@
     "grunt-contrib-watch": "^1.1.0",
     "grunt-exec": "^3.0.0",
     "grunt-properties-to-json": "^0.6.0",
+    "husky": "^9.1.7",
     "isomorphic-fetch": "^3.0.0",
     "jasmine": "^4.0.1",
     "jasmine-ajax": "^4.0.0",
