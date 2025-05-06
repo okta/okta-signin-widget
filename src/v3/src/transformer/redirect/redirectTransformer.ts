@@ -17,7 +17,6 @@ import {
   ActionPendingElement,
   FormBag,
   RedirectElement,
-  SpinnerElement,
   WidgetProps,
 } from '../../types';
 import { getAppInfo, getUserInfo, loc } from '../../util';
@@ -40,12 +39,6 @@ export const redirectTransformer = (
 
   const appInfo = getAppInfo(transaction);
   const userInfo = getUserInfo(transaction);
-
-  if (interstitialBeforeLoginRedirect === InterstitialRedirectView.DEFAULT) {
-    uischema.elements.push({
-      type: 'Spinner',
-    } as SpinnerElement);
-  }
 
   if (!interstitialBeforeLoginRedirect
     || interstitialBeforeLoginRedirect === InterstitialRedirectView.NONE) {

@@ -223,7 +223,6 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
 
   if ([
     CHALLENGE_METHOD.APP_LINK,
-    CHALLENGE_METHOD.CHROME_DTC,
     CHALLENGE_METHOD.UNIVERSAL_LINK,
   ].includes(challengeMethod)) {
     uischema.elements.push(spinnerElement);

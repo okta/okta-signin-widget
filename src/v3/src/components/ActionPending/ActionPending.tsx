@@ -11,12 +11,13 @@
  */
 
 import { Box } from '@mui/material';
-import { Typography } from '@okta/odyssey-react-mui';
+import { Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import { ActionPendingElement, UISchemaElementComponent } from '../../types';
+import Spinner from '../Spinner';
 
 /**
  * Render component used to indicate to the user that they should wait for an action to complete.
@@ -27,6 +28,7 @@ const ActionPending: UISchemaElementComponent<{
 }> = (
   { uischema: { options } },
 ) => {
+  const tokens = useOdysseyDesignTokens();
   const titleRef = useRef<HTMLTitleElement>(null);
   const { widgetProps } = useWidgetContext();
   const { features: { autoFocus = false } = {} } = widgetProps;
@@ -40,21 +42,28 @@ const ActionPending: UISchemaElementComponent<{
 
   return (
     <Box
-      textAlign="center"
-      testId={options.dataSe}
-      sx={{
-        overflowWrap: 'break-word',
-        textWrap: 'balance',
-      }}
+      display="flex"
+      flexDirection="column"
     >
-      <Typography
-        component="h2"
-        variant="h5"
-        testId="o-form-head"
-        typographyRef={titleRef}
+      <Box
+        textAlign="center"
+        testId={options.dataSe}
+        sx={{
+          overflowWrap: 'break-word',
+          textWrap: 'balance',
+          marginBlockEnd: tokens.Spacing4,
+        }}
       >
-        {options.content}
-      </Typography>
+        <Typography
+          component="h2"
+          variant="h5"
+          testId="o-form-head"
+          typographyRef={titleRef}
+        >
+          {options.content}
+        </Typography>
+      </Box>
+      <Spinner />
     </Box>
   );
 };
