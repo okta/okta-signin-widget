@@ -1,31 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Terminal Transaction Transformer Tests should add back to sign in link with href when backToSigninUri is set in widget options 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
-  },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "focus": true,
-        "options": Object {
-          "dataSe": "cancel",
-          "href": "/",
-          "isActionStep": true,
-          "label": "goback",
-          "step": "cancel",
-        },
-        "type": "Link",
-      },
-    ],
-    "type": "VerticalLayout",
-  },
-}
-`;
-
 exports[`Terminal Transaction Transformer Tests should add back to signin element when transaction contains API error 1`] = `
 Object {
   "data": Object {},
@@ -234,6 +208,90 @@ Object {
           "href": "http://localhost:3000/",
           "isActionStep": true,
           "label": "oie.try.again",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Transaction Transformer Tests should clear state and reload page for verification time out 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "focus": true,
+        "options": Object {
+          "dataSe": "cancel",
+          "isActionStep": true,
+          "label": "goback",
+          "onClick": [Function],
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Transaction Transformer Tests should clear state and use backToSigninUri 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "focus": true,
+        "options": Object {
+          "dataSe": "cancel",
+          "href": "http://domain.com/custom/backto/signin",
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Transaction Transformer Tests should have link href to base URI for email link expired 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.activation.request.email.title.invalid",
+        },
+        "type": "Title",
+      },
+      Object {
+        "focus": true,
+        "options": Object {
+          "dataSe": "cancel",
+          "href": "http://localhost:3000/",
+          "isActionStep": true,
+          "label": "goback",
           "step": "cancel",
         },
         "type": "Link",

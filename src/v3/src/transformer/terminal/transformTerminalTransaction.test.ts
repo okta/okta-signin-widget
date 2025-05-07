@@ -11,6 +11,7 @@
  */
 
 import { IdxContext, IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
+import { act } from '@testing-library/preact';
 import {
   FormBag,
   LinkElement,
@@ -20,6 +21,7 @@ import {
 
 import { TERMINAL_KEY, TERMINAL_TITLE_KEY } from '../../constants';
 import { getStubTransaction } from '../../mocks/utils/utils';
+import { SessionStorage } from '../../util';
 import { redirectTransformer } from '../redirect';
 import { transformTerminalTransaction } from '.';
 import { transformOdaEnrollment } from './odaEnrollment/transformOdaEnrollment';
@@ -48,6 +50,9 @@ jest.mock('../../util', () => {
   const originalUtil = jest.requireActual('../../util');
   return {
     ...originalUtil,
+    SessionStorage: {
+      removeStateHandle: jest.fn(),
+    },
     setUsernameCookie: jest.fn().mockImplementation(() => {}),
     removeUsernameCookie: jest.fn().mockImplementation(() => {}),
   };
@@ -57,22 +62,26 @@ describe('Terminal Transaction Transformer Tests', () => {
   let transaction: IdxTransaction;
   let mockAuthClient: any;
   let widgetProps: WidgetProps;
+  let windowSpy: jest.SpyInstance<Window>;
   const mockBootstrapFn = jest.fn();
 
   beforeEach(() => {
     transaction = getStubTransaction(IdxStatus.TERMINAL);
     transaction.messages = [];
-    widgetProps = {};
+    widgetProps = {} as WidgetProps;
+    windowSpy = jest.spyOn(global, 'window', 'get');
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
+    (SessionStorage.removeStateHandle as jest.Mock).mockRestore();
+    windowSpy.mockRestore();
   });
 
   it('should add return empty formbag when interaction code flow transaction', () => {
     transaction.messages = undefined;
     transaction.interactionCode = '123456789aabbcc';
-    widgetProps = { clientId: 'abcd1234', authScheme: 'oauth2' };
+    widgetProps = { clientId: 'abcd1234', authScheme: 'oauth2' } as WidgetProps;
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
@@ -207,7 +216,7 @@ describe('Terminal Transaction Transformer Tests', () => {
   it('should add back to signin link for tooManyRequests message key when baseUrl not provided', () => {
     const mockIssueOrigin = 'http://localhost:3000/';
     mockAuthClient = { getIssuerOrigin: () => mockIssueOrigin };
-    widgetProps = { authClient: mockAuthClient };
+    widgetProps = { authClient: mockAuthClient } as WidgetProps;
     const mockErrorMessage = 'Too many requests';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
@@ -224,7 +233,7 @@ describe('Terminal Transaction Transformer Tests', () => {
   });
 
   it('should not add back to sign in link when cancel is not available', () => {
-    widgetProps = { features: { hideSignOutLinkInMFA: true } };
+    widgetProps = { features: { hideSignOutLinkInMFA: true } } as WidgetProps;
     const mockErrorMessage = 'Session expired';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
@@ -236,8 +245,18 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect(formBag.uischema.elements.length).toBe(0);
   });
 
-  it('should add back to sign in link with href when backToSigninUri is set in widget options', () => {
-    widgetProps = { backToSignInLink: '/' };
+  it('should clear state and use backToSigninUri', () => {
+    const backToSigninUri = 'http://domain.com/custom/backto/signin';
+
+    mockAuthClient = {
+      transactionManager: {
+        clear: jest.fn(),
+      },
+    };
+    widgetProps = {
+      backToSignInLink: backToSigninUri,
+      authClient: mockAuthClient,
+    } as WidgetProps;
     const mockErrorMessage = 'Session expired';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
@@ -245,12 +264,90 @@ describe('Terminal Transaction Transformer Tests', () => {
       TERMINAL_KEY.SESSION_EXPIRED,
     ));
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(1);
+    expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(1);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('Link');
     expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('goback');
-    expect((formBag.uischema.elements[0] as LinkElement).options?.href).toBe('/');
+    expect((formBag.uischema.elements[0] as LinkElement).options?.href).toBe(backToSigninUri);
+
+    expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(1);
+    expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(1);
+  });
+
+  it('should have link href to base URI for email link expired', () => {
+    const issuerOrigin = 'http://localhost:3000/';
+
+    mockAuthClient = {
+      getIssuerOrigin: () => issuerOrigin,
+      transactionManager: {
+        clear: jest.fn(),
+      },
+    };
+    widgetProps = { authClient: mockAuthClient } as WidgetProps;
+    const mockErrorMessage = 'Your account activation link is no longer valid.';
+    transaction.messages?.push(getMockMessage(
+      mockErrorMessage,
+      'ERROR',
+      TERMINAL_KEY.EMAIL_ACTIVATION_EMAIL_INVALID,
+    ));
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(0);
+    expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(0);
+
+    expect(formBag).toMatchSnapshot();
+    expect(formBag.uischema.elements.length).toBe(2);
+    expect(formBag.uischema.elements[0].type).toBe('Title');
+    expect(formBag.uischema.elements[1].type).toBe('Link');
+    expect((formBag.uischema.elements[1] as LinkElement).options?.label).toBe('goback');
+    expect((formBag.uischema.elements[1] as LinkElement).options?.href).toBe(issuerOrigin);
+    act(() => {
+      (formBag.uischema.elements[0] as LinkElement).options?.onClick?.();
+    });
+    expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(0);
+    expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(0);
+  });
+
+  it('should clear state and reload page for verification time out', () => {
+    const loginPath = 'http://example.com/login/path';
+    const mockLocation = jest.spyOn(global, 'location', 'get');
+    // Mock window.location.assign function
+    const assignMock: jest.Mock = jest.fn();
+    mockLocation.mockReturnValue({
+      href: loginPath,
+      assign: assignMock,
+    } as unknown as Location);
+
+    mockAuthClient = {
+      transactionManager: {
+        clear: jest.fn(),
+      },
+    };
+    widgetProps = { authClient: mockAuthClient } as WidgetProps;
+    const mockErrorMessage = 'Verification timed out';
+    transaction.messages?.push(getMockMessage(
+      mockErrorMessage,
+      'ERROR',
+      TERMINAL_KEY.VERIFICATION_TIMED_OUT,
+    ));
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(0);
+    expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(0);
+
+    expect(formBag).toMatchSnapshot();
+    expect(formBag.uischema.elements.length).toBe(1);
+    expect(formBag.uischema.elements[0].type).toBe('Link');
+    expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('goback');
+    expect(typeof (formBag.uischema.elements[0] as LinkElement).options?.onClick).toBe('function');
+    act(() => {
+      (formBag.uischema.elements[0] as LinkElement).options?.onClick?.();
+    });
+    expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(1);
+    expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(1);
+    expect(assignMock).toHaveBeenCalledTimes(1);
+    expect(assignMock).toHaveBeenCalledWith(loginPath);
   });
 
   it('should invoke oda enrollment terminal transformer when device enrollment data is present', () => {
@@ -272,7 +369,7 @@ describe('Terminal Transaction Transformer Tests', () => {
         href: 'www.failure.com',
       },
     } as unknown as IdxContext;
-    widgetProps = { clientId: 'abcd1234', authScheme: 'oauth2' };
+    widgetProps = { clientId: 'abcd1234', authScheme: 'oauth2' } as WidgetProps;
     transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(redirectTransformer).not.toHaveBeenCalled();
