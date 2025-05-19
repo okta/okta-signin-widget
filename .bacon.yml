@@ -199,3 +199,10 @@ test_suites:
     script_name: vrt-v3-get-screenshots
     criteria: OPTIONAL
     queue_name: small
+  - name: unit-v3-flaky
+    script_path: /root/okta/okta-signin-widget/scripts
+    sort_order: '8'
+    timeout: '15'
+    script_name: unit-v3-flaky
+    criteria: OPTIONAL
+    queue_name: small

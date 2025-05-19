@@ -11,7 +11,7 @@
  */
 
 import { HttpRequestClient } from '@okta/okta-auth-js';
-import { act, waitFor } from '@testing-library/preact';
+import { act, waitFor, screen } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup, updateStateHandleInMock } from './util';
 import qrPollingResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json';
 import emailPollingResponse from '../../src/mocks/response/idp/idx/challenge/send/enroll-ov-email-mfa.json';
@@ -183,6 +183,7 @@ describe('flow-okta-verify-enrollment', () => {
   });
 
   it('qr polling -> channel selection -> data enrollment (sms) -> sms polling -> try different -> channel selection -> qr polling', async () => {
+  try {
     const {
       authClient,
       user,
@@ -265,6 +266,12 @@ describe('flow-okta-verify-enrollment', () => {
     await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
     expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
+
+    } catch (err) {
+      console.log('Test failed', err);
+      screen.debug(undefined, 10000);
+      throw err;
+    }
   });
 
   it('qr polling -> channel selection -> qr polling', async () => {
@@ -289,6 +296,7 @@ describe('flow-okta-verify-enrollment', () => {
   });
 
   it('qr polling -> channel selection -> data enrollment -> channel selection', async () => {
+  try {  
     const { user, findByText, findByAltText } = await createTestContext();
 
     // qr polling
@@ -316,7 +324,18 @@ describe('flow-okta-verify-enrollment', () => {
     // qr polling
     await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
     expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
-    expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
+    try {
+      expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
+    } catch (err) {
+      console.log('Can not find Alt text')
+      screen.debug(undefined, 10000);
+      throw err;
+    }
+  } catch (err) {
+    console.log('Test failed', err);
+    screen.debug(undefined, 10000);
+    throw err;
+  }
   });
 
   it('qr polling -> channel selection -> Return to authenticator list -> authenticator selection', async () => {
