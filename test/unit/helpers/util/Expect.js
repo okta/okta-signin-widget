@@ -347,7 +347,6 @@ fn.isJsonAssetRequest = function(args, expected) {
   expect(args.requestHeaders).toEqual(
     jasmine.objectContaining({
       accept: 'application/json',
-      'content-type': 'text/plain',
     })
   );
 };

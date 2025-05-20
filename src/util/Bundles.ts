@@ -151,10 +151,24 @@ function fetchJson(bundle, language, assets) {
 
   const headers = {
     Accept: 'application/json',
-    'Content-Type': 'text/plain',
   };
 
-  const mode = 'no-cors';
+  // Specify `mode: 'cors'` explicitly.
+  //
+  // Browsers allow specific types of requests to considered "simple" requests,
+  // even if we set `mode: 'no-cors'` and event if the request header `Content-Type` is
+  // set to `'text/plain'` for a GET request. This allows the normally opaque response
+  // to be readable when it would otherwise not be able to _as long as_ the server sends
+  // `Access-Control-Allow-Origin: *` (or a list that includes the origin of the document).
+  //
+  // On localhost, special browser security rules seem to disallow reading the response
+  // even under the above conditions when 'mode: 'no-cors'` is set. This means that we need
+  // to explicitly set the `mode` to `cors` in order to get a readable response.
+  //
+  // We are always actually making a CORS request anyways, so explicitly setting the mode
+  // to `cors` should not have any negative impact and is actually just a more accurate
+  // representation of what is happening.
+  const mode = 'cors';
 
   return fetch(assets.baseUrl + path, {
     method: 'GET',
