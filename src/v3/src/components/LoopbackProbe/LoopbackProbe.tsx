@@ -155,7 +155,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
 
     doLoopback();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [challengeRequest]);
   /* eslint-enable no-await-in-loop, no-continue */
 
   return null;

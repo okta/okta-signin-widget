@@ -28,6 +28,7 @@ import { StateUpdater } from 'preact/hooks';
 import { getMessage } from '../../../v2/ion/i18nUtils';
 import {
   AUTHENTICATOR_KEY,
+  CHALLENGE_METHOD,
   CONSENT_HEADER_STEPS,
   DEVICE_ENROLLMENT_TYPE,
   EMAIL_AUTHENTICATOR_TERMINAL_KEYS,
@@ -231,6 +232,26 @@ export const areTransactionsEqual = (
     : undefined;
   if (tx1AuthId !== tx2AuthId) {
     return false;
+  }
+
+  const challengeMethod1 = typeof tx1 !== 'undefined'
+    ? getCurrentAuthenticator(tx1)?.value?.contextualData?.challenge?.value?.challengeMethod
+    : undefined;
+  const challengeMethod2 = typeof tx2 !== 'undefined'
+    ? getCurrentAuthenticator(tx2)?.value?.contextualData?.challenge?.value?.challengeMethod
+    : undefined;
+
+  // case where a second loopback challenge is received, we should allow the LoopBackProbe component to probe again
+  if (challengeMethod1 === CHALLENGE_METHOD.LOOPBACK && challengeMethod2 === CHALLENGE_METHOD.LOOPBACK) {
+    const tx1ChallengeId = typeof tx1 !== 'undefined'
+      ? getCurrentAuthenticator(tx1)?.value?.contextualData?.challenge?.value?.challengeRequest
+      : undefined;
+    const tx2ChallengeId = typeof tx2 !== 'undefined'
+      ? getCurrentAuthenticator(tx2)?.value?.contextualData?.challenge?.value?.challengeRequest
+      : undefined;
+    if (tx1ChallengeId !== tx2ChallengeId) {
+      return false;
+    }
   }
 
   // on the safe mode poll remediation (IDX_STEP.POLL) we _always_

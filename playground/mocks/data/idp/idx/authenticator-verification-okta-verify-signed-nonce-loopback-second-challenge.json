@@ -1,0 +1,240 @@
+{
+  "stateHandle": "02im-3M2f6UXHgNfS7Ns7C85EKHzGaKw0u1CC4p9_r",
+  "version": "1.0.0",
+  "expiresAt": "2020-01-13T21:14:37.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "relatesTo": [
+          "$.currentAuthenticator"
+        ],
+        "name": "challenge-poll",
+        "href": "http://localhost:3000/idp/idx/authenticators/poll",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "refresh": 4000,
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "022P5Fd8jBy3b77XEdFCqnjz__5wQxksRfrAS4z6wP",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-authenticate",
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "Okta Verify",
+                "relatesTo": "$.authenticatorEnrollments.value[0]",
+                "form": {
+                  "value": [
+                    {
+                      "name": "id",
+                      "value": "auttheidkwh282hv8g3",
+                      "required": true,
+                      "mutable": false,
+                      "visible": false
+                    },
+                    {
+                      "name": "methodType",
+                      "value": "signed_nonce",
+                      "required": true,
+                      "mutable": false,
+                      "visible": false
+                    }
+                  ]
+                }
+              },
+              {
+                "label": "Okta Password",
+                "relatesTo": "$.authenticatorEnrollments.value[1]",
+                "form": {
+                  "value": [
+                    {
+                      "name": "id",
+                      "value": "auttmbseAWnMPtLe20g3",
+                      "required": true,
+                      "mutable": false,
+                      "visible": false
+                    },
+                    {
+                      "name": "methodType",
+                      "value": "password",
+                      "required": true,
+                      "mutable": false,
+                      "visible": false
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02im-3M2f6UXHgNfS7Ns7C85EKHzGaKw0u1CC4p9_r",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "displayName":"Okta Verify",
+      "type": "app",
+      "key": "okta_verify",
+      "id": "aen1mz5J4cuNoaR3l0g4",
+      "methods":[
+        {
+          "type":"signed_nonce"
+        }
+      ],
+      "cancel": {
+        "rel": [
+          "create-form"
+        ],
+        "name": "cancel-polling",
+        "href": "http://localhost:3000/idp/idx/authenticators/poll/cancel",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "123",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      },
+      "contextualData": {
+        "challenge": {
+          "type": "object",
+          "value": {
+            "challengeMethod": "LOOPBACK",
+            "challengeRequest": "123",
+            "domain": "http://localhost",
+            "enhancedPollingEnabled": false,
+            "ports": [
+              "2000",
+              "6511",
+              "6512",
+              "6513"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "authenticators":{
+    "type":"array",
+    "value":[
+      {
+        "type":"app",
+        "key": "okta_verify",
+        "id":"autmho3zRhIfiSzOy0g4",
+        "displayName":"Okta Verify",
+        "methods":[
+          {
+            "type":"signed_nonce"
+          }
+        ]
+      },
+      {
+        "type":"password",
+        "key": "okta_password",
+        "id":"autmhm5s2gQhWbPfu0g4",
+        "displayName":"Password",
+        "methods":[
+          {
+            "type":"password"
+          }
+        ]
+      }
+    ]
+  },
+  "authenticatorEnrollments":{
+    "type":"array",
+    "value":[
+      {
+        "profile":{
+          "deviceName":"DESKTOP-9AD225Q"
+        },
+        "type":"app",
+        "key": "okta_verify",
+        "id":"pfdtxkyRQrmwfWdIE0g4",
+        "displayName":"Okta Verify",
+        "methods":[
+          {
+            "type":"signed_nonce"
+          }
+        ]
+      },
+      {
+        "type":"password",
+        "key": "okta_password",
+        "id":"lae3obwhjXZOu3dfz0g4",
+        "displayName":"Password",
+        "methods":[
+          {
+            "type":"password"
+          }
+        ]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00utjm1GstPjCF9Ad0g3",
+      "identifier": "testUser@okta.com"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02im-3M2f6UXHgNfS7Ns7C85EKHzGaKw0u1CC4p9_r",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "oidc_client",
+      "label": "Native client",
+      "id": "0oa2lpzzzJHJy0E6q0g4"
+    }
+  }
+}
