@@ -242,7 +242,7 @@ export const areTransactionsEqual = (
     : undefined;
 
   // case where a second loopback challenge is received, we should allow the LoopBackProbe component to probe again
-  if (challengeMethod1 === CHALLENGE_METHOD.LOOPBACK 
+  if (challengeMethod1 === CHALLENGE_METHOD.LOOPBACK
         && challengeMethod2 === CHALLENGE_METHOD.LOOPBACK) {
     const tx1ChallengeId = typeof tx1 !== 'undefined'
       ? getCurrentAuthenticator(tx1)?.value?.contextualData?.challenge?.value?.challengeRequest
