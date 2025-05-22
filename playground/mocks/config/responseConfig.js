@@ -19,7 +19,8 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
+    'authenticator-verification-email'
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -170,8 +171,8 @@ const idx = {
     'authenticator-enroll-ov-email',
   ],
   '/idp/idx/challenge/resend': [
-    'authenticator-enroll-ov-sms',
-    // 'authenticator-verification-phone-voice'
+    // 'authenticator-enroll-ov-sms',
+    'authenticator-verification-phone-voice'
   ],
   '/idp/idx/challenge/poll': [
     'authenticator-verification-email',
