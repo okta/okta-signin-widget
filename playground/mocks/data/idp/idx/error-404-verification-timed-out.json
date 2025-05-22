@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+  "expiresAt": "2024-12-11T16:19:42.000Z",
+  "intent": "LOGIN",
+  "messages": {
+      "type": "array",
+      "value": [
+          {
+              "message": "Verification timed out. Please try again",
+              "i18n": {
+                  "key": "core.system.transaction_resource_not_found"
+              },
+              "class": "ERROR"
+          }
+      ]
+  }
+}
