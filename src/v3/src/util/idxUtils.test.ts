@@ -421,7 +421,7 @@ describe('IdxUtils Tests', () => {
     });
   });
 
-  it('transactions should not be considered equal when another loopback challenge is received and challenge ids are not the same', () => {
+  it('transactions should not be considered equal when auth ids are the same but challenge ids are not the same', () => {
     const transaction1 = {
       ...transaction,
       rawIdxState: {
@@ -429,11 +429,11 @@ describe('IdxUtils Tests', () => {
         stateHandle: '',
         currentAuthenticator: {
           value: {
+            id: 'authenticator_id',
             contextualData: {
               challenge: {
                 value: {
                   challengeRequest: 'challenge_request_1',
-                  challengeMethod: 'LOOPBACK',
                 },
               },
             },
@@ -449,11 +449,11 @@ describe('IdxUtils Tests', () => {
         stateHandle: '',
         currentAuthenticator: {
           value: {
+            id: 'authenticator_id',
             contextualData: {
               challenge: {
                 value: {
                   challengeRequest: 'challenge_request_2',
-                  challengeMethod: 'LOOPBACK',
                 },
               },
             },

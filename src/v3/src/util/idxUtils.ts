@@ -224,35 +224,19 @@ export const areTransactionsEqual = (
     return false;
   }
 
-  const tx1AuthId = typeof tx1 !== 'undefined'
-    ? getCurrentAuthenticator(tx1)?.value?.id
-    : undefined;
-  const tx2AuthId = typeof tx2 !== 'undefined'
-    ? getCurrentAuthenticator(tx2)?.value?.id
-    : undefined;
+  const tx1AuthId = getCurrentAuthenticator(tx1)?.value?.id;
+  const tx2AuthId = getCurrentAuthenticator(tx2)?.value?.id;
+  
   if (tx1AuthId !== tx2AuthId) {
     return false;
   }
 
-  const challengeMethod1 = typeof tx1 !== 'undefined'
-    ? getCurrentAuthenticator(tx1)?.value?.contextualData?.challenge?.value?.challengeMethod
-    : undefined;
-  const challengeMethod2 = typeof tx2 !== 'undefined'
-    ? getCurrentAuthenticator(tx2)?.value?.contextualData?.challenge?.value?.challengeMethod
-    : undefined;
+  // case where another challenge from the same authenticator is received
+  const tx1ChallengeId = getCurrentAuthenticator(tx1)?.value?.contextualData?.challenge?.value?.challengeRequest;
+  const tx2ChallengeId = getCurrentAuthenticator(tx2)?.value?.contextualData?.challenge?.value?.challengeRequest;
 
-  // case where a second loopback challenge is received, we should allow the LoopBackProbe component to probe again
-  if (challengeMethod1 === CHALLENGE_METHOD.LOOPBACK
-        && challengeMethod2 === CHALLENGE_METHOD.LOOPBACK) {
-    const tx1ChallengeId = typeof tx1 !== 'undefined'
-      ? getCurrentAuthenticator(tx1)?.value?.contextualData?.challenge?.value?.challengeRequest
-      : undefined;
-    const tx2ChallengeId = typeof tx2 !== 'undefined'
-      ? getCurrentAuthenticator(tx2)?.value?.contextualData?.challenge?.value?.challengeRequest
-      : undefined;
-    if (tx1ChallengeId !== tx2ChallengeId) {
-      return false;
-    }
+  if (tx1ChallengeId !== tx2ChallengeId) {
+    return false;
   }
 
   // on the safe mode poll remediation (IDX_STEP.POLL) we _always_
