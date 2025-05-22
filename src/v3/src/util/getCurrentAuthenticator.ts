@@ -18,7 +18,7 @@ export const getCurrentAuthenticator = (
   if (typeof transaction === 'undefined') {
     return undefined;
   }
-  
+
   // currentAuthenticator is from enrollment flows and currentAuthenticatorEnrollment is from verify flows
   const { rawIdxState: { currentAuthenticator, currentAuthenticatorEnrollment } } = transaction;
 

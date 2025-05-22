@@ -28,7 +28,6 @@ import { StateUpdater } from 'preact/hooks';
 import { getMessage } from '../../../v2/ion/i18nUtils';
 import {
   AUTHENTICATOR_KEY,
-  CHALLENGE_METHOD,
   CONSENT_HEADER_STEPS,
   DEVICE_ENROLLMENT_TYPE,
   EMAIL_AUTHENTICATOR_TERMINAL_KEYS,
@@ -226,14 +225,16 @@ export const areTransactionsEqual = (
 
   const tx1AuthId = getCurrentAuthenticator(tx1)?.value?.id;
   const tx2AuthId = getCurrentAuthenticator(tx2)?.value?.id;
-  
+
   if (tx1AuthId !== tx2AuthId) {
     return false;
   }
 
   // case where another challenge from the same authenticator is received
-  const tx1ChallengeId = getCurrentAuthenticator(tx1)?.value?.contextualData?.challenge?.value?.challengeRequest;
-  const tx2ChallengeId = getCurrentAuthenticator(tx2)?.value?.contextualData?.challenge?.value?.challengeRequest;
+  const tx1ChallengeId = getCurrentAuthenticator(tx1)
+    ?.value?.contextualData?.challenge?.value?.challengeRequest;
+  const tx2ChallengeId = getCurrentAuthenticator(tx2)
+    ?.value?.contextualData?.challenge?.value?.challengeRequest;
 
   if (tx1ChallengeId !== tx2ChallengeId) {
     return false;
