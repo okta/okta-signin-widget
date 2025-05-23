@@ -428,7 +428,7 @@
                     }
                 },
                 "relatesTo": "$.authenticatorEnrollments.value[17]"
-            }
+              }
             ]
           },
           {
@@ -647,7 +647,7 @@
                 "type": "tac"
             }
         ]
-    }
+      }
     ]
   },
   "user": {

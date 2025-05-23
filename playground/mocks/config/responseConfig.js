@@ -132,7 +132,7 @@ const idx = {
   ],
   '/idp/idx/identify': [
     // 'authenticator-verification-data-ov-only-without-device-known',
-    // 'authenticator-verification-email',
+    'authenticator-verification-email',
     // 'authenticator-enroll-select-authenticator',
     // 'authenticator-verification-email-without-emailmagiclink',
     // 'identify-with-only-one-third-party-idp',

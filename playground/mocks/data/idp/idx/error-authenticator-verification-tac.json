@@ -2,19 +2,6 @@
   "version": "1.0.0",
   "stateHandle": "02.id.zDmU9ccsGdUS-SkehHBlNIQBVrq7jto3GdH0VwxM~c.3gbg9EpLxI9wg3T-1Mo3f7HKWUTKErzTYmgv_nD0ce1ngO8ldR-Tk02H0sSzd54K6MhIWPKV2gXNCJdJQ4bBvth36W42VyS2v0mqWGOb3oyTS0Hbqgui3tWLIRXCTGqDQ_OUBeuPh3oYrlySZwiveXi7Ed3ZS4KEA_fuMCgMh_nMeVamo-vgakpo-W7LiJg7lDG1eBNgX-WxMpr-CRWfyD9gVjIAk3HbAQd0tTJXXVBwWNAJ3LtETGZ-gRu61qZuO5hQBo9buwqQllBskijt8JBm1ZeOMUJY3tBRqZf3h7qIk7bXGJCOAtcEcblM4witF9egxZLaUK_LqWyDkIuALeYe278xiJJRfn8oigmQwhTyXRCN924_Y3iqaHpcvAdVsD46SwXKS2bRkX4kDpTYOytaNgV1Au2A89GfLl1IgSdzGKCZYG5L_eO7aJfL-vQrCsRAW0OLpkxHBpzZ270Ez63GwPStLB887DFYe_85mUf7yhBU4JX-1HLT75aW333IxZzJAjI_cMOz7L8OTjL-slzdELhWQd7k5KnIjarEsJRGzJt4vyx748B9cyPz0MbdlqvQGib0G7PRAhKuzjU6m_abXHV64i_W8JmcWuLMpmRBJAV6bWU5PqnMzHVzXHI4L_-2OAbnTPC0lxx4aKXat0W2hYnbQfD-F-ltn2icORybOP6SyAAgfzyXOFWe77VriUeJTFujht8FzRvOeBN6A7hfzBlR4SB_1hmAhlrvlwoQQvVl9mlYQMvTzI9mFpcfnTAc8NVkH-B83rxDDQkAfRP24a2NY-T0fd98f7ELtMU7Q-XGQzjIIq1_yT7MH7xCJJO3eKoBznaVrpSMxl6x8nn2k-a7VmDt-8nk-2_eLNoFon7o0T24x2Nj0J0KeYub7mP56lDBoZeZ3cbShQp1GHBYASE0Y8m1aWIX7Bc0RBpK999UD8aRNI68jOnqpAiHQpc75tGBJzL4tA7lbNBBKa-nd7gGn59RIskPMmVU0xXW1-PSINvRmIoCIeIr5xn8GI2-s_-NZxqHSpQtUr7Z9m5xLvU6GnSxQwm2zIfiwzHcXYqkCmmo3hNgdSqGdMr09WNF3JJvGfdSJuCAhNcTV0X9MlY5GAqlSkUG2djCuDJ6208nNYVOogzp970SWPjRy_uAiFm5_CBwlo3e5fidgPNROq-f_3AhAvnHRCW6xrEjVsOBOpQgYLvSt5ysnuit",
   "intent": "LOGIN",
-  "messages": {
-    "type": "array",
-    "value": [
-      {
-        "message": "Invalid code. Try again.",
-        "i18n": {
-          "key": "api.authn.error.PASSCODE_INVALID",
-          "params": []
-        },
-        "class": "ERROR"
-      }
-    ]
-  },
   "remediation": {
     "type": "array",
     "value": [
@@ -22,7 +9,7 @@
         "rel": ["create-form"],
         "name": "challenge-authenticator",
         "relatesTo": ["$.currentAuthenticatorEnrollment"],
-        "href": "https://localhost:3000/idp/idx/challenge/answer",
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -31,11 +18,24 @@
             "type": "object",
             "form": {
               "value": [
-                {
-                  "name": "passcode",
-                  "label": "Enter code",
-                  "secret": true
-                }
+                  {
+                      "name": "passcode",
+                      "label": "Enter code",
+                      "secret": true,
+                      "messages": {
+                          "type": "array",
+                          "value": [
+                              {
+                                  "message": "Invalid code. Try again.",
+                                  "i18n": {
+                                      "key": "api.authn.error.PASSCODE_INVALID",
+                                      "params": []
+                                  },
+                                  "class": "ERROR"
+                              }
+                          ]
+                      }
+                  }
               ]
             },
             "required": true
@@ -765,7 +765,7 @@
   "cancel": {
     "rel": ["create-form"],
     "name": "cancel",
-    "href": "https://localhost:3000/idp/idx/cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
     "method": "POST",
     "produces": "application/ion+json; okta-version=1.0.0",
     "value": [
@@ -793,14 +793,14 @@
       "protocol": "OAUTH2.0",
       "issuer": {
         "name": "Local SP",
-        "uri": "https://localhost:3000"
+        "uri": "http://localhost:3000"
       },
       "request": {
         "max_age": -1,
         "scope": "openid profile email okta.users.read.self okta.users.manage.self okta.internal.enduser.read okta.internal.enduser.manage okta.enduser.dashboard.read okta.enduser.dashboard.manage okta.myAccount.sessions.manage",
         "display": "page",
         "response_type": "code",
-        "redirect_uri": "https://localhost:3000/enduser/callback",
+        "redirect_uri": "http://localhost:3000/enduser/callback",
         "state": "qlBFdAAyMjdoyOWCJax2PPhhyDIDBC5Wt7jLD07wvJz46yhO6wSTU4sOwFgy7FHc",
         "code_challenge_method": "S256",
         "nonce": "JPYnb9W4rNrYzqz8bZodQ4w5w73u7nXhhPLgPVucMDprtB1jDoCPPohIvkhVFDAy",

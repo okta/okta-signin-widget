@@ -9,7 +9,7 @@
         "rel": ["create-form"],
         "name": "challenge-authenticator",
         "relatesTo": ["$.currentAuthenticatorEnrollment"],
-        "href": "https://localhost:3000/idp/idx/challenge/answer",
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -752,7 +752,7 @@
   "cancel": {
     "rel": ["create-form"],
     "name": "cancel",
-    "href": "https://localhost:3000/idp/idx/cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
     "method": "POST",
     "produces": "application/ion+json; okta-version=1.0.0",
     "value": [
@@ -772,28 +772,6 @@
       "name": "okta_enduser",
       "label": "Okta Dashboard",
       "id": "0oa14w0mpazTWEPBW0g4"
-    }
-  },
-  "authentication": {
-    "type": "object",
-    "value": {
-      "protocol": "OAUTH2.0",
-      "issuer": {
-        "name": "Local SP",
-        "uri": "https://localhost:3000"
-      },
-      "request": {
-        "max_age": -1,
-        "scope": "openid profile email okta.users.read.self okta.users.manage.self okta.internal.enduser.read okta.internal.enduser.manage okta.enduser.dashboard.read okta.enduser.dashboard.manage okta.myAccount.sessions.manage",
-        "display": "page",
-        "response_type": "code",
-        "redirect_uri": "https://localhost:3000/enduser/callback",
-        "state": "qlBFdAAyMjdoyOWCJax2PPhhyDIDBC5Wt7jLD07wvJz46yhO6wSTU4sOwFgy7FHc",
-        "code_challenge_method": "S256",
-        "nonce": "JPYnb9W4rNrYzqz8bZodQ4w5w73u7nXhhPLgPVucMDprtB1jDoCPPohIvkhVFDAy",
-        "code_challenge": "p7PybaGYc2aWmUZ5282nv6_5PHtAu10zAyhWe5nOwYU",
-        "response_mode": "query"
-      }
     }
   }
 }
