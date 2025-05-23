@@ -308,7 +308,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(16)).eql('Temporary Access Code');
   await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(16)).eql('Select Temporary Access Code.');
-  await t.expect(selectFactorPage.getFactorDescriptionByIndex(16)).eql(false);
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(16)).eql(false);
   await t.expect(selectFactorPage.getFactorIconSelectorByIndex(16)).contains('mfa-tac');
   await t.expect(await selectFactorPage.factorCustomLogoExist(16)).eql(false);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(16)).eql('Select');
@@ -860,7 +860,7 @@ test.requestHooks(mockChallengeTac)('should navigate to TAC challenge page', asy
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
 
-  selectFactorPage.selectFactorByIndex(17);
+  selectFactorPage.selectFactorByIndex(16);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
   await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Temporary Access Code');
   await t.expect(challengeFactorPage.getFormSubtitle()).eql('Enter the code provided by your administrator. Contact your administrator if you need a new code.');

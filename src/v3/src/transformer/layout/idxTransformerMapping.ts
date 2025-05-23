@@ -89,8 +89,8 @@ import {
   transformSecurityQuestionVerify,
 } from './securityQuestion';
 import { transformSymantecVipAuthenticator } from './symantecVip';
-import { transformUnlockAccount } from './unlockAccount';
 import { transformTacAuthenticator } from './tac';
+import { transformUnlockAccount } from './unlockAccount';
 
 const IdentifyTransformerSettings = {
   [AUTHENTICATOR_KEY.DEFAULT]: {
@@ -258,8 +258,8 @@ const TransformerMap: {
     },
     [AUTHENTICATOR_KEY.TAC]: {
       transform: transformTacAuthenticator,
-      buttonConfig: { showDefaultSubmit: false}
-    }
+      buttonConfig: { showDefaultSubmit: false },
+    },
   },
   [IDX_STEP.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: {

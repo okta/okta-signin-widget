@@ -74,7 +74,9 @@ test.requestHooks(mockInvalidPasscode)('challege TAC authenticator with invalid 
   await checkA11y(t);
   await challengeTacPage.verifyFactor('credentials.passcode', 'test');
   await challengeTacPage.clickNextButton('Verify');
-  await t.expect(challengeTacPage.getErrorFromErrorBox()).contains('Invalid code. Try again.');
+  await challengeTacPage.waitForErrorBox();
+  await t.expect(challengeTacPage.getInvalidOTPError()).contains('We found some errors.');
+  await t.expect(challengeTacPage.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
 });
 
 test.requestHooks(mockChallengeAuthenticatorTac)('should show custom factor page link', async t => {
