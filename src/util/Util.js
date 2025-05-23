@@ -270,7 +270,22 @@ Util.redirectWithFormGet = function(url) {
  *
  * This singleton serves as a mutex to be used only by `Util.redirectWithForm`.
  */
-Util.redirectWithFormLock = false;
+const _lockMethods = (function() {
+  // Enclose the variable in a closure to prevent external access
+  let redirectWithFormLock = false;
+
+  return {
+    getRedirectWithFormLock: function() {
+      return redirectWithFormLock;
+    },
+    setRedirectWithFormLock: function() {
+      redirectWithFormLock = true;
+    },
+  };
+})();
+
+Util.getRedirectWithFormLock = _lockMethods.getRedirectWithFormLock;
+Util.setRedirectWithFormLock = _lockMethods.setRedirectWithFormLock;
 
 Util.redirectWithForm = function(url, method = 'post') {
   if (!url) {
@@ -278,7 +293,7 @@ Util.redirectWithForm = function(url, method = 'post') {
     return;
   }
 
-  if (Util.redirectWithFormLock === true) {
+  if (Util.getRedirectWithFormLock() === true) {
     Logger.error('Cannot redirect with form, already in progress');
     return;
   }
@@ -293,7 +308,7 @@ Util.redirectWithForm = function(url, method = 'post') {
   // Set the lock as we are now about to submit the form.
   // There's no need to release the lock later because the page should
   // be unloaded after the form is submitted
-  Util.redirectWithFormLock = true;
+  Util.setRedirectWithFormLock();
 
   const form = buildDynamicForm(url, method);
 
