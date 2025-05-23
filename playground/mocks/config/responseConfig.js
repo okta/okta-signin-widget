@@ -132,7 +132,7 @@ const idx = {
   ],
   '/idp/idx/identify': [
     // 'authenticator-verification-data-ov-only-without-device-known',
-    'authenticator-verification-email',
+    // 'authenticator-verification-email',
     // 'authenticator-enroll-select-authenticator',
     // 'authenticator-verification-email-without-emailmagiclink',
     // 'identify-with-only-one-third-party-idp',
@@ -1166,6 +1166,19 @@ const appleSSOE = {
   ],
   '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify/cancel': [
     'identify'
+  ],
+};
+
+const tac = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator',
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-tac',
+  ],
+  '/idp/idx/challenge/answer': [
+    // 'success',
+    'error-authenticator-verification-tac',
   ],
 };
 
