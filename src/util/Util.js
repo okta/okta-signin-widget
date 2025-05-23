@@ -264,9 +264,22 @@ Util.redirectWithFormGet = function(url) {
   Util.redirectWithForm(url, 'get');
 };
 
+/**
+ * Ensure the redirect form is only submitted once in case the method is
+ * is invoked multiple times before the page navigation occurs.
+ *
+ * This singleton serves as a mutex to be used only by `Util.redirectWithForm`.
+ */
+Util.redirectWithFormLock = false;
+
 Util.redirectWithForm = function(url, method = 'post') {
   if (!url) {
     Logger.error(`Cannot redirect to empty URL: (${url})`);
+    return;
+  }
+
+  if (Util.redirectWithFormLock === true) {
+    Logger.error('Cannot redirect with form, already in progress');
     return;
   }
 
@@ -276,6 +289,11 @@ Util.redirectWithForm = function(url, method = 'post') {
     Logger.error('Cannot find okta-sign-in container append to which a form');
     return;
   }
+
+  // Set the lock as we are now about to submit the form.
+  // There's no need to release the lock later because the page should
+  // be unloaded after the form is submitted
+  Util.redirectWithFormLock = true;
 
   const form = buildDynamicForm(url, method);
 
