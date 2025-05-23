@@ -6,6 +6,7 @@ import BasePageObject from '../framework/page-objects/BasePageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import identifyWithUserVerificationLoopback from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-loopback';
+import identifyWithUserVerificationLoopbackSecondChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-loopback-second-challenge';
 import identifyWithUserVerificationLoopbackWithEnhancedPolling from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-loopback-with-enhanced-polling';
 import identifyWithUserVerificationBiometricsErrorMobile from '../../../playground/mocks/data/idp/idx/error-400-okta-verify-uv-fastpass-verify-enable-biometrics-mobile.json';
 import identifyWithUserVerificationBiometricsErrorDesktop from '../../../playground/mocks/data/idp/idx/error-okta-verify-uv-fastpass-verify-enable-biometrics-desktop.json';
@@ -40,6 +41,9 @@ const loopbackSuccessInitialPollMock = RequestMock()
 const loopbackSuccessAfterProbePollMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identify);
+const loopbackSecondLoopbackChallengeAfterProbePollMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identifyWithUserVerificationLoopbackSecondChallenge);
 const loopbackSuccessMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithUserVerificationLoopback)
@@ -496,6 +500,66 @@ test
     )).eql(2);
 
     await t.removeRequestHooks(loopbackSuccessInitialPollMock);
+    await t.addRequestHooks(loopbackSuccessAfterProbePollMock);
+
+    await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6513/))).eql(false);
+    const identityPage = new IdentityPageObject(t);
+    await identityPage.fillIdentifierField('Test Identifier');
+    await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
+  });
+
+test
+  .requestHooks(loopbackSuccessLogger, loopbackSuccessMock, loopbackSuccessInitialPollMock)('in loopback server approach, probing and polling requests are sent and responded multiple challenge requests', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
+    await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
+    // in v3 all cancel buttons are the same so skip this assertion
+    if (!userVariables.gen3) {
+      await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
+    }
+    await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
+    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
+
+    // 1st challenge
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+      record.request.method !== 'options' &&
+        record.request.url.match(/introspect|6512/)
+    )).eql(3);
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/challenge/) &&
+        record.request.body.match(/challengeRequest":"02vQULJDA20fnlkloDn2/)
+    )).eql(1);
+    // Check if pre-flight HTTP requests were sent
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+      record.request.method === 'options' &&
+        record.request.url.match(/2000|6511/)
+    )).eql(2);
+
+    // need wait times to prevent first mock poll from overriding second mock poll
+    await t.wait(4000);
+    await t.removeRequestHooks(loopbackSuccessInitialPollMock);
+    await t.addRequestHooks(loopbackSecondLoopbackChallengeAfterProbePollMock);
+    await t.wait(4000);
+
+    // 2nd challenge
+    // expect challenge with new challengeRequest
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/challenge/) &&
+        record.request.body.match(/challengeRequest":"123/)
+    )).eql(1);
+    // pre-flight HTTP requests sent should be double after second challenge
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+      record.request.method === 'options' &&
+        record.request.url.match(/2000|6511/)
+    )).eql(4);
+
+    await t.removeRequestHooks(loopbackSecondLoopbackChallengeAfterProbePollMock);
     await t.addRequestHooks(loopbackSuccessAfterProbePollMock);
 
     await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6513/))).eql(false);

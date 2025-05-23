@@ -13,8 +13,12 @@
 import { IdxTransaction, RawIdxResponse } from '@okta/okta-auth-js';
 
 export const getCurrentAuthenticator = (
-  transaction: IdxTransaction,
+  transaction?: IdxTransaction,
 ): RawIdxResponse['currentAuthenticator'] | undefined => {
+  if (typeof transaction === 'undefined') {
+    return undefined;
+  }
+
   // currentAuthenticator is from enrollment flows and currentAuthenticatorEnrollment is from verify flows
   const { rawIdxState: { currentAuthenticator, currentAuthenticatorEnrollment } } = transaction;
 

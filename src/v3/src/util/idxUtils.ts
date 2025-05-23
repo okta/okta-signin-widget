@@ -223,13 +223,20 @@ export const areTransactionsEqual = (
     return false;
   }
 
-  const tx1AuthId = typeof tx1 !== 'undefined'
-    ? getCurrentAuthenticator(tx1)?.value?.id
-    : undefined;
-  const tx2AuthId = typeof tx2 !== 'undefined'
-    ? getCurrentAuthenticator(tx2)?.value?.id
-    : undefined;
+  const tx1AuthId = getCurrentAuthenticator(tx1)?.value?.id;
+  const tx2AuthId = getCurrentAuthenticator(tx2)?.value?.id;
+
   if (tx1AuthId !== tx2AuthId) {
+    return false;
+  }
+
+  // case where another challenge from the same authenticator is received
+  const tx1ChallengeId = getCurrentAuthenticator(tx1)
+    ?.value?.contextualData?.challenge?.value?.challengeRequest;
+  const tx2ChallengeId = getCurrentAuthenticator(tx2)
+    ?.value?.contextualData?.challenge?.value?.challengeRequest;
+
+  if (tx1ChallengeId !== tx2ChallengeId) {
     return false;
   }
 

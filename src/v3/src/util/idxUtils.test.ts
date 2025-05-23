@@ -16,6 +16,7 @@ import { getStubTransaction } from 'src/mocks/utils/utils';
 
 import { RegistrationElementSchema, WidgetProps } from '../types';
 import {
+  areTransactionsEqual,
   buildAuthCoinProps,
   convertIdxInputsToRegistrationSchema,
   convertRegistrationSchemaToIdxInputs,
@@ -418,6 +419,50 @@ describe('IdxUtils Tests', () => {
       i18n: { key: '' },
       message: 'oform.errorbanner.title',
     });
+  });
+
+  it('transactions should not be considered equal when auth ids are the same but challenge ids are not the same', () => {
+    const transaction1 = {
+      ...transaction,
+      rawIdxState: {
+        version: '',
+        stateHandle: '',
+        currentAuthenticator: {
+          value: {
+            id: 'authenticator_id',
+            contextualData: {
+              challenge: {
+                value: {
+                  challengeRequest: 'challenge_request_1',
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const transaction2 = {
+      ...transaction,
+      rawIdxState: {
+        version: '',
+        stateHandle: '',
+        currentAuthenticator: {
+          value: {
+            id: 'authenticator_id',
+            contextualData: {
+              challenge: {
+                value: {
+                  challengeRequest: 'challenge_request_2',
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    expect(areTransactionsEqual(transaction1, transaction2)).toBe(false);
   });
 
   describe('triggerEmailVerifyCallback Tests', () => {
