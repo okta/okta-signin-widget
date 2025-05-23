@@ -265,11 +265,37 @@ describe('util/Util', () => {
       jest.spyOn(Logger, 'error');
       jest.spyOn(console, 'error').mockImplementation(() => { /* silence log */ });
       jest.spyOn(HTMLInputElement.prototype, 'click').mockImplementation(() => jest.fn());
+      // Normally act as if the form lock is not set
+      jest.spyOn(Util, 'getRedirectWithFormLock').mockImplementation(() => false);
+      jest.spyOn(Util, 'setRedirectWithFormLock').mockImplementation(() => {});
       $sandbox.append('<div id="okta-sign-in"></div>');
     });
 
     afterEach(() => {
       $sandbox.empty();
+    });
+
+    it('shall prevent redirects being initiated while one is already in progress', () => {
+      jest.spyOn(Util, 'getRedirectWithFormLock').mockImplementationOnce(() => false);
+      const setLockMock = jest.spyOn(Util, 'setRedirectWithFormLock').mockImplementation(() => {});
+
+      Util.redirectWithFormGet('http://example.com/idp/123');
+
+      expect(setLockMock).toHaveBeenCalledTimes(1);
+      expect(Logger.error).not.toHaveBeenCalled();
+
+      jest.spyOn(Util, 'getRedirectWithFormLock').mockImplementationOnce(() => true);
+
+      Util.redirectWithFormGet('http://example.com/idp/123');
+
+      expect(Logger.error).toHaveBeenCalledWith('Cannot redirect with form, already in progress');
+      expect($('#okta-sign-in form :submit').length).toBe(1);
+      expect($('#okta-sign-in form :submit')[0].click).toHaveBeenCalledTimes(1);
+      expect($('#okta-sign-in').html()).toBe(
+        '<form method="get" style="display: none;" action="http://example.com/idp/123">' +
+          '<input type="submit">' +
+          '</form>'
+      );
     });
 
     it('shall submit a plain URL', () => {
