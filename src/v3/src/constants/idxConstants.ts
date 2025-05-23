@@ -36,6 +36,7 @@ export const AUTHENTICATOR_KEY: Record<string, string> = {
   YUBIKEY: 'yubikey_token',
   CUSTOM_APP: 'custom_app',
   SMART_CARD_IDP: 'smart_card_idp',
+  TAC: 'tac',
   DEFAULT: '__',
 };
 
@@ -231,6 +232,7 @@ export const AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP: Record<string, string> = {
   [AUTHENTICATOR_KEY.YUBIKEY]: 'oie.yubikey.authenticator.description',
   [AUTHENTICATOR_KEY.CUSTOM_APP]: 'oie.custom.app.authenticator.description',
   [AUTHENTICATOR_KEY.SMART_CARD_IDP]: 'oie.smartcard.authenticator.description',
+  [AUTHENTICATOR_KEY.TAC]: 'oie.tac.authenticator.description',
 };
 
 export const CHALLENGE_INTENT_TO_I18KEY: Record<string, string> = {

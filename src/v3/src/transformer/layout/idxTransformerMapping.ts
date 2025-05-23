@@ -90,6 +90,7 @@ import {
 } from './securityQuestion';
 import { transformSymantecVipAuthenticator } from './symantecVip';
 import { transformUnlockAccount } from './unlockAccount';
+import { transformTacAuthenticator } from './tac';
 
 const IdentifyTransformerSettings = {
   [AUTHENTICATOR_KEY.DEFAULT]: {
@@ -255,6 +256,10 @@ const TransformerMap: {
       transform: transformYubikeyOtpAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
     },
+    [AUTHENTICATOR_KEY.TAC]: {
+      transform: transformTacAuthenticator,
+      buttonConfig: { showDefaultSubmit: false}
+    }
   },
   [IDX_STEP.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: {
