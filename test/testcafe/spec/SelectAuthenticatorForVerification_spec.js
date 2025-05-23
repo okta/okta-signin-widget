@@ -308,7 +308,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(16)).eql('Temporary Access Code');
   await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(16)).eql('Select Temporary Access Code.');
-  await t.expect(selectFactorPage.getFactorDescriptionByIndex(16)).eql(false);
+  await t.expect(selectFactorPage.factorDescriptionExistsByIndex(16)).eql(false);
   await t.expect(selectFactorPage.getFactorIconSelectorByIndex(16)).contains('mfa-tac');
   await t.expect(await selectFactorPage.factorCustomLogoExist(16)).eql(false);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(16)).eql('Select');
