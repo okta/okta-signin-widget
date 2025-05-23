@@ -113,6 +113,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.rsa_token.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'challenge-authenticator.custom_otp.credentials.passcode': 'oie.custom_otp.verify.passcode.label',
   'challenge-authenticator.symantec_vip.credentials.passcode': 'oie.symantecVip.verify.passcode.label',
+  'challenge-authenticator.tac.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'challenge-authenticator.yubikey_token.credentials.passcode': 'oie.yubikey.passcode.label',
   'challenge-authenticator.credentials.passcode': 'oie.password.label',
 
