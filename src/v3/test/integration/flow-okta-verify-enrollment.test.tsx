@@ -19,8 +19,6 @@ import smsPollingResponse from '../../src/mocks/response/idp/idx/challenge/send/
 import emailChannelSelectionMockResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-ov-email-channel.json';
 import smsChannelSelectionMockResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-ov-sms-channel.json';
 
-jest.retryTimes(2);
-
 const createTestContext = async () => {
   const mockRequestClient: HttpRequestClient = jest.fn().mockImplementation((_, url, options) => {
     updateStateHandleInMock(qrPollingResponse);
