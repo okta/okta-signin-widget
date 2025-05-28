@@ -132,8 +132,9 @@ const idx = {
   ],
   '/idp/idx/identify': [
     // 'authenticator-verification-data-ov-only-without-device-known',
-    'authenticator-verification-email',
+    // 'authenticator-verification-email',
     // 'authenticator-enroll-select-authenticator',
+    'authenticator-verification-select-authenticator'
     // 'authenticator-verification-email-without-emailmagiclink',
     // 'identify-with-only-one-third-party-idp',
     // 'error-identify-access-denied',
@@ -191,11 +192,13 @@ const idx = {
     // 'okta-verify-uv-verify-enable-biometrics'
   ],
   '/idp/idx/challenge': [
+    // 'authenticator-verification-email',
     // 'authenticator-verification-webauthn',
     // 'authenticator-verification-password',
     // 'authenticator-verification-okta-verify-totp',
     // 'authenticator-verification-okta-verify-push',
     // 'authenticator-verification-google-authenticator',
+    'authenticator-verification-nfc',
     'error-authenticator-phone-sms-ratelimit',
     'error-authenticator-phone-voice-ratelimit',
   ],
