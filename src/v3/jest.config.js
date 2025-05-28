@@ -20,6 +20,7 @@ const REPORT_DIR = '<rootDir>/build2/reports/unit';
 const esModules = [
   '@okta/odyssey-design-tokens',
   '@okta/odyssey-react-mui',
+  '@okta/okta-auth-js',
   '@adobe/leonardo-contrast-colors',
   'apca-w3',
   'colorparsley',
@@ -74,6 +75,11 @@ module.exports = {
     '^react-addons-css-transition-group$': 'preact-css-transition-group',
     '^@okta/odyssey-react-mui/icons$': '<rootDir>/../../node_modules/@okta/odyssey-react-mui/dist/icons.generated/index.js',
     '^@hcaptcha/loader$': '<rootDir>/../../node_modules/@hcaptcha/loader/dist/index.cjs',
+
+    // Use the browser ESM version of okta-auth-js.
+    // When we upgrade to Jest 28+ we will be able to resolve package.json "exports" field values
+    // instead of having to directly reference the file.
+    '^@okta/okta-auth-js$': '<rootDir>/../../node_modules/@okta/okta-auth-js/esm/browser/exports/exports/default.js',
   },
 
   modulePaths: [
