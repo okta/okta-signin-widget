@@ -2183,7 +2183,7 @@ describe('v2/ion/i18nTransformer', function() {
           name: 'challenge-authenticator',
           uiSchema: [
             {
-              'label': 'unit test - enter code',
+              'label': 'unit test - enter passcode',
               'label-top': true,
               'name': 'credentials.passcode',
               'type': 'text'

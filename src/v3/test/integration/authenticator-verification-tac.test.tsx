@@ -35,7 +35,7 @@ describe('authenticator-verification-custom-otp', () => {
     expect(heading.textContent).toBe('Verify with Temporary Access Code');
 
     const submitButton = await findByText('Verify', { selector: 'button' });
-    const otpCodeEle = await findByLabelText('Enter Code') as HTMLInputElement;
+    const otpCodeEle = await findByLabelText('Enter code') as HTMLInputElement;
     await waitFor(() => expect(otpCodeEle).toHaveFocus());
 
     const code = '123456';
@@ -69,7 +69,7 @@ describe('authenticator-verification-custom-otp', () => {
     expect(heading.textContent).toBe('Verify with Temporary Access Code');
 
     const submitButton = await findByText('Verify', { selector: 'button' });
-    const otpCodeEle = await findByLabelText('Enter Code') as HTMLInputElement;
+    const otpCodeEle = await findByLabelText('Enter code') as HTMLInputElement;
     await waitFor(() => expect(otpCodeEle).toHaveFocus());
 
     const code = '123456';
