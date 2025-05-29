@@ -168,7 +168,7 @@ exports[`authenticator-verification-custom-otp should render form 1`] = `
                         id="credentials.passcode-label"
                       >
                         <span>
-                          Enter Code
+                          Enter code
                         </span>
                       </label>
                       <div
