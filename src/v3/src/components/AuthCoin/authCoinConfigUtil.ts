@@ -153,6 +153,13 @@ export const getAuthCoinConfiguration = (): Record<string, AuthCoinConfig> => ({
     description: loc('factor.totpHard.symantecVip', 'login'),
     iconClassName: 'mfa-symantec',
   },
+  [AUTHENTICATOR_KEY.TAC]: {
+    icon: CustomOTPIcon,
+    name: 'mfa-tac',
+    customizable: false,
+    description: loc('oie.tac.authenticator.description', 'login'),
+    iconClassName: 'mfa-tac',
+  },
   [AUTHENTICATOR_KEY.WEBAUTHN]: {
     icon: SecurityKeyOrBiometricsIcon,
     name: 'mfa-webauthn',

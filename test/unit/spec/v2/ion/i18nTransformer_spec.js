@@ -2149,6 +2149,51 @@ describe('v2/ion/i18nTransformer', function() {
     });
   });
 
+  it('converts label for challenge-authenticator - tac authenticator', () => {
+    const resp = {
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'tac',
+              key: 'tac'
+            }
+          },
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              'label': 'Enter code',
+              'label-top': true,
+              'name': 'credentials.passcode',
+              'type': 'text'
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'tac',
+              key: 'tac'
+            }
+          },
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              'label': 'unit test - enter passcode',
+              'label-top': true,
+              'name': 'credentials.passcode',
+              'type': 'text'
+            }
+          ]
+        }
+      ]
+    });
+  });
+
   it('should get email label if it defined on enrollment-channel-data', () => {
     const resp = {
       remediations: [{
