@@ -51,7 +51,7 @@ test_suites:
   - name: unit-v3
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '8'
-    timeout: '55'
+    timeout: '15'
     script_name: unit-v3
     criteria: MERGE
     queue_name: small
