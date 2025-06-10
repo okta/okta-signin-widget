@@ -18,18 +18,16 @@ import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useValue } from '../../hooks';
 import {
   ChangeEvent,
-  FocusEvent,
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { buildFieldLevelErrorMessages, getTranslation } from '../../util';
 import { withFormValidationState } from '../hocs';
+import { useOnChange } from '../../hooks';
 
 const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
   errors,
-  handleChange,
-  handleBlur,
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
@@ -49,6 +47,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
   const optionalLabel = getTranslation(translations, 'optionalLabel');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const { errorMessage, errorMessageList } = buildFieldLevelErrorMessages(errors);
+  const onChangeHandler = useOnChange(uischema);
 
   return (
     <RadioGroup
@@ -59,7 +58,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
       label={label ?? ''}
       name={name}
       onChange={(e: ChangeEvent<HTMLInputElement>) => {
-        handleChange?.(e.currentTarget.value);
+        onChangeHandler?.(e.currentTarget.value);
       }}
       testId={name}
       value={value as string ?? ''}
@@ -70,9 +69,6 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
             isDisabled={loading}
             key={item.value}
             label={item.label}
-            onBlur={(e: FocusEvent<HTMLInputElement>) => {
-              handleBlur?.(e.currentTarget.value, e);
-            }}
             value={typeof item.value === 'string' ? item.value : ''}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...(index === 0 && { inputFocusRef: focusRef })}

@@ -18,18 +18,16 @@ import { h } from 'preact';
 import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useValue } from '../../hooks';
 import {
-  FocusEvent,
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { buildFieldLevelErrorMessages, getTranslation } from '../../util';
 import { withFormValidationState } from '../hocs';
+import { useOnChange } from '../../hooks';
 
 const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
   errors,
-  handleChange,
-  handleBlur,
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
@@ -37,6 +35,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   const label = getTranslation(translations, 'label');
   const emptyOptionLabel = getTranslation(translations, 'empty-option-label');
   const { errorMessage, errorMessageList } = buildFieldLevelErrorMessages(errors);
+  const onChangeHandler = useOnChange(uischema);
 
   const {
     attributes,
@@ -77,10 +76,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
         const selectTarget = (
           e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
         );
-        handleChange?.(selectTarget.value);
-      }}
-      onBlur={(e: FocusEvent<HTMLSelectElement>) => {
-        handleBlur?.(e.currentTarget.value, e);
+        onChangeHandler?.(selectTarget.value);
       }}
       testId={name}
       value={value as string ?? ''}
