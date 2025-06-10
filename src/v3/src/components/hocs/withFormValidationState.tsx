@@ -84,9 +84,7 @@ export const withFormValidationState: WrappedFunctionComponent<
       setTouched(false);
     }, [messages?.value]);
 
-    // Server side message should not disappear during client validation
-    // It should only be updated with data from the next transaction
-    const fieldErrors = !!errorsFromSchema ? errorsFromSchema : errors;
+    const fieldErrors = touched ? errors : errorsFromSchema;
     const combinedProps = {
       ...props,
       touched,
