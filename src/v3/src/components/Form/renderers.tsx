@@ -15,7 +15,8 @@ import { Input } from '@okta/okta-auth-js';
 import { FieldElement, Renderer } from '../../types';
 import {
   isCheckboxFieldElement,
-  isInputTextFieldElement,
+  isInputTextWithNoValidationFieldElement,
+  isInputTextWithValidationFieldElement,
   isPhoneNumberElement,
   isRadioFieldElement,
   isSelectFieldElement,
@@ -61,6 +62,7 @@ import TextWithActionLink from '../TextWithActionLink';
 import Title from '../Title';
 import WebAuthNAutofill from '../WebAuthNAutofill';
 import WebAuthNSubmitButton from '../WebAuthNSubmitButton';
+import InputTextWithValidation from '../InputTextWithValidation';
 
 /**
  * Render registry to match UISchemaElement Component with uischema
@@ -195,7 +197,11 @@ export default [
     renderer: Select,
   },
   {
-    tester: (element: FieldElement) => isInputTextFieldElement(element),
+    tester: (element: FieldElement) => isInputTextWithValidationFieldElement(element),
+    renderer: InputTextWithValidation,
+  },
+  {
+    tester: (element: FieldElement) => isInputTextWithNoValidationFieldElement(element),
     renderer: InputText,
   },
   {

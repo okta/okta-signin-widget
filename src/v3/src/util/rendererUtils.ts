@@ -26,10 +26,18 @@ export const isInputTextFieldElement = ({
     inputMeta: {
       type, options, name, secret,
     } = {} as Input,
-  },
+  } = {} as FieldElement['options'],
 }: FieldElement): boolean => (
-  ((type === 'string' || defaultType === 'string') && !options && !secret)
-      || (name === 'credentials.passcode' && !secret)
+  (((type === 'string' || defaultType === 'string') && !options && !secret)
+      || (name === 'credentials.passcode' && !secret))
+);
+
+export const isInputTextWithNoValidationFieldElement = (field: FieldElement): boolean => (
+  isInputTextFieldElement(field) && !field.options.inputMeta?.validate
+);
+
+export const isInputTextWithValidationFieldElement = (field: FieldElement): boolean => (
+  isInputTextFieldElement(field) && !!field.options.inputMeta?.validate
 );
 
 export const isPhoneNumberElement = ({
