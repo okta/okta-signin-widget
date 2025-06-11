@@ -20,15 +20,7 @@ import { loc } from '../../../util/locUtil';
 import { transformTacAuthenticator } from './transformTacAuthenticator';
 
 jest.mock('../../../util/locUtil', () => ({
-  loc: jest.fn().mockImplementation(
-    (
-      key: string,
-      // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-      bundleName: string,
-      // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-      params?: Array<string | number | boolean | unknown>,
-    ) => key,
-  ),
+  loc: jest.fn().mockImplementation(key => key)
 }));
 
 describe('transformTacAuthenticator Tests', () => {

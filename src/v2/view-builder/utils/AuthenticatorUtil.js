@@ -258,6 +258,8 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   }
 
   case AUTHENTICATOR_KEY.TAC: {Object.assign(authenticatorData, {
+    // we don't expect the description in the else case to be displayed, 
+    // because TAC is not eligible for inline enrollment
     description: isVerifyAuthenticator
       ? ''  
       : loc('oie.tac.authenticator.description', 'login'),

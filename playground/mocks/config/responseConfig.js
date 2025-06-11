@@ -1169,7 +1169,7 @@ const appleSSOE = {
   ],
 };
 
-const tac = {
+const temporaryAccessCode = {
   '/idp/idx/introspect': [
     'authenticator-verification-select-authenticator',
   ],

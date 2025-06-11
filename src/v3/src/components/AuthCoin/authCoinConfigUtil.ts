@@ -87,6 +87,7 @@ export const getAuthCoinConfiguration = (): Record<string, AuthCoinConfig> => ({
     icon: IDPIcon,
     name: 'mfa-custom-factor',
     customizable: true,
+    // this description is not expected to be displayed, but was included because description is a required property of AuthCoinConfig
     description: loc('factor.customFactor.description.generic', 'login'),
     iconClassName: 'mfa-custom-factor',
   },

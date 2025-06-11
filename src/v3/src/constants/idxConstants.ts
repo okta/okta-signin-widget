@@ -230,8 +230,10 @@ export const AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP: Record<string, string> = {
   [AUTHENTICATOR_KEY.CUSTOM_OTP]: 'oie.custom_otp.description',
   [AUTHENTICATOR_KEY.SYMANTEC_VIP]: 'oie.symantecVip.authenticator.description',
   [AUTHENTICATOR_KEY.YUBIKEY]: 'oie.yubikey.authenticator.description',
+  // Custom App is not eligible for inline enrollment, so this should be unreachable
   [AUTHENTICATOR_KEY.CUSTOM_APP]: 'oie.custom.app.authenticator.description',
   [AUTHENTICATOR_KEY.SMART_CARD_IDP]: 'oie.smartcard.authenticator.description',
+  // TAC is not eligible for inline enrollment, so this should be unreachable
   [AUTHENTICATOR_KEY.TAC]: 'oie.tac.authenticator.description',
 };
 
