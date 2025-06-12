@@ -19,7 +19,7 @@ import {
 import { loc } from '../../../util/locUtil';
 import { transformTacAuthenticator } from './transformTacAuthenticator';
 
-jest.mock('util/loc', () => ({
+jest.mock('../../../util/locUtil', () => ({
   loc: jest.fn().mockImplementation((key) => (key)),
 }));
 
