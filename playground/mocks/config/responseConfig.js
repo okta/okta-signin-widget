@@ -1169,6 +1169,19 @@ const appleSSOE = {
   ],
 };
 
+const temporaryAccessCode = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator',
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-tac',
+  ],
+  '/idp/idx/challenge/answer': [
+    // 'success',
+    'error-authenticator-verification-tac',
+  ],
+};
+
 module.exports = {
   mocks: idx
 };

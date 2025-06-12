@@ -257,6 +257,22 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
     break;
   }
 
+  case AUTHENTICATOR_KEY.TAC: {Object.assign(authenticatorData, {
+    // we don't expect the description in the else case to be displayed, 
+    // because TAC is not eligible for inline enrollment
+    description: isVerifyAuthenticator
+      ? ''  
+      : loc('oie.tac.authenticator.description', 'login'),
+    iconClassName: 'mfa-tac',
+    buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+    ariaLabel: isVerifyAuthenticator
+      ? loc('oie.select.authenticator.verify.named.authenticator.label', 'login', [authenticator.label])
+      : loc('oie.select.authenticator.enroll.named.authenticator.label', 'login', [authenticator.label])
+  });
+  break;
+
+  }
+
   }
   return authenticatorData;
 };
