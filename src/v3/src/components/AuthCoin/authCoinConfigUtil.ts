@@ -87,6 +87,7 @@ export const getAuthCoinConfiguration = (): Record<string, AuthCoinConfig> => ({
     icon: IDPIcon,
     name: 'mfa-custom-factor',
     customizable: true,
+    // this description is not expected to be displayed, but was included because description is a required property of AuthCoinConfig
     description: loc('factor.customFactor.description.generic', 'login'),
     iconClassName: 'mfa-custom-factor',
   },
@@ -152,6 +153,13 @@ export const getAuthCoinConfiguration = (): Record<string, AuthCoinConfig> => ({
     customizable: false,
     description: loc('factor.totpHard.symantecVip', 'login'),
     iconClassName: 'mfa-symantec',
+  },
+  [AUTHENTICATOR_KEY.TAC]: {
+    icon: CustomOTPIcon,
+    name: 'mfa-tac',
+    customizable: false,
+    description: loc('oie.tac.authenticator.description', 'login'),
+    iconClassName: 'mfa-tac',
   },
   [AUTHENTICATOR_KEY.WEBAUTHN]: {
     icon: SecurityKeyOrBiometricsIcon,

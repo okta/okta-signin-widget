@@ -24,6 +24,7 @@ import xhrAuthenticatorOVFastPass from '../../../playground/mocks/data/idp/idx/a
 import xhrSelectAuthenticatorsOktaVerifyWithoutSignedNonce from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-without-signed-nonce';
 import xhrAuthenticatorCustomOTP from '../../../playground/mocks/data/idp/idx/authenticator-verification-custom-otp';
 import xhrAuthenticatorCustomApp from '../../../playground/mocks/data/idp/idx/authenticator-verification-custom-app-push.json';
+import xhrAuthenticatorTac from '../../../playground/mocks/data/idp/idx/authenticator-verification-tac.json';
 
 const requestLogger = RequestLogger(
   /idx\/introspect|\/challenge/,
@@ -99,6 +100,12 @@ const mockChallengeCustomApp = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrAuthenticatorCustomApp);
 
+const mockChallengeTac = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticators)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrAuthenticatorTac);
+
 const xhrSelectAuthenticatorsOktaVerifyKnownDevice = JSON.parse(JSON.stringify(xhrSelectAuthenticatorsOktaVerify));
 xhrSelectAuthenticatorsOktaVerifyKnownDevice.authenticators.value[0].deviceKnown = true;
 const mockSelectAuthenticatorKnownDevice = RequestMock()
@@ -165,7 +172,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(16);
+  await t.expect(selectFactorPage.getFactorsCount()).eql(17);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(0)).eql('Select Password.');
@@ -299,6 +306,13 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(15)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(15)).eql('custom_app');
 
+  await t.expect(selectFactorPage.getFactorLabelByIndex(16)).eql('Temporary Access Code');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(16)).eql('Select Temporary Access Code.');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(16)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconSelectorByIndex(16)).contains('mfa-tac');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(16)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(16)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(16)).eql('tac');
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).eql(true);
 });
@@ -838,6 +852,18 @@ test.requestHooks(mockChallengeCustomOTP)('should navigate to Custom OTP challen
   selectFactorPage.selectFactorByIndex(9);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
   await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Atko Custom OTP Authenticator');
+});
+
+test.requestHooks(mockChallengeTac)('should navigate to TAC challenge page', async t => {
+  const selectFactorPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
+
+  selectFactorPage.selectFactorByIndex(16);
+  const challengeFactorPage = new ChallengeFactorPageObject(t);
+  await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Temporary Access Code');
+  await t.expect(challengeFactorPage.getFormSubtitle()).eql('Enter the code provided by your administrator. Contact your administrator if you need a new code.');
 });
 
 test.requestHooks(mockChallengePassword)('should show custom factor page link', async t => {
