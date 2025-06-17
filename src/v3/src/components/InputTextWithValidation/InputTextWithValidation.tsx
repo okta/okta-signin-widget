@@ -18,15 +18,17 @@ import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useValue } from '../../hooks';
 import {
   ChangeEvent,
+  FocusEvent,
   UISchemaElementComponent, UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { getTranslation, parseHtmlContent } from '../../util';
 import { withFormValidationState } from '../hocs';
-import { useOnChange } from '../../hooks';
 
-const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
+const InputTextWithValidation: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
   errors,
+  handleChange,
+  handleBlur,
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
@@ -47,7 +49,6 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const parsedExplainContent = parseHtmlContent(explain, parserOptions);
   const { errorMessage, errorMessageList } = buildFieldLevelErrorMessages(errors);
-  const onChangeHandler = useOnChange(uischema);
 
   return (
     <TextField
@@ -64,7 +65,10 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
       name={name}
       label={label ?? ''}
       onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        onChangeHandler?.(e.currentTarget.value);
+        handleChange?.(e.currentTarget.value);
+      }}
+      onBlur={(e: FocusEvent<HTMLInputElement>) => {
+        handleBlur?.(e.currentTarget.value, e);
       }}
       testId={dataSe}
       type="text"
@@ -73,5 +77,5 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   );
 };
 
-const WrappedInputText = withFormValidationState(InputText);
-export default WrappedInputText;
+const WrappedInputTextWithValidation = withFormValidationState(InputTextWithValidation);
+export default WrappedInputTextWithValidation;
