@@ -17,7 +17,6 @@ import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useValue } from '../../hooks';
 import {
   ChangeEvent,
-  FocusEvent,
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
@@ -28,12 +27,11 @@ import {
   wrapInTranslateNo,
 } from '../../util';
 import { withFormValidationState } from '../hocs';
+import { useOnChange } from '../../hooks';
 
 const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
   errors,
-  handleChange,
-  handleBlur,
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
@@ -55,6 +53,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
     : descriptionInfo?.value) as string | undefined;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const { errorMessage, errorMessageList } = buildFieldLevelErrorMessages(errors);
+  const onChangeHandler = useOnChange(uischema);
 
   return (
     <CheckboxGroup
@@ -71,11 +70,8 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
         isDisabled={loading || isReadOnly}
         label={label}
         name={name}
-        onBlur={(e: FocusEvent<HTMLInputElement>) => {
-          handleBlur?.(e.currentTarget.checked, e);
-        }}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          handleChange?.(e.currentTarget.checked);
+          onChangeHandler?.(e.currentTarget.checked);
         }}
         testId={name}
       />
