@@ -14,5 +14,6 @@
     "denysoblohin-okta"
   ],
   "slackChannel": "eng-sign-in-widget",
-  "guardian": "widget-coordinator"
+  "guardian": "widget-coordinator",
+  "jiraComponent": "Team: SIW Platform"
 }
