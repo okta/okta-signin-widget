@@ -36,7 +36,20 @@ import {
 } from '../types';
 import { getEventContext } from './getEventContext';
 import { loc } from './locUtil';
+import _ from 'underscore';
 
+/**
+ * Utility that retrieves the list of supported languages for the widget.
+ * 
+ * The values considered are:
+ * 
+ * 1. `widgetProps.assets.languages` - Custom list of supported languages defined in
+ *       the widget properties (supercedes `config.supportedLanguages` if provided)
+ * 2. `config.supportedLanguages` - Default list of supported languages defined in
+ *       the config (fallback for when `widgetProps.assets.languages` is not provided)
+ * 3. `widgetProps.i18n` - Custom language overrides defined in the i18n configuration
+ * 4. `widgetProps.language` - The language specified by the widget properties
+ */
 export const getSupportedLanguages = (widgetProps: WidgetProps): string[] => {
   const { i18n, language, assets: { languages } = {} } = widgetProps;
   const supportedLanguages = languages || config.supportedLanguages;
@@ -49,10 +62,88 @@ export const getSupportedLanguages = (widgetProps: WidgetProps): string[] => {
   );
 };
 
-export const getLanguageCode = (widgetProps: WidgetProps): LanguageCode => {
+/**
+ * Utility that gets a list of locale preferences based on the widget properties
+ * and browser settings.
+ * 
+ * NOTE: The locale and language are related but not necessarilty the same.
+ * The locale specifies the language and region, and may be used for formatting dates
+ * and currency, while the language is just the language code used for translations.
+ * 
+ * @param widgetProps 
+ * @returns 
+ */
+export const getLanguageCodes = (widgetProps: WidgetProps): string[] => {
+  // The language specified in widget properties (optional)
   const { language } = widgetProps;
   const supportedLanguages = getSupportedLanguages(widgetProps);
+
+  // Get the user's preferred languages from the browser API
   const userLanguages = BrowserFeatures.getUserLanguages().map((lang: string) => {
+    // Map "simple" language codes to their full locale equivalents to match the
+    // expected format for these specific languages.
+    if (lang === 'nl') {
+      return 'nl-nl';
+    }
+    if (lang === 'pt') {
+      return 'pt-br';
+    }
+    return lang.toLowerCase();
+  });
+
+  const preferredLanguages = [...userLanguages];
+
+  // Any developer defined "language" takes highest priority:
+  // As a string, i.e. 'en', 'ja', 'zh-CN'
+  if (typeof language === 'string') {
+    preferredLanguages.unshift(language.toLowerCase());
+  } else if (typeof language === 'function') {
+    // As a callback function, which is passed the list of supported
+    // languages and detected user languages. This function must return
+    // a languageCode, i.e. 'en', 'ja', 'zh-CN'
+    preferredLanguages.unshift(language(supportedLanguages as LanguageCode[], userLanguages));
+  }
+
+  // Add default language, and expand to include any language
+  // codes that do not include region, dialect, etc.
+  preferredLanguages.push(config.defaultLanguage);
+
+  let preferredLanguagesExpanded = Util.expandLanguages(preferredLanguages);
+
+  // only need to do this if language was set, otherwise the expanded list is good
+  if (typeof language === 'string') {
+    // pull all of the lanaguges that start with the language specified in widgetProps
+    const preferredLanguagesMatchingLanguage = preferredLanguagesExpanded.filter((preferredLang) => {
+      if (preferredLang === language) {
+        return false;
+      }
+      return preferredLang.startsWith(language);
+    });
+    // add them to the front of the array
+    preferredLanguagesExpanded.unshift(...preferredLanguagesMatchingLanguage);
+    // deduplicate the array
+    preferredLanguagesExpanded = [...new Set(preferredLanguagesExpanded)];
+  }
+
+  const languageCodes = preferredLanguagesExpanded.filter((preferredLang) => {
+    return supportedLanguages.filter((supportedLanguage) => preferredLang.startsWith(supportedLanguage.toLowerCase())).length > 0;
+  });
+
+  return languageCodes.length > 0 ? languageCodes : [config.defaultLanguage];
+};
+
+/**
+ * TODO: Actually more like `getTranslationLanguageCode`
+ */
+export const getLanguageCode = (widgetProps: WidgetProps): LanguageCode => {
+  // The language specified in widget properties (optional)
+  const { language } = widgetProps;
+  const supportedLanguages = getSupportedLanguages(widgetProps);
+
+  // Get the user's preferred languages from the browser API
+  const userLanguages = BrowserFeatures.getUserLanguages().map((lang: string) => {
+    // Map "simple" language codes to their full locale equivalents to match the
+    // expected format for these specific languages.
     if (lang === 'nl') {
       return 'nl-NL';
     }
