@@ -2,15 +2,12 @@
 #  Code ownership file for the okta/okta-signin-widget GitHub repository for mapping resources to teams.
 #  See [CODEOWNERS] for details.
 #
-#   TODO: Instead of listing out owners by their GitHub handle,
-#         we should leverage the [Widget] team. See: OKTA-366873
-#
 # Resources
 #  - [CODEOWNERS] https://help.github.com/articles/about-codeowners
 #  - [Widget] https://github.com/orgs/okta/teams/widget-contributors/members
 
 # General:
-*                             @jaredperreault-okta @lesterchoi-okta @shawyu-okta @shuowu-okta @alexchen-okta @trevoring-okta @glenfannin-okta @leemchale-okta @vijetmahabaleshwar-okta @robertdamphousse-okta
+*                             @Luxu2-Okta @jaredperreault-okta @lesterchoi-okta @shawyu-okta @shuowu-okta @alexchen-okta @trevoring-okta @glenfannin-okta @leemchale-okta
 
 # Localization:
 packages/@okta/pseudo-loc/    @mauriciocastillosilva-okta @michaeltamaki-okta @nikhilvenkatraman-okta @zihanwang-okta @stephanieyoshimoto-okta
