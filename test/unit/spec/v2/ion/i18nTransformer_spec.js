@@ -55,7 +55,8 @@ describe('v2/ion/i18nTransformer', function() {
       'oie.post.password.update.auth.failure.error': 'Authentication failed after password update.',
       'oie.phone.invalid': 'Invalid Phone',
       'oie.user.profile.firstname': 'User first name',
-      'oie.custom.app.authenticator.title': 'Get a push notification'
+      'oie.custom.app.authenticator.title': 'Get a push notification',
+      'oie.tac.label': 'Temporary Access Code'
     }, (value) => `unit test - ${value}`);
   });
   afterAll(() => {
@@ -356,6 +357,14 @@ describe('v2/ion/i18nTransformer', function() {
                   },
                   'authenticatorKey': 'custom_app'
                 },
+                {
+                  'label': 'Temporary Access Code',
+                  'value': {
+                    'id': 'aut4eldeAtWTVPJ1a0g5',
+                    'methodType': 'tac'
+                  },
+                  'authenticatorKey': 'tac'
+                },
               ],
               'label-top': true
             }
@@ -462,6 +471,14 @@ describe('v2/ion/i18nTransformer', function() {
                   },
                   'authenticatorKey': 'custom_app'
                 },
+                {
+                  'label': 'unit test - Temporary Access Code',
+                  'value': {
+                    'id': 'aut4eldeAtWTVPJ1a0g5',
+                    'methodType': 'tac'
+                  },
+                  'authenticatorKey': 'tac'
+                }
               ],
               'label-top': true
             }
