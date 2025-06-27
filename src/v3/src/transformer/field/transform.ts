@@ -170,10 +170,7 @@ export const transformStepInputs = (
         };
         acc.dataSchema.fieldsToValidate.push(name);
         // Of the required fields, trim appropriately
-        // also trim the identifier input
-        if (uischema.options.attributes?.inputmode === 'numeric'
-          || (step.name === 'identify' && name === 'identifier')
-        ) {
+        if (uischema.options.attributes?.inputmode === 'numeric') {
           acc.dataSchema.fieldsToTrim.push(name);
         }
       }
