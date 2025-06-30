@@ -16,6 +16,7 @@ import { union } from 'lodash';
 import config from '../../../config/config.json';
 import {
   EventContext,
+  LanguageCallback,
   LanguageCode,
   RegistrationErrorCallback,
   RegistrationPostSubmitCallback,
@@ -72,14 +73,11 @@ export const getSupportedLanguages = (widgetProps: WidgetProps): string[] => {
  * 
  * @see https://en.wikipedia.org/wiki/IETF_language_tag
  * 
- * @param widgetProps 
+ * @param {string | LanguageCallback | undefined} language 
+ * @param {string[]} supportedLanguages
  * @returns 
  */
-export const getLanguageTags = (widgetProps: WidgetProps): string[] => {
-  // The language specified in widget properties (optional)
-  const { language } = widgetProps;
-  const supportedLanguages = getSupportedLanguages(widgetProps);
-
+export const getLanguageTags = (language: string | LanguageCallback | undefined, supportedLanguages: string[]): string[] => {
   // Get the user's preferred languages from the browser API
   const userLanguages = BrowserFeatures.getUserLanguages().map((userLanguage: string) => {
     // Map "simple" language codes to their full locale equivalents to match the
