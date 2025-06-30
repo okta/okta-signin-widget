@@ -101,22 +101,28 @@ export default {
    * Conversion from a Date object to a locale string that mimics Okta's `short-with-timezone` format
    * but rounded down to the nearest hour
    * e.g. new Date(2024-09-05T00:00:00.000Z) -> 09/05/2024, 8:00 PM EDT
+   * 
+   * TODO: Fix type of languageTags
    *
    * @param {Date} date The Date object for the grace period expiry
-   * @param {LanguageCode} languageCode The user's language code / locale
+   * @param {string[] | string | undefined} languageTags The user's language tags, ordered by preference
    * @param {RoundDownToNearestHour} boolean Whether to round down to nearest hour. Defaults to true
    * @return {string} The formatted `short-with-timezone` local string
    */
-  formatDateToDeviceAssuranceGracePeriodExpiryLocaleString: (date, languageCode, roundDownToNearestHour = true) => {
+  formatDateToDeviceAssuranceGracePeriodExpiryLocaleString: (date, languageTags, roundDownToNearestHour = true) => {
+    if (!languageTags) {
+      return null;
+    }
+    const languageTagsPrefs = Array.isArray(languageTags) ? languageTags : [languageTags];
     try {
     // Invalid Date objects will return NaN for valueOf()
-      if (date && !isNaN(date.valueOf()) && languageCode !== null) {
+      if (date && !isNaN(date.valueOf())) {
         // eslint-disable-next-line max-depth
         if (roundDownToNearestHour) {
           // Round down the date to the nearest hour
           date.setMinutes(0, 0, 0);
         }
-        return date.toLocaleString(languageCode, {
+        return date.toLocaleString(languageTagsPrefs, {
           year: 'numeric',
           month: '2-digit',
           day: '2-digit',
