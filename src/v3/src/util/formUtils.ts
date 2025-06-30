@@ -15,7 +15,6 @@ import {
   IdxMessage, IdxRemediation, IdxTransaction, NextStep,
 } from '@okta/okta-auth-js';
 
-import { LanguageCode } from '../../../types';
 import IDP from '../../../util/IDP';
 import TimeUtil from '../../../util/TimeUtil';
 import Util from '../../../util/Util';

@@ -23,7 +23,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { getLanguageTags, loc } from '../../util';
+import { getLanguageTags, getSupportedLanguages, loc } from '../../util';
 import { getAuthenticatorEnrollButtonElements } from './utils';
 
 const getContentDescrAndParams = (brandName?: string): TitleElement['options'] => {
@@ -62,7 +62,8 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     return formBag;
   }
 
-  const languageTags = getLanguageTags(widgetProps);
+  const supportedLanguages = getSupportedLanguages(widgetProps)
+  const languageTags = getLanguageTags(widgetProps.language, supportedLanguages);
   const authenticatorsWithGracePeriod : IdxOption[] = [];
   const authenticatorsDueNow : IdxOption[] = [];
   authenticator.options.forEach((option) => {
