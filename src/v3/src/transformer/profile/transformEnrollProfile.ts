@@ -198,7 +198,7 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
       field.options.inputMeta.validate = true;
     }
     return element;
-  })
+  });
 
   return formBag;
 };

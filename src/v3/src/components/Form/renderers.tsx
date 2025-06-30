@@ -39,6 +39,7 @@ import InfoBox from '../InfoBox';
 import InformationalText from '../InformationalText';
 import InputPassword from '../InputPassword';
 import InputText from '../InputText';
+import InputTextWithValidation from '../InputTextWithValidation';
 import LaunchAuthenticatorButton from '../LaunchAuthenticatorButton';
 import Link from '../Link';
 import List from '../List';
@@ -62,7 +63,6 @@ import TextWithActionLink from '../TextWithActionLink';
 import Title from '../Title';
 import WebAuthNAutofill from '../WebAuthNAutofill';
 import WebAuthNSubmitButton from '../WebAuthNSubmitButton';
-import InputTextWithValidation from '../InputTextWithValidation';
 
 /**
  * Render registry to match UISchemaElement Component with uischema

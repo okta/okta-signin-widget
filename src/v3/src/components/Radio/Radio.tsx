@@ -15,7 +15,7 @@ import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
-import { useAutoFocus, useValue } from '../../hooks';
+import { useAutoFocus, useOnChange, useValue } from '../../hooks';
 import {
   ChangeEvent,
   UISchemaElementComponent,
@@ -23,7 +23,6 @@ import {
 } from '../../types';
 import { buildFieldLevelErrorMessages, getTranslation } from '../../util';
 import { withFormValidationState } from '../hocs';
-import { useOnChange } from '../../hooks';
 
 const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,

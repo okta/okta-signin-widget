@@ -15,14 +15,13 @@ import { h } from 'preact';
 import { buildFieldLevelErrorMessages } from 'src/util/buildFieldLevelErrorMessages';
 
 import { useWidgetContext } from '../../contexts';
-import { useAutoFocus, useValue } from '../../hooks';
+import { useAutoFocus, useOnChange, useValue } from '../../hooks';
 import {
   ChangeEvent,
   UISchemaElementComponent, UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { getTranslation, parseHtmlContent } from '../../util';
 import { withFormValidationState } from '../hocs';
-import { useOnChange } from '../../hooks';
 
 const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,

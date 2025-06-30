@@ -14,7 +14,7 @@ import { Checkbox as OdyCheckbox, CheckboxGroup } from '@okta/odyssey-react-mui'
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
-import { useAutoFocus, useValue } from '../../hooks';
+import { useAutoFocus, useOnChange, useValue } from '../../hooks';
 import {
   ChangeEvent,
   UISchemaElementComponent,
@@ -27,7 +27,6 @@ import {
   wrapInTranslateNo,
 } from '../../util';
 import { withFormValidationState } from '../hocs';
-import { useOnChange } from '../../hooks';
 
 const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
