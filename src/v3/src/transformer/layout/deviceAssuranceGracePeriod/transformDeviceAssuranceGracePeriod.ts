@@ -19,7 +19,8 @@ import {
   InfoboxElement,
   TitleElement,
 } from '../../../types';
-import { buildEndUserRemediationMessages, getLanguageTags, getSupportedLanguages, loc } from '../../../util';
+import { getLanguageTags } from 'util/LanguageUtil';
+import { buildEndUserRemediationMessages, getSupportedLanguages, loc } from '../../../util';
 
 export const transformDeviceAssuranceGracePeriod: IdxStepTransformer = ({
   formBag,
