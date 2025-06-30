@@ -350,7 +350,7 @@ const buildEnduserRemediationWidgetMessageOption = (
 
 export const buildEndUserRemediationMessages = (
   messages: IdxMessage[],
-  languageCode?: LanguageCode,
+  languageTags?: string[],
 ) : WidgetMessage[] | undefined => {
   if (messages.length === 0) {
     return undefined;
@@ -390,7 +390,7 @@ export const buildEndUserRemediationMessages = (
         const expiry = params[0];
         const expiryDate = new Date(expiry as string);
         const localizedExpiry = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(
-          expiryDate, languageCode,
+          expiryDate, languageTags,
         );
         widgetMsg.title = localizedExpiry ? loc(key, 'login', [localizedExpiry]) : message;
       }
