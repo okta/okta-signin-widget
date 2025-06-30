@@ -19,7 +19,7 @@ import {
   InfoboxElement,
   TitleElement,
 } from '../../../types';
-import { buildEndUserRemediationMessages, getLanguageTags, loc } from '../../../util';
+import { buildEndUserRemediationMessages, getLanguageTags, getSupportedLanguages, loc } from '../../../util';
 
 export const transformDeviceAssuranceGracePeriod: IdxStepTransformer = ({
   formBag,
@@ -28,7 +28,8 @@ export const transformDeviceAssuranceGracePeriod: IdxStepTransformer = ({
 }) => {
   const { uischema } = formBag;
   const { messages = [] } = transaction;
-  const languageTags = getLanguageTags(widgetProps);
+  const supportedLanguages = getSupportedLanguages(widgetProps)
+  const languageTags = getLanguageTags(widgetProps.language, supportedLanguages);
 
   // Normally, the transactionMessageTransformer runs after this transformer, but buildEndUserRemediationMessages()
   // expects localized transaction messages so we have to call this transformer here.
