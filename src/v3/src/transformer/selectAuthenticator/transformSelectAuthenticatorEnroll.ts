@@ -23,7 +23,8 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { getLanguageTags, getSupportedLanguages, loc } from '../../util';
+import { getLanguageTags } from 'util/LanguageUtil';
+import { getSupportedLanguages, loc } from '../../util';
 import { getAuthenticatorEnrollButtonElements } from './utils';
 
 const getContentDescrAndParams = (brandName?: string): TitleElement['options'] => {

@@ -172,6 +172,7 @@ const baseConfig: Partial<Configuration> = {
       'util/FactorUtil': resolve(__dirname, '../util/FactorUtil'),
       'util/Logger': resolve(__dirname, '../util/Logger'),
       'util/TimeUtil': resolve(__dirname, '../util/TimeUtil'),
+      'util/LanguageUtil': resolve(__dirname, '../util/LanguageUtil'),
       v1: resolve(__dirname, '../v1'),
       v2: resolve(__dirname, '../v2'),
 
