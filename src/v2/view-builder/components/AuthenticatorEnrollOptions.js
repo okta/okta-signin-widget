@@ -116,7 +116,7 @@ const AuthenticatorRow = View.extend({
       if (gracePeriodEpochTimestampMs) {
         data.gracePeriodExpiry = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(
           new Date(gracePeriodEpochTimestampMs),
-          this.settings.get('languageCode'),
+          this.settings.get('languageTags'),
           false,
         );
       }
