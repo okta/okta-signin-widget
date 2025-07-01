@@ -16,7 +16,7 @@ import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import { WidgetProps } from '../types';
 import {
   getBackToSignInUri, getCustomHelpLinks, getDefaultCountryCode, getFactorPageCustomLink,
-  getForgotPasswordUri, getHelpLink, getLanguageCode, getLanguageTags, getPageTitle, getUnlockAccountUri,
+  getForgotPasswordUri, getHelpLink, getLanguageCode, getPageTitle, getUnlockAccountUri,
   transformIdentifier,
 } from './settingsUtils';
 import BrowserFeatures from '../../../util/BrowserFeatures';
@@ -31,67 +31,6 @@ jest.mock('../../../config/config.json', () => ({
 }));
 
 describe('Settings Utils Tests', () => {
-  describe('getLanguageTags', () => {
-    it('should return all expanded language codes in the right order when subtag is set as language but browser preferences do not match any part of subtag language', () => {
-      BrowserFeatures.getUserLanguages.mockReturnValue(['en-US', 'en']);
-
-      expect(getLanguageTags({
-        language: 'zh-CN',
-      } as WidgetProps)).toEqual(['zh-cn', 'zh', 'en-us', 'en']);
-    });
-
-    it('should return set language and subtags of that language first (with subtags first) when browser preference order contains that language', () => {
-      // if the browser language is set to en-gb but the widget is set to en, we should still return en-gb first
-      // in general, if the browser lanaguage is set to {language}-{region} but we only support {language},
-      // we should still return {language}-{region} first
-      BrowserFeatures.getUserLanguages.mockReturnValue(['en-GB', 'en-US', 'en']);
-
-      expect(getLanguageTags({
-        language: 'en',
-      } as WidgetProps)).toEqual(['en-gb', 'en-us', 'en']);
-
-      // even if another language is in between related languages, we should sort the language tags related to
-      // the set language first
-      BrowserFeatures.getUserLanguages.mockReturnValue(['en', 'es', 'es-MX', 'en-GB']);
-
-      expect(getLanguageTags({
-        language: 'en',
-      } as WidgetProps)).toEqual(['en', 'en-gb', 'es', 'es-mx']);
-    });
-
-    it('should not return languages that are not in supportedLanguages even when browser preferences contain it', () => {
-      BrowserFeatures.getUserLanguages.mockReturnValue(['hr', 'en']);
-
-      expect(getLanguageTags({
-        language: 'en',
-      } as WidgetProps)).toEqual(['en']);
-    });
-
-    it('should handle when no language is set', () => {
-      BrowserFeatures.getUserLanguages.mockReturnValue(['en-US', 'en']);
-
-      expect(getLanguageTags({
-        language: undefined,
-      } as WidgetProps)).toEqual(['en-us', 'en']);
-    });
-
-    it('should handle when no browser preferences exist', () => {
-      BrowserFeatures.getUserLanguages.mockReturnValue([]);
-
-      expect(getLanguageTags({
-        language: 'en',
-      } as WidgetProps)).toEqual(['en']);
-    });
-
-    it('should handle when no language is set and no browser preferences exist', () => {
-      BrowserFeatures.getUserLanguages.mockReturnValue([]);
-
-      expect(getLanguageTags({
-        language: undefined,
-      } as WidgetProps)).toEqual(['en']);
-    });
-  });
-
   describe('getLanguageCode', () => {
     let widgetProps: WidgetProps = {};
     let transaction: IdxTransaction;
