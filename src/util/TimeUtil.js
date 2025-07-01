@@ -102,37 +102,38 @@ export default {
    * but rounded down to the nearest hour
    * e.g. new Date(2024-09-05T00:00:00.000Z) -> 09/05/2024, 8:00 PM EDT
    * 
-   * TODO: Fix type of languageTags
-   *
    * @param {Date} date The Date object for the grace period expiry
-   * @param {string[] | string | undefined} languageTags The user's language tags, ordered by preference
+   * @param {string[] | string | null | undefined} languageTags The user's language tags, ordered by preference
    * @param {RoundDownToNearestHour} boolean Whether to round down to nearest hour. Defaults to true
    * @return {string} The formatted `short-with-timezone` local string
    */
   formatDateToDeviceAssuranceGracePeriodExpiryLocaleString: (date, languageTags, roundDownToNearestHour = true) => {
-    if (!languageTags) {
-      return null;
-    }
-    const languageTagsPrefs = Array.isArray(languageTags) ? languageTags : [languageTags];
     try {
-    // Invalid Date objects will return NaN for valueOf()
-      if (date && !isNaN(date.valueOf())) {
-        // eslint-disable-next-line max-depth
-        if (roundDownToNearestHour) {
-          // Round down the date to the nearest hour
-          date.setMinutes(0, 0, 0);
-        }
-        return date.toLocaleString(languageTagsPrefs, {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          timeZoneName: 'short',
-        });
-      } else {
+      // Invalid Date objects will return NaN for valueOf()
+      if (!(date instanceof Date) || isNaN(date.valueOf())) {
         return null;
       }
+      if (languageTags === null) {
+        return null;
+      }
+      if (roundDownToNearestHour) {
+        // Round down the date to the nearest hour
+        date.setMinutes(0, 0, 0);
+      }
+      const formatOptions = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZoneName: 'short',
+      };
+      if (languageTags === undefined) {
+        return date.toLocaleString(undefined, formatOptions);
+      }
+      const languageTagsPrefs = Array.isArray(languageTags) ? languageTags : [languageTags];
+
+      return date.toLocaleString(languageTagsPrefs, formatOptions);
     } catch (e) {
       // If `languageCode` isn't in a valid format `toLocaleString()` will throw a `RangeError`
       return null;
