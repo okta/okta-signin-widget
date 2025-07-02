@@ -25,7 +25,7 @@ import { getTranslation, parseHtmlContent } from '../../util';
 import { withFormValidationState } from '../hocs';
 
 const InputTextWithValidation: UISchemaElementComponent<
-  UISchemaElementComponentWithValidationProps
+UISchemaElementComponentWithValidationProps
 > = ({
   uischema,
   errors,
