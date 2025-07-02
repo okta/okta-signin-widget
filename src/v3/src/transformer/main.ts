@@ -63,7 +63,7 @@ export const transformIdxTransaction = (options: TransformationOptions): FormBag
     },
     data: {},
     dataSchema: {
-      fieldsToTrim: [],
+      fieldsToTrim: ['identifier'], // always trim all the identifier input
       fieldsToValidate: [],
       fieldsToExclude: () => ([]),
     },
