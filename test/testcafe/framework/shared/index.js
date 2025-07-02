@@ -26,9 +26,9 @@ export const LOG_IGNORE_PATTERNS = [
   /\[MSW-Wrapper\]/,
 ];
 
-export const renderWidget = ClientFunction((settings) => {
+export const renderWidget = ClientFunction(async (settings) => {
   // function `renderPlaygroundWidget` is defined in playground/main.js
-  window.renderPlaygroundWidget(settings);
+  await window.renderPlaygroundWidget(settings);
 });
 
 export const logI18nErrorsToConsole = ClientFunction(() => {
