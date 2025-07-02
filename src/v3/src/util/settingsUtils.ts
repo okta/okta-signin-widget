@@ -36,13 +36,12 @@ import {
 } from '../types';
 import { getEventContext } from './getEventContext';
 import { loc } from './locUtil';
-import _ from 'underscore';
 
 /**
  * Utility that retrieves the list of supported languages for the widget.
- * 
+ *
  * The values considered are:
- * 
+ *
  * 1. `widgetProps.assets.languages` - Custom list of supported languages defined in
  *       the widget properties (supercedes `config.supportedLanguages` if provided)
  * 2. `config.supportedLanguages` - Default list of supported languages defined in
