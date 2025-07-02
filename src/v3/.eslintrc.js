@@ -181,7 +181,12 @@ module.exports = {
         'import/named': 'error',
         'import/prefer-default-export': 'off',
         'import/no-default-export': 'warn',
-        'import/no-unresolved': 'error',
+        'import/no-unresolved': ['error', {
+          ignore: [
+            'util\\/LanguageUtil',
+            'util\\/TimeUtil',
+          ],
+        }],
 
         // prevent conflicts with ts lint rule
         'import/extensions': ['error', {
