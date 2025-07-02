@@ -860,7 +860,7 @@ describe('Select Authenticator Utility Tests', () => {
       ];
 
       const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(
-        options, stepName, 'en-us', authenticatorEnrollments,
+        options, stepName, ['en-us'], authenticatorEnrollments,
       );
 
       expect(authenticatorOptionValues).toMatchSnapshot();
