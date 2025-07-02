@@ -12,6 +12,7 @@
 
 import { NextStep } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
+import { getLanguageTags } from 'util/LanguageUtil';
 
 import {
   AuthenticatorButtonListElement,
@@ -23,7 +24,6 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { getLanguageTags } from 'util/LanguageUtil';
 import { getSupportedLanguages, loc } from '../../util';
 import { getAuthenticatorEnrollButtonElements } from './utils';
 
@@ -63,7 +63,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     return formBag;
   }
 
-  const supportedLanguages = getSupportedLanguages(widgetProps)
+  const supportedLanguages = getSupportedLanguages(widgetProps);
   const languageTags = getLanguageTags(widgetProps.language, supportedLanguages);
   const authenticatorsWithGracePeriod : IdxOption[] = [];
   const authenticatorsDueNow : IdxOption[] = [];

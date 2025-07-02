@@ -11,6 +11,7 @@
  */
 
 import { transactionMessageTransformer } from 'src/transformer/i18n';
+import { getLanguageTags } from 'util/LanguageUtil';
 
 import {
   ButtonElement,
@@ -19,7 +20,6 @@ import {
   InfoboxElement,
   TitleElement,
 } from '../../../types';
-import { getLanguageTags } from 'util/LanguageUtil';
 import { buildEndUserRemediationMessages, getSupportedLanguages, loc } from '../../../util';
 
 export const transformDeviceAssuranceGracePeriod: IdxStepTransformer = ({
@@ -29,7 +29,7 @@ export const transformDeviceAssuranceGracePeriod: IdxStepTransformer = ({
 }) => {
   const { uischema } = formBag;
   const { messages = [] } = transaction;
-  const supportedLanguages = getSupportedLanguages(widgetProps)
+  const supportedLanguages = getSupportedLanguages(widgetProps);
   const languageTags = getLanguageTags(widgetProps.language, supportedLanguages);
 
   // Normally, the transactionMessageTransformer runs after this transformer, but buildEndUserRemediationMessages()
