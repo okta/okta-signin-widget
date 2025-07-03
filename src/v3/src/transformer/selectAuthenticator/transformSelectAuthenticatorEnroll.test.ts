@@ -58,11 +58,9 @@ jest.mock('./utils', () => ({
     authenticatorEnrollments?: IdxAuthenticator[]) => mockGetAuthenticatorEnrollButtonElementsFn(options, step, locale, authenticatorEnrollments),
 }));
 
-jest.mock('util/LanguageUtil', () => {
-  return {
-    getLanguageTags: jest.fn().mockImplementation(() => ['ok_pl']),
-  };
-});
+jest.mock('util/LanguageUtil', () => ({
+  getLanguageTags: jest.fn().mockImplementation(() => ['ok_pl'])
+}));
 
 describe('Enroll Authenticator Selector Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
