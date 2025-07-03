@@ -62,7 +62,9 @@ if (typeof window.OktaSignIn === 'undefined') {
   // Make sure OktaSignIn is available
   setTimeout(() => window.location.reload(), 2 * 1000);
 }
-const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?: boolean, customize?: boolean } = {}) => {
+const renderPlaygroundWidget = async (options: WidgetOptions & { assertNoEnglishLeaks?: boolean, customize?: boolean } = {}) => {
+  let widgetReady: () => void;
+
   // Okta-hosted widget page has this value set for CSP
   window.cspNonce = 'playground';
 
@@ -125,6 +127,9 @@ const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?
     // use `console.log` in particular so that those logs can be retrieved
     // in testcafe for assertion
     console.log('===== playground widget ready event received =====');
+
+    // resolve the promise to indicate that the widget is ready
+    widgetReady();
   });
 
   signIn.on('afterRender', (context) => {
@@ -167,6 +172,10 @@ const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?
   if (customize) {
     addAfterTransformHooks(signIn as OktaSignInAPIV3);
   }
+  // promise resolves when widget ready event is received
+  return new Promise<void>((resolve) => {
+    widgetReady = resolve;
+  });
 };
 
 window.getWidgetInstance = getWidgetInstance;

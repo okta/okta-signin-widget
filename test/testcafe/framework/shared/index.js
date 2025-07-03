@@ -28,7 +28,7 @@ export const LOG_IGNORE_PATTERNS = [
 
 export const renderWidget = ClientFunction((settings) => {
   // function `renderPlaygroundWidget` is defined in playground/main.js
-  window.renderPlaygroundWidget(settings);
+  return window.renderPlaygroundWidget(settings);
 });
 
 export const logI18nErrorsToConsole = ClientFunction(() => {

@@ -12,7 +12,6 @@
 
 import { IdxAuthenticator, Input } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
-// eslint-disable-next-line import/no-unresolved
 import TimeUtil from 'util/TimeUtil';
 
 import {
@@ -330,7 +329,7 @@ const formatAuthenticatorOptions = (
   options: IdxOption[],
   step: string,
   isEnroll?: boolean,
-  locale?: string,
+  languageTags?: string[],
   authenticatorEnrollments?: IdxAuthenticator[],
 ): AuthenticatorButtonElement[] => {
   const authenticatorOptionSet = new Set<string>();
@@ -393,10 +392,10 @@ const formatAuthenticatorOptions = (
         hasGracePeriods = true;
       }
 
-      const gracePeriodExpiry = (hasGracePeriods && locale
+      const gracePeriodExpiry = (hasGracePeriods && Array.isArray(languageTags)
         && TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(
           new Date(gracePeriodEpochTimestampMs),
-          locale,
+          languageTags,
           false,
         )) || null;
       const gracePeriodRequiredDescription = (gracePeriodExpiry
@@ -453,11 +452,11 @@ const getAuthenticatorButtonElements = (
   options: IdxOption[],
   step: string,
   isEnroll?: boolean,
-  locale?: string,
+  languageTags?: string[],
   authenticatorEnrollments?: IdxAuthenticator[],
 ): AuthenticatorButtonElement[] => {
   const formattedOptions = formatAuthenticatorOptions(
-    options, step, isEnroll, locale, authenticatorEnrollments,
+    options, step, isEnroll, languageTags, authenticatorEnrollments,
   );
 
   // appending OV options back to its original spot
@@ -545,12 +544,12 @@ export const getAuthenticatorVerifyButtonElements = (
 export const getAuthenticatorEnrollButtonElements = (
   authenticatorOptions: IdxOption[],
   step: string,
-  locale?: string,
+  languageTags?: string[],
   authenticatorEnrollments?: IdxAuthenticator[],
 ): AuthenticatorButtonElement[] => getAuthenticatorButtonElements(
   authenticatorOptions,
   step,
   true,
-  locale,
+  languageTags,
   authenticatorEnrollments,
 );
