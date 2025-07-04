@@ -30,6 +30,7 @@ import {
 import {
   buildPasswordRequirementNotMetErrorList,
   getUserProvidedUserInfo,
+  isInputTextFieldElement,
   loc,
   updatePasswordRequirementsNotMetMessage,
   validatePassword,
@@ -189,6 +190,15 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
 
     uischema.elements.push(loginEntryLayout);
   }
+
+  // Enable field level validation for all input fields
+  uischema.elements = uischema.elements.map((element) => {
+    const field = element as FieldElement;
+    if (isInputTextFieldElement(field)) {
+      field.options.inputMeta.validate = true;
+    }
+    return element;
+  });
 
   return formBag;
 };

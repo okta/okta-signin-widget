@@ -34,7 +34,9 @@ Object {
         "options": Object {
           "inputMeta": Object {
             "name": "userProfile.firstName",
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -42,7 +44,9 @@ Object {
         "options": Object {
           "inputMeta": Object {
             "name": "userProfile.lastName",
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -50,7 +54,9 @@ Object {
         "options": Object {
           "inputMeta": Object {
             "name": "userProfile.email",
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -125,7 +131,9 @@ Object {
         "options": Object {
           "inputMeta": Object {
             "name": "userProfile.firstName",
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -133,7 +141,9 @@ Object {
         "options": Object {
           "inputMeta": Object {
             "name": "userProfile.lastName",
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -141,7 +151,9 @@ Object {
         "options": Object {
           "inputMeta": Object {
             "name": "userProfile.email",
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -232,7 +244,9 @@ Object {
         "options": Object {
           "inputMeta": Object {
             "name": "userProfile.firstName",
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -240,7 +254,9 @@ Object {
         "options": Object {
           "inputMeta": Object {
             "name": "userProfile.lastName",
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -248,7 +264,9 @@ Object {
         "options": Object {
           "inputMeta": Object {
             "name": "userProfile.email",
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -310,7 +328,9 @@ Object {
         "options": Object {
           "inputMeta": Object {
             "name": "userProfile.firstName",
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -318,7 +338,9 @@ Object {
         "options": Object {
           "inputMeta": Object {
             "name": "userProfile.lastName",
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -326,7 +348,9 @@ Object {
         "options": Object {
           "inputMeta": Object {
             "name": "userProfile.email",
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
