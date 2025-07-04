@@ -20,7 +20,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { loc } from '../../util';
+import { loc, isInputTextFieldElement } from '../../util';
 import { getUIElementWithName } from '../utils';
 
 const SECOND_EMAIL_FIELD_NAME = 'userProfile.secondEmail';
@@ -82,6 +82,16 @@ export const transformEnrollProfileUpdate: IdxStepTransformer = ({ transaction, 
     };
     uischema.elements.push(skipLinkEle);
   }
+
+  // Enable field level validation for all input fields
+    uischema.elements = uischema.elements.map((element) => {
+      const field = element as FieldElement;
+      if (isInputTextFieldElement(field)) {
+        field.options.inputMeta.validate = true;
+      }
+      return element;
+    });
+  
 
   return formBag;
 };
