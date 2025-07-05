@@ -46,7 +46,7 @@ describe('isCustomizedI18nKey', () => {
     expect(isCustomizedI18nKey('primaryauth.username.tooltip', widgetProps)).toEqual(true);
   });
 
-  it('should return false when key is not present for language', () => {
+  it('should return false when there are no languages with custom i18n keys', () => {
     widgetProps = {
       i18n: {},
     };

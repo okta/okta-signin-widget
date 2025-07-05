@@ -389,7 +389,7 @@ const isCustomizedI18nKey = (i18nKey, settings) => {
   
   // Lower case the language codes when searching for i18n key so it is case insensitive
   return Object.entries(i18n || {}).some(
-    ([customizedLangCode, customizedI18nKeys]) => customizedLangCode.toLowerCase() === widgetLanguageLowerCase && customizedI18nKeys[i18nKey] !== null
+    ([customizedLangCode, customizedI18nKeys]) => customizedLangCode.toLowerCase() === widgetLanguageLowerCase && customizedI18nKeys[i18nKey] !== undefined
   );
 };
 
