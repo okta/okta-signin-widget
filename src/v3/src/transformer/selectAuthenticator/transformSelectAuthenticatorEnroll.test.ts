@@ -59,7 +59,7 @@ jest.mock('./utils', () => ({
 }));
 
 jest.mock('util/LanguageUtil', () => ({
-  getLanguageTags: jest.fn().mockImplementation(() => ['ok_pl'])
+  getLanguageTags: jest.fn().mockImplementation(() => ['ok_pl']),
 }));
 
 describe('Enroll Authenticator Selector Transformer Tests', () => {
