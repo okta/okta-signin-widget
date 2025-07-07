@@ -33,7 +33,7 @@ declare global {
     // added in this file
     getWidgetInstance: () => OktaSignInAPI;
     createWidgetInstance: (options: WidgetOptions) => OktaSignInAPI;
-    renderPlaygroundWidget: (options: WidgetOptions) => void;
+    renderPlaygroundWidget: (options: WidgetOptions & { assertNoEnglishLeaks?: boolean, customize?: boolean }) => Promise<void>;
     additionalOptions?: Partial<WidgetOptions>;
   }
 }
@@ -63,7 +63,10 @@ if (typeof window.OktaSignIn === 'undefined') {
   setTimeout(() => window.location.reload(), 2 * 1000);
 }
 const renderPlaygroundWidget = async (options: WidgetOptions & { assertNoEnglishLeaks?: boolean, customize?: boolean } = {}) => {
-  let widgetReady: () => void;
+  let widgetReady: () => void = () => {};
+  const readyPromise = new Promise<void>((resolve) => {
+    widgetReady = resolve;
+  });
 
   // Okta-hosted widget page has this value set for CSP
   window.cspNonce = 'playground';
@@ -173,9 +176,7 @@ const renderPlaygroundWidget = async (options: WidgetOptions & { assertNoEnglish
     addAfterTransformHooks(signIn as OktaSignInAPIV3);
   }
   // promise resolves when widget ready event is received
-  return new Promise<void>((resolve) => {
-    widgetReady = resolve;
-  });
+  return readyPromise;
 };
 
 window.getWidgetInstance = getWidgetInstance;
