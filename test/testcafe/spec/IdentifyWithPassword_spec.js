@@ -178,7 +178,7 @@ test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username 
   await t.expect(identityPage.getPasswordSubLabelValue()).eql('Your password goes here');
 });
 
-test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username and Password if i18n keys are defined for language with country code', async t => {
+test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username and Password if i18n keys are defined for language with lower case country code', async t => {
   const identityPage = await setup(t, {
     i18n: {
       'pt-br': {
@@ -187,6 +187,20 @@ test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username 
       }
     },
     language: 'pt-br'
+  });
+  await t.expect(identityPage.getIdentifierSubLabelValue()).eql('Your username goes here');
+  await t.expect(identityPage.getPasswordSubLabelValue()).eql('Your password goes here');
+});
+
+test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username and Password if i18n keys are defined for language with upper case country code', async t => {
+  const identityPage = await setup(t, {
+    i18n: {
+      'pt-BR': {
+        'primaryauth.username.tooltip': 'Your username goes here',
+        'primaryauth.password.tooltip': 'Your password goes here',
+      }
+    },
+    language: 'pt-BR'
   });
   await t.expect(identityPage.getIdentifierSubLabelValue()).eql('Your username goes here');
   await t.expect(identityPage.getPasswordSubLabelValue()).eql('Your password goes here');
