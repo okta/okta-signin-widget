@@ -26,6 +26,10 @@ export const LOG_IGNORE_PATTERNS = [
   /\[MSW-Wrapper\]/,
 ];
 
+export const overrideWidgetOptions = (widgetOptionOverrides) => ({
+  content: `window.additionalOptions = ${JSON.stringify(widgetOptionOverrides)};`,
+});
+
 export const renderWidget = ClientFunction((settings) => {
   // function `renderPlaygroundWidget` is defined in playground/main.js
   return window.renderPlaygroundWidget(settings);

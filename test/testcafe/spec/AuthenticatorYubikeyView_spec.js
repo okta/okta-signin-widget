@@ -1,6 +1,6 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
-import { checkConsoleMessages, renderWidget } from '../framework/shared';
+import { checkConsoleMessages, overrideWidgetOptions } from '../framework/shared';
 import YubiKeyAuthenticatorPageObject from '../framework/page-objects/YubiKeyAuthenticatorPageObject';
 import xhrEnrollYubiKeyAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-yubikey';
 import xhrVerifyYubiKeyAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-verification-yubikey';
@@ -29,13 +29,9 @@ const verifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSuccess);
 
-async function setup(t, widgetOptions) {
-  const options = widgetOptions ? { render: false } : {};
+async function setup(t) {
   const pageObject = new YubiKeyAuthenticatorPageObject(t);
-  await pageObject.navigateToPage(options);
-  if (widgetOptions) {
-    await renderWidget(widgetOptions);
-  }
+  await pageObject.navigateToPage();
   await t.expect(pageObject.formExists()).ok();
   return pageObject;
 }
@@ -122,17 +118,19 @@ test
     await t.expect(pageObject.form.getErrorBoxText()).contains('We found some errors. Please review the form and make corrections.');
   });
 
-test.requestHooks(verifyMock)('should show custom factor page link', async t => {
-  const pageObject = await setup(t, {
+test
+  .clientScripts(overrideWidgetOptions({
     helpLinks: {
       factorPage: {
         text: 'custom factor page link',
-        href: 'https://acme.com/what-is-okta-autheticators'
-      }
-    }
-  });
-  await checkA11y(t);
+        href: 'https://acme.com/what-is-okta-autheticators',
+      },
+    },
+  }))
+  .requestHooks(verifyMock)('should show custom factor page link', async t => {
+    const pageObject = await setup(t);
+    await checkA11y(t);
 
-  await t.expect(pageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
-  await t.expect(pageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
-});
+    await t.expect(pageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+    await t.expect(pageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+  });
