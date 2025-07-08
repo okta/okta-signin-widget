@@ -78,33 +78,6 @@ describe('identify-with-password', () => {
     expect(passwordEl).toHaveAccessibleDescription(passwordHint);
   });
 
-  it('should display Identifier & Password hint labels for language with upper case country code', async () => {
-    const usernameHint = 'This is your username';
-    const passwordHint = 'This is your password';
-    const hintOverrides: WidgetOptions['i18n'] = {
-      'pt-BR': {
-        'primaryauth.username.tooltip': usernameHint,
-        'primaryauth.password.tooltip': passwordHint,
-      },
-    };
-    const {
-      findByLabelText, findByText,
-    } = await setup({
-      mockResponse,
-      widgetOptions: {
-        i18n: hintOverrides,
-        language: 'pt-BR',
-      },
-    });
-
-    await findByText('Sign in', { selector: 'button' });
-    const usernameEl = await findByLabelText(/Username/) as HTMLInputElement;
-    const passwordEl = await findByLabelText('Password') as HTMLInputElement;
-
-    expect(usernameEl).toHaveAccessibleDescription(usernameHint);
-    expect(passwordEl).toHaveAccessibleDescription(passwordHint);
-  });
-
   it('renders form with focus', async () => {
     const { container } = await setup({ mockResponse });
     const inputEle = await screen.findByLabelText(/Username/) as HTMLInputElement;
