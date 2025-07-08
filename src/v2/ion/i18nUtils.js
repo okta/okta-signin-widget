@@ -386,9 +386,13 @@ const getMessageKey = (message) => {
 const isCustomizedI18nKey = (i18nKey, settings) => {
   const widgetLanguageLowerCase = settings.get('languageCode')?.toLowerCase();
   const i18n = settings.get('i18n');
+
+  if (typeof i18n === 'undefined' || i18n === null) {
+    return false;
+  }
   
   // Lower case the language codes when searching for i18n key so it is case insensitive
-  return Object.entries(i18n || {}).some(
+  return Object.entries(i18n).some(
     ([customizedLangCode, customizedI18nKeys]) => customizedLangCode.toLowerCase() === widgetLanguageLowerCase && customizedI18nKeys[i18nKey] !== undefined
   );
 };

@@ -17,8 +17,12 @@ export const isCustomizedI18nKey = (i18nKey: string, widgetProps: WidgetProps): 
   const { i18n } = widgetProps;
   const widgetLanguageLowerCase = getLanguageCode(widgetProps).toLowerCase();
 
+  if (typeof i18n === 'undefined' || i18n === null) {
+    return false;
+  }
+
   // Lower case the language codes when searching for i18n key so it is case insensitive
   // eslint-disable-next-line max-len
-  return Object.entries(i18n || {}).some(([customizedLangCode, customizedI18nKeys]) => customizedLangCode.toLowerCase() === widgetLanguageLowerCase
+  return Object.entries(i18n).some(([customizedLangCode, customizedI18nKeys]) => customizedLangCode.toLowerCase() === widgetLanguageLowerCase
         && customizedI18nKeys[i18nKey] !== undefined);
 };
