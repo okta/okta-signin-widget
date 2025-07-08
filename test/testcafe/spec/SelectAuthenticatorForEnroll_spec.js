@@ -86,6 +86,10 @@ const mockEnrollAuthenticatorWithCustomApp = RequestMock()
 const mockDate = `
   const OriginalDate = Date;
 
+  // Handle Date instanceof so this is true:
+  // (new globalThis.Date() instanceof Date) === true
+  Object.setPrototypeOf(globalThis.Date, OriginalDate.prototype);
+
   // Handle gen 3 TS Date constructor mocking 
   globalThis.Date = function(...args) {
     // If no arguments are provided, use a hardcoded default date
@@ -95,7 +99,7 @@ const mockDate = `
     
     // Otherwise, use the provided arguments (mimicking the default Date constructor)
     return new OriginalDate(...args);
-  } ;
+  };
 
   // Handle gen 2 JS Date mocking
   Date.now = function () {
