@@ -55,10 +55,6 @@ describe('isCustomizedI18nKey', () => {
   });
 
   it('should return false when i18n object is not present', () => {
-    widgetProps = {
-      i18n: {},
-    };
-
     expect(isCustomizedI18nKey('primaryauth.username.tooltip', widgetProps)).toEqual(false);
   });
 
