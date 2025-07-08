@@ -1,6 +1,6 @@
 import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
-import { checkConsoleMessages, renderWidget } from '../framework/shared';
+import { checkConsoleMessages, overrideWidgetOptions } from '../framework/shared';
 import IdPAuthenticatorPageObject from '../framework/page-objects/IdPAuthenticatorPageObject';
 import xhrEnrollIdPAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-idp.json';
 import xhrEnrollIdPAuthenticatorCustomLogo from '../../../playground/mocks/data/idp/idx/authenticator-enroll-idp-custom-logo.json';
@@ -75,13 +75,9 @@ const verifyErrorCustomLogoMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrVerifyIdpAuthentiatorErrorCustomLogo);
 
-async function setup(t, {isVerify, expectAutoRedirect} = {}, widgetOptions = undefined) {
-  const options = widgetOptions ? { render: false } : {};
+async function setup(t, {isVerify, expectAutoRedirect} = {}) {
   const pageObject = new IdPAuthenticatorPageObject(t);
-  await pageObject.navigateToPage(options);
-  if (widgetOptions) {
-    await renderWidget(widgetOptions);
-  }
+  await pageObject.navigateToPage();
   if (expectAutoRedirect) {
     await t.expect(pageObject.formExists()).eql(false);
   } else {
@@ -113,13 +109,14 @@ test
   });
 
 test
+  .clientScripts(overrideWidgetOptions({
+    features: {
+      skipIdpFactorVerificationBtn: true
+    }
+  }))
   .requestHooks(logger, enrollMock)('should auto redirect to IdP when skipIdpFactorVerificationBtn feature is true', async t => {
     const pageObject = await setup(t, {
       expectAutoRedirect: true
-    }, {
-      features: {
-        skipIdpFactorVerificationBtn: true
-      }
     });
 
     // assert redirect to IdP login page eventually
@@ -162,13 +159,14 @@ test
   });
 
 test
+  .clientScripts(overrideWidgetOptions({
+    features: {
+      skipIdpFactorVerificationBtn: true
+    }
+  }))
   .requestHooks(logger, enrollErrorMock)('should not auto redirect to IdP on error when skipIdpFactorVerificationBtn feature is true', async t => {
     const pageObject = await setup(t, {
       expectAutoRedirect: false
-    }, {
-      features: {
-        skipIdpFactorVerificationBtn: true
-      }
     });
 
     await checkA11y(t);
@@ -276,14 +274,15 @@ test
   });
 
 test
+  .clientScripts(overrideWidgetOptions({
+    features: {
+      skipIdpFactorVerificationBtn: true
+    }
+  }))
   .requestHooks(logger, verifyErrorMock)('should not auto redirect to IdP on error when skipIdpFactorVerificationBtn feature is true', async t => {
     const pageObject = await setup(t, {
       isVerify: true,
       expectAutoRedirect: false
-    }, {
-      features: {
-        skipIdpFactorVerificationBtn: true
-      }
     });
 
     await checkA11y(t);
