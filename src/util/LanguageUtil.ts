@@ -17,7 +17,7 @@ import Util from './Util';
  * 
  * @param {string | LanguageCallback | undefined} language 
  * @param {string[]} supportedLanguages
- * @returns 
+ * @returns {string[]}
  */
 export const getLanguageTags = (language: string | LanguageCallback | undefined, supportedLanguages: string[]): string[] => {
   // Get the user's preferred languages from the browser API
