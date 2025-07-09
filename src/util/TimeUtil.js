@@ -128,12 +128,8 @@ export default {
         minute: '2-digit',
         timeZoneName: 'short',
       };
-      if (languageTags === undefined) {
-        return date.toLocaleString(undefined, formatOptions);
-      }
-      const languageTagsPrefs = Array.isArray(languageTags) ? languageTags : [languageTags];
 
-      return date.toLocaleString(languageTagsPrefs, formatOptions);
+      return date.toLocaleString(languageTags, formatOptions);
     } catch (e) {
       // If `languageCode` isn't in a valid format `toLocaleString()` will throw a `RangeError`
       return null;
