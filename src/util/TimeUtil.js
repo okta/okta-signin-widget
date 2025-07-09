@@ -105,7 +105,7 @@ export default {
    * @param {Date} date The Date object for the grace period expiry
    * @param {string[] | string | null | undefined} languageTags The user's language tags, ordered by preference
    * @param {RoundDownToNearestHour} boolean Whether to round down to nearest hour. Defaults to true
-   * @return {string} The formatted `short-with-timezone` local string
+   * @return {string | null} The formatted `short-with-timezone` local string
    */
   formatDateToDeviceAssuranceGracePeriodExpiryLocaleString: (date, languageTags, roundDownToNearestHour = true) => {
     try {
