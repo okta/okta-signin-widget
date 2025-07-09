@@ -32,7 +32,7 @@ export const overrideWidgetOptions = (widgetOptionOverrides) => ({
 
 export const renderWidget = ClientFunction((settings) => {
   // function `renderPlaygroundWidget` is defined in playground/main.js
-  return window.renderPlaygroundWidget(settings);
+  window.renderPlaygroundWidget(settings);
 });
 
 export const logI18nErrorsToConsole = ClientFunction(() => {
