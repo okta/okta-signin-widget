@@ -29,9 +29,9 @@ describe('Enroll Profile Update Transformer Tests', () => {
   let widgetProps: WidgetProps;
   beforeEach(() => {
     formBag.uischema.elements = [
-      { type: 'Field', options: { inputMeta: { name: 'userProfile.firstName', required: false } } } as FieldElement,
-      { type: 'Field', options: { inputMeta: { name: 'userProfile.lastName', required: false } } } as FieldElement,
-      { type: 'Field', options: { inputMeta: { name: 'userProfile.email', required: false } } } as FieldElement,
+      { type: 'Field', options: { type: 'string', inputMeta: { name: 'userProfile.firstName', required: false } } } as FieldElement,
+      { type: 'Field', options: { type: 'string', inputMeta: { name: 'userProfile.lastName', required: false } } } as FieldElement,
+      { type: 'Field', options: { type: 'string', inputMeta: { name: 'userProfile.email', required: false } } } as FieldElement,
     ];
     transaction.nextStep = {
       name: '',
@@ -53,10 +53,16 @@ describe('Enroll Profile Update Transformer Tests', () => {
       .toBe('oie.form.field.optional.description');
     expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.firstName');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.validate)
+      .toBe(true);
     expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.lastName');
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.validate)
+      .toBe(true);
     expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.email');
+    expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.validate)
+      .toBe(true);
     expect((updatedFormBag.uischema.elements[5] as ButtonElement).label)
       .toBe('enroll.choices.submit.finish');
     expect((updatedFormBag.uischema.elements[5] as ButtonElement).type).toBe('Button');
@@ -83,10 +89,16 @@ describe('Enroll Profile Update Transformer Tests', () => {
       .toBe('oie.form.field.optional.description');
     expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.firstName');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.validate)
+      .toBe(true);
     expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.lastName');
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.validate)
+      .toBe(true);
     expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.email');
+    expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.validate)
+      .toBe(true);
     expect((updatedFormBag.uischema.elements[5] as ButtonElement).label)
       .toBe('enroll.choices.submit.finish');
     expect((updatedFormBag.uischema.elements[5] as ButtonElement).type).toBe('Button');
@@ -99,6 +111,7 @@ describe('Enroll Profile Update Transformer Tests', () => {
       type: 'Field',
       label: 'Another field',
       options: {
+        type: 'string',
         inputMeta: { name: 'userProfile.anotherField', required: true },
       },
     } as FieldElement);
@@ -115,12 +128,20 @@ describe('Enroll Profile Update Transformer Tests', () => {
       .toBe('oie.form.field.optional.description');
     expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.firstName');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.validate)
+      .toBe(true);
     expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.lastName');
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.validate)
+      .toBe(true);
     expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.email');
+    expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.validate)
+      .toBe(true);
     expect((updatedFormBag.uischema.elements[5] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.anotherField');
+    expect((updatedFormBag.uischema.elements[5] as FieldElement).options?.inputMeta.validate)
+      .toBe(true);
     expect((updatedFormBag.uischema.elements[6] as ButtonElement).label)
       .toBe('enroll.choices.submit.finish');
     expect((updatedFormBag.uischema.elements[6] as ButtonElement).type).toBe('Button');
@@ -133,6 +154,7 @@ describe('Enroll Profile Update Transformer Tests', () => {
       type: 'Field',
       label: 'Secondary email',
       options: {
+        type: 'string',
         inputMeta: { name: 'userProfile.secondEmail', required: true },
       },
     } as FieldElement);
@@ -149,12 +171,20 @@ describe('Enroll Profile Update Transformer Tests', () => {
       .toBe('oie.form.field.optional.description');
     expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.firstName');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.validate)
+      .toBe(true);
     expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.lastName');
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.validate)
+      .toBe(true);
     expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.email');
+    expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.validate)
+      .toBe(true);
     expect((updatedFormBag.uischema.elements[5] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.secondEmail');
+    expect((updatedFormBag.uischema.elements[5] as FieldElement).options?.inputMeta.validate)
+      .toBe(true);
     expect((updatedFormBag.uischema.elements[6] as ButtonElement).label)
       .toBe('enroll.choices.submit.finish');
     expect((updatedFormBag.uischema.elements[6] as ButtonElement).type).toBe('Button');

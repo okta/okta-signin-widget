@@ -15,7 +15,8 @@ import { Input } from '@okta/okta-auth-js';
 import { FieldElement, Renderer } from '../../types';
 import {
   isCheckboxFieldElement,
-  isInputTextFieldElement,
+  isInputTextWithNoValidationFieldElement,
+  isInputTextWithValidationFieldElement,
   isPhoneNumberElement,
   isRadioFieldElement,
   isSelectFieldElement,
@@ -38,6 +39,7 @@ import InfoBox from '../InfoBox';
 import InformationalText from '../InformationalText';
 import InputPassword from '../InputPassword';
 import InputText from '../InputText';
+import InputTextWithValidation from '../InputTextWithValidation';
 import LaunchAuthenticatorButton from '../LaunchAuthenticatorButton';
 import Link from '../Link';
 import List from '../List';
@@ -195,7 +197,11 @@ export default [
     renderer: Select,
   },
   {
-    tester: (element: FieldElement) => isInputTextFieldElement(element),
+    tester: (element: FieldElement) => isInputTextWithValidationFieldElement(element),
+    renderer: InputTextWithValidation,
+  },
+  {
+    tester: (element: FieldElement) => isInputTextWithNoValidationFieldElement(element),
     renderer: InputText,
   },
   {

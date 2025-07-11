@@ -32,7 +32,9 @@ Object {
           "inputMeta": Object {
             "name": "userProfile.firstName",
             "required": false,
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -41,7 +43,9 @@ Object {
           "inputMeta": Object {
             "name": "userProfile.lastName",
             "required": false,
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -50,7 +54,9 @@ Object {
           "inputMeta": Object {
             "name": "userProfile.email",
             "required": false,
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -60,7 +66,9 @@ Object {
           "inputMeta": Object {
             "name": "userProfile.anotherField",
             "required": true,
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -112,7 +120,9 @@ Object {
           "inputMeta": Object {
             "name": "userProfile.firstName",
             "required": false,
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -121,7 +131,9 @@ Object {
           "inputMeta": Object {
             "name": "userProfile.lastName",
             "required": false,
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -130,7 +142,9 @@ Object {
           "inputMeta": Object {
             "name": "userProfile.email",
             "required": false,
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -140,7 +154,9 @@ Object {
           "inputMeta": Object {
             "name": "userProfile.secondEmail",
             "required": true,
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -190,7 +206,9 @@ Object {
           "inputMeta": Object {
             "name": "userProfile.firstName",
             "required": false,
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -199,7 +217,9 @@ Object {
           "inputMeta": Object {
             "name": "userProfile.lastName",
             "required": false,
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -208,7 +228,9 @@ Object {
           "inputMeta": Object {
             "name": "userProfile.email",
             "required": false,
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -258,7 +280,9 @@ Object {
           "inputMeta": Object {
             "name": "userProfile.firstName",
             "required": false,
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -267,7 +291,9 @@ Object {
           "inputMeta": Object {
             "name": "userProfile.lastName",
             "required": false,
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
@@ -276,7 +302,9 @@ Object {
           "inputMeta": Object {
             "name": "userProfile.email",
             "required": false,
+            "validate": true,
           },
+          "type": "string",
         },
         "type": "Field",
       },
