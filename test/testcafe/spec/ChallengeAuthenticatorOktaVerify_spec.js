@@ -1,7 +1,6 @@
 import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
-import { oktaDashboardContent } from '../framework/shared';
-import { renderWidget } from '../framework/shared';
+import { oktaDashboardContent, overrideWidgetOptions } from '../framework/shared';
 import SelectAuthenticatorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import ChallengeOktaVerifyTotpPageObject from '../framework/page-objects/ChallengeOktaVerifyTotpPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
@@ -72,13 +71,9 @@ async function verifySelectAuthenticator(t, selectAuthenticatorPage, expectedRes
 }
 
 async function setup(t, opts = {}) {
-  const { factorsCount, ...widgetOptions } = opts;
-  const options = Object.keys(widgetOptions).length ? { render: false } : {};
+  const { factorsCount } = opts;
   const selectAuthenticatorPageObject = new SelectAuthenticatorPageObject(t);
-  await selectAuthenticatorPageObject.navigateToPage(options);
-  if (widgetOptions) {
-    await renderWidget(widgetOptions);
-  }
+  await selectAuthenticatorPageObject.navigateToPage();
   await t.expect(selectAuthenticatorPageObject.formExists()).ok();
   await t.expect(selectAuthenticatorPageObject.getFormTitle()).eql(FORM_TITLE);
   await t.expect(selectAuthenticatorPageObject.getFormSubtitle()).eql(FORM_SUBTITLE);
@@ -110,17 +105,19 @@ test.requestHooks(mockChallengeOVPushOnlySelectMethod)('authenticator list shoul
   await t.expect(selectAuthenticatorPage.getSignoutLinkText()).eql(SIGN_OUT_TEXT);
 });
 
-test.requestHooks(mockChallengeOVSelectMethod)('should load select method list with okta verify and no sign-out link', async t => {
-  const selectAuthenticatorPage = await setup(t, {
+test
+  .clientScripts(overrideWidgetOptions({
     features: {
-      hideSignOutLinkInMFA: true
+      hideSignOutLinkInMFA: true,
     },
-  });
-  await checkA11y(t);
+  }))
+  .requestHooks(mockChallengeOVSelectMethod)('should load select method list with okta verify and no sign-out link', async t => {
+    const selectAuthenticatorPage = await setup(t);
+    await checkA11y(t);
 
-  // signout link is not visible
-  await t.expect(await selectAuthenticatorPage.signoutLinkExists()).notOk();
-});
+    // signout link is not visible
+    await t.expect(await selectAuthenticatorPage.signoutLinkExists()).notOk();
+  });
 
 test.requestHooks(requestLogger, mockChallengeOVSelectMethod)('should send right methodType when push is selected', async t => {
   const selectAuthenticatorPage = await setup(t);
@@ -205,19 +202,21 @@ test.requestHooks(requestLogger, mockChallengeOVTotpMethod)('should show switch 
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
 
-test.requestHooks(mockChallengeOVTotpMethod)('should show custom factor page link', async t => {
-  const selectAuthenticatorPage = await setup(t, {
+test
+  .clientScripts(overrideWidgetOptions({
     helpLinks: {
       factorPage: {
         text: 'custom factor page link',
-        href: 'https://acme.com/what-is-okta-autheticators'
-      }
-    }
+        href: 'https://acme.com/what-is-okta-autheticators',
+      },
+    },
+  }))
+  .requestHooks(mockChallengeOVTotpMethod)('should show custom factor page link', async t => {
+    const selectAuthenticatorPage = await setup(t);
+    await checkA11y(t);
+
+    await selectAuthenticatorPage.selectFactorByIndex(2);
+
+    await t.expect(selectAuthenticatorPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+    await t.expect(selectAuthenticatorPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
   });
-  await checkA11y(t);
-
-  await selectAuthenticatorPage.selectFactorByIndex(2);
-
-  await t.expect(selectAuthenticatorPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
-  await t.expect(selectAuthenticatorPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
-});

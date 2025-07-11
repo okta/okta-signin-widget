@@ -29,7 +29,7 @@ import Enums from 'util/Enums';
 import { ConfigError } from 'util/Errors';
 import RouterUtil from 'v1/util/RouterUtil';
 import Util from 'util/Util';
-import LanguageUtil from 'util/LanguageUtil';
+import { loadLanguage } from 'util/LanguageUtil';
 
 function isStateLessRouteHandler(router, fn) {
   return _.find(router.stateLessRouteHandlers, function(routeName) {
@@ -179,7 +179,7 @@ export default Router.extend({
     // If we need to load a language (or apply custom i18n overrides), do
     // this now and re-run render after it's finished.
     if (!Bundles.isLoaded(this.appState.get('languageCode'))) {
-      return LanguageUtil.loadLanguage(this.appState, this.settings)
+      return loadLanguage(this.appState, this.settings)
         .then(_.bind(this.render, this, Controller, options));
     }
 
