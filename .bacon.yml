@@ -143,15 +143,14 @@ test_suites:
     script_name: detect-english-leaks-v3
     criteria: MERGE
     queue_name: small
-  # Re-enablement tracking jira: https://oktainc.atlassian.net/browse/OKTA-948779
-  # - name: verify-registry-install
-  #   prereq_test_suite_name: publish
-  #   script_path: /root/okta/okta-signin-widget/scripts
-  #   sort_order: '19'
-  #   timeout: '20'
-  #   script_name: verify-registry-install
-  #   criteria: MERGE
-  #   queue_name: small
+  - name: verify-registry-install
+    prereq_test_suite_name: publish
+    script_path: /root/okta/okta-signin-widget/scripts
+    sort_order: '19'
+    timeout: '20'
+    script_name: verify-registry-install
+    criteria: MERGE
+    queue_name: small
   - name: find-internal-packages
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '20'
