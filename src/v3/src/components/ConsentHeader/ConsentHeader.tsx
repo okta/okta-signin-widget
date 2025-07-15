@@ -105,7 +105,7 @@ const ConsentHeader: FunctionComponent = () => {
             textAlign="center"
           >
             <Typography
-              component="h2"
+              component="h1"
               variant="h6"
               translate="no"
             >
