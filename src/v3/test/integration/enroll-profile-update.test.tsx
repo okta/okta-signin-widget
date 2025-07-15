@@ -17,7 +17,7 @@ import { createAuthJsPayloadArgs, setup } from './util';
 describe('enroll-profile-update', () => {
   it('should render form', async () => {
     const { container, findByLabelText, findByRole } = await setup({ mockResponse });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     expect(heading.textContent).toBe('Sign in');
     expect(container).toMatchSnapshot();
     const favoriteSportEle = await findByLabelText('Favorite sport') as HTMLInputElement;
@@ -29,7 +29,7 @@ describe('enroll-profile-update', () => {
       authClient, user, findByLabelText, findByRole,
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     expect(heading.textContent).toBe('Sign in');
 
     const submitButton = await findByRole('button', { name: 'Submit' });

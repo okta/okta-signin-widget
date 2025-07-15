@@ -36,8 +36,8 @@ describe('Email authenticator enroll when magic link = false Tests', () => {
       mockResponse,
     });
 
-    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
-    const headerEle = await findByRole('heading', { level: 2 });
+    await waitFor(async () => expect(await findByRole('heading', { level: 1 })).toHaveFocus());
+    const headerEle = await findByRole('heading', { level: 1 });
     expect(headerEle.textContent).toBe('Verify with your email');
     expect(container).toMatchSnapshot();
 

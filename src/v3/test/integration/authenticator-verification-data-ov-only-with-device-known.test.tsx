@@ -16,7 +16,7 @@ import { setup } from './util';
 describe('authenticator-verification-data-ov-only-with-device-known', () => {
   it('should render form', async () => {
     const { container, findByRole } = await setup({ mockResponse });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     expect(heading.textContent).toBe('Verify it\'s you with a security method');
     expect(container).toMatchSnapshot();
   });
