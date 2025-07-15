@@ -148,7 +148,7 @@ export const transformEnumerateComponents: IdxStepTransformer = ({
   const headingElement: HeadingElement = {
     type: 'Heading',
     options: {
-      level: 3,
+      level: 2,
       visualLevel: 3,
       content: 'Heading 3',
     },

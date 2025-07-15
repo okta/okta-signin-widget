@@ -107,7 +107,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     type: 'Heading',
     options: {
       content: loc('oie.setup.required.now', 'login'),
-      level: 3,
+      level: 2,
       visualLevel: 6,
       dataSe: 'authenticator-list-title',
     },
@@ -117,7 +117,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     type: 'Heading',
     options: {
       content: loc('oie.setup.required.soon', 'login'),
-      level: 3,
+      level: 2,
       visualLevel: 6,
       dataSe: 'authenticator-list-title',
     },
@@ -127,7 +127,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     type: 'Heading',
     options: {
       content: skipStep ? loc('oie.setup.optional.short', 'login') : loc('oie.setup.required.now', 'login'),
-      level: 3,
+      level: 2,
       visualLevel: 6,
     },
   };

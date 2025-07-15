@@ -101,7 +101,7 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
             noMargin: true,
             options: {
               content: loc('oie.enroll.google_authenticator.scanBarcode.title', 'login'),
-              level: 3,
+              level: 2,
               visualLevel: 5,
               dataSe: 'barcode-setup-title',
             },
@@ -129,7 +129,7 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
             noMargin: true,
             options: {
               content: loc('oie.enroll.google_authenticator.cannotScanBarcode.title', 'login'),
-              level: 3,
+              level: 2,
               visualLevel: 5,
               dataSe: 'manual-setup-title',
             },
