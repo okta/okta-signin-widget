@@ -45,7 +45,7 @@ Object {
                     "noMargin": true,
                     "options": Object {
                       "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.title",
-                      "level": 3,
+                      "level": 2,
                       "visualLevel": 6,
                     },
                     "type": "Heading",
@@ -67,7 +67,7 @@ Object {
                     "noMargin": true,
                     "options": Object {
                       "content": "oie.verify.webauthn.cant.verify.security.key.title",
-                      "level": 3,
+                      "level": 2,
                       "visualLevel": 6,
                     },
                     "type": "Heading",
@@ -141,7 +141,7 @@ Object {
                     "noMargin": true,
                     "options": Object {
                       "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.title",
-                      "level": 3,
+                      "level": 2,
                       "visualLevel": 6,
                     },
                     "type": "Heading",
@@ -163,7 +163,7 @@ Object {
                     "noMargin": true,
                     "options": Object {
                       "content": "oie.verify.webauthn.cant.verify.security.key.title",
-                      "level": 3,
+                      "level": 2,
                       "visualLevel": 6,
                     },
                     "type": "Heading",
@@ -315,7 +315,7 @@ Object {
                     "noMargin": true,
                     "options": Object {
                       "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.title",
-                      "level": 3,
+                      "level": 2,
                       "visualLevel": 6,
                     },
                     "type": "Heading",
@@ -337,7 +337,7 @@ Object {
                     "noMargin": true,
                     "options": Object {
                       "content": "oie.verify.webauthn.cant.verify.security.key.title",
-                      "level": 3,
+                      "level": 2,
                       "visualLevel": 6,
                     },
                     "type": "Heading",

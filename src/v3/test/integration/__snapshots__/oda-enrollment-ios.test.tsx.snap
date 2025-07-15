@@ -78,13 +78,13 @@ exports[`oda-enrollment-ios should render form 1`] = `
                     <div
                       class="MuiBox-root emotion-12"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-13"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Download Okta Verify
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

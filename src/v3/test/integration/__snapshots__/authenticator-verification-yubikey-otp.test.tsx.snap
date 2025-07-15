@@ -128,13 +128,13 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Verify with YubiKey
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

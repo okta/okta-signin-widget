@@ -86,13 +86,13 @@ exports[`enduser-consent should render form with logo 1`] = `
                   class="MuiBox-root emotion-14"
                   data-se="title-text"
                 >
-                  <h2
+                  <h1
                     class="MuiTypography-root MuiTypography-h6 emotion-15"
                     tabindex="-1"
                     translate="no"
                   >
                     Native client
-                  </h2>
+                  </h1>
                   <p
                     class="MuiTypography-root MuiTypography-body1 emotion-16"
                     tabindex="-1"

@@ -95,13 +95,13 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                     <div
                       class="MuiBox-root emotion-17"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-18"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Additional Profile information
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

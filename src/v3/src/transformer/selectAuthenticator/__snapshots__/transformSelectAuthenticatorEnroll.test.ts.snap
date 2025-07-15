@@ -30,7 +30,7 @@ Object {
       Object {
         "options": Object {
           "content": "oie.setup.required.now",
-          "level": 3,
+          "level": 2,
           "visualLevel": 6,
         },
         "type": "Heading",
@@ -95,7 +95,7 @@ Object {
         "options": Object {
           "content": "oie.setup.required.soon",
           "dataSe": "authenticator-list-title",
-          "level": 3,
+          "level": 2,
           "visualLevel": 6,
         },
         "type": "Heading",
@@ -175,7 +175,7 @@ Object {
         "options": Object {
           "content": "oie.setup.required.now",
           "dataSe": "authenticator-list-title",
-          "level": 3,
+          "level": 2,
           "visualLevel": 6,
         },
         "type": "Heading",
@@ -207,7 +207,7 @@ Object {
         "options": Object {
           "content": "oie.setup.required.soon",
           "dataSe": "authenticator-list-title",
-          "level": 3,
+          "level": 2,
           "visualLevel": 6,
         },
         "type": "Heading",
@@ -278,7 +278,7 @@ Object {
       Object {
         "options": Object {
           "content": "oie.setup.required.now",
-          "level": 3,
+          "level": 2,
           "visualLevel": 6,
         },
         "type": "Heading",
@@ -342,7 +342,7 @@ Object {
       Object {
         "options": Object {
           "content": "oie.setup.optional.short",
-          "level": 3,
+          "level": 2,
           "visualLevel": 6,
         },
         "type": "Heading",
@@ -414,7 +414,7 @@ Object {
       Object {
         "options": Object {
           "content": "oie.setup.optional.short",
-          "level": 3,
+          "level": 2,
           "visualLevel": 6,
         },
         "type": "Heading",
@@ -486,7 +486,7 @@ Object {
       Object {
         "options": Object {
           "content": "oie.setup.required.now",
-          "level": 3,
+          "level": 2,
           "visualLevel": 6,
         },
         "type": "Heading",
@@ -550,7 +550,7 @@ Object {
       Object {
         "options": Object {
           "content": "oie.setup.required.now",
-          "level": 3,
+          "level": 2,
           "visualLevel": 6,
         },
         "type": "Heading",

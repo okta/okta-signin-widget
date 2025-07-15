@@ -172,13 +172,13 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                       <div
                         class="MuiBox-root emotion-26"
                       >
-                        <h2
+                        <h1
                           class="MuiTypography-root MuiTypography-h4 emotion-27"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
                           Set up security question
-                        </h2>
+                        </h1>
                       </div>
                     </div>
                     <div
@@ -532,13 +532,13 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                       <div
                         class="MuiBox-root emotion-19"
                       >
-                        <h2
+                        <h1
                           class="MuiTypography-root MuiTypography-h4 emotion-20"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
                           Set up security question
-                        </h2>
+                        </h1>
                       </div>
                     </div>
                     <div
@@ -875,13 +875,13 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                       <div
                         class="MuiBox-root emotion-19"
                       >
-                        <h2
+                        <h1
                           class="MuiTypography-root MuiTypography-h4 emotion-20"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
                           Set up security question
-                        </h2>
+                        </h1>
                       </div>
                     </div>
                     <div
@@ -1331,13 +1331,13 @@ exports[`authenticator-enroll-security-question predefined question should rende
                       <div
                         class="MuiBox-root emotion-19"
                       >
-                        <h2
+                        <h1
                           class="MuiTypography-root MuiTypography-h4 emotion-20"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
                           Set up security question
-                        </h2>
+                        </h1>
                       </div>
                     </div>
                     <div

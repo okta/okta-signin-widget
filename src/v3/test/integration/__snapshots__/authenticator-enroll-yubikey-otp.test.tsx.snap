@@ -169,13 +169,13 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                     <div
                       class="MuiBox-root emotion-21"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-22"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Set up YubiKey
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

@@ -146,13 +146,13 @@ exports[`webauthn-enroll should render form 1`] = `
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Set up security key or biometric authenticator
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -367,13 +367,13 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Set up security key or biometric authenticator
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -606,13 +606,13 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Set up security key or biometric authenticator
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

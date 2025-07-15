@@ -27,7 +27,7 @@ Object {
         "options": Object {
           "content": "123456",
           "dataSe": "otp-value",
-          "level": 3,
+          "level": 2,
           "visualLevel": 3,
         },
         "type": "Heading",
@@ -73,7 +73,7 @@ Object {
         "options": Object {
           "content": "123456",
           "dataSe": "otp-value",
-          "level": 3,
+          "level": 2,
           "visualLevel": 3,
         },
         "type": "Heading",
@@ -119,7 +119,7 @@ Object {
         "options": Object {
           "content": "123456",
           "dataSe": "otp-value",
-          "level": 3,
+          "level": 2,
           "visualLevel": 3,
         },
         "type": "Heading",
@@ -165,7 +165,7 @@ Object {
         "options": Object {
           "content": "123456",
           "dataSe": "otp-value",
-          "level": 3,
+          "level": 2,
           "visualLevel": 3,
         },
         "type": "Heading",
@@ -211,7 +211,7 @@ Object {
         "options": Object {
           "content": "123456",
           "dataSe": "otp-value",
-          "level": 3,
+          "level": 2,
           "visualLevel": 3,
         },
         "type": "Heading",
@@ -274,7 +274,7 @@ Object {
         "options": Object {
           "content": "123456",
           "dataSe": "otp-value",
-          "level": 3,
+          "level": 2,
           "visualLevel": 3,
         },
         "type": "Heading",
@@ -353,7 +353,7 @@ Object {
         "options": Object {
           "content": "123456",
           "dataSe": "otp-value",
-          "level": 3,
+          "level": 2,
           "visualLevel": 3,
         },
         "type": "Heading",
@@ -424,7 +424,7 @@ Object {
         "options": Object {
           "content": "123456",
           "dataSe": "otp-value",
-          "level": 3,
+          "level": 2,
           "visualLevel": 3,
         },
         "type": "Heading",
@@ -503,7 +503,7 @@ Object {
         "options": Object {
           "content": "123456",
           "dataSe": "otp-value",
-          "level": 3,
+          "level": 2,
           "visualLevel": 3,
         },
         "type": "Heading",

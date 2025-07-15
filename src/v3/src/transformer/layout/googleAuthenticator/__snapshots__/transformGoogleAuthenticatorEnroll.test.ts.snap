@@ -30,7 +30,7 @@ Object {
                 "options": Object {
                   "content": "oie.enroll.google_authenticator.scanBarcode.title",
                   "dataSe": "barcode-setup-title",
-                  "level": 3,
+                  "level": 2,
                   "visualLevel": 5,
                 },
                 "type": "Heading",
@@ -83,7 +83,7 @@ Object {
                 "options": Object {
                   "content": "oie.enroll.google_authenticator.cannotScanBarcode.title",
                   "dataSe": "manual-setup-title",
-                  "level": 3,
+                  "level": 2,
                   "visualLevel": 5,
                 },
                 "type": "Heading",
@@ -191,7 +191,7 @@ Object {
                 "options": Object {
                   "content": "oie.enroll.google_authenticator.scanBarcode.title",
                   "dataSe": "barcode-setup-title",
-                  "level": 3,
+                  "level": 2,
                   "visualLevel": 5,
                 },
                 "type": "Heading",
@@ -244,7 +244,7 @@ Object {
                 "options": Object {
                   "content": "oie.enroll.google_authenticator.cannotScanBarcode.title",
                   "dataSe": "manual-setup-title",
-                  "level": 3,
+                  "level": 2,
                   "visualLevel": 5,
                 },
                 "type": "Heading",

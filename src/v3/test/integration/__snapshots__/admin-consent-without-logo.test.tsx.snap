@@ -46,13 +46,13 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                   class="MuiBox-root emotion-10"
                   data-se="title-text"
                 >
-                  <h2
+                  <h1
                     class="MuiTypography-root MuiTypography-h6 emotion-11"
                     tabindex="-1"
                     translate="no"
                   >
                     Native client
-                  </h2>
+                  </h1>
                   <p
                     class="MuiTypography-root MuiTypography-body1 emotion-12"
                     tabindex="-1"
@@ -102,13 +102,13 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h3
+                      <h2
                         class="MuiTypography-root MuiTypography-h6 emotion-11"
                         data-se="scope-group--header"
                         tabindex="-1"
                       >
                         Resource and policies
-                      </h3>
+                      </h2>
                     </div>
                   </div>
                   <div

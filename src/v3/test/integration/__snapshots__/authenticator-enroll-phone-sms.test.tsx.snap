@@ -95,13 +95,13 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                     <div
                       class="MuiBox-root emotion-17"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-18"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Set up security methods
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -125,13 +125,13 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                     <div
                       class="MuiBox-root emotion-23"
                     >
-                      <h3
+                      <h2
                         class="MuiTypography-root MuiTypography-h6 emotion-24"
                         data-se="select-authenticator-enroll_Heading_Required_now_aut2h3fft10VeLDPD1d7_3"
                         tabindex="-1"
                       >
                         Required now
-                      </h3>
+                      </h2>
                     </div>
                   </div>
                   <div
@@ -768,13 +768,13 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Set up phone authentication
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

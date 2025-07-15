@@ -51,13 +51,13 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                     <div
                       class="MuiBox-root emotion-11"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-12"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Sign In
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -282,13 +282,13 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                     <div
                       class="MuiBox-root emotion-11"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-12"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Sign In
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -513,13 +513,13 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                     <div
                       class="MuiBox-root emotion-11"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-12"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Sign In
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

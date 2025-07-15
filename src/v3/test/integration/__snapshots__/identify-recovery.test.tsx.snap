@@ -51,13 +51,13 @@ exports[`identify-recovery renders form 1`] = `
                     <div
                       class="MuiBox-root emotion-11"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-12"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Reset your password
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

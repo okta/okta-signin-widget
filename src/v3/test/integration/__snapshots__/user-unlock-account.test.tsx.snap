@@ -54,13 +54,13 @@ exports[`user-unlock-account renders form 1`] = `
                       <div
                         class="MuiBox-root emotion-12"
                       >
-                        <h2
+                        <h1
                           class="MuiTypography-root MuiTypography-h4 emotion-13"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
                           Unlock account
-                        </h2>
+                        </h1>
                       </div>
                     </div>
                     <div
