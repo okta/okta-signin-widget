@@ -242,6 +242,9 @@ const derived: Record<string, ModelProperty>  = {
   },
   languageCode: {
     deps: ['language', 'supportedLanguages'],
+    /*
+     * TODO: Consider renaming to `getTranslationLanguageCode` and/or moving to LanguageUtil
+     */
     fn: function(language, supportedLanguages) {
       const userLanguages = BrowserFeatures.getUserLanguages();
 
