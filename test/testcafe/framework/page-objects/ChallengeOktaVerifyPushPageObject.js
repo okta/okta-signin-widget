@@ -65,14 +65,9 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
 
   getErrorTitle() {
     if (userVariables.gen3) {
-      return this.form.getNthTitle(0);
+      return within(this.getWarningBox()).findByRole('heading', { level: 2 }).innerText;
     }
     return this.form.getElement(FORM_INFOBOX_ERROR_TITLE).innerText;
-  }
-
-  getFormTitleWithError() {
-    const titlePosition = userVariables.gen3 ? 1 : 0;
-    return this.form.getNthTitle(titlePosition);
   }
 
   getWarningBox() {
