@@ -26,6 +26,21 @@ export const LOG_IGNORE_PATTERNS = [
   /\[MSW-Wrapper\]/,
 ];
 
+/**
+ * Use this function to generate the string to be injected using `clientScripts` in the
+ * testcafe test configuration:
+ *
+ * test
+ *   .clientScripts(overrideWidgetOptions({
+*      // widget options to override
+ *   }))
+ *   .requestHooks(logger, mock)('test name', asynct t => {
+ *     // test code
+ *   });
+ *
+ * @param {Partial<WidgetOptions>} widgetOptionOverrides
+ * @returns {string}
+ */
 export const overrideWidgetOptions = (widgetOptionOverrides) => ({
   content: `window.additionalOptions = ${JSON.stringify(widgetOptionOverrides)};`,
 });
