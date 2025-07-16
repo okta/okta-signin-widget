@@ -59,6 +59,13 @@ export default class BaseFormObject {
     return this.el.find('[data-se="o-form-explain"]').nth(index).innerText;
   }
 
+  getErrorTitle() {
+    if (userVariables.gen3) {
+      return within(this.getErrorBox()).findByRole('heading', { level: 2 }).innerText;
+    }
+    return this.getElement(FORM_INFOBOX_ERROR_TITLE).innerText;
+  }
+
   getSelectFormButtonLabel(selector) {
     return this.el.find(selector).innerText;
   }

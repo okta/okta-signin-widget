@@ -77,13 +77,6 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
     return this.form.getErrorBox();
   }
 
-  getErrorTitle() {
-    if (userVariables.gen3) {
-      return this.getErrorBox();
-    }
-    return this.form.getElement(FORM_INFOBOX_ERROR_TITLE);
-  }
-
   getWarningBox() {
     return this.form.getAlertBox();
   }

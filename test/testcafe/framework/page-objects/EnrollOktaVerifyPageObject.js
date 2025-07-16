@@ -220,22 +220,8 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
     return this.form.getErrorBox();
   }
 
-  getErrorTitle() {
-    if (userVariables.gen3) {
-      return this.form.getElement(FORM_INFOBOX_ERROR_TITLE_V3);
-    }
-    return this.form.getElement(FORM_INFOBOX_ERROR_TITLE);
-  }
-
   async switchAuthenticator() {
     return this.t.click('[data-se="switchAuthenticator"]');
-  }
-
-  getFormTitle(index) {
-    if (userVariables.gen3 && index !== undefined) {
-      return this.form.getNthTitle(index);
-    }
-    return this.form.getTitle();
   }
 
   getSubHeader() {

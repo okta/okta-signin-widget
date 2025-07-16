@@ -17,15 +17,6 @@ export default class ChallengeOktaVerifyTotpPageObject extends ChallengeFactorPa
     return this.form.getTextBoxErrorMessage(TOTP_FIELD);
   }
 
-  getErrorTitle() {
-    if (userVariables.gen3) {
-      return this.form.getNthTitle(0);
-    }
-    return screen.findByRole('heading', {
-      level: 3,
-    }).innerText;
-  }
-
   errorHasSubtitle(subtitle) {
     const alertBox = this.form.getAlertBox();
     return within(alertBox).getByText(subtitle).exists;
