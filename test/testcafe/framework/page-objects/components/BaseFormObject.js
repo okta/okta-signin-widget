@@ -42,13 +42,13 @@ export default class BaseFormObject {
 
   getTitle() {
     return screen.findByRole('heading', {
-      level: 2,
+      level: userVariables.gen3 ? 1 : 2,
     }).innerText;
   }
 
   getNthTitle(index) {
     return screen.findAllByRole('heading', {
-      level: 2,
+      level: userVariables.gen3 ? 1 : 2,
     }).nth(index).innerText;
   }
 
