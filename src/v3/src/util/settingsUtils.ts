@@ -62,7 +62,7 @@ export const getSupportedLanguages = (widgetProps: WidgetProps): string[] => {
 };
 
 /**
- * TODO: Actually more like `getTranslationLanguageCode`
+ * TODO: Consider renaming to `getTranslationLanguageCode` and/or moving to LanguageUtil
  */
 export const getLanguageCode = (widgetProps: WidgetProps): LanguageCode => {
   // The language specified in widget properties (optional)
