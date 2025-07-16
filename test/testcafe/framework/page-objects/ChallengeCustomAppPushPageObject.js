@@ -3,7 +3,6 @@ import ChallengeFactorPageObject from './ChallengeFactorPageObject';
 import { within } from '@testing-library/testcafe';
 
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] [data-se="callout"]';
-const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
 const FACTOR_BEACON = '.auth-beacon.auth-beacon-factor';
 const FORM_SELECTOR = '.custom-app-send-push-form';
 

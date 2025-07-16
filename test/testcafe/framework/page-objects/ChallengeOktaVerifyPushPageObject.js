@@ -4,7 +4,6 @@ import { within } from '@testing-library/testcafe';
 
 const FORM_INFOBOX_WARNING = '.okta-form-infobox-warning';
 const RESEND_NUMBER_CHALLENGE_BUTTON = '.okta-form-infobox-warning .resend-number-challenge';
-const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
 const FORM_SELECTOR = '.okta-verify-send-push-form';
 const FORM_SELECTOR_V3 = '[data-se~="mfa-okta-verify"]';
 const AUTO_CHALLENGE_CHECKBOX_SELECTOR = '[name$="autoChallenge"]';

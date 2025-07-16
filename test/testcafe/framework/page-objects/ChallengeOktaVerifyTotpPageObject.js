@@ -1,6 +1,5 @@
 import ChallengeFactorPageObject from './ChallengeFactorPageObject';
-import { screen, within } from '@testing-library/testcafe';
-import { userVariables } from 'testcafe';
+import { within } from '@testing-library/testcafe';
 
 const TOTP_FIELD = 'credentials.totp';
 

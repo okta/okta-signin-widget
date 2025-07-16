@@ -2,8 +2,6 @@ import BasePageObject from './BasePageObject';
 import { userVariables, Selector } from 'testcafe';
 import { within } from '@testing-library/testcafe';
 
-const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
-const FORM_INFOBOX_ERROR_TITLE_V3 = '[data-se="callout"] h2';
 const CANT_SCAN_BUTTON_TEXT = 'Setup without scanning a QR code.';
 const SETUP_OV_BUTTON_TEXT = 'Set up Okta Verify';
 const SETUP_ON_ANOTHER_MOBILE_DEVICE_TEXT = 'set up Okta Verify on another mobile device';

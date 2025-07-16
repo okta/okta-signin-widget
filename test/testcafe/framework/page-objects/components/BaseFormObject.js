@@ -3,6 +3,7 @@ import { screen, within } from '@testing-library/testcafe';
 
 const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] .infobox-error';
+const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
 const CALLOUT = '[data-se="callout"]';
 
 const CANCEL_BUTTON_SELECTOR = userVariables.gen3 ? '[data-se="cancel"]' : '[data-type="cancel"]';
