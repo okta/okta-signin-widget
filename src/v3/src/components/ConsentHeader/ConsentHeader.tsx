@@ -36,13 +36,13 @@ const ConsentHeader: FunctionComponent = () => {
     'login',
     [appName],
     {
-      $1: { element: 'h2', attributes: { class: 'no-translate' } },
+      $1: { element: 'h1', attributes: { class: 'no-translate' } },
       $2: { element: 'p' },
     },
   );
   const parsedGranularConsentTitle = parseHtmlContent(
     granularConsentTitle,
-    { replace: getHeadingReplacerFn({}, 'h2', 2, 6) },
+    { replace: getHeadingReplacerFn({}, 'h1', 1, 6) },
   );
   const tokens = useOdysseyDesignTokens();
 
