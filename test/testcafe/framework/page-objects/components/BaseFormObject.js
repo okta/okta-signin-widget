@@ -67,6 +67,12 @@ export default class BaseFormObject {
     return this.getElement(FORM_INFOBOX_ERROR_TITLE).innerText;
   }
 
+  getNthErrorTitle(index) {
+    return within(this.getErrorBox()).findAllByRole('heading', {
+      level: 2,
+    }).nth(index).innerText;
+  }
+
   getSelectFormButtonLabel(selector) {
     return this.el.find(selector).innerText;
   }
