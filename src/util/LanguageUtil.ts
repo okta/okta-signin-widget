@@ -87,7 +87,7 @@ export const getLanguageTags = (language: string | LanguageCallback | undefined,
     // Get the simple language code since that's how the languagesMap is keyed
     const [lang] = languageFromProps.split('-');
     // Pull the language tags for the specified language from the map first
-    languageTags.push(...languagesMap.get(lang) ?? [])
+    languageTags.push(...(languagesMap.get(lang) ?? []))
     // Then remove the language from the map so it doesn't get added again
     languagesMap.delete(lang);
   }
