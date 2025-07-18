@@ -1,4 +1,4 @@
-import { RequestLogger, RequestMock, Selector } from 'testcafe';
+import { RequestLogger, RequestMock } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import SignInDevicePageObject from '../framework/page-objects/SignInDevicePageObject';
 import smartProbingRequired from '../../../playground/mocks/data/idp/idx/smart-probing-required';
