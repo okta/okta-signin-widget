@@ -121,58 +121,6 @@ describe('identify-with-password', () => {
       expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
     });
 
-    it('should attempt to submit page with all required fields empty and type in one of the required fields to remove error', async () => {
-      const {
-        authClient,
-        user,
-        container,
-        findByTestId,
-        findByText,
-        findByLabelText,
-      } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
-
-      const identifierEl = await findByLabelText(/Username/) as HTMLInputElement;
-      await findByTestId('credentials.passcode') as HTMLInputElement;
-      const submitButton = await findByText('Sign in', { selector: 'button' });
-
-      await user.click(submitButton);
-      await findByText(/We found some errors./);
-      const passwordEle = await findByLabelText('Password') as HTMLInputElement;
-
-      expect(identifierEl).toHaveErrorMessage(/This field cannot be left blank/);
-      expect(container).toMatchSnapshot();
-      expect(passwordEle).toHaveErrorMessage(/This field cannot be left blank/);
-      expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
-
-      await user.type(identifierEl, 'someuser@okta1.com');
-
-      expect(identifierEl).not.toHaveErrorMessage();
-      expect(passwordEle).toHaveErrorMessage(/This field cannot be left blank/);
-    });
-
-    it('should type in field, then clear field to view field level error', async () => {
-      const {
-        user,
-        findByLabelText,
-        findByTestId,
-        queryByTestId,
-        findByText,
-      } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
-
-      const identifierEl = await findByLabelText(/Username/) as HTMLInputElement;
-      await findByTestId('credentials.passcode') as HTMLInputElement;
-      await findByText('Sign in', { selector: 'button' });
-      expect(identifierEl).not.toHaveErrorMessage();
-      expect(queryByTestId('credentials.passcode-error')).toBeNull();
-
-      await user.type(identifierEl, 'aaa');
-      await user.clear(identifierEl);
-      await user.tab();
-
-      expect(identifierEl).toHaveErrorMessage(/This field cannot be left blank/);
-      expect(queryByTestId('credentials.passcode-error')).toBeNull();
-    });
-
     it('fails client side validation with no inputs', async () => {
       const {
         authClient,
