@@ -192,14 +192,14 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 emotion-32"
+                            <h2
+                              class="MuiTypography-root MuiTypography-h2 emotion-32"
                               data-se="authenticator-button-label"
                               id="okta_password_0-label"
                               translate="no"
                             >
                               Password
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Choose a password for your account."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -307,14 +307,14 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 emotion-32"
+                            <h2
+                              class="MuiTypography-root MuiTypography-h2 emotion-32"
                               data-se="authenticator-button-label"
                               id="phone_number_1-label"
                               translate="no"
                             >
                               Phone
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Verify with a code sent to your phone."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -432,14 +432,14 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 emotion-32"
+                            <h2
+                              class="MuiTypography-root MuiTypography-h2 emotion-32"
                               data-se="authenticator-button-label"
                               id="webauthn_2-label"
                               translate="no"
                             >
                               Security Key or Biometric Authenticator
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Use a security key or a biometric authenticator to sign in."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -537,14 +537,14 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 emotion-32"
+                            <h2
+                              class="MuiTypography-root MuiTypography-h2 emotion-32"
                               data-se="authenticator-button-label"
                               id="security_question_3-label"
                               translate="no"
                             >
                               Security Question
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Choose a security question and answer that will be used for signing in."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -638,14 +638,14 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 emotion-32"
+                            <h2
+                              class="MuiTypography-root MuiTypography-h2 emotion-32"
                               data-se="authenticator-button-label"
                               id="okta_verify_4-label"
                               translate="no"
                             >
                               Okta Verify
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Okta Verify is an authenticator app, installed on your phone or computer, used to prove your identity."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -763,14 +763,14 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 emotion-32"
+                            <h2
+                              class="MuiTypography-root MuiTypography-h2 emotion-32"
                               data-se="authenticator-button-label"
                               id="google_otp_5-label"
                               translate="no"
                             >
                               Google Authenticator
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Enter a temporary code generated from the Google Authenticator app."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -868,14 +868,14 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 emotion-32"
+                            <h2
+                              class="MuiTypography-root MuiTypography-h2 emotion-32"
                               data-se="authenticator-button-label"
                               id="onprem_mfa_6-label"
                               translate="no"
                             >
                               Atko Custom On-prem
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Verify by entering a code generated by Atko Custom On-prem."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -967,14 +967,14 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 emotion-32"
+                            <h2
+                              class="MuiTypography-root MuiTypography-h2 emotion-32"
                               data-se="authenticator-button-label"
                               id="rsa_token_7-label"
                               translate="no"
                             >
                               RSA SecurID
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Verify by entering a code generated by RSA SecurID."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -1068,14 +1068,14 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 emotion-32"
+                            <h2
+                              class="MuiTypography-root MuiTypography-h2 emotion-32"
                               data-se="authenticator-button-label"
                               id="duo_8-label"
                               translate="no"
                             >
                               Duo Security
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Verify your identity using Duo Security."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -1178,14 +1178,14 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 emotion-32"
+                            <h2
+                              class="MuiTypography-root MuiTypography-h2 emotion-32"
                               data-se="authenticator-button-label"
                               id="external_idp_9-label"
                               translate="no"
                             >
                               IDP Authenticator
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Redirect to verify with IDP Authenticator."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -1288,14 +1288,14 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 emotion-32"
+                            <h2
+                              class="MuiTypography-root MuiTypography-h2 emotion-32"
                               data-se="authenticator-button-label"
                               id="custom_otp_10-label"
                               translate="no"
                             >
                               Atko Custom OTP Authenticator
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Enter a temporary code generated from an authenticator device."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -1395,14 +1395,14 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 emotion-32"
+                            <h2
+                              class="MuiTypography-root MuiTypography-h2 emotion-32"
                               data-se="authenticator-button-label"
                               id="symantec_vip_11-label"
                               translate="no"
                             >
                               Symantec VIP
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Verify by entering a temporary code from the Symantec VIP app."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -1502,14 +1502,14 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 emotion-32"
+                            <h2
+                              class="MuiTypography-root MuiTypography-h2 emotion-32"
                               data-se="authenticator-button-label"
                               id="yubikey_token_12-label"
                               translate="no"
                             >
                               YubiKey Authenticator
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Verify your identity using YubiKey."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"

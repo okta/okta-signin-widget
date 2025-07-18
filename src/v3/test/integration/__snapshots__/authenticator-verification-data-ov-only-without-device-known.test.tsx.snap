@@ -200,14 +200,14 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                             class="MuiBox-root emotion-29"
                             data-se="authenticator-button-content"
                           >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 emotion-30"
+                            <h2
+                              class="MuiTypography-root MuiTypography-h2 emotion-30"
                               data-se="authenticator-button-label"
                               id="okta_verify_0-label"
                               translate="no"
                             >
                               Okta Verify
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Get a push notification."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-31"
@@ -294,14 +294,14 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                             class="MuiBox-root emotion-29"
                             data-se="authenticator-button-content"
                           >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 emotion-30"
+                            <h2
+                              class="MuiTypography-root MuiTypography-h2 emotion-30"
                               data-se="authenticator-button-label"
                               id="okta_verify_1-label"
                               translate="no"
                             >
                               Okta Verify
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Enter a code."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-31"
@@ -388,14 +388,14 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                             class="MuiBox-root emotion-29"
                             data-se="authenticator-button-content"
                           >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 emotion-30"
+                            <h2
+                              class="MuiTypography-root MuiTypography-h2 emotion-30"
                               data-se="authenticator-button-label"
                               id="okta_verify_2-label"
                               translate="no"
                             >
                               Okta Verify
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Use Okta FastPass."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-31"
