@@ -95,13 +95,13 @@ exports[`unlock-account-success renders form 1`] = `
                     <div
                       class="MuiBox-root emotion-17"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-18"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Account successfully unlocked!
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

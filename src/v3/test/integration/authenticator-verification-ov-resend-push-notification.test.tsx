@@ -16,7 +16,7 @@ import { createAuthJsPayloadArgs, setup } from './util';
 describe('authenticator-verification-ov-resend-push-notification', () => {
   it('renders form', async () => {
     const { container, findByRole } = await setup({ mockResponse });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     expect(heading.textContent).toBe('Get a push notification');
     expect(container).toMatchSnapshot();
   });
@@ -29,7 +29,7 @@ describe('authenticator-verification-ov-resend-push-notification', () => {
       findByText,
     } = await setup({ mockResponse });
 
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     expect(heading.textContent).toBe('Get a push notification');
 
     await user.click(await findByText('Resend push notification', { selector: 'button' }));

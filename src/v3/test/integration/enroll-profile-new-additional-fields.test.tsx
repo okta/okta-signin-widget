@@ -17,7 +17,7 @@ import { createAuthJsPayloadArgs, setup } from './util';
 describe('enroll-profile-new-additional-fields', () => {
   it('should render form', async () => {
     const { container, findByRole, findByLabelText } = await setup({ mockResponse });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     expect(heading.textContent).toBe('Sign up');
     expect(container).toMatchSnapshot();
     const firstNameEle = await findByLabelText('First name') as HTMLInputElement;
@@ -29,7 +29,7 @@ describe('enroll-profile-new-additional-fields', () => {
       authClient, user, findByLabelText, findByRole,
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     expect(heading.textContent).toBe('Sign up');
 
     const submitButton = await findByRole('button', { name: 'Sign Up' });

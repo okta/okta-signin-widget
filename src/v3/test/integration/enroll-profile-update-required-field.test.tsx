@@ -19,7 +19,7 @@ describe('enroll-profile-update-required-field', () => {
     const { container, findByTestId, findByRole } = await setup(
       { mockResponse: enrollProfileUpdatMockResponse },
     );
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     expect(heading.textContent).toBe('Additional Profile information');
     expect(container).toMatchSnapshot();
     const customAttrEle = await findByTestId('userProfile.newAttribute') as HTMLInputElement;
@@ -34,7 +34,7 @@ describe('enroll-profile-update-required-field', () => {
       widgetOptions: { features: { autoFocus: true } },
     });
 
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     expect(heading.textContent).toBe('Additional Profile information');
 
     const submitButton = await findByRole('button', { name: 'Finish' });

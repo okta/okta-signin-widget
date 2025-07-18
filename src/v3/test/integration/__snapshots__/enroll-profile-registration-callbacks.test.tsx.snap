@@ -51,13 +51,13 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                     <div
                       class="MuiBox-root emotion-11"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-12"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Sign up
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -400,13 +400,13 @@ exports[`enroll-profile-with-password should show custom error message and preve
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Sign up
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -733,13 +733,13 @@ exports[`enroll-profile-with-password should show custom field level error messa
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Sign up
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -1066,13 +1066,13 @@ exports[`enroll-profile-with-password should show generic error message and prev
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Sign up
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -1382,13 +1382,13 @@ exports[`enroll-profile-with-password should show validation error messages on a
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Sign up
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

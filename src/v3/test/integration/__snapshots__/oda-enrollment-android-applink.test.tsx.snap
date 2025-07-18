@@ -81,13 +81,13 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                       <div
                         class="MuiBox-root emotion-13"
                       >
-                        <h2
+                        <h1
                           class="MuiTypography-root MuiTypography-h4 emotion-14"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
                           Additional setup required to use Okta FastPass
-                        </h2>
+                        </h1>
                       </div>
                     </div>
                     <div
@@ -254,13 +254,13 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                       <div
                         class="MuiBox-root emotion-13"
                       >
-                        <h2
+                        <h1
                           class="MuiTypography-root MuiTypography-h4 emotion-14"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
                           Set up an Okta Verify account
-                        </h2>
+                        </h1>
                       </div>
                     </div>
                     <div
@@ -505,13 +505,13 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                       <div
                         class="MuiBox-root emotion-13"
                       >
-                        <h2
+                        <h1
                           class="MuiTypography-root MuiTypography-h4 emotion-14"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
                           Additional setup required to use Okta FastPass
-                        </h2>
+                        </h1>
                       </div>
                     </div>
                     <div

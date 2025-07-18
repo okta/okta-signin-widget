@@ -3,6 +3,7 @@ import { screen, within } from '@testing-library/testcafe';
 
 const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] .infobox-error';
+const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
 const CALLOUT = '[data-se="callout"]';
 
 const CANCEL_BUTTON_SELECTOR = userVariables.gen3 ? '[data-se="cancel"]' : '[data-type="cancel"]';
@@ -42,13 +43,13 @@ export default class BaseFormObject {
 
   getTitle() {
     return screen.findByRole('heading', {
-      level: 2,
+      level: userVariables.gen3 ? 1 : 2,
     }).innerText;
   }
 
   getNthTitle(index) {
     return screen.findAllByRole('heading', {
-      level: 2,
+      level: userVariables.gen3 ? 1 : 2,
     }).nth(index).innerText;
   }
 
@@ -57,6 +58,19 @@ export default class BaseFormObject {
       index = 0;
     }
     return this.el.find('[data-se="o-form-explain"]').nth(index).innerText;
+  }
+
+  getErrorTitle() {
+    if (userVariables.gen3) {
+      return within(this.getErrorBox()).findByRole('heading', { level: 2 }).innerText;
+    }
+    return this.getElement(FORM_INFOBOX_ERROR_TITLE).innerText;
+  }
+
+  getNthErrorTitle(index) {
+    return within(this.getErrorBox()).findAllByRole('heading', {
+      level: 2,
+    }).nth(index).innerText;
   }
 
   getSelectFormButtonLabel(selector) {

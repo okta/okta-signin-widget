@@ -64,7 +64,7 @@ export default class SelectFactorPageObject extends BasePageObject {
   getFactorLabelByIndex(index) {
     if (userVariables.gen3) {
       const factorButton = this.getFactorButtons().nth(index);
-      return within(factorButton).findByRole('heading', { level: 3 }).textContent;
+      return within(factorButton).findByRole('heading', { level: 2 }).textContent;
     }
     return this.form.getElement(factorLabelSelector).nth(index).textContent;
   }

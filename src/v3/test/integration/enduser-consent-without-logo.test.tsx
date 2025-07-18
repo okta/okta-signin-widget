@@ -28,7 +28,7 @@ describe('enduser-consent-without-logo', () => {
     } = await setup({
       mockResponse: enduserConsentResponseWithoutLogo,
     });
-    const appNameHeading = await findByRole('heading', { level: 2 });
+    const appNameHeading = await findByRole('heading', { level: 1 });
     const logo = queryByAltText('Logo for the app');
 
     expect(logo).toBeNull();

@@ -51,13 +51,13 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     <div
                       class="MuiBox-root emotion-11"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-12"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Sign In
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -406,13 +406,13 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     <div
                       class="MuiBox-root emotion-11"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-12"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Sign In
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -761,13 +761,13 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     <div
                       class="MuiBox-root emotion-11"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-12"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Sign In
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -1151,13 +1151,13 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
                     <div
                       class="MuiBox-root emotion-12"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-13"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         PIV / CAC card
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

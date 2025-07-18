@@ -138,13 +138,13 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                     <div
                       class="MuiBox-root emotion-24"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-25"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Additional Profile information
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -429,13 +429,13 @@ exports[`enroll-profile-update-required-field should render form with one requir
                     <div
                       class="MuiBox-root emotion-17"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-18"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Additional Profile information
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

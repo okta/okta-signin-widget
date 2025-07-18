@@ -17,7 +17,7 @@ import mockResponse from '../../src/mocks/response/idp/idx/challenge/answer/auth
 describe('authenticator-password-requirements-not-met', () => {
   it('should render form', async () => {
     const { container, findByRole, findByLabelText } = await setup({ mockResponse });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     const enterPasswordEle = await findByLabelText('Enter password') as HTMLInputElement;
 
     expect(heading.textContent).toBe('Set up password');

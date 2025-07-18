@@ -57,7 +57,7 @@ describe('Flow transitions', () => {
     });
 
     // form: identify-with-password
-    const titleElement = await findByText('Sign In', { selector: 'h2' });
+    const titleElement = await findByText('Sign In', { selector: 'h1' });
     await waitFor(() => expect(titleElement).toHaveFocus());
     const usernameEl = await findByLabelText('Username') as HTMLInputElement;
     const passwordEl = await findByLabelText('Password') as HTMLInputElement;

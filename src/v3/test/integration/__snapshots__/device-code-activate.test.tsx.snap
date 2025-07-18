@@ -51,13 +51,13 @@ exports[`device-code-activate should render form 1`] = `
                     <div
                       class="MuiBox-root emotion-11"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-12"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Activate your device
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

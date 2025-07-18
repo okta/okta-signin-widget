@@ -210,6 +210,10 @@ export default class BasePageObject {
     return this.form.getErrorBoxText();
   }
 
+  getErrorTitle() {
+    return this.form.getErrorTitle();
+  }
+
   getReturnToAuthenticatorListLink() {
     return this.form.getLink('Return to authenticator list');
   }

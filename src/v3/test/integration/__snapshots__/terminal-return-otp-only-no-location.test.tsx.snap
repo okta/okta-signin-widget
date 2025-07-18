@@ -126,13 +126,13 @@ exports[`terminal-return-otp-only-no-location renders form 1`] = `
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Your verification code
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -156,14 +156,14 @@ exports[`terminal-return-otp-only-no-location renders form 1`] = `
                     <div
                       class="MuiBox-root emotion-24"
                     >
-                      <h3
+                      <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-25"
                         data-se="otp-value"
                         tabindex="-1"
                         translate="no"
                       >
                         123456
-                      </h3>
+                      </h2>
                     </div>
                   </div>
                   <div

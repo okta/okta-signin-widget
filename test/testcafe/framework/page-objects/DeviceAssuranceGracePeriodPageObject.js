@@ -18,7 +18,7 @@ export default class DeviceAssuranceGracePeriodPageObject extends BasePageObject
 
   getOptionHeading(index) {
     if (userVariables.gen3) {
-      return this.form.getNthTitle(index + 2);
+      return this.form.getNthErrorTitle(index+1);
     }
 
     return this.form.getElement(END_USER_REMEDIATION_OPTION).nth(index).innerText;

@@ -45,7 +45,7 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
     options: {
       // @ts-expect-error TODO: OKTA-504299 otp missing from contextualData interface
       content: currentAuthenticator?.value?.contextualData?.otp,
-      level: 3,
+      level: 2,
       visualLevel: 3,
       dataSe: 'otp-value',
     },

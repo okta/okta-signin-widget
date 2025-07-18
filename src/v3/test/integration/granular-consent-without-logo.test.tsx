@@ -22,7 +22,7 @@ describe('granular-consent-without-logo', () => {
       findByRole,
       queryByAltText,
     } = await setup({ mockResponse });
-    const appNameHeading = await findByRole('heading', { level: 2 });
+    const appNameHeading = await findByRole('heading', { level: 1 });
     const logo = queryByAltText('Logo for the app');
 
     expect(logo).toBeNull();

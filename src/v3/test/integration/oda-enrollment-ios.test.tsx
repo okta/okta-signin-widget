@@ -17,7 +17,7 @@ import mockResponse from '../../src/mocks/response/idp/idx/introspect/oda-enroll
 describe('oda-enrollment-ios', () => {
   it('should render form', async () => {
     const { container, findByRole } = await setup({ mockResponse });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
 
     expect(heading.textContent).toBe('Download Okta Verify');
     expect(container).toMatchSnapshot();

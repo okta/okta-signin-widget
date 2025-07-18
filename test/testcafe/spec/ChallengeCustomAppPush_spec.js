@@ -558,7 +558,7 @@ test
     await challengeCustomAppPushPageObject.waitForErrorBox();
 
     const errorTitle = challengeCustomAppPushPageObject.getErrorTitle();
-    await t.expect(errorTitle.innerText).contains('Enable biometrics in Custom Push Authenticator');
+    await t.expect(errorTitle).contains('Enable biometrics in Custom Push Authenticator');
 
     const errorBox = challengeCustomAppPushPageObject.getErrorBox();
     await t.expect(errorBox.innerText).contains('Your response was received, but your organization requires biometrics—like a fingerprint or facial scan—for access. Make sure your device meets the following requirements, then try again:');

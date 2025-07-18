@@ -40,7 +40,7 @@ const Title: UISchemaElementComponent<{
       justifyContent="flex-start"
     >
       <Typography
-        component="h2"
+        component="h1"
         variant="h4"
         testId="o-form-head"
         typographyRef={titleRef}

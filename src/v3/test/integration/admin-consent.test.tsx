@@ -19,8 +19,8 @@ describe('admin-consent', () => {
     const { container, findByRole, queryByAltText } = await setup({
       mockResponse: adminConsentResponse,
     });
-    const appNameHeading = await findByRole('heading', { level: 2 });
-    const groupHeading = await findByRole('heading', { level: 3 });
+    const appNameHeading = await findByRole('heading', { level: 1 });
+    const groupHeading = await findByRole('heading', { level: 2 });
     const logo = queryByAltText('Logo for the app');
 
     expect(logo).toBeDefined();

@@ -16,7 +16,7 @@ import { createAuthJsPayloadArgs, setup } from './util';
 describe('authenticator-verification-data-ov-only-without-device-known', () => {
   it('should render form', async () => {
     const { container, findByRole } = await setup({ mockResponse });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     expect(heading.textContent).toBe('Verify it\'s you with a security method');
     expect(container).toMatchSnapshot();
   });
@@ -26,7 +26,7 @@ describe('authenticator-verification-data-ov-only-without-device-known', () => {
       authClient, user, findByRole,
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     expect(heading.textContent).toBe('Verify it\'s you with a security method');
 
     const authenticatorButton = await findByRole('button', { name: 'Select to get a push notification to the Okta Verify app.' });

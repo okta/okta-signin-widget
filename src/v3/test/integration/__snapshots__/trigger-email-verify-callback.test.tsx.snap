@@ -82,13 +82,13 @@ exports[`triggerEmailVerifyCallback with otp flow should create proxy server res
                     <div
                       class="MuiBox-root emotion-12"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-13"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Your verification code
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -112,7 +112,7 @@ exports[`triggerEmailVerifyCallback with otp flow should create proxy server res
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h3
+                      <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-19"
                         data-se="otp-value"
                         tabindex="-1"

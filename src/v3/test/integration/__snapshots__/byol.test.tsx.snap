@@ -136,13 +136,13 @@ exports[`byol loading custom language should load custom language with "language
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Set up foo authentication
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -1709,13 +1709,13 @@ exports[`byol loading custom language should load custom language with assets.ba
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Set up foo authentication
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -3282,13 +3282,13 @@ exports[`byol loading default language should not load custom language when the 
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Set up phone authentication
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -4855,13 +4855,13 @@ exports[`byol loading default language should not load custom language with "lan
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Set up phone authentication
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

@@ -75,7 +75,7 @@ describe('identify-with-password-error-flow', () => {
       widgetOptions: { features: { rememberMe: false } },
     });
 
-    const titleElement = await findByText('Sign In', { selector: 'h2' });
+    const titleElement = await findByText('Sign In', { selector: 'h1' });
     await waitFor(() => expect(titleElement).toHaveFocus());
     const submitButton = await findByText('Sign in', { selector: 'button' });
     const usernameEl = await findByLabelText('Username') as HTMLInputElement;

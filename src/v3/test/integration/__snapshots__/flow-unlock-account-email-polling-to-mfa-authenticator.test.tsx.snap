@@ -146,13 +146,13 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Verify with Security Key or Biometric Authenticator
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -280,12 +280,12 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                                       <div
                                         class="MuiBox-root emotion-18"
                                       >
-                                        <h3
+                                        <h2
                                           class="MuiTypography-root MuiTypography-h6 emotion-43"
                                           tabindex="-1"
                                         >
                                           Are you trying to use a biometric authenticator?
-                                        </h3>
+                                        </h2>
                                       </div>
                                     </div>
                                     <div
@@ -324,12 +324,12 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                                       <div
                                         class="MuiBox-root emotion-18"
                                       >
-                                        <h3
+                                        <h2
                                           class="MuiTypography-root MuiTypography-h6 emotion-43"
                                           tabindex="-1"
                                         >
                                           Are you trying to use a security key?
-                                        </h3>
+                                        </h2>
                                       </div>
                                     </div>
                                     <div

@@ -146,13 +146,13 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Set up Google Authenticator
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -164,13 +164,13 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                       <div
                         class="MuiBox-root emotion-18"
                       >
-                        <h3
+                        <h2
                           class="MuiTypography-root MuiTypography-h5 emotion-23"
                           data-se="barcode-setup-title"
                           tabindex="-1"
                         >
                           Scan QR code
-                        </h3>
+                        </h2>
                       </div>
                     </div>
                     <div
@@ -411,13 +411,13 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Set up Google Authenticator
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -667,13 +667,13 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Set up Google Authenticator
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -685,13 +685,13 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                       <div
                         class="MuiBox-root emotion-18"
                       >
-                        <h3
+                        <h2
                           class="MuiTypography-root MuiTypography-h5 emotion-23"
                           data-se="manual-setup-title"
                           tabindex="-1"
                         >
                           Can't scan QR code?
-                        </h3>
+                        </h2>
                       </div>
                     </div>
                     <div
@@ -918,13 +918,13 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Set up Google Authenticator
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

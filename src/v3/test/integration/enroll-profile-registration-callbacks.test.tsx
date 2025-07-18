@@ -77,7 +77,7 @@ describe('enroll-profile-with-password', () => {
         },
       },
     });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     const submitButton = await findByText('Sign Up', { selector: 'button' });
     const firstNameEle = await findByLabelText(/First name/) as HTMLInputElement;
     const lastNameEle = await findByLabelText(/Last name/) as HTMLInputElement;
@@ -157,7 +157,7 @@ describe('enroll-profile-with-password', () => {
         },
       },
     });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     const lastNameEle = await findByLabelText('Last name') as HTMLInputElement;
 
     expect(heading.textContent).toBe('Sign up');
@@ -198,7 +198,7 @@ describe('enroll-profile-with-password', () => {
         },
       },
     });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     await waitFor(() => expect(heading).toHaveFocus());
     expect(heading.textContent).toBe('Sign up');
 
@@ -256,7 +256,7 @@ describe('enroll-profile-with-password', () => {
         },
       },
     });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     await waitFor(() => expect(heading).toHaveFocus());
     expect(heading.textContent).toBe('Sign up');
 
@@ -332,7 +332,7 @@ describe('enroll-profile-with-password', () => {
         },
       },
     });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     const submitButton = await findByText('Sign Up', { selector: 'button' });
     const addressEle = await findByLabelText(/Street Address/) as HTMLInputElement;
 

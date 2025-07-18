@@ -126,13 +126,13 @@ exports[`authenticator-email-verification-data should render form 1`] = `
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Get a verification email
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

@@ -51,7 +51,7 @@ test('Theme configuration applies correctly', async (t) => {
 });
 
 test('should override text color based on Odyssey design tokens override', async (t) => {
-  const header = Selector('h2')
+  const header = Selector('h1')
     .withText('Sign In');
   await t
     .expect(header.getStyleProperty('color'))

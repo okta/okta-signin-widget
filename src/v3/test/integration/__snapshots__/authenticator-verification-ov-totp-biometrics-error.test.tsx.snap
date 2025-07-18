@@ -205,13 +205,13 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                     <div
                       class="MuiBox-root emotion-33"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-34"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Enter a code
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

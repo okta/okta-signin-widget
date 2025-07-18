@@ -129,13 +129,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <div
                         class="MuiBox-root emotion-19"
                       >
-                        <h2
+                        <h1
                           class="MuiTypography-root MuiTypography-h4 emotion-20"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
                           Verify with your email
-                        </h2>
+                        </h1>
                       </div>
                     </div>
                     <div
@@ -326,13 +326,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <div
                         class="MuiBox-root emotion-19"
                       >
-                        <h2
+                        <h1
                           class="MuiTypography-root MuiTypography-h4 emotion-20"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
                           Verify with your email
-                        </h2>
+                        </h1>
                       </div>
                     </div>
                     <div
@@ -577,13 +577,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <div
                         class="MuiBox-root emotion-19"
                       >
-                        <h2
+                        <h1
                           class="MuiTypography-root MuiTypography-h4 emotion-20"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
                           Verify with your email
-                        </h2>
+                        </h1>
                       </div>
                     </div>
                     <div
@@ -853,13 +853,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <div
                         class="MuiBox-root emotion-26"
                       >
-                        <h2
+                        <h1
                           class="MuiTypography-root MuiTypography-h4 emotion-27"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
                           Verify with your email
-                        </h2>
+                        </h1>
                       </div>
                     </div>
                     <div
@@ -1158,13 +1158,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <div
                         class="MuiBox-root emotion-26"
                       >
-                        <h2
+                        <h1
                           class="MuiTypography-root MuiTypography-h4 emotion-27"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
                           Verify with your email
-                        </h2>
+                        </h1>
                       </div>
                     </div>
                     <div
@@ -1591,13 +1591,13 @@ exports[`Email authenticator verification when email magic link = undefined shou
                       <div
                         class="MuiBox-root emotion-19"
                       >
-                        <h2
+                        <h1
                           class="MuiTypography-root MuiTypography-h4 emotion-20"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
                           Verify with your email
-                        </h2>
+                        </h1>
                       </div>
                     </div>
                     <div

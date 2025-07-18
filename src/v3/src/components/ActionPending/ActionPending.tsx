@@ -55,7 +55,7 @@ const ActionPending: UISchemaElementComponent<{
         }}
       >
         <Typography
-          component="h2"
+          component="h1"
           variant="h5"
           testId="o-form-head"
           typographyRef={titleRef}
