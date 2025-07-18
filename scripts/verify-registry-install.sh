@@ -8,7 +8,7 @@ export PUBLIC_REGISTRY="https://registry.yarnpkg.com"
 cd ${OKTA_HOME}/${REPO}
 
 # Install required node version
-setup_service node v14.18.2
+setup_service node v16.19.1
 setup_service yarn 1.22.19
 
 # Install required dependencies
