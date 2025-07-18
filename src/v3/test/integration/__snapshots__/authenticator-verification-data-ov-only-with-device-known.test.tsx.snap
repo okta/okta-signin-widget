@@ -201,7 +201,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-30"
+                              class="MuiTypography-root MuiTypography-h3 emotion-30"
                               data-se="authenticator-button-label"
                               id="okta_verify_2-label"
                               translate="no"
@@ -295,7 +295,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-30"
+                              class="MuiTypography-root MuiTypography-h3 emotion-30"
                               data-se="authenticator-button-label"
                               id="okta_verify_0-label"
                               translate="no"
@@ -389,7 +389,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-30"
+                              class="MuiTypography-root MuiTypography-h3 emotion-30"
                               data-se="authenticator-button-label"
                               id="okta_verify_1-label"
                               translate="no"

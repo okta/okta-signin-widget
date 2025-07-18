@@ -193,7 +193,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="okta_password_0-label"
                               translate="no"
@@ -308,7 +308,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="phone_number_1-label"
                               translate="no"
@@ -433,7 +433,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="webauthn_2-label"
                               translate="no"

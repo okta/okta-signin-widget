@@ -213,7 +213,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="google_otp_0-label"
                               translate="no"
@@ -314,7 +314,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="okta_verify_1-label"
                               translate="no"
@@ -429,7 +429,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="phone_number_2-label"
                               translate="no"
@@ -554,7 +554,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="webauthn_3-label"
                               translate="no"

@@ -243,7 +243,8 @@ const AuthenticatorButton: UISchemaElementComponent<{
         }}
       >
         <Typography
-          variant="h2"
+          component="h2"
+          variant="h3"
           id={`${iconName}-label`}
           sx={{
             fontSize: tokens.TypographySizeBody,

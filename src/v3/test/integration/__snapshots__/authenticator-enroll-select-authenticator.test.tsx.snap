@@ -193,7 +193,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="okta_password_0-label"
                               translate="no"
@@ -308,7 +308,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="phone_number_1-label"
                               translate="no"
@@ -433,7 +433,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="webauthn_2-label"
                               translate="no"
@@ -538,7 +538,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="security_question_3-label"
                               translate="no"
@@ -639,7 +639,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="okta_verify_4-label"
                               translate="no"
@@ -764,7 +764,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="google_otp_5-label"
                               translate="no"
@@ -869,7 +869,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="onprem_mfa_6-label"
                               translate="no"
@@ -968,7 +968,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="rsa_token_7-label"
                               translate="no"
@@ -1069,7 +1069,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="duo_8-label"
                               translate="no"
@@ -1179,7 +1179,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="external_idp_9-label"
                               translate="no"
@@ -1289,7 +1289,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="custom_otp_10-label"
                               translate="no"
@@ -1396,7 +1396,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="symantec_vip_11-label"
                               translate="no"
@@ -1503,7 +1503,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             data-se="authenticator-button-content"
                           >
                             <h2
-                              class="MuiTypography-root MuiTypography-h2 emotion-32"
+                              class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="yubikey_token_12-label"
                               translate="no"
