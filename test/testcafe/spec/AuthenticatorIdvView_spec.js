@@ -1,5 +1,4 @@
 import { RequestMock, RequestLogger } from 'testcafe';
-import { renderWidget } from '../framework/shared';
 import IdPAuthenticatorPageObject from '../framework/page-objects/IdPAuthenticatorPageObject';
 import PersonaIdvResponse from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-persona.json';
 import ClearIdvResponse from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-clear.json';
@@ -37,13 +36,9 @@ const incodeIdvMock = RequestMock()
   .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
 
 
-async function setup(t, widgetOptions = undefined) {
-  const options = widgetOptions ? { render: false } : {};
+async function setup(t) {
   const pageObject = new IdPAuthenticatorPageObject(t);
-  await pageObject.navigateToPage(options);
-  if (widgetOptions) {
-    await renderWidget(widgetOptions);
-  }
+  await pageObject.navigateToPage();
   await t.expect(pageObject.formExists()).eql(true);
   return pageObject;
 }

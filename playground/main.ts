@@ -33,7 +33,7 @@ declare global {
     // added in this file
     getWidgetInstance: () => OktaSignInAPI;
     createWidgetInstance: (options: WidgetOptions) => OktaSignInAPI;
-    renderPlaygroundWidget: (options: WidgetOptions) => void;
+    renderPlaygroundWidget: (options: WidgetOptions & { assertNoEnglishLeaks?: boolean, customize?: boolean }) => void;
     additionalOptions?: Partial<WidgetOptions>;
   }
 }

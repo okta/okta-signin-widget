@@ -37,6 +37,18 @@ import {
 import { getEventContext } from './getEventContext';
 import { loc } from './locUtil';
 
+/**
+ * Utility that retrieves the list of supported languages for the widget.
+ *
+ * The values considered are:
+ *
+ * 1. `widgetProps.assets.languages` - Custom list of supported languages defined in
+ *       the widget properties (supercedes `config.supportedLanguages` if provided)
+ * 2. `config.supportedLanguages` - Default list of supported languages defined in
+ *       the config (fallback for when `widgetProps.assets.languages` is not provided)
+ * 3. `widgetProps.i18n` - Custom language overrides defined in the i18n configuration
+ * 4. `widgetProps.language` - The language specified by the widget properties
+ */
 export const getSupportedLanguages = (widgetProps: WidgetProps): string[] => {
   const { i18n, language, assets: { languages } = {} } = widgetProps;
   const supportedLanguages = languages || config.supportedLanguages;
@@ -49,10 +61,18 @@ export const getSupportedLanguages = (widgetProps: WidgetProps): string[] => {
   );
 };
 
+/**
+ * TODO: Consider renaming to `getTranslationLanguageCode` and/or moving to LanguageUtil
+ */
 export const getLanguageCode = (widgetProps: WidgetProps): LanguageCode => {
+  // The language specified in widget properties (optional)
   const { language } = widgetProps;
   const supportedLanguages = getSupportedLanguages(widgetProps);
+
+  // Get the user's preferred languages from the browser API
   const userLanguages = BrowserFeatures.getUserLanguages().map((lang: string) => {
+    // Map "simple" language codes to their full locale equivalents to match the
+    // expected format for these specific languages.
     if (lang === 'nl') {
       return 'nl-NL';
     }
