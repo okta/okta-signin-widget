@@ -17,7 +17,7 @@ import mockResponse from '../../src/mocks/response/idp/idx/identify/authenticato
 describe('authenticator-verification-data-with-email', () => {
   it('should render form', async () => {
     const { container, findByRole } = await setup({ mockResponse });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
 
     expect(heading.textContent).toBe('Get a verification email');
     expect(container).toMatchSnapshot();

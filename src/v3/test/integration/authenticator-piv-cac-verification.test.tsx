@@ -46,7 +46,7 @@ describe('authenticator-piv-cac-verification', () => {
 
     await user.click(pivButton);
 
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     expect(heading.textContent).toBe('PIV / CAC card');
     // Wait for Spinner to appear
     await findByLabelText('Processing...');

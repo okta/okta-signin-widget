@@ -1,6 +1,5 @@
 import ChallengeFactorPageObject from './ChallengeFactorPageObject';
-import { screen, within } from '@testing-library/testcafe';
-import { userVariables } from 'testcafe';
+import { within } from '@testing-library/testcafe';
 
 const TOTP_FIELD = 'credentials.totp';
 
@@ -9,26 +8,12 @@ export default class ChallengeOktaVerifyTotpPageObject extends ChallengeFactorPa
     super(t);
   }
 
-  getFormTitleWithError() {
-    const titlePosition = userVariables.gen3 ? 1 : 0;
-    return this.form.getNthTitle(titlePosition);
-  }
-
   getTotpLabel() {
     return this.form.getFormFieldLabel(TOTP_FIELD);
   }
 
   getAnswerInlineError() {
     return this.form.getTextBoxErrorMessage(TOTP_FIELD);
-  }
-
-  getErrorTitle() {
-    if (userVariables.gen3) {
-      return this.form.getNthTitle(0);
-    }
-    return screen.findByRole('heading', {
-      level: 3,
-    }).innerText;
   }
 
   errorHasSubtitle(subtitle) {

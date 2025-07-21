@@ -19,7 +19,7 @@ import { createAuthJsPayloadArgs, setup } from './util';
 describe('authenticator-verification-custom-otp', () => {
   it('should render form', async () => {
     const { container, findByRole } = await setup({ mockResponse });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
 
     expect(heading.textContent).toBe('Verify with Temporary Access Code');
     expect(container).toMatchSnapshot();
@@ -30,7 +30,7 @@ describe('authenticator-verification-custom-otp', () => {
       authClient, user, findByLabelText, findByRole, findByText,
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
 
     expect(heading.textContent).toBe('Verify with Temporary Access Code');
 
@@ -64,7 +64,7 @@ describe('authenticator-verification-custom-otp', () => {
       widgetOptions: { features: { autoFocus: true } },
     });
 
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
 
     expect(heading.textContent).toBe('Verify with Temporary Access Code');
 

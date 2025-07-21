@@ -109,7 +109,7 @@ test
     await checkA11y(t);
     await challengeOktaVerifyTOTPPageObject.verifyFactor('credentials.totp', '123');
     await challengeOktaVerifyTOTPPageObject.clickVerifyButton();
-    await t.expect(challengeOktaVerifyTOTPPageObject.getFormTitleWithError()).contains('Enter a code');
+    await t.expect(challengeOktaVerifyTOTPPageObject.getFormTitle()).contains('Enter a code');
     await challengeOktaVerifyTOTPPageObject.form.hasErrorBox();
     await t.expect(challengeOktaVerifyTOTPPageObject.getErrorTitle()).contains('Enable biometrics in Okta Verify');
     await t.expect(

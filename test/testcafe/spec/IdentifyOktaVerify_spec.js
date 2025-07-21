@@ -1,4 +1,4 @@
-import { RequestLogger, RequestMock, Selector } from 'testcafe';
+import { RequestLogger, RequestMock } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -62,6 +62,6 @@ test('should the correct content', async t => {
   const separationText = await identityPage.getSeparationLineText();
   await t.expect(separationText.toString().toLowerCase()).eql('or');
   await identityPage.clickOktaVerifyButton();
-  const header = new Selector('h2[data-se="o-form-head"]');
-  await t.expect(header.textContent).eql('Click "Open Okta Verify" on the browser prompt');
+  const header = await identityPage.getFormTitle();
+  await t.expect(header).eql('Click "Open Okta Verify" on the browser prompt');
 });

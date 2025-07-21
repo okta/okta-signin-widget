@@ -46,11 +46,11 @@ exports[`granular-consent-without-logo should render form 1`] = `
                   class="MuiBox-root emotion-10"
                   data-se="title-text"
                 >
-                  <h2
+                  <h1
                     class="MuiTypography-root MuiTypography-h6 no-translate emotion-11"
                   >
                     Native client
-                  </h2>
+                  </h1>
                    
                   <p>
                     wants to access

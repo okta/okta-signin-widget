@@ -122,13 +122,13 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Push notification sent
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

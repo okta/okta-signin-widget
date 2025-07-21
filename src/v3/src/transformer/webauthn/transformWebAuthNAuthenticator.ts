@@ -83,7 +83,7 @@ const getCantVerifyChallengeContent = (): UISchemaLayout => ({
       type: 'Heading',
       noMargin: true,
       options: {
-        level: 3,
+        level: 2,
         visualLevel: 6,
         content: loc('oie.verify.webauthn.cant.verify.biometric.authenticator.title', 'login'),
       },
@@ -101,7 +101,7 @@ const getCantVerifyChallengeContent = (): UISchemaLayout => ({
       type: 'Heading',
       noMargin: true,
       options: {
-        level: 3,
+        level: 2,
         visualLevel: 6,
         content: loc('oie.verify.webauthn.cant.verify.security.key.title', 'login'),
       },

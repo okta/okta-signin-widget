@@ -16,7 +16,7 @@ import { setup } from './util';
 describe('authenticator-verification-okta-verify-totp-only-ov', () => {
   it('should render form', async () => {
     const { container, findByRole } = await setup({ mockResponse });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
     expect(heading.textContent).toBe('Enter a code');
     expect(container).toMatchSnapshot();
   });

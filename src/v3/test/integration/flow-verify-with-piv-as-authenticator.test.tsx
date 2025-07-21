@@ -36,7 +36,7 @@ describe('flow-verify-with-piv-as-authenticator', () => {
       },
     });
 
-    const selectAuthenticatorHeading = await findByRole('heading', { level: 2 });
+    const selectAuthenticatorHeading = await findByRole('heading', { level: 1 });
 
     expect(selectAuthenticatorHeading.textContent).toBe('Verify it\'s you with a security method');
 
@@ -49,7 +49,7 @@ describe('flow-verify-with-piv-as-authenticator', () => {
     );
 
     await findByText('PIV / CAC card');
-    const pivViewHeading = await findByRole('heading', { level: 2 });
+    const pivViewHeading = await findByRole('heading', { level: 1 });
     expect(pivViewHeading.textContent).toBe('PIV / CAC card');
     expect(container).toMatchSnapshot();
   });

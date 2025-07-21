@@ -17,7 +17,7 @@ import mockResponse from '../../src/mocks/response/idp/idx/introspect/oda-enroll
 describe('oda-enrollment-android-applink', () => {
   it('should render form', async () => {
     const { container, findByRole } = await setup({ mockResponse });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
 
     expect(heading.textContent).toBe('Additional setup required to use Okta FastPass');
     expect(container).toMatchSnapshot();
@@ -25,14 +25,14 @@ describe('oda-enrollment-android-applink', () => {
 
   it('should render view when "No, I don’t have an account" is selected', async () => {
     const { container, user, findByRole } = await setup({ mockResponse });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
 
     expect(heading.textContent).toBe('Additional setup required to use Okta FastPass');
 
     const nextBtn = await findByRole('button', { name: 'Next' });
     await user.click(nextBtn);
 
-    const newHeading = await findByRole('heading', { level: 2 });
+    const newHeading = await findByRole('heading', { level: 1 });
     expect(newHeading.textContent).toBe('Set up an Okta Verify account');
     expect(container).toMatchSnapshot();
   });
@@ -41,7 +41,7 @@ describe('oda-enrollment-android-applink', () => {
     const {
       container, user, findByRole, findByText,
     } = await setup({ mockResponse });
-    const heading = await findByRole('heading', { level: 2 });
+    const heading = await findByRole('heading', { level: 1 });
 
     expect(heading.textContent).toBe('Additional setup required to use Okta FastPass');
 

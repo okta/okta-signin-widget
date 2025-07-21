@@ -70,7 +70,7 @@ export const transformAdminConsent: IdxStepTransformer = ({ transaction, formBag
         type: 'Heading',
         noMargin: true,
         options: {
-          level: 3,
+          level: 2,
           visualLevel: 6,
           content: loc(GROUP_KEY_TO_I18N_KEY[key as ConsentScopeGroup], 'login'),
           dataSe: 'scope-group--header',

@@ -126,13 +126,13 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Verify with your Security Question
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

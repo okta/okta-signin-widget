@@ -122,13 +122,13 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Enter a code
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -335,13 +335,13 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Enter a code
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

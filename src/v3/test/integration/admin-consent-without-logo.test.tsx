@@ -26,8 +26,8 @@ describe('admin-consent-without-logo', () => {
     const { container, findByRole, queryByAltText } = await setup({
       mockResponse: adminConsentResponseWithoutLogo,
     });
-    const appNameHeading = await findByRole('heading', { level: 2 });
-    const groupHeading = await findByRole('heading', { level: 3 });
+    const appNameHeading = await findByRole('heading', { level: 1 });
+    const groupHeading = await findByRole('heading', { level: 2 });
     const logo = queryByAltText('Logo for the app');
 
     expect(appNameHeading.textContent).toBe('Native client');

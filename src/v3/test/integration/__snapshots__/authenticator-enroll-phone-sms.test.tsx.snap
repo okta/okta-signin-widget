@@ -95,13 +95,13 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                     <div
                       class="MuiBox-root emotion-17"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-18"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Set up security methods
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div
@@ -125,13 +125,13 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                     <div
                       class="MuiBox-root emotion-23"
                     >
-                      <h3
+                      <h2
                         class="MuiTypography-root MuiTypography-h6 emotion-24"
                         data-se="select-authenticator-enroll_Heading_Required_now_aut2h3fft10VeLDPD1d7_3"
                         tabindex="-1"
                       >
                         Required now
-                      </h3>
+                      </h2>
                     </div>
                   </div>
                   <div
@@ -212,14 +212,14 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h3
+                            <h2
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="google_otp_0-label"
                               translate="no"
                             >
                               Google Authenticator
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Enter a temporary code generated from the Google Authenticator app."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -313,14 +313,14 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h3
+                            <h2
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="okta_verify_1-label"
                               translate="no"
                             >
                               Okta Verify
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Okta Verify is an authenticator app, installed on your phone or computer, used to prove your identity."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -428,14 +428,14 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h3
+                            <h2
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="phone_number_2-label"
                               translate="no"
                             >
                               Phone
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Verify with a code sent to your phone."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -553,14 +553,14 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h3
+                            <h2
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="webauthn_3-label"
                               translate="no"
                             >
                               Security Key or Biometric Authenticator
-                            </h3>
+                            </h2>
                             <p
                               aria-label="Use a security key or a biometric authenticator to sign in."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -768,13 +768,13 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
+                      <h1
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
                         Set up phone authentication
-                      </h2>
+                      </h1>
                     </div>
                   </div>
                   <div

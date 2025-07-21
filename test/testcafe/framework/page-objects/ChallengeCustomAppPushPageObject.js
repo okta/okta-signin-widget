@@ -3,7 +3,6 @@ import ChallengeFactorPageObject from './ChallengeFactorPageObject';
 import { within } from '@testing-library/testcafe';
 
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] [data-se="callout"]';
-const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
 const FACTOR_BEACON = '.auth-beacon.auth-beacon-factor';
 const FORM_SELECTOR = '.custom-app-send-push-form';
 
@@ -75,13 +74,6 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
 
   getErrorBox() {
     return this.form.getErrorBox();
-  }
-
-  getErrorTitle() {
-    if (userVariables.gen3) {
-      return this.getErrorBox();
-    }
-    return this.form.getElement(FORM_INFOBOX_ERROR_TITLE);
   }
 
   getWarningBox() {

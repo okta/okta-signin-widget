@@ -16,7 +16,7 @@ import { createAuthJsPayloadArgs, setup } from './util';
 describe('request-activation-email', () => {
   it('renders form', async () => {
     const { container, findByRole } = await setup({ mockResponse });
-    await findByRole('heading', { level: 2, name: 'Activation link has expired' });
+    await findByRole('heading', { level: 1, name: 'Activation link has expired' });
     expect(container).toMatchSnapshot();
   });
 
