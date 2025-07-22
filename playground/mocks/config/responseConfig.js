@@ -73,6 +73,8 @@ const idx = {
     // 'authenticator-expired-password-no-complexity',
     // 'authenticator-expired-password-with-enrollment-authenticator',
     // 'authenticator-expiry-warning-password',
+    // 'device-assurance-grace-period-one-option',
+    // 'device-assurance-grace-period-multiple-options',
     // 'device-code-activate',
     // 'enroll-profile',
     // 'enroll-profile-new',

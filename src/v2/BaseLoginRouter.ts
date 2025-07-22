@@ -22,7 +22,7 @@ import ColorsUtil from 'util/ColorsUtil';
 import Enums from 'util/Enums';
 import { ConfigError } from 'util/Errors';
 import Logger from 'util/Logger';
-import LanguageUtil from 'util/LanguageUtil';
+import { loadLanguage } from 'util/LanguageUtil';
 import AuthContainer from 'v1/views/shared/AuthContainer';
 import Header from 'v1/views/shared/Header';
 import AppState from './models/AppState';
@@ -143,7 +143,7 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     // If we need to load a language (or apply custom i18n overrides), do
     // this now and re-run render after it's finished.
     if (!Bundles.isLoaded(this.settings.get('languageCode'))) {
-      await LanguageUtil.loadLanguage(this.appState, this.settings);
+      await loadLanguage(this.appState, this.settings);
     }
 
     let error;

@@ -104,7 +104,7 @@ export default View.extend({
           const expiryDate = new Date(expiry);
           const localizedExpiry = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(
             expiryDate,
-            this.options.languageCode
+            this.options.languageTags,
           );
           title = localizedExpiry ? loc(key, 'login', [localizedExpiry]) : message;
         }

@@ -25,7 +25,9 @@ import IDP from 'util/IDP';
 import Logger from 'util/Logger';
 import Util from 'util/Util';
 import CountryUtil from 'util/CountryUtil';
+import { getLanguageTags } from 'util/LanguageUtil';
 import { OktaAuth } from '@okta/okta-auth-js';
+
 const SharedUtil = internal.util.Util;
 const assetBaseUrlTpl = hbs('https://global.oktacdn.com/okta-signin-widget/{{version}}');
 
@@ -240,6 +242,9 @@ const derived: Record<string, ModelProperty>  = {
   },
   languageCode: {
     deps: ['language', 'supportedLanguages'],
+    /*
+     * TODO: Consider renaming to `getTranslationLanguageCode` and/or moving to LanguageUtil
+     */
     fn: function(language, supportedLanguages) {
       const userLanguages = BrowserFeatures.getUserLanguages();
 
@@ -285,6 +290,10 @@ const derived: Record<string, ModelProperty>  = {
         }
       }
     },
+  },
+  languageTags: {
+    deps: ['language', 'supportedLanguages'],
+    fn: getLanguageTags,
   },
   countryCode: {
     deps: ['defaultCountryCode'],

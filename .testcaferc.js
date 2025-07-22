@@ -180,6 +180,9 @@ const config = {
     return true;
   },
   screenshots: {
+    path: 'build2/reports/junit',
+    takeOnFails: true,
+    fullPage: true,
     thumbnails: false,
   },
 }
