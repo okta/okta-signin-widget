@@ -145,6 +145,7 @@ const local: Record<string, ModelProperty> = {
     values: ['PRIMARY', 'SECONDARY'],
     value: 'SECONDARY',
   },
+  initialPopupPath: ['string', false],
 
   // HELP LINKS
   'helpLinks.help': 'string',
