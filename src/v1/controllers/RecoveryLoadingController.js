@@ -26,6 +26,7 @@ export default FormController.extend({
       .startTransaction(function(authClient) {
         return authClient.verifyRecoveryToken({
           recoveryToken: options.token,
+          multiOptionalFactorEnroll: this.options.settings.get('features.multiOptionalFactorEnroll')
         });
       })
       .catch(function() {
