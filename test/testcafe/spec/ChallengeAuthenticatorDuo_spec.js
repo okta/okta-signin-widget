@@ -7,7 +7,7 @@ import xhrAuthenticatorVerifyDuo from '../../../playground/mocks/data/idp/idx/au
 import success from '../../../playground/mocks/data/idp/idx/success.json';
 import verificationTimeout from '../../../playground/mocks/data/idp/idx/error-authenticator-duo-verification-timeout.json';
 import verificationFailed from '../../../playground/mocks/data/idp/idx/error-authenticator-duo-verification-failed.json';
-import { checkConsoleMessages, renderWidget, mockDuoIframeHtml } from '../framework/shared';
+import { checkConsoleMessages, overrideWidgetOptions, renderWidget, mockDuoIframeHtml } from '../framework/shared';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -43,13 +43,9 @@ const answerRequestLogger = RequestLogger(
 
 fixture('Challenge Duo');
 
-async function setup(t, widgetOptions) {
-  const options = widgetOptions ? { render: false } : {};
+async function setup(t) {
   const challengeDuoPage = new DuoPageObject(t);
-  await challengeDuoPage.navigateToPage(options);
-  if (widgetOptions) {
-    await renderWidget(widgetOptions);
-  }
+  await challengeDuoPage.navigateToPage();
   await t.expect(challengeDuoPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'mfa-verify-duo',
@@ -145,15 +141,16 @@ test.requestHooks(answerRequestLogger, verificationFailedMock)('verification fai
 });
 
 test
-  .requestHooks(mock)('should show custom factor page link', async t => {
-    const challengeDuoPage = await setup(t, {
-      helpLinks: {
-        factorPage: {
-          text: 'custom factor page link',
-          href: 'https://acme.com/what-is-okta-autheticators'
-        }
+  .clientScripts(overrideWidgetOptions({
+    helpLinks: {
+      factorPage: {
+        text: 'custom factor page link',
+        href: 'https://acme.com/what-is-okta-autheticators'
       }
-    });
+    }
+  }))
+  .requestHooks(mock)('should show custom factor page link', async t => {
+    const challengeDuoPage = await setup(t);
     await checkA11y(t);
 
     await t.expect(challengeDuoPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');

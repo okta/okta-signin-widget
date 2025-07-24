@@ -2044,45 +2044,46 @@ Expect.describe('v1/LoginRouter', function() {
           },
           userLanguages: ['ja', 'ko', 'en'],
         }).then(function() {
-          expect(spy.calls.count()).toBe(1);
-          const args = spy.calls.argsFor(0);
-          const supported = args[0];
-          const userLanguages = args[1];
+          expect(spy.calls.count()).toBe(2);
+          spy.calls.all().forEach((call) => {
+            const supported = call.args[0];
+            const userLanguages = call.args[1];
 
-          expect(userLanguages).toEqual(['ja', 'ko', 'en']);
-          expect(supported).toEqual([
-            'en',
-            'cs',
-            'da',
-            'de',
-            'el',
-            'es',
-            'fi',
-            'fr',
-            'ht',
-            'hu',
-            'id',
-            'in',
-            'it',
-            'ja',
-            'ko',
-            'ms',
-            'nb',
-            'nl-NL',
-            'ok-PL',
-            'ok-SK',
-            'pl',
-            'pt-BR',
-            'ro',
-            'ru',
-            'sv',
-            'th',
-            'tr',
-            'uk',
-            'vi',
-            'zh-CN',
-            'zh-TW',
-          ]);
+            expect(userLanguages).toEqual(['ja', 'ko', 'en']);
+            expect(supported).toEqual([
+              'en',
+              'cs',
+              'da',
+              'de',
+              'el',
+              'es',
+              'fi',
+              'fr',
+              'ht',
+              'hu',
+              'id',
+              'in',
+              'it',
+              'ja',
+              'ko',
+              'ms',
+              'nb',
+              'nl-NL',
+              'ok-PL',
+              'ok-SK',
+              'pl',
+              'pt-BR',
+              'ro',
+              'ru',
+              'sv',
+              'th',
+              'tr',
+              'uk',
+              'vi',
+              'zh-CN',
+              'zh-TW',
+            ]);
+          });
         });
       });
       itp(

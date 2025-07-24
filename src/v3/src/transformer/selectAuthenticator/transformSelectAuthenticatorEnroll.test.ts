@@ -58,14 +58,9 @@ jest.mock('./utils', () => ({
     authenticatorEnrollments?: IdxAuthenticator[]) => mockGetAuthenticatorEnrollButtonElementsFn(options, step, locale, authenticatorEnrollments),
 }));
 
-jest.mock('../../util', () => {
-  const originalModule = jest.requireActual('../../util');
-  return {
-    ...originalModule,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-    getLanguageCode: jest.fn().mockImplementation((_widgetProps: WidgetProps) => 'ok_pl'),
-  };
-});
+jest.mock('util/LanguageUtil', () => ({
+  getLanguageTags: jest.fn().mockImplementation(() => ['ok_pl']),
+}));
 
 describe('Enroll Authenticator Selector Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
@@ -253,8 +248,8 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledTimes(2);
-    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith([], 'select-authenticator-enroll', 'ok_pl', undefined);
-    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith(options, 'select-authenticator-enroll', 'ok_pl', undefined);
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith([], 'select-authenticator-enroll', ['ok_pl'], undefined);
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith(options, 'select-authenticator-enroll', ['ok_pl'], undefined);
     expect(updatedFormBag.uischema.elements.length).toBe(6);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
@@ -369,8 +364,8 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     });
 
     expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledTimes(2);
-    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith([], 'select-authenticator-enroll', 'ok_pl', undefined);
-    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith(options, 'select-authenticator-enroll', 'ok_pl', undefined);
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith([], 'select-authenticator-enroll', ['ok_pl'], undefined);
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith(options, 'select-authenticator-enroll', ['ok_pl'], undefined);
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
@@ -423,8 +418,8 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledTimes(2);
-    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith([], 'select-authenticator-enroll', 'ok_pl', undefined);
-    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith(options, 'select-authenticator-enroll', 'ok_pl', undefined);
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith([], 'select-authenticator-enroll', ['ok_pl'], undefined);
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith(options, 'select-authenticator-enroll', ['ok_pl'], undefined);
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
@@ -476,8 +471,8 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledTimes(2);
-    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith([], 'select-authenticator-enroll', 'ok_pl', undefined);
-    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith(options, 'select-authenticator-enroll', 'ok_pl', undefined);
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith([], 'select-authenticator-enroll', ['ok_pl'], undefined);
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith(options, 'select-authenticator-enroll', ['ok_pl'], undefined);
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910

@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import SymantecAuthenticatorPageObject from '../framework/page-objects/SymantecAuthenticatorPageObject';
-import { checkConsoleMessages, renderWidget } from '../framework/shared';
+import { checkConsoleMessages, overrideWidgetOptions } from '../framework/shared';
 import xhrEnrollSymantecAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-symantec-vip';
 import xhrVerifySymantecAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-verification-symantec-vip';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
@@ -38,13 +38,9 @@ const verifyWithInvalidPasscodeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrInvalidPasscode, 403);
 
-async function setup(t, widgetOptions) {
-  const options = widgetOptions ? { render: false } : {};
+async function setup(t) {
   const pageObject = new SymantecAuthenticatorPageObject(t);
-  await pageObject.navigateToPage(options);
-  if (widgetOptions) {
-    await renderWidget(widgetOptions);
-  }
+  await pageObject.navigateToPage();
   await t.expect(pageObject.formExists()).ok();
   return pageObject;
 }
@@ -143,17 +139,19 @@ test
       .match(/Your code doesn't match our records. Please try again./);
   });
 
-test.requestHooks(verifyMock)('should show custom factor page link', async t => {
-  const pageObject = await setup(t, {
+test
+  .clientScripts(overrideWidgetOptions({
     helpLinks: {
       factorPage: {
         text: 'custom factor page link',
         href: 'https://acme.com/what-is-okta-autheticators'
       }
     }
-  });
-  await checkA11y(t);
+  }))
+  .requestHooks(verifyMock)('should show custom factor page link', async t => {
+    const pageObject = await setup(t);
+    await checkA11y(t);
 
-  await t.expect(pageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
-  await t.expect(pageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
-});
+    await t.expect(pageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+    await t.expect(pageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+  });

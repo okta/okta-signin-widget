@@ -37,5 +37,6 @@ module.exports = {
     path: 'build2/reports/e2e/artifacts',
     takeOnFails: true,
     fullPage: true,
+    thumbnails: false,
   },
 }

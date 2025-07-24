@@ -12,6 +12,7 @@
 
 import { NextStep } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
+import { getLanguageTags } from 'util/LanguageUtil';
 
 import {
   AuthenticatorButtonListElement,
@@ -23,7 +24,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { getLanguageCode, loc } from '../../util';
+import { getSupportedLanguages, loc } from '../../util';
 import { getAuthenticatorEnrollButtonElements } from './utils';
 
 const getContentDescrAndParams = (brandName?: string): TitleElement['options'] => {
@@ -62,7 +63,8 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     return formBag;
   }
 
-  const langaugeCode = getLanguageCode(widgetProps);
+  const supportedLanguages = getSupportedLanguages(widgetProps);
+  const languageTags = getLanguageTags(widgetProps.language, supportedLanguages);
   const authenticatorsWithGracePeriod : IdxOption[] = [];
   const authenticatorsDueNow : IdxOption[] = [];
   authenticator.options.forEach((option) => {
@@ -79,14 +81,14 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
   const authenticatorButtonsWithGracePeriod = getAuthenticatorEnrollButtonElements(
     authenticatorsWithGracePeriod,
     stepName,
-    langaugeCode,
+    languageTags,
     authenticatorEnrollments?.value,
   );
 
   const authenticatorButtonsDueNow = getAuthenticatorEnrollButtonElements(
     authenticatorsDueNow,
     stepName,
-    langaugeCode,
+    languageTags,
     authenticatorEnrollments?.value,
   );
   const skipStep = availableSteps?.find(({ name }) => name === 'skip');
