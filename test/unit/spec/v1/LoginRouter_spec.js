@@ -2057,6 +2057,7 @@ Expect.describe('v1/LoginRouter', function() {
               'de',
               'el',
               'es',
+              'eu',
               'fi',
               'fr',
               'ht',
