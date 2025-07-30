@@ -110,35 +110,35 @@ test_suites:
   # Optional test suite until Android is enabled
   - name: e2e-saucelabs-mobile
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '15'
+    sort_order: '16'
     timeout: '20'
     script_name: e2e-saucelabs-mobile
     criteria: OPTIONAL
     queue_name: small
   - name: e2e-saucelabs-mobile-v3
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '16'
+    sort_order: '17'
     timeout: '20'
     script_name: e2e-saucelabs-mobile-v3
     criteria: OPTIONAL
     queue_name: small
   - name: tsd
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '16'
+    sort_order: '18'
     timeout: '15'
     script_name: tsd
     criteria: MERGE
     queue_name: small
   - name: detect-english-leaks
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '17'
+    sort_order: '19'
     timeout: '20'
     script_name: detect-english-leaks
     criteria: MERGE
     queue_name: small
   - name: detect-english-leaks-v3
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '18'
+    sort_order: '20'
     timeout: '20'
     script_name: detect-english-leaks-v3
     criteria: MERGE
@@ -147,14 +147,14 @@ test_suites:
   # - name: verify-registry-install
   #   prereq_test_suite_name: publish
   #   script_path: /root/okta/okta-signin-widget/scripts
-  #   sort_order: '19'
+  #   sort_order: '21'
   #   timeout: '20'
   #   script_name: verify-registry-install
   #   criteria: MERGE
   #   queue_name: small
   - name: find-internal-packages
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '20'
+    sort_order: '22'
     timeout: '20'
     script_name: find-internal-packages
     criteria: MERGE
@@ -162,23 +162,15 @@ test_suites:
   # E2E tests using dockerized monolith - optional (for now)
   - name: e2e-monolith
     script_path: ../okta-signin-widget/scripts
-    sort_order: '21'
+    sort_order: '23'
     timeout: '30'
     script_name: e2e-monolith
     criteria: OPTIONAL
     queue_name: ci-queue-prodJenga-Monolith-Build
-  - name: semgrep
-    script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '31'
-    timeout: '10'
-    script_name: semgrep
-    script_env: {}
-    criteria: MERGE
-    queue_name: small
   - name: snyk
     script_path: /root/okta/okta-signin-widget/scripts
     script_name: snyk
-    sort_order: '32'
+    sort_order: '24'
     timeout: '200'
     criteria: MAINLINE
     queue_name: small
@@ -187,7 +179,7 @@ test_suites:
   # Usage wiki: https://oktawiki.atlassian.net/wiki/spaces/eng/pages/2855600129/Odyssey+1.x+migration+testcafe+VRT+usage
   - name: vrt-v3
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '33'
+    sort_order: '25'
     timeout: '15'
     script_name: vrt-v3
     criteria: MERGE
@@ -195,7 +187,7 @@ test_suites:
   # This bacon script can be used to get new base screenshots without having to run the VRT
   - name: vrt-v3-get-screenshots
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '34'
+    sort_order: '26'
     timeout: '15'
     script_name: vrt-v3-get-screenshots
     criteria: OPTIONAL
