@@ -176,6 +176,7 @@ export type LanguageCode =
   'el' | // Greek
   'en' | // English
   'es' | // Spanish
+  'eu' | // Basque
   'fi' | // Finnish
   'fr' | // French
   'ht' | // Haitian Creole
