@@ -277,7 +277,8 @@
     "**/testcafe-hammerhead/tough-cookie": "^4.1.4",
     "stylis": "^4.3.0",
     "**/debug": "^4.3.4",
-    "**/mout": "^1.2.4"
+    "**/mout": "^1.2.4",
+    "**/oblivious-set": "1.2.0"
   },
   "workspaces": {
     "packages": [

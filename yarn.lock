@@ -15887,10 +15887,10 @@ object.values@^1.1.5, object.values@^1.1.6:
     define-properties "^1.1.4"
     es-abstract "^1.20.4"
 
-oblivious-set@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/oblivious-set/-/oblivious-set-1.4.0.tgz#1ee7c90f0605bb2a182fbcc8fffbe324d9994b43"
-  integrity sha512-szyd0ou0T8nsAqHtprRcP3WidfsN1TnAR5yWXf2mFCEr5ek3LEOkT6EZ/92Xfs74HIdyhG5WkGxIssMU0jBaeg==
+oblivious-set@1.2.0, oblivious-set@1.4.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/oblivious-set/-/oblivious-set-1.2.0.tgz#15870c26d3442f909e4516c9983857c143ea0017"
+  integrity sha512-zoMH2oIRF29Gm7gowQ+kk9pY2stsWaVYjqmWIcmAIc42OVPP2KPW3oAWTBsF2nIzVtNEm+nt8HkMnfPEVkp0MQ==
 
 obuf@^1.0.0, obuf@^1.1.2:
   version "1.1.2"
