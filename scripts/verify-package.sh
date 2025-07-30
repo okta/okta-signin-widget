@@ -175,6 +175,7 @@ fi
 pushd test/package/tsc
 if ! (yarn clean && yarn install && yarn test); then
   echo "TSC package verification failed! Exiting..."
+  yarn why oblivious-set
   exit ${TEST_FAILURE}
 fi
 popd
