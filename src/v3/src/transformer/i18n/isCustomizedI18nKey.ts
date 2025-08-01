@@ -24,5 +24,5 @@ export const isCustomizedI18nKey = (i18nKey: string, widgetProps: WidgetProps): 
   // Lower case the language codes when searching for i18n key so it is case insensitive
   // eslint-disable-next-line max-len
   return Object.entries(i18n).some(([customizedLangCode, customizedI18nKeys]) => customizedLangCode.toLowerCase() === widgetLanguageLowerCase
-        && customizedI18nKeys[i18nKey] !== undefined);
+        && !!customizedI18nKeys[i18nKey]);
 };
