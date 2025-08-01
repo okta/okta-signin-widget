@@ -278,6 +278,7 @@
     "stylis": "^4.3.0",
     "**/debug": "^4.3.4",
     "**/mout": "^1.2.4",
+    "**/broadcast-channel": "5.3.0",
     "**/oblivious-set": "1.2.0"
   },
   "workspaces": {
