@@ -3,7 +3,9 @@ import { within } from '@testing-library/testcafe';
 import BasePageObject from './BasePageObject';
 
 const factorListRowSelector = userVariables.gen3 ? '[data-se="authenticator-button"]' : '.authenticator-list .authenticator-row';
-const factorLabelSelector = `${factorListRowSelector} .authenticator-label`;
+const factorLabelSelector = userVariables.gen3 
+  ? `${factorListRowSelector} [data-se="authenticator-button-content"] p[data-se="authenticator-button-label"]` 
+  : `${factorListRowSelector} .authenticator-label`;
 const factorDescriptionSelector = userVariables.gen3
   ? `${factorListRowSelector} [data-se="authenticator-button-description"]`
   : `${factorListRowSelector} .authenticator-description .authenticator-description--text`;
@@ -64,7 +66,7 @@ export default class SelectFactorPageObject extends BasePageObject {
   getFactorLabelByIndex(index) {
     if (userVariables.gen3) {
       const factorButton = this.getFactorButtons().nth(index);
-      return within(factorButton).findByRole('heading', { level: 2 }).textContent;
+      return within(factorButton).find(factorLabelSelector).textContent;
     }
     return this.form.getElement(factorLabelSelector).nth(index).textContent;
   }
