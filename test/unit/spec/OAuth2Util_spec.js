@@ -207,5 +207,25 @@ describe('util/OAuth2Util', function() {
         done();
       }).catch(done.fail);
     });
+
+    it('passes the "initialPopupPath" settings to "getWithPopup"', function(done) {
+      const settings = new Settings({
+        baseUrl: 'https://foo',
+        clientId: 'foobar',
+        authClient,
+        initialPopupPath: '/foo'
+      });
+
+      return new Promise(function(resolve) {
+        spyOn(authClient.token, 'getWithPopup').and.callFake(resolve);
+        OAuth2Util.getTokens(settings, { scopes: ['openid'] }, controller);
+      }).then(function() {
+        const tokenParameters = Object.keys(authClient.token.getWithPopup.calls.mostRecent().args[0]);
+        expect(tokenParameters).toContain('clientId');
+        expect(tokenParameters).toContain('scopes');
+        expect(tokenParameters).toContain('initialPath');
+        done();
+      }).catch(done.fail);
+    });
   });
 });

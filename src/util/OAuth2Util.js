@@ -96,6 +96,9 @@ util.getTokens = function(settings, params, controller) {
   } else {
     // Default flow if logging in with an external IDP - opens a popup and
     // gets the token from a postMessage response.
+    if (options.initialPopupPath) {
+      getTokenOptions.initialPath = options.initialPopupPath;
+    }
     authClient.token.getWithPopup(getTokenOptions).then(success).catch(error);
   }
 };

@@ -21,11 +21,13 @@ export default FormController.extend({
 
   initialize: function(options) {
     const self = this;
+    const factorEnroll = this.options.settings.get('features.multiOptionalFactorEnroll');
 
     return this.model
       .startTransaction(function(authClient) {
         return authClient.verifyRecoveryToken({
           recoveryToken: options.token,
+          ...(factorEnroll && { multiOptionalFactorEnroll: factorEnroll })
         });
       })
       .catch(function() {

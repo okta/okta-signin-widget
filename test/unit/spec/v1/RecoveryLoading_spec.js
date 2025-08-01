@@ -104,6 +104,38 @@ Expect.describe('Recovery Loading', function() {
       });
   });
 
+  itp('makes a request with multiOptionalFactorEnroll flag set', function() {
+    return setup({
+      recoveryToken: 'SETTINGSTOKEN',
+      'features.multiOptionalFactorEnroll': true
+    }, false)
+      .then(test => {
+        return Expect.waitForRecoveryQuestion(test);
+      })
+      .then(function(test) {
+        expect(Util.numAjaxRequests()).toBe(1);
+        Expect.isJsonPost(Util.getAjaxRequest(0), {
+          url: 'https://foo.com/api/v1/authn/recovery/token',
+          data: {
+            recoveryToken: 'SETTINGSTOKEN',
+            options: {
+              multiOptionalFactorEnroll: true
+            }
+          },
+        });
+        expect(test.form.isRecoveryQuestion()).toBe(true);
+        // the token in settings is unset after the initial navigation
+        // so the following navigations are not affected
+        test.router.navigate('', { trigger: true });
+        return Expect.waitForPrimaryAuth();
+      })
+      .then(function() {
+        const form = new PrimaryAuthFormView($sandbox);
+
+        expect(form.isPrimaryAuth()).toBe(true);
+      });
+  });
+
   // NOTES:
   // It doesn't actually do this. Will leave this here as a reminder that
   // this functionality has not been implemented yet.
