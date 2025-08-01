@@ -125,6 +125,11 @@ if ! setup_service node v14.18.2 &> /dev/null; then
   exit ${FAILED_SETUP}
 fi
 
+echo '############'
+echo $INTERNAL_REGISTRY
+echo $PUBLIC_REGISTRY
+echo '############'
+
 # ensure registry is configured after node verison is changed
 npm config set @okta:registry ${PUBLIC_REGISTRY}
 npm config set registry ${PUBLIC_REGISTRY}
