@@ -46,6 +46,18 @@ describe('isCustomizedI18nKey', () => {
     expect(isCustomizedI18nKey('primaryauth.username.tooltip', widgetProps)).toEqual(true);
   });
 
+  it('should return false when value is empty string', () => {
+    widgetProps = {
+      i18n: {
+        en: {
+          'primaryauth.username.tooltip': '',
+        },
+      },
+    };
+
+    expect(isCustomizedI18nKey('primaryauth.username.tooltip', widgetProps)).toEqual(false);
+  });
+
   it('should return false when there are no languages with custom i18n keys', () => {
     widgetProps = {
       i18n: {},
