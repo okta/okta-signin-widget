@@ -2849,10 +2849,10 @@
     core-js-pure "^3.25.1"
     regenerator-runtime "^0.13.11"
 
-"@babel/runtime@7.27.0":
-  version "7.27.0"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.27.0.tgz#fbee7cf97c709518ecc1f590984481d5460d4762"
-  integrity sha512-VtPOkrdPHZsKc/clNqyi9WUA8TINkZ4cGk63UUE3u4pmB2k+ZMQRDuIOagv8UVd6j7k0T3+RRIb7beKTebNbcw==
+"@babel/runtime@7.22.10":
+  version "7.22.10"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.22.10.tgz#ae3e9631fd947cb7e3610d3e9d8fef5f76696682"
+  integrity sha512-21t/fkKLMZI4pqP2wlmsQAWnYW1PDyKyyUV4vCi+B25ydmdaYTKXPwCj0BzSUnZf4seIiYvSA3jcZ3gdsMFkLQ==
   dependencies:
     regenerator-runtime "^0.14.0"
 
@@ -7451,13 +7451,13 @@ braces@3.0.3, braces@^2.3.1, braces@^3.0.2, braces@~3.0.2:
   dependencies:
     fill-range "^7.1.1"
 
-broadcast-channel@^7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/broadcast-channel/-/broadcast-channel-7.1.0.tgz#fe64bea202f45d0fa91ad19498154527fd78cfbe"
-  integrity sha512-InJljddsYWbEL8LBnopnCg+qMQp9KcowvYWOt4YWrjD5HmxzDYKdVbDS1w/ji5rFZdRD58V5UxJPtBdpEbEJYw==
+broadcast-channel@5.3.0, broadcast-channel@^7.1.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/broadcast-channel/-/broadcast-channel-5.3.0.tgz#9d9e55fb8db2a1dbbe436ae6d51382a354e76fc3"
+  integrity sha512-0PmDYc/iUGZ4QbnCnV7u+WleygiS1bZ4oV6t4rANXYtSgEFtGhB5jimJPLOVpPtce61FVxrH8CYylfO5g7OLKw==
   dependencies:
-    "@babel/runtime" "7.27.0"
-    oblivious-set "1.4.0"
+    "@babel/runtime" "7.22.10"
+    oblivious-set "1.1.1"
     p-queue "6.6.2"
     unload "2.4.1"
 
@@ -15887,7 +15887,7 @@ object.values@^1.1.5, object.values@^1.1.6:
     define-properties "^1.1.4"
     es-abstract "^1.20.4"
 
-oblivious-set@1.2.0, oblivious-set@1.4.0:
+oblivious-set@1.1.1, oblivious-set@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/oblivious-set/-/oblivious-set-1.2.0.tgz#15870c26d3442f909e4516c9983857c143ea0017"
   integrity sha512-zoMH2oIRF29Gm7gowQ+kk9pY2stsWaVYjqmWIcmAIc42OVPP2KPW3oAWTBsF2nIzVtNEm+nt8HkMnfPEVkp0MQ==
