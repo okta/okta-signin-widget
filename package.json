@@ -1,5 +1,5 @@
 {
-  "name": "@okta/loginpage-render",
+  "name": "@okta/loginpage",
   "private": true,
   "description": "The Okta loginpage render repository",
   "version": "0.8.0",
@@ -7,25 +7,25 @@
   "license": "UNLICENSED",
   "engines": {
     "node": ">= 16.18.1",
-    "yarn": "^1.22.0"
+    "yarn": "^3.6.4"
   },
   "scripts": {
     "dev": "concurrently \"yarn workspace @okta/loginpage-playground dev\" \"yarn workspace @okta/loginpage-render dev\"",
     "lint": "concurrently \"yarn workspace @okta/loginpage-playground lint\" \"yarn workspace @okta/loginpage-render lint\""
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
-    "eslint": "^8",
     "@typescript-eslint/eslint-plugin": "^6",
     "@typescript-eslint/parser": "^6",
+    "concurrently": "^8.2.2",
+    "eslint": "^8",
     "typescript": "^5.4.4"
   },
   "workspaces": {
     "packages": [
       "packages/**"
-    ],
-    "nohoist": [
-      "**/@okta/loginpage"
     ]
+  },
+  "installConfig": {
+    "hoistingLimits": "**/@okta/loginpage"
   }
 }

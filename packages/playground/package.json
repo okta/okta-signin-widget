@@ -11,21 +11,20 @@
     "test:e2e": "testcafe --config-file testcaferc.cjs"
   },
   "dependencies": {
-    "@okta/loginpage-render": "*",
+    "@okta/loginpage": "0.0.1-8915-ga9f17dd",
     "@okta/loginpage-mock": "*",
-    "@okta/loginpage": "0.0.1-8915-ga9f17dd"
+    "@okta/loginpage-render": "*"
   },
   "devDependencies": {
-    "@okta/okta-signin-widget": "https://github.com/okta/okta-signin-widget.git",
-    "typescript": "^5.4.4",
-    "vite": "^4.5.0",
+    "cross-spawn-with-kill": "^1.0.0",
+    "dyson": "^4.1.0",
+    "eslint-plugin-testcafe-extended": "^0.2.0",
     "express": "^4.19.2",
     "nodemon": "^3.1.0",
-    "dyson": "^4.1.0",
     "patch-package": "^8.0.0",
     "testcafe": "^3.6.0",
-    "wait-on": "^7.2.0",
-    "cross-spawn-with-kill": "^1.0.0",
-    "eslint-plugin-testcafe-extended": "^0.2.0"
+    "typescript": "^5.4.4",
+    "vite": "^4.5.0",
+    "wait-on": "^7.2.0"
   }
 }
