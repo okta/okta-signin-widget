@@ -12,6 +12,35 @@
   
   <body>
     <div id="signin-container"></div>
+    <script nonce="playground">
+      // Set up DateTimeFormat proxy
+      const DateTimeFormatProxy = new Proxy(Intl.DateTimeFormat, {
+        construct(target, args) {
+          console.log('DateTimeFormat constructor called with args:', args);
+          const instance = new target(...args);
+          
+          // Proxy the format method
+          return new Proxy(instance, {
+            get(target, prop) {
+              if (prop === 'format') {
+                return function(...formatArgs) {
+                  console.log('DateTimeFormat format called with:', formatArgs);
+                  return target.format(...formatArgs);
+                };
+              }
+              return Reflect.get(target, prop);
+            }
+          });
+        }
+      });
+
+      // Replace the global Intl.DateTimeFormat with our proxy
+      window.Intl.DateTimeFormat = DateTimeFormatProxy;
+
+      console.log('proxied Intl', Intl)
+      // debug log
+      // console.log(new Intl.DateTimeFormat())
+    </script>
     <script src="/js/okta-sign-in.debugger.min.js"></script>
     <!-- <script nonce="playground">
       window.OktaSignInDebug.init({
