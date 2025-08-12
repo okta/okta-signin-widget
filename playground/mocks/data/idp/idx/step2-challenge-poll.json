@@ -1,0 +1,108 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "02.id.RoJ74xkKs-2kfMk5TPlrm78Fvj_6FFZEpzzVH3RL~c.f8C2WuDwt4slbJWsvNjBCuX4emiSLHBIooSW9td7C8zGiPSp7_pyc8mRPe4TQGSQMggAHVzT7Y3MCIKe2w30lD32pCeSw__wtbB2O2eseHvgW9tav4Ktzdv0jv5cHHnTZvjIl15dcV_iE9Mfd5f0t2xOStU_jMaNgyCMJCFlmSpY-diKlMgdMAkGTGynt9WkIjbXh5Y_f7k10GSE2GoTqqfzJCsXWSRAPSs8vQeAUtLG9VDQ0Hg5rNpVOxo69HkLJObL6lVqjF5efFYy74NKmFppWGBVtDxvnkgbRN1F1SNuJQcWqz4kEN8xsbYy3bVFRIRfBnt-mG1qeunl40m_klthvyEYsEuNP5t0SKGEQmUYN92MLEjoNxngFEOjXAB0-fXUQe6iGzdLZtLoxqJlOc6T8Ar3iWahSaZ99U7UN9T9yf8yvORfdCpQH392OIh2dnAXQIPBiKJFxGOUdQAYo122ezX1_HcFIcTzyz7ACHMsRftL71c7dhAkE07qS5IN2D-VeWyaiLnqbcJMUWpgEupmr6bKo8-j85MJixWK6G_50HhF6GjoFVcb0PVgujyIaTzLJh89wdxvuysjG8YvgOYlkYJGlSIcUTRPBKxyzs-dudehkdivmYIoRLiG6eXvDvt0yiAZLWPnW6DUUmxQ5M4NEbq7JiJxXiI4c8JJvWNrH_dindFfPsqcHpxGBa9Dk-ZWHuUQVCb5aXD_kWPqa-atsycAgloBgQqC7-6ifElA3b5XAosnoe7g0NolH8Rs20PxdunfMIGPaFcWqFefLj6195ecMc5B3jOuIIRNnJhTVLBXYAKbOrCKyjnsUPYQoGb4u6688_ENUw8sn1DRuka_iUJL2YqHu0tR5s4qXCIazvGdJcpbMMXteFr1AuRu1OZMXPwBOSGkf1-3ua1SgDhUtdyO6Z1imTv-c9FgwIzY3tA6Y9izQ_046eYYWwlXjwMrpXyrZoHxGB-BhPxJfi5n0UYYdPKP1kfOPUiuLEU4xARYEdNbMSm8-9hhtGF_qDgAu1pHyrQUfc6FvxfydUen8tE7u5WcwZBYMT9ynE23vCyJIhztyAK-EvqpiQ_IKJlKJVbMh95vxNK3xGeCprVnuLFpexRAVWn4IJHJ_masqEuULV9WVdZQwRf3634hb-qTcUscrNmMiMD5243vbbx9ZPV-DSVcCXPFuVymln-3BrCbLdaCs2JP04rVD9GUJpBj6IfINEd7yQJ7-yvknrL6Fc3NfalNqUD58XtVgsZZmN0k6OEcnUngFNwl_wUlaXiT-A5RHavjL8TeYtF5C5gjar1fMf24KslurlA7evj9kjA9lH6wKO3KN8WM9-6_HFqhL1qaOsgwArAD3IHPWENlVhL9GJ0GaSojTPM71HjIwc58ImR_VOFM8w5-sdJmn23wkUXj2TSWdmzRkxuUHtiwCxXHDDzwMNdPSifppx2wURflPRQIS6upf6c6V0mLB_2fjYviqFn03HWCx7V0Zmf2yOG1-nvISv4P9ZalQemsYciVWUR_7_QGfzeeLNdyVfDeDkJl97WE4WiZq9EVHg1KXrSgh1HPvhXItCi84dc",
+    "expiresAt": "2025-08-11T23:18:30.000Z",
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "device-challenge-poll",
+                "relatesTo": [
+                    "authenticatorChallenge"
+                ],
+                "href": "http://localhost:3000/idp/idx/device/poll",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "refresh": 1000,
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.RoJ74xkKs-2kfMk5TPlrm78Fvj_6FFZEpzzVH3RL~c.f8C2WuDwt4slbJWsvNjBCuX4emiSLHBIooSW9td7C8zGiPSp7_pyc8mRPe4TQGSQMggAHVzT7Y3MCIKe2w30lD32pCeSw__wtbB2O2eseHvgW9tav4Ktzdv0jv5cHHnTZvjIl15dcV_iE9Mfd5f0t2xOStU_jMaNgyCMJCFlmSpY-diKlMgdMAkGTGynt9WkIjbXh5Y_f7k10GSE2GoTqqfzJCsXWSRAPSs8vQeAUtLG9VDQ0Hg5rNpVOxo69HkLJObL6lVqjF5efFYy74NKmFppWGBVtDxvnkgbRN1F1SNuJQcWqz4kEN8xsbYy3bVFRIRfBnt-mG1qeunl40m_klthvyEYsEuNP5t0SKGEQmUYN92MLEjoNxngFEOjXAB0-fXUQe6iGzdLZtLoxqJlOc6T8Ar3iWahSaZ99U7UN9T9yf8yvORfdCpQH392OIh2dnAXQIPBiKJFxGOUdQAYo122ezX1_HcFIcTzyz7ACHMsRftL71c7dhAkE07qS5IN2D-VeWyaiLnqbcJMUWpgEupmr6bKo8-j85MJixWK6G_50HhF6GjoFVcb0PVgujyIaTzLJh89wdxvuysjG8YvgOYlkYJGlSIcUTRPBKxyzs-dudehkdivmYIoRLiG6eXvDvt0yiAZLWPnW6DUUmxQ5M4NEbq7JiJxXiI4c8JJvWNrH_dindFfPsqcHpxGBa9Dk-ZWHuUQVCb5aXD_kWPqa-atsycAgloBgQqC7-6ifElA3b5XAosnoe7g0NolH8Rs20PxdunfMIGPaFcWqFefLj6195ecMc5B3jOuIIRNnJhTVLBXYAKbOrCKyjnsUPYQoGb4u6688_ENUw8sn1DRuka_iUJL2YqHu0tR5s4qXCIazvGdJcpbMMXteFr1AuRu1OZMXPwBOSGkf1-3ua1SgDhUtdyO6Z1imTv-c9FgwIzY3tA6Y9izQ_046eYYWwlXjwMrpXyrZoHxGB-BhPxJfi5n0UYYdPKP1kfOPUiuLEU4xARYEdNbMSm8-9hhtGF_qDgAu1pHyrQUfc6FvxfydUen8tE7u5WcwZBYMT9ynE23vCyJIhztyAK-EvqpiQ_IKJlKJVbMh95vxNK3xGeCprVnuLFpexRAVWn4IJHJ_masqEuULV9WVdZQwRf3634hb-qTcUscrNmMiMD5243vbbx9ZPV-DSVcCXPFuVymln-3BrCbLdaCs2JP04rVD9GUJpBj6IfINEd7yQJ7-yvknrL6Fc3NfalNqUD58XtVgsZZmN0k6OEcnUngFNwl_wUlaXiT-A5RHavjL8TeYtF5C5gjar1fMf24KslurlA7evj9kjA9lH6wKO3KN8WM9-6_HFqhL1qaOsgwArAD3IHPWENlVhL9GJ0GaSojTPM71HjIwc58ImR_VOFM8w5-sdJmn23wkUXj2TSWdmzRkxuUHtiwCxXHDDzwMNdPSifppx2wURflPRQIS6upf6c6V0mLB_2fjYviqFn03HWCx7V0Zmf2yOG1-nvISv4P9ZalQemsYciVWUR_7_QGfzeeLNdyVfDeDkJl97WE4WiZq9EVHg1KXrSgh1HPvhXItCi84dc",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            }
+        ]
+    },
+    "user": {
+        "type": "object",
+        "value": {
+            "id": "00u1fh30i5rjEofOq1d8",
+            "identifier": "dipti.shiralkar@okta.com",
+            "profile": {
+                "firstName": "Dipti",
+                "lastName": "Shiralkar",
+                "timeZone": "America/Los_Angeles",
+                "locale": "en_US",
+                "email": "d***r@okta.com"
+            }
+        }
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "http://localhost:3000/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "02.id.RoJ74xkKs-2kfMk5TPlrm78Fvj_6FFZEpzzVH3RL~c.f8C2WuDwt4slbJWsvNjBCuX4emiSLHBIooSW9td7C8zGiPSp7_pyc8mRPe4TQGSQMggAHVzT7Y3MCIKe2w30lD32pCeSw__wtbB2O2eseHvgW9tav4Ktzdv0jv5cHHnTZvjIl15dcV_iE9Mfd5f0t2xOStU_jMaNgyCMJCFlmSpY-diKlMgdMAkGTGynt9WkIjbXh5Y_f7k10GSE2GoTqqfzJCsXWSRAPSs8vQeAUtLG9VDQ0Hg5rNpVOxo69HkLJObL6lVqjF5efFYy74NKmFppWGBVtDxvnkgbRN1F1SNuJQcWqz4kEN8xsbYy3bVFRIRfBnt-mG1qeunl40m_klthvyEYsEuNP5t0SKGEQmUYN92MLEjoNxngFEOjXAB0-fXUQe6iGzdLZtLoxqJlOc6T8Ar3iWahSaZ99U7UN9T9yf8yvORfdCpQH392OIh2dnAXQIPBiKJFxGOUdQAYo122ezX1_HcFIcTzyz7ACHMsRftL71c7dhAkE07qS5IN2D-VeWyaiLnqbcJMUWpgEupmr6bKo8-j85MJixWK6G_50HhF6GjoFVcb0PVgujyIaTzLJh89wdxvuysjG8YvgOYlkYJGlSIcUTRPBKxyzs-dudehkdivmYIoRLiG6eXvDvt0yiAZLWPnW6DUUmxQ5M4NEbq7JiJxXiI4c8JJvWNrH_dindFfPsqcHpxGBa9Dk-ZWHuUQVCb5aXD_kWPqa-atsycAgloBgQqC7-6ifElA3b5XAosnoe7g0NolH8Rs20PxdunfMIGPaFcWqFefLj6195ecMc5B3jOuIIRNnJhTVLBXYAKbOrCKyjnsUPYQoGb4u6688_ENUw8sn1DRuka_iUJL2YqHu0tR5s4qXCIazvGdJcpbMMXteFr1AuRu1OZMXPwBOSGkf1-3ua1SgDhUtdyO6Z1imTv-c9FgwIzY3tA6Y9izQ_046eYYWwlXjwMrpXyrZoHxGB-BhPxJfi5n0UYYdPKP1kfOPUiuLEU4xARYEdNbMSm8-9hhtGF_qDgAu1pHyrQUfc6FvxfydUen8tE7u5WcwZBYMT9ynE23vCyJIhztyAK-EvqpiQ_IKJlKJVbMh95vxNK3xGeCprVnuLFpexRAVWn4IJHJ_masqEuULV9WVdZQwRf3634hb-qTcUscrNmMiMD5243vbbx9ZPV-DSVcCXPFuVymln-3BrCbLdaCs2JP04rVD9GUJpBj6IfINEd7yQJ7-yvknrL6Fc3NfalNqUD58XtVgsZZmN0k6OEcnUngFNwl_wUlaXiT-A5RHavjL8TeYtF5C5gjar1fMf24KslurlA7evj9kjA9lH6wKO3KN8WM9-6_HFqhL1qaOsgwArAD3IHPWENlVhL9GJ0GaSojTPM71HjIwc58ImR_VOFM8w5-sdJmn23wkUXj2TSWdmzRkxuUHtiwCxXHDDzwMNdPSifppx2wURflPRQIS6upf6c6V0mLB_2fjYviqFn03HWCx7V0Zmf2yOG1-nvISv4P9ZalQemsYciVWUR_7_QGfzeeLNdyVfDeDkJl97WE4WiZq9EVHg1KXrSgh1HPvhXItCi84dc",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "workday",
+            "label": "Workday",
+            "id": "0oax2z77otENLOHHTSLK"
+        }
+    },
+    "authenticatorChallenge": {
+        "type": "object",
+        "value": {
+            "challengeMethod": "CHROME_DTC",
+            "href": "http://localhost:3000/idp/device/din1nqxgh30Zm1fRm1d8/challenge?transactionHandle=ditO5VMdrmawLz7ao0VNYidhULI5aS9SUk2",
+            "cancel": {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "cancel-polling",
+                "href": "http://localhost:3000/idp/device/poll/cancel",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.RoJ74xkKs-2kfMk5TPlrm78Fvj_6FFZEpzzVH3RL~c.f8C2WuDwt4slbJWsvNjBCuX4emiSLHBIooSW9td7C8zGiPSp7_pyc8mRPe4TQGSQMggAHVzT7Y3MCIKe2w30lD32pCeSw__wtbB2O2eseHvgW9tav4Ktzdv0jv5cHHnTZvjIl15dcV_iE9Mfd5f0t2xOStU_jMaNgyCMJCFlmSpY-diKlMgdMAkGTGynt9WkIjbXh5Y_f7k10GSE2GoTqqfzJCsXWSRAPSs8vQeAUtLG9VDQ0Hg5rNpVOxo69HkLJObL6lVqjF5efFYy74NKmFppWGBVtDxvnkgbRN1F1SNuJQcWqz4kEN8xsbYy3bVFRIRfBnt-mG1qeunl40m_klthvyEYsEuNP5t0SKGEQmUYN92MLEjoNxngFEOjXAB0-fXUQe6iGzdLZtLoxqJlOc6T8Ar3iWahSaZ99U7UN9T9yf8yvORfdCpQH392OIh2dnAXQIPBiKJFxGOUdQAYo122ezX1_HcFIcTzyz7ACHMsRftL71c7dhAkE07qS5IN2D-VeWyaiLnqbcJMUWpgEupmr6bKo8-j85MJixWK6G_50HhF6GjoFVcb0PVgujyIaTzLJh89wdxvuysjG8YvgOYlkYJGlSIcUTRPBKxyzs-dudehkdivmYIoRLiG6eXvDvt0yiAZLWPnW6DUUmxQ5M4NEbq7JiJxXiI4c8JJvWNrH_dindFfPsqcHpxGBa9Dk-ZWHuUQVCb5aXD_kWPqa-atsycAgloBgQqC7-6ifElA3b5XAosnoe7g0NolH8Rs20PxdunfMIGPaFcWqFefLj6195ecMc5B3jOuIIRNnJhTVLBXYAKbOrCKyjnsUPYQoGb4u6688_ENUw8sn1DRuka_iUJL2YqHu0tR5s4qXCIazvGdJcpbMMXteFr1AuRu1OZMXPwBOSGkf1-3ua1SgDhUtdyO6Z1imTv-c9FgwIzY3tA6Y9izQ_046eYYWwlXjwMrpXyrZoHxGB-BhPxJfi5n0UYYdPKP1kfOPUiuLEU4xARYEdNbMSm8-9hhtGF_qDgAu1pHyrQUfc6FvxfydUen8tE7u5WcwZBYMT9ynE23vCyJIhztyAK-EvqpiQ_IKJlKJVbMh95vxNK3xGeCprVnuLFpexRAVWn4IJHJ_masqEuULV9WVdZQwRf3634hb-qTcUscrNmMiMD5243vbbx9ZPV-DSVcCXPFuVymln-3BrCbLdaCs2JP04rVD9GUJpBj6IfINEd7yQJ7-yvknrL6Fc3NfalNqUD58XtVgsZZmN0k6OEcnUngFNwl_wUlaXiT-A5RHavjL8TeYtF5C5gjar1fMf24KslurlA7evj9kjA9lH6wKO3KN8WM9-6_HFqhL1qaOsgwArAD3IHPWENlVhL9GJ0GaSojTPM71HjIwc58ImR_VOFM8w5-sdJmn23wkUXj2TSWdmzRkxuUHtiwCxXHDDzwMNdPSifppx2wURflPRQIS6upf6c6V0mLB_2fjYviqFn03HWCx7V0Zmf2yOG1-nvISv4P9ZalQemsYciVWUR_7_QGfzeeLNdyVfDeDkJl97WE4WiZq9EVHg1KXrSgh1HPvhXItCi84dc",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            }
+        }
+    },
+    "authentication": {
+        "type": "object",
+        "value": {
+            "protocol": "SAML2.0",
+            "request": {}
+        }
+    }
+}

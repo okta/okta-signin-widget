@@ -1,0 +1,298 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "02.id.RoJ74xkKs-2kfMk5TPlrm78Fvj_6FFZEpzzVH3RL~c.f8C2WuDwt4slbJWsvNjBCuX4emiSLHBIooSW9td7C8zGiPSp7_pyc8mRPe4TQGSQMggAHVzT7Y3MCIKe2w30lD32pCeSw__wtbB2O2eseHvgW9tav4Ktzdv0jv5cHHnTZvjIl15dcV_iE9Mfd5f0t2xOStU_jMaNgyCMJCFlmSpY-diKlMgdMAkGTGynt9WkIjbXh5Y_f7k10GSE2GoTqqfzJCsXWSRAPSs8vQeAUtLG9VDQ0Hg5rNpVOxo69HkLJObL6lVqjF5efFYy74NKmFppWGBVtDxvnkgbRN1F1SNuJQcWqz4kEN8xsbYy3bVFRIRfBnt-mG1qeunl40m_klthvyEYsEuNP5t0SKGEQmUYN92MLEjoNxngFEOjXAB0-fXUQe6iGzdLZtLoxqJlOc6T8Ar3iWahSaZ99U7UN9T9yf8yvORfdCpQH392OIh2dnAXQIPBiKJFxGOUdQAYo122ezX1_HcFIcTzyz7ACHMsRftL71c7dhAkE07qS5IN2D-VeWyaiLnqbcJMUWpgEupmr6bKo8-j85MJixWK6G_50HhF6GjoFVcb0PVgujyIaTzLJh89wdxvuysjG8YvgOYlkYJGlSIcUTRPBKxyzs-dudehkdivmYIoRLiG6eXvDvt0yiAZLWPnW6DUUmxQ5M4NEbq7JiJxXiI4c8JJvWNrH_dindFfPsqcHpxGBa9Dk-ZWHuUQVCb5aXD_kWPqa-atsycAgloBgQqC7-6ifElA3b5XAosnoe7g0NolH8Rs20PxdunfMIGPaFcWqFefLj6195ecMc5B3jOuIIRNnJhTVLBXYAKbOrCKyjnsUPYQoGb4u6688_ENUw8sn1DRuka_iUJL2YqHu0tR5s4qXCIazvGdJcpbMMXteFr1AuRu1OZMXPwBOSGkf1-3ua1SgDhUtdyO6Z1imTv-c9FgwIzY3tA6Y9izQ_046eYYWwlXjwMrpXyrZoHxGB-BhPxJfi5n0UYYdPKP1kfOPUiuLEU4xARYEdNbMSm8-9hhtGF_qDgAu1pHyrQUfc6FvxfydUen8tE7u5WcwZBYMT9ynE23vCyJIhztyAK-EvqpiQ_IKJlKJVbMh95vxNK3xGeCprVnuLFpexRAVWn4IJHJ_masqEuULV9WVdZQwRf3634hb-qTcUscrNmMiMD5243vbbx9ZPV-DSVcCXPFuVymln-3BrCbLdaCs2JP04rVD9GUJpBj6IfINEd7yQJ7-yvknrL6Fc3NfalNqUD58XtVgsZZmN0k6OEcnUngFNwl_wUlaXiT-A5RHavjL8TeYtF5C5gjar1fMf24KslurlA7evj9kjA9lH6wKO3KN8WM9-6_HFqhL1qaOsgwArAD3IHPWENlVhL9GJ0GaSojTPM71HjIwc58ImR_VOFM8w5-sdJmn23wkUXj2TSWdmzRkxuUHtiwCxXHDDzwMNdPSifppx2wURflPRQIS6upf6c6V0mLB_2fjYviqFn03HWCx7V0Zmf2yOG1-nvISv4P9ZalQemsYciVWUR_7_QGfzeeLNdyVfDeDkJl97WE4WiZq9EVHg1KXrSgh1HPvhXItCi84dc",
+    "expiresAt": "2025-08-11T23:18:30.000Z",
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "challenge-poll",
+                "relatesTo": [
+                    "$.currentAuthenticator"
+                ],
+                "href": "http://localhost:3000/idp/idx/authenticators/poll",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "refresh": 4000,
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.RoJ74xkKs-2kfMk5TPlrm78Fvj_6FFZEpzzVH3RL~c.f8C2WuDwt4slbJWsvNjBCuX4emiSLHBIooSW9td7C8zGiPSp7_pyc8mRPe4TQGSQMggAHVzT7Y3MCIKe2w30lD32pCeSw__wtbB2O2eseHvgW9tav4Ktzdv0jv5cHHnTZvjIl15dcV_iE9Mfd5f0t2xOStU_jMaNgyCMJCFlmSpY-diKlMgdMAkGTGynt9WkIjbXh5Y_f7k10GSE2GoTqqfzJCsXWSRAPSs8vQeAUtLG9VDQ0Hg5rNpVOxo69HkLJObL6lVqjF5efFYy74NKmFppWGBVtDxvnkgbRN1F1SNuJQcWqz4kEN8xsbYy3bVFRIRfBnt-mG1qeunl40m_klthvyEYsEuNP5t0SKGEQmUYN92MLEjoNxngFEOjXAB0-fXUQe6iGzdLZtLoxqJlOc6T8Ar3iWahSaZ99U7UN9T9yf8yvORfdCpQH392OIh2dnAXQIPBiKJFxGOUdQAYo122ezX1_HcFIcTzyz7ACHMsRftL71c7dhAkE07qS5IN2D-VeWyaiLnqbcJMUWpgEupmr6bKo8-j85MJixWK6G_50HhF6GjoFVcb0PVgujyIaTzLJh89wdxvuysjG8YvgOYlkYJGlSIcUTRPBKxyzs-dudehkdivmYIoRLiG6eXvDvt0yiAZLWPnW6DUUmxQ5M4NEbq7JiJxXiI4c8JJvWNrH_dindFfPsqcHpxGBa9Dk-ZWHuUQVCb5aXD_kWPqa-atsycAgloBgQqC7-6ifElA3b5XAosnoe7g0NolH8Rs20PxdunfMIGPaFcWqFefLj6195ecMc5B3jOuIIRNnJhTVLBXYAKbOrCKyjnsUPYQoGb4u6688_ENUw8sn1DRuka_iUJL2YqHu0tR5s4qXCIazvGdJcpbMMXteFr1AuRu1OZMXPwBOSGkf1-3ua1SgDhUtdyO6Z1imTv-c9FgwIzY3tA6Y9izQ_046eYYWwlXjwMrpXyrZoHxGB-BhPxJfi5n0UYYdPKP1kfOPUiuLEU4xARYEdNbMSm8-9hhtGF_qDgAu1pHyrQUfc6FvxfydUen8tE7u5WcwZBYMT9ynE23vCyJIhztyAK-EvqpiQ_IKJlKJVbMh95vxNK3xGeCprVnuLFpexRAVWn4IJHJ_masqEuULV9WVdZQwRf3634hb-qTcUscrNmMiMD5243vbbx9ZPV-DSVcCXPFuVymln-3BrCbLdaCs2JP04rVD9GUJpBj6IfINEd7yQJ7-yvknrL6Fc3NfalNqUD58XtVgsZZmN0k6OEcnUngFNwl_wUlaXiT-A5RHavjL8TeYtF5C5gjar1fMf24KslurlA7evj9kjA9lH6wKO3KN8WM9-6_HFqhL1qaOsgwArAD3IHPWENlVhL9GJ0GaSojTPM71HjIwc58ImR_VOFM8w5-sdJmn23wkUXj2TSWdmzRkxuUHtiwCxXHDDzwMNdPSifppx2wURflPRQIS6upf6c6V0mLB_2fjYviqFn03HWCx7V0Zmf2yOG1-nvISv4P9ZalQemsYciVWUR_7_QGfzeeLNdyVfDeDkJl97WE4WiZq9EVHg1KXrSgh1HPvhXItCi84dc",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "select-authenticator-authenticate",
+                "href": "http://localhost:3000/idp/idx/challenge",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "authenticator",
+                        "type": "object",
+                        "options": [
+                            {
+                                "label": "Okta Verify",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut1jj788xoh9TklK1d8",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "type": "string",
+                                                "required": false,
+                                                "options": [
+                                                    {
+                                                        "label": "Use Okta FastPass",
+                                                        "value": "signed_nonce"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticators.value[0]"
+                            },
+                            {
+                                "label": "Security Key or Biometric",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut1jj788xnx5vr1I1d8",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "webauthn",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticators.value[1]"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.RoJ74xkKs-2kfMk5TPlrm78Fvj_6FFZEpzzVH3RL~c.f8C2WuDwt4slbJWsvNjBCuX4emiSLHBIooSW9td7C8zGiPSp7_pyc8mRPe4TQGSQMggAHVzT7Y3MCIKe2w30lD32pCeSw__wtbB2O2eseHvgW9tav4Ktzdv0jv5cHHnTZvjIl15dcV_iE9Mfd5f0t2xOStU_jMaNgyCMJCFlmSpY-diKlMgdMAkGTGynt9WkIjbXh5Y_f7k10GSE2GoTqqfzJCsXWSRAPSs8vQeAUtLG9VDQ0Hg5rNpVOxo69HkLJObL6lVqjF5efFYy74NKmFppWGBVtDxvnkgbRN1F1SNuJQcWqz4kEN8xsbYy3bVFRIRfBnt-mG1qeunl40m_klthvyEYsEuNP5t0SKGEQmUYN92MLEjoNxngFEOjXAB0-fXUQe6iGzdLZtLoxqJlOc6T8Ar3iWahSaZ99U7UN9T9yf8yvORfdCpQH392OIh2dnAXQIPBiKJFxGOUdQAYo122ezX1_HcFIcTzyz7ACHMsRftL71c7dhAkE07qS5IN2D-VeWyaiLnqbcJMUWpgEupmr6bKo8-j85MJixWK6G_50HhF6GjoFVcb0PVgujyIaTzLJh89wdxvuysjG8YvgOYlkYJGlSIcUTRPBKxyzs-dudehkdivmYIoRLiG6eXvDvt0yiAZLWPnW6DUUmxQ5M4NEbq7JiJxXiI4c8JJvWNrH_dindFfPsqcHpxGBa9Dk-ZWHuUQVCb5aXD_kWPqa-atsycAgloBgQqC7-6ifElA3b5XAosnoe7g0NolH8Rs20PxdunfMIGPaFcWqFefLj6195ecMc5B3jOuIIRNnJhTVLBXYAKbOrCKyjnsUPYQoGb4u6688_ENUw8sn1DRuka_iUJL2YqHu0tR5s4qXCIazvGdJcpbMMXteFr1AuRu1OZMXPwBOSGkf1-3ua1SgDhUtdyO6Z1imTv-c9FgwIzY3tA6Y9izQ_046eYYWwlXjwMrpXyrZoHxGB-BhPxJfi5n0UYYdPKP1kfOPUiuLEU4xARYEdNbMSm8-9hhtGF_qDgAu1pHyrQUfc6FvxfydUen8tE7u5WcwZBYMT9ynE23vCyJIhztyAK-EvqpiQ_IKJlKJVbMh95vxNK3xGeCprVnuLFpexRAVWn4IJHJ_masqEuULV9WVdZQwRf3634hb-qTcUscrNmMiMD5243vbbx9ZPV-DSVcCXPFuVymln-3BrCbLdaCs2JP04rVD9GUJpBj6IfINEd7yQJ7-yvknrL6Fc3NfalNqUD58XtVgsZZmN0k6OEcnUngFNwl_wUlaXiT-A5RHavjL8TeYtF5C5gjar1fMf24KslurlA7evj9kjA9lH6wKO3KN8WM9-6_HFqhL1qaOsgwArAD3IHPWENlVhL9GJ0GaSojTPM71HjIwc58ImR_VOFM8w5-sdJmn23wkUXj2TSWdmzRkxuUHtiwCxXHDDzwMNdPSifppx2wURflPRQIS6upf6c6V0mLB_2fjYviqFn03HWCx7V0Zmf2yOG1-nvISv4P9ZalQemsYciVWUR_7_QGfzeeLNdyVfDeDkJl97WE4WiZq9EVHg1KXrSgh1HPvhXItCi84dc",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            }
+        ]
+    },
+    "currentAuthenticator": {
+        "type": "object",
+        "value": {
+            "cancel": {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "cancel-polling",
+                "href": "http://localhost:3000/idp/idx/authenticators/poll/cancel",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.RoJ74xkKs-2kfMk5TPlrm78Fvj_6FFZEpzzVH3RL~c.f8C2WuDwt4slbJWsvNjBCuX4emiSLHBIooSW9td7C8zGiPSp7_pyc8mRPe4TQGSQMggAHVzT7Y3MCIKe2w30lD32pCeSw__wtbB2O2eseHvgW9tav4Ktzdv0jv5cHHnTZvjIl15dcV_iE9Mfd5f0t2xOStU_jMaNgyCMJCFlmSpY-diKlMgdMAkGTGynt9WkIjbXh5Y_f7k10GSE2GoTqqfzJCsXWSRAPSs8vQeAUtLG9VDQ0Hg5rNpVOxo69HkLJObL6lVqjF5efFYy74NKmFppWGBVtDxvnkgbRN1F1SNuJQcWqz4kEN8xsbYy3bVFRIRfBnt-mG1qeunl40m_klthvyEYsEuNP5t0SKGEQmUYN92MLEjoNxngFEOjXAB0-fXUQe6iGzdLZtLoxqJlOc6T8Ar3iWahSaZ99U7UN9T9yf8yvORfdCpQH392OIh2dnAXQIPBiKJFxGOUdQAYo122ezX1_HcFIcTzyz7ACHMsRftL71c7dhAkE07qS5IN2D-VeWyaiLnqbcJMUWpgEupmr6bKo8-j85MJixWK6G_50HhF6GjoFVcb0PVgujyIaTzLJh89wdxvuysjG8YvgOYlkYJGlSIcUTRPBKxyzs-dudehkdivmYIoRLiG6eXvDvt0yiAZLWPnW6DUUmxQ5M4NEbq7JiJxXiI4c8JJvWNrH_dindFfPsqcHpxGBa9Dk-ZWHuUQVCb5aXD_kWPqa-atsycAgloBgQqC7-6ifElA3b5XAosnoe7g0NolH8Rs20PxdunfMIGPaFcWqFefLj6195ecMc5B3jOuIIRNnJhTVLBXYAKbOrCKyjnsUPYQoGb4u6688_ENUw8sn1DRuka_iUJL2YqHu0tR5s4qXCIazvGdJcpbMMXteFr1AuRu1OZMXPwBOSGkf1-3ua1SgDhUtdyO6Z1imTv-c9FgwIzY3tA6Y9izQ_046eYYWwlXjwMrpXyrZoHxGB-BhPxJfi5n0UYYdPKP1kfOPUiuLEU4xARYEdNbMSm8-9hhtGF_qDgAu1pHyrQUfc6FvxfydUen8tE7u5WcwZBYMT9ynE23vCyJIhztyAK-EvqpiQ_IKJlKJVbMh95vxNK3xGeCprVnuLFpexRAVWn4IJHJ_masqEuULV9WVdZQwRf3634hb-qTcUscrNmMiMD5243vbbx9ZPV-DSVcCXPFuVymln-3BrCbLdaCs2JP04rVD9GUJpBj6IfINEd7yQJ7-yvknrL6Fc3NfalNqUD58XtVgsZZmN0k6OEcnUngFNwl_wUlaXiT-A5RHavjL8TeYtF5C5gjar1fMf24KslurlA7evj9kjA9lH6wKO3KN8WM9-6_HFqhL1qaOsgwArAD3IHPWENlVhL9GJ0GaSojTPM71HjIwc58ImR_VOFM8w5-sdJmn23wkUXj2TSWdmzRkxuUHtiwCxXHDDzwMNdPSifppx2wURflPRQIS6upf6c6V0mLB_2fjYviqFn03HWCx7V0Zmf2yOG1-nvISv4P9ZalQemsYciVWUR_7_QGfzeeLNdyVfDeDkJl97WE4WiZq9EVHg1KXrSgh1HPvhXItCi84dc",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            "contextualData": {
+                "challenge": {
+                    "type": "object",
+                    "value": {
+                        "challengeMethod": "LOOPBACK",
+                        "challengeRequest": "eyJraWQiOiJRM29rT0NvbFRBVnVpVTBRdGZkSzdrNmg4ZzQxei0tY3FwaFJ4NUpYbjlzIiwidHlwIjoib2t0YS1kZXZpY2ViaW5kK2p3dCIsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJodHRwczovL29rdGEub2t0YS5jb20iLCJhdWQiOiJva3RhLjYzYzA4MWRiLTFmMTMtNTA4NC04ODJmLWU3OWUxZTVlMmRhNyIsImV4cCI6MTc1NDk1NDMxMCwiaWF0IjoxNzU0OTU0MDEwLCJqdGkiOiJmdHJBeDF3cms3RlN4c3h6VXpBcVhKZHpYVmdZMmZ5ZEVNIiwibm9uY2UiOiIyXzNyRTdlaEJhOUlLQ0t2bkdJWCIsInRyYW5zYWN0aW9uSWQiOiJmdHJBeDF3cms3RlN4c3h6VXpBcVhKZHpYVmdZMmZ5ZEVNIiwic2lnbmFscyI6WyJpZCIsImRpc3BsYXlOYW1lIiwicGxhdGZvcm0iLCJtYW51ZmFjdHVyZXIiLCJtb2RlbCIsIm9zVmVyc2lvbiIsInNlcmlhbE51bWJlciIsInVkaWQiLCJzaWQiLCJpbWVpIiwibWVpZCIsInRwbVB1YmxpY0tleUhhc2giLCJzZWN1cmVIYXJkd2FyZVByZXNlbnQiLCJkZXZpY2VBdHRlc3RhdGlvbiIsImRldmljZUludGVncml0eSIsInNjcmVlbkxvY2tUeXBlIiwiZGlza0VuY3J5cHRpb25UeXBlIiwiY2xpZW50SW5zdGFuY2VCdW5kbGVJZCIsImNsaWVudEluc3RhbmNlRGV2aWNlU2RrVmVyc2lvbiIsImNsaWVudEluc3RhbmNlSWQiLCJjbGllbnRJbnN0YW5jZVZlcnNpb24iXSwidmVyaWZpY2F0aW9uVXJpIjoiaHR0cHM6Ly9va3RhLm9rdGEuY29tL2lkcC9hdXRoZW50aWNhdG9ycy9hdXQxamo3ODh4b2g5VGtsSzFkOC90cmFuc2FjdGlvbnMvZnRyQXgxd3JrN0ZTeHN4elV6QXFYSmR6WFZnWTJmeWRFTS92ZXJpZnkiLCJtZG1BdHRlc3RhdGlvbklzc3VlcnMiOlt7Imlzc3VlckROIjoiTUlHT01STXdFUVlLQ1pJbWlaUHlMR1FCR1JZRFkyOXRNUlF3RWdZS0NaSW1pWlB5TEdRQkdSWUViMnQwWVRFVU1CSUdDZ21TSm9tVDhpeGtBUmtXQkc5cmRHRXhIVEFiQmdOVkJBc01GREF3YnpBeGIxWllXRTlUUWxsUlFWUkVWVlJXTVN3d0tnWURWUVFERENOUGNtZGhibWw2WVhScGIyNGdTVzUwWlhKdFpXUnBZWFJsSUVGMWRHaHZjbWwwZVE9PSIsImFraSI6InlBUmlScUhPRXFHTVlKai80NzFqMnVDUzJvMD0ifV0sImtleVR5cGVzIjpbInVzZXJWZXJpZmljYXRpb24iLCJwcm9vZk9mUG9zc2Vzc2lvbiJdLCJvcmdJZCI6IjAwbzAxb1ZYWE9TQllRQVREVVRWIiwiYXBwSW5zdGFuY2VOYW1lIjoiV29ya2RheSIsIm1ldGhvZCI6InNpZ25lZF9ub25jZSIsImtpZCI6IjgxNjRGQUI2LTgzQkMtNDRCNi05RUUxLTUxMTZENEZBMEVENSIsIm1ldGhvZEVucm9sbG1lbnRJZCI6ImNycDFvbnB2N3RrUW1xYXk3MWQ4IiwiaW50ZWdyYXRpb25zIjpbeyJuYW1lIjoiY29tLmNyb3dkc3RyaWtlLnp0YSJ9XSwicmVxdWVzdFJlZmVycmVyIjoiaHR0cHM6Ly9va3RhLm9rdGEuY29tIiwidXNlcklkIjoiMDB1MWZoMzBpNXJqRW9mT3ExZDgiLCJsb2dpbkhpbnQiOiJkaXB0aS5zaGlyYWxrYXJAb2t0YS5jb20iLCJ1c2VyTWVkaWF0aW9uIjoiUkVRVUlSRUQiLCJ1c2VyVmVyaWZpY2F0aW9uIjoiUFJFRkVSUkVEIiwidmVyIjowfQ.HiinoM5KpgLrYfJxWv4oYqIZ_K6LnKv_gilOG-WbLfMstyMIglkxXO6CUAfi312_QkmVDYIl5Nm6ORKI5q3eomWkwj12cRKF3C76otQvKF9Yk-weJvbNZDeItAaDFLvQ7Khq2rKT2Szq5t05Up2kLHGxDsVPpnnnk5mLj8P0RfpXIH41GbShNmaGkKqGjjBt-AfaKXIuHX8W6XhST5CoKpErtHS3JCYuRq4AzwtBbRFxtM3VAJ0Fdm3TGbjThQMuV9Vly7fWUL9wgZyjpVT4gpfr1EwiUqsBg4r0TJPb4AJrOThKiRO4VAm3LdhC_9cToC_oQ9f7DZZA7Cvv_YdR-A",
+                        "domain": "http://localhost",
+                        "ports": [ "2000", "6511", "6512", "6513" ],
+                        "probeTimeoutMillis": 3000,
+                        "enhancedPollingEnabled": true
+                    }
+                }
+            },
+            "type": "app",
+            "key": "okta_verify",
+            "id": "aut1jj788xoh9TklK1d8",
+            "displayName": "Okta Verify",
+            "deviceKnown": true,
+            "methods": [
+                {
+                    "type": "signed_nonce"
+                }
+            ]
+        }
+    },
+    "authenticators": {
+        "type": "array",
+        "value": [
+            {
+                "type": "app",
+                "key": "okta_verify",
+                "id": "aut1jj788xoh9TklK1d8",
+                "displayName": "Okta Verify",
+                "deviceKnown": true,
+                "methods": [
+                    {
+                        "type": "signed_nonce"
+                    }
+                ],
+                "allowedFor": "none"
+            },
+            {
+                "type": "security_key",
+                "key": "webauthn",
+                "id": "aut1jj788xnx5vr1I1d8",
+                "displayName": "Security Key or Biometric",
+                "deviceKnown": true,
+                "methods": [
+                    {
+                        "type": "webauthn"
+                    }
+                ],
+                "allowedFor": "none"
+            }
+        ]
+    },
+    "authenticatorEnrollments": {
+        "type": "array",
+        "value": [
+            {
+                "profile": {
+                    "deviceName": "JFY6N7Q10F"
+                },
+                "type": "app",
+                "key": "okta_verify",
+                "id": "pfd1onpv7tjLx718M1d8",
+                "displayName": "Okta Verify",
+                "methods": [
+                    {
+                        "type": "signed_nonce"
+                    }
+                ]
+            },
+            {
+                "profile": {
+                    "aaguid": "00000000-0000-0000-0000-000000000000"
+                },
+                "type": "security_key",
+                "key": "webauthn",
+                "id": "fwf1q0ibzurvMDzeA1d8",
+                "displayName": "Authenticator",
+                "credentialId": "ASDi_J_v7NdqQE5my8xJz8yKsI1nyrmjWfNmGQ9kuqsMWHqeRSNFuEhhYL2igA4MrJq1Vfd8epeB9kshHjYzw68",
+                "methods": [
+                    {
+                        "type": "webauthn"
+                    }
+                ]
+            },
+            {
+                "profile": {
+                    "aaguid": "08987058-cadc-4b81-b6e1-30de50dcbe96"
+                },
+                "type": "security_key",
+                "key": "webauthn",
+                "id": "fwf1q0icgb4qlZ9bB1d8",
+                "displayName": "Windows Hello Hardware Authenticator",
+                "credentialId": "nNcVGW0nq-6ocjCt3UQv9lRxJXDZFTXLCSnaCug4894",
+                "methods": [
+                    {
+                        "type": "webauthn"
+                    }
+                ]
+            },
+            {
+                "profile": {
+                    "aaguid": "c1f9a0bc-1dd2-404a-b27f-8e29047a43fd"
+                },
+                "type": "security_key",
+                "key": "webauthn",
+                "id": "fwf1q29m5k6ckhG4Q1d8",
+                "displayName": "YubiKey 5 FIPS with NFC",
+                "credentialId": "nkqdyrJJhBwFIMDPwT_gxT1QkNmGIuzQwUu-4ybBSBwaX-kiQIzISj9BFeJl4kXXkyiQ0p50jXba8_FTfI5KZA",
+                "methods": [
+                    {
+                        "type": "webauthn"
+                    }
+                ]
+            }
+        ]
+    },
+    "user": {
+        "type": "object",
+        "value": {
+            "id": "00u1fh30i5rjEofOq1d8",
+            "identifier": "dipti.shiralkar@okta.com",
+            "profile": {
+                "firstName": "Dipti",
+                "lastName": "Shiralkar",
+                "timeZone": "America/Los_Angeles",
+                "locale": "en_US",
+                "email": "d***r@okta.com"
+            }
+        }
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "http://localhost:3000/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "02.id.RoJ74xkKs-2kfMk5TPlrm78Fvj_6FFZEpzzVH3RL~c.f8C2WuDwt4slbJWsvNjBCuX4emiSLHBIooSW9td7C8zGiPSp7_pyc8mRPe4TQGSQMggAHVzT7Y3MCIKe2w30lD32pCeSw__wtbB2O2eseHvgW9tav4Ktzdv0jv5cHHnTZvjIl15dcV_iE9Mfd5f0t2xOStU_jMaNgyCMJCFlmSpY-diKlMgdMAkGTGynt9WkIjbXh5Y_f7k10GSE2GoTqqfzJCsXWSRAPSs8vQeAUtLG9VDQ0Hg5rNpVOxo69HkLJObL6lVqjF5efFYy74NKmFppWGBVtDxvnkgbRN1F1SNuJQcWqz4kEN8xsbYy3bVFRIRfBnt-mG1qeunl40m_klthvyEYsEuNP5t0SKGEQmUYN92MLEjoNxngFEOjXAB0-fXUQe6iGzdLZtLoxqJlOc6T8Ar3iWahSaZ99U7UN9T9yf8yvORfdCpQH392OIh2dnAXQIPBiKJFxGOUdQAYo122ezX1_HcFIcTzyz7ACHMsRftL71c7dhAkE07qS5IN2D-VeWyaiLnqbcJMUWpgEupmr6bKo8-j85MJixWK6G_50HhF6GjoFVcb0PVgujyIaTzLJh89wdxvuysjG8YvgOYlkYJGlSIcUTRPBKxyzs-dudehkdivmYIoRLiG6eXvDvt0yiAZLWPnW6DUUmxQ5M4NEbq7JiJxXiI4c8JJvWNrH_dindFfPsqcHpxGBa9Dk-ZWHuUQVCb5aXD_kWPqa-atsycAgloBgQqC7-6ifElA3b5XAosnoe7g0NolH8Rs20PxdunfMIGPaFcWqFefLj6195ecMc5B3jOuIIRNnJhTVLBXYAKbOrCKyjnsUPYQoGb4u6688_ENUw8sn1DRuka_iUJL2YqHu0tR5s4qXCIazvGdJcpbMMXteFr1AuRu1OZMXPwBOSGkf1-3ua1SgDhUtdyO6Z1imTv-c9FgwIzY3tA6Y9izQ_046eYYWwlXjwMrpXyrZoHxGB-BhPxJfi5n0UYYdPKP1kfOPUiuLEU4xARYEdNbMSm8-9hhtGF_qDgAu1pHyrQUfc6FvxfydUen8tE7u5WcwZBYMT9ynE23vCyJIhztyAK-EvqpiQ_IKJlKJVbMh95vxNK3xGeCprVnuLFpexRAVWn4IJHJ_masqEuULV9WVdZQwRf3634hb-qTcUscrNmMiMD5243vbbx9ZPV-DSVcCXPFuVymln-3BrCbLdaCs2JP04rVD9GUJpBj6IfINEd7yQJ7-yvknrL6Fc3NfalNqUD58XtVgsZZmN0k6OEcnUngFNwl_wUlaXiT-A5RHavjL8TeYtF5C5gjar1fMf24KslurlA7evj9kjA9lH6wKO3KN8WM9-6_HFqhL1qaOsgwArAD3IHPWENlVhL9GJ0GaSojTPM71HjIwc58ImR_VOFM8w5-sdJmn23wkUXj2TSWdmzRkxuUHtiwCxXHDDzwMNdPSifppx2wURflPRQIS6upf6c6V0mLB_2fjYviqFn03HWCx7V0Zmf2yOG1-nvISv4P9ZalQemsYciVWUR_7_QGfzeeLNdyVfDeDkJl97WE4WiZq9EVHg1KXrSgh1HPvhXItCi84dc",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "workday",
+            "label": "Workday",
+            "id": "0oax2z77otENLOHHTSLK"
+        }
+    },
+    "authentication": {
+        "type": "object",
+        "value": {
+            "protocol": "SAML2.0",
+            "request": {}
+        }
+    }
+}
