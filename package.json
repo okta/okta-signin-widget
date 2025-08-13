@@ -237,7 +237,7 @@
     "webpack-dev-server": "^4.15.2"
   },
   "dependencies": {
-    "@okta/okta-auth-js": "7.13.1",
+    "@okta/okta-auth-js": "7.14.0",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "@types/backbone": "^1.4.15",
     "@types/eslint-scope": "^3.7.3",
@@ -277,9 +277,7 @@
     "**/testcafe-hammerhead/tough-cookie": "^4.1.4",
     "stylis": "^4.3.0",
     "**/debug": "^4.3.4",
-    "**/mout": "^1.2.4",
-    "**/broadcast-channel": "5.3.0",
-    "**/oblivious-set": "1.2.0"
+    "**/mout": "^1.2.4"
   },
   "workspaces": {
     "packages": [
