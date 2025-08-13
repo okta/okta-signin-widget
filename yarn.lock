@@ -2912,6 +2912,11 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@babel/runtime@^7.27.0":
+  version "7.28.2"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.28.2.tgz#2ae5a9d51cc583bd1f5673b3bb70d6d819682473"
+  integrity sha512-KHp2IflsnGywDjBWDkR9iEqiWSpc8GIi0lgTT3mOElT0PP1tG26P4tmFI2YvAdzgq9RGyoHZQEIEdZy6Ec5xCA==
+
 "@babel/template@^7.10.1", "@babel/template@^7.10.3":
   version "7.10.3"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.10.3.tgz#4d13bc8e30bf95b0ce9d175d30306f42a2c9a7b8"
@@ -4637,12 +4642,12 @@
     ts-node "^10.9.1"
     word-wrap "~1.2.5"
 
-"@okta/okta-auth-js@7.11.0":
-  version "7.11.0"
-  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-7.11.0.tgz#a23452dd018d020ac09cd6527f9cf78bf48056e8"
-  integrity sha512-YL+TRH6gb5Odg6MlVv8i6LQ0VpXNZx2W0p5uf1TUsFl/MYXlCuK9JCuHQCXh9ZOHdHFmD4cHTQbI3s9ctScARQ==
+"@okta/okta-auth-js@7.14.0":
+  version "7.14.0"
+  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-7.14.0.tgz#ffecf48ccd6fca1a737b8e8ac2759e2ed6e6b6eb"
+  integrity sha512-LCqJhhT1oXC/I7XaM7G3EHzHB5aubNMRHqAsmv0wiNdoC1zEeXJo5SwY9ZmS9LmLbfMOj+YmbydRIxRF8CpBNQ==
   dependencies:
-    "@babel/runtime" "^7.12.5"
+    "@babel/runtime" "^7.27.0"
     "@peculiar/webcrypto" "^1.4.0"
     Base64 "1.1.0"
     atob "^2.1.2"
