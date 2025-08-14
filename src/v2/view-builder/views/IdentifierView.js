@@ -251,6 +251,16 @@ const Body = BaseForm.extend({
         { credentials }
       );
     }, (error) => {
+      // Suppress the error shown to the enduser in case of the relying party id mismatch.
+      // The error message shown was:
+      // "The relying party ID is not a registrable domain suffix of, nor equal to the current domain.
+      // Subsequently, an attempt to fetch the .well-known/webauthn resource of the claimed RP ID failed."
+      // There is no need to show this error, as it was not triggered by a user action,
+      // nor is it stopping the user from proceeding.
+      if (webauthn.isRelyingPartyIdMismatchError(error)) {
+        return;
+      }
+
       // Do not display if it is abort error triggered by code when switching.
       // this.webauthnAbortController would be null if abort was triggered by code.
       if (this.webauthnAbortController) {

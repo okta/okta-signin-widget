@@ -360,4 +360,74 @@ describe('v2/view-builder/views/IdentifierView', function() {
     testContext.init(XHRIdentifyWithWebAuthnAutofill.remediation.value);
     expect(testContext.view.$el.find('input[name="identifier"]').attr('autocomplete')).toEqual('username');
   });
+
+  describe('WebAuthn Autofill error handling', function() {
+    beforeEach(function() {
+      jest.spyOn(AppState.prototype, 'get').mockImplementation((key) => {
+        const mockData = {
+          'idx': { neededToProceed: [] },
+          'webauthnAutofillUIChallenge': { challengeData: { challenge: 'test-challenge' } },
+          'neededToProceed': [],
+          'remediations': [],
+          'currentAuthenticator': { profile: {} },
+          'currentAuthenticatorEnrollment': { profile: {} }
+        };
+        return mockData[key] || null;
+      });
+
+      jest.spyOn(AppState.prototype, 'hasRemediationObject').mockImplementation(remediation => {
+        return remediation === FORMS.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR;
+      });
+      jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+      jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(true);
+      jest.spyOn(webauthn, 'isConditionalMediationAvailable').mockReturnValue(true);
+      jest.spyOn(webauthn, 'isPasskeyAutofillAvailable').mockResolvedValue(true);
+
+      global.AbortController = jest.fn().mockImplementation(() => ({
+        signal: {},
+        abort: jest.fn()
+      }));
+    });
+
+    it.each([
+      {
+        description: 'should suppress error when navigator.credentials.get throws Relying Party ID mismatch error',
+        errorMessage: 'Relying Party ID mismatch',
+        errorName: 'SecurityError',
+        errorCode: 18,
+        isRelyingPartyIdMismatch: true,
+        expectErrorSuppressed: true
+      },
+      {
+        description: 'should show error when navigator.credentials.get throws non-Relying Party ID mismatch error',
+        errorMessage: 'Unsuppressed WebAuthn error',
+        errorName: 'UnsuppressedError',
+        errorCode: undefined,
+        isRelyingPartyIdMismatch: false,
+        expectErrorSuppressed: false
+      }
+    ])('$description', async function({ errorMessage, errorName, errorCode, expectErrorSuppressed }) {
+      const error = new Error(errorMessage);
+      error.name = errorName;
+      error.code = errorCode;
+      const credentialsGetMock = jest.fn().mockRejectedValue(error);
+
+      Object.defineProperty(global, 'navigator', {
+        value: { credentials: { get: credentialsGetMock } },
+        writable: true
+      });
+
+      testContext.init(XHRIdentifyWithWebAuthnAutofill.remediation.value);
+
+      await testContext.view.form.getCredentialsAndInvokeAction();
+
+      if (expectErrorSuppressed) {
+        // Check that NO error message is displayed in the UI (error was suppressed)
+        expect(testContext.view.$el.find('.infobox-error p').length).toBe(0);
+      } else {
+        // Check that an error message IS displayed in the UI (error was not suppressed)
+        expect(testContext.view.$el.find('.infobox-error p').text()).toContain(errorMessage);
+      }
+    });
+  });
 });

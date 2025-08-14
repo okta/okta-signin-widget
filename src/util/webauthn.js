@@ -93,5 +93,8 @@ export default {
       isAvailable = await PublicKeyCredential.isConditionalMediationAvailable();
     }
     return isAvailable;
-  }
+  },
+  isRelyingPartyIdMismatchError: function(error) {
+    return error?.name === 'SecurityError' && error?.code === 18;
+  },
 };
