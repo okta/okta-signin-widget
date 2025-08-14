@@ -192,14 +192,14 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h2
+                            <p
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="okta_password_0-label"
                               translate="no"
                             >
                               Password
-                            </h2>
+                            </p>
                             <p
                               aria-label="Choose a password for your account."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -307,14 +307,14 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h2
+                            <p
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="phone_number_1-label"
                               translate="no"
                             >
                               Phone
-                            </h2>
+                            </p>
                             <p
                               aria-label="Verify with a code sent to your phone."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
@@ -432,14 +432,14 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             class="MuiBox-root emotion-31"
                             data-se="authenticator-button-content"
                           >
-                            <h2
+                            <p
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="webauthn_2-label"
                               translate="no"
                             >
                               Security Key or Biometric Authenticator
-                            </h2>
+                            </p>
                             <p
                               aria-label="Use a security key or a biometric authenticator to sign in."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
