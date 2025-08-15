@@ -19,3 +19,8 @@ export const isTestEnvironment = (): boolean => {
   const { NODE_ENV } = process.env;
   return NODE_ENV === 'test';
 };
+
+export const isProductionEnvironment = (): boolean => {
+  const { NODE_ENV } = process.env;
+  return NODE_ENV === 'production';
+};

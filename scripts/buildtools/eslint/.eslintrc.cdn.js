@@ -23,6 +23,8 @@ module.exports = {
       'URLSearchParams.get',
       // API availability is checked at runtime
       'PublicKeyCredential',
+      // API availability is checked at runtime
+      'navigator.permissions',
     ],
   }
 };

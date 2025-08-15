@@ -84,3 +84,8 @@ export class ConfiguredFlowError extends CustomError {
     this.flowSetting = flowSetting;
   }
 }
+
+// Triggered when a user denies Local Network Access permission in Chrome, used to monitor LNA denials.
+export class ChromeLNADeniedError extends CustomError {
+  name = Enums.CHROME_LOCAL_NETWORK_ACCESS_DENIED_ERROR;
+}
