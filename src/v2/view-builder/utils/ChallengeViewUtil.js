@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { loc, View, createButton, _ } from '@okta/courage';
+import { loc, View, createButton, createCallout, _ } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import Enums from 'util/Enums';
 import Util from 'util/Util';
@@ -21,6 +21,7 @@ import {
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
   REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON,
 } from '../utils/Constants';
+import BrowserFeatures from '../../../util/BrowserFeatures';
 
 export function appendLoginHint(deviceChallengeUrl, loginHint) {
   if (deviceChallengeUrl && loginHint) {
@@ -30,18 +31,85 @@ export function appendLoginHint(deviceChallengeUrl, loginHint) {
   return deviceChallengeUrl;
 }
 
+function addLNAErrorView(view) {
+  view.add(createCallout({
+    title: loc('chrome.lna.error.title', 'login'),
+    content: hbs`
+      {{i18n code="chrome.lna.error.description.part1" bundle="login"}}
+      <br><br>
+      {{i18n code="chrome.lna.error.description.part2" bundle="login"}}
+      <br><br>
+      {{i18n code="chrome.lna.error.description.more.information" bundle="login"
+        $1="<a href='https://developer.chrome.com/blog/local-network-access'
+          target='_blank'
+          rel='noopener noreferrer'>$1</a>"}}
+    `,
+    type: 'error'
+  }));
+}
+
+function addLoopbackView(view, deviceChallenge, useChromeLNAProbeTimeout = false) {
+  view.add(View.extend({
+    className: 'loopback-content',
+    template: hbs`<div class="spinner"></div>`
+  }));
+  view.doLoopback(deviceChallenge, useChromeLNAProbeTimeout);
+}
+
+function updateChromeLNATitle(view, newTitle) {
+  view.title = newTitle;
+  if (view.$ && view.$('.okta-form-title').length) {
+    view.$('.okta-form-title').text(newTitle);
+  }
+}
+
+function onPermissionChange(view, currPermissionState, deviceChallenge) {
+  view.removeChildren();
+  switch(currPermissionState) {
+  case 'prompt':
+    updateChromeLNATitle(view, loc('deviceTrust.sso.redirectText', 'login'));
+    addLoopbackView(view, deviceChallenge, true);
+    break;
+  case 'granted':
+    updateChromeLNATitle(view, loc('deviceTrust.sso.redirectText', 'login'));
+    addLoopbackView(view, deviceChallenge);
+    break;
+  case 'denied':
+    updateChromeLNATitle(view, loc('chrome.lna.fastpass.requires.permission.title', 'login'));
+    addLNAErrorView(view);
+    break;
+  default:
+    updateChromeLNATitle(view, loc('deviceTrust.sso.redirectText', 'login'));
+    addLoopbackView(view, deviceChallenge);
+    break;
+  }
+}
+
 export function doChallenge(view, fromView) {
   const deviceChallenge = view.getDeviceChallengePayload();
+  const { chromeLocalNetworkAccessDetails } = deviceChallenge || {};
   const loginHint = view.options?.settings?.get('identifier');
   const HIDE_CLASS = 'hide';
   switch (deviceChallenge.challengeMethod) {
   case Enums.LOOPBACK_CHALLENGE:
     view.title = loc('deviceTrust.sso.redirectText', 'login');
-    view.add(View.extend({
-      className: 'loopback-content',
-      template: hbs`<div class="spinner"></div>`
-    }));
-    view.doLoopback(deviceChallenge);
+    if (
+      chromeLocalNetworkAccessDetails &&
+      BrowserFeatures.isChromeLNASupported(chromeLocalNetworkAccessDetails.minEnforcingChromiumMajorVersion)
+    ) {
+      view._chromeLNAPermissionStatus = null;
+      view._chromeLNAHandlePermissionChange = null;
+      BrowserFeatures.getChromeLNAPermissionState(
+        onPermissionChange,
+        function(permissionStatus, handlePermissionChange) {
+          // Save permissionStatus and handlePermissionChange so they can be cleaned up later
+          view._chromeLNAPermissionStatus = permissionStatus;
+          view._chromeLNAHandlePermissionChange = handlePermissionChange;
+        }
+      );
+    } else {
+      addLoopbackView(view, deviceChallenge);
+    }
     break;
   case Enums.CUSTOM_URI_CHALLENGE:
     view.title = loc('customUri.title', 'login');

@@ -25,14 +25,35 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
       deviceChallengePayload,
       cancelStep,
       step,
+      useChromeLNAProbeTimeout = false,
     },
   },
 }) => {
   const widgetContext = useWidgetContext();
   const { authClient, idxTransaction, setIdxTransaction } = widgetContext;
 
-  const probeTimeoutMillis: number = typeof deviceChallengePayload.probeTimeoutMillis === 'undefined'
-    ? 100 : deviceChallengePayload.probeTimeoutMillis;
+  let probeTimeoutMillis = 100;
+  const chromeLNAProbeTimeoutMillis = deviceChallengePayload.chromeLocalNetworkAccessDetails
+    ?.chromeLNAProbeTimeoutMillis;
+
+  if (useChromeLNAProbeTimeout && typeof chromeLNAProbeTimeoutMillis !== 'undefined') {
+    probeTimeoutMillis = chromeLNAProbeTimeoutMillis;
+  } else if (typeof deviceChallengePayload.probeTimeoutMillis !== 'undefined') {
+    probeTimeoutMillis = deviceChallengePayload.probeTimeoutMillis;
+  }
+
+  /*
+  OKTA-278573 in loopback server, SSL handshake sometimes takes more than 100ms and thus needs additional
+  timeout however, increasing timeout is a temporary solution since user will need to wait much longer in
+  worst case.
+  TODO: Android timeout is temporarily set to 3000ms and needs optimization post-Beta.
+  OKTA-365427 introduces probeTimeoutMillis; but we should also consider probeTimeoutMillisHTTPS for
+  customizing timeouts in the more costly Android and other (keyless) HTTPS scenarios.
+  */
+  if (!useChromeLNAProbeTimeout && isAndroid()) {
+    probeTimeoutMillis = 3_000;
+  }
+
   const ports: string[] = deviceChallengePayload.ports || [];
   const {
     domain,
@@ -84,15 +105,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
           // probe the url
           const probeResponse = await makeRequest({
             method: 'GET',
-            /*
-            OKTA-278573 in loopback server, SSL handshake sometimes takes more than 100ms and thus needs additional
-            timeout however, increasing timeout is a temporary solution since user will need to wait much longer in
-            worst case.
-            TODO: Android timeout is temporarily set to 3000ms and needs optimization post-Beta.
-            OKTA-365427 introduces probeTimeoutMillis; but we should also consider probeTimeoutMillisHTTPS for
-            customizing timeouts in the more costly Android and other (keyless) HTTPS scenarios.
-            */
-            timeout: isAndroid() ? 3_000 : probeTimeoutMillis,
+            timeout: probeTimeoutMillis,
             url: `${baseUrl}/probe`,
           });
 

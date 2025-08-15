@@ -84,6 +84,58 @@ fn.isIOS = function() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 };
 
+fn.isChromeLNASupported = function(minEnforcingChromiumMajorVersion: number) {
+  const userAgent = navigator.userAgent;
+  const match = userAgent.match(/Chrom(?:e|ium)\/([0-9]+)\./);
+
+  if (match && match[1]) {
+      const majorVersion = parseInt(match[1], 10);
+      if (!isNaN(majorVersion) && majorVersion >= minEnforcingChromiumMajorVersion) {
+          return true;
+      }
+  }
+
+  // If no match is found or the version is too low, return false.
+  return false;
+};
+
+fn.getChromeLNAPermissionState = async function(
+  onPermissionChange: (currPermissionState?: PermissionState) => void,
+  onListenerInitialized?: (permissionStatus: PermissionStatus, handlePermissionChange: () => void) => void,
+) {
+  let initialState: PermissionState | undefined;
+
+  try {
+    if (navigator.permissions && typeof navigator.permissions.query === 'function') {
+      const result = await navigator.permissions.query({ name: 'local-network-access' as any });
+      
+      // Call the callback once initially to handle the initial state
+      onPermissionChange(result.state);
+      initialState = result.state;
+
+      // Only re-render on permission changes if the initial state was 'prompt'
+      const handlePermissionChange = () => {
+        if (initialState === 'prompt') {
+          onPermissionChange(result.state);
+        }
+      };
+      
+      result.addEventListener('change', handlePermissionChange);
+
+      // Need to return result and handler so they can be cleaned up later
+      if (onListenerInitialized) {
+        onListenerInitialized(result, handlePermissionChange);
+      }
+
+    } else {
+      // Fallback for browsers that do not support Permissions API
+      onPermissionChange(undefined);
+    }
+  } catch (error) {
+    onPermissionChange(undefined);
+  }
+};
+
 // Returns a list of languages the user has configured for their browser, in
 // order of preference.
 fn.getUserLanguages = function() {

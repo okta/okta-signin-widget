@@ -60,25 +60,51 @@ const Body = BaseFormWithPolling.extend({
     this.removed = true;
     this.stopProbing();
     this.stopPolling();
+
+    if (this._chromeLNAPermissionStatus && this._chromeLNAHandlePermissionChange) {
+      this._chromeLNAPermissionStatus.removeEventListener('change', this._chromeLNAHandlePermissionChange);
+      this._chromeLNAResult = null;
+      this._chromeLNAHandlePermissionChange = null;
+    }
   },
 
   getDeviceChallengePayload() {
     throw new Error('getDeviceChallengePayload needs to be implemented');
   },
 
-  doLoopback(deviceChallenge) {
+  doLoopback(deviceChallenge, useChromeLNAProbeTimeout = false) {
     let authenticatorDomainUrl = deviceChallenge.domain !== undefined ? deviceChallenge.domain : '';
     let authenticatorHttpsDomainUrl = deviceChallenge.httpsDomain !== undefined ? deviceChallenge.httpsDomain : '';
     let ports = deviceChallenge.ports !== undefined ? deviceChallenge.ports : [];
     let maxNumberOfPorts = ports.length;
     let challengeRequest = deviceChallenge.challengeRequest !== undefined ? deviceChallenge.challengeRequest : '';
-    let probeTimeoutMillis = deviceChallenge.probeTimeoutMillis !== undefined ?
-      deviceChallenge.probeTimeoutMillis : 100;
     let currentPort;
     let foundPort = false;
     let ovFailed = false;
     let countFailedPorts = 0;
 
+    const getProbeTimeoutMillis = (deviceChallenge, useChromeLNAProbeTimeout) => {
+      let probeTimeoutMillis = 100;
+      const chromeLNAProbeTimeoutMillis = deviceChallenge.chromeLocalNetworkAccessDetails?.chromeLNAProbeTimeoutMillis;
+      if (useChromeLNAProbeTimeout && chromeLNAProbeTimeoutMillis !== undefined) {
+        probeTimeoutMillis = chromeLNAProbeTimeoutMillis;
+      } else if (deviceChallenge.probeTimeoutMillis !== undefined) {
+        probeTimeoutMillis = deviceChallenge.probeTimeoutMillis;
+      }
+      /*
+      OKTA-278573 in loopback server, SSL handshake sometimes takes more than 100ms and thus needs additional
+      timeout however, increasing timeout is a temporary solution since user will need to wait much longer in
+      worst case.
+      TODO: Android timeout is temporarily set to 3000ms and needs optimization post-Beta.
+      OKTA-365427 introduces probeTimeoutMillis; but we should also consider probeTimeoutMillisHTTPS for
+      customizing timeouts in the more costly Android and other (keyless) HTTPS scenarios.
+      */
+      if (!useChromeLNAProbeTimeout && BrowserFeatures.isAndroid()) {
+        probeTimeoutMillis = 3000;
+      }
+      return probeTimeoutMillis;
+    };
+    
     const getAuthenticatorUrl = (path, domainUrl) => {
       return `${domainUrl}:${currentPort}/${path}`;
     };
@@ -86,15 +112,7 @@ const Body = BaseFormWithPolling.extend({
     const checkPort = (url) => {
       return request({
         url: url,
-        /*
-        OKTA-278573 in loopback server, SSL handshake sometimes takes more than 100ms and thus needs additional
-        timeout however, increasing timeout is a temporary solution since user will need to wait much longer in
-        worst case.
-        TODO: Android timeout is temporarily set to 3000ms and needs optimization post-Beta.
-        OKTA-365427 introduces probeTimeoutMillis; but we should also consider probeTimeoutMillisHTTPS for
-        customizing timeouts in the more costly Android and other (keyless) HTTPS scenarios.
-        */
-        timeout: BrowserFeatures.isAndroid() ? 3000 : probeTimeoutMillis
+        timeout: getProbeTimeoutMillis(deviceChallenge, useChromeLNAProbeTimeout),
       });
     };
 
