@@ -110,6 +110,19 @@ export type DeviceRemediation = {
   };
 };
 
+export type ChromeLocalNetworkAccessDetails = {
+  chromeLNAHelpLink: string;
+};
+
+export type DeviceChallengePayload = {
+  ports: string[];
+  domain: string;
+  httpsDomain?: string;
+  challengeRequest: string;
+  probeTimeoutMillis?: number;
+  chromeLocalNetworkAccessDetails?: ChromeLocalNetworkAccessDetails;
+};
+
 export type AutoCompleteValue = 'username'
 | 'current-password'
 | 'one-time-code'
@@ -450,15 +463,10 @@ export interface OpenOktaVerifyFPButtonElement extends UISchemaElement {
 export interface LoopbackProbeElement extends UISchemaElement {
   type: 'LoopbackProbe';
   options: {
-    deviceChallengePayload: {
-      ports: string[];
-      domain: string;
-      httpsDomain?: string;
-      challengeRequest: string;
-      probeTimeoutMillis?: number;
-    };
+    deviceChallengePayload: DeviceChallengePayload;
     step: string;
     cancelStep: string;
+    useChromeLNAProbeTimeout?: boolean;
   };
 }
 

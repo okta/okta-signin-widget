@@ -36,6 +36,7 @@ const UNKNOWN_USER_I8N_KEY = "idx.unknown.user";
 const local: Record<string, ModelProperty> = {
   user: 'object',        // optional
   currentFormName: 'string',
+  previousFormName: 'string',
   idx: 'object',
   remediations: 'array',
   dynamicRefreshInterval: 'number',
@@ -308,13 +309,14 @@ export default class AppState extends Model {
       const hook = this.hooks?.getHook(currentFormName); // may be undefined
       await executeHooksBefore(hook);
   
+      const previousFormName = this.get('currentFormName');
       this.unset('currentFormName', { silent: true });
       // make sure change `currentFormName` is last step.
       // change `currentFormName` will re-render FormController,
       // which may depend on other derived properties hence
       // those derived properties must be re-computed before
       // re-rendering controller.
-      this.set({ currentFormName });
+      this.set({ currentFormName, previousFormName });
 
       await executeHooksAfter(hook);
     }
