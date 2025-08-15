@@ -13,12 +13,43 @@
 import { IDX_STEP } from '../../../constants';
 import {
   ActionPendingElement,
+  ButtonType,
   IdxStepTransformer,
+  InfoboxElement,
   IWidgetContext,
   LinkElement,
   LoopbackProbeElement,
+  StepperButtonElement,
+  StepperLayout,
+  TitleElement,
+  UISchemaElement,
+  UISchemaLayout,
+  UISchemaLayoutType,
 } from '../../../types';
 import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../../util';
+
+const getChromeLnaPermissionState = async (
+  onPermissionChange: (shouldDoLoopback: boolean) => void,
+) => {
+  try {
+    const result = await navigator.permissions.query({ name: 'local-network-access' as any });
+    const initialState = result.state;
+    
+    // Call the callback once initially to handle the initial state
+    onPermissionChange(initialState === 'granted');
+
+    // Listen for future permission changes
+    const handlePermissionChange = () => {
+      // We should only initiate loopback if the permission state is granted and started as granted
+      // Otherwise, we will trigger loopback directly from the info or error callout screens, which is unexpected UX
+      onPermissionChange(result.state === 'granted' && initialState === 'granted');
+    };
+    
+    result.addEventListener('change', handlePermissionChange);
+  } catch (error) {
+    onPermissionChange(false);
+  }
+};
 
 export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
   transaction,
@@ -26,10 +57,19 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
 }) => {
   const { uischema } = formBag;
 
-  uischema.elements.unshift({
+  const actionPendingElement: ActionPendingElement = {
     type: 'ActionPending',
-    options: { content: loc('deviceTrust.sso.redirectText', 'login') },
-  } as ActionPendingElement);
+    options: {
+      content: loc('deviceTrust.sso.redirectText', 'login'),
+    },
+  };
+
+  const oktaFPRequiresPermissionTitleElement: TitleElement = {
+    type: 'Title',
+    options: {
+      content: loc('chrome.lna.fast.pass.requires.permission.title', 'login')
+    }
+  }
 
   const cancelStep = transaction.nextStep?.name === IDX_STEP.DEVICE_CHALLENGE_POLL
     ? 'authenticatorChallenge-cancel' : 'currentAuthenticator-cancel';
@@ -38,40 +78,76 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
     // @ts-expect-error challenge is not defined on contextualData
     : transaction.nextStep?.relatesTo?.value?.contextualData?.challenge?.value;
 
-  uischema.elements.push({
+  const loopbackProbeElement: LoopbackProbeElement = {
     type: 'LoopbackProbe',
     options: {
       deviceChallengePayload,
       cancelStep,
-      step: transaction.nextStep?.name,
-    },
-  } as LoopbackProbeElement);
+      step: transaction.nextStep?.name!,
+    }
+  };
 
-  // Since this transformer is shared, we have to add applicable buttons manually
-  const hasMinAuthOptions = hasMinAuthenticatorOptions(
-    transaction,
-    IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
-    1, // Min # of auth options for link to display
-  );
-  const selectVerifyStep = transaction.availableSteps
-    ?.find(({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE);
-  if (selectVerifyStep && hasMinAuthOptions) {
-    const selectLink: LinkElement = {
-      type: 'Link',
-      contentType: 'footer',
-      options: {
-        label: loc('oie.verification.switch.authenticator', 'login'),
-        step: selectVerifyStep.name,
-        onClick: (widgetContext?: IWidgetContext): unknown => {
-          if (typeof widgetContext === 'undefined') {
-            return;
-          }
-          updateTransactionWithNextStep(transaction, selectVerifyStep, widgetContext);
+  const infoCallout: InfoboxElement = {
+    type: 'InfoBox',
+    options: {
+      message: [
+        {
+          title: loc('chrome.lna.prompt.title', 'login'),
+          message: loc('chrome.lna.prompt.description.part1', 'login'),
         },
-      },
-    };
-    uischema.elements.push(selectLink);
-  }
+        {
+          message: loc('chrome.lna.prompt.description.part2', 'login'),
+        },
+        {
+          message: loc(
+            'chrome.lna.prompt.description.learn.more',
+            'login',
+            undefined,
+            {
+              $1: { element: 'a', attributes: { href: 'https://developer.chrome.com/blog/local-network-access', target: '_blank', rel: 'noopener noreferrer' } },
+            },
+          )
+        },
+      ],
+      class: 'INFO'
+    }
+  };
+
+  const errorCallout: InfoboxElement = {
+    type: 'InfoBox',
+    options: {
+      message: [
+        {
+          title: loc('chrome.lna.error.title', 'login'),
+          message: loc('chrome.lna.error.description.part1', 'login'),
+        },
+        {
+          message: loc('chrome.lna.error.description.part2', 'login'),
+        },
+        {
+          message: loc(
+            'chrome.lna.error.description.more.information',
+            'login',
+            undefined,
+            {
+              $1: { element: 'a', attributes: { href: 'https://developer.chrome.com/blog/local-network-access', target: '_blank', rel: 'noopener noreferrer' } },
+            },
+          )
+        }
+      ],
+      class: 'ERROR'
+    }
+  };
+  
+  const consentButton: StepperButtonElement = {
+    type: 'StepperButton',
+    label: loc('chrome.lna.open.prompt.label', 'login'),
+    options: {
+      type: ButtonType.BUTTON,
+      variant: 'primary',
+      nextStepIndex: 1,
+    },
+  };
 
   const cancelLink: LinkElement = {
     type: 'Link',
@@ -86,7 +162,81 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
       },
     },
   };
-  uischema.elements.push(cancelLink);
+
+  // Since this transformer is shared, we have to add applicable buttons manually
+  const hasMinAuthOptions = hasMinAuthenticatorOptions(
+    transaction,
+    IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+    1, // Min # of auth options for link to display
+  );
+  const selectVerifyStep = transaction.availableSteps
+    ?.find(({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE);
+  let selectLink: LinkElement | undefined;
+  if (selectVerifyStep && hasMinAuthOptions) {
+    selectLink = {
+      type: 'Link',
+      contentType: 'footer',
+      options: {
+        label: loc('oie.verification.switch.authenticator', 'login'),
+        step: selectVerifyStep.name,
+        onClick: (widgetContext?: IWidgetContext): unknown => {
+          if (typeof widgetContext === 'undefined') {
+            return;
+          }
+          updateTransactionWithNextStep(transaction, selectVerifyStep, widgetContext);
+        },
+      },
+    };
+  }
+
+  const linkElements: LinkElement[] = [
+    ...(selectLink ? [selectLink] : []),
+    cancelLink,
+  ]
+
+  const loopbackProbeElements: UISchemaLayout["elements"] = [
+    actionPendingElement,
+    loopbackProbeElement,
+    ...linkElements
+  ];
+
+  const infoCalloutElements: UISchemaLayout["elements"] = [
+    oktaFPRequiresPermissionTitleElement,
+    infoCallout,
+    consentButton,
+    ...linkElements
+  ];
+
+  const errorCalloutElements: UISchemaLayout["elements"] = [
+    oktaFPRequiresPermissionTitleElement,
+    errorCallout,
+    ...linkElements
+  ];
+
+  getChromeLnaPermissionState((shouldDoLoopback) => {
+    uischema.elements = [];
+    if (shouldDoLoopback) {
+      uischema.elements = loopbackProbeElements;
+    } else {
+      const stepper: StepperLayout = {
+        type: UISchemaLayoutType.STEPPER,
+        elements: [
+          {
+            type: UISchemaLayoutType.VERTICAL,
+            elements: infoCalloutElements.map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
+          } as UISchemaLayout,
+          {
+            type: UISchemaLayoutType.VERTICAL,
+            elements: shouldDoLoopback
+              ? loopbackProbeElements
+              : errorCalloutElements
+            .map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
+          } as UISchemaLayout,
+        ],
+      };
+      uischema.elements.push(stepper);
+    }
+  });
 
   return formBag;
 };

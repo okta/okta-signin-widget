@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { loc, View, createButton, _ } from '@okta/courage';
+import { loc, View, createButton, createCallout, _ } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import Enums from 'util/Enums';
 import Util from 'util/Util';
@@ -30,18 +30,65 @@ export function appendLoginHint(deviceChallengeUrl, loginHint) {
   return deviceChallengeUrl;
 }
 
+async function shouldDisplayChromeLocalNetworkAccessInstructions() {
+  try {
+    // eslint-disable-next-line compat/compat
+    const result = await navigator.permissions.query({ name: 'local-network-access' });
+    return result.state === 'prompt' || result.state === 'denied';
+  } catch (error) {
+    console.log('Unsupported browser');
+    return false;
+  }
+}
+
 export function doChallenge(view, fromView) {
   const deviceChallenge = view.getDeviceChallengePayload();
   const loginHint = view.options?.settings?.get('identifier');
   const HIDE_CLASS = 'hide';
   switch (deviceChallenge.challengeMethod) {
   case Enums.LOOPBACK_CHALLENGE:
-    view.title = loc('deviceTrust.sso.redirectText', 'login');
-    view.add(View.extend({
-      className: 'loopback-content',
-      template: hbs`<div class="spinner"></div>`
-    }));
-    view.doLoopback(deviceChallenge);
+    shouldDisplayChromeLocalNetworkAccessInstructions().then(function(shouldDisplayInstructions) {
+      if (shouldDisplayInstructions) {
+        view.add(createCallout({
+          title: loc('chrome.lna.consent.title', 'login'),
+          content: hbs`
+            {{i18n
+              code="chrome.lna.consent.description.g2"
+              bundle="login"
+            }}
+            <br>
+            <br>
+            {{i18n
+              code="chrome.lna.link"
+              bundle="login"
+              $1="<a
+                href='https://developer.chrome.com/blog/local-network-access'
+                target='_blank'
+                rel='noopener noreferrer'
+                >
+                  $1
+                </a>"
+            }}
+          `,
+          type: 'info'
+        }));
+        view.add(createButton({
+          className: 'ul-button button button-wide button-primary',
+          title: loc('oform.next', 'login'),
+          id: 'consent-button',
+          click: () => {
+            view.doLoopback(deviceChallenge);
+          }
+        }));
+      } else {
+        view.title = loc('deviceTrust.sso.redirectText', 'login');
+        view.add(View.extend({
+          className: 'loopback-content',
+          template: hbs`<div class="spinner"></div>`
+        }));
+        view.doLoopback(deviceChallenge);
+      }
+    });
     break;
   case Enums.CUSTOM_URI_CHALLENGE:
     view.title = loc('customUri.title', 'login');
