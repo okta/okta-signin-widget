@@ -20,6 +20,7 @@ const idx = {
 
   '/idp/idx/introspect': [
     'identify',
+    //'identify-with-unlock-account-link',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -434,6 +435,22 @@ const macOSAuthnHttpsLoopback = {
     'authenticator-verification-select-authenticator',
   ]
 };
+
+const FPTest = {
+  '/idp/idx/introspect': [
+    //'identify-with-device-probing-https-loopback', // 1 (response order)
+    //'authenticator-enroll-ov-email'
+    'fp-introspect-test'
+  ],
+  '/idp/idx/authenticators/poll': [
+    'step1-challenge-poll', // 1
+    'step2-challenge-poll', // 3
+    //'identify', // 4: as a signal of success
+  ],
+  '/idp/idx/device/poll': [
+    'device-poll-test'
+  ]
+}
 
 // device probe: silent probe failed, but probing is still required
 const desktopSmartProbe = {
@@ -1185,5 +1202,5 @@ const temporaryAccessCode = {
 };
 
 module.exports = {
-  mocks: idx
+  mocks: FPTest
 };
