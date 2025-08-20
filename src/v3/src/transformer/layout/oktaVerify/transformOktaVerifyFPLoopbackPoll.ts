@@ -29,25 +29,25 @@ import {
 import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../../util';
 
 const getChromeLnaPermissionState = async (
-  onPermissionChange: (shouldDoLoopback: boolean) => void,
+  onPermissionChange: (currentPermissionState?: PermissionState, initialPermissionState?: PermissionState) => void,
 ) => {
   try {
     const result = await navigator.permissions.query({ name: 'local-network-access' as any });
     const initialState = result.state;
     
     // Call the callback once initially to handle the initial state
-    onPermissionChange(initialState === 'granted');
+    onPermissionChange(result.state, initialState);
 
     // Listen for future permission changes
     const handlePermissionChange = () => {
       // We should only initiate loopback if the permission state is granted and started as granted
-      // Otherwise, we will trigger loopback directly from the info or error callout screens, which is unexpected UX
-      onPermissionChange(result.state === 'granted' && initialState === 'granted');
+      // Otherwise, we will trigger loopback directly from the error callout screens, which is unexpected UX
+      onPermissionChange(result.state, initialState);
     };
     
     result.addEventListener('change', handlePermissionChange);
   } catch (error) {
-    onPermissionChange(false);
+    onPermissionChange();
   }
 };
 
@@ -213,28 +213,32 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
     ...linkElements
   ];
 
-  getChromeLnaPermissionState((shouldDoLoopback) => {
+  getChromeLnaPermissionState((permissionState, initialPermissionState) => {
     uischema.elements = [];
-    if (shouldDoLoopback) {
-      uischema.elements = loopbackProbeElements;
+    if (permissionState) {
+      if (initialPermissionState === 'prompt') {
+        const stepper: StepperLayout = {
+          type: UISchemaLayoutType.STEPPER,
+          elements: [
+            {
+              type: UISchemaLayoutType.VERTICAL,
+              elements: infoCalloutElements.map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
+            } as UISchemaLayout,
+            {
+              type: UISchemaLayoutType.VERTICAL,
+              elements: loopbackProbeElements
+              .map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
+            } as UISchemaLayout,
+          ],
+        };
+        uischema.elements.push(stepper);
+      } else if (initialPermissionState === 'granted') {
+        uischema.elements = loopbackProbeElements;
+      } else if (initialPermissionState === 'denied') {
+        uischema.elements = errorCalloutElements;
+      }
     } else {
-      const stepper: StepperLayout = {
-        type: UISchemaLayoutType.STEPPER,
-        elements: [
-          {
-            type: UISchemaLayoutType.VERTICAL,
-            elements: infoCalloutElements.map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
-          } as UISchemaLayout,
-          {
-            type: UISchemaLayoutType.VERTICAL,
-            elements: shouldDoLoopback
-              ? loopbackProbeElements
-              : errorCalloutElements
-            .map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
-          } as UISchemaLayout,
-        ],
-      };
-      uischema.elements.push(stepper);
+      uischema.elements = loopbackProbeElements;
     }
   });
 
