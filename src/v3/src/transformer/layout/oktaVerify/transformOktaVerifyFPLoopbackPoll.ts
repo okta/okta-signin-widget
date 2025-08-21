@@ -10,39 +10,34 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { NextStep } from '@okta/okta-auth-js';
 import { IDX_STEP } from '../../../constants';
 import {
   ActionPendingElement,
+  ButtonElement,
   ButtonType,
   IdxStepTransformer,
   InfoboxElement,
   IWidgetContext,
   LinkElement,
   LoopbackProbeElement,
-  StepperButtonElement,
-  StepperLayout,
   TitleElement,
-  UISchemaElement,
   UISchemaLayout,
-  UISchemaLayoutType,
 } from '../../../types';
-import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../../util';
+import { hasMinAuthenticatorOptions, loc, makeRequest, supportsChromeLNA, updateTransactionWithNextStep } from '../../../util';
 
 const getChromeLnaPermissionState = async (
-  onPermissionChange: (currentPermissionState?: PermissionState, initialPermissionState?: PermissionState) => void,
+  onPermissionChange: (permissionState?: PermissionState) => void,
 ) => {
   try {
     const result = await navigator.permissions.query({ name: 'local-network-access' as any });
-    const initialState = result.state;
     
     // Call the callback once initially to handle the initial state
-    onPermissionChange(result.state, initialState);
+    onPermissionChange(result.state);
 
     // Listen for future permission changes
     const handlePermissionChange = () => {
-      // We should only initiate loopback if the permission state is granted and started as granted
-      // Otherwise, we will trigger loopback directly from the error callout screens, which is unexpected UX
-      onPermissionChange(result.state, initialState);
+      onPermissionChange(result.state);
     };
     
     result.addEventListener('change', handlePermissionChange);
@@ -52,9 +47,12 @@ const getChromeLnaPermissionState = async (
 };
 
 export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
+  prevTransaction,
   transaction,
   formBag,
 }) => {
+  const { nextStep: { name: prevStepName } = {} as NextStep } = prevTransaction ?? {};
+  const isRegisteredConditionSilentProbe = prevStepName === undefined;
   const { uischema } = formBag;
 
   const actionPendingElement: ActionPendingElement = {
@@ -67,7 +65,7 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
   const oktaFPRequiresPermissionTitleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: loc('chrome.lna.fast.pass.requires.permission.title', 'login')
+      content: loc('chrome.lna.fastpass.requires.permission.title', 'login')
     }
   }
 
@@ -139,13 +137,32 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
     }
   };
   
-  const consentButton: StepperButtonElement = {
-    type: 'StepperButton',
+  const consentButton: ButtonElement = {
+    type: 'Button',
     label: loc('chrome.lna.open.prompt.label', 'login'),
     options: {
       type: ButtonType.BUTTON,
       variant: 'primary',
-      nextStepIndex: 1,
+      step: transaction.nextStep?.name!,
+      onClick: () => {
+          const doCanaryLoopback = async () => {
+            let baseUrls = deviceChallengePayload.ports.map((port: string) => `${deviceChallengePayload.domain}:${port}`);
+            if (deviceChallengePayload.httpsDomain) {
+              const httpsBaseUrls = deviceChallengePayload.ports.map((port: string) => `${deviceChallengePayload.httpsDomain}:${port}`);
+              baseUrls = [...httpsBaseUrls, ...baseUrls];
+            }
+            if (baseUrls.length > 0) {
+              await makeRequest({
+                method: 'GET',
+                timeout: 100,
+                url: `${baseUrls[0]}/probe`,
+              });
+            }
+          }
+          doCanaryLoopback().catch((error) => {
+            console.error('Error during canary loopback:', error);
+          });
+      }
     },
   };
 
@@ -213,34 +230,32 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
     ...linkElements
   ];
 
-  getChromeLnaPermissionState((permissionState, initialPermissionState) => {
-    uischema.elements = [];
-    if (permissionState) {
-      if (initialPermissionState === 'prompt') {
-        const stepper: StepperLayout = {
-          type: UISchemaLayoutType.STEPPER,
-          elements: [
-            {
-              type: UISchemaLayoutType.VERTICAL,
-              elements: infoCalloutElements.map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
-            } as UISchemaLayout,
-            {
-              type: UISchemaLayoutType.VERTICAL,
-              elements: loopbackProbeElements
-              .map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
-            } as UISchemaLayout,
-          ],
-        };
-        uischema.elements.push(stepper);
-      } else if (initialPermissionState === 'granted') {
-        uischema.elements = loopbackProbeElements;
-      } else if (initialPermissionState === 'denied') {
-        uischema.elements = errorCalloutElements;
+  if (supportsChromeLNA()) {
+    getChromeLnaPermissionState((permissionState) => {
+      uischema.elements = [];
+      switch(permissionState) {
+        case 'prompt':
+          uischema.elements = infoCalloutElements;
+          break;
+        case 'granted':
+          uischema.elements = loopbackProbeElements;
+          break;
+        case 'denied':
+          if (!isRegisteredConditionSilentProbe) {
+            uischema.elements = errorCalloutElements;
+          } else {
+            uischema.elements = loopbackProbeElements;
+          }
+          break;
+        default:
+          uischema.elements = loopbackProbeElements;
+          break;
       }
-    } else {
-      uischema.elements = loopbackProbeElements;
-    }
-  });
+    });
+  } else {
+    uischema.elements = loopbackProbeElements;
+  }
+
 
   return formBag;
 };

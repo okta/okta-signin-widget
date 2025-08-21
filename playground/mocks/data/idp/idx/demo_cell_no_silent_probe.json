@@ -1,0 +1,276 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "02.id.CTn85aiGWIEtJtnfY8eopNyF3e4OP4JnwJqq5Hrj~c.VUd7CdmyX39Ieodus6eXNFKiOmsGUIOenjMoTn5Vb50ToEfnmVSd4zPNp_UaxnJc6XHkN86EWpyc68WkWbZgFW281Y45Cx6gEZ9ju_GJXA0dIpXmy_zTHd9K1wbx5mnwL01E6XIAMK8f9ZMrVb8wy9TtA1AbmBqjhwEYU254mCOUapKvpcQuQauVtKkzOYSHf4akMSnbWcub8_wIJmvX7stKnPLxLLGiVTgEvi5SaPMugXw5FkR2IghiefXr9nUAUrjBrHoZaB_TnIOo9UmjXIOMZ_On7GmRL7TvOMAskz85hxb5IJBnXQ0McROMyn9DSx7w9lvnYVtCSeYXMJIcMeZWiyGVkc8RkiRz1mV-girQye0jin1XERROs-P-PEd70v6M6XFQaI9w5fcY6f4q3AzM6BqyvSz4Oy6h1OE6PbX5ksy9qNPg3XVZKpFzMeRGY27dbxy32z28870fPx9Xvrc9UloXMrIrCcKcCukrr5Ap45iHDxSnWGY-j5dJc_Hhz2TLI1ugctcZW6P72_8_hca2_A2OO2DMq82eBExZ6SCw9i6ubkBIUyqVVFl6HgonI2rZiy0dY5HOnDilhUuVT6MB1QFKJlijSKWhg6Fe0AdH4gKXevH7eOl83vzFDOQlWD1skIg341N1lqnR574Rltna8eLn0Av9a6xu5OuptJs-Spj1QEJxwnsvXSZ_D2NJx3nlJXCus7W-IrgdnS0Vl_waTqEFoS8mWdJxE-P0pM8diWBgVTtn4xBeWwUqy2jLv53h9ioYkqiSqzz1tICfb2DiKsWBaGa6XUH4grM9WIV7ccSfi8ESY_lhgs2cC6gvp5eOZsFoMDsiWDw48IunW39Nrk3KywK4Wqmzrc9i3LKcZvpZnQ70sTtIfrMag5Ged-p15-L44QvyBqiuhzC3N64WZsWi2lcCI8sM_48FHxnLC_1Fp9ZN7eSwm28kFX2FV4RvF5EIHAxd1pYno3XbfQmIus9U-wPxCuJx5SSLjd9XyZfwyAt8NscHuUg5URJ_clQ2dVZYfqeyp3WBlv-WPF68hqYc11gFu08qvPO5y2hGcdJe9F7kvDGRNldCIer2kPnuH9b5heXxLS31tLH2srHXuJIkoG6PdEIx_dt40Z2vY483oOceN-Ga5rQIb4ZSRzKl3BCy-WPTz8aybYXFnqjFXmZlQmgjuumaVxazJz_T85cfcvRz2YW_se0NIxeXBzAb142zAa8Ur97Ag_zh0Q",
+    "expiresAt": "2025-08-21T15:41:59.000Z",
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "challenge-poll",
+                "relatesTo": [
+                    "$.currentAuthenticator"
+                ],
+                "href": "https://trevor-ing-hi3.hioktane.com/idp/idx/authenticators/poll",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "refresh": 4000,
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.CTn85aiGWIEtJtnfY8eopNyF3e4OP4JnwJqq5Hrj~c.VUd7CdmyX39Ieodus6eXNFKiOmsGUIOenjMoTn5Vb50ToEfnmVSd4zPNp_UaxnJc6XHkN86EWpyc68WkWbZgFW281Y45Cx6gEZ9ju_GJXA0dIpXmy_zTHd9K1wbx5mnwL01E6XIAMK8f9ZMrVb8wy9TtA1AbmBqjhwEYU254mCOUapKvpcQuQauVtKkzOYSHf4akMSnbWcub8_wIJmvX7stKnPLxLLGiVTgEvi5SaPMugXw5FkR2IghiefXr9nUAUrjBrHoZaB_TnIOo9UmjXIOMZ_On7GmRL7TvOMAskz85hxb5IJBnXQ0McROMyn9DSx7w9lvnYVtCSeYXMJIcMeZWiyGVkc8RkiRz1mV-girQye0jin1XERROs-P-PEd70v6M6XFQaI9w5fcY6f4q3AzM6BqyvSz4Oy6h1OE6PbX5ksy9qNPg3XVZKpFzMeRGY27dbxy32z28870fPx9Xvrc9UloXMrIrCcKcCukrr5Ap45iHDxSnWGY-j5dJc_Hhz2TLI1ugctcZW6P72_8_hca2_A2OO2DMq82eBExZ6SCw9i6ubkBIUyqVVFl6HgonI2rZiy0dY5HOnDilhUuVT6MB1QFKJlijSKWhg6Fe0AdH4gKXevH7eOl83vzFDOQlWD1skIg341N1lqnR574Rltna8eLn0Av9a6xu5OuptJs-Spj1QEJxwnsvXSZ_D2NJx3nlJXCus7W-IrgdnS0Vl_waTqEFoS8mWdJxE-P0pM8diWBgVTtn4xBeWwUqy2jLv53h9ioYkqiSqzz1tICfb2DiKsWBaGa6XUH4grM9WIV7ccSfi8ESY_lhgs2cC6gvp5eOZsFoMDsiWDw48IunW39Nrk3KywK4Wqmzrc9i3LKcZvpZnQ70sTtIfrMag5Ged-p15-L44QvyBqiuhzC3N64WZsWi2lcCI8sM_48FHxnLC_1Fp9ZN7eSwm28kFX2FV4RvF5EIHAxd1pYno3XbfQmIus9U-wPxCuJx5SSLjd9XyZfwyAt8NscHuUg5URJ_clQ2dVZYfqeyp3WBlv-WPF68hqYc11gFu08qvPO5y2hGcdJe9F7kvDGRNldCIer2kPnuH9b5heXxLS31tLH2srHXuJIkoG6PdEIx_dt40Z2vY483oOceN-Ga5rQIb4ZSRzKl3BCy-WPTz8aybYXFnqjFXmZlQmgjuumaVxazJz_T85cfcvRz2YW_se0NIxeXBzAb142zAa8Ur97Ag_zh0Q",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "select-authenticator-authenticate",
+                "href": "https://trevor-ing-hi3.hioktane.com/idp/idx/challenge",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "authenticator",
+                        "type": "object",
+                        "options": [
+                            {
+                                "label": "Okta Verify",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "autchcbonm1gIKYJX1c5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "type": "string",
+                                                "required": false,
+                                                "options": [
+                                                    {
+                                                        "label": "Use Okta FastPass",
+                                                        "value": "signed_nonce"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticators.value[0]"
+                            },
+                            {
+                                "label": "Password",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "autchcbjMZXobsAhF1c5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "password",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[1]"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.CTn85aiGWIEtJtnfY8eopNyF3e4OP4JnwJqq5Hrj~c.VUd7CdmyX39Ieodus6eXNFKiOmsGUIOenjMoTn5Vb50ToEfnmVSd4zPNp_UaxnJc6XHkN86EWpyc68WkWbZgFW281Y45Cx6gEZ9ju_GJXA0dIpXmy_zTHd9K1wbx5mnwL01E6XIAMK8f9ZMrVb8wy9TtA1AbmBqjhwEYU254mCOUapKvpcQuQauVtKkzOYSHf4akMSnbWcub8_wIJmvX7stKnPLxLLGiVTgEvi5SaPMugXw5FkR2IghiefXr9nUAUrjBrHoZaB_TnIOo9UmjXIOMZ_On7GmRL7TvOMAskz85hxb5IJBnXQ0McROMyn9DSx7w9lvnYVtCSeYXMJIcMeZWiyGVkc8RkiRz1mV-girQye0jin1XERROs-P-PEd70v6M6XFQaI9w5fcY6f4q3AzM6BqyvSz4Oy6h1OE6PbX5ksy9qNPg3XVZKpFzMeRGY27dbxy32z28870fPx9Xvrc9UloXMrIrCcKcCukrr5Ap45iHDxSnWGY-j5dJc_Hhz2TLI1ugctcZW6P72_8_hca2_A2OO2DMq82eBExZ6SCw9i6ubkBIUyqVVFl6HgonI2rZiy0dY5HOnDilhUuVT6MB1QFKJlijSKWhg6Fe0AdH4gKXevH7eOl83vzFDOQlWD1skIg341N1lqnR574Rltna8eLn0Av9a6xu5OuptJs-Spj1QEJxwnsvXSZ_D2NJx3nlJXCus7W-IrgdnS0Vl_waTqEFoS8mWdJxE-P0pM8diWBgVTtn4xBeWwUqy2jLv53h9ioYkqiSqzz1tICfb2DiKsWBaGa6XUH4grM9WIV7ccSfi8ESY_lhgs2cC6gvp5eOZsFoMDsiWDw48IunW39Nrk3KywK4Wqmzrc9i3LKcZvpZnQ70sTtIfrMag5Ged-p15-L44QvyBqiuhzC3N64WZsWi2lcCI8sM_48FHxnLC_1Fp9ZN7eSwm28kFX2FV4RvF5EIHAxd1pYno3XbfQmIus9U-wPxCuJx5SSLjd9XyZfwyAt8NscHuUg5URJ_clQ2dVZYfqeyp3WBlv-WPF68hqYc11gFu08qvPO5y2hGcdJe9F7kvDGRNldCIer2kPnuH9b5heXxLS31tLH2srHXuJIkoG6PdEIx_dt40Z2vY483oOceN-Ga5rQIb4ZSRzKl3BCy-WPTz8aybYXFnqjFXmZlQmgjuumaVxazJz_T85cfcvRz2YW_se0NIxeXBzAb142zAa8Ur97Ag_zh0Q",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            }
+        ]
+    },
+    "currentAuthenticator": {
+        "type": "object",
+        "value": {
+            "cancel": {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "cancel-polling",
+                "href": "https://trevor-ing-hi3.hioktane.com/idp/idx/authenticators/poll/cancel",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.CTn85aiGWIEtJtnfY8eopNyF3e4OP4JnwJqq5Hrj~c.VUd7CdmyX39Ieodus6eXNFKiOmsGUIOenjMoTn5Vb50ToEfnmVSd4zPNp_UaxnJc6XHkN86EWpyc68WkWbZgFW281Y45Cx6gEZ9ju_GJXA0dIpXmy_zTHd9K1wbx5mnwL01E6XIAMK8f9ZMrVb8wy9TtA1AbmBqjhwEYU254mCOUapKvpcQuQauVtKkzOYSHf4akMSnbWcub8_wIJmvX7stKnPLxLLGiVTgEvi5SaPMugXw5FkR2IghiefXr9nUAUrjBrHoZaB_TnIOo9UmjXIOMZ_On7GmRL7TvOMAskz85hxb5IJBnXQ0McROMyn9DSx7w9lvnYVtCSeYXMJIcMeZWiyGVkc8RkiRz1mV-girQye0jin1XERROs-P-PEd70v6M6XFQaI9w5fcY6f4q3AzM6BqyvSz4Oy6h1OE6PbX5ksy9qNPg3XVZKpFzMeRGY27dbxy32z28870fPx9Xvrc9UloXMrIrCcKcCukrr5Ap45iHDxSnWGY-j5dJc_Hhz2TLI1ugctcZW6P72_8_hca2_A2OO2DMq82eBExZ6SCw9i6ubkBIUyqVVFl6HgonI2rZiy0dY5HOnDilhUuVT6MB1QFKJlijSKWhg6Fe0AdH4gKXevH7eOl83vzFDOQlWD1skIg341N1lqnR574Rltna8eLn0Av9a6xu5OuptJs-Spj1QEJxwnsvXSZ_D2NJx3nlJXCus7W-IrgdnS0Vl_waTqEFoS8mWdJxE-P0pM8diWBgVTtn4xBeWwUqy2jLv53h9ioYkqiSqzz1tICfb2DiKsWBaGa6XUH4grM9WIV7ccSfi8ESY_lhgs2cC6gvp5eOZsFoMDsiWDw48IunW39Nrk3KywK4Wqmzrc9i3LKcZvpZnQ70sTtIfrMag5Ged-p15-L44QvyBqiuhzC3N64WZsWi2lcCI8sM_48FHxnLC_1Fp9ZN7eSwm28kFX2FV4RvF5EIHAxd1pYno3XbfQmIus9U-wPxCuJx5SSLjd9XyZfwyAt8NscHuUg5URJ_clQ2dVZYfqeyp3WBlv-WPF68hqYc11gFu08qvPO5y2hGcdJe9F7kvDGRNldCIer2kPnuH9b5heXxLS31tLH2srHXuJIkoG6PdEIx_dt40Z2vY483oOceN-Ga5rQIb4ZSRzKl3BCy-WPTz8aybYXFnqjFXmZlQmgjuumaVxazJz_T85cfcvRz2YW_se0NIxeXBzAb142zAa8Ur97Ag_zh0Q",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            "contextualData": {
+                "challenge": {
+                    "type": "object",
+                    "value": {
+                        "challengeMethod": "LOOPBACK",
+                        "challengeRequest": "eyJraWQiOiJDZXFvWEY5b0dTX0tNVElCdXNuZjRGRUppTXpIR1NlTm9aVG5NamVCYy1FIiwidHlwIjoib2t0YS1kZXZpY2ViaW5kK2p3dCIsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJodHRwczovL3RyZXZvci1pbmctaGkzLmhpb2t0YW5lLmNvbSIsImF1ZCI6Im9rdGEuNjNjMDgxZGItMWYxMy01MDg0LTg4MmYtZTc5ZTFlNWUyZGE3IiwiZXhwIjoxNzU1NzkwOTE5LCJpYXQiOjE3NTU3OTA2MTksImp0aSI6ImZ0Y09XSGNZeEp4eDBfT2dLWENmOF9fdGxTSVo3T3FqMFIiLCJub25jZSI6InpUQXZTRkpQSnc2NlZ4SEJjd3YyIiwidHJhbnNhY3Rpb25JZCI6ImZ0Y09XSGNZeEp4eDBfT2dLWENmOF9fdGxTSVo3T3FqMFIiLCJzaWduYWxzIjpbImlkIiwiZGlzcGxheU5hbWUiLCJwbGF0Zm9ybSIsIm1hbnVmYWN0dXJlciIsIm1vZGVsIiwib3NWZXJzaW9uIiwic2VyaWFsTnVtYmVyIiwidWRpZCIsInNpZCIsImltZWkiLCJtZWlkIiwidHBtUHVibGljS2V5SGFzaCIsInNlY3VyZUhhcmR3YXJlUHJlc2VudCIsImRldmljZUF0dGVzdGF0aW9uIiwiZGV2aWNlSW50ZWdyaXR5Iiwic2NyZWVuTG9ja1R5cGUiLCJkaXNrRW5jcnlwdGlvblR5cGUiLCJjbGllbnRJbnN0YW5jZUJ1bmRsZUlkIiwiY2xpZW50SW5zdGFuY2VEZXZpY2VTZGtWZXJzaW9uIiwiY2xpZW50SW5zdGFuY2VJZCIsImNsaWVudEluc3RhbmNlVmVyc2lvbiJdLCJ2ZXJpZmljYXRpb25VcmkiOiJodHRwczovL3RyZXZvci1pbmctaGkzLmhpb2t0YW5lLmNvbS9pZHAvYXV0aGVudGljYXRvcnMvYXV0Y2hjYm9ubTFnSUtZSlgxYzUvdHJhbnNhY3Rpb25zL2Z0Y09XSGNZeEp4eDBfT2dLWENmOF9fdGxTSVo3T3FqMFIvdmVyaWZ5IiwibWRtQXR0ZXN0YXRpb25Jc3N1ZXJzIjpbXSwia2V5VHlwZXMiOlsidXNlclZlcmlmaWNhdGlvbiIsInByb29mT2ZQb3NzZXNzaW9uIl0sIm9yZ0lkIjoiMDBvY2hjNmtHZXR6WVhkUlgxYzUiLCJhcHBJbnN0YW5jZU5hbWUiOiJPa3RhIERhc2hib2FyZCIsIm1ldGhvZCI6InNpZ25lZF9ub25jZSIsInJlcXVlc3RSZWZlcnJlciI6Imh0dHBzOi8vdHJldm9yLWluZy1oaTMuaGlva3RhbmUuY29tIiwidXNlcklkIjoiMDB1Y2kydzNONjhyakVkS2YxYzUiLCJsb2dpbkhpbnQiOiJ0ZXN0QG9rdGEuY29tIiwidXNlck1lZGlhdGlvbiI6IlJFUVVJUkVEIiwidXNlclZlcmlmaWNhdGlvbiI6IlBSRUZFUlJFRCIsInZlciI6MH0.cLx_a80Dbu2CAQ1UEAHNSylIUNJzXvKE43EQhzeU6tnvcL7CZOf0S_qIVj4qT7SDQKyD95h0CANuePKABumEyJh7S4hiD8dXPc5LY7EKkwM4W8GGV05uCPkJE41g69GuVrP8rFnBTsMaVzQvfuAoSITHoWYOkRhbhVhngCShY4bp_HRktIKGZun4zeqnn_H9njla6wK6DHoy8Yb8DrDis4MnS844MjWPm44whXlCifDgZ-kqV4xuOHxV9Lt8LUfMO5z6iJlVOoftDWnIXUs1WBUV5SMdl4v1EqpQ8t7ykbDfjknvmYQPYdZJuHPkJa2Ztqmv2Lq_XGf-9I_fB8xLZg",
+                        "domain": "http://127.0.0.1",
+                        "httpsDomain": "https://00ochc6kGetzYXdRX1c5.authenticatorlocaldev.com",
+                        "ports": [
+                            "8769",
+                            "65111",
+                            "65121",
+                            "65131",
+                            "65141",
+                            "65151"
+                        ],
+                        "probeTimeoutMillis": 3000,
+                        "enhancedPollingEnabled": true
+                    }
+                }
+            },
+            "type": "app",
+            "key": "okta_verify",
+            "id": "autchcbonm1gIKYJX1c5",
+            "displayName": "Okta Verify",
+            "methods": [
+                {
+                    "type": "signed_nonce"
+                }
+            ]
+        }
+    },
+    "authenticators": {
+        "type": "array",
+        "value": [
+            {
+                "type": "app",
+                "key": "okta_verify",
+                "id": "autchcbonm1gIKYJX1c5",
+                "displayName": "Okta Verify",
+                "methods": [
+                    {
+                        "type": "signed_nonce"
+                    }
+                ],
+                "allowedFor": "none"
+            },
+            {
+                "type": "password",
+                "key": "okta_password",
+                "id": "autchcbjMZXobsAhF1c5",
+                "displayName": "Password",
+                "methods": [
+                    {
+                        "type": "password"
+                    }
+                ],
+                "allowedFor": "none"
+            }
+        ]
+    },
+    "authenticatorEnrollments": {
+        "type": "array",
+        "value": [
+            {
+                "profile": {
+                    "deviceName": "CQ772H0XR7"
+                },
+                "type": "app",
+                "key": "okta_verify",
+                "id": "pfdci4fqsGhXt9bFw1c5",
+                "displayName": "Okta Verify",
+                "methods": [
+                    {
+                        "type": "signed_nonce"
+                    }
+                ]
+            },
+            {
+                "type": "password",
+                "key": "okta_password",
+                "id": "lae6vu8xQ77IoVpyA1c5",
+                "displayName": "Password",
+                "methods": [
+                    {
+                        "type": "password"
+                    }
+                ]
+            }
+        ]
+    },
+    "user": {
+        "type": "object",
+        "value": {
+            "identifier": "test@okta.com"
+        }
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "https://trevor-ing-hi3.hioktane.com/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "02.id.CTn85aiGWIEtJtnfY8eopNyF3e4OP4JnwJqq5Hrj~c.VUd7CdmyX39Ieodus6eXNFKiOmsGUIOenjMoTn5Vb50ToEfnmVSd4zPNp_UaxnJc6XHkN86EWpyc68WkWbZgFW281Y45Cx6gEZ9ju_GJXA0dIpXmy_zTHd9K1wbx5mnwL01E6XIAMK8f9ZMrVb8wy9TtA1AbmBqjhwEYU254mCOUapKvpcQuQauVtKkzOYSHf4akMSnbWcub8_wIJmvX7stKnPLxLLGiVTgEvi5SaPMugXw5FkR2IghiefXr9nUAUrjBrHoZaB_TnIOo9UmjXIOMZ_On7GmRL7TvOMAskz85hxb5IJBnXQ0McROMyn9DSx7w9lvnYVtCSeYXMJIcMeZWiyGVkc8RkiRz1mV-girQye0jin1XERROs-P-PEd70v6M6XFQaI9w5fcY6f4q3AzM6BqyvSz4Oy6h1OE6PbX5ksy9qNPg3XVZKpFzMeRGY27dbxy32z28870fPx9Xvrc9UloXMrIrCcKcCukrr5Ap45iHDxSnWGY-j5dJc_Hhz2TLI1ugctcZW6P72_8_hca2_A2OO2DMq82eBExZ6SCw9i6ubkBIUyqVVFl6HgonI2rZiy0dY5HOnDilhUuVT6MB1QFKJlijSKWhg6Fe0AdH4gKXevH7eOl83vzFDOQlWD1skIg341N1lqnR574Rltna8eLn0Av9a6xu5OuptJs-Spj1QEJxwnsvXSZ_D2NJx3nlJXCus7W-IrgdnS0Vl_waTqEFoS8mWdJxE-P0pM8diWBgVTtn4xBeWwUqy2jLv53h9ioYkqiSqzz1tICfb2DiKsWBaGa6XUH4grM9WIV7ccSfi8ESY_lhgs2cC6gvp5eOZsFoMDsiWDw48IunW39Nrk3KywK4Wqmzrc9i3LKcZvpZnQ70sTtIfrMag5Ged-p15-L44QvyBqiuhzC3N64WZsWi2lcCI8sM_48FHxnLC_1Fp9ZN7eSwm28kFX2FV4RvF5EIHAxd1pYno3XbfQmIus9U-wPxCuJx5SSLjd9XyZfwyAt8NscHuUg5URJ_clQ2dVZYfqeyp3WBlv-WPF68hqYc11gFu08qvPO5y2hGcdJe9F7kvDGRNldCIer2kPnuH9b5heXxLS31tLH2srHXuJIkoG6PdEIx_dt40Z2vY483oOceN-Ga5rQIb4ZSRzKl3BCy-WPTz8aybYXFnqjFXmZlQmgjuumaVxazJz_T85cfcvRz2YW_se0NIxeXBzAb142zAa8Ur97Ag_zh0Q",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "okta_enduser",
+            "label": "Okta Dashboard",
+            "id": "0oachc7miiHfHgPyw1c5"
+        }
+    },
+    "authentication": {
+        "type": "object",
+        "value": {
+            "protocol": "OAUTH2.0",
+            "issuer": {
+                "name": "Trevor Ing HI3",
+                "uri": "https://trevor-ing-hi3.hioktane.com"
+            },
+            "request": {
+                "max_age": -1,
+                "scope": "openid profile email okta.users.read.self okta.users.manage.self okta.internal.enduser.read okta.internal.enduser.manage okta.enduser.dashboard.read okta.enduser.dashboard.manage okta.myAccount.sessions.manage okta.internal.navigation.enduser.read",
+                "display": "page",
+                "response_type": "code",
+                "redirect_uri": "https://trevor-ing-hi3.hioktane.com/enduser/callback",
+                "state": "QpWs0OLLZuKFvZ2HMUSJJql4LcELeHj92rA95KASPIIVWobDVDo4ZbzjQp8QG1TD",
+                "code_challenge_method": "S256",
+                "nonce": "WgW772RRgH0ppLLLgoxqcGWV3GayTCq1wyLDopW1qx7Zz5uxo5GfCoOPpwWoEXcx",
+                "code_challenge": "R93sy4bejtk6AglRC-A_2ur9V2XGmzjcppaWZEqNIKs",
+                "response_mode": "query"
+            }
+        }
+    }
+}

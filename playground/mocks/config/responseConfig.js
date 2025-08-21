@@ -19,7 +19,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'device-assurance-grace-period-one-option',
+    'identify-with-device-probing-loopback',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -428,7 +428,7 @@ const macOSAuthnHttpsLoopback = {
   '/idp/idx/authenticators/poll': [
     'identify-with-device-probing-https-loopback', // 2
     'identify-with-device-probing-https-loopback', // 3
-    'identify', // 4: as a signal of success
+    // 'identify', // 4: as a signal of success
   ],
   '/idp/idx/authenticators/poll/cancel': [
     'authenticator-verification-select-authenticator',
@@ -438,13 +438,13 @@ const macOSAuthnHttpsLoopback = {
 // device probe: silent probe failed, but probing is still required
 const desktopSmartProbe = {
   '/idp/idx/introspect': [
-    'identify-with-device-probing-loopback',
-  ],
-  '/idp/idx/authenticators/poll': [
-    'identify',
+    'identify-with-device-probing-loopback-challenge-not-received',
   ],
   '/idp/idx/authenticators/okta-verify/launch': [
-    'identify-with-device-launch-authenticator',
+    'demo_cell_launch_ov_button',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'identify-with-device-probing-https-loopback', // 2
   ],
   '/idp/idx/authenticators/poll/cancel': [
     'smart-probing-required',
@@ -1185,5 +1185,5 @@ const temporaryAccessCode = {
 };
 
 module.exports = {
-  mocks: idx
+  mocks: macOSAuthnHttpsLoopback
 };

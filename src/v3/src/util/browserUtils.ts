@@ -23,4 +23,21 @@ export const isIOS = (): boolean => (
     || (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
 );
 
+export const supportsChromeLNA = (): boolean => {
+  const minVersion = 138;
+
+  const userAgent = navigator.userAgent;
+  const match = userAgent.match(/Chrom(?:e|ium)\/([0-9]+)\./);
+
+  if (match && match[1]) {
+      const majorVersion = parseInt(match[1], 10);
+      if (!isNaN(majorVersion) && majorVersion >= minVersion) {
+          return true;
+      }
+  }
+
+  // If no match is found or the version is too low, return false.
+  return false;
+}
+
 export const isAndroidOrIOS = (): boolean => isAndroid() || isIOS();
