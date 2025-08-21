@@ -4,9 +4,10 @@
 export DOCKOLITH_DOWNSTREAM=""
 
 if [[ -z ${DOCKOLITH_VERSION} ]]; then
-  export DOCKOLITH_VERSION="${DOCKOLITH_DOWNSTREAM:-1.9.1}"
+  export DOCKOLITH_VERSION="${DOCKOLITH_DOWNSTREAM:-3.3.0}"
 fi
 
+setup_service "docker-compose" "2.23.0"
 setup_service dockolith $DOCKOLITH_VERSION
 log_custom_message "Dockolith Version" "$(dockolith --version)"
 
