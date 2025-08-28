@@ -14,10 +14,17 @@ import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/identify/securityquestion-verify.json';
+import mockResponseNoProfile from '../../src/mocks/response/idp/idx/identify/securityquestion-verify-no-profile.json';
 
 describe('authenticator-verification-security-question', () => {
   it('renders form', async () => {
     const { container, findByText } = await setup({ mockResponse });
+    await findByText(/Verify with your Security Question/);
+    expect(container).toMatchSnapshot();
+  });
+
+  it('renders form when idx response does not have profile in currentAuthenticatorEnrollment', async () => {
+    const { container, findByText } = await setup({ mockResponse: mockResponseNoProfile });
     await findByText(/Verify with your Security Question/);
     expect(container).toMatchSnapshot();
   });
