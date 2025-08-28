@@ -12,6 +12,7 @@
 
 import { Input, NextStep } from '@okta/okta-auth-js';
 
+import Logger from '../../../../../util/Logger';
 import {
   ButtonElement,
   ButtonType,
@@ -22,7 +23,6 @@ import {
 } from '../../../types';
 import { loc } from '../../../util';
 import { getUIElementWithName } from '../../utils';
-import Logger from '../../../../../util/Logger';
 
 export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep: { relatesTo, inputs } = {} as NextStep } = transaction;
@@ -40,13 +40,13 @@ export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transactio
     uischema.elements as UISchemaElement[],
   ) as FieldElement;
   const securityQuestionProfileKey = relatesTo?.value?.profile?.questionKey;
-  let securityQuestion = ''
+  let securityQuestion = '';
   if (securityQuestionProfileKey === 'custom') {
     // get the custom security question from profile
     securityQuestion = relatesTo?.value?.profile?.question as string;
-  } else if (!!securityQuestionProfileKey) {
+  } else if (securityQuestionProfileKey) {
     // get the security question from i18n with valid key
-    securityQuestion = loc(`security.${securityQuestionProfileKey}`, 'login')
+    securityQuestion = loc(`security.${securityQuestionProfileKey}`, 'login');
   } else {
     // get the security question from inputs and i18n
     Logger.warn('Security question key missing from profile, getting from inputs');

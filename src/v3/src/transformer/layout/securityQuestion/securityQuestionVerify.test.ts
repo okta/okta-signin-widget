@@ -119,7 +119,7 @@ describe('SecurityQuestionVerify Tests', () => {
       name: 'mock-step',
       relatesTo: {
         value: {
-          profile: {} // no questionKey in profile
+          profile: {}, // no questionKey in profile
         } as unknown as IdxAuthenticator,
       },
       inputs: [
@@ -135,10 +135,10 @@ describe('SecurityQuestionVerify Tests', () => {
             {
               name: 'answer',
               label: 'Answer',
-            }
-          ]
-        }
-      ]
+            },
+          ],
+        },
+      ],
     };
     const updatedFormBag = transformSecurityQuestionVerify({ transaction, formBag, widgetProps });
 
@@ -175,43 +175,43 @@ describe('SecurityQuestionVerify Tests', () => {
       'input[0].value is undefined',
       [
         {
-          value: undefined
-        }
-      ]
+          value: undefined,
+        },
+      ],
     ],
     [
       'input[0].value is empty array',
       [
         {
-          value: []
-        }
-      ]
+          value: [],
+        },
+      ],
     ],
     [
       'input[0].value does not have questionKey name',
       [
         {
-          value: [{name: 'answer'}]
-        }
-      ]
+          value: [{ name: 'answer' }],
+        },
+      ],
     ],
     [
       'input[0].value does not have questionKey value',
       [
         {
-          value: [{name: 'questionKey'}]
-        }
-      ]
+          value: [{ name: 'questionKey' }],
+        },
+      ],
     ],
-  ])('can not find the security question from remediation inputs when %s', function(_, inputs) {
+  ])('can not find the security question from remediation inputs when %s', (_, inputs) => {
     transaction.nextStep = {
       name: 'mock-step',
       relatesTo: {
         value: {
-          profile: {} // no questionKey in profile
+          profile: {}, // no questionKey in profile
         } as unknown as IdxAuthenticator,
       },
-      inputs: inputs as Input[]
+      inputs: inputs as Input[],
     };
     const updatedFormBag = transformSecurityQuestionVerify({ transaction, formBag, widgetProps });
     expect(updatedFormBag.uischema.elements.length).toBe(3);
