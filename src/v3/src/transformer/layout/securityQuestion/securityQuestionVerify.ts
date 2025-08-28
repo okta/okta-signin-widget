@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { NextStep } from '@okta/okta-auth-js';
+import { Input, NextStep } from '@okta/okta-auth-js';
 
 import {
   ButtonElement,
@@ -22,9 +22,10 @@ import {
 } from '../../../types';
 import { loc } from '../../../util';
 import { getUIElementWithName } from '../../utils';
+import Logger from '../../../../../util/Logger';
 
 export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transaction, formBag }) => {
-  const { nextStep: { relatesTo } = {} as NextStep } = transaction;
+  const { nextStep: { relatesTo, inputs } = {} as NextStep } = transaction;
   const { uischema } = formBag;
 
   const titleElement: TitleElement = {
@@ -38,12 +39,17 @@ export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transactio
     'credentials.answer',
     uischema.elements as UISchemaElement[],
   ) as FieldElement;
+  let securityQuestionKey = relatesTo?.value?.profile?.questionKey;
+  if (!securityQuestionKey) {
+    Logger.warn('Security question key is missing from profile, getting from inputs');
+    securityQuestionKey = (inputs?.[0].value as Input[]).find(({ name }) => name === 'questionKey')?.value;
+  }
   answerElement.translations = [{
     name: 'label',
     i18nKey: '',
-    value: relatesTo?.value?.profile?.questionKey === 'custom'
+    value: securityQuestionKey === 'custom'
       ? relatesTo?.value?.profile?.question as string
-      : loc(`security.${relatesTo?.value?.profile?.questionKey}`, 'login'),
+      : loc(`security.${securityQuestionKey}`, 'login'),
   }];
 
   // TODO: this should be cleaned up once backend API was fixed.
