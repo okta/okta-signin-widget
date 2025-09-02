@@ -114,7 +114,38 @@ describe('SecurityQuestionVerify Tests', () => {
       .toBe(ButtonType.SUBMIT);
   });
 
-  it('should create security question verify UI elements from remediation inputs', () => {
+  it.each([
+    [
+      'question key should be localized',
+      [
+        {
+          name: 'questionKey',
+          label: 'What is the food you least liked as a child (locale=en)?',
+          value: 'disliked_food',
+        },
+        {
+          name: 'answer',
+          label: 'Answer',
+        },
+      ],
+      'security.disliked_food',
+    ],
+    [
+      'question is custom',
+      [
+        {
+          name: 'questionKey',
+          label: 'What is the answer to this custom question?',
+          value: 'custom',
+        },
+        {
+          name: 'answer',
+          label: 'Answer',
+        },
+      ],
+      'What is the answer to this custom question?',
+    ],
+  ])('should create security question verify UI elements from remediation inputs when %s', (_, inputsValue, expected) => {
     transaction.nextStep = {
       name: 'mock-step',
       relatesTo: {
@@ -126,17 +157,7 @@ describe('SecurityQuestionVerify Tests', () => {
         {
           name: 'credentials',
           type: 'object',
-          value: [
-            {
-              name: 'questionKey',
-              label: 'What is the food you least liked as a child (locale=en)?',
-              value: 'disliked_food',
-            },
-            {
-              name: 'answer',
-              label: 'Answer',
-            },
-          ],
+          value: inputsValue,
         },
       ],
     };
@@ -158,7 +179,7 @@ describe('SecurityQuestionVerify Tests', () => {
       .toEqual({
         i18nKey: '',
         name: 'label',
-        value: 'security.disliked_food',
+        value: expected,
       });
 
     // submit button

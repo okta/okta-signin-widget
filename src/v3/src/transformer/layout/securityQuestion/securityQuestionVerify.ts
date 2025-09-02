@@ -52,9 +52,9 @@ export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transactio
     Logger.warn('Security question key missing from profile, getting from inputs');
     const sequrityQuestionInput = (inputs?.[0]?.value as Input[])?.find(({ name }) => name === 'questionKey');
     const securityQuestionKey = sequrityQuestionInput?.value;
-    securityQuestion = securityQuestionKey === 'custom' ?
-      sequrityQuestionInput?.label as string :
-      loc(`security.${securityQuestionKey}`, 'login');
+    securityQuestion = securityQuestionKey === 'custom'
+      ? sequrityQuestionInput?.label as string
+      : loc(`security.${securityQuestionKey}`, 'login');
   }
   answerElement.translations = [{
     name: 'label',
