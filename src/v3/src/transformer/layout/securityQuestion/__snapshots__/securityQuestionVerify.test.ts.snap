@@ -101,3 +101,105 @@ Object {
   },
 }
 `;
+
+exports[`SecurityQuestionVerify Tests should create security question verify UI elements from remediation inputs when question is custom 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.security.question.challenge.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "noTranslate": true,
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.answer",
+            "secret": true,
+          },
+        },
+        "translations": Array [
+          Object {
+            "i18nKey": "",
+            "name": "label",
+            "value": "What is the answer to this custom question?",
+          },
+        ],
+        "type": "Field",
+      },
+      Object {
+        "label": "oform.verify",
+        "options": Object {
+          "step": "mock-step",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`SecurityQuestionVerify Tests should create security question verify UI elements from remediation inputs when question key should be localized 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.security.question.challenge.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "noTranslate": true,
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.answer",
+            "secret": true,
+          },
+        },
+        "translations": Array [
+          Object {
+            "i18nKey": "",
+            "name": "label",
+            "value": "security.disliked_food",
+          },
+        ],
+        "type": "Field",
+      },
+      Object {
+        "label": "oform.verify",
+        "options": Object {
+          "step": "mock-step",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

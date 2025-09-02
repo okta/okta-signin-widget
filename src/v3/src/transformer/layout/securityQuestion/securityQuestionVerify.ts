@@ -10,8 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { NextStep } from '@okta/okta-auth-js';
+import { Input, NextStep } from '@okta/okta-auth-js';
 
+import Logger from '../../../../../util/Logger';
 import {
   ButtonElement,
   ButtonType,
@@ -24,7 +25,7 @@ import { loc } from '../../../util';
 import { getUIElementWithName } from '../../utils';
 
 export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transaction, formBag }) => {
-  const { nextStep: { relatesTo } = {} as NextStep } = transaction;
+  const { nextStep: { relatesTo, inputs } = {} as NextStep } = transaction;
   const { uischema } = formBag;
 
   const titleElement: TitleElement = {
@@ -38,12 +39,27 @@ export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transactio
     'credentials.answer',
     uischema.elements as UISchemaElement[],
   ) as FieldElement;
+  const securityQuestionProfileKey = relatesTo?.value?.profile?.questionKey;
+  let securityQuestion = '';
+  if (securityQuestionProfileKey === 'custom') {
+    // get the custom security question from profile
+    securityQuestion = relatesTo?.value?.profile?.question as string;
+  } else if (securityQuestionProfileKey) {
+    // get the security question from i18n with valid key
+    securityQuestion = loc(`security.${securityQuestionProfileKey}`, 'login');
+  } else {
+    // get the security question from inputs and i18n
+    Logger.warn('Security question key missing from profile, getting from inputs');
+    const sequrityQuestionInput = (inputs?.[0]?.value as Input[])?.find(({ name }) => name === 'questionKey');
+    const securityQuestionKey = sequrityQuestionInput?.value;
+    securityQuestion = securityQuestionKey === 'custom'
+      ? sequrityQuestionInput?.label as string
+      : loc(`security.${securityQuestionKey}`, 'login');
+  }
   answerElement.translations = [{
     name: 'label',
     i18nKey: '',
-    value: relatesTo?.value?.profile?.questionKey === 'custom'
-      ? relatesTo?.value?.profile?.question as string
-      : loc(`security.${relatesTo?.value?.profile?.questionKey}`, 'login'),
+    value: securityQuestion,
   }];
 
   // TODO: this should be cleaned up once backend API was fixed.
