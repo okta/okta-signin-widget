@@ -3882,11 +3882,46 @@
     decimal.js "^10.4.3"
     tslib "^2.8.0"
 
+"@formatjs/intl-enumerator@1.8.10":
+  version "1.8.10"
+  resolved "https://registry.yarnpkg.com/@formatjs/intl-enumerator/-/intl-enumerator-1.8.10.tgz#adf8d7030406e4e019c67475f4d855c16874c7f4"
+  integrity sha512-/iDm5v5809LN6GiEwT7gU/0lVuKbpyRh3l9USL205mi1kcunvY8eo4mooNr/3/cV4zWG9aUuPwrzukgSCaYlcg==
+  dependencies:
+    "@formatjs/ecma402-abstract" "2.3.4"
+    tslib "^2.8.0"
+
+"@formatjs/intl-getcanonicallocales@2.5.5", "@formatjs/intl-getcanonicallocales@^2.5.5":
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/@formatjs/intl-getcanonicallocales/-/intl-getcanonicallocales-2.5.5.tgz#f84c1133abc070ae91f62c848d3f6ecd6f30dfcf"
+  integrity sha512-sxosgiLSGhf3So3hf4nk223G+qxWEZytAWVmgwuK5k16698N6jMbndzLL0R51i54aTTIp+UyIC+VKjns2eil3w==
+  dependencies:
+    tslib "^2.8.0"
+
+"@formatjs/intl-locale@^4.2.11":
+  version "4.2.11"
+  resolved "https://registry.yarnpkg.com/@formatjs/intl-locale/-/intl-locale-4.2.11.tgz#3a24b46d6ed9da00b3813cc7851785bd1082b587"
+  integrity sha512-8OtGsxPawRF8D6I9SPVhoS/tNSAD0KO/9BywbaP3YNHeoI3qxsK7IR0bN7BCjW6qHZZD7U3VnXVHHteVk12zMA==
+  dependencies:
+    "@formatjs/ecma402-abstract" "2.3.4"
+    "@formatjs/intl-enumerator" "1.8.10"
+    "@formatjs/intl-getcanonicallocales" "2.5.5"
+    tslib "^2.8.0"
+
 "@formatjs/intl-localematcher@0.6.1":
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/@formatjs/intl-localematcher/-/intl-localematcher-0.6.1.tgz#25dc30675320bf65a9d7f73876fc1e4064c0e299"
   integrity sha512-ePEgLgVCqi2BBFnTMWPfIghu6FkbZnnBVhO2sSxvLfrdFw7wCHAHiDoM2h4NRgjbaY7+B7HgOLZGkK187pZTZg==
   dependencies:
+    tslib "^2.8.0"
+
+"@formatjs/intl-numberformat@^8.15.4":
+  version "8.15.4"
+  resolved "https://registry.yarnpkg.com/@formatjs/intl-numberformat/-/intl-numberformat-8.15.4.tgz#ab98f1e6508561f6e6d16dbc1816ea1995362e49"
+  integrity sha512-Y7ObFiSY5XC2v19H6nXwQ9zRMvPcBQP+rva26u8Z1ZfUTiMVtYAJ5dtAITILFJ9IPgcjUZY1gZLmJCmu0uLIhg==
+  dependencies:
+    "@formatjs/ecma402-abstract" "2.3.4"
+    "@formatjs/intl-localematcher" "0.6.1"
+    decimal.js "^10.4.3"
     tslib "^2.8.0"
 
 "@hapi/hoek@^9.0.0", "@hapi/hoek@^9.3.0":

@@ -11,7 +11,7 @@
  */
 
 // Polyfill Intl.DateTimeFormat for support issue https://oktainc.atlassian.net/browse/OKTA-959258
-import './polyfill/intl-datetimeformat';
+import './polyfill/intl';
 
 import OktaSignIn from './OktaSignIn';
 
