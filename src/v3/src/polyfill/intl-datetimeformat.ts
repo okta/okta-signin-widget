@@ -11,6 +11,6 @@
  */
 
 // Following https://github.com/formatjs/formatjs/blob/main/website/docs/polyfills/intl-datetimeformat.md#simple
-import '@formatjs/intl-datetimeformat/polyfill'
-import '@formatjs/intl-datetimeformat/locale-data/en' // locale-data for en
-import '@formatjs/intl-datetimeformat/add-all-tz' // Add ALL tz data
+import '@formatjs/intl-datetimeformat/polyfill';
+import '@formatjs/intl-datetimeformat/locale-data/en'; // locale-data for en
+import '@formatjs/intl-datetimeformat/add-all-tz'; // Add ALL tz data
