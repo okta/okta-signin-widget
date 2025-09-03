@@ -10,6 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+// Polyfill Intl.DateTimeFormat for support issue https://oktainc.atlassian.net/browse/OKTA-959258
+import './polyfill/intl';
+
 import OktaSignIn from './OktaSignIn';
 
 export default OktaSignIn;
