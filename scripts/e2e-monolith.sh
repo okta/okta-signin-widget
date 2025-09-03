@@ -28,6 +28,8 @@ source ./scripts/monolith/install-dockolith.sh
 source ./scripts/monolith/start.sh
 finish_log_group $?
 
+echo "dockolith ${DOCKOLITH_VERSION} started"
+
 # Create test org and save environment variables in "testenv"
 create_log_group "Create Test Org"
 # Add widget test host to /etc/hosts
