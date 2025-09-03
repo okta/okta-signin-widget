@@ -9,3 +9,9 @@ require('core-js/stable');
 require('fast-text-encoding'); // TextEncoder
 require('webcrypto-shim'); // crypto.subtle
 require('create-html-document-polyfill');
+
+// Intl.DateTimeFormat
+const { shouldPolyfill: shouldPolyfillIntlDateTimeFormat } = require('@formatjs/intl-datetimeformat');
+if (shouldPolyfillIntlDateTimeFormat()) {
+  require('@formatjs/intl-datetimeformat/polyfill');
+}
