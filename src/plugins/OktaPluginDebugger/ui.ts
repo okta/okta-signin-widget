@@ -38,6 +38,49 @@ export const initUI = (cspNonce?: string): void => {
   }
 };
 
+const addSIWKeyComboListener = () => {
+  const keysPressed: Set<string> = new Set();
+  let ctrlPressed = false;
+  let shiftKeyPressed = false
+
+  window.addEventListener('keydown', (e) => {
+    if (e.ctrlKey) {
+      ctrlPressed = true;
+    }
+    if (e.shiftKey) {
+      shiftKeyPressed = true;
+    }
+    keysPressed.add(e.key.toLowerCase());
+
+    // Check for Ctrl + S + I + W
+    if (
+      ctrlPressed &&
+      shiftKeyPressed &&
+      keysPressed.has('s') &&
+      keysPressed.has('i') &&
+      keysPressed.has('w')
+    ) {
+      // Show buttons by removing hidden class
+      if (ui?.switchBtn) {
+        ui.switchBtn.classList.remove('siw-debugger-hidden');
+      }
+      if (ui?.copyBtn) {
+        ui.copyBtn.classList.remove('siw-debugger-hidden');
+      }
+    }
+  });
+
+  window.addEventListener('keyup', (e) => {
+    if (e.ctrlKey) {
+      ctrlPressed = false;
+    }
+    if (e.shiftKey) {
+      shiftKeyPressed = false;
+    }
+    keysPressed.delete(e.key.toLowerCase());
+  });
+};
+
 const addUI = (cspNonce?: string) => {
   ui = {
     isHidden: true
@@ -64,7 +107,7 @@ const addUI = (cspNonce?: string) => {
   ui.container.appendChild(ui.list);
 
   ui.switchBtn = document.createElement('button');
-  ui.switchBtn.className = 'siw-debugger-button';
+  ui.switchBtn.className = 'siw-debugger-button siw-debugger-hidden';
   ui.switchBtn.innerText = 'Console';
   ui.switchBtn.onclick = () => {
     if (ui) {
@@ -82,7 +125,7 @@ const addUI = (cspNonce?: string) => {
   };
 
   ui.copyBtn = document.createElement('button');
-  ui.copyBtn.className = 'siw-copy-button';
+  ui.copyBtn.className = 'siw-copy-button siw-debugger-hidden';
   ui.copyBtn.innerText = 'Copy to clipboard';
   ui.copyBtn.onclick = () => {
     copyToClipboard(serializeMessages(getMessages()));
@@ -100,6 +143,8 @@ const addUI = (cspNonce?: string) => {
   ].map((elem) => {
     document.body.appendChild(elem);
   });
+
+  addSIWKeyComboListener();
 };
 
 export const removeUI = () => {
