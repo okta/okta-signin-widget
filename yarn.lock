@@ -4684,7 +4684,7 @@
 
 "@okta/odyssey-design-tokens@1.44.0":
   version "1.44.0"
-  resolved "https://artifactory.es.atko.services/artifactory/api/npm/npm-okta-master/@okta/odyssey-design-tokens/-/@okta/odyssey-design-tokens-1.44.0.tgz#521699d5e80b29a8c28b81ae0353053896112e3b"
+  resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-1.44.0.tgz#521699d5e80b29a8c28b81ae0353053896112e3b"
   integrity sha512-EHlNzgrkAUGBGLayMFwmqfPB5cFM8pHObQWsYhldczrCLZtCpKYuqWTakqk+OEWR/YN3QAtUQeGFEF0vUKZRyA==
 
 "@okta/odyssey-postcss-preset@^0.15.3":
@@ -4706,7 +4706,7 @@
 
 "@okta/odyssey-react-mui@1.44.0":
   version "1.44.0"
-  resolved "https://artifactory.es.atko.services/artifactory/api/npm/npm-okta-master/@okta/odyssey-react-mui/-/@okta/odyssey-react-mui-1.44.0.tgz#ec8597c929880740823ad9825506a5223dfdeb2d"
+  resolved "https://registry.yarnpkg.com/@okta/odyssey-react-mui/-/odyssey-react-mui-1.44.0.tgz#ec8597c929880740823ad9825506a5223dfdeb2d"
   integrity sha512-nor+pp/CkkF4bftZuI95knIJtCcbw37e8elXJJvYLpb9Nv/E69xZsS0fCFsNKZYiir9CuyFPMmHHYHUybXpi7Q==
   dependencies:
     "@dnd-kit/core" "6.0.3"
