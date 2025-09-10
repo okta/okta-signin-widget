@@ -96,6 +96,7 @@ const baseConfig: Partial<Configuration> = {
             '/node_modules/@okta/okta-auth-js',
             '/node_modules/p-cancelable',
             '/node_modules/i18next',
+            '/node_modules/react-i18next',
             '/node_modules/@adobe/leonardo-contrast-colors',
             '/node_modules/apca-w3',
             '/node_modules/colorparsley',
