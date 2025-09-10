@@ -260,6 +260,7 @@
     "fsevents": "*"
   },
   "resolutions": {
+    "@types/react": "18.3.1",
     "chokidar": "^3.5.1",
     "braces": "3.0.3",
     "dot-prop": "^5.3.0",
