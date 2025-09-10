@@ -13,6 +13,7 @@
 export * from './AppleStoreIcon';
 export * from './ClearIcon';
 export * from './CustomAppIcon';
+export * from './CustomIDVIcon';
 export * from './CustomOTPIcon';
 export * from './DuoIcon';
 export * from './EmailIcon';
