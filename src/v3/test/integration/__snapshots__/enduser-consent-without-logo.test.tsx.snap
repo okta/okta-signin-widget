@@ -3,94 +3,98 @@
 exports[`enduser-consent-without-logo should render form 1`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header "
-            >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                role="presentation"
-                tabindex="-1"
-              />
-            </div>
-            <div
-              class="MuiBox-root emotion-7"
             >
               <div
-                class="MuiBox-root emotion-1"
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header "
               >
-                <div
-                  class="MuiBox-root emotion-9"
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  role="presentation"
+                  tabindex="-1"
                 />
-                <span
-                  class="MuiBox-root emotion-10"
-                  data-se="title-text"
-                >
-                  <h1
-                    class="MuiTypography-root MuiTypography-h6 emotion-11"
-                    tabindex="-1"
-                    translate="no"
-                  >
-                    Native client
-                  </h1>
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 emotion-12"
-                    tabindex="-1"
-                  >
-                    would like to:
-                  </p>
-                </span>
               </div>
               <div
-                class="MuiBox-root emotion-13"
-                role="status"
+                class="MuiBox-root emotion-8"
               >
-                <span
-                  aria-label="Processing..."
-                  class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-14"
-                  role="progressbar"
-                  style="width: 1.71428571rem; height: 1.71428571rem;"
+                <div
+                  class="MuiBox-root emotion-2"
                 >
-                  <svg
-                    class="MuiCircularProgress-svg emotion-15"
-                    viewBox="22 22 44 44"
+                  <div
+                    class="MuiBox-root emotion-10"
+                  />
+                  <span
+                    class="MuiBox-root emotion-11"
+                    data-se="title-text"
                   >
-                    <circle
-                      class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-16"
-                      cx="44"
-                      cy="44"
-                      fill="none"
-                      r="17"
-                      stroke-width="10"
-                    />
-                  </svg>
-                </span>
+                    <h1
+                      class="MuiTypography-root MuiTypography-h6 emotion-12"
+                      tabindex="-1"
+                      translate="no"
+                    >
+                      Native client
+                    </h1>
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 emotion-13"
+                      tabindex="-1"
+                    >
+                      would like to:
+                    </p>
+                  </span>
+                </div>
+                <div
+                  class="MuiBox-root emotion-14"
+                  role="status"
+                >
+                  <span
+                    aria-label="Processing..."
+                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-15"
+                    role="progressbar"
+                    style="width: 1.71428571rem; height: 1.71428571rem;"
+                  >
+                    <svg
+                      class="MuiCircularProgress-svg emotion-16"
+                      viewBox="22 22 44 44"
+                    >
+                      <circle
+                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-17"
+                        cx="44"
+                        cy="44"
+                        fill="none"
+                        r="17"
+                        stroke-width="10"
+                      />
+                    </svg>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;

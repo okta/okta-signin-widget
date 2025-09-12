@@ -3,131 +3,135 @@
 exports[`user-unlock-account renders form 1`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header "
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                role="presentation"
-                tabindex="-1"
-              />
-            </div>
-            <div
-              class="MuiBox-root emotion-7"
-            >
-              <form
-                aria-live="polite"
-                class="o-form MuiBox-root emotion-8"
-                data-se="o-form"
-                novalidate=""
+              <div
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header "
               >
-                <div
-                  class="MuiBox-root emotion-9"
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  role="presentation"
+                  tabindex="-1"
+                />
+              </div>
+              <div
+                class="MuiBox-root emotion-8"
+              >
+                <form
+                  aria-live="polite"
+                  class="o-form MuiBox-root emotion-9"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
-                    class="MuiBox-root emotion-9"
+                    class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-10"
                     >
                       <div
                         class="MuiBox-root emotion-12"
                       >
-                        <h1
-                          class="MuiTypography-root MuiTypography-h4 emotion-13"
-                          data-se="o-form-head"
-                          tabindex="-1"
-                        >
-                          Unlock account
-                        </h1>
-                      </div>
-                    </div>
-                    <div
-                      class="MuiBox-root emotion-11"
-                    >
-                      <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-15"
-                      >
-                        <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-16"
-                          data-shrink="false"
-                          for="identifier"
-                          id="identifier-label"
-                        >
-                          <span>
-                            Username
-                          </span>
-                        </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-17"
-                          required="true"
+                          class="MuiBox-root emotion-13"
                         >
-                          <input
-                            aria-invalid="false"
-                            aria-labelledby="identifier-label"
-                            autocomplete="username"
-                            class="MuiInputBase-input emotion-18"
-                            data-se="identifier"
-                            id="identifier"
-                            name="identifier"
-                            required=""
-                            type="text"
-                          />
+                          <h1
+                            class="MuiTypography-root MuiTypography-h4 emotion-14"
+                            data-se="o-form-head"
+                            tabindex="-1"
+                          >
+                            Unlock account
+                          </h1>
                         </div>
                       </div>
+                      <div
+                        class="MuiBox-root emotion-12"
+                      >
+                        <div
+                          class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-16"
+                        >
+                          <label
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-17"
+                            data-shrink="false"
+                            for="identifier"
+                            id="identifier-label"
+                          >
+                            <span>
+                              Username
+                            </span>
+                          </label>
+                          <div
+                            class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-18"
+                            required="true"
+                          >
+                            <input
+                              aria-invalid="false"
+                              aria-labelledby="identifier-label"
+                              autocomplete="username"
+                              class="MuiInputBase-input emotion-19"
+                              data-se="identifier"
+                              id="identifier"
+                              name="identifier"
+                              required=""
+                              type="text"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-12"
+                      >
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-21"
+                          tabindex="0"
+                          type="submit"
+                        >
+                          Next
+                        </button>
+                      </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-20"
-                        tabindex="0"
-                        type="submit"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-23"
+                        data-se="cancel"
+                        role="link"
+                        type="button"
                       >
-                        Next
+                        Back to sign in
                       </button>
                     </div>
                   </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-22"
-                      data-se="cancel"
-                      role="link"
-                      type="button"
-                    >
-                      Back to sign in
-                    </button>
-                  </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;
