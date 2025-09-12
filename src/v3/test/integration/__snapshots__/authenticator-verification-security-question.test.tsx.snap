@@ -3,233 +3,237 @@
 exports[`authenticator-verification-security-question renders form 1`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                role="presentation"
-                tabindex="-1"
-              />
               <div
-                aria-hidden="true"
-                class="MuiBox-root emotion-7"
-                data-se="factor-beacon mfa-okta-security-question "
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header authCoinSpacing"
               >
-                <svg
-                  aria-labelledby="mfa-okta-security-question"
-                  fill="none"
-                  height="2.85714286rem"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="2.85714286rem"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-okta-security-question"
-                  >
-                    Security Question
-                  </title>
-                  <path
-                    class="siwFillSecondary"
-                    d="m24.25 39.123-4.615-3.433a21.799 21.799 0 0 1-8.827-16.259l-.329-5.738 12.84-4.534a2.818 2.818 0 0 1 1.862 0l12.84 4.534-.329 5.738a21.8 21.8 0 0 1-8.827 16.259l-4.615 3.433ZM11.521 14.387l.285 4.987a20.811 20.811 0 0 0 8.425 15.514l4.019 2.989 4.019-2.989a20.81 20.81 0 0 0 8.425-15.514l.285-4.987L24.848 10.1a1.792 1.792 0 0 0-1.2 0l-12.127 4.287Z"
-                    fill="#A7B5EC"
-                  />
-                  <path
-                    class="siwFillPrimaryDark"
-                    d="M29.44 19.729a5.007 5.007 0 0 0-8.846-2.356 4.484 4.484 0 0 0-.827 4.385l.929-.367A3.48 3.48 0 0 1 21.369 18a4.027 4.027 0 1 1 5.244 5.972C25 25 23.5 26.252 23.5 28.528h1c0-1.691 1.058-2.7 2.646-3.707a5.067 5.067 0 0 0 2.294-5.092Zm-5.454 12.246a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
-                    fill="#00297A"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
-                aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-              >
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  role="presentation"
+                  tabindex="-1"
+                />
                 <div
-                  class="MuiBox-root emotion-10"
+                  aria-hidden="true"
+                  class="MuiBox-root emotion-8"
+                  data-se="factor-beacon mfa-okta-security-question "
+                >
+                  <svg
+                    aria-labelledby="mfa-okta-security-question"
+                    fill="none"
+                    height="2.85714286rem"
+                    role="img"
+                    viewBox="0 0 48 48"
+                    width="2.85714286rem"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title
+                      id="mfa-okta-security-question"
+                    >
+                      Security Question
+                    </title>
+                    <path
+                      class="siwFillSecondary"
+                      d="m24.25 39.123-4.615-3.433a21.799 21.799 0 0 1-8.827-16.259l-.329-5.738 12.84-4.534a2.818 2.818 0 0 1 1.862 0l12.84 4.534-.329 5.738a21.8 21.8 0 0 1-8.827 16.259l-4.615 3.433ZM11.521 14.387l.285 4.987a20.811 20.811 0 0 0 8.425 15.514l4.019 2.989 4.019-2.989a20.81 20.81 0 0 0 8.425-15.514l.285-4.987L24.848 10.1a1.792 1.792 0 0 0-1.2 0l-12.127 4.287Z"
+                      fill="#A7B5EC"
+                    />
+                    <path
+                      class="siwFillPrimaryDark"
+                      d="M29.44 19.729a5.007 5.007 0 0 0-8.846-2.356 4.484 4.484 0 0 0-.827 4.385l.929-.367A3.48 3.48 0 0 1 21.369 18a4.027 4.027 0 1 1 5.244 5.972C25 25 23.5 26.252 23.5 28.528h1c0-1.691 1.058-2.7 2.646-3.707a5.067 5.067 0 0 0 2.294-5.092Zm-5.454 12.246a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                      fill="#00297A"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-9"
+              >
+                <form
+                  aria-live="polite"
+                  class="o-form MuiBox-root emotion-10"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
                     class="MuiBox-root emotion-11"
                   >
                     <div
                       class="MuiBox-root emotion-12"
-                      data-se="identifier-container"
-                      title="tester@okta1.com"
                     >
                       <div
-                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
-                        data-se="identifier"
-                        translate="no"
+                        class="MuiBox-root emotion-13"
+                        data-se="identifier-container"
+                        title="tester@okta1.com"
                       >
                         <div
-                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-14"
+                          data-se="identifier"
+                          translate="no"
                         >
-                          <svg
-                            aria-label="User"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
-                            fill="none"
-                            focusable="false"
-                            role="img"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                            <title>
-                              User
-                            </title>
-                          </svg>
-                        </div>
-                        <span
-                          class="MuiChip-label MuiChip-labelMedium emotion-16"
-                        >
-                          tester@okta1.com
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-18"
-                    >
-                      <h1
-                        class="MuiTypography-root MuiTypography-h4 emotion-19"
-                        data-se="o-form-head"
-                        tabindex="-1"
-                      >
-                        Verify with your Security Question
-                      </h1>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-21"
-                    >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-22"
-                        data-shrink="false"
-                        for="credentials.answer"
-                        id="credentials.answer-label"
-                      >
-                        <span>
-                          What is the food you least liked as a child?
-                        </span>
-                      </label>
-                      <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-23"
-                        required="true"
-                        translate="no"
-                      >
-                        <input
-                          aria-invalid="false"
-                          aria-labelledby="credentials.answer-label"
-                          autocomplete="off"
-                          class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-24"
-                          data-se="credentials.answer"
-                          id="credentials.answer"
-                          name="credentials.answer"
-                          required=""
-                          role="textbox"
-                          type="password"
-                        />
-                        <div
-                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-25"
-                        >
-                          <button
-                            aria-controls="credentials.answer"
-                            aria-label="Show password"
-                            aria-pressed="false"
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-26"
-                            tabindex="0"
-                            type="button"
+                          <div
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-15"
                           >
                             <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-27"
+                              aria-label="User"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
                               fill="none"
                               focusable="false"
+                              role="img"
                               viewBox="0 0 24 24"
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
                                 clip-rule="evenodd"
-                                d="M3.43 12.813A12.814 12.814 0 0 1 3.069 12a14.153 14.153 0 0 1 1.966-3.38C6.506 6.762 8.746 5 12 5s5.494 1.761 6.966 3.62A14.152 14.152 0 0 1 20.932 12a14.151 14.151 0 0 1-1.966 3.38C17.494 17.238 15.254 19 12 19s-5.494-1.761-6.966-3.62a14.152 14.152 0 0 1-1.603-2.567Zm19.518-1.13L22 12c.949.316.949.317.948.317v.004l-.003.007-.008.024a7.012 7.012 0 0 1-.137.362 16.147 16.147 0 0 1-2.266 3.906C18.84 18.762 16.08 21 12 21c-4.08 0-6.84-2.239-8.534-4.38A16.15 16.15 0 0 1 1.2 12.715a10.039 10.039 0 0 1-.137-.362l-.008-.024-.002-.007-.001-.003c0-.001 0-.002.948-.318a91.698 91.698 0 0 1-.948-.317v-.004l.003-.007.008-.024.029-.08c.025-.067.06-.163.108-.282A16.15 16.15 0 0 1 3.466 7.38C5.16 5.24 7.92 3 12 3c4.08 0 6.84 2.239 8.534 4.38a16.147 16.147 0 0 1 2.266 3.906 10.026 10.026 0 0 1 .137.362l.008.024.002.007.001.003ZM2 12l-.949.316L.946 12l.105-.316L2 12Zm20 0 .949-.316.105.316-.105.316L22 12ZM9 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"
+                                d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
                                 fill="currentColor"
                                 fill-rule="evenodd"
                               />
+                              <title>
+                                User
+                              </title>
                             </svg>
-                          </button>
+                          </div>
+                          <span
+                            class="MuiChip-label MuiChip-labelMedium emotion-17"
+                          >
+                            tester@okta1.com
+                          </span>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-29"
-                      data-se="save"
-                      tabindex="0"
-                      type="submit"
+                    <div
+                      class="MuiBox-root emotion-12"
                     >
-                      Verify
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-31"
-                      data-se="cancel"
-                      role="link"
-                      type="button"
+                      <div
+                        class="MuiBox-root emotion-19"
+                      >
+                        <h1
+                          class="MuiTypography-root MuiTypography-h4 emotion-20"
+                          data-se="o-form-head"
+                          tabindex="-1"
+                        >
+                          Verify with your Security Question
+                        </h1>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
                     >
-                      Back to sign in
-                    </button>
+                      <div
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-22"
+                      >
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-23"
+                          data-shrink="false"
+                          for="credentials.answer"
+                          id="credentials.answer-label"
+                        >
+                          <span>
+                            What is the food you least liked as a child?
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-24"
+                          required="true"
+                          translate="no"
+                        >
+                          <input
+                            aria-invalid="false"
+                            aria-labelledby="credentials.answer-label"
+                            autocomplete="off"
+                            class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-25"
+                            data-se="credentials.answer"
+                            id="credentials.answer"
+                            name="credentials.answer"
+                            required=""
+                            role="textbox"
+                            type="password"
+                          />
+                          <div
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-26"
+                          >
+                            <button
+                              aria-controls="credentials.answer"
+                              aria-label="Show password"
+                              aria-pressed="false"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-27"
+                              tabindex="0"
+                              type="button"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                                fill="none"
+                                focusable="false"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  clip-rule="evenodd"
+                                  d="M3.43 12.813A12.814 12.814 0 0 1 3.069 12a14.153 14.153 0 0 1 1.966-3.38C6.506 6.762 8.746 5 12 5s5.494 1.761 6.966 3.62A14.152 14.152 0 0 1 20.932 12a14.151 14.151 0 0 1-1.966 3.38C17.494 17.238 15.254 19 12 19s-5.494-1.761-6.966-3.62a14.152 14.152 0 0 1-1.603-2.567Zm19.518-1.13L22 12c.949.316.949.317.948.317v.004l-.003.007-.008.024a7.012 7.012 0 0 1-.137.362 16.147 16.147 0 0 1-2.266 3.906C18.84 18.762 16.08 21 12 21c-4.08 0-6.84-2.239-8.534-4.38A16.15 16.15 0 0 1 1.2 12.715a10.039 10.039 0 0 1-.137-.362l-.008-.024-.002-.007-.001-.003c0-.001 0-.002.948-.318a91.698 91.698 0 0 1-.948-.317v-.004l.003-.007.008-.024.029-.08c.025-.067.06-.163.108-.282A16.15 16.15 0 0 1 3.466 7.38C5.16 5.24 7.92 3 12 3c4.08 0 6.84 2.239 8.534 4.38a16.147 16.147 0 0 1 2.266 3.906 10.026 10.026 0 0 1 .137.362l.008.024.002.007.001.003ZM2 12l-.949.316L.946 12l.105-.316L2 12Zm20 0 .949-.316.105.316-.105.316L22 12ZM9 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"
+                                  fill="currentColor"
+                                  fill-rule="evenodd"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <button
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-30"
+                        data-se="save"
+                        tabindex="0"
+                        type="submit"
+                      >
+                        Verify
+                      </button>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-32"
+                        data-se="cancel"
+                        role="link"
+                        type="button"
+                      >
+                        Back to sign in
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;
@@ -237,233 +241,237 @@ exports[`authenticator-verification-security-question renders form 1`] = `
 exports[`authenticator-verification-security-question renders form when idx response does not have profile in currentAuthenticatorEnrollment 1`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                role="presentation"
-                tabindex="-1"
-              />
               <div
-                aria-hidden="true"
-                class="MuiBox-root emotion-7"
-                data-se="factor-beacon mfa-okta-security-question "
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header authCoinSpacing"
               >
-                <svg
-                  aria-labelledby="mfa-okta-security-question"
-                  fill="none"
-                  height="2.85714286rem"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="2.85714286rem"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-okta-security-question"
-                  >
-                    Security Question
-                  </title>
-                  <path
-                    class="siwFillSecondary"
-                    d="m24.25 39.123-4.615-3.433a21.799 21.799 0 0 1-8.827-16.259l-.329-5.738 12.84-4.534a2.818 2.818 0 0 1 1.862 0l12.84 4.534-.329 5.738a21.8 21.8 0 0 1-8.827 16.259l-4.615 3.433ZM11.521 14.387l.285 4.987a20.811 20.811 0 0 0 8.425 15.514l4.019 2.989 4.019-2.989a20.81 20.81 0 0 0 8.425-15.514l.285-4.987L24.848 10.1a1.792 1.792 0 0 0-1.2 0l-12.127 4.287Z"
-                    fill="#A7B5EC"
-                  />
-                  <path
-                    class="siwFillPrimaryDark"
-                    d="M29.44 19.729a5.007 5.007 0 0 0-8.846-2.356 4.484 4.484 0 0 0-.827 4.385l.929-.367A3.48 3.48 0 0 1 21.369 18a4.027 4.027 0 1 1 5.244 5.972C25 25 23.5 26.252 23.5 28.528h1c0-1.691 1.058-2.7 2.646-3.707a5.067 5.067 0 0 0 2.294-5.092Zm-5.454 12.246a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
-                    fill="#00297A"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
-                aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-              >
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  role="presentation"
+                  tabindex="-1"
+                />
                 <div
-                  class="MuiBox-root emotion-10"
+                  aria-hidden="true"
+                  class="MuiBox-root emotion-8"
+                  data-se="factor-beacon mfa-okta-security-question "
+                >
+                  <svg
+                    aria-labelledby="mfa-okta-security-question"
+                    fill="none"
+                    height="2.85714286rem"
+                    role="img"
+                    viewBox="0 0 48 48"
+                    width="2.85714286rem"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title
+                      id="mfa-okta-security-question"
+                    >
+                      Security Question
+                    </title>
+                    <path
+                      class="siwFillSecondary"
+                      d="m24.25 39.123-4.615-3.433a21.799 21.799 0 0 1-8.827-16.259l-.329-5.738 12.84-4.534a2.818 2.818 0 0 1 1.862 0l12.84 4.534-.329 5.738a21.8 21.8 0 0 1-8.827 16.259l-4.615 3.433ZM11.521 14.387l.285 4.987a20.811 20.811 0 0 0 8.425 15.514l4.019 2.989 4.019-2.989a20.81 20.81 0 0 0 8.425-15.514l.285-4.987L24.848 10.1a1.792 1.792 0 0 0-1.2 0l-12.127 4.287Z"
+                      fill="#A7B5EC"
+                    />
+                    <path
+                      class="siwFillPrimaryDark"
+                      d="M29.44 19.729a5.007 5.007 0 0 0-8.846-2.356 4.484 4.484 0 0 0-.827 4.385l.929-.367A3.48 3.48 0 0 1 21.369 18a4.027 4.027 0 1 1 5.244 5.972C25 25 23.5 26.252 23.5 28.528h1c0-1.691 1.058-2.7 2.646-3.707a5.067 5.067 0 0 0 2.294-5.092Zm-5.454 12.246a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                      fill="#00297A"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-9"
+              >
+                <form
+                  aria-live="polite"
+                  class="o-form MuiBox-root emotion-10"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
                     class="MuiBox-root emotion-11"
                   >
                     <div
                       class="MuiBox-root emotion-12"
-                      data-se="identifier-container"
-                      title="tester@okta1.com"
                     >
                       <div
-                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
-                        data-se="identifier"
-                        translate="no"
+                        class="MuiBox-root emotion-13"
+                        data-se="identifier-container"
+                        title="tester@okta1.com"
                       >
                         <div
-                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-14"
+                          data-se="identifier"
+                          translate="no"
                         >
-                          <svg
-                            aria-label="User"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
-                            fill="none"
-                            focusable="false"
-                            role="img"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                            <title>
-                              User
-                            </title>
-                          </svg>
-                        </div>
-                        <span
-                          class="MuiChip-label MuiChip-labelMedium emotion-16"
-                        >
-                          tester@okta1.com
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-18"
-                    >
-                      <h1
-                        class="MuiTypography-root MuiTypography-h4 emotion-19"
-                        data-se="o-form-head"
-                        tabindex="-1"
-                      >
-                        Verify with your Security Question
-                      </h1>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-21"
-                    >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-22"
-                        data-shrink="false"
-                        for="credentials.answer"
-                        id="credentials.answer-label"
-                      >
-                        <span>
-                          What is the food you least liked as a child?
-                        </span>
-                      </label>
-                      <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-23"
-                        required="true"
-                        translate="no"
-                      >
-                        <input
-                          aria-invalid="false"
-                          aria-labelledby="credentials.answer-label"
-                          autocomplete="off"
-                          class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-24"
-                          data-se="credentials.answer"
-                          id="credentials.answer"
-                          name="credentials.answer"
-                          required=""
-                          role="textbox"
-                          type="password"
-                        />
-                        <div
-                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-25"
-                        >
-                          <button
-                            aria-controls="credentials.answer"
-                            aria-label="Show password"
-                            aria-pressed="false"
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-26"
-                            tabindex="0"
-                            type="button"
+                          <div
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-15"
                           >
                             <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-27"
+                              aria-label="User"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
                               fill="none"
                               focusable="false"
+                              role="img"
                               viewBox="0 0 24 24"
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
                                 clip-rule="evenodd"
-                                d="M3.43 12.813A12.814 12.814 0 0 1 3.069 12a14.153 14.153 0 0 1 1.966-3.38C6.506 6.762 8.746 5 12 5s5.494 1.761 6.966 3.62A14.152 14.152 0 0 1 20.932 12a14.151 14.151 0 0 1-1.966 3.38C17.494 17.238 15.254 19 12 19s-5.494-1.761-6.966-3.62a14.152 14.152 0 0 1-1.603-2.567Zm19.518-1.13L22 12c.949.316.949.317.948.317v.004l-.003.007-.008.024a7.012 7.012 0 0 1-.137.362 16.147 16.147 0 0 1-2.266 3.906C18.84 18.762 16.08 21 12 21c-4.08 0-6.84-2.239-8.534-4.38A16.15 16.15 0 0 1 1.2 12.715a10.039 10.039 0 0 1-.137-.362l-.008-.024-.002-.007-.001-.003c0-.001 0-.002.948-.318a91.698 91.698 0 0 1-.948-.317v-.004l.003-.007.008-.024.029-.08c.025-.067.06-.163.108-.282A16.15 16.15 0 0 1 3.466 7.38C5.16 5.24 7.92 3 12 3c4.08 0 6.84 2.239 8.534 4.38a16.147 16.147 0 0 1 2.266 3.906 10.026 10.026 0 0 1 .137.362l.008.024.002.007.001.003ZM2 12l-.949.316L.946 12l.105-.316L2 12Zm20 0 .949-.316.105.316-.105.316L22 12ZM9 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"
+                                d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
                                 fill="currentColor"
                                 fill-rule="evenodd"
                               />
+                              <title>
+                                User
+                              </title>
                             </svg>
-                          </button>
+                          </div>
+                          <span
+                            class="MuiChip-label MuiChip-labelMedium emotion-17"
+                          >
+                            tester@okta1.com
+                          </span>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-29"
-                      data-se="save"
-                      tabindex="0"
-                      type="submit"
+                    <div
+                      class="MuiBox-root emotion-12"
                     >
-                      Verify
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-31"
-                      data-se="cancel"
-                      role="link"
-                      type="button"
+                      <div
+                        class="MuiBox-root emotion-19"
+                      >
+                        <h1
+                          class="MuiTypography-root MuiTypography-h4 emotion-20"
+                          data-se="o-form-head"
+                          tabindex="-1"
+                        >
+                          Verify with your Security Question
+                        </h1>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
                     >
-                      Back to sign in
-                    </button>
+                      <div
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-22"
+                      >
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-23"
+                          data-shrink="false"
+                          for="credentials.answer"
+                          id="credentials.answer-label"
+                        >
+                          <span>
+                            What is the food you least liked as a child?
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-24"
+                          required="true"
+                          translate="no"
+                        >
+                          <input
+                            aria-invalid="false"
+                            aria-labelledby="credentials.answer-label"
+                            autocomplete="off"
+                            class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-25"
+                            data-se="credentials.answer"
+                            id="credentials.answer"
+                            name="credentials.answer"
+                            required=""
+                            role="textbox"
+                            type="password"
+                          />
+                          <div
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-26"
+                          >
+                            <button
+                              aria-controls="credentials.answer"
+                              aria-label="Show password"
+                              aria-pressed="false"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-27"
+                              tabindex="0"
+                              type="button"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                                fill="none"
+                                focusable="false"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  clip-rule="evenodd"
+                                  d="M3.43 12.813A12.814 12.814 0 0 1 3.069 12a14.153 14.153 0 0 1 1.966-3.38C6.506 6.762 8.746 5 12 5s5.494 1.761 6.966 3.62A14.152 14.152 0 0 1 20.932 12a14.151 14.151 0 0 1-1.966 3.38C17.494 17.238 15.254 19 12 19s-5.494-1.761-6.966-3.62a14.152 14.152 0 0 1-1.603-2.567Zm19.518-1.13L22 12c.949.316.949.317.948.317v.004l-.003.007-.008.024a7.012 7.012 0 0 1-.137.362 16.147 16.147 0 0 1-2.266 3.906C18.84 18.762 16.08 21 12 21c-4.08 0-6.84-2.239-8.534-4.38A16.15 16.15 0 0 1 1.2 12.715a10.039 10.039 0 0 1-.137-.362l-.008-.024-.002-.007-.001-.003c0-.001 0-.002.948-.318a91.698 91.698 0 0 1-.948-.317v-.004l.003-.007.008-.024.029-.08c.025-.067.06-.163.108-.282A16.15 16.15 0 0 1 3.466 7.38C5.16 5.24 7.92 3 12 3c4.08 0 6.84 2.239 8.534 4.38a16.147 16.147 0 0 1 2.266 3.906 10.026 10.026 0 0 1 .137.362l.008.024.002.007.001.003ZM2 12l-.949.316L.946 12l.105-.316L2 12Zm20 0 .949-.316.105.316-.105.316L22 12ZM9 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"
+                                  fill="currentColor"
+                                  fill-rule="evenodd"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <button
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-30"
+                        data-se="save"
+                        tabindex="0"
+                        type="submit"
+                      >
+                        Verify
+                      </button>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-32"
+                        data-se="cancel"
+                        role="link"
+                        type="button"
+                      >
+                        Back to sign in
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;
