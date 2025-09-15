@@ -49,9 +49,7 @@ jest.mock('util/loc', () => ({
 
 // Make Math.random deterministic for stable snapshots and component IDs
 const originalMathRandom = Math.random;
+if (!global.__MATH_RANDOM_ORIGINAL__) {
+  global.__MATH_RANDOM_ORIGINAL__ = originalMathRandom;
+}
 Math.random = jest.fn().mockReturnValue(0.123456);
-
-// Restore original Math.random after all tests
-afterAll(() => {
-  Math.random = originalMathRandom;
-});
