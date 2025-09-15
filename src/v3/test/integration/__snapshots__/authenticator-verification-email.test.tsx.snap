@@ -350,7 +350,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         >
                           <div
                             aria-label="warning"
-                            aria-labelledby="cvt8rv"
+                            aria-labelledby="82mvyq"
                             class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-24"
                             role="alert"
                           >
@@ -774,7 +774,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   >
                     <div
                       aria-label="error"
-                      aria-labelledby="7om8jb"
+                      aria-labelledby="82mvyq"
                       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-12"
                       role="alert"
                     >
@@ -1083,7 +1083,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   >
                     <div
                       aria-label="error"
-                      aria-labelledby="jvxwbn"
+                      aria-labelledby="82mvyq"
                       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-12"
                       role="alert"
                     >
@@ -1194,7 +1194,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         >
                           <div
                             aria-label="warning"
-                            aria-labelledby="es3s6f"
+                            aria-labelledby="82mvyq"
                             class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-31"
                             role="alert"
                           >
@@ -1422,7 +1422,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       >
                         <div
                           aria-label="error"
-                          aria-labelledby="ieiixq"
+                          aria-labelledby="82mvyq"
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-13"
                           data-se="callout"
                           role="alert"

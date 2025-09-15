@@ -46,3 +46,12 @@ jest.mock('util/loc', () => ({
     (key, bundle, params) => (mockBundles.login[key] ? key : new Error(`Invalid i18n key: ${key}`)),
   ),
 }));
+
+// Make Math.random deterministic for stable snapshots and component IDs
+const originalMathRandom = Math.random;
+Math.random = jest.fn().mockReturnValue(0.123456);
+
+// Restore original Math.random after all tests
+afterAll(() => {
+  Math.random = originalMathRandom;
+});

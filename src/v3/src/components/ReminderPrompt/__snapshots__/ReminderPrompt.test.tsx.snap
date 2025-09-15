@@ -9,7 +9,7 @@ exports[`ReminderPrompt should show prompt with working link after default timeo
   >
     <div
       aria-label="warning"
-      aria-labelledby="mfe15r"
+      aria-labelledby="82mvyq"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-1"
       role="alert"
     >
@@ -63,7 +63,7 @@ exports[`ReminderPrompt should show prompt with working link after default timeo
   >
     <div
       aria-label="warning"
-      aria-labelledby="w2wpdf"
+      aria-labelledby="82mvyq"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-1"
       role="alert"
     >
