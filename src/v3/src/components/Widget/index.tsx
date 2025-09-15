@@ -107,6 +107,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     otp,
     flow,
     widgetHooks,
+    setUser,
   } = widgetProps;
 
   const [hide, setHide] = useState<boolean>(false);
@@ -160,6 +161,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    console.log('useEffect fired', idxTransaction?.context?.user?.value);
+  }, [idxTransaction])
 
   const initLanguage = useCallback(async () => {
     if (!Bundles.isLoaded(languageCode)) {
@@ -389,6 +394,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         });
       }
 
+      console.log('idx', transaction?.nextStep)
+      console.log('idx', transaction?.context)
+      setUser(transaction?.context.user?.value);
       await widgetHooks.callHooks('before', transaction);
 
       setIdxTransaction(transaction);
@@ -441,7 +449,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [interactionCodeFlowFormBag]);
 
   useEffect(() => {
+    // console.log('idx', idxTransaction?.nextStep)
+    // console.log('idx', idxTransaction?.context)
+    // setUser(idxTransaction?.context.user?.value);
+
     const asyncEffect = async () => {
+      // console.log('idx', idxTransaction)
+      // setUser(idxTransaction?.context.user?.value);
+
       if (isClientTransaction) {
         return;
       }
@@ -459,6 +474,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
           }
         };
         const emitReady = () => eventEmitter.emit('ready', getEventContext(idxTransaction));
+
+        // setUser(idxTransaction?.context.user?.value);
 
         // Keep the order of events and hooks as in Gen2
         if (!widgetRenderedOnce.current) {

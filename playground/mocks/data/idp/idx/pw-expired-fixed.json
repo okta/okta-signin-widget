@@ -1,0 +1,219 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02cwK_XFBDza-XI36QSkZeMJ_uADBerb45nC9Lj2mA",
+  "expiresAt": "2022-01-14T22:32:56.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "reenroll-authenticator-warning",
+        "relatesTo": [
+          "$.currentAuthenticator"
+        ],
+        "href": "https://signin.uat.viasat.com/idp/idx/challenge/answer",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "credentials",
+            "type": "object",
+            "form": {
+              "value": [
+                {
+                  "name": "passcode",
+                  "label": "New password",
+                  "secret": true
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02cwK_XFBDza-XI36QSkZeMJ_uADBerb45nC9Lj2mA",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "skip",
+        "href": "https://signin.uat.viasat.com/idp/idx/skip",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02cwK_XFBDza-XI36QSkZeMJ_uADBerb45nC9Lj2mA",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "When your password expires, you will have to change your password before you can login to your Viasat, Inc. (UAT) account.",
+        "i18n": {
+          "key": "idx.password.expiring.message"
+        },
+        "class": "INFO"
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "type": "password",
+      "key": "okta_password",
+      "id": "aut1qtqpiuJjfAeTV1d7",
+      "displayName": "Password",
+      "methods": [
+        {
+          "type": "password"
+        }
+      ],
+      "settings": {
+        "complexity": {
+          "minLength": 14,
+          "minLowerCase": 1,
+          "minUpperCase": 1,
+          "minNumber": 1,
+          "minSymbol": 1,
+          "excludeUsername": true,
+          "excludeAttributes": []
+        },
+        "age": {
+          "minAgeMinutes": 1440,
+          "historyCount": 24
+        }
+      }
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "aut1qtqpiuJjfAeTV1d7",
+        "displayName": "Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ]
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "type": "email",
+        "key": "okta_email",
+        "id": "eae1svj0aj14kXVdz1d7",
+        "displayName": "Email",
+        "methods": [
+          {
+            "type": "email"
+          }
+        ]
+      },
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "lae91o2qovpRi40541d6",
+        "displayName": "Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ]
+      }
+    ]
+  },
+  "recoveryAuthenticator": {
+    "type": "object",
+    "value": {
+      "type": "password",
+      "key": "okta_password",
+      "id": "aut1qtqpiuJjfAeTV1d7",
+      "displayName": "Password",
+      "methods": [
+        {
+          "type": "password"
+        }
+      ],
+      "settings": {
+        "complexity": {
+          "minLength": 14,
+          "minLowerCase": 1,
+          "minUpperCase": 1,
+          "minNumber": 1,
+          "minSymbol": 1,
+          "excludeUsername": true,
+          "excludeAttributes": []
+        },
+        "age": {
+          "minAgeMinutes": 1440,
+          "historyCount": 24
+        }
+      }
+    }
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u1svj0agUHyvgWj1d7",
+      "identifier": "John.Pope@viasat.com",
+      "profile": {
+        "firstName": "John",
+        "lastName": "Pope",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US"
+      }
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "https://signin.uat.viasat.com/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02cwK_XFBDza-XI36QSkZeMJ_uADBerb45nC9Lj2mA",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "0oa1qtqph7nk2zGYv1d7"
+    }
+  }
+}

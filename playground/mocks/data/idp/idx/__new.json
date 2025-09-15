@@ -1,0 +1,151 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02.id.Xg0ypDetFjJb0J_REtLE-gMmgmnpf2mCj4Z2XHQr~c.147j2ddgg-NS5Q6Od0G9OTE95HV8Kzl-qnsKwm-1_6TlvmnJSCcm-brv1fllt-3JF7VatxdfTeZVqaux0R9IeLcVTwMYSFjIwka80eie59kHRdWW2bsqoy3pQDHvN7lKx6g4fmZ_laqGHT4WWBdLSxCsPFIZLvaeuVNncrFO1q9PlyOnhLr9j1hCAwGmKn9XNARz6a0z6o107v39txo63CTn2jdhdONwmyHx9rfbnN5gidWL28Gq18nFbX_rgyhJbs0Eo5eJ9NTsWxbJ78ytWGWgpYxhmQ0mRKSMq2uIM0LZq1DWu3P7VuHCALz0WBq3XGONDE5marTJwyOJ3CEAbxp_kh1aSgKZCJtUosktQ112SLV5rAJNh_oaQwWiXhR9XqSo6PHEJYTcnAlKtEsFGtQLl9IngCI_rDBr-7HNTCiVbATZpenhSYQbwtT26xApct4VL8NoNhXWkifVoC0_ABossl74eqqf1kcU0KZU9TEJYmsaY8dsvi5EJ1o0x3FWCjX0nlu4LslIw0IuaopQZhsHeHGsk1ocOczE8uhhCUPd6xg6FhIAZFX3LICKcZ2YJVm8a6mKpF6U_co0EtCpWiICxP6oxvV67ZsKC632UNM-MP5xyrddf4dePH6lzlTK0GLusJDpaX-mE7h_DDWAceQVMXnNq64B_zW9bZ8xM-1VSJc9VDReAUez7L5vjqcVxUVVeLxV59swAHYA-91nExKO-eWIEDsQQAyVdHYcKqbYX-d19w162mnHHYVz7YDPxRvGLeMUS-U7rhqepMsymIt7843EAQk-4YhlJijfF9gY-hx07xaPWRzgmq--dfrAaeBoumC2Mnvu3Yg_b3qgUScizk5vZ6sAMK2dtQn-E9OIGDOG6IfSWlaHh2nTmpwkvTK84kbUQE2Pdwon5faa9NSHED_AyOue4c4FRVSHwbuvjobdbKFUqkBwTJ6PX99OJ3pwsr-ch9cze9QUMWx6outfmz-fq655Il1rrFS8IpEnXXS1PzSuqxXu153htL1RqxP63hTC-3VOBz9aexHfzA",
+  "expiresAt": "2024-12-28T00:31:39.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "unlock-account",
+        "href": "https://gw.oktamanor.net/idp/idx/identify",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "identifier",
+            "label": "Username",
+            "required": true
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.Xg0ypDetFjJb0J_REtLE-gMmgmnpf2mCj4Z2XHQr~c.147j2ddgg-NS5Q6Od0G9OTE95HV8Kzl-qnsKwm-1_6TlvmnJSCcm-brv1fllt-3JF7VatxdfTeZVqaux0R9IeLcVTwMYSFjIwka80eie59kHRdWW2bsqoy3pQDHvN7lKx6g4fmZ_laqGHT4WWBdLSxCsPFIZLvaeuVNncrFO1q9PlyOnhLr9j1hCAwGmKn9XNARz6a0z6o107v39txo63CTn2jdhdONwmyHx9rfbnN5gidWL28Gq18nFbX_rgyhJbs0Eo5eJ9NTsWxbJ78ytWGWgpYxhmQ0mRKSMq2uIM0LZq1DWu3P7VuHCALz0WBq3XGONDE5marTJwyOJ3CEAbxp_kh1aSgKZCJtUosktQ112SLV5rAJNh_oaQwWiXhR9XqSo6PHEJYTcnAlKtEsFGtQLl9IngCI_rDBr-7HNTCiVbATZpenhSYQbwtT26xApct4VL8NoNhXWkifVoC0_ABossl74eqqf1kcU0KZU9TEJYmsaY8dsvi5EJ1o0x3FWCjX0nlu4LslIw0IuaopQZhsHeHGsk1ocOczE8uhhCUPd6xg6FhIAZFX3LICKcZ2YJVm8a6mKpF6U_co0EtCpWiICxP6oxvV67ZsKC632UNM-MP5xyrddf4dePH6lzlTK0GLusJDpaX-mE7h_DDWAceQVMXnNq64B_zW9bZ8xM-1VSJc9VDReAUez7L5vjqcVxUVVeLxV59swAHYA-91nExKO-eWIEDsQQAyVdHYcKqbYX-d19w162mnHHYVz7YDPxRvGLeMUS-U7rhqepMsymIt7843EAQk-4YhlJijfF9gY-hx07xaPWRzgmq--dfrAaeBoumC2Mnvu3Yg_b3qgUScizk5vZ6sAMK2dtQn-E9OIGDOG6IfSWlaHh2nTmpwkvTK84kbUQE2Pdwon5faa9NSHED_AyOue4c4FRVSHwbuvjobdbKFUqkBwTJ6PX99OJ3pwsr-ch9cze9QUMWx6outfmz-fq655Il1rrFS8IpEnXXS1PzSuqxXu153htL1RqxP63hTC-3VOBz9aexHfzA",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "challenge-webauthn-autofillui-authenticator",
+        "relatesTo": [
+          "webauthnAutofillUIChallenge"
+        ],
+        "href": "https://gw.oktamanor.net/idp/idx/challenge/answer/webauthn-autofillui",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "credentials",
+            "type": "object",
+            "form": {
+              "value": [
+                {
+                  "name": "authenticatorData",
+                  "label": "Authenticator Data",
+                  "required": true,
+                  "visible": false
+                },
+                {
+                  "name": "clientData",
+                  "label": "Client Data",
+                  "required": true,
+                  "visible": false
+                },
+                {
+                  "name": "signatureData",
+                  "label": "Signature Data",
+                  "required": true,
+                  "visible": false
+                },
+                {
+                  "name": "userHandle",
+                  "label": "User Handle",
+                  "required": false,
+                  "visible": false
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.Xg0ypDetFjJb0J_REtLE-gMmgmnpf2mCj4Z2XHQr~c.147j2ddgg-NS5Q6Od0G9OTE95HV8Kzl-qnsKwm-1_6TlvmnJSCcm-brv1fllt-3JF7VatxdfTeZVqaux0R9IeLcVTwMYSFjIwka80eie59kHRdWW2bsqoy3pQDHvN7lKx6g4fmZ_laqGHT4WWBdLSxCsPFIZLvaeuVNncrFO1q9PlyOnhLr9j1hCAwGmKn9XNARz6a0z6o107v39txo63CTn2jdhdONwmyHx9rfbnN5gidWL28Gq18nFbX_rgyhJbs0Eo5eJ9NTsWxbJ78ytWGWgpYxhmQ0mRKSMq2uIM0LZq1DWu3P7VuHCALz0WBq3XGONDE5marTJwyOJ3CEAbxp_kh1aSgKZCJtUosktQ112SLV5rAJNh_oaQwWiXhR9XqSo6PHEJYTcnAlKtEsFGtQLl9IngCI_rDBr-7HNTCiVbATZpenhSYQbwtT26xApct4VL8NoNhXWkifVoC0_ABossl74eqqf1kcU0KZU9TEJYmsaY8dsvi5EJ1o0x3FWCjX0nlu4LslIw0IuaopQZhsHeHGsk1ocOczE8uhhCUPd6xg6FhIAZFX3LICKcZ2YJVm8a6mKpF6U_co0EtCpWiICxP6oxvV67ZsKC632UNM-MP5xyrddf4dePH6lzlTK0GLusJDpaX-mE7h_DDWAceQVMXnNq64B_zW9bZ8xM-1VSJc9VDReAUez7L5vjqcVxUVVeLxV59swAHYA-91nExKO-eWIEDsQQAyVdHYcKqbYX-d19w162mnHHYVz7YDPxRvGLeMUS-U7rhqepMsymIt7843EAQk-4YhlJijfF9gY-hx07xaPWRzgmq--dfrAaeBoumC2Mnvu3Yg_b3qgUScizk5vZ6sAMK2dtQn-E9OIGDOG6IfSWlaHh2nTmpwkvTK84kbUQE2Pdwon5faa9NSHED_AyOue4c4FRVSHwbuvjobdbKFUqkBwTJ6PX99OJ3pwsr-ch9cze9QUMWx6outfmz-fq655Il1rrFS8IpEnXXS1PzSuqxXu153htL1RqxP63hTC-3VOBz9aexHfzA",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "https://gw.oktamanor.net/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02.id.Xg0ypDetFjJb0J_REtLE-gMmgmnpf2mCj4Z2XHQr~c.147j2ddgg-NS5Q6Od0G9OTE95HV8Kzl-qnsKwm-1_6TlvmnJSCcm-brv1fllt-3JF7VatxdfTeZVqaux0R9IeLcVTwMYSFjIwka80eie59kHRdWW2bsqoy3pQDHvN7lKx6g4fmZ_laqGHT4WWBdLSxCsPFIZLvaeuVNncrFO1q9PlyOnhLr9j1hCAwGmKn9XNARz6a0z6o107v39txo63CTn2jdhdONwmyHx9rfbnN5gidWL28Gq18nFbX_rgyhJbs0Eo5eJ9NTsWxbJ78ytWGWgpYxhmQ0mRKSMq2uIM0LZq1DWu3P7VuHCALz0WBq3XGONDE5marTJwyOJ3CEAbxp_kh1aSgKZCJtUosktQ112SLV5rAJNh_oaQwWiXhR9XqSo6PHEJYTcnAlKtEsFGtQLl9IngCI_rDBr-7HNTCiVbATZpenhSYQbwtT26xApct4VL8NoNhXWkifVoC0_ABossl74eqqf1kcU0KZU9TEJYmsaY8dsvi5EJ1o0x3FWCjX0nlu4LslIw0IuaopQZhsHeHGsk1ocOczE8uhhCUPd6xg6FhIAZFX3LICKcZ2YJVm8a6mKpF6U_co0EtCpWiICxP6oxvV67ZsKC632UNM-MP5xyrddf4dePH6lzlTK0GLusJDpaX-mE7h_DDWAceQVMXnNq64B_zW9bZ8xM-1VSJc9VDReAUez7L5vjqcVxUVVeLxV59swAHYA-91nExKO-eWIEDsQQAyVdHYcKqbYX-d19w162mnHHYVz7YDPxRvGLeMUS-U7rhqepMsymIt7843EAQk-4YhlJijfF9gY-hx07xaPWRzgmq--dfrAaeBoumC2Mnvu3Yg_b3qgUScizk5vZ6sAMK2dtQn-E9OIGDOG6IfSWlaHh2nTmpwkvTK84kbUQE2Pdwon5faa9NSHED_AyOue4c4FRVSHwbuvjobdbKFUqkBwTJ6PX99OJ3pwsr-ch9cze9QUMWx6outfmz-fq655Il1rrFS8IpEnXXS1PzSuqxXu153htL1RqxP63hTC-3VOBz9aexHfzA",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "oidc_client",
+      "label": "Passwordless App (App A).",
+      "id": "0oa1qcts70mVXVA6Y1d7"
+    }
+  },
+  "webauthnAutofillUIChallenge": {
+    "type": "object",
+    "value": {
+      "challengeData": {
+        "challenge": "FtqVxjTlO162FOPxVfnRhEvTzPQ5Zgc4",
+        "userVerification": "preferred",
+        "extensions": {
+          "appid": "http://localhost:8080"
+        }
+      }
+    }
+  },
+  "authentication": {
+    "type": "object",
+    "value": {
+      "protocol": "OAUTH2.0",
+      "issuer": {
+        "id": "aus1qcwynhEv3AflW1d7",
+        "name": "default",
+        "uri": "https://gw.oktamanor.net/oauth2/default"
+      },
+      "request": {
+        "max_age": -1,
+        "scope": "openid profile email offline_access",
+        "response_type": "code",
+        "redirect_uri": "http://localhost:8080/auth-recover-password.html",
+        "state": "dSbj4uPdXvvibZYPvxUduS7Tknc2T4x3H5FRL4SlkeJqJ9pTvOEFC0Ss4ZXdCvVS",
+        "code_challenge_method": "S256",
+        "nonce": "t6BioPrNBrtDz5qvOyH1KpPIGldF20KjMNMsIKPKLRTBweefQl9XALPLVTprOXqq",
+        "code_challenge": "_8qVlSmAGawSAypkDQPg5-eL4QoeKYRleoS_Arodpk8",
+        "response_mode": "query"
+      }
+    }
+  }
+}

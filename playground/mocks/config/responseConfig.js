@@ -133,8 +133,9 @@ const idx = {
     'error-authenticator-enroll-phone-invalid-number',
   ],
   '/idp/idx/identify': [
+    'success',
     // 'authenticator-verification-data-ov-only-without-device-known',
-    'authenticator-verification-email',
+    // 'authenticator-verification-email',
     // 'authenticator-enroll-select-authenticator',
     // 'authenticator-verification-email-without-emailmagiclink',
     // 'identify-with-only-one-third-party-idp',

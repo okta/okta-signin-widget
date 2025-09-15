@@ -19,7 +19,7 @@ import {
 import { FormBag } from '../types/schema';
 import { getFormNameForTransaction, getTransformHookContext } from './getEventContext';
 
-const hookTypes: HookType[] = ['before', 'after', 'afterTransform'];
+const hookTypes: HookType[] = ['before', 'after', 'afterTransform', 'beforeAll'];
 
 export class WidgetHooks {
   private hooks: HooksMap;
@@ -51,6 +51,7 @@ export class WidgetHooks {
     hookType: BaseHookType,
     idxTransaction?: IdxTransaction,
   ): Promise<void> {
+    // here
     const formName = getFormNameForTransaction(idxTransaction);
     if (formName) {
       const hooksToExecute = this.hooks.get(formName)?.get(hookType) || [];
