@@ -360,7 +360,7 @@ exports[`enroll-profile-with-password should show custom error message and preve
                   >
                     <div
                       aria-label="error"
-                      aria-labelledby="4hp45h"
+                      aria-labelledby="82mvyq"
                       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-11"
                       role="alert"
                     >
@@ -697,7 +697,7 @@ exports[`enroll-profile-with-password should show custom field level error messa
                   >
                     <div
                       aria-label="error"
-                      aria-labelledby="wubdi9"
+                      aria-labelledby="82mvyq"
                       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-11"
                       role="alert"
                     >
@@ -1034,7 +1034,7 @@ exports[`enroll-profile-with-password should show generic error message and prev
                   >
                     <div
                       aria-label="error"
-                      aria-labelledby="mdo933"
+                      aria-labelledby="82mvyq"
                       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-11"
                       role="alert"
                     >
@@ -1354,7 +1354,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                   >
                     <div
                       aria-label="error"
-                      aria-labelledby="y6bf7c"
+                      aria-labelledby="82mvyq"
                       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-11"
                       role="alert"
                     >
