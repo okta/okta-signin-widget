@@ -133,6 +133,7 @@ const CaptchaContainer: UISchemaElementComponent<{
     resetCaptchaContainer();
   };
 
+
   if (captchaType === 'RECAPTCHA_V2') {
     return (
       // set z-index to 1 for ReCaptcha so the badge does not get covered by the footer
