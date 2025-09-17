@@ -3,264 +3,268 @@
 exports[`authenticator-enroll-google-authenticator renders form renders QR code view 1`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                role="presentation"
-                tabindex="-1"
-              />
               <div
-                aria-hidden="true"
-                class="MuiBox-root emotion-7"
-                data-se="factor-beacon mfa-google-auth "
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header authCoinSpacing"
               >
-                <svg
-                  aria-labelledby="mfa-google-auth"
-                  fill="none"
-                  height="2.85714286rem"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="2.85714286rem"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-google-auth"
-                  >
-                    Google Authenticator
-                  </title>
-                  <path
-                    clip-rule="evenodd"
-                    d="M39.5 26.9545C41.1569 26.9545 42.5 25.6113 42.5 23.9545C42.5 22.2976 41.1569 20.9545 39.5 20.9545H28.6963L34.0982 11.5981C34.9266 10.1632 34.435 8.32845 33.0001 7.50002C31.5652 6.67159 29.7304 7.16322 28.902 8.5981L18.304 26.9545H39.5Z"
-                    fill="#1A73E7"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M18.0981 8.5981C17.2697 7.16322 15.4349 6.67159 14 7.50002C12.5651 8.32845 12.0735 10.1632 12.9019 11.5981L18.3039 20.9545H21.7681L23.5001 17.9546L18.0981 8.5981Z"
-                    fill="#FABB04"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M21.768 20.9545H7.5C5.84315 20.9545 4.5 22.2976 4.5 23.9545C4.5 25.6114 5.84315 26.9545 7.5 26.9545H18.3039L21.768 20.9545Z"
-                    fill="#34A753"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M18.304 26.9545L12.9021 36.3109C12.0736 37.7458 12.5653 39.5806 14.0001 40.409C15.435 41.2374 17.2698 40.7458 18.0982 39.3109L23.5001 29.9546L28.902 39.3109C29.7304 40.7458 31.5652 41.2374 33 40.409C34.4349 39.5805 34.9265 37.7458 34.0981 36.3109L28.6962 26.9545H18.304Z"
-                    fill="#E94335"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M23.5001 17.9546L28.6962 26.9545H18.304L23.5001 17.9546Z"
-                    fill="#174EA5"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
-                aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-              >
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  role="presentation"
+                  tabindex="-1"
+                />
                 <div
-                  class="MuiBox-root emotion-10"
+                  aria-hidden="true"
+                  class="MuiBox-root emotion-8"
+                  data-se="factor-beacon mfa-google-auth "
+                >
+                  <svg
+                    aria-labelledby="mfa-google-auth"
+                    fill="none"
+                    height="2.85714286rem"
+                    role="img"
+                    viewBox="0 0 48 48"
+                    width="2.85714286rem"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title
+                      id="mfa-google-auth"
+                    >
+                      Google Authenticator
+                    </title>
+                    <path
+                      clip-rule="evenodd"
+                      d="M39.5 26.9545C41.1569 26.9545 42.5 25.6113 42.5 23.9545C42.5 22.2976 41.1569 20.9545 39.5 20.9545H28.6963L34.0982 11.5981C34.9266 10.1632 34.435 8.32845 33.0001 7.50002C31.5652 6.67159 29.7304 7.16322 28.902 8.5981L18.304 26.9545H39.5Z"
+                      fill="#1A73E7"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M18.0981 8.5981C17.2697 7.16322 15.4349 6.67159 14 7.50002C12.5651 8.32845 12.0735 10.1632 12.9019 11.5981L18.3039 20.9545H21.7681L23.5001 17.9546L18.0981 8.5981Z"
+                      fill="#FABB04"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M21.768 20.9545H7.5C5.84315 20.9545 4.5 22.2976 4.5 23.9545C4.5 25.6114 5.84315 26.9545 7.5 26.9545H18.3039L21.768 20.9545Z"
+                      fill="#34A753"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M18.304 26.9545L12.9021 36.3109C12.0736 37.7458 12.5653 39.5806 14.0001 40.409C15.435 41.2374 17.2698 40.7458 18.0982 39.3109L23.5001 29.9546L28.902 39.3109C29.7304 40.7458 31.5652 41.2374 33 40.409C34.4349 39.5805 34.9265 37.7458 34.0981 36.3109L28.6962 26.9545H18.304Z"
+                      fill="#E94335"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M23.5001 17.9546L28.6962 26.9545H18.304L23.5001 17.9546Z"
+                      fill="#174EA5"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-9"
+              >
+                <form
+                  aria-live="polite"
+                  class="o-form MuiBox-root emotion-10"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
                     class="MuiBox-root emotion-11"
                   >
                     <div
                       class="MuiBox-root emotion-12"
-                      data-se="identifier-container"
-                      title="tester19@test.com"
                     >
                       <div
-                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
-                        data-se="identifier"
-                        translate="no"
+                        class="MuiBox-root emotion-13"
+                        data-se="identifier-container"
+                        title="tester19@test.com"
                       >
                         <div
-                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-14"
+                          data-se="identifier"
+                          translate="no"
                         >
-                          <svg
-                            aria-label="User"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
-                            fill="none"
-                            focusable="false"
-                            role="img"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
+                          <div
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-15"
                           >
-                            <path
-                              clip-rule="evenodd"
-                              d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                            <title>
-                              User
-                            </title>
-                          </svg>
+                            <svg
+                              aria-label="User"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+                              fill="none"
+                              focusable="false"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                              <title>
+                                User
+                              </title>
+                            </svg>
+                          </div>
+                          <span
+                            class="MuiChip-label MuiChip-labelMedium emotion-17"
+                          >
+                            tester19@test.com
+                          </span>
                         </div>
-                        <span
-                          class="MuiChip-label MuiChip-labelMedium emotion-16"
-                        >
-                          tester19@test.com
-                        </span>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
                     <div
-                      class="MuiBox-root emotion-18"
-                    >
-                      <h1
-                        class="MuiTypography-root MuiTypography-h4 emotion-19"
-                        data-se="o-form-head"
-                        tabindex="-1"
-                      >
-                        Set up Google Authenticator
-                      </h1>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-12"
                     >
                       <div
-                        class="MuiBox-root emotion-18"
+                        class="MuiBox-root emotion-19"
                       >
-                        <h2
-                          class="MuiTypography-root MuiTypography-h5 emotion-23"
-                          data-se="barcode-setup-title"
+                        <h1
+                          class="MuiTypography-root MuiTypography-h4 emotion-20"
+                          data-se="o-form-head"
                           tabindex="-1"
                         >
-                          Scan QR code
-                        </h2>
+                          Set up Google Authenticator
+                        </h1>
                       </div>
                     </div>
                     <div
                       class="MuiBox-root emotion-11"
                     >
                       <div
-                        class="MuiBox-root emotion-18"
+                        class="MuiBox-root emotion-2"
                       >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-26"
-                          data-se="google-authenticator-setup-info"
-                          tabindex="-1"
+                        <div
+                          class="MuiBox-root emotion-19"
                         >
-                          Launch Google Authenticator, tap the "+" icon, then select "Scan a QR code".
-                        </p>
+                          <h2
+                            class="MuiTypography-root MuiTypography-h5 emotion-24"
+                            data-se="barcode-setup-title"
+                            tabindex="-1"
+                          >
+                            Scan QR code
+                          </h2>
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      class="MuiBox-root emotion-11"
-                    >
                       <div
-                        class="MuiBox-root emotion-28"
-                        data-se="qrContainer"
+                        class="MuiBox-root emotion-12"
+                      >
+                        <div
+                          class="MuiBox-root emotion-19"
+                        >
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 emotion-27"
+                            data-se="google-authenticator-setup-info"
+                            tabindex="-1"
+                          >
+                            Launch Google Authenticator, tap the "+" icon, then select "Scan a QR code".
+                          </p>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-12"
                       >
                         <div
                           class="MuiBox-root emotion-29"
+                          data-se="qrContainer"
                         >
-                          <img
-                            alt="QR code. If you can't scan, click on the link below to select an alternative activation method"
+                          <div
                             class="MuiBox-root emotion-30"
-                            data-se="qrImg"
-                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAE7ElEQVR42u3dwWrsMAwF0Pz/T7/uC29RYklXzrnQ1ZQh4/gEFDvK809E/pvHEIgAIgKICCAigIgAIgKICCAigIgAIiKAiAAiAogIICKAiAAiAogIIL+/6Hla/04f718/rx6v0+Ndff5umx+AAAIIIIAAAggggOwDUj2h3k64r4N9O17pFxxAAAEEEEAAAQQQQAB5O+HSiubTYKrHo3p8TwNKmR+AAAIIIIAAAggggABS9f1vJ3BaEV+9sAcIIIAAAggggAACCCCK9FmQ1UX5NAhAAAEEEEAAAQQQQADZBqQbYPUJOl20Vx9/90Jn2vwABBBAAAEEEEAAAeR+INsnmM/vugAB4nNAADHBAAEEEEDuA5KW6QeQqv8/feHzmnkECCCAAAIIIIAAAkgskO4ivPsBpemisvqBp9Pjvb0RHSCAAAIIIIAAAggg+4CcPmGpA5gygbvHa/oCBwgggAACCCCAAAIIIGnNnKebXXc3jqsez+nvnwoggAACCCCAAAIIILlA0ovW9KKwu/n29E2PLYAAAQQQQAABBBBAANkDpLvIvA3k6QtO+gRO3bwICCCAAAIIIIAAAsgeILe9VLP7ga9tmz+rjx8QQAABBBBAAAEEEEC6i/juE5S22bD6psH0wlzq8QECCCCAAAIIIIAAkgvk600SqhuzpT+QdmtTDkAAAQQQQAABBBBA9hTp3UVz2kLWdLPn6c2ctwQQQAABBBBAAAEEkL1AtoPqPv7pInZ682XKTSJAAAEEEEAAAQQQQO4FUg3u9E2GbS+EmW5SseUBKUAAAQQQQAABBBBAvrNZcfoFL9MLidXjUX3BuqVJAyCAAAIIIIAAAggge4v00z94+qH+6SK9e/Nm98Le57uaAAIIIIAAAggggAASV7RPT5i0hbPuCT1dtFfPN0AAAQQQQAABBBBA9gNJW1iaLiKnP0/7vvRm2oAAAggggAACCCCA5ANJWzibLuKnx2/6pkk1uHVFOiCAAAIIIIAAAggg5UCqP59eiEt7QOj0+GxrXg0IIIAAAggggAACCCDbiuDu39+9+TCtacPp8wMIIIAAAggggAACCCDpRf40iNMLhbc1rrt+syIggAACCCCAAAIIIOVFW9qE6v593UVv9QVu200FQAABBBBAAAEEEEC+17RhWxFbfVOhewJ3j2faBQgQQAABBBBAAAEEkPuAfL2JQvdNhfTNgt1Ar+tqAggggAACCCCAAAJIeVHYXRSnvYAm7QJw++8HxATx+wEBBBBAAAHkfiDdAzLdTHv6gpIGcAsIQAABBBBAAAEEEEDuBTLdPLl74S6tyE1r/v35hUJAAAEEEEAAAQQQQNYlrXHa9AuBTt9ESbtJAwgggAACCCCAAAIIINMvkUwruqubeXcff1rTjPULhYAAAggggAACCCCAjBdp1QuRaQCmFxqrN4cq0gEBBBBAAAEEEEAAmQYy3Ugu/QU3ad/Xvfk0BQQggAACCCCAAAIIIIB0nfBuANtfINQ9X6ZuEgECCCCAAAIIIIAAAsiWonM6aUXv9E0WQAABBBBAAAEEEEC8H2S6qEsDPv3/08eX+kIfQAABBBBAAAEEEED2ANnezDh9IS/tb2oCry3SAQEEEEAAAQQQQAAREUBEABEBRAQQEUBEABEBRAQQEUBEBBARQEQAEQFEBBARQEQAEQFE5Ob8AIHb9L3GGLlfAAAAAElFTkSuQmCC"
-                          />
+                          >
+                            <img
+                              alt="QR code. If you can't scan, click on the link below to select an alternative activation method"
+                              class="MuiBox-root emotion-31"
+                              data-se="qrImg"
+                              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAE7ElEQVR42u3dwWrsMAwF0Pz/T7/uC29RYklXzrnQ1ZQh4/gEFDvK809E/pvHEIgAIgKICCAigIgAIgKICCAigIgAIiKAiAAiAogIICKAiAAiAogIIL+/6Hla/04f718/rx6v0+Ndff5umx+AAAIIIIAAAggggOwDUj2h3k64r4N9O17pFxxAAAEEEEAAAQQQQAB5O+HSiubTYKrHo3p8TwNKmR+AAAIIIIAAAggggABS9f1vJ3BaEV+9sAcIIIAAAggggAACCCCK9FmQ1UX5NAhAAAEEEEAAAQQQQADZBqQbYPUJOl20Vx9/90Jn2vwABBBAAAEEEEAAAeR+INsnmM/vugAB4nNAADHBAAEEEEDuA5KW6QeQqv8/feHzmnkECCCAAAIIIIAAAkgskO4ivPsBpemisvqBp9Pjvb0RHSCAAAIIIIAAAggg+4CcPmGpA5gygbvHa/oCBwgggAACCCCAAAIIIGnNnKebXXc3jqsez+nvnwoggAACCCCAAAIIILlA0ovW9KKwu/n29E2PLYAAAQQQQAABBBBAANkDpLvIvA3k6QtO+gRO3bwICCCAAAIIIIAAAsgeILe9VLP7ga9tmz+rjx8QQAABBBBAAAEEEEC6i/juE5S22bD6psH0wlzq8QECCCCAAAIIIIAAkgvk600SqhuzpT+QdmtTDkAAAQQQQAABBBBA9hTp3UVz2kLWdLPn6c2ctwQQQAABBBBAAAEEkL1AtoPqPv7pInZ682XKTSJAAAEEEEAAAQQQQO4FUg3u9E2GbS+EmW5SseUBKUAAAQQQQAABBBBAvrNZcfoFL9MLidXjUX3BuqVJAyCAAAIIIIAAAggge4v00z94+qH+6SK9e/Nm98Le57uaAAIIIIAAAggggAASV7RPT5i0hbPuCT1dtFfPN0AAAQQQQAABBBBA9gNJW1iaLiKnP0/7vvRm2oAAAggggAACCCCA5ANJWzibLuKnx2/6pkk1uHVFOiCAAAIIIIAAAggg5UCqP59eiEt7QOj0+GxrXg0IIIAAAggggAACCCDbiuDu39+9+TCtacPp8wMIIIAAAggggAACCCDpRf40iNMLhbc1rrt+syIggAACCCCAAAIIIOVFW9qE6v593UVv9QVu200FQAABBBBAAAEEEEC+17RhWxFbfVOhewJ3j2faBQgQQAABBBBAAAEEkPuAfL2JQvdNhfTNgt1Ar+tqAggggAACCCCAAAJIeVHYXRSnvYAm7QJw++8HxATx+wEBBBBAAAHkfiDdAzLdTHv6gpIGcAsIQAABBBBAAAEEEEDuBTLdPLl74S6tyE1r/v35hUJAAAEEEEAAAQQQQNYlrXHa9AuBTt9ESbtJAwgggAACCCCAAAIIINMvkUwruqubeXcff1rTjPULhYAAAggggAACCCCAjBdp1QuRaQCmFxqrN4cq0gEBBBBAAAEEEEAAmQYy3Ugu/QU3ad/Xvfk0BQQggAACCCCAAAIIIIB0nfBuANtfINQ9X6ZuEgECCCCAAAIIIIAAAsiWonM6aUXv9E0WQAABBBBAAAEEEEC8H2S6qEsDPv3/08eX+kIfQAABBBBAAAEEEED2ANnezDh9IS/tb2oCry3SAQEEEEAAAQQQQAAREUBEABEBRAQQEUBEABEBRAQQEUBEBBARQEQAEQFEBBARQEQAEQFE5Ob8AIHb9L3GGLlfAAAAAElFTkSuQmCC"
+                            />
+                          </div>
                         </div>
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-12"
+                      >
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-33"
+                          tabindex="0"
+                          type="button"
+                        >
+                          Can't scan?
+                        </button>
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-12"
+                      >
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-35"
+                          tabindex="0"
+                          type="button"
+                        >
+                          Next
+                        </button>
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-32"
-                        tabindex="0"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
+                        data-se="switchAuthenticator"
+                        role="link"
                         type="button"
                       >
-                        Can't scan?
+                        Return to authenticator list
                       </button>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-34"
-                        tabindex="0"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
+                        data-se="cancel"
+                        role="link"
                         type="button"
                       >
-                        Next
+                        Back to sign in
                       </button>
                     </div>
                   </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-36"
-                      data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
-                    >
-                      Return to authenticator list
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-36"
-                      data-se="cancel"
-                      role="link"
-                      type="button"
-                    >
-                      Back to sign in
-                    </button>
-                  </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;
@@ -268,255 +272,259 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
 exports[`authenticator-enroll-google-authenticator renders form renders challenge view 1`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                role="presentation"
-                tabindex="-1"
-              />
               <div
-                aria-hidden="true"
-                class="MuiBox-root emotion-7"
-                data-se="factor-beacon mfa-google-auth "
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header authCoinSpacing"
               >
-                <svg
-                  aria-labelledby="mfa-google-auth"
-                  fill="none"
-                  height="2.85714286rem"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="2.85714286rem"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-google-auth"
-                  >
-                    Google Authenticator
-                  </title>
-                  <path
-                    clip-rule="evenodd"
-                    d="M39.5 26.9545C41.1569 26.9545 42.5 25.6113 42.5 23.9545C42.5 22.2976 41.1569 20.9545 39.5 20.9545H28.6963L34.0982 11.5981C34.9266 10.1632 34.435 8.32845 33.0001 7.50002C31.5652 6.67159 29.7304 7.16322 28.902 8.5981L18.304 26.9545H39.5Z"
-                    fill="#1A73E7"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M18.0981 8.5981C17.2697 7.16322 15.4349 6.67159 14 7.50002C12.5651 8.32845 12.0735 10.1632 12.9019 11.5981L18.3039 20.9545H21.7681L23.5001 17.9546L18.0981 8.5981Z"
-                    fill="#FABB04"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M21.768 20.9545H7.5C5.84315 20.9545 4.5 22.2976 4.5 23.9545C4.5 25.6114 5.84315 26.9545 7.5 26.9545H18.3039L21.768 20.9545Z"
-                    fill="#34A753"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M18.304 26.9545L12.9021 36.3109C12.0736 37.7458 12.5653 39.5806 14.0001 40.409C15.435 41.2374 17.2698 40.7458 18.0982 39.3109L23.5001 29.9546L28.902 39.3109C29.7304 40.7458 31.5652 41.2374 33 40.409C34.4349 39.5805 34.9265 37.7458 34.0981 36.3109L28.6962 26.9545H18.304Z"
-                    fill="#E94335"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M23.5001 17.9546L28.6962 26.9545H18.304L23.5001 17.9546Z"
-                    fill="#174EA5"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
-                aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-              >
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  role="presentation"
+                  tabindex="-1"
+                />
                 <div
-                  class="MuiBox-root emotion-10"
+                  aria-hidden="true"
+                  class="MuiBox-root emotion-8"
+                  data-se="factor-beacon mfa-google-auth "
+                >
+                  <svg
+                    aria-labelledby="mfa-google-auth"
+                    fill="none"
+                    height="2.85714286rem"
+                    role="img"
+                    viewBox="0 0 48 48"
+                    width="2.85714286rem"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title
+                      id="mfa-google-auth"
+                    >
+                      Google Authenticator
+                    </title>
+                    <path
+                      clip-rule="evenodd"
+                      d="M39.5 26.9545C41.1569 26.9545 42.5 25.6113 42.5 23.9545C42.5 22.2976 41.1569 20.9545 39.5 20.9545H28.6963L34.0982 11.5981C34.9266 10.1632 34.435 8.32845 33.0001 7.50002C31.5652 6.67159 29.7304 7.16322 28.902 8.5981L18.304 26.9545H39.5Z"
+                      fill="#1A73E7"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M18.0981 8.5981C17.2697 7.16322 15.4349 6.67159 14 7.50002C12.5651 8.32845 12.0735 10.1632 12.9019 11.5981L18.3039 20.9545H21.7681L23.5001 17.9546L18.0981 8.5981Z"
+                      fill="#FABB04"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M21.768 20.9545H7.5C5.84315 20.9545 4.5 22.2976 4.5 23.9545C4.5 25.6114 5.84315 26.9545 7.5 26.9545H18.3039L21.768 20.9545Z"
+                      fill="#34A753"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M18.304 26.9545L12.9021 36.3109C12.0736 37.7458 12.5653 39.5806 14.0001 40.409C15.435 41.2374 17.2698 40.7458 18.0982 39.3109L23.5001 29.9546L28.902 39.3109C29.7304 40.7458 31.5652 41.2374 33 40.409C34.4349 39.5805 34.9265 37.7458 34.0981 36.3109L28.6962 26.9545H18.304Z"
+                      fill="#E94335"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M23.5001 17.9546L28.6962 26.9545H18.304L23.5001 17.9546Z"
+                      fill="#174EA5"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-9"
+              >
+                <form
+                  aria-live="polite"
+                  class="o-form MuiBox-root emotion-10"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
                     class="MuiBox-root emotion-11"
                   >
                     <div
                       class="MuiBox-root emotion-12"
-                      data-se="identifier-container"
-                      title="tester19@test.com"
                     >
                       <div
-                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
-                        data-se="identifier"
-                        translate="no"
+                        class="MuiBox-root emotion-13"
+                        data-se="identifier-container"
+                        title="tester19@test.com"
                       >
                         <div
-                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-14"
+                          data-se="identifier"
+                          translate="no"
                         >
-                          <svg
-                            aria-label="User"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
-                            fill="none"
-                            focusable="false"
-                            role="img"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
+                          <div
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-15"
                           >
-                            <path
-                              clip-rule="evenodd"
-                              d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                            <title>
-                              User
-                            </title>
-                          </svg>
+                            <svg
+                              aria-label="User"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+                              fill="none"
+                              focusable="false"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                              <title>
+                                User
+                              </title>
+                            </svg>
+                          </div>
+                          <span
+                            class="MuiChip-label MuiChip-labelMedium emotion-17"
+                          >
+                            tester19@test.com
+                          </span>
                         </div>
-                        <span
-                          class="MuiChip-label MuiChip-labelMedium emotion-16"
-                        >
-                          tester19@test.com
-                        </span>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
                     <div
-                      class="MuiBox-root emotion-18"
-                    >
-                      <h1
-                        class="MuiTypography-root MuiTypography-h4 emotion-19"
-                        data-se="o-form-head"
-                        tabindex="-1"
-                      >
-                        Set up Google Authenticator
-                      </h1>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-12"
                     >
                       <div
-                        class="MuiBox-root emotion-18"
+                        class="MuiBox-root emotion-19"
                       >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-23"
-                          data-se="enter-code-title"
+                        <h1
+                          class="MuiTypography-root MuiTypography-h4 emotion-20"
+                          data-se="o-form-head"
                           tabindex="-1"
                         >
-                          Enter code displayed from application
-                        </p>
+                          Set up Google Authenticator
+                        </h1>
                       </div>
                     </div>
                     <div
                       class="MuiBox-root emotion-11"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiBox-root emotion-12"
                       >
-                        <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
-                          data-shrink="false"
-                          for="credentials.passcode"
-                          id="credentials.passcode-label"
-                        >
-                          <span>
-                            Enter code
-                          </span>
-                        </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
-                          required="true"
+                          class="MuiBox-root emotion-19"
                         >
-                          <input
-                            aria-invalid="false"
-                            aria-labelledby="credentials.passcode-label"
-                            autocomplete="off"
-                            class="MuiInputBase-input emotion-28"
-                            data-se="credentials.passcode"
-                            id="credentials.passcode"
-                            inputmode="numeric"
-                            name="credentials.passcode"
-                            required=""
-                            type="text"
-                          />
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 emotion-24"
+                            data-se="enter-code-title"
+                            tabindex="-1"
+                          >
+                            Enter code displayed from application
+                          </p>
                         </div>
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-12"
+                      >
+                        <div
+                          class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-26"
+                        >
+                          <label
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-27"
+                            data-shrink="false"
+                            for="credentials.passcode"
+                            id="credentials.passcode-label"
+                          >
+                            <span>
+                              Enter code
+                            </span>
+                          </label>
+                          <div
+                            class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-28"
+                            required="true"
+                          >
+                            <input
+                              aria-invalid="false"
+                              aria-labelledby="credentials.passcode-label"
+                              autocomplete="off"
+                              class="MuiInputBase-input emotion-29"
+                              data-se="credentials.passcode"
+                              id="credentials.passcode"
+                              inputmode="numeric"
+                              name="credentials.passcode"
+                              required=""
+                              type="text"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-12"
+                      >
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-31"
+                          data-se="save"
+                          tabindex="0"
+                          type="submit"
+                        >
+                          Verify
+                        </button>
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-30"
-                        data-se="save"
-                        tabindex="0"
-                        type="submit"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
+                        data-se="switchAuthenticator"
+                        role="link"
+                        type="button"
                       >
-                        Verify
+                        Return to authenticator list
+                      </button>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
+                        data-se="cancel"
+                        role="link"
+                        type="button"
+                      >
+                        Back to sign in
                       </button>
                     </div>
                   </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-32"
-                      data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
-                    >
-                      Return to authenticator list
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-32"
-                      data-se="cancel"
-                      role="link"
-                      type="button"
-                    >
-                      Back to sign in
-                    </button>
-                  </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;
@@ -524,250 +532,254 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
 exports[`authenticator-enroll-google-authenticator renders form renders secret key view 1`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                role="presentation"
-                tabindex="-1"
-              />
               <div
-                aria-hidden="true"
-                class="MuiBox-root emotion-7"
-                data-se="factor-beacon mfa-google-auth "
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header authCoinSpacing"
               >
-                <svg
-                  aria-labelledby="mfa-google-auth"
-                  fill="none"
-                  height="2.85714286rem"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="2.85714286rem"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-google-auth"
-                  >
-                    Google Authenticator
-                  </title>
-                  <path
-                    clip-rule="evenodd"
-                    d="M39.5 26.9545C41.1569 26.9545 42.5 25.6113 42.5 23.9545C42.5 22.2976 41.1569 20.9545 39.5 20.9545H28.6963L34.0982 11.5981C34.9266 10.1632 34.435 8.32845 33.0001 7.50002C31.5652 6.67159 29.7304 7.16322 28.902 8.5981L18.304 26.9545H39.5Z"
-                    fill="#1A73E7"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M18.0981 8.5981C17.2697 7.16322 15.4349 6.67159 14 7.50002C12.5651 8.32845 12.0735 10.1632 12.9019 11.5981L18.3039 20.9545H21.7681L23.5001 17.9546L18.0981 8.5981Z"
-                    fill="#FABB04"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M21.768 20.9545H7.5C5.84315 20.9545 4.5 22.2976 4.5 23.9545C4.5 25.6114 5.84315 26.9545 7.5 26.9545H18.3039L21.768 20.9545Z"
-                    fill="#34A753"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M18.304 26.9545L12.9021 36.3109C12.0736 37.7458 12.5653 39.5806 14.0001 40.409C15.435 41.2374 17.2698 40.7458 18.0982 39.3109L23.5001 29.9546L28.902 39.3109C29.7304 40.7458 31.5652 41.2374 33 40.409C34.4349 39.5805 34.9265 37.7458 34.0981 36.3109L28.6962 26.9545H18.304Z"
-                    fill="#E94335"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M23.5001 17.9546L28.6962 26.9545H18.304L23.5001 17.9546Z"
-                    fill="#174EA5"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
-                aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-              >
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  role="presentation"
+                  tabindex="-1"
+                />
                 <div
-                  class="MuiBox-root emotion-10"
+                  aria-hidden="true"
+                  class="MuiBox-root emotion-8"
+                  data-se="factor-beacon mfa-google-auth "
+                >
+                  <svg
+                    aria-labelledby="mfa-google-auth"
+                    fill="none"
+                    height="2.85714286rem"
+                    role="img"
+                    viewBox="0 0 48 48"
+                    width="2.85714286rem"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title
+                      id="mfa-google-auth"
+                    >
+                      Google Authenticator
+                    </title>
+                    <path
+                      clip-rule="evenodd"
+                      d="M39.5 26.9545C41.1569 26.9545 42.5 25.6113 42.5 23.9545C42.5 22.2976 41.1569 20.9545 39.5 20.9545H28.6963L34.0982 11.5981C34.9266 10.1632 34.435 8.32845 33.0001 7.50002C31.5652 6.67159 29.7304 7.16322 28.902 8.5981L18.304 26.9545H39.5Z"
+                      fill="#1A73E7"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M18.0981 8.5981C17.2697 7.16322 15.4349 6.67159 14 7.50002C12.5651 8.32845 12.0735 10.1632 12.9019 11.5981L18.3039 20.9545H21.7681L23.5001 17.9546L18.0981 8.5981Z"
+                      fill="#FABB04"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M21.768 20.9545H7.5C5.84315 20.9545 4.5 22.2976 4.5 23.9545C4.5 25.6114 5.84315 26.9545 7.5 26.9545H18.3039L21.768 20.9545Z"
+                      fill="#34A753"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M18.304 26.9545L12.9021 36.3109C12.0736 37.7458 12.5653 39.5806 14.0001 40.409C15.435 41.2374 17.2698 40.7458 18.0982 39.3109L23.5001 29.9546L28.902 39.3109C29.7304 40.7458 31.5652 41.2374 33 40.409C34.4349 39.5805 34.9265 37.7458 34.0981 36.3109L28.6962 26.9545H18.304Z"
+                      fill="#E94335"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M23.5001 17.9546L28.6962 26.9545H18.304L23.5001 17.9546Z"
+                      fill="#174EA5"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-9"
+              >
+                <form
+                  aria-live="polite"
+                  class="o-form MuiBox-root emotion-10"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
                     class="MuiBox-root emotion-11"
                   >
                     <div
                       class="MuiBox-root emotion-12"
-                      data-se="identifier-container"
-                      title="tester19@test.com"
                     >
                       <div
-                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
-                        data-se="identifier"
-                        translate="no"
+                        class="MuiBox-root emotion-13"
+                        data-se="identifier-container"
+                        title="tester19@test.com"
                       >
                         <div
-                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
-                        >
-                          <svg
-                            aria-label="User"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
-                            fill="none"
-                            focusable="false"
-                            role="img"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                            <title>
-                              User
-                            </title>
-                          </svg>
-                        </div>
-                        <span
-                          class="MuiChip-label MuiChip-labelMedium emotion-16"
-                        >
-                          tester19@test.com
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-18"
-                    >
-                      <h1
-                        class="MuiTypography-root MuiTypography-h4 emotion-19"
-                        data-se="o-form-head"
-                        tabindex="-1"
-                      >
-                        Set up Google Authenticator
-                      </h1>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <div
-                      class="MuiBox-root emotion-1"
-                    >
-                      <div
-                        class="MuiBox-root emotion-18"
-                      >
-                        <h2
-                          class="MuiTypography-root MuiTypography-h5 emotion-23"
-                          data-se="manual-setup-title"
-                          tabindex="-1"
-                        >
-                          Can't scan QR code?
-                        </h2>
-                      </div>
-                    </div>
-                    <div
-                      class="MuiBox-root emotion-11"
-                    >
-                      <div
-                        class="MuiBox-root emotion-18"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-26"
-                          data-se="google-authenticator-setup-info"
-                          tabindex="-1"
-                        >
-                          To set up manually enter your Okta Account username and then input the following in the Secret Key Field
-                        </p>
-                      </div>
-                    </div>
-                    <div
-                      class="MuiBox-root emotion-11"
-                    >
-                      <div
-                        class="MuiBox-root emotion-18"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-26"
-                          data-se="o-form-explain"
-                          tabindex="-1"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-14"
+                          data-se="identifier"
                           translate="no"
                         >
-                          K A G W B I X A K O L P E F M Y
-                        </p>
+                          <div
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-15"
+                          >
+                            <svg
+                              aria-label="User"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+                              fill="none"
+                              focusable="false"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                              <title>
+                                User
+                              </title>
+                            </svg>
+                          </div>
+                          <span
+                            class="MuiChip-label MuiChip-labelMedium emotion-17"
+                          >
+                            tester19@test.com
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <div
+                        class="MuiBox-root emotion-19"
+                      >
+                        <h1
+                          class="MuiTypography-root MuiTypography-h4 emotion-20"
+                          data-se="o-form-head"
+                          tabindex="-1"
+                        >
+                          Set up Google Authenticator
+                        </h1>
                       </div>
                     </div>
                     <div
                       class="MuiBox-root emotion-11"
                     >
+                      <div
+                        class="MuiBox-root emotion-2"
+                      >
+                        <div
+                          class="MuiBox-root emotion-19"
+                        >
+                          <h2
+                            class="MuiTypography-root MuiTypography-h5 emotion-24"
+                            data-se="manual-setup-title"
+                            tabindex="-1"
+                          >
+                            Can't scan QR code?
+                          </h2>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-12"
+                      >
+                        <div
+                          class="MuiBox-root emotion-19"
+                        >
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 emotion-27"
+                            data-se="google-authenticator-setup-info"
+                            tabindex="-1"
+                          >
+                            To set up manually enter your Okta Account username and then input the following in the Secret Key Field
+                          </p>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-12"
+                      >
+                        <div
+                          class="MuiBox-root emotion-19"
+                        >
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 emotion-27"
+                            data-se="o-form-explain"
+                            tabindex="-1"
+                            translate="no"
+                          >
+                            K A G W B I X A K O L P E F M Y
+                          </p>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-12"
+                      >
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-32"
+                          tabindex="0"
+                          type="button"
+                        >
+                          Next
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-31"
-                        tabindex="0"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-34"
+                        data-se="switchAuthenticator"
+                        role="link"
                         type="button"
                       >
-                        Next
+                        Return to authenticator list
+                      </button>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-34"
+                        data-se="cancel"
+                        role="link"
+                        type="button"
+                      >
+                        Back to sign in
                       </button>
                     </div>
                   </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
-                      data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
-                    >
-                      Return to authenticator list
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
-                      data-se="cancel"
-                      role="link"
-                      type="button"
-                    >
-                      Back to sign in
-                    </button>
-                  </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;
@@ -775,255 +787,259 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
 exports[`authenticator-enroll-google-authenticator renders form renders secret key view 2`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                role="presentation"
-                tabindex="-1"
-              />
               <div
-                aria-hidden="true"
-                class="MuiBox-root emotion-7"
-                data-se="factor-beacon mfa-google-auth "
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header authCoinSpacing"
               >
-                <svg
-                  aria-labelledby="mfa-google-auth"
-                  fill="none"
-                  height="2.85714286rem"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="2.85714286rem"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-google-auth"
-                  >
-                    Google Authenticator
-                  </title>
-                  <path
-                    clip-rule="evenodd"
-                    d="M39.5 26.9545C41.1569 26.9545 42.5 25.6113 42.5 23.9545C42.5 22.2976 41.1569 20.9545 39.5 20.9545H28.6963L34.0982 11.5981C34.9266 10.1632 34.435 8.32845 33.0001 7.50002C31.5652 6.67159 29.7304 7.16322 28.902 8.5981L18.304 26.9545H39.5Z"
-                    fill="#1A73E7"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M18.0981 8.5981C17.2697 7.16322 15.4349 6.67159 14 7.50002C12.5651 8.32845 12.0735 10.1632 12.9019 11.5981L18.3039 20.9545H21.7681L23.5001 17.9546L18.0981 8.5981Z"
-                    fill="#FABB04"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M21.768 20.9545H7.5C5.84315 20.9545 4.5 22.2976 4.5 23.9545C4.5 25.6114 5.84315 26.9545 7.5 26.9545H18.3039L21.768 20.9545Z"
-                    fill="#34A753"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M18.304 26.9545L12.9021 36.3109C12.0736 37.7458 12.5653 39.5806 14.0001 40.409C15.435 41.2374 17.2698 40.7458 18.0982 39.3109L23.5001 29.9546L28.902 39.3109C29.7304 40.7458 31.5652 41.2374 33 40.409C34.4349 39.5805 34.9265 37.7458 34.0981 36.3109L28.6962 26.9545H18.304Z"
-                    fill="#E94335"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M23.5001 17.9546L28.6962 26.9545H18.304L23.5001 17.9546Z"
-                    fill="#174EA5"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
-                aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-              >
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  role="presentation"
+                  tabindex="-1"
+                />
                 <div
-                  class="MuiBox-root emotion-10"
+                  aria-hidden="true"
+                  class="MuiBox-root emotion-8"
+                  data-se="factor-beacon mfa-google-auth "
+                >
+                  <svg
+                    aria-labelledby="mfa-google-auth"
+                    fill="none"
+                    height="2.85714286rem"
+                    role="img"
+                    viewBox="0 0 48 48"
+                    width="2.85714286rem"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title
+                      id="mfa-google-auth"
+                    >
+                      Google Authenticator
+                    </title>
+                    <path
+                      clip-rule="evenodd"
+                      d="M39.5 26.9545C41.1569 26.9545 42.5 25.6113 42.5 23.9545C42.5 22.2976 41.1569 20.9545 39.5 20.9545H28.6963L34.0982 11.5981C34.9266 10.1632 34.435 8.32845 33.0001 7.50002C31.5652 6.67159 29.7304 7.16322 28.902 8.5981L18.304 26.9545H39.5Z"
+                      fill="#1A73E7"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M18.0981 8.5981C17.2697 7.16322 15.4349 6.67159 14 7.50002C12.5651 8.32845 12.0735 10.1632 12.9019 11.5981L18.3039 20.9545H21.7681L23.5001 17.9546L18.0981 8.5981Z"
+                      fill="#FABB04"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M21.768 20.9545H7.5C5.84315 20.9545 4.5 22.2976 4.5 23.9545C4.5 25.6114 5.84315 26.9545 7.5 26.9545H18.3039L21.768 20.9545Z"
+                      fill="#34A753"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M18.304 26.9545L12.9021 36.3109C12.0736 37.7458 12.5653 39.5806 14.0001 40.409C15.435 41.2374 17.2698 40.7458 18.0982 39.3109L23.5001 29.9546L28.902 39.3109C29.7304 40.7458 31.5652 41.2374 33 40.409C34.4349 39.5805 34.9265 37.7458 34.0981 36.3109L28.6962 26.9545H18.304Z"
+                      fill="#E94335"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M23.5001 17.9546L28.6962 26.9545H18.304L23.5001 17.9546Z"
+                      fill="#174EA5"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-9"
+              >
+                <form
+                  aria-live="polite"
+                  class="o-form MuiBox-root emotion-10"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
                     class="MuiBox-root emotion-11"
                   >
                     <div
                       class="MuiBox-root emotion-12"
-                      data-se="identifier-container"
-                      title="tester19@test.com"
                     >
                       <div
-                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
-                        data-se="identifier"
-                        translate="no"
+                        class="MuiBox-root emotion-13"
+                        data-se="identifier-container"
+                        title="tester19@test.com"
                       >
                         <div
-                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-14"
+                          data-se="identifier"
+                          translate="no"
                         >
-                          <svg
-                            aria-label="User"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
-                            fill="none"
-                            focusable="false"
-                            role="img"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
+                          <div
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-15"
                           >
-                            <path
-                              clip-rule="evenodd"
-                              d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                            <title>
-                              User
-                            </title>
-                          </svg>
+                            <svg
+                              aria-label="User"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+                              fill="none"
+                              focusable="false"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                              <title>
+                                User
+                              </title>
+                            </svg>
+                          </div>
+                          <span
+                            class="MuiChip-label MuiChip-labelMedium emotion-17"
+                          >
+                            tester19@test.com
+                          </span>
                         </div>
-                        <span
-                          class="MuiChip-label MuiChip-labelMedium emotion-16"
-                        >
-                          tester19@test.com
-                        </span>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
                     <div
-                      class="MuiBox-root emotion-18"
-                    >
-                      <h1
-                        class="MuiTypography-root MuiTypography-h4 emotion-19"
-                        data-se="o-form-head"
-                        tabindex="-1"
-                      >
-                        Set up Google Authenticator
-                      </h1>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-12"
                     >
                       <div
-                        class="MuiBox-root emotion-18"
+                        class="MuiBox-root emotion-19"
                       >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-23"
-                          data-se="enter-code-title"
+                        <h1
+                          class="MuiTypography-root MuiTypography-h4 emotion-20"
+                          data-se="o-form-head"
                           tabindex="-1"
                         >
-                          Enter code displayed from application
-                        </p>
+                          Set up Google Authenticator
+                        </h1>
                       </div>
                     </div>
                     <div
                       class="MuiBox-root emotion-11"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
+                        class="MuiBox-root emotion-12"
                       >
-                        <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
-                          data-shrink="false"
-                          for="credentials.passcode"
-                          id="credentials.passcode-label"
-                        >
-                          <span>
-                            Enter code
-                          </span>
-                        </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
-                          required="true"
+                          class="MuiBox-root emotion-19"
                         >
-                          <input
-                            aria-invalid="false"
-                            aria-labelledby="credentials.passcode-label"
-                            autocomplete="off"
-                            class="MuiInputBase-input emotion-28"
-                            data-se="credentials.passcode"
-                            id="credentials.passcode"
-                            inputmode="numeric"
-                            name="credentials.passcode"
-                            required=""
-                            type="text"
-                          />
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 emotion-24"
+                            data-se="enter-code-title"
+                            tabindex="-1"
+                          >
+                            Enter code displayed from application
+                          </p>
                         </div>
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-12"
+                      >
+                        <div
+                          class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-26"
+                        >
+                          <label
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-27"
+                            data-shrink="false"
+                            for="credentials.passcode"
+                            id="credentials.passcode-label"
+                          >
+                            <span>
+                              Enter code
+                            </span>
+                          </label>
+                          <div
+                            class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-28"
+                            required="true"
+                          >
+                            <input
+                              aria-invalid="false"
+                              aria-labelledby="credentials.passcode-label"
+                              autocomplete="off"
+                              class="MuiInputBase-input emotion-29"
+                              data-se="credentials.passcode"
+                              id="credentials.passcode"
+                              inputmode="numeric"
+                              name="credentials.passcode"
+                              required=""
+                              type="text"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-12"
+                      >
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-31"
+                          data-se="save"
+                          tabindex="0"
+                          type="submit"
+                        >
+                          Verify
+                        </button>
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-30"
-                        data-se="save"
-                        tabindex="0"
-                        type="submit"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
+                        data-se="switchAuthenticator"
+                        role="link"
+                        type="button"
                       >
-                        Verify
+                        Return to authenticator list
+                      </button>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
+                        data-se="cancel"
+                        role="link"
+                        type="button"
+                      >
+                        Back to sign in
                       </button>
                     </div>
                   </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-32"
-                      data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
-                    >
-                      Return to authenticator list
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-32"
-                      data-se="cancel"
-                      role="link"
-                      type="button"
-                    >
-                      Back to sign in
-                    </button>
-                  </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;

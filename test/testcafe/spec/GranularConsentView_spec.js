@@ -47,30 +47,49 @@ fixture('GranularConsent');
 test.requestHooks(requestLogger, consentGranularMock)('should show scopes list', async t => {
   const consentPage  = await setup(t);
   await checkA11y(t);
-  await t.expect(consentPage.getScopeCheckBoxLabels()).eql([
-    'View your mobile phone data plan.\n\n' +
+  if (userVariables.gen3) {
+    await t.expect(consentPage.getScopeCheckBoxLabels()).eql([
+      'View your mobile phone data plan.',
+      'View your internet search history.',
+      'View your mobile phone call history.',
+      'View your email address.',
+      'openid',
+      'View your profile information.',
+    ]);
+  } else {
+    await t.expect(consentPage.getScopeCheckBoxLabels()).eql([
+      'View your mobile phone data plan.\n\n' +
         'This allows the app to view your mobile phone data plan.',
-    'View your internet search history.',
-    'View your mobile phone call history.\n\n' +
-      'This allows the app to view your mobile phone call history.',
-    'View your email address.\n\n' +
-        'This allows the app to view your email address.',
-    'openid\n\n' +
-        'Signals that a request is an OpenID request.',
-    'View your profile information.\n\n' +
-        'The exact data varies based on what profile information you have provided, such as: name, time zone, picture, or birthday.'
-  ]);
+      'View your internet search history.',
+      'View your mobile phone call history.\n\n' +
+        'This allows the app to view your mobile phone call history.',
+      'View your email address.\n\n' +
+          'This allows the app to view your email address.',
+      'openid\n\n' +
+          'Signals that a request is an OpenID request.',
+      'View your profile information.\n\n' +
+          'The exact data varies based on what profile information you have provided, such as: name, time zone, picture, or birthday.'
+    ]);
+  }
+  
 });
 
 test.requestHooks(requestLogger, consentGranularMock)('should show only mandatory scopes as disabled', async t => {
   const consentPage  = await setup(t);
   await checkA11y(t);
-  await t.expect(consentPage.getDisabledCheckBoxLabels()).eql([
-    'openid\n\n' +
+  if (userVariables.gen3) {
+    await t.expect(consentPage.getDisabledCheckBoxLabels()).eql([
+      'openid',
+      'View your profile information.',
+    ]);
+  } else {
+    await t.expect(consentPage.getDisabledCheckBoxLabels()).eql([
+      'openid\n\n' +
         'Signals that a request is an OpenID request.',
-    'View your profile information.\n\n' +
+      'View your profile information.\n\n' +
         'The exact data varies based on what profile information you have provided, such as: name, time zone, picture, or birthday.'
-  ]);
+    ]);
+  }  
 });
 
 test.requestHooks(requestLogger, consentGranularMock)('should display correct title text', async t => {
