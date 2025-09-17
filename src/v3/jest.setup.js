@@ -49,7 +49,9 @@ jest.mock('util/loc', () => ({
 
 // Make Math.random deterministic for stable snapshots and component IDs
 const originalMathRandom = Math.random;
+// eslint-disable-next-line no-underscore-dangle
 if (!global.__MATH_RANDOM_ORIGINAL__) {
+  // eslint-disable-next-line no-underscore-dangle
   global.__MATH_RANDOM_ORIGINAL__ = originalMathRandom;
 }
 Math.random = jest.fn().mockReturnValue(0.123456);

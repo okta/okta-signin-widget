@@ -18,6 +18,7 @@ const originalPublicKeyCredential = global.PublicKeyCredential;
 // Initial mock in /v3/jest.setup.js
 const mockedMathRandom = Math.random;
 // Store reference to original Math.random
+// eslint-disable-next-line no-underscore-dangle
 const originalMathRandom = global.__MATH_RANDOM_ORIGINAL__;
 
 describe('identify-with-webauthn-autofill', () => {
