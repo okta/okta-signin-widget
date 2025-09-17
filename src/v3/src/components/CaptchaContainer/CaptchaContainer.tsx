@@ -23,6 +23,8 @@ import {
   UISchemaElementComponent,
 } from '../../types';
 
+import 'altcha';
+
 declare global {
   interface Window {
     recaptchaOptions?: {
@@ -133,6 +135,37 @@ const CaptchaContainer: UISchemaElementComponent<{
     resetCaptchaContainer();
   };
 
+  const onAltchaVerify = (ev: CustomEvent) => {
+    const payload = ev.detail.payload;
+
+    const {
+      submit: {
+        actionParams: params,
+        step,
+        includeImmutableData,
+      },
+    } = dataSchema;
+
+    const captchaSubmitParams = {
+      captchaVerify: {
+        captchaToken: payload,
+        captchaId: "altcha",
+      },
+    };
+
+    onSubmitHandler({
+      includeData: true,
+      includeImmutableData,
+      params: captchaSubmitParams,
+      step,
+    });
+
+  };
+
+  if (captchaType === 'ALTCHA') {
+    return (<altcha-widget debug floating hidefooter hidelogo onverified={onAltchaVerify} challengeurl="/api/v1/altcha"></altcha-widget>);
+  }
+
   if (captchaType === 'RECAPTCHA_V2') {
     return (
       // set z-index to 1 for ReCaptcha so the badge does not get covered by the footer
@@ -151,6 +184,7 @@ const CaptchaContainer: UISchemaElementComponent<{
       </Box>
     );
   }
+
   return (
     <HCaptcha
       // Params like `apihost` will be passed to hCaptcha loader.

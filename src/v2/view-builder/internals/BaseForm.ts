@@ -70,7 +70,7 @@ export default Form.extend({
     this.$el.find('.o-form-error-container').empty();
 
     // Execute Captcha if enabled for this form.
-    if (this.captchaObject) {
+    if (this.captchaObject && (this.captchaObject.tagName || '').toUpperCase() !== 'ALTCHA-WIDGET') {
       this.captchaObject.execute();
     } else {
       this.options.appState.trigger('saveForm', model);
