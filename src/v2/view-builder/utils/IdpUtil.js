@@ -1,21 +1,10 @@
-import { FORMS, ID_PROOFING_TYPE } from 'v2/ion/RemediationConstants';
+import { FORMS } from 'v2/ion/RemediationConstants';
 
 export function getIdvName(remediations) {
   let redirectIDVerifyRemediation = remediations.find(remediation => {
     return remediation.name === FORMS.REDIRECT_IDVERIFY;
   });
   return redirectIDVerifyRemediation.idp.name;
-}
-
-export function getMetaInfoLinksForCustomIDV(remediations) {
-  const redirectIDVerifyRemediation = remediations.find(
-    r => r.name === FORMS.REDIRECT_IDVERIFY
-  );
-  return (
-    (redirectIDVerifyRemediation?.idp?.id === ID_PROOFING_TYPE.IDV_STANDARD &&
-      redirectIDVerifyRemediation?.idvMetadata) ||
-    undefined
-  );
 }
 
 export function getHelpLinks(remediations) {
@@ -34,12 +23,6 @@ export function getHelpLinks(remediations) {
     termsOfUse = 'https://incode.id/terms';
     privacyPolicy = 'https://incode.id/privacy';
     break;
-  default: {
-    const metaInfoLinks = getMetaInfoLinksForCustomIDV(remediations);
-    termsOfUse = metaInfoLinks?.termsOfUse;
-    privacyPolicy = metaInfoLinks?.privacyPolicy;
-    break;
-  }
   }
   return {
     termsOfUse,

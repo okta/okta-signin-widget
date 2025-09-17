@@ -11,7 +11,7 @@
  */
 
 import { APIError, IdxTransaction, Input } from '@okta/okta-auth-js';
-import { AUTHENTICATOR_KEY, ID_PROOFING_TYPE, TERMINAL_KEY } from 'src/constants';
+import { AUTHENTICATOR_KEY, TERMINAL_KEY } from 'src/constants';
 import { getStubTransaction } from 'src/mocks/utils/utils';
 
 import { RegistrationElementSchema, WidgetProps } from '../types';
@@ -20,7 +20,6 @@ import {
   buildAuthCoinProps,
   convertIdxInputsToRegistrationSchema,
   convertRegistrationSchemaToIdxInputs,
-  getIDVDisplayInfo,
   getUserInfo,
   triggerEmailVerifyCallback,
   triggerRegistrationErrorMessages,
@@ -528,60 +527,6 @@ describe('IdxUtils Tests', () => {
       expect(messages).toBeInstanceOf(Array);
       expect(messages).toHaveLength(1);
       expect(messages![0].i18n.key).toEqual('idx.enter.otp.in.original.tab');
-    });
-
-    describe('getIDVDisplayInfo', () => {
-      it.each`
-        id                               | name            | termsOfUse                                      | privacyPolicy                                     | idvMetadata
-        ${ID_PROOFING_TYPE.IDV_PERSONA}  | ${'Persona'}    | ${'https://withpersona.com/legal/terms-of-use'} | ${'https://withpersona.com/legal/privacy-policy'} | ${undefined}
-        ${ID_PROOFING_TYPE.IDV_CLEAR}    | ${'Clear'}      | ${'https://www.clearme.com/member-terms'}       | ${'https://www.clearme.com/privacy-policy'}       | ${undefined}
-        ${ID_PROOFING_TYPE.IDV_INCODE}   | ${'Incode'}     | ${'https://incode.id/terms'}                    | ${'https://incode.id/privacy'}                    | ${undefined}
-        ${ID_PROOFING_TYPE.IDV_STANDARD} | ${'Custom IDV'} | ${undefined}                                    | ${undefined}                                      | ${{ termsOfUse: 'https://custom.idv/terms', privacyPolicy: 'https://custom.idv/privacy' }}
-      `(
-        'should return correct links for $name',
-        ({
-          id, name, termsOfUse, privacyPolicy, idvMetadata,
-        }) => {
-          const idvTransaction: any = {
-            nextStep: {
-              idp: { id, name },
-            },
-          };
-          if (id === ID_PROOFING_TYPE.IDV_STANDARD) {
-            idvTransaction.nextStep.idvMetadata = idvMetadata;
-          }
-          const result = getIDVDisplayInfo(idvTransaction);
-          expect(result.termsOfUse).toBe(termsOfUse ?? idvMetadata?.termsOfUse);
-          expect(result.privacyPolicy).toBe(
-            privacyPolicy ?? idvMetadata?.privacyPolicy,
-          );
-        },
-      );
-
-      it('should return undefined for unknown idp', () => {
-        const idvTransaction = {
-          nextStep: {
-            idp: {
-              id: 'UNKNOWN_IDP',
-              name: 'Unknown',
-            },
-          },
-        } as any;
-        const result = getIDVDisplayInfo(idvTransaction);
-        expect(result.termsOfUse).toBeUndefined();
-        expect(result.privacyPolicy).toBeUndefined();
-      });
-
-      it('should return undefined if nextStep or idp is missing', () => {
-        expect(getIDVDisplayInfo({} as any)).toEqual({
-          termsOfUse: undefined,
-          privacyPolicy: undefined,
-        });
-        expect(getIDVDisplayInfo({ nextStep: {} } as any)).toEqual({
-          termsOfUse: undefined,
-          privacyPolicy: undefined,
-        });
-      });
     });
   });
 });

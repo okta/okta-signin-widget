@@ -4,10 +4,6 @@ exports[`v2/view-builder/views/idp/RedirectIdvView view renders content correctl
 
 exports[`v2/view-builder/views/idp/RedirectIdvView view renders content correctly for Redirect IDV page for Clear 2`] = `"https://www.clearme.com/privacy-policy"`;
 
-exports[`v2/view-builder/views/idp/RedirectIdvView view renders content correctly for Redirect IDV page for Custom_IDV 1`] = `"https://customidv.com/term"`;
-
-exports[`v2/view-builder/views/idp/RedirectIdvView view renders content correctly for Redirect IDV page for Custom_IDV 2`] = `"https://customidv.com/privacy"`;
-
 exports[`v2/view-builder/views/idp/RedirectIdvView view renders content correctly for Redirect IDV page for Incode 1`] = `"https://incode.id/terms"`;
 
 exports[`v2/view-builder/views/idp/RedirectIdvView view renders content correctly for Redirect IDV page for Incode 2`] = `"https://incode.id/privacy"`;

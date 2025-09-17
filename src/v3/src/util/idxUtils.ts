@@ -31,7 +31,6 @@ import {
   CONSENT_HEADER_STEPS,
   DEVICE_ENROLLMENT_TYPE,
   EMAIL_AUTHENTICATOR_TERMINAL_KEYS,
-  ID_PROOFING_TYPE,
   IDX_STEP,
 } from '../constants';
 import {
@@ -470,20 +469,10 @@ export const isValidPhoneMethodType = (
   typeof methodType !== 'undefined' && (methodType === 'sms' || methodType === 'voice')
 );
 
-type NextStepWithIdvMetadata = NextStep & {
-  idvMetadata?: {
-    privacyPolicy: string;
-    termsOfUse: string;
-  }
-};
-
 export const getIDVDisplayInfo = (
   transaction: IdxTransaction,
 ): IdvDisplayInfo => {
   const idpName = transaction.nextStep?.idp?.name;
-  const metaData = transaction.nextStep?.idp?.id === ID_PROOFING_TYPE.IDV_STANDARD
-    ? (transaction.nextStep as NextStepWithIdvMetadata)?.idvMetadata
-    : undefined;
   let termsOfUse;
   let privacyPolicy;
   switch (idpName?.toUpperCase()) {
@@ -500,8 +489,8 @@ export const getIDVDisplayInfo = (
       privacyPolicy = 'https://incode.id/privacy';
       break;
     default:
-      termsOfUse = metaData?.termsOfUse;
-      privacyPolicy = metaData?.privacyPolicy;
+      termsOfUse = undefined;
+      privacyPolicy = undefined;
       break;
   }
   return {

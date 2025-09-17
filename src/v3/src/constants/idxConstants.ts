@@ -96,7 +96,6 @@ export const ID_PROOFING_TYPE: Record<string, string> = {
   IDV_PERSONA: 'IDV_PERSONA',
   IDV_CLEAR: 'IDV_CLEAR',
   IDV_INCODE: 'IDV_INCODE',
-  IDV_STANDARD: 'IDV_STANDARD',
 };
 
 export const CHALLENGE_METHOD: Record<string, string> = {
