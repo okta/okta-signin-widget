@@ -25,6 +25,7 @@ describe('with emotion environment', () => {
       key: 'test',
       stylisPlugins: [logicalRtl({ rootDirElement: '#container' })],
       container: safeQuerySelector(document, '#container'),
+      speedy: false,
     });
 
     const Button = styled.div(() => ({
@@ -54,6 +55,7 @@ describe('with emotion environment', () => {
       key: 'test',
       stylisPlugins: [logicalRtl({ rootDirElement: '#container' })],
       container: safeQuerySelector(document, '#container'),
+      speedy: false
     });
 
     const Button = styled.div(() => ({
