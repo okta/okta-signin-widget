@@ -3,7 +3,6 @@ import IdPAuthenticatorPageObject from '../framework/page-objects/IdPAuthenticat
 import PersonaIdvResponse from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-persona.json';
 import ClearIdvResponse from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-clear.json';
 import IncodeIdvResponse from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-incode.json';
-import CustomIdvResponse from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-customIDV.json';
 
 const logger = RequestLogger(/introspect/,
   {
@@ -36,13 +35,6 @@ const incodeIdvMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj')
   .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
 
-const customIdvMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(CustomIdvResponse)
-  .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
-  .respond(CustomIdvResponse)
-  .onRequestTo('http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj')
-  .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
 
 async function setup(t) {
   const pageObject = new IdPAuthenticatorPageObject(t);
@@ -122,29 +114,6 @@ test
     await pageObject.submit('Continue');
 
 
-    const pageUrl = await pageObject.getPageUrl();
-    await t.expect(pageUrl)
-      .eql('http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj');
-  });
-
-test
-  .requestHooks(logger, customIdvMock)('validate content on verify page for Custom IDV', async t => {
-    const pageObject = await setup(t);
-    await t.expect(pageObject.getFormTitle()).eql('Verify your identity with Custom_IDV');
-    await t.expect(pageObject.getPageSubtitle()).eql('Verify your identity with Custom_IDV and share your verification results with Okta to finish setting up your Okta account.');
-    await t.expect(pageObject.getBeaconSelector()).contains('mfa-idv-standard');
-
-    const termsOfUseLink = pageObject.getLinkElement('Terms of Use');
-
-    await t.expect(termsOfUseLink.exists).eql(true);
-    await t.expect(termsOfUseLink.getAttribute('href')).eql('https://customidv.com/term');
-
-    const privacyPolicyLink = pageObject.getLinkElement('Privacy Policy');
-
-    await t.expect(privacyPolicyLink.exists).eql(true);
-    await t.expect(privacyPolicyLink.getAttribute('href')).eql('https://customidv.com/privacy');
-    
-    await pageObject.submit('Continue');  
     const pageUrl = await pageObject.getPageUrl();
     await t.expect(pageUrl)
       .eql('http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj');

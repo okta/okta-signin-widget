@@ -20,7 +20,6 @@ import { loc } from '../../util';
 import {
   ClearIcon,
   CustomAppIcon,
-  CustomIDVIcon,
   CustomOTPIcon,
   DuoIcon,
   EmailIcon,
@@ -231,12 +230,5 @@ export const getAuthCoinConfiguration = (): Record<string, AuthCoinConfig> => ({
     customizable: false,
     description: loc('oie.idv.incode', 'login'),
     iconClassName: 'mfa-idv-incode',
-  },
-  [ID_PROOFING_TYPE.IDV_STANDARD]: {
-    icon: CustomIDVIcon,
-    name: 'mfa-idv-standard',
-    customizable: false,
-    description: loc('oie.idv.customIDV', 'login'),
-    iconClassName: 'mfa-idv-standard',
   },
 });

@@ -4,8 +4,6 @@ import Settings from 'models/Settings';
 import PersonaIdvResponse from '../../../../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-persona.json';
 import ClearIdvResponse from '../../../../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-clear.json';
 import IncodeIdvResponse from '../../../../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-incode.json';
-import CustomIdvResponse from '../../../../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-customIDV.json';
-
 import { loc } from '@okta/courage';
 
 describe('v2/view-builder/views/idp/RedirectIdvView', function() {
@@ -30,9 +28,6 @@ describe('v2/view-builder/views/idp/RedirectIdvView', function() {
         break;
       case 'Incode':
         idvResponse = IncodeIdvResponse;
-        break;
-      case 'Custom_IDV':
-        idvResponse = CustomIdvResponse;
         break;
       }
       const appState = new AppState({
@@ -63,7 +58,7 @@ describe('v2/view-builder/views/idp/RedirectIdvView', function() {
     };
   });
 
-  it.each(['Persona', 'Clear', 'Incode', 'Custom_IDV'])('view renders content correctly for Redirect IDV page for %s', async (idvName) => {
+  it.each(['Persona', 'Clear', 'Incode'])('view renders content correctly for Redirect IDV page for %s', async (idvName) => {
     testContext.init(false, idvName);
 
     expect(testContext.view.$el.find('.okta-form-title').text()).toBe(loc('oie.idv.idp.title', 'login', [idvName]));

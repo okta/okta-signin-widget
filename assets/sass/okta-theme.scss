@@ -724,10 +724,6 @@
     background-image: url('../img/icons/login/incode.svg');
   }
 
-  .mfa-idv-standard {
-    background-image: url('../img/icons/login/custom_idv.svg');
-  }
-
   .button {
     /* -- Buttons' Colors -- */
     @include light-button-template($button-bg-color);
