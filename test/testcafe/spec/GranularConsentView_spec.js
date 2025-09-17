@@ -60,6 +60,7 @@ test.requestHooks(requestLogger, consentGranularMock)('should show scopes list',
     await t.expect(consentPage.getScopeCheckBoxLabels()).eql([
       'View your mobile phone data plan.\n\n' +
         'This allows the app to view your mobile phone data plan.',
+      'View your internet search history.',
       'View your mobile phone call history.\n\n' +
         'This allows the app to view your mobile phone call history.',
       'View your email address.\n\n' +
