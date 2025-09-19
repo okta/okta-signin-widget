@@ -62,7 +62,7 @@ const checkSubSchema = function(subSchema, value, model) {
   const minLength = subSchema.get('minLength');
   const maxLength = subSchema.get('maxLength');
   const regex = subSchema.get('format');
-  
+
   if (_.isNumber(minLength)) {
     if (value.length < minLength) {
       return false;
