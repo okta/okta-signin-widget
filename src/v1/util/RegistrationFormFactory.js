@@ -62,7 +62,7 @@ const checkSubSchema = function(subSchema, value, model) {
   const minLength = subSchema.get('minLength');
   const maxLength = subSchema.get('maxLength');
   const regex = subSchema.get('format');
-
+  
   if (_.isNumber(minLength)) {
     if (value.length < minLength) {
       return false;
@@ -86,8 +86,10 @@ const checkSubSchema = function(subSchema, value, model) {
         // with email as login enabled, we only have email populated
         // Therefore we fallback and run validation with email attribute.
         fieldValue = model.has('userName') ? model.get('userName') : model.get('email');
+        return !passwordContainsFormField(fieldValue, password);
+      } else {
+        return !fieldValue || password.indexOf(fieldValue) === -1;
       }
-      return !passwordContainsFormField(fieldValue, password);
     } else {
       if (!new RegExp(regex).test(value)) {
         return false;
@@ -221,4 +223,5 @@ export default {
   createInputOptions: fnCreateInputOptions,
   getUsernameParts: getParts,
   passwordContainsFormField: passwordContainsFormField,
+  checkSubSchema: checkSubSchema,
 };
