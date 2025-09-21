@@ -140,7 +140,6 @@ const CaptchaContainer: UISchemaElementComponent<{
 
     const {
       submit: {
-        actionParams: params,
         step,
         includeImmutableData,
       },
