@@ -81,6 +81,8 @@ export default class OktaSignIn implements OktaSignInAPI {
    */
   private eventCallbackMap: WeakMap<OktaWidgetEventHandler, OktaWidgetEventHandler>;
 
+  private _user?: Record<string, unknown>;
+
   el: string | null;
 
   constructor(options: WidgetProps) {
@@ -89,7 +91,7 @@ export default class OktaSignIn implements OktaSignInAPI {
     this.el = null;
     this.eventEmitter = new EventEmitter();
     this.eventCallbackMap = new WeakMap();
-    this.widgetHooks = new WidgetHooks(this.options.hooks);
+    this.widgetHooks = new WidgetHooks(this.options.hooks, this.setUser.bind(this));
 
     // if authClient is set, authParams are disregarded
     if (options.authClient) {
@@ -259,7 +261,13 @@ export default class OktaSignIn implements OktaSignInAPI {
     }
   }
 
-  getUser(): void { }
+  getUser() { 
+    return this._user;
+  }
+
+  private setUser(user: Record<string, unknown>): void {
+    this._user = user;
+  }
 
   on(eventName: OktaWidgetEventType, eventHandler: OktaWidgetEventHandler): void {
     let registeredEventHandler = eventHandler;

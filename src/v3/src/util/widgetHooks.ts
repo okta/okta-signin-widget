@@ -23,9 +23,11 @@ const hookTypes: HookType[] = ['before', 'after', 'afterTransform'];
 
 export class WidgetHooks {
   private hooks: HooksMap;
+  private setUser?: (user: Record<string, unknown>) => void;
 
   /* eslint-disable no-restricted-syntax */
-  constructor(hooksOptions?: HooksOptions) {
+  constructor(hooksOptions?: HooksOptions, setUser?: (user: Record<string, unknown>) => void) {
+    this.setUser = setUser;
     this.hooks = new Map();
     if (hooksOptions) {
       for (const [formName, formHooks] of Object.entries(hooksOptions)) {
@@ -51,6 +53,9 @@ export class WidgetHooks {
     hookType: BaseHookType,
     idxTransaction?: IdxTransaction,
   ): Promise<void> {
+    if (idxTransaction?.context.user) {
+      this.setUser?.(idxTransaction.context.user);
+    }
     const formName = getFormNameForTransaction(idxTransaction);
     if (formName) {
       const hooksToExecute = this.hooks.get(formName)?.get(hookType) || [];
