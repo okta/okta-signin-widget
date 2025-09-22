@@ -25,9 +25,7 @@ const DEFAULT_TIMEOUT = 4000;
 const getPollingStep = (
   transaction: IdxTransaction | undefined,
 ): NextStep | undefined => {
-  // auth-js preserves polling object (cache) in transaction when back to authenticators list
-  // stop polling in this scenario
-  if (!transaction || transaction.nextStep?.name.startsWith('select-authenticator')) {
+  if (!transaction) {
     return undefined;
   }
 
