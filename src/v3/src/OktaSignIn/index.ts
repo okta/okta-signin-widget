@@ -91,7 +91,7 @@ export default class OktaSignIn implements OktaSignInAPI {
     this.el = null;
     this.eventEmitter = new EventEmitter();
     this.eventCallbackMap = new WeakMap();
-    this.widgetHooks = new WidgetHooks(this.options.hooks);
+    this.widgetHooks = new WidgetHooks(this.options.hooks, this.setUser.bind(this));
     this.__user = undefined;
 
     // if authClient is set, authParams are disregarded
@@ -150,10 +150,6 @@ export default class OktaSignIn implements OktaSignInAPI {
         });
       }
     }
-
-    this.afterTransform('*', (context) => {
-      console.log('after transformed called', context.userInfo);
-    });
   }
 
   renderEl(
@@ -193,7 +189,6 @@ export default class OktaSignIn implements OktaSignInAPI {
             globalErrorFn: onErrorWrapper,
             eventEmitter: this.eventEmitter,
             widgetHooks: this.widgetHooks,
-            setUser: (user) => this.setUser(user),
           }), target);
         } else {
           throw new Error(`could not find element ${this.el}`);
@@ -273,7 +268,6 @@ export default class OktaSignIn implements OktaSignInAPI {
 
   private setUser (user: Record<string, unknown> | undefined): void {
     this.__user = user;
-    console.log('setting user', this);
   }
 
   on(eventName: OktaWidgetEventType, eventHandler: OktaWidgetEventHandler): void {

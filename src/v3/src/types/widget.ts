@@ -111,8 +111,7 @@ export type IDPDisplayType = 'PRIMARY' | 'SECONDARY';
 
 export type WidgetProps = Partial<WidgetOptions> & {
   eventEmitter: EventEmitter;
-  widgetHooks: WidgetHooks; // instance of class WidgetHooks
-  setUser: (user: Record<string, unknown> | undefined) => void;
+  widgetHooks: WidgetHooks;
 };
 
 export type WidgetOptions = {
