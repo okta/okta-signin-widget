@@ -81,7 +81,7 @@ export default class OktaSignIn implements OktaSignInAPI {
    */
   private eventCallbackMap: WeakMap<OktaWidgetEventHandler, OktaWidgetEventHandler>;
 
-  private _user?: Record<string, unknown>;
+  private user?: Record<string, unknown>;
 
   el: string | null;
 
@@ -261,12 +261,12 @@ export default class OktaSignIn implements OktaSignInAPI {
     }
   }
 
-  getUser() { 
-    return this._user;
+  getUser() {
+    return this.user;
   }
 
   private setUser(user: Record<string, unknown>): void {
-    this._user = user;
+    this.user = user;
   }
 
   on(eventName: OktaWidgetEventType, eventHandler: OktaWidgetEventHandler): void {

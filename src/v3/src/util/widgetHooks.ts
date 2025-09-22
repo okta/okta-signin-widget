@@ -23,6 +23,7 @@ const hookTypes: HookType[] = ['before', 'after', 'afterTransform'];
 
 export class WidgetHooks {
   private hooks: HooksMap;
+
   private setUser?: (user: Record<string, unknown>) => void;
 
   /* eslint-disable no-restricted-syntax */
