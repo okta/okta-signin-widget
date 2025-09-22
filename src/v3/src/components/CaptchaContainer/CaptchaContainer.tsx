@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import 'altcha';
+
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { Box } from '@mui/material';
 import { useEffect, useRef } from 'preact/hooks';
@@ -22,8 +24,6 @@ import {
   CaptchaContainerElement,
   UISchemaElementComponent,
 } from '../../types';
-
-import 'altcha';
 
 declare global {
   interface Window {
@@ -136,7 +136,7 @@ const CaptchaContainer: UISchemaElementComponent<{
   };
 
   const onAltchaVerify = (ev: CustomEvent) => {
-    const payload = ev.detail.payload;
+    const { payload } = ev.detail;
 
     const {
       submit: {
@@ -148,7 +148,7 @@ const CaptchaContainer: UISchemaElementComponent<{
     const captchaSubmitParams = {
       captchaVerify: {
         captchaToken: payload,
-        captchaId: "altcha",
+        captchaId: 'altcha',
       },
     };
 
@@ -158,11 +158,19 @@ const CaptchaContainer: UISchemaElementComponent<{
       params: captchaSubmitParams,
       step,
     });
-
   };
 
   if (captchaType === 'ALTCHA') {
-    return (<altcha-widget debug floating hidefooter hidelogo onverified={onAltchaVerify} challengeurl="/api/v1/altcha"></altcha-widget>);
+    return (
+      <altcha-widget
+        debug
+        floating
+        hidefooter
+        hidelogo
+        onverified={onAltchaVerify}
+        challengeurl="/api/v1/altcha"
+      />
+    );
   }
 
   if (captchaType === 'RECAPTCHA_V2') {
