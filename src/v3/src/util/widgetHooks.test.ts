@@ -176,4 +176,46 @@ describe('WidgetHooks', () => {
     expect(hook1).toHaveBeenCalledTimes(1);
     expect(hook2).toHaveBeenCalledTimes(1);
   });
+
+  it('should call setUser with the user from idxTransaction when executing hooks with .callHooks(hookType, idxTransaction)', async () => {
+    const hookSuccess = jest.fn().mockResolvedValue(undefined);
+    const hooksOptions = {
+      'success-redirect': {
+        before: [
+          hookSuccess,
+        ],
+      },
+    };
+    const setUserMock = jest.fn();
+    const hooksInstance = new WidgetHooks(hooksOptions, setUserMock);
+    const stubTransaction = getStubTransaction();
+    const transactionSuccess = {
+      ...stubTransaction,
+      neededToProceed: [],
+      context: {
+        ...stubTransaction.context,
+        user: {
+          id: '123',
+          name: 'Test User',
+          email: 'testuser@example.com',
+          type: 'user',
+          value: {},
+        },
+        success: {
+          name: 'success-redirect',
+          href: 'http://localhost:3000/app/UserHome?stateToken=mockedStateToken123',
+        },
+      },
+    } as IdxTransaction;
+    await expect(hooksInstance.callHooks('before', transactionSuccess)).resolves.toEqual(undefined);
+    expect(hookSuccess).toHaveBeenCalledTimes(1);
+    expect(setUserMock).toHaveBeenCalledTimes(1);
+    expect(setUserMock).toHaveBeenCalledWith({
+      id: '123',
+      name: 'Test User',
+      email: 'testuser@example.com',
+      type: 'user',
+      value: {},
+    });
+  });
 });
