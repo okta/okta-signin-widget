@@ -45,7 +45,6 @@ export interface TransformHookFunction {
 
 export interface HookDefinition extends BaseHookDefinition {
   afterTransform?: TransformHookFunction[];
-  beforeAll?: string;
 }
 
 export type HookType = keyof HookDefinition;

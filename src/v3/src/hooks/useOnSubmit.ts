@@ -313,7 +313,6 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
 
       // Don't execute hooks in the end of authentication flow and if request did not succeed
       if (!isClientTransaction && newTransaction?.status !== IdxStatus.SUCCESS) {
-        console.log('onSubmit before hooks called');
         await widgetHooks.callHooks('before', newTransaction);
       }
 

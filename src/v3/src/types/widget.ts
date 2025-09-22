@@ -111,7 +111,6 @@ export type IDPDisplayType = 'PRIMARY' | 'SECONDARY';
 
 export type WidgetProps = Partial<WidgetOptions> & {
   eventEmitter: EventEmitter;
-  widgetHooks: WidgetHooks;
 };
 
 export type WidgetOptions = {
