@@ -534,6 +534,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         translationOverrides={odyTranslationOverrides}
         nonce={cspNonce}
         stylisPlugins={stylisPlugins}
+        // Use this prop to derive speedy=false in OdysseyCacheProvider
+        // shadowRootElement is only used for Modal related component, pass a boolean value should have no impact on SIW rendering
+        // Reference: https://github.com/okta/odyssey/blob/c9adec8f075d586aa9c8f627ba09677c14efc4ba/packages/core/odyssey-react-mui/src/OdysseyCacheProvider.tsx#L68
+        // TODO: expose official prop from OdysseyProvider https://oktainc.atlassian.net/browse/OKTA-1024166
+        shadowRootElement={true as any}
       >
         <GlobalStyles />
         {/* the style is to allow the widget to inherit the parent's bg color */}
