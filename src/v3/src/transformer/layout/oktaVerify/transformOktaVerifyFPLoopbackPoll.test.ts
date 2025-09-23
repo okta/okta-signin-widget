@@ -12,14 +12,18 @@
 
 import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { ChromeLNADeniedError } from 'util/Errors';
 
 import {
   ActionPendingElement,
+  InfoboxElement,
   LinkElement,
   LoopbackProbeElement,
+  TitleElement,
   WidgetProps,
 } from '../../../types';
-import * as utils from '../../../util/idxUtils';
+import * as browserUtils from '../../../util/browserUtils';
+import * as idxUtils from '../../../util/idxUtils';
 import { transformOktaVerifyFPLoopbackPoll } from './transformOktaVerifyFPLoopbackPoll';
 
 describe('Transform Okta Verify FP Loopback Poll', () => {
@@ -42,7 +46,7 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
         },
       };
       transaction.availableSteps = [{ name: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE }];
-      jest.spyOn(utils, 'hasMinAuthenticatorOptions').mockReturnValue(true);
+      jest.spyOn(idxUtils, 'hasMinAuthenticatorOptions').mockReturnValue(true);
     });
 
     it('should create Loopback Poll elements for display when step is device-challenge-poll', () => {
@@ -99,7 +103,7 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
         },
       };
       transaction.availableSteps = [{ name: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE }];
-      jest.spyOn(utils, 'hasMinAuthenticatorOptions').mockReturnValue(true);
+      jest.spyOn(idxUtils, 'hasMinAuthenticatorOptions').mockReturnValue(true);
     });
 
     it('should create Loopback Poll elements for display', () => {
@@ -132,6 +136,154 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
         .toBe('Link');
       expect((updatedFormBag.uischema.elements[3] as LinkElement).options.step)
         .toBe('currentAuthenticator-cancel');
+    });
+  });
+
+  describe('where chromeLocalNetworkAccessDetails are defined', () => {
+    const prevTransaction = getStubTransactionWithNextStep();
+
+    const mockChromeLNAPermissionState = (permissionState: PermissionState) => {
+      jest.spyOn(browserUtils, 'getChromeLNAPermissionState').mockImplementation((handlePermissionState) => {
+        handlePermissionState(permissionState);
+        return Promise.resolve();
+      });
+    };
+
+    beforeEach(() => {
+      transaction.nextStep = {
+        name: 'device-challenge-poll',
+        relatesTo: {
+          value: {
+            // @ts-expect-error ports does not exist on IdxAuthenticator
+            ports: ['2000', '6511', '6512', '6513'],
+            domain: 'http://localhost',
+            challengeRequest: 'mockChallengeRequest',
+            chromeLocalNetworkAccessDetails: {
+              chromeLNAHelpLink: 'https://okta.com',
+            },
+          },
+        },
+      };
+      transaction.availableSteps = [{ name: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE }];
+    });
+
+    it.each(['prompt', 'granted'])('should create Loopback Poll elements for display when permission state is "%s"', (permissionState) => {
+      mockChromeLNAPermissionState(permissionState as PermissionState);
+
+      const updatedFormBag = transformOktaVerifyFPLoopbackPoll({
+        transaction,
+        formBag,
+        widgetProps,
+      });
+
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(3);
+      expect(updatedFormBag.uischema.elements[0].type).toBe('ActionPending');
+      expect((updatedFormBag.uischema.elements[0] as ActionPendingElement).options.content)
+        .toBe('deviceTrust.sso.redirectText');
+      expect(updatedFormBag.uischema.elements[1].type)
+        .toBe('LoopbackProbe');
+      expect((updatedFormBag.uischema.elements[1] as LoopbackProbeElement).options)
+        .toStrictEqual({
+          deviceChallengePayload: {
+            ports: ['2000', '6511', '6512', '6513'],
+            domain: 'http://localhost',
+            challengeRequest: 'mockChallengeRequest',
+            chromeLocalNetworkAccessDetails: {
+              chromeLNAHelpLink: 'https://okta.com',
+            },
+          },
+          cancelStep: 'authenticatorChallenge-cancel',
+          step: 'device-challenge-poll',
+        });
+      expect(updatedFormBag.uischema.elements[2].type).toBe('Link');
+      expect((updatedFormBag.uischema.elements[2] as LinkElement).options.label)
+        .toBe('goback');
+    });
+
+    it('should create Loopback Poll elements for display when permission state is "denied" and loopback is triggered by registered condition silent probe', () => {
+      // Explicitly mock no previous transaction through an undefined prevTransaction.nextStep.name, which happens when
+      // a silent loopback probe is triggered by the registered condition
+      prevTransaction.nextStep = {
+        name: undefined as unknown as string,
+      };
+      mockChromeLNAPermissionState('denied');
+
+      const updatedFormBag = transformOktaVerifyFPLoopbackPoll({
+        prevTransaction,
+        transaction,
+        formBag,
+        widgetProps,
+      });
+
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(3);
+      expect(updatedFormBag.uischema.elements[0].type).toBe('ActionPending');
+      expect((updatedFormBag.uischema.elements[0] as ActionPendingElement).options.content)
+        .toBe('deviceTrust.sso.redirectText');
+      expect(updatedFormBag.uischema.elements[1].type).toBe('LoopbackProbe');
+      expect((updatedFormBag.uischema.elements[1] as LoopbackProbeElement).options)
+        .toStrictEqual({
+          deviceChallengePayload: {
+            ports: ['2000', '6511', '6512', '6513'],
+            domain: 'http://localhost',
+            challengeRequest: 'mockChallengeRequest',
+            chromeLocalNetworkAccessDetails: {
+              chromeLNAHelpLink: 'https://okta.com',
+            },
+          },
+          cancelStep: 'authenticatorChallenge-cancel',
+          step: 'device-challenge-poll',
+        });
+      expect(updatedFormBag.uischema.elements[2].type).toBe('Link');
+      expect((updatedFormBag.uischema.elements[2] as LinkElement).options.label)
+        .toBe('goback');
+    });
+
+    it('should create error remediation elements when permission state is "denied" and loopback is not triggered by registered condition silent probe', () => {
+      // Explicitly mock a previous transaction with a defined prevTransaction.nextStep.name, which happens when
+      // a loopback probe is not triggered by the registered condition
+      prevTransaction.nextStep = {
+        name: IDX_STEP.IDENTIFY,
+      };
+      mockChromeLNAPermissionState('denied');
+
+      expect(() => {
+        transformOktaVerifyFPLoopbackPoll({
+          prevTransaction,
+          transaction,
+          formBag,
+          widgetProps,
+        });
+      }).toThrowError(ChromeLNADeniedError);
+
+      expect(formBag).toMatchSnapshot();
+      expect(formBag.uischema.elements.length).toBe(3);
+      expect(formBag.uischema.elements[0].type).toBe('Title');
+      expect((formBag.uischema.elements[0] as TitleElement).options.content).toBe('chrome.lna.fastpass.requires.permission.title');
+      expect(formBag.uischema.elements[1].type).toBe('InfoBox');
+      expect((
+        formBag.uischema.elements[1] as InfoboxElement
+      ).options?.message).toEqual(
+        [
+          {
+            title: 'chrome.lna.error.title',
+            message: 'chrome.lna.error.description.part1',
+          },
+          {
+            message: 'chrome.lna.error.description.part2',
+          },
+          {
+            message:
+              'chrome.lna.error.description.more.information',
+          },
+        ],
+      );
+      expect((
+        formBag.uischema.elements[1] as InfoboxElement
+      ).options?.class).toBe('ERROR');
+      expect(formBag.uischema.elements[2].type).toBe('Link');
+      expect((formBag.uischema.elements[2] as LinkElement).options.label).toBe('goback');
     });
   });
 });
