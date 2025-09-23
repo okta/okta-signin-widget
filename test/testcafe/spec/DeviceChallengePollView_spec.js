@@ -1075,7 +1075,9 @@ test
     const deviceChallengeFallbackPage = await setupLoopbackFallback(t, undefined, 'denied');
     await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Sign In');
 
+    await t.skipJsErrors({ message: 'Chrome Local Network Access permission was denied for FastPass.' });
     await deviceChallengeFallbackPage.clickOktaVerifyButton();
+    await t.skipJsErrors(false);
 
     await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Okta FastPass requires network permission');
     const errorBox = userVariables.gen3 ? deviceChallengeFallbackPage.form.getErrorBox() : deviceChallengeFallbackPage.form.getErrorBoxCallout();

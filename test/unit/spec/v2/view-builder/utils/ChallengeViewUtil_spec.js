@@ -4,6 +4,7 @@ import hbs from '@okta/handlebars-inline-precompile';
 import BrowserFeatures from '../../../../../../src/util/BrowserFeatures';
 import Enums from '../../../../../../src/util/Enums';
 import Util from '../../../../../../src/util/Util';
+import { ChromeLNADeniedError } from '../../../../../../src/util/Errors';
 
 describe('v2/utils/ChallengeViewUtil', function() {
   class TestView {
@@ -123,7 +124,10 @@ describe('v2/utils/ChallengeViewUtil', function() {
       });
       mockChromeLNAPermissionState('denied');
 
-      doChallenge(testView);
+      expect(() => {
+        doChallenge(testView);
+      }).toThrowError(ChromeLNADeniedError);
+
       expect(testView.title).toBe(loc('chrome.lna.fastpass.requires.permission.title', 'login'));
       expect(expectedAddArg.options.title).toBe(loc('chrome.lna.error.title', 'login'));
       expect(expectedAddArg.options.content.options.chromeLNAHelpLink).toBe(deviceChallengeWithChromeLNADetails.chromeLocalNetworkAccessDetails.chromeLNAHelpLink);

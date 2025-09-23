@@ -12,6 +12,7 @@
 
 import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { ChromeLNADeniedError } from 'util/Errors';
 
 import {
   ActionPendingElement,
@@ -247,20 +248,22 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
       };
       mockChromeLNAPermissionState('denied');
 
-      const updatedFormBag = transformOktaVerifyFPLoopbackPoll({
-        prevTransaction,
-        transaction,
-        formBag,
-        widgetProps,
-      });
+      expect(() => {
+        transformOktaVerifyFPLoopbackPoll({
+          prevTransaction,
+          transaction,
+          formBag,
+          widgetProps,
+        });
+      }).toThrowError(ChromeLNADeniedError);
 
-      expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(3);
-      expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content).toBe('chrome.lna.fastpass.requires.permission.title');
-      expect(updatedFormBag.uischema.elements[1].type).toBe('InfoBox');
+      expect(formBag).toMatchSnapshot();
+      expect(formBag.uischema.elements.length).toBe(3);
+      expect(formBag.uischema.elements[0].type).toBe('Title');
+      expect((formBag.uischema.elements[0] as TitleElement).options.content).toBe('chrome.lna.fastpass.requires.permission.title');
+      expect(formBag.uischema.elements[1].type).toBe('InfoBox');
       expect((
-        updatedFormBag.uischema.elements[1] as InfoboxElement
+        formBag.uischema.elements[1] as InfoboxElement
       ).options?.message).toEqual(
         [
           {
@@ -277,10 +280,10 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
         ],
       );
       expect((
-        updatedFormBag.uischema.elements[1] as InfoboxElement
+        formBag.uischema.elements[1] as InfoboxElement
       ).options?.class).toBe('ERROR');
-      expect(updatedFormBag.uischema.elements[2].type).toBe('Link');
-      expect((updatedFormBag.uischema.elements[2] as LinkElement).options.label).toBe('goback');
+      expect(formBag.uischema.elements[2].type).toBe('Link');
+      expect((formBag.uischema.elements[2] as LinkElement).options.label).toBe('goback');
     });
   });
 });

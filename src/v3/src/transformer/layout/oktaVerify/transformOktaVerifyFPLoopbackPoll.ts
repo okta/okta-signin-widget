@@ -28,7 +28,6 @@ import {
 import {
   getChromeLNAPermissionState,
   hasMinAuthenticatorOptions,
-  isProductionEnvironment,
   loc,
   updateTransactionWithNextStep,
 } from '../../../util';
@@ -167,7 +166,7 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
   ];
 
   if (chromeLocalNetworkAccessDetails) {
-    getChromeLNAPermissionState(async (currPermissionState) => {
+    getChromeLNAPermissionState((currPermissionState) => {
       switch (currPermissionState) {
         case 'prompt':
           uischema.elements = loopbackProbeElements;
@@ -180,10 +179,8 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
             uischema.elements = loopbackProbeElements;
           } else {
             uischema.elements = chromeLNAErrorCalloutElements;
-            if (isProductionEnvironment()) {
-              // Log error for Sentry monitoring in production
-              throw new ChromeLNADeniedError('Chrome Local Network Access permission was denied for FastPass.');
-            }
+            // Log error for Sentry monitoring
+            throw new ChromeLNADeniedError('Chrome Local Network Access permission was denied for FastPass.');
           }
           break;
         default:

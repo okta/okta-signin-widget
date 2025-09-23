@@ -92,11 +92,8 @@ function handlePermissionState(view, currPermissionState, deviceChallenge) {
     } else {
       updateChromeLNATitle(view, loc('chrome.lna.fastpass.requires.permission.title', 'login'));
       addLNAErrorView(view, deviceChallenge.chromeLocalNetworkAccessDetails?.chromeLNAHelpLink);
-      // eslint-disable-next-line max-depth
-      if (process.env.NODE_ENV === 'production') {
-        // Log error for Sentry monitoring in production
-        throw new ChromeLNADeniedError('Chrome Local Network Access permission was denied for FastPass.');
-      }
+      // Log error for Sentry monitoring
+      throw new ChromeLNADeniedError('Chrome Local Network Access permission was denied for FastPass.');
     }
     break;
   }
