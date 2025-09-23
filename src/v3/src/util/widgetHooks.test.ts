@@ -195,11 +195,10 @@ describe('WidgetHooks', () => {
       context: {
         ...stubTransaction.context,
         user: {
-          id: '123',
-          name: 'Test User',
-          email: 'testuser@example.com',
-          type: 'user',
-          value: {},
+          type: 'object',
+          value: {
+            identifier: 'testuser@example.com',
+          },
         },
         success: {
           name: 'success-redirect',
@@ -211,11 +210,7 @@ describe('WidgetHooks', () => {
     expect(hookSuccess).toHaveBeenCalledTimes(1);
     expect(setUserMock).toHaveBeenCalledTimes(1);
     expect(setUserMock).toHaveBeenCalledWith({
-      id: '123',
-      name: 'Test User',
-      email: 'testuser@example.com',
-      type: 'user',
-      value: {},
+      identifier: 'testuser@example.com',
     });
   });
 });
