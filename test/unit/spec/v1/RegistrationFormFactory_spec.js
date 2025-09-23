@@ -157,4 +157,93 @@ describe('RegistrationFormFactory', function() {
       expect(RegistrationFormFactory.passwordContainsFormField('abcd', 'abcd@okta.com')).toEqual(true);
     });
   });
+
+  // New tests for checkSubSchema logic
+  describe('checkSubSchema', function() {
+    const { checkSubSchema } = RegistrationFormFactory;
+    function makeSubSchema(cfg) {
+      return { get: (k) => cfg[k] }; // minimal interface
+    }
+    function makeModel(data) {
+      return {
+        get: (k) => data[k],
+        has: (k) => Object.prototype.hasOwnProperty.call(data, k)
+      };
+    }
+
+    describe('special format userName', function() {
+      const format = '^[#/userName]';
+      it('returns false when password contains a username part', function() {
+        const sub = makeSubSchema({ format });
+        const model = makeModel({ userName: 'abcd@example.com' });
+        // password contains "Abcd" (case-insensitive via passwordContainsFormField)
+        expect(checkSubSchema(sub, 'MyAbcdPassword1', model)).toBe(false);
+      });
+
+      it('falls back to email when userName absent', function() {
+        const sub = makeSubSchema({ format });
+        const model = makeModel({ email: 'user@example.com' });
+        expect(checkSubSchema(sub, 'userPASS12', model)).toBe(false); // contains user
+      });
+
+      it('returns true when password does not contain any username parts', function() {
+        const sub = makeSubSchema({ format });
+        const model = makeModel({ userName: 'longusername@example.com' });
+        expect(checkSubSchema(sub, 'NoOverlap123!', model)).toBe(true);
+      });
+    });
+
+    describe('special format firstName', function() {
+      const format = '^[#/firstName]';
+      it('returns false when password contains firstName substring (case-sensitive)', function() {
+        const sub = makeSubSchema({ format });
+        const model = makeModel({ firstName: 'John' });
+        expect(checkSubSchema(sub, 'MyJohnPassword', model)).toBe(false);
+      });
+
+      it('returns true when password does not contain firstName', function() {
+        const sub = makeSubSchema({ format });
+        const model = makeModel({ firstName: 'John' });
+        expect(checkSubSchema(sub, 'SecurePwd123', model)).toBe(true);
+      });
+
+      it('returns true when firstName is undefined', function() {
+        const sub = makeSubSchema({ format });
+        const model = makeModel({});
+        expect(checkSubSchema(sub, 'AnyPassword123', model)).toBe(true);
+      });
+
+      it('returns true when firstName is empty string', function() {
+        const sub = makeSubSchema({ format });
+        const model = makeModel({ firstName: '' });
+        expect(checkSubSchema(sub, 'AnyPassword123', model)).toBe(true);
+      });
+    });
+
+    describe('special format lastName', function() {
+      const format = '^[#/lastName]';
+      it('returns false when password contains lastName', function() {
+        const sub = makeSubSchema({ format });
+        const model = makeModel({ lastName: 'Smith' });
+        expect(checkSubSchema(sub, 'xSmithy123', model)).toBe(false);
+      });
+
+      it('returns true when password does not contain lastName', function() {
+        const sub = makeSubSchema({ format });
+        const model = makeModel({ lastName: 'Smith' });
+        expect(checkSubSchema(sub, 'Different123', model)).toBe(true);
+      });
+      it('returns true when lastName is undefined', function() {
+        const sub = makeSubSchema({ format });
+        const model = makeModel({});
+        expect(checkSubSchema(sub, 'AnyPassword123', model)).toBe(true);
+      });
+
+      it('returns true when firstName is empty string', function() {
+        const sub = makeSubSchema({ format });
+        const model = makeModel({ lastName: '' });
+        expect(checkSubSchema(sub, 'AnyPassword123', model)).toBe(true);
+      });
+    });
+  });
 });
