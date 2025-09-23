@@ -54,7 +54,7 @@ export class WidgetHooks {
     hookType: BaseHookType,
     idxTransaction?: IdxTransaction,
   ): Promise<void> {
-    if (idxTransaction?.context.user) {
+    if (idxTransaction?.context?.user) {
       this.setUser?.(idxTransaction.context.user);
     }
     const formName = getFormNameForTransaction(idxTransaction);
