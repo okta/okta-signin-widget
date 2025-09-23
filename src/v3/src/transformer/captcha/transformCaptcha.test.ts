@@ -114,4 +114,58 @@ describe('Captcha container transformer tests', () => {
     expect((updatedFormBag.uischema.elements[4] as DescriptionElement).options.content).not.toBe('hcaptcha.footer.label');
     expect(updatedFormBag).toEqual(formBag);
   });
+
+  it('should add captcha container when captcha object is ALTCHA', () => {
+    transaction.context = {
+      // @ts-expect-error OKTA-627610 captcha missing from context type
+      captcha: {
+        value: {
+          type: 'ALTCHA',
+          id: 'alt_id',
+        },
+      },
+    };
+    const updatedFormBag = transformCaptcha({
+      transaction,
+      widgetProps,
+      step: '',
+      isClientTransaction: false,
+      setMessage: () => {},
+    })(formBag);
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(6);
+    expect((updatedFormBag.uischema.elements[5] as CaptchaContainerElement).type)
+      .toBe('CaptchaContainer');
+    expect((updatedFormBag.uischema.elements[5] as CaptchaContainerElement).options.type)
+      .toBe('ALTCHA');
+    expect((updatedFormBag.uischema.elements[5] as CaptchaContainerElement).options.captchaId)
+      .toBe('alt_id');
+    expect((updatedFormBag.uischema.elements[5] as CaptchaContainerElement).options.siteKey)
+      .toBe(undefined);
+  });
+
+  it('should not add footer text when captcha type is ALTCHA', () => {
+    transaction.context = {
+      // @ts-expect-error OKTA-627610 captcha missing from context type
+      captcha: {
+        value: {
+          type: 'ALTCHA',
+          id: 'alt_id',
+        },
+      },
+    };
+    const updatedFormBag = transformCaptcha({
+      transaction,
+      widgetProps,
+      step: '',
+      isClientTransaction: false,
+      setMessage: () => {},
+    })(formBag);
+
+    // ALTCHA should behave like RECAPTCHA w.r.t. not adding HCAPTCHA footer text
+    expect(updatedFormBag.uischema.elements.length).toBe(6);
+    expect((updatedFormBag.uischema.elements[4] as DescriptionElement).options.content)
+      .not.toBe('hcaptcha.footer.label');
+  });
 });
