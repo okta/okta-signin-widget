@@ -196,9 +196,9 @@ export default View.extend({
     scriptTag.src = url;
     scriptTag.async = true;
     scriptTag.defer = true;
-    scriptTag.crossOrigin = 'anonymous';
 
     if (url.indexOf('altcha') !== -1) {
+      scriptTag.crossOrigin = 'anonymous';
       scriptTag.type = 'module';
       scriptTag.onload = window[OktaSignInWidgetOnCaptchaLoadedCallback];
     }
