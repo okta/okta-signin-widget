@@ -411,8 +411,8 @@ const mockChromeLNAPermissionsQuery = ClientFunction((permissionState) => {
   };
 });
 
-const loopbackLNAProbeSuccessLogger = RequestLogger(/introspect|probe/, { logRequestBody: true, stringifyRequestBody: true });
-const loopbackLNAProbeSuccessMock = RequestMock()
+const loopbackLNAGrantedLogger = RequestLogger(/introspect|probe/, { logRequestBody: true, stringifyRequestBody: true });
+const loopbackLNAGrantedMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithDeviceProbingLoopbackAndChromeLNA)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
@@ -439,6 +439,21 @@ const loopbackLNAProbeSuccessMock = RequestMock()
     'access-control-allow-methods': 'POST, GET, OPTIONS'
   });
 
+const loopbackLNAPromptTimeoutLogger = RequestLogger(/introspect|probe|cancel/, { logRequestBody: true, stringifyRequestBody: true });
+const loopbackLNAPromptTimeoutMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithDeviceProbingLoopbackAndChromeLNA)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll$/)
+  .respond(identifyWithDeviceProbingLoopbackAndChromeLNA)
+  .onRequestTo(/(2000|6511|6512|6513)\/probe/)
+  .respond(null, 500, { 'access-control-allow-origin': '*' })
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
+  .respond(loopbackChallengeNotReceived)
+  .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
+  .respond(identifyWithDeviceProbingLoopbackAndChromeLNA)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll$/)
+  .respond(identifyWithDeviceProbingLoopbackAndChromeLNA);
+
 const loopbackLNADeniedSilentProbeRegisteredLogger = RequestLogger(/introspect|probe|cancel/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackLNADeniedSilentProbeRegisteredMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
@@ -453,16 +468,10 @@ const loopbackLNADeniedSilentProbeRegisteredMock = RequestMock()
 const loopbackLNADeniedRemediationViewLogger = RequestLogger(/introspect|probe|cancel/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackLNADeniedRemediationViewMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
-  .respond(identifyWithDeviceProbingLoopbackAndChromeLNA)
-  .onRequestTo(/\/idp\/idx\/authenticators\/poll$/)
-  .respond(identifyWithDeviceProbingLoopbackAndChromeLNA)
-  .onRequestTo(/(2000|6511|6512|6513)\/probe/)
-  .respond(null, 500, { 'access-control-allow-origin': '*' })
-  .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
   .respond(loopbackChallengeNotReceived)
   .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
   .respond(identifyWithDeviceProbingLoopbackAndChromeLNA)
-  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll$/)
   .respond(identifyWithDeviceProbingLoopbackAndChromeLNA);
 
 fixture('Device Challenge Polling View with the Loopback Server, Custom URI, App Link, and Universal Link approaches');
@@ -981,25 +990,63 @@ test
     )).eql(1);
   });
 
-['prompt', 'granted'].forEach((permissionState) => {
-  test
-    .requestHooks(loopbackLNAProbeSuccessLogger, loopbackLNAProbeSuccessMock)(`in loopback server approach, when Chrome Local Network Access permission state is ${permissionState}, loopback succeeds`, async t => {
-      const deviceChallengePollPageObject = await setup(t, true, permissionState);
-      await checkA11y(t);
-      await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
-      await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
-      await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
-      await t.expect(loopbackLNAProbeSuccessLogger.count(
-        record => record.response.statusCode === 200 &&
-          record.request.url.match(/introspect/)
-      )).eql(1);
-      await t.expect(loopbackLNAProbeSuccessLogger.count(
-        record => record.response.statusCode === 200 &&
-          record.request.method === 'get' &&
-          record.request.url.match(/probe/)
-      )).eql(1);
-    });
-});
+test
+  .requestHooks(loopbackLNAGrantedLogger, loopbackLNAGrantedMock)('in loopback server approach, when Chrome Local Network Access permission state is granted, loopback succeeds', async t => {
+    const deviceChallengePollPageObject = await setup(t, true, 'granted');
+    await checkA11y(t);
+    await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
+    await t.expect(loopbackLNAGrantedLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/introspect/)
+    )).eql(1);
+    await t.expect(loopbackLNAGrantedLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.method === 'get' &&
+        record.request.url.match(/probe/)
+    )).eql(1);
+  });
+
+test
+  .requestHooks(loopbackLNAPromptTimeoutLogger, loopbackLNAPromptTimeoutMock)('in loopback server approach, when Chrome Local Network Access permission state is prompt and loopback fails due to timeout, subsequent loopback attempts proceed instead of showing error remediation view', async t => {
+    const deviceChallengeFallbackPage = await setupLoopbackFallback(t, undefined, 'prompt');
+    await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Sign In');
+    await t.expect(loopbackLNAPromptTimeoutLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/introspect/)
+    )).eql(1);
+    await t.wait(2000);
+    await t.expect(loopbackLNAPromptTimeoutLogger.count(
+      record => record.response.statusCode === 500 &&
+        record.request.url.match(/2000|6511|6512|6513/)
+    )).eql(4);
+    await t.expect(loopbackLNAPromptTimeoutLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/authenticators\/poll\/cancel/) &&
+        JSON.parse(record.request.body).reason === 'OV_UNREACHABLE_BY_LOOPBACK' &&
+        JSON.parse(record.request.body).statusCode === null
+    )).eql(1);
+
+    await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Sign In');
+    await deviceChallengeFallbackPage.clickOktaVerifyButton();
+
+    // Even if loopback fails because user does not take action on permission prompt and probe times out, subsequent loopback calls should still proceed
+    // though we will simulate them failing again) and not show the error remediation view since the permission state is still `prompt`
+    await t.expect(loopbackLNAPromptTimeoutLogger.count(
+      record => record.response.statusCode === 500 &&
+        record.request.url.match(/2000|6511|6512|6513/)
+    )).eql(8);
+    await t.expect(loopbackLNAPromptTimeoutLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/authenticators\/poll\/cancel/) &&
+        JSON.parse(record.request.body).reason === 'OV_UNREACHABLE_BY_LOOPBACK' &&
+        JSON.parse(record.request.body).statusCode === null
+    )).eql(2);
+
+    // Even if subsequent loopback calls fail, we should again fall back to Sign In page again and error remediation view should never be shown
+    await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Sign In');
+  });
 
 test
   .requestHooks(loopbackLNADeniedSilentProbeRegisteredLogger, loopbackLNADeniedSilentProbeRegisteredMock)('in loopback server approach, when Chrome Local Network Access permission state is denied but loopback is triggered by registered condition silent probe, loopback fails but error remediation view is not shown', async t => {
@@ -1027,23 +1074,7 @@ test
   .requestHooks(loopbackLNADeniedRemediationViewLogger, loopbackLNADeniedRemediationViewMock)('in loopback server approach, when Chrome Local Network Access permission state is denied and loopback is not triggered by registered condition silent probe, error remediation view is shown', async t => {
     const deviceChallengeFallbackPage = await setupLoopbackFallback(t, undefined, 'denied');
     await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Sign In');
-    await t.expect(loopbackLNADeniedRemediationViewLogger.count(
-      record => record.response.statusCode === 200 &&
-        record.request.url.match(/introspect/)
-    )).eql(1);
-    await t.wait(2000);
-    await t.expect(loopbackLNADeniedRemediationViewLogger.count(
-      record => record.response.statusCode === 500 &&
-        record.request.url.match(/2000|6511|6512|6513/)
-    )).eql(4);
-    await t.expect(loopbackLNADeniedRemediationViewLogger.count(
-      record => record.response.statusCode === 200 &&
-        record.request.url.match(/authenticators\/poll\/cancel/) &&
-        JSON.parse(record.request.body).reason === 'OV_UNREACHABLE_BY_LOOPBACK' &&
-        JSON.parse(record.request.body).statusCode === null
-    )).eql(1);
 
-    await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Sign In');
     await deviceChallengeFallbackPage.clickOktaVerifyButton();
 
     await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Okta FastPass requires network permission');
