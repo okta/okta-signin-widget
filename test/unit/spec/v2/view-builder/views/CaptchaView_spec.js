@@ -160,4 +160,59 @@ describe('v2/view-builder/views/CaptchaView', function() {
 
     window.grecaptcha = original;
   });
+
+  it('loads altcha lib when captcha type is ALTCHA', function() {
+    const spy = jest.spyOn(CaptchaView.prototype, '_loadCaptchaLib');
+    const altchaCaptcha = { type: 'ALTCHA', id: 'alt_id', siteKey: 'alt_site_key' };
+    testContext.init(altchaCaptcha);
+    expect(spy).toHaveBeenCalledWith('https://cdn.jsdelivr.net/gh/altcha-org/altcha/dist/altcha.min.js');
+  });
+
+  it('ensure callback for when Altcha is loaded has no issues', function() {
+    const originalAlt = window.altcha;
+    const altchaCaptcha = { type: 'ALTCHA', id: 'alt_id' };
+    testContext.init(altchaCaptcha);
+
+    const spy = jest.spyOn(testContext.view.options.appState, 'trigger');
+    // invoke global onload callback that the view set up
+    window.OktaSignInWidgetOnCaptchaLoaded();
+
+    // temp token should be set to avoid client-side validation errors
+    expect(testContext.view.model.get('captchaVerify.captchaToken')).toEqual('tempToken');
+
+    // altcha element should be appended and data-captcha-id should be set
+    expect(testContext.view.$el.find('altcha-widget').length).toBe(1);
+    expect(testContext.view.$el.find('#captcha-container').attr('data-captcha-id')).toBe('altcha');
+
+    // onCaptchaLoaded should be triggered with the altcha element
+    expect(spy).toHaveBeenCalledWith('onCaptchaLoaded', expect.any(HTMLElement));
+
+    window.altcha = originalAlt;
+  });
+
+  it('Altcha "verified" event should submit form and clear container', function() {
+    const altchaCaptcha = { type: 'ALTCHA', id: 'alt_id' };
+    testContext.init(altchaCaptcha);
+
+    // ensure altcha widget is initialized
+    window.OktaSignInWidgetOnCaptchaLoaded();
+    const $container = testContext.view.$el.find('#captcha-container');
+    const altEl = $container.find('altcha-widget')[0];
+    expect(altEl).toBeDefined();
+
+    // spy on reset() so onCaptchaSolved will call it (if implemented)
+    altEl.reset = jest.fn();
+
+    const spy = jest.spyOn(testContext.view.options.appState, 'trigger');
+
+    // dispatch verified event with payload
+    const ev = new CustomEvent('verified', { detail: { payload: 'alt-token-123' } });
+    altEl.dispatchEvent(ev);
+
+    // model should be updated and saveForm triggered
+    expect(testContext.view.model.get('captchaVerify.captchaToken')).toEqual('alt-token-123');
+    expect(spy).toHaveBeenCalledWith('saveForm', testContext.view.model);
+
+    expect(altEl.reset).toHaveBeenCalled();
+  });
 });
