@@ -53,7 +53,7 @@ export class MonolithClient {
     if (!content) {
       throw new Error('Unable to retrieve latest email');
     }
-    //console.log('getLatestEmail', content);
+    console.log('getLatestEmail', content);
     return content;
   }
 
