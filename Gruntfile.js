@@ -84,7 +84,7 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: 'target/',
-            src: ['esm/**/*', 'sass/**/*', 'font/**/*', 'img/**/*', 'labels/**/*'],
+            src: ['esm/**/*', 'sass/**/*', 'font/**/*', 'img/**/*', 'labels/**/*', 'altcha.*'],
             dest: DIST
           },
           {

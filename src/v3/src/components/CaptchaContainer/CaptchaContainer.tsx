@@ -12,7 +12,7 @@
 
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { Box } from '@mui/material';
-import { useEffect, useRef } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 import Logger from '../../../../util/Logger';
@@ -51,6 +51,9 @@ const CaptchaContainer: UISchemaElementComponent<{
   const dataSchema = dataSchemaRef.current!;
   const captchaRef = useRef<ReCAPTCHA | HCaptcha>(null);
 
+  // State to track if the ALTCHA script has been loaded
+  const [isAltchaLoaded, setIsAltchaLoaded] = useState(false);
+
   const isHcaptchaInstance = (captchaObj: HCaptcha | ReCAPTCHA)
   : captchaObj is HCaptcha => captchaObj instanceof HCaptcha;
 
@@ -62,6 +65,19 @@ const CaptchaContainer: UISchemaElementComponent<{
       useRecaptchaNet,
     };
   }
+  // Effect to dynamically load ALTCHA script when needed
+  useEffect(() => {
+    // If captchaType is ALTCHA and the script hasn't been loaded yet
+    if (captchaType === 'ALTCHA' && !isAltchaLoaded) {
+      import(/* webpackChunkName: "altcha" */ 'altcha')
+        .then(() => {
+          setIsAltchaLoaded(true);
+        })
+        .catch((err) => {
+          Logger.error('Failed to load ALTCHA script', err);
+        });
+    }
+  }, [captchaType, isAltchaLoaded]);
 
   useEffect(() => {
     // set the reference in dataSchema context to this captcha instance
@@ -133,6 +149,46 @@ const CaptchaContainer: UISchemaElementComponent<{
     resetCaptchaContainer();
   };
 
+  const onAltchaVerify = (ev: CustomEvent) => {
+    const { payload } = ev.detail;
+
+    const {
+      submit: {
+        step,
+        includeImmutableData,
+      },
+    } = dataSchema;
+
+    const captchaSubmitParams = {
+      captchaVerify: {
+        captchaToken: payload,
+        captchaId: 'altcha',
+      },
+    };
+
+    onSubmitHandler({
+      includeData: true,
+      includeImmutableData,
+      params: captchaSubmitParams,
+      step,
+    });
+  };
+
+  if (captchaType === 'ALTCHA') {
+    return isAltchaLoaded ? (
+      <altcha-widget
+        debug
+        floating
+        hidefooter
+        hidelogo
+        onverified={onAltchaVerify}
+        challengeurl="/api/v1/altcha"
+      />
+    ) : (
+      null
+    );
+  }
+
   if (captchaType === 'RECAPTCHA_V2') {
     return (
       // set z-index to 1 for ReCaptcha so the badge does not get covered by the footer
@@ -151,6 +207,7 @@ const CaptchaContainer: UISchemaElementComponent<{
       </Box>
     );
   }
+
   return (
     <HCaptcha
       // Params like `apihost` will be passed to hCaptcha loader.
