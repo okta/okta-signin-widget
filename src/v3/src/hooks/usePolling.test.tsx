@@ -227,5 +227,68 @@ describe('usePolling', () => {
       expect(setTimeout).toHaveBeenCalledTimes(1);
       expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 4000);
     });
+
+    it('updates refresh interval when polling step changes and stops after terminal step', async () => {
+      const initialIdxTransaction = {
+        // @ts-ignore remove after adding refresh to nextStep in auth-js
+        nextStep: {
+          name: 'challenge-poll',
+          refresh: 4000,
+        },
+      } as IdxTransaction;
+
+      // Reset and mock sequential proceed responses
+      mockProceedFn.mockReset();
+      mockProceedFn
+        .mockResolvedValueOnce({
+          nextStep: {
+            name: 'challenge-poll',
+            refresh: 4000,
+            action: jest.fn(),
+          },
+        })
+        .mockResolvedValueOnce({
+          nextStep: {
+            name: 'device-challenge-poll',
+            refresh: 1000,
+            action: jest.fn(),
+          },
+        })
+        .mockResolvedValueOnce({
+          nextStep: {
+            name: 'terminal', // this won't trigger polling
+            action: jest.fn(),
+          },
+        });
+
+      const { result } = renderHook(() => usePolling(initialIdxTransaction, mockProps, mockData));
+
+      // First proceed -> still challenge-poll (4000)
+      jest.advanceTimersByTime(4000);
+      await waitFor(() => {
+        expect(mockProceedFn).toHaveBeenCalledTimes(1);
+        expect(result.current?.nextStep?.name).toBe('challenge-poll');
+      });
+
+      // Second proceed -> device-challenge-poll (refresh now 1000)
+      jest.advanceTimersByTime(4000);
+      await waitFor(() => {
+        expect(mockProceedFn).toHaveBeenCalledTimes(2);
+        expect(result.current?.nextStep?.name).toBe('device-challenge-poll');
+      });
+
+      // Third proceed -> terminal (polling stops)
+      jest.advanceTimersByTime(1000);
+      await waitFor(() => {
+        expect(mockProceedFn).toHaveBeenCalledTimes(3);
+        expect(result.current).toBeUndefined();
+      });
+
+      // Validate proceed call step sequence
+      expect(mockProceedFn.mock.calls.length).toBe(3);
+      expect(mockProceedFn.mock.calls[0][0].step).toBe('challenge-poll');
+      expect(mockProceedFn.mock.calls[1][0].step).toBe('challenge-poll');
+      expect(mockProceedFn.mock.calls[2][0].step).toBe('device-challenge-poll');
+    });
   });
 });
