@@ -1,8 +1,10 @@
 import {doChallenge} from '../../../../../../src/v2/view-builder/utils/ChallengeViewUtil';
 import { loc, View, createButton } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
+import BrowserFeatures from '../../../../../../src/util/BrowserFeatures';
 import Enums from '../../../../../../src/util/Enums';
 import Util from '../../../../../../src/util/Util';
+import { ChromeLNADeniedError } from '../../../../../../src/util/Errors';
 
 describe('v2/utils/ChallengeViewUtil', function() {
   class TestView {
@@ -11,6 +13,13 @@ describe('v2/utils/ChallengeViewUtil', function() {
     doLoopback() {}
     doCustomURI() {}
     doChromeDTC() {}
+    removeChildren() {}
+    $() {}
+    options = {
+      appState: {
+        get() {}
+      }
+    }
   }
 
   const testView = new TestView();
@@ -40,6 +49,90 @@ describe('v2/utils/ChallengeViewUtil', function() {
     expect(testView.doLoopback).toHaveBeenCalledWith(deviceChallenge);
   });
 
+  describe('LOOPBACK_CHALLENGE Chrome Local Network Access test cases', function() {
+    let testView;
+    let expectedAddArg = {};
+    let deviceChallengeWithChromeLNADetails;
+    let originalGetChromeLNAPermissionState;
+
+    beforeEach(function() {
+      testView = new TestView();
+      deviceChallengeWithChromeLNADetails = {
+        'challengeMethod': Enums.LOOPBACK_CHALLENGE,
+        'domain': 'test_domain',
+        'ports': [12345, 22222],
+        'challengerequest': 'abcdfg12345',
+        'probeTimeoutMillis': 100,
+        'chromeLocalNetworkAccessDetails': {
+          'chromeLNAHelpLink': 'https://okta.com'
+        }
+      };
+      spyOn(testView, 'getDeviceChallengePayload').and.callFake(() => deviceChallengeWithChromeLNADetails);
+      spyOn(testView, 'removeChildren');
+      spyOn(testView, 'add').and.callFake((arg) => {expectedAddArg = arg;});
+      spyOn(testView, '$').and.callFake(() => ({ length: 1, text: jest.fn() }));
+      spyOn(testView, 'doLoopback');
+      spyOn(View, 'extend').and.callFake((extendArg) => {
+        return extendArg;
+      });
+      testView.options = { appState: { get: () => undefined } };
+
+      // Save original implementation to restore after tests
+      originalGetChromeLNAPermissionState = BrowserFeatures.getChromeLNAPermissionState;
+    });
+
+    afterEach(function() {
+      // Restore original implementation
+      BrowserFeatures.getChromeLNAPermissionState = originalGetChromeLNAPermissionState;
+    });
+
+    function mockChromeLNAPermissionState(currPermissionState) {
+      BrowserFeatures.getChromeLNAPermissionState = function(callback) {
+        callback(currPermissionState);
+      };
+    }
+
+    it.each(['prompt', 'granted'])('shows loopback view for "%s" permission state', function(permissionState) {
+      mockChromeLNAPermissionState(permissionState);
+      doChallenge(testView);
+      expect(testView.title).toBe(loc('deviceTrust.sso.redirectText', 'login'));
+      expect(expectedAddArg.className).toBe('loopback-content');
+      expect(expectedAddArg.template.call()).toBe(hbs`<div class="spinner"></div>`.call());
+    });
+
+    it('shows loopback view for "denied" permission state when loopback is triggered by registered condition silent probe', function() {
+      spyOn(testView.options.appState, 'get').and.callFake((key) => {
+        // Make it explicit that we expect 'previousFormName' to be undefined in this case
+        if (key === 'previousFormName') {
+          return undefined;
+        }
+        return undefined;
+      });
+      mockChromeLNAPermissionState('denied');
+      doChallenge(testView);
+      expect(testView.title).toBe(loc('deviceTrust.sso.redirectText', 'login'));
+      expect(expectedAddArg.className).toBe('loopback-content');
+      expect(expectedAddArg.template.call()).toBe(hbs`<div class="spinner"></div>`.call());
+    });
+
+    it('shows remediation view for "denied" permission state when loopback is not triggered by registered condition silent probe', function() {
+      spyOn(testView.options.appState, 'get').and.callFake((key) => {
+        if (key === 'previousFormName') {
+          return 'somePreviousFormName';
+        }
+        return undefined;
+      });
+      mockChromeLNAPermissionState('denied');
+
+      expect(() => {
+        doChallenge(testView);
+      }).toThrowError(ChromeLNADeniedError);
+
+      expect(testView.title).toBe(loc('chrome.lna.fastpass.requires.permission.title', 'login'));
+      expect(expectedAddArg.options.title).toBe(loc('chrome.lna.error.title', 'login'));
+      expect(expectedAddArg.options.content.options.chromeLNAHelpLink).toBe(deviceChallengeWithChromeLNADetails.chromeLocalNetworkAccessDetails.chromeLNAHelpLink);
+    });
+  });
 
   it('CUSTOM_URI_CHALLENGE test case', function() {
     const deviceChallenge = {

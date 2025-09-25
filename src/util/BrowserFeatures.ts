@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { ChromeLNADeniedError } from "./Errors";
+
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
@@ -82,6 +84,26 @@ fn.isAndroid = function() {
 fn.isIOS = function() {
   // iOS detection from: http://stackoverflow.com/a/9039885/177710
   return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+};
+
+fn.getChromeLNAPermissionState = async function(
+  handlePermissionState: (currPermissionState?: PermissionState) => void
+) {
+  try {
+    if (navigator.permissions && typeof navigator.permissions.query === 'function') {
+      const result = await navigator.permissions.query({ name: 'local-network-access' as any });
+      
+      handlePermissionState(result.state);
+    } else {
+      // Fallback for browsers that do not support Permissions API
+      handlePermissionState(undefined);
+    }
+  } catch (error) {
+    if (error instanceof ChromeLNADeniedError) {
+      throw error; // Rethrow custom Chrome LNA denied error so Sentry can capture it for monitoring
+    }
+    handlePermissionState(undefined);
+  }
 };
 
 // Returns a list of languages the user has configured for their browser, in

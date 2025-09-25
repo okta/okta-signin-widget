@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { ChromeLNADeniedError } from '../../../util/Errors';
+
 export const isAndroid = (): boolean => (
   // Windows Phone also contains "Android"
   /android/i.test(navigator.userAgent)
@@ -22,5 +24,25 @@ export const isIOS = (): boolean => (
     // iPad on iOS 13 detection
     || (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
 );
+
+export const getChromeLNAPermissionState = async (
+  handlePermissionState: (currPermissionState?: PermissionState) => void,
+) => {
+  try {
+    if (navigator.permissions && typeof navigator.permissions.query === 'function') {
+      const result = await navigator.permissions.query({ name: 'local-network-access' as any });
+
+      handlePermissionState(result.state);
+    } else {
+      // Fallback for browsers that do not support Permissions API
+      handlePermissionState(undefined);
+    }
+  } catch (error) {
+    if (error instanceof ChromeLNADeniedError) {
+      throw error; // Rethrow custom Chrome LNA denied error so Sentry can capture it for monitoring
+    }
+    handlePermissionState(undefined);
+  }
+};
 
 export const isAndroidOrIOS = (): boolean => isAndroid() || isIOS();
