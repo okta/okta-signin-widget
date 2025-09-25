@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`usePolling idxTransaction includes polling step - returns transaction and setup polling timer updates refresh interval when polling step changes and stops after terminal step 1`] = `
+Array [
+  Array [
+    Object {
+      "stateHandle": undefined,
+      "step": "challenge-poll",
+    },
+  ],
+  Array [
+    Object {
+      "stateHandle": undefined,
+      "step": "challenge-poll",
+    },
+  ],
+  Array [
+    Object {
+      "stateHandle": undefined,
+      "step": "device-challenge-poll",
+    },
+  ],
+]
+`;

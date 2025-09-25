@@ -285,10 +285,7 @@ describe('usePolling', () => {
       });
 
       // Validate proceed call step sequence
-      expect(mockProceedFn.mock.calls.length).toBe(3);
-      expect(mockProceedFn.mock.calls[0][0].step).toBe('challenge-poll');
-      expect(mockProceedFn.mock.calls[1][0].step).toBe('challenge-poll');
-      expect(mockProceedFn.mock.calls[2][0].step).toBe('device-challenge-poll');
+      expect(mockProceedFn.mock.calls).toMatchSnapshot();
     });
   });
 });
