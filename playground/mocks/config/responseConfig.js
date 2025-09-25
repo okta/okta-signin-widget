@@ -1075,7 +1075,6 @@ const selfServiceRegistration = {
   ],
   '/api/v1/registration/form': [
     'form',
-    // 'form-with-additional-validation',
   ],
   '/api/v1/registration/:id/register': [
     'register',
