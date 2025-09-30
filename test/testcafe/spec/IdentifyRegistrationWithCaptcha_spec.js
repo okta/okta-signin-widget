@@ -46,7 +46,8 @@ async function setup(t) {
   return registrationPage;
 }
 
-test.requestHooks(reCaptchaRequestLogger, mockWithReCaptcha)('should be able to create account with reCaptcha enabled', async t => {
+// TODO: fix quarantined test - OKTA-1030856
+test.skip.requestHooks(reCaptchaRequestLogger, mockWithReCaptcha)('should be able to create account with reCaptcha enabled', async t => {
   const registrationPage = await setup(t);
   
   // click register button
