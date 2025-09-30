@@ -113,8 +113,7 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha, hcaptchaReque
 });
 
 // TODO: fix quarantined test - OKTA-1030856
-test.skip
-  .requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWithReCaptcha)('should sign in with reCaptcha enabled', async t => {
+test.skip.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWithReCaptcha)('should sign in with reCaptcha enabled', async t => {
   const identityPage = await setup(t, {
     language: 'en'
   });
