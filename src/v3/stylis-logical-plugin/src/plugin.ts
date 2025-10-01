@@ -68,7 +68,7 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
       // to the list of elements to be processed.
       case ('rule'): {
         // do not prefix or copy rules in keyframes
-        if (element.root?.type === '@keyframes' || !element.children.length) {
+        if (element.root?.type === '@keyframes' || !element.children?.length) {
           break;
         }
 
