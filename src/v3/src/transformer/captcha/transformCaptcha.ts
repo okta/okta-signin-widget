@@ -37,7 +37,7 @@ export const transformCaptcha: TransformStepFnWithOptions = ({ transaction }) =>
     },
   } = transaction;
 
-  if (!['HCAPTCHA', 'RECAPTCHA_V2', 'ALTCHA'].includes(captchaType)) {
+  if (!['HCAPTCHA', 'RECAPTCHA_V2'].includes(captchaType)) {
     return formbag;
   }
 

@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import 'altcha';
-
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { Box } from '@mui/material';
 import { useEffect, useRef } from 'preact/hooks';
@@ -135,44 +133,6 @@ const CaptchaContainer: UISchemaElementComponent<{
     resetCaptchaContainer();
   };
 
-  const onAltchaVerify = (ev: CustomEvent) => {
-    const { payload } = ev.detail;
-
-    const {
-      submit: {
-        step,
-        includeImmutableData,
-      },
-    } = dataSchema;
-
-    const captchaSubmitParams = {
-      captchaVerify: {
-        captchaToken: payload,
-        captchaId: 'altcha',
-      },
-    };
-
-    onSubmitHandler({
-      includeData: true,
-      includeImmutableData,
-      params: captchaSubmitParams,
-      step,
-    });
-  };
-
-  if (captchaType === 'ALTCHA') {
-    return (
-      <altcha-widget
-        debug
-        floating
-        hidefooter
-        hidelogo
-        onverified={onAltchaVerify}
-        challengeurl="/api/v1/altcha"
-      />
-    );
-  }
-
   if (captchaType === 'RECAPTCHA_V2') {
     return (
       // set z-index to 1 for ReCaptcha so the badge does not get covered by the footer
@@ -191,7 +151,6 @@ const CaptchaContainer: UISchemaElementComponent<{
       </Box>
     );
   }
-
   return (
     <HCaptcha
       // Params like `apihost` will be passed to hCaptcha loader.

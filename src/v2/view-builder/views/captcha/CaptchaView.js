@@ -20,7 +20,6 @@ const OktaSignInWidgetOnCaptchaLoadedCallback = 'OktaSignInWidgetOnCaptchaLoaded
 const OktaSignInWidgetOnCaptchaSolvedCallback = 'OktaSignInWidgetOnCaptchaSolved';
 
 const HCAPTCHA_URL = 'https://hcaptcha.com/1/api.js';
-const ALTCHA_URL = 'https://cdn.jsdelivr.net/gh/altcha-org/altcha/dist/altcha.min.js';
 const RECAPTCHAV2_URL = 'https://www.google.com/recaptcha/api.js';
 
 export default View.extend({
@@ -39,16 +38,7 @@ export default View.extend({
 
   getTemplateData: function() {
     if (this.captchaConfig) {
-      let className;
-
-      if (this.captchaConfig.type === 'ALTCHA') {
-        className = 'altcha-captcha';
-      } else if (this.captchaConfig.type === 'HCAPTCHA') {
-        className = 'h-captcha';
-      } else {
-        className = 'g-recaptcha';
-      }
-
+      const className = this.captchaConfig.type === 'HCAPTCHA' ? 'h-captcha' : 'g-recaptcha';
       return { 
         siteKey: this.captchaConfig.siteKey,
         isCaptchaConfigured: true,
@@ -101,53 +91,20 @@ export default View.extend({
       this.options.appState.trigger('saveForm', this.model); 
     };
 
-    const setUpTempToken = () => {
+    // Callback when CAPTCHA lib is loaded
+    const onCaptchaLoaded = () => {
       // This is just a safeguard to ensure we don't bind Captcha to an already bound element.
       // It shouldn't happen in practice.
       if (this.$el.find('#captcha-container').attr('data-captcha-id')) {
         return;
       }
 
+      const captchaObject = this._getCaptchaOject();
+
       // We set a temporary token for Captcha because this is a required field for the form and is normally set
       // at a later time. In order to prevent client-side validation errors because of this, we have to set a 
       // dummy value. We then overwrite this with the proper token in the onCaptchaSolved callback.
       this.model.set(this.options.name, 'tempToken');
-    };
-
-    const onAltchaCaptchaLoaded = () => {
-      setUpTempToken();
-
-      const $container = this.$el.find('#captcha-container');
-      const altEl = document.createElement('altcha-widget');
-
-      Object.entries({
-        floating: true,
-        hidefooter: true,
-        hidelogo: true,
-        challengeurl: '/api/v1/altcha',
-      }).forEach(([key, value]) => altEl.setAttribute(key, value));
-
-      if (altEl.addEventListener) {
-        altEl.addEventListener('verified', (e) => {
-          const token = (e && e.detail && e.detail.payload) || e;
-          onCaptchaSolved(token);
-          $container.empty();
-        });
-      }
-
-      window.altcha = altEl;
-      $container.empty().append(altEl);
-      // mark as bound
-      $container.attr('data-captcha-id', 'altcha');
-      // notify Baseform
-      this.options.appState.trigger('onCaptchaLoaded', altEl);
-    };
-
-    // Callback when CAPTCHA lib is loaded
-    const onReCaptchaOrHCaptchaLoaded = () => {
-      setUpTempToken();
-
-      const captchaObject = this._getCaptchaOject();
 
       const captchaId = captchaObject.render('captcha-container', {
         sitekey: this.captchaConfig.siteKey,
@@ -167,23 +124,17 @@ export default View.extend({
 
     // Attaching the callback to the window object so that the CAPTCHA script that we dynamically render
     // can have access to it since it won't have access to this view's scope.
-    if(this.captchaConfig.type === 'ALTCHA') {
-      window[OktaSignInWidgetOnCaptchaLoadedCallback] = onAltchaCaptchaLoaded;
-    } else {
-      window[OktaSignInWidgetOnCaptchaLoadedCallback] = onReCaptchaOrHCaptchaLoaded;
-    }
+    window[OktaSignInWidgetOnCaptchaLoadedCallback] = onCaptchaLoaded;
 
     // Attaching the Captcha solved callback to the window object because we reference it in our template under
     // the 'data-callback' attribute which the Captcha library uses to invoke the callback.
     window[OktaSignInWidgetOnCaptchaSolvedCallback] = onCaptchaSolved;
 
-
+    
     if (this.captchaConfig.type === 'HCAPTCHA') {
       this._loadCaptchaLib(this._getCaptchaUrl(HCAPTCHA_URL, 'hcaptcha'));
     } else if (this.captchaConfig.type === 'RECAPTCHA_V2') {
       this._loadCaptchaLib(this._getCaptchaUrl(RECAPTCHAV2_URL, 'recaptcha'));
-    } if (this.captchaConfig.type === 'ALTCHA') {
-      this._loadCaptchaLib(this._getCaptchaUrl(ALTCHA_URL, 'altcha'));
     }
   },
   
@@ -196,13 +147,6 @@ export default View.extend({
     scriptTag.src = url;
     scriptTag.async = true;
     scriptTag.defer = true;
-
-    if (url.indexOf('altcha') !== -1) {
-      scriptTag.crossOrigin = 'anonymous';
-      scriptTag.type = 'module';
-      scriptTag.onload = window[OktaSignInWidgetOnCaptchaLoadedCallback];
-    }
-
     document.getElementById(Enums.WIDGET_CONTAINER_ID).appendChild(scriptTag);
   },
 
@@ -226,18 +170,8 @@ export default View.extend({
   },
 
   _getCaptchaOject() {
-    // Return the appropriate global captcha object for the configured type.
-    if (this.captchaConfig.type === 'HCAPTCHA') {
-      return window.hcaptcha;
-    }
-    if (this.captchaConfig.type === 'RECAPTCHA_V2') {
-      return window.grecaptcha;
-    }
-    if (this.captchaConfig.type === 'ALTCHA') {
-      // Altcha may expose different globals or be used as a web component.
-      return window.altcha ?? null;
-    }
-    return null;
+    const captchaObject = this.captchaConfig.type === 'HCAPTCHA' ? window.hcaptcha : window.grecaptcha;
+    return captchaObject;
   },
 
   /**
@@ -253,12 +187,6 @@ export default View.extend({
     const scriptParams = this.options.settings.get(`${settingsKey}.scriptParams`);
 
     const baseUrl = scriptSource || defaultBaseUrl;
-
-    // Altcha is a web component / module; don't append reCAPTCHA/hCaptcha-specific query params.
-    if (settingsKey === 'altcha') {
-      return baseUrl;
-    }
-
     const params = {
       ...scriptParams,
       onload: OktaSignInWidgetOnCaptchaLoadedCallback,

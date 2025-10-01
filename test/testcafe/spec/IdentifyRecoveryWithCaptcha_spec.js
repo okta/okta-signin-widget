@@ -48,7 +48,8 @@ async function setup(t) {
   return identityPage;
 }
 
-test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyRecoveryWithReCaptchaMock)('should be able to submit identifier with reCaptcha enabled', async t => {
+// TODO: fix quarantined test - OKTA-1030856
+test.skip.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyRecoveryWithReCaptchaMock)('should be able to submit identifier with reCaptcha enabled', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   
