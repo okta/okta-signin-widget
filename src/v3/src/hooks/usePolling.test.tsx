@@ -361,6 +361,5 @@ describe('usePolling', () => {
       // Validate proceed call step sequence
       expect(mockProceedFn.mock.calls).toMatchSnapshot();
     });
-
   });
 });
