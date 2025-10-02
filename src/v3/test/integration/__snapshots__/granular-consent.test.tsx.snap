@@ -3,130 +3,134 @@
 exports[`granular-consent should render form with logo 1`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header "
-            >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                role="presentation"
-                tabindex="-1"
-              />
-            </div>
-            <div
-              class="MuiBox-root emotion-7"
             >
               <div
-                class="MuiBox-root emotion-1"
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header "
+              >
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  role="presentation"
+                  tabindex="-1"
+                />
+              </div>
+              <div
+                class="MuiBox-root emotion-8"
               >
                 <div
-                  class="MuiBox-root emotion-9"
+                  class="MuiBox-root emotion-2"
                 >
                   <div
-                    class="MuiBox-root emotion-1"
+                    class="MuiBox-root emotion-10"
                   >
-                    <a
-                      aria-label="Logo for the app"
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-11"
-                      href="https://client._funky-ch4rs.com"
-                      rel="noopener noreferrer"
-                      target="_blank"
+                    <div
+                      class="MuiBox-root emotion-2"
                     >
-                      <img
-                        alt="Logo for the app"
-                        aria-hidden="true"
-                        class="MuiBox-root emotion-12"
-                        data-se="client-logo"
-                        src="http://okta1.com/logo.png"
-                      />
-                      <span
-                        class="Link-indicator"
-                        role="presentation"
+                      <a
+                        aria-label="Logo for the app"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-12"
+                        href="https://client._funky-ch4rs.com"
+                        rel="noopener noreferrer"
+                        target="_blank"
                       >
-                        <svg
+                        <img
+                          alt="Logo for the app"
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
-                          fill="none"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
+                          class="MuiBox-root emotion-13"
+                          data-se="client-logo"
+                          src="http://okta1.com/logo.png"
+                        />
+                        <span
+                          class="Link-indicator"
+                          role="presentation"
                         >
-                          <path
-                            clip-rule="evenodd"
-                            d="M8.293 14.293 18.586 4H10V2h10.223c.12 0 .262 0 .387.01.145.012.353.042.571.153a1.5 1.5 0 0 1 .655.656c.112.218.142.426.154.571.01.125.01.268.01.387V14h-2V5.414L9.707 15.707l-1.414-1.414Zm7.745 5.74v-7.847l2-2.042v11.89H2.024V5.966h11.828l-2.041 2H4.024v12.068h12.014Z"
-                            fill="currentColor"
-                            fill-rule="evenodd"
-                          />
-                        </svg>
-                      </span>
-                    </a>
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
+                            fill="none"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M8.293 14.293 18.586 4H10V2h10.223c.12 0 .262 0 .387.01.145.012.353.042.571.153a1.5 1.5 0 0 1 .655.656c.112.218.142.426.154.571.01.125.01.268.01.387V14h-2V5.414L9.707 15.707l-1.414-1.414Zm7.745 5.74v-7.847l2-2.042v11.89H2.024V5.966h11.828l-2.041 2H4.024v12.068h12.014Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                          </svg>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-15"
+                    data-se="title-text"
+                  >
+                    <h1
+                      class="MuiTypography-root MuiTypography-h6 no-translate emotion-16"
+                    >
+                      Native client
+                    </h1>
+                     
+                    <p>
+                      wants to access
+                    </p>
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-14"
-                  data-se="title-text"
+                  class="MuiBox-root emotion-17"
+                  role="status"
                 >
-                  <h1
-                    class="MuiTypography-root MuiTypography-h6 no-translate emotion-15"
+                  <span
+                    aria-label="Processing..."
+                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-18"
+                    role="progressbar"
+                    style="width: 1.71428571rem; height: 1.71428571rem;"
                   >
-                    Native client
-                  </h1>
-                   
-                  <p>
-                    wants to access
-                  </p>
+                    <svg
+                      class="MuiCircularProgress-svg emotion-19"
+                      viewBox="22 22 44 44"
+                    >
+                      <circle
+                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-20"
+                        cx="44"
+                        cy="44"
+                        fill="none"
+                        r="17"
+                        stroke-width="10"
+                      />
+                    </svg>
+                  </span>
                 </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-16"
-                role="status"
-              >
-                <span
-                  aria-label="Processing..."
-                  class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-17"
-                  role="progressbar"
-                  style="width: 1.71428571rem; height: 1.71428571rem;"
-                >
-                  <svg
-                    class="MuiCircularProgress-svg emotion-18"
-                    viewBox="22 22 44 44"
-                  >
-                    <circle
-                      class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-19"
-                      cx="44"
-                      cy="44"
-                      fill="none"
-                      r="17"
-                      stroke-width="10"
-                    />
-                  </svg>
-                </span>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;

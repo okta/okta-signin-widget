@@ -3,204 +3,208 @@
 exports[`flow-verify-with-piv-as-authenticator should render select authenticator page with PIV as authenticator and clicking it will render PIV verify view 1`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                role="presentation"
-                tabindex="-1"
-              />
               <div
-                aria-hidden="true"
-                class="MuiBox-root emotion-7"
-                data-se="factor-beacon smart-card-icon "
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header authCoinSpacing"
               >
-                <svg
-                  aria-labelledby="smart-card-icon"
-                  fill="none"
-                  height="2.85714286rem"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="2.85714286rem"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="smart-card-icon"
-                  >
-                    PIV Card
-                  </title>
-                  <path
-                    class="siwFillPrimaryDark"
-                    clip-rule="evenodd"
-                    d="M17.5 37h13a2.6 2.6 0 0 0 2.5-2.682V14.682A2.6 2.6 0 0 0 30.5 12h-13a2.6 2.6 0 0 0-2.5 2.682v19.636A2.6 2.6 0 0 0 17.5 37Zm-1.096-23.468A1.6 1.6 0 0 1 17.5 13h13a1.6 1.6 0 0 1 1.5 1.682v19.636A1.6 1.6 0 0 1 30.5 36h-13a1.6 1.6 0 0 1-1.5-1.682V14.682a1.6 1.6 0 0 1 .404-1.15ZM23 28h-1v1h1v-1Zm-3 0h1v1h-1v-1Zm0 5v-3h3v1h-2v2h-1Zm2-1h1v1h-1v-1Zm-2-5a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1h-3Z"
-                    fill="#00297A"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    class="siwFillSecondary"
-                    clip-rule="evenodd"
-                    d="M28 17h-4v1h4v-1Zm2 2h-6v1h6v-1Zm-6 2h6v1h-6v-1Z"
-                    fill="#A7B5EC"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
-                aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-              >
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  role="presentation"
+                  tabindex="-1"
+                />
                 <div
-                  class="MuiBox-root emotion-10"
+                  aria-hidden="true"
+                  class="MuiBox-root emotion-8"
+                  data-se="factor-beacon smart-card-icon "
+                >
+                  <svg
+                    aria-labelledby="smart-card-icon"
+                    fill="none"
+                    height="2.85714286rem"
+                    role="img"
+                    viewBox="0 0 48 48"
+                    width="2.85714286rem"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title
+                      id="smart-card-icon"
+                    >
+                      PIV Card
+                    </title>
+                    <path
+                      class="siwFillPrimaryDark"
+                      clip-rule="evenodd"
+                      d="M17.5 37h13a2.6 2.6 0 0 0 2.5-2.682V14.682A2.6 2.6 0 0 0 30.5 12h-13a2.6 2.6 0 0 0-2.5 2.682v19.636A2.6 2.6 0 0 0 17.5 37Zm-1.096-23.468A1.6 1.6 0 0 1 17.5 13h13a1.6 1.6 0 0 1 1.5 1.682v19.636A1.6 1.6 0 0 1 30.5 36h-13a1.6 1.6 0 0 1-1.5-1.682V14.682a1.6 1.6 0 0 1 .404-1.15ZM23 28h-1v1h1v-1Zm-3 0h1v1h-1v-1Zm0 5v-3h3v1h-2v2h-1Zm2-1h1v1h-1v-1Zm-2-5a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1h-3Z"
+                      fill="#00297A"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      class="siwFillSecondary"
+                      clip-rule="evenodd"
+                      d="M28 17h-4v1h4v-1Zm2 2h-6v1h6v-1Zm-6 2h6v1h-6v-1Z"
+                      fill="#A7B5EC"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-9"
+              >
+                <form
+                  aria-live="polite"
+                  class="o-form MuiBox-root emotion-10"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
                     class="MuiBox-root emotion-11"
                   >
                     <div
                       class="MuiBox-root emotion-12"
-                      data-se="identifier-container"
-                      title="32011152472674@upn.example.com"
                     >
                       <div
-                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
-                        data-se="identifier"
-                        translate="no"
+                        class="MuiBox-root emotion-13"
+                        data-se="identifier-container"
+                        title="32011152472674@upn.example.com"
                       >
                         <div
-                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-14"
+                          data-se="identifier"
+                          translate="no"
                         >
-                          <svg
-                            aria-label="User"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
-                            fill="none"
-                            focusable="false"
-                            role="img"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
+                          <div
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-15"
                           >
-                            <path
-                              clip-rule="evenodd"
-                              d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                            <title>
-                              User
-                            </title>
-                          </svg>
+                            <svg
+                              aria-label="User"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+                              fill="none"
+                              focusable="false"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                              <title>
+                                User
+                              </title>
+                            </svg>
+                          </div>
+                          <span
+                            class="MuiChip-label MuiChip-labelMedium emotion-17"
+                          >
+                            32011152472674@upn.example.com
+                          </span>
                         </div>
-                        <span
-                          class="MuiChip-label MuiChip-labelMedium emotion-16"
-                        >
-                          32011152472674@upn.example.com
-                        </span>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-12"
                     >
-                      <h1
-                        class="MuiTypography-root MuiTypography-h4 emotion-19"
-                        data-se="o-form-head"
-                        tabindex="-1"
+                      <div
+                        class="MuiBox-root emotion-19"
                       >
-                        PIV / CAC card
-                      </h1>
+                        <h1
+                          class="MuiTypography-root MuiTypography-h4 emotion-20"
+                          data-se="o-form-head"
+                          tabindex="-1"
+                        >
+                          PIV / CAC card
+                        </h1>
+                      </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-12"
                     >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 emotion-22"
-                        data-se="o-form-explain"
-                        tabindex="-1"
+                      <div
+                        class="MuiBox-root emotion-19"
                       >
-                        Please insert your PIV / CAC card and select the user certificate.
-                      </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 emotion-23"
+                          data-se="o-form-explain"
+                          tabindex="-1"
+                        >
+                          Please insert your PIV / CAC card and select the user certificate.
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-12"
+                    >
+                      <div
+                        class="MuiBox-root emotion-12"
+                      >
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-26"
+                          data-se="button"
+                          tabindex="0"
+                          type="button"
+                        >
+                          Retry
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-25"
-                        data-se="button"
-                        tabindex="0"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-28"
+                        data-se="switchAuthenticator"
+                        role="link"
                         type="button"
                       >
-                        Retry
+                        Verify with something else
+                      </button>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-28"
+                        data-se="cancel"
+                        role="link"
+                        type="button"
+                      >
+                        Back to sign in
                       </button>
                     </div>
                   </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-27"
-                      data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
-                    >
-                      Verify with something else
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-27"
-                      data-se="cancel"
-                      role="link"
-                      type="button"
-                    >
-                      Back to sign in
-                    </button>
-                  </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;

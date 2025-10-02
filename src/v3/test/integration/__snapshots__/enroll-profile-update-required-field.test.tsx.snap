@@ -3,333 +3,337 @@
 exports[`enroll-profile-update-required-field fails client side validation with empty required fields 1`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header "
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                role="presentation"
-                tabindex="-1"
-              />
-            </div>
-            <div
-              class="MuiBox-root emotion-7"
-            >
-              <form
-                aria-live="polite"
-                class="o-form MuiBox-root emotion-8"
-                data-se="o-form"
-                novalidate=""
+              <div
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header "
               >
-                <div
-                  class="MuiBox-root emotion-9"
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  role="presentation"
+                  tabindex="-1"
+                />
+              </div>
+              <div
+                class="MuiBox-root emotion-8"
+              >
+                <form
+                  aria-live="polite"
+                  class="o-form MuiBox-root emotion-9"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
-                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutError MuiAlert-callout emotion-10"
-                    role="alert"
+                    class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiAlert-icon emotion-11"
+                      aria-label="error"
+                      aria-labelledby="82mvyq"
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-11"
+                      role="alert"
                     >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-12"
-                        fill="none"
-                        focusable="false"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          clip-rule="evenodd"
-                          d="M9.879 1.707a3 3 0 0 1 4.242 0l8.172 8.172a3 3 0 0 1 0 4.242l-8.172 8.172a3 3 0 0 1-4.242 0L1.707 14.12a3 3 0 0 1 0-4.242L9.88 1.707ZM12 13a1 1 0 0 1-1-1V7h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
-                          fill="currentColor"
-                          fill-rule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                    <div
-                      class="MuiAlert-message emotion-13"
-                    >
-                      <span
-                        class="MuiBox-root emotion-14"
-                        translate="no"
-                      >
-                        error
-                      </span>
                       <div
-                        class="MuiBox-root emotion-1"
+                        class="MuiAlert-icon emotion-12"
                       >
-                        We found some errors. Please review the form and make corrections.
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
+                          fill="none"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            d="M9.879 1.707a3 3 0 0 1 4.242 0l8.172 8.172a3 3 0 0 1 0 4.242l-8.172 8.172a3 3 0 0 1-4.242 0L1.707 14.12a3 3 0 0 1 0-4.242L9.88 1.707ZM12 13a1 1 0 0 1-1-1V7h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
+                            fill="currentColor"
+                            fill-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <div
+                        class="MuiAlert-message emotion-14"
+                      >
+                        <div
+                          class="emotion-15"
+                        >
+                          <div
+                            class="MuiBox-root emotion-2"
+                          >
+                            We found some errors. Please review the form and make corrections.
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-16"
-                >
                   <div
                     class="MuiBox-root emotion-17"
                   >
                     <div
                       class="MuiBox-root emotion-18"
-                      data-se="identifier-container"
-                      title="testUser@okta.com"
                     >
                       <div
-                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-19"
-                        data-se="identifier"
-                        translate="no"
+                        class="MuiBox-root emotion-19"
+                        data-se="identifier-container"
+                        title="testUser@okta.com"
                       >
                         <div
-                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-20"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-20"
+                          data-se="identifier"
+                          translate="no"
                         >
-                          <svg
-                            aria-label="User"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-21"
-                            fill="none"
-                            focusable="false"
-                            role="img"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
+                          <div
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-21"
                           >
-                            <path
-                              clip-rule="evenodd"
-                              d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                            <title>
-                              User
-                            </title>
-                          </svg>
+                            <svg
+                              aria-label="User"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
+                              fill="none"
+                              focusable="false"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                              <title>
+                                User
+                              </title>
+                            </svg>
+                          </div>
+                          <span
+                            class="MuiChip-label MuiChip-labelMedium emotion-23"
+                          >
+                            testUser@okta.com
+                          </span>
                         </div>
-                        <span
-                          class="MuiChip-label MuiChip-labelMedium emotion-22"
-                        >
-                          testUser@okta.com
-                        </span>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-17"
-                  >
                     <div
-                      class="MuiBox-root emotion-24"
+                      class="MuiBox-root emotion-18"
                     >
-                      <h1
-                        class="MuiTypography-root MuiTypography-h4 emotion-25"
-                        data-se="o-form-head"
-                        tabindex="-1"
+                      <div
+                        class="MuiBox-root emotion-25"
                       >
-                        Additional Profile information
-                      </h1>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-17"
-                  >
-                    <div
-                      class="MuiBox-root emotion-24"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 emotion-28"
-                        data-se="o-form-explain"
-                        tabindex="-1"
-                      >
-                        Fields are required unless marked optional.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-17"
-                  >
-                    <div
-                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-30"
-                    >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-31"
-                        data-shrink="false"
-                        for="userProfile.newAttribute"
-                        id="userProfile.newAttribute-label"
-                      >
-                        <span>
-                          Some custom attribute
-                        </span>
-                        <p
-                          class="MuiTypography-root MuiTypography-subtitle1 emotion-32"
+                        <h1
+                          class="MuiTypography-root MuiTypography-h4 emotion-26"
+                          data-se="o-form-head"
                           tabindex="-1"
                         >
-                          Optional
-                        </p>
-                      </label>
-                      <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-33"
-                      >
-                        <input
-                          aria-invalid="false"
-                          aria-labelledby="userProfile.newAttribute-label"
-                          class="MuiInputBase-input emotion-34"
-                          data-se="userProfile.newAttribute"
-                          id="userProfile.newAttribute"
-                          name="userProfile.newAttribute"
-                          type="text"
-                        />
+                          Additional Profile information
+                        </h1>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-17"
-                  >
                     <div
-                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-30"
+                      class="MuiBox-root emotion-18"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-31"
-                        data-shrink="false"
-                        for="userProfile.secondEmail"
-                        id="userProfile.secondEmail-label"
+                      <div
+                        class="MuiBox-root emotion-25"
                       >
-                        <span>
-                          Secondary email
-                        </span>
                         <p
-                          class="MuiTypography-root MuiTypography-subtitle1 emotion-32"
+                          class="MuiTypography-root MuiTypography-body1 emotion-29"
+                          data-se="o-form-explain"
                           tabindex="-1"
                         >
-                          Optional
+                          Fields are required unless marked optional.
                         </p>
-                      </label>
-                      <p
-                        class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-39"
-                        id="userProfile.secondEmail-hint"
-                      >
-                        Use a second email to 
-                        <span
-                          class="strong"
-                        >
-                           recover your account 
-                        </span>
-                         in case you become locked out. This email must be verified after setup.
-                      </p>
-                      <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-33"
-                      >
-                        <input
-                          aria-describedby="userProfile.secondEmail-hint"
-                          aria-invalid="false"
-                          aria-labelledby="userProfile.secondEmail-label"
-                          class="MuiInputBase-input emotion-34"
-                          data-se="userProfile.secondEmail"
-                          id="userProfile.secondEmail"
-                          name="userProfile.secondEmail"
-                          type="text"
-                        />
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-17"
-                  >
                     <div
-                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-30"
+                      class="MuiBox-root emotion-18"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-31"
-                        data-shrink="false"
-                        for="userProfile.newAttribute2"
-                        id="userProfile.newAttribute2-label"
-                      >
-                        <span>
-                          Some custom attribute 2
-                        </span>
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-33"
-                        required="true"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-31"
                       >
-                        <input
-                          aria-describedby="userProfile.newAttribute2-error"
-                          aria-errormessage="userProfile.newAttribute2-error"
-                          aria-invalid="true"
-                          aria-labelledby="userProfile.newAttribute2-label"
-                          class="MuiInputBase-input emotion-34"
-                          data-se="userProfile.newAttribute2"
-                          id="userProfile.newAttribute2"
-                          name="userProfile.newAttribute2"
-                          required=""
-                          type="text"
-                        />
-                      </div>
-                      <p
-                        class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-39"
-                        id="userProfile.newAttribute2-error"
-                      >
-                        <span
-                          class="MuiBox-root emotion-14"
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-32"
+                          data-shrink="false"
+                          for="userProfile.newAttribute"
+                          id="userProfile.newAttribute-label"
                         >
-                          Error:
-                        </span>
+                          <span>
+                            Some custom attribute
+                          </span>
+                          <p
+                            class="MuiTypography-root MuiTypography-subtitle1 emotion-33"
+                            tabindex="-1"
+                          >
+                            Optional
+                          </p>
+                        </label>
                         <div
-                          class="MuiBox-root emotion-1"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-34"
                         >
-                          This field cannot be left blank
+                          <input
+                            aria-invalid="false"
+                            aria-labelledby="userProfile.newAttribute-label"
+                            class="MuiInputBase-input emotion-35"
+                            data-se="userProfile.newAttribute"
+                            id="userProfile.newAttribute"
+                            name="userProfile.newAttribute"
+                            type="text"
+                          />
                         </div>
-                      </p>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-18"
+                    >
+                      <div
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-31"
+                      >
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-32"
+                          data-shrink="false"
+                          for="userProfile.secondEmail"
+                          id="userProfile.secondEmail-label"
+                        >
+                          <span>
+                            Secondary email
+                          </span>
+                          <p
+                            class="MuiTypography-root MuiTypography-subtitle1 emotion-33"
+                            tabindex="-1"
+                          >
+                            Optional
+                          </p>
+                        </label>
+                        <p
+                          class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-40"
+                          id="userProfile.secondEmail-hint"
+                        >
+                          Use a second email to 
+                          <span
+                            class="strong"
+                          >
+                             recover your account 
+                          </span>
+                           in case you become locked out. This email must be verified after setup.
+                        </p>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-34"
+                        >
+                          <input
+                            aria-describedby="userProfile.secondEmail-hint"
+                            aria-invalid="false"
+                            aria-labelledby="userProfile.secondEmail-label"
+                            class="MuiInputBase-input emotion-35"
+                            data-se="userProfile.secondEmail"
+                            id="userProfile.secondEmail"
+                            name="userProfile.secondEmail"
+                            type="text"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-18"
+                    >
+                      <div
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-31"
+                      >
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-32"
+                          data-shrink="false"
+                          for="userProfile.newAttribute2"
+                          id="userProfile.newAttribute2-label"
+                        >
+                          <span>
+                            Some custom attribute 2
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-34"
+                          required="true"
+                        >
+                          <input
+                            aria-describedby="userProfile.newAttribute2-error"
+                            aria-errormessage="userProfile.newAttribute2-error"
+                            aria-invalid="true"
+                            aria-labelledby="userProfile.newAttribute2-label"
+                            class="MuiInputBase-input emotion-35"
+                            data-se="userProfile.newAttribute2"
+                            id="userProfile.newAttribute2"
+                            name="userProfile.newAttribute2"
+                            required=""
+                            type="text"
+                          />
+                        </div>
+                        <div
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-40"
+                          id="userProfile.newAttribute2-error"
+                        >
+                          <span
+                            class="MuiBox-root emotion-49"
+                          >
+                            Error:
+                          </span>
+                          <div
+                            class="MuiBox-root emotion-2"
+                          >
+                            This field cannot be left blank
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-18"
+                    >
+                      <button
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-52"
+                        data-se="save"
+                        tabindex="0"
+                        type="submit"
+                      >
+                        Finish
+                      </button>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-18"
+                    >
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-54"
+                        data-se="cancel"
+                        role="link"
+                        type="button"
+                      >
+                        Back to sign in
+                      </button>
                     </div>
                   </div>
-                  <div
-                    class="MuiBox-root emotion-17"
-                  >
-                    <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-51"
-                      data-se="save"
-                      tabindex="0"
-                      type="submit"
-                    >
-                      Finish
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-17"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-53"
-                      data-se="cancel"
-                      role="link"
-                      type="button"
-                    >
-                      Back to sign in
-                    </button>
-                  </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;
@@ -337,273 +341,277 @@ exports[`enroll-profile-update-required-field fails client side validation with 
 exports[`enroll-profile-update-required-field should render form with one required field 1`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header "
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                role="presentation"
-                tabindex="-1"
-              />
-            </div>
-            <div
-              class="MuiBox-root emotion-7"
-            >
-              <form
-                aria-live="polite"
-                class="o-form MuiBox-root emotion-8"
-                data-se="o-form"
-                novalidate=""
+              <div
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header "
               >
-                <div
-                  class="MuiBox-root emotion-9"
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  role="presentation"
+                  tabindex="-1"
+                />
+              </div>
+              <div
+                class="MuiBox-root emotion-8"
+              >
+                <form
+                  aria-live="polite"
+                  class="o-form MuiBox-root emotion-9"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
                     class="MuiBox-root emotion-10"
                   >
                     <div
                       class="MuiBox-root emotion-11"
-                      data-se="identifier-container"
-                      title="testUser@okta.com"
                     >
                       <div
-                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-12"
-                        data-se="identifier"
-                        translate="no"
+                        class="MuiBox-root emotion-12"
+                        data-se="identifier-container"
+                        title="testUser@okta.com"
                       >
                         <div
-                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-13"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
+                          data-se="identifier"
+                          translate="no"
                         >
-                          <svg
-                            aria-label="User"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
-                            fill="none"
-                            focusable="false"
-                            role="img"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
+                          <div
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                           >
-                            <path
-                              clip-rule="evenodd"
-                              d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                            <title>
-                              User
-                            </title>
-                          </svg>
+                            <svg
+                              aria-label="User"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
+                              fill="none"
+                              focusable="false"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                              <title>
+                                User
+                              </title>
+                            </svg>
+                          </div>
+                          <span
+                            class="MuiChip-label MuiChip-labelMedium emotion-16"
+                          >
+                            testUser@okta.com
+                          </span>
                         </div>
-                        <span
-                          class="MuiChip-label MuiChip-labelMedium emotion-15"
-                        >
-                          testUser@okta.com
-                        </span>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
                     <div
-                      class="MuiBox-root emotion-17"
+                      class="MuiBox-root emotion-11"
                     >
-                      <h1
-                        class="MuiTypography-root MuiTypography-h4 emotion-18"
-                        data-se="o-form-head"
-                        tabindex="-1"
+                      <div
+                        class="MuiBox-root emotion-18"
                       >
-                        Additional Profile information
-                      </h1>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <div
-                      class="MuiBox-root emotion-17"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 emotion-21"
-                        data-se="o-form-explain"
-                        tabindex="-1"
-                      >
-                        Fields are required unless marked optional.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <div
-                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-23"
-                    >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-24"
-                        data-shrink="false"
-                        for="userProfile.newAttribute"
-                        id="userProfile.newAttribute-label"
-                      >
-                        <span>
-                          Some custom attribute
-                        </span>
-                        <p
-                          class="MuiTypography-root MuiTypography-subtitle1 emotion-25"
+                        <h1
+                          class="MuiTypography-root MuiTypography-h4 emotion-19"
+                          data-se="o-form-head"
                           tabindex="-1"
                         >
-                          Optional
-                        </p>
-                      </label>
-                      <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
-                      >
-                        <input
-                          aria-invalid="false"
-                          aria-labelledby="userProfile.newAttribute-label"
-                          class="MuiInputBase-input emotion-27"
-                          data-se="userProfile.newAttribute"
-                          id="userProfile.newAttribute"
-                          name="userProfile.newAttribute"
-                          type="text"
-                        />
+                          Additional Profile information
+                        </h1>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
                     <div
-                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-23"
+                      class="MuiBox-root emotion-11"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-24"
-                        data-shrink="false"
-                        for="userProfile.secondEmail"
-                        id="userProfile.secondEmail-label"
+                      <div
+                        class="MuiBox-root emotion-18"
                       >
-                        <span>
-                          Secondary email
-                        </span>
                         <p
-                          class="MuiTypography-root MuiTypography-subtitle1 emotion-25"
+                          class="MuiTypography-root MuiTypography-body1 emotion-22"
+                          data-se="o-form-explain"
                           tabindex="-1"
                         >
-                          Optional
+                          Fields are required unless marked optional.
                         </p>
-                      </label>
-                      <p
-                        class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-32"
-                        id="userProfile.secondEmail-hint"
-                      >
-                        Use a second email to 
-                        <span
-                          class="strong"
-                        >
-                           recover your account 
-                        </span>
-                         in case you become locked out. This email must be verified after setup.
-                      </p>
-                      <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
-                      >
-                        <input
-                          aria-describedby="userProfile.secondEmail-hint"
-                          aria-invalid="false"
-                          aria-labelledby="userProfile.secondEmail-label"
-                          class="MuiInputBase-input emotion-27"
-                          data-se="userProfile.secondEmail"
-                          id="userProfile.secondEmail"
-                          name="userProfile.secondEmail"
-                          type="text"
-                        />
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
                     <div
-                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-23"
+                      class="MuiBox-root emotion-11"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-24"
-                        data-shrink="false"
-                        for="userProfile.newAttribute2"
-                        id="userProfile.newAttribute2-label"
-                      >
-                        <span>
-                          Some custom attribute 2
-                        </span>
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
-                        required="true"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-24"
                       >
-                        <input
-                          aria-invalid="false"
-                          aria-labelledby="userProfile.newAttribute2-label"
-                          class="MuiInputBase-input emotion-27"
-                          data-se="userProfile.newAttribute2"
-                          id="userProfile.newAttribute2"
-                          name="userProfile.newAttribute2"
-                          required=""
-                          type="text"
-                        />
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
+                          data-shrink="false"
+                          for="userProfile.newAttribute"
+                          id="userProfile.newAttribute-label"
+                        >
+                          <span>
+                            Some custom attribute
+                          </span>
+                          <p
+                            class="MuiTypography-root MuiTypography-subtitle1 emotion-26"
+                            tabindex="-1"
+                          >
+                            Optional
+                          </p>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
+                        >
+                          <input
+                            aria-invalid="false"
+                            aria-labelledby="userProfile.newAttribute-label"
+                            class="MuiInputBase-input emotion-28"
+                            data-se="userProfile.newAttribute"
+                            id="userProfile.newAttribute"
+                            name="userProfile.newAttribute"
+                            type="text"
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-41"
-                      data-se="save"
-                      tabindex="0"
-                      type="submit"
+                    <div
+                      class="MuiBox-root emotion-11"
                     >
-                      Finish
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-43"
-                      data-se="cancel"
-                      role="link"
-                      type="button"
+                      <div
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-24"
+                      >
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
+                          data-shrink="false"
+                          for="userProfile.secondEmail"
+                          id="userProfile.secondEmail-label"
+                        >
+                          <span>
+                            Secondary email
+                          </span>
+                          <p
+                            class="MuiTypography-root MuiTypography-subtitle1 emotion-26"
+                            tabindex="-1"
+                          >
+                            Optional
+                          </p>
+                        </label>
+                        <p
+                          class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-33"
+                          id="userProfile.secondEmail-hint"
+                        >
+                          Use a second email to 
+                          <span
+                            class="strong"
+                          >
+                             recover your account 
+                          </span>
+                           in case you become locked out. This email must be verified after setup.
+                        </p>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
+                        >
+                          <input
+                            aria-describedby="userProfile.secondEmail-hint"
+                            aria-invalid="false"
+                            aria-labelledby="userProfile.secondEmail-label"
+                            class="MuiInputBase-input emotion-28"
+                            data-se="userProfile.secondEmail"
+                            id="userProfile.secondEmail"
+                            name="userProfile.secondEmail"
+                            type="text"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-11"
                     >
-                      Back to sign in
-                    </button>
+                      <div
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-24"
+                      >
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
+                          data-shrink="false"
+                          for="userProfile.newAttribute2"
+                          id="userProfile.newAttribute2-label"
+                        >
+                          <span>
+                            Some custom attribute 2
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
+                          required="true"
+                        >
+                          <input
+                            aria-invalid="false"
+                            aria-labelledby="userProfile.newAttribute2-label"
+                            class="MuiInputBase-input emotion-28"
+                            data-se="userProfile.newAttribute2"
+                            id="userProfile.newAttribute2"
+                            name="userProfile.newAttribute2"
+                            required=""
+                            type="text"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-11"
+                    >
+                      <button
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-42"
+                        data-se="save"
+                        tabindex="0"
+                        type="submit"
+                      >
+                        Finish
+                      </button>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-11"
+                    >
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
+                        data-se="cancel"
+                        role="link"
+                        type="button"
+                      >
+                        Back to sign in
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;

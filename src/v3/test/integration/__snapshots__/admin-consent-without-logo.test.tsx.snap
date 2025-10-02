@@ -3,83 +3,83 @@
 exports[`admin-consent-without-logo should render form without logo 1`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header "
-            >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                role="presentation"
-                tabindex="-1"
-              />
-            </div>
-            <div
-              class="MuiBox-root emotion-7"
             >
               <div
-                class="MuiBox-root emotion-1"
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header "
+              >
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  role="presentation"
+                  tabindex="-1"
+                />
+              </div>
+              <div
+                class="MuiBox-root emotion-8"
               >
                 <div
-                  class="MuiBox-root emotion-9"
-                />
-                <span
-                  class="MuiBox-root emotion-10"
-                  data-se="title-text"
+                  class="MuiBox-root emotion-2"
                 >
-                  <h1
-                    class="MuiTypography-root MuiTypography-h6 emotion-11"
-                    tabindex="-1"
-                    translate="no"
-                  >
-                    Native client
-                  </h1>
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 emotion-12"
-                    tabindex="-1"
-                  >
-                    would like to access:
-                  </p>
                   <div
-                    class="MuiBox-root emotion-9"
+                    class="MuiBox-root emotion-10"
+                  />
+                  <span
+                    class="MuiBox-root emotion-11"
+                    data-se="title-text"
                   >
-                    <div
-                      class="MuiBox-root emotion-14"
-                      data-se="issuer"
+                    <h1
+                      class="MuiTypography-root MuiTypography-h6 emotion-12"
+                      tabindex="-1"
                       translate="no"
                     >
-                      http://localhost:3000
+                      Native client
+                    </h1>
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 emotion-13"
+                      tabindex="-1"
+                    >
+                      would like to access:
+                    </p>
+                    <div
+                      class="MuiBox-root emotion-10"
+                    >
+                      <div
+                        class="MuiBox-root emotion-15"
+                        data-se="issuer"
+                        translate="no"
+                      >
+                        http://localhost:3000
+                      </div>
                     </div>
-                  </div>
-                </span>
-              </div>
-              <form
-                aria-live="polite"
-                class="o-form MuiBox-root emotion-15"
-                data-se="o-form"
-                novalidate=""
-              >
-                <div
-                  class="MuiBox-root emotion-16"
+                  </span>
+                </div>
+                <form
+                  aria-live="polite"
+                  class="o-form MuiBox-root emotion-16"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
                     class="MuiBox-root emotion-17"
@@ -87,199 +87,229 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 emotion-12"
-                        data-se="consent-description"
-                        tabindex="-1"
+                      <div
+                        class="MuiBox-root emotion-19"
                       >
-                        Allowing access will share
-                      </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 emotion-13"
+                          data-se="consent-description"
+                          tabindex="-1"
+                        >
+                          Allowing access will share
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-1"
-                  >
+                    <div
+                      class="MuiBox-root emotion-2"
+                    >
+                      <div
+                        class="MuiBox-root emotion-19"
+                      >
+                        <h2
+                          class="MuiTypography-root MuiTypography-h6 emotion-12"
+                          data-se="scope-group--header"
+                          tabindex="-1"
+                        >
+                          Resource and policies
+                        </h2>
+                      </div>
+                    </div>
                     <div
                       class="MuiBox-root emotion-18"
                     >
-                      <h2
-                        class="MuiTypography-root MuiTypography-h6 emotion-11"
-                        data-se="scope-group--header"
-                        tabindex="-1"
+                      <fieldset
+                        class="MuiFormControl-root MuiFormControl-marginNormal emotion-25"
                       >
-                        Resource and policies
-                      </h2>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-17"
-                  >
-                    <fieldset
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-24"
-                    >
-                      <legend
-                        class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-25"
-                      >
-                        
-                         
-                        
-                      </legend>
-                      <div
-                        aria-labelledby="consent.scopes.okta.clients.manage-label"
-                        class="MuiFormGroup-root emotion-26"
-                        id="consent.scopes.okta.clients.manage"
-                      >
-                        <label
-                          class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-27"
-                          id="consent.scopes.okta.clients.manage-checkbox"
+                        <legend
+                          class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-26"
+                          id="consent.scopes.okta.clients.manage-label"
                         >
-                          <span
-                            aria-disabled="true"
-                            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-28"
-                            tabindex="-1"
-                          >
-                            <input
-                              class="PrivateSwitchBase-input emotion-29"
-                              data-indeterminate="false"
-                              data-se="consent.scopes.okta.clients.manage"
-                              disabled=""
-                              name="consent.scopes.okta.clients.manage"
-                              type="checkbox"
-                            />
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-30"
-                              fill="none"
-                              focusable="false"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                clip-rule="evenodd"
-                                d="m19.707 7.707-8.646 8.647a1.5 1.5 0 0 1-2.122 0l-4.646-4.647 1.414-1.414L10 14.586l8.293-8.293 1.414 1.414Z"
-                                fill="currentColor"
-                                fill-rule="evenodd"
-                              />
-                            </svg>
-                          </span>
-                          <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-12"
+                          
+                           
+                          
+                        </legend>
+                        <div
+                          aria-labelledby="consent.scopes.okta.clients.manage-label"
+                          class="MuiFormGroup-root emotion-27"
+                          id="consent.scopes.okta.clients.manage"
+                        >
+                          <label
+                            class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-28"
+                            id="consent.scopes.okta.clients.manage-checkbox"
                           >
                             <span
-                              translate="no"
+                              aria-disabled="true"
+                              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-29"
+                              tabindex="-1"
                             >
-                              okta.clients.manage
+                              <input
+                                aria-describedby="consent.scopes.okta.clients.manage-checkbox-hint"
+                                aria-readonly="false"
+                                class="PrivateSwitchBase-input emotion-30"
+                                data-indeterminate="false"
+                                data-se="consent.scopes.okta.clients.manage"
+                                disabled=""
+                                name="consent.scopes.okta.clients.manage"
+                                type="checkbox"
+                              />
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-31"
+                                fill="none"
+                                focusable="false"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  clip-rule="evenodd"
+                                  d="m19.707 7.707-8.646 8.647a1.5 1.5 0 0 1-2.122 0l-4.646-4.647 1.414-1.414L10 14.586l8.293-8.293 1.414 1.414Z"
+                                  fill="currentColor"
+                                  fill-rule="evenodd"
+                                />
+                              </svg>
                             </span>
+                            <span
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-13"
+                            >
+                              <span
+                                class="MuiTypography-root MuiTypography-body1 emotion-13"
+                                tabindex="-1"
+                              >
+                                <span
+                                  translate="no"
+                                >
+                                  okta.clients.manage
+                                </span>
+                              </span>
+                            </span>
+                          </label>
+                          <div
+                            class="emotion-34"
+                          >
                             <p
-                              class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-32"
+                              class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-35"
+                              id="consent.scopes.okta.clients.manage-checkbox-hint"
                             >
                               Allows the app to manage clients in your Okta organization.
                             </p>
-                          </span>
-                        </label>
-                      </div>
-                    </fieldset>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-17"
-                  >
-                    <fieldset
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-24"
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-18"
                     >
-                      <legend
-                        class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-25"
+                      <fieldset
+                        class="MuiFormControl-root MuiFormControl-marginNormal emotion-25"
                       >
-                        
-                         
-                        
-                      </legend>
-                      <div
-                        aria-labelledby="consent.scopes.okta.authenticators.manage-label"
-                        class="MuiFormGroup-root emotion-26"
-                        id="consent.scopes.okta.authenticators.manage"
-                      >
-                        <label
-                          class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-27"
-                          id="consent.scopes.okta.authenticators.manage-checkbox"
+                        <legend
+                          class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-26"
+                          id="consent.scopes.okta.authenticators.manage-label"
                         >
-                          <span
-                            aria-disabled="true"
-                            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-28"
-                            tabindex="-1"
-                          >
-                            <input
-                              class="PrivateSwitchBase-input emotion-29"
-                              data-indeterminate="false"
-                              data-se="consent.scopes.okta.authenticators.manage"
-                              disabled=""
-                              name="consent.scopes.okta.authenticators.manage"
-                              type="checkbox"
-                            />
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-30"
-                              fill="none"
-                              focusable="false"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                clip-rule="evenodd"
-                                d="m19.707 7.707-8.646 8.647a1.5 1.5 0 0 1-2.122 0l-4.646-4.647 1.414-1.414L10 14.586l8.293-8.293 1.414 1.414Z"
-                                fill="currentColor"
-                                fill-rule="evenodd"
-                              />
-                            </svg>
-                          </span>
-                          <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-12"
+                          
+                           
+                          
+                        </legend>
+                        <div
+                          aria-labelledby="consent.scopes.okta.authenticators.manage-label"
+                          class="MuiFormGroup-root emotion-27"
+                          id="consent.scopes.okta.authenticators.manage"
+                        >
+                          <label
+                            class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-28"
+                            id="consent.scopes.okta.authenticators.manage-checkbox"
                           >
                             <span
-                              translate="no"
+                              aria-disabled="true"
+                              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-29"
+                              tabindex="-1"
                             >
-                              okta.authenticators.manage
+                              <input
+                                aria-describedby="consent.scopes.okta.authenticators.manage-checkbox-hint"
+                                aria-readonly="false"
+                                class="PrivateSwitchBase-input emotion-30"
+                                data-indeterminate="false"
+                                data-se="consent.scopes.okta.authenticators.manage"
+                                disabled=""
+                                name="consent.scopes.okta.authenticators.manage"
+                                type="checkbox"
+                              />
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-31"
+                                fill="none"
+                                focusable="false"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  clip-rule="evenodd"
+                                  d="m19.707 7.707-8.646 8.647a1.5 1.5 0 0 1-2.122 0l-4.646-4.647 1.414-1.414L10 14.586l8.293-8.293 1.414 1.414Z"
+                                  fill="currentColor"
+                                  fill-rule="evenodd"
+                                />
+                              </svg>
                             </span>
+                            <span
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-13"
+                            >
+                              <span
+                                class="MuiTypography-root MuiTypography-body1 emotion-13"
+                                tabindex="-1"
+                              >
+                                <span
+                                  translate="no"
+                                >
+                                  okta.authenticators.manage
+                                </span>
+                              </span>
+                            </span>
+                          </label>
+                          <div
+                            class="emotion-34"
+                          >
                             <p
-                              class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-32"
+                              class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-35"
+                              id="consent.scopes.okta.authenticators.manage-checkbox-hint"
                             >
                               Allows the app to manage all security methods (e.g. enrollments, reset).
                             </p>
-                          </span>
-                        </label>
-                      </div>
-                    </fieldset>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-17"
-                  >
-                    <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-44"
-                      data-se="save"
-                      tabindex="0"
-                      type="button"
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-18"
                     >
-                      Allow Access
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-17"
-                  >
-                    <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-44"
-                      data-se="cancel"
-                      tabindex="0"
-                      type="button"
+                      <button
+                        class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-49"
+                        data-se="save"
+                        tabindex="0"
+                        type="button"
+                      >
+                        Allow Access
+                      </button>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-18"
                     >
-                      Cancel
-                    </button>
+                      <button
+                        class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-49"
+                        data-se="cancel"
+                        tabindex="0"
+                        type="button"
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;
