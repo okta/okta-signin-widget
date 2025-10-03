@@ -3,295 +3,299 @@
 exports[`authenticator-verification-ov-totp-biometrics-error should render form with Biometrics error 1`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                role="presentation"
-                tabindex="-1"
-              />
               <div
-                aria-hidden="true"
-                class="MuiBox-root emotion-7"
-                data-se="factor-beacon mfa-okta-verify "
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header authCoinSpacing"
               >
-                <svg
-                  aria-labelledby="mfa-okta-verify"
-                  fill="none"
-                  height="2.85714286rem"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="2.85714286rem"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-okta-verify"
-                  >
-                    Okta Verify
-                  </title>
-                  <path
-                    clip-rule="evenodd"
-                    d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
-                    fill="#00297A"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
-                aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-              >
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  role="presentation"
+                  tabindex="-1"
+                />
                 <div
-                  class="MuiBox-root emotion-10"
+                  aria-hidden="true"
+                  class="MuiBox-root emotion-8"
+                  data-se="factor-beacon mfa-okta-verify "
+                >
+                  <svg
+                    aria-labelledby="mfa-okta-verify"
+                    fill="none"
+                    height="2.85714286rem"
+                    role="img"
+                    viewBox="0 0 48 48"
+                    width="2.85714286rem"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title
+                      id="mfa-okta-verify"
+                    >
+                      Okta Verify
+                    </title>
+                    <path
+                      clip-rule="evenodd"
+                      d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
+                      fill="#00297A"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-9"
+              >
+                <form
+                  aria-live="polite"
+                  class="o-form MuiBox-root emotion-10"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
                     class="MuiBox-root emotion-11"
                   >
                     <div
                       class="MuiBox-root emotion-12"
-                      data-se="identifier-container"
-                      title="testUser@okta.com"
                     >
                       <div
-                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
-                        data-se="identifier"
-                        translate="no"
+                        class="MuiBox-root emotion-13"
+                        data-se="identifier-container"
+                        title="testUser@okta.com"
                       >
                         <div
-                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-14"
+                          data-se="identifier"
+                          translate="no"
                         >
-                          <svg
-                            aria-label="User"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
-                            fill="none"
-                            focusable="false"
-                            role="img"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
+                          <div
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-15"
                           >
-                            <path
-                              clip-rule="evenodd"
-                              d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                            <title>
-                              User
-                            </title>
-                          </svg>
+                            <svg
+                              aria-label="User"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+                              fill="none"
+                              focusable="false"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                              <title>
+                                User
+                              </title>
+                            </svg>
+                          </div>
+                          <span
+                            class="MuiChip-label MuiChip-labelMedium emotion-17"
+                          >
+                            testUser@okta.com
+                          </span>
                         </div>
-                        <span
-                          class="MuiChip-label MuiChip-labelMedium emotion-16"
-                        >
-                          testUser@okta.com
-                        </span>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
                     <div
-                      class="MuiBox-root emotion-18"
-                      data-se="infobox-error"
+                      class="MuiBox-root emotion-12"
                     >
                       <div
-                        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutError MuiAlert-callout emotion-19"
-                        data-se="callout"
-                        role="alert"
+                        class="MuiBox-root emotion-19"
+                        data-se="infobox-error"
                       >
                         <div
-                          class="MuiAlert-icon emotion-20"
+                          aria-label="error"
+                          aria-labelledby="82mvyq"
+                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-20"
+                          data-se="callout"
+                          role="alert"
                         >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-21"
-                            fill="none"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="M9.879 1.707a3 3 0 0 1 4.242 0l8.172 8.172a3 3 0 0 1 0 4.242l-8.172 8.172a3 3 0 0 1-4.242 0L1.707 14.12a3 3 0 0 1 0-4.242L9.88 1.707ZM12 13a1 1 0 0 1-1-1V7h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                          </svg>
-                        </div>
-                        <div
-                          class="MuiAlert-message emotion-22"
-                        >
-                          <span
-                            class="MuiBox-root emotion-23"
-                            translate="no"
-                          >
-                            error
-                          </span>
                           <div
-                            class="MuiBox-root emotion-1"
+                            class="MuiAlert-icon emotion-21"
                           >
-                            <h2
-                              class="MuiTypography-root MuiTypography-h6 emotion-25"
-                              tabindex="-1"
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
+                              fill="none"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
                             >
-                              Enable biometrics in Okta Verify
-                            </h2>
+                              <path
+                                clip-rule="evenodd"
+                                d="M9.879 1.707a3 3 0 0 1 4.242 0l8.172 8.172a3 3 0 0 1 0 4.242l-8.172 8.172a3 3 0 0 1-4.242 0L1.707 14.12a3 3 0 0 1 0-4.242L9.88 1.707ZM12 13a1 1 0 0 1-1-1V7h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </div>
+                          <div
+                            class="MuiAlert-message emotion-23"
+                          >
                             <div
-                              class="MuiBox-root emotion-26"
+                              class="emotion-24"
                             >
-                              <p
-                                class="MuiTypography-root MuiTypography-body1 emotion-27"
-                                tabindex="-1"
+                              <div
+                                class="MuiBox-root emotion-2"
                               >
-                                Your response was received, but your organization requires biometrics. Make sure you meet the following requirements, then try again:
-                              </p>
-                              <ul
-                                class="MuiList-root MuiList-dense emotion-28"
-                              >
-                                <li
-                                  class="MuiListItem-root MuiListItem-dense MuiListItem-gutters emotion-29"
+                                <h2
+                                  class="MuiTypography-root MuiTypography-h6 emotion-26"
+                                  tabindex="-1"
                                 >
-                                  Your device supports biometrics
-                                </li>
-                                <li
-                                  class="MuiListItem-root MuiListItem-dense MuiListItem-gutters emotion-29"
+                                  Enable biometrics in Okta Verify
+                                </h2>
+                                <div
+                                  class="MuiBox-root emotion-27"
                                 >
-                                  Okta Verify is up-to-date
-                                </li>
-                                <li
-                                  class="MuiListItem-root MuiListItem-dense MuiListItem-gutters emotion-29"
-                                >
-                                  In Okta Verify, biometrics are enabled for your account
-                                </li>
-                              </ul>
+                                  <p
+                                    class="MuiTypography-root MuiTypography-body1 emotion-28"
+                                    tabindex="-1"
+                                  >
+                                    Your response was received, but your organization requires biometrics. Make sure you meet the following requirements, then try again:
+                                  </p>
+                                  <ul
+                                    class="MuiList-root MuiList-dense emotion-29"
+                                  >
+                                    <li
+                                      class="MuiListItem-root MuiListItem-dense MuiListItem-gutters emotion-30"
+                                    >
+                                      Your device supports biometrics
+                                    </li>
+                                    <li
+                                      class="MuiListItem-root MuiListItem-dense MuiListItem-gutters emotion-30"
+                                    >
+                                      Okta Verify is up-to-date
+                                    </li>
+                                    <li
+                                      class="MuiListItem-root MuiListItem-dense MuiListItem-gutters emotion-30"
+                                    >
+                                      In Okta Verify, biometrics are enabled for your account
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
                     <div
-                      class="MuiBox-root emotion-33"
+                      class="MuiBox-root emotion-12"
                     >
-                      <h1
-                        class="MuiTypography-root MuiTypography-h4 emotion-34"
-                        data-se="o-form-head"
-                        tabindex="-1"
-                      >
-                        Enter a code
-                      </h1>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-36"
-                    >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-37"
-                        data-shrink="false"
-                        for="credentials.totp"
-                        id="credentials.totp-label"
-                      >
-                        <span>
-                          Enter code from Okta Verify app
-                        </span>
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-38"
-                        required="true"
+                        class="MuiBox-root emotion-34"
                       >
-                        <input
-                          aria-invalid="false"
-                          aria-labelledby="credentials.totp-label"
-                          autocomplete="off"
-                          class="MuiInputBase-input emotion-39"
-                          data-se="credentials.totp"
-                          id="credentials.totp"
-                          inputmode="numeric"
-                          name="credentials.totp"
-                          required=""
-                          type="text"
-                        />
+                        <h1
+                          class="MuiTypography-root MuiTypography-h4 emotion-35"
+                          data-se="o-form-head"
+                          tabindex="-1"
+                        >
+                          Enter a code
+                        </h1>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-41"
-                      data-se="save"
-                      tabindex="0"
-                      type="submit"
+                    <div
+                      class="MuiBox-root emotion-12"
                     >
-                      Verify
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-43"
-                      data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
+                      <div
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-37"
+                      >
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-38"
+                          data-shrink="false"
+                          for="credentials.totp"
+                          id="credentials.totp-label"
+                        >
+                          <span>
+                            Enter code from Okta Verify app
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-39"
+                          required="true"
+                        >
+                          <input
+                            aria-invalid="false"
+                            aria-labelledby="credentials.totp-label"
+                            autocomplete="off"
+                            class="MuiInputBase-input emotion-40"
+                            data-se="credentials.totp"
+                            id="credentials.totp"
+                            inputmode="numeric"
+                            name="credentials.totp"
+                            required=""
+                            type="text"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
                     >
-                      Verify with something else
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-43"
-                      data-se="cancel"
-                      role="link"
-                      type="button"
+                      <button
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-42"
+                        data-se="save"
+                        tabindex="0"
+                        type="submit"
+                      >
+                        Verify
+                      </button>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
                     >
-                      Back to sign in
-                    </button>
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
+                        data-se="switchAuthenticator"
+                        role="link"
+                        type="button"
+                      >
+                        Verify with something else
+                      </button>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
+                        data-se="cancel"
+                        role="link"
+                        type="button"
+                      >
+                        Back to sign in
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;

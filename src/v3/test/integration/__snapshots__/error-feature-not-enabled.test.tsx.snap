@@ -3,104 +3,108 @@
 exports[`error-feature-not-enabled should render form 1`] = `
 <div>
   <div
-    class="MuiScopedCssBaseline-root emotion-0"
+    class="emotion-0"
   >
-    <main
-      class="MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-se="auth-container main-container"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-se="auth-container main-container"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
               class="MuiBox-root emotion-5"
-              data-se="okta-sign-in-header auth-header "
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-                role="presentation"
-                tabindex="-1"
-              />
-            </div>
-            <div
-              class="MuiBox-root emotion-7"
-            >
-              <form
-                aria-live="polite"
-                class="o-form MuiBox-root emotion-8"
-                data-se="o-form"
-                novalidate=""
+              <div
+                class="MuiBox-root emotion-6"
+                data-se="okta-sign-in-header auth-header "
               >
-                <div
-                  class="MuiBox-root emotion-9"
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                  role="presentation"
+                  tabindex="-1"
+                />
+              </div>
+              <div
+                class="MuiBox-root emotion-8"
+              >
+                <form
+                  aria-live="polite"
+                  class="o-form MuiBox-root emotion-9"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
                     class="MuiBox-root emotion-10"
                   >
                     <div
                       class="MuiBox-root emotion-11"
-                      data-se="infobox-error"
                     >
                       <div
-                        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutError MuiAlert-callout emotion-12"
-                        data-se="callout"
-                        role="alert"
+                        class="MuiBox-root emotion-12"
+                        data-se="infobox-error"
                       >
                         <div
-                          class="MuiAlert-icon emotion-13"
+                          aria-label="error"
+                          aria-labelledby="82mvyq"
+                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-13"
+                          data-se="callout"
+                          role="alert"
                         >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
-                            fill="none"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="M9.879 1.707a3 3 0 0 1 4.242 0l8.172 8.172a3 3 0 0 1 0 4.242l-8.172 8.172a3 3 0 0 1-4.242 0L1.707 14.12a3 3 0 0 1 0-4.242L9.88 1.707ZM12 13a1 1 0 0 1-1-1V7h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                          </svg>
-                        </div>
-                        <div
-                          class="MuiAlert-message emotion-15"
-                        >
-                          <span
-                            class="MuiBox-root emotion-16"
-                            translate="no"
-                          >
-                            error
-                          </span>
                           <div
-                            class="MuiBox-root emotion-1"
+                            class="MuiAlert-icon emotion-14"
                           >
-                            The requested feature is not enabled in this environment.
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
+                              fill="none"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M9.879 1.707a3 3 0 0 1 4.242 0l8.172 8.172a3 3 0 0 1 0 4.242l-8.172 8.172a3 3 0 0 1-4.242 0L1.707 14.12a3 3 0 0 1 0-4.242L9.88 1.707ZM12 13a1 1 0 0 1-1-1V7h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </div>
+                          <div
+                            class="MuiAlert-message emotion-16"
+                          >
+                            <div
+                              class="emotion-17"
+                            >
+                              <div
+                                class="MuiBox-root emotion-2"
+                              >
+                                The requested feature is not enabled in this environment.
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;

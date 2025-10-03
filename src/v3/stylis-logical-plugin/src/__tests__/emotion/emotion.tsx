@@ -39,6 +39,34 @@ describe('with emotion environment', () => {
       </CacheProvider>,
     );
 
+    expect(body).toMatchSnapshot();
+  });
+
+  it('generates styles for simple scenario when speedy is disabled', async () => {
+    const { body } = document;
+    body.innerHTML = `
+      <div id="container" />
+    `;
+
+    const cache = createCache({
+      key: 'test',
+      stylisPlugins: [logicalRtl({ rootDirElement: '#container' })],
+      container: safeQuerySelector(document, '#container'),
+      speedy: false,
+    });
+
+    const Button = styled.div(() => ({
+      color: 'red',
+      paddingInlineEnd: '10px',
+      paddingBlockEnd: '10px',
+    }));
+
+    render(
+      <CacheProvider value={cache}>
+        <Button />
+      </CacheProvider>,
+    );
+
     expect(document.getElementsByTagName('style')).toHaveLength(2);
 
     expect(body).toMatchSnapshot();
@@ -54,6 +82,38 @@ describe('with emotion environment', () => {
       key: 'test',
       stylisPlugins: [logicalRtl({ rootDirElement: '#container' })],
       container: safeQuerySelector(document, '#container'),
+    });
+
+    const Button = styled.div(() => ({
+      color: 'red',
+      paddingInlineEnd: '10px',
+      paddingBlockEnd: '10px',
+      '&::before, &::after': {
+        content: '""',
+        color: 'black',
+      },
+    }));
+
+    render(
+      <CacheProvider value={cache}>
+        <Button />
+      </CacheProvider>,
+    );
+
+    expect(body).toMatchSnapshot();
+  });
+
+  it('generates styles for scenario with nested pseudoclass when speedy is disabled', async () => {
+    const { body } = document;
+    body.innerHTML = `
+      <div id="container" />
+    `;
+
+    const cache = createCache({
+      key: 'test',
+      stylisPlugins: [logicalRtl({ rootDirElement: '#container' })],
+      container: safeQuerySelector(document, '#container'),
+      speedy: false,
     });
 
     const Button = styled.div(() => ({

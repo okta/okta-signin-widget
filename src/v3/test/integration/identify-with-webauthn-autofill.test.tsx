@@ -14,11 +14,26 @@ import { setup } from './util';
 import mockResponse from '../../src/mocks/response/idp/idx/introspect/identify-with-webauthn-autofill.json';
 
 const originalPublicKeyCredential = global.PublicKeyCredential;
+// Store reference to mocked Math.random
+// Initial mock in /v3/jest.setup.js
+const mockedMathRandom = Math.random;
+// Store reference to original Math.random
+// eslint-disable-next-line no-underscore-dangle
+const originalMathRandom = global.__MATH_RANDOM_ORIGINAL__;
 
 describe('identify-with-webauthn-autofill', () => {
+  beforeEach(() => {
+    // Restore native Math.random for this test only
+    if (originalMathRandom) {
+      Math.random = originalMathRandom;
+    }
+  });
+
   afterEach(() => {
     jest.resetAllMocks();
     global.PublicKeyCredential = originalPublicKeyCredential;
+    // Restore the mocked Math.random after each test
+    Math.random = mockedMathRandom;
   });
 
   it('should have "username webauthn" as the autocomplete attribute on the identifier field if passkeys are available in the browser', async () => {
