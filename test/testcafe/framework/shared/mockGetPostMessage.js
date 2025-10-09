@@ -1,5 +1,5 @@
 Object.defineProperty(window, '__get$PostMessage', {
-    value: () => function () {
-        return function () {};
-    }
+  value: function() {
+    return function() {};
+  }
 });
