@@ -46,8 +46,7 @@ async function setup(t) {
   return registrationPage;
 }
 
-// TODO: fix quarantined test - OKTA-1030856
-test.skip.requestHooks(reCaptchaRequestLogger, mockWithReCaptcha)('should be able to create account with reCaptcha enabled', async t => {
+test.requestHooks(reCaptchaRequestLogger, mockWithReCaptcha)('should be able to create account with reCaptcha enabled', async t => {
   const registrationPage = await setup(t);
   
   // click register button
@@ -64,7 +63,7 @@ test.skip.requestHooks(reCaptchaRequestLogger, mockWithReCaptcha)('should be abl
   await t.expect(reCaptchaRequestLogger.count(() => true)).eql(1);
   const req = reCaptchaRequestLogger.requests[0].request;
   await t.expect(req.url).contains('6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI');
-});
+}).clientScripts('../framework/shared/mockGetPostMessage.js');
 
 // TODO: enable this test OKTA-504996
 test.requestHooks(mockWithHCaptcha)('should be able to create account with hCaptcha enabled', async t => {

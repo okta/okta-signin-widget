@@ -22,8 +22,6 @@ const ignoredMocks = [
   'profile-enrollment-string-fields-options.json', // profile enrollment fields are coming from UD and we do not currently have a way to localize them
   'enroll-profile-new-boolean-fields.json', // english leak on security question and "Subscribe" checkbox
   'identify-with-apple-redirect-sso-extension.json', // flaky on bacon
-  'identify-recovery-with-recaptcha-v2.json', // No english leaks for this, just flaky on bacon due to loading the reCaptcha lib 
-  'identify-with-password-with-recaptcha-v2.json', // No english leaks for this, just flaky on bacon due to loading the reCaptcha lib
   'enroll-profile-update-all-optional-params.json', // No english leaks as custom attribute label comes from server
   'enroll-profile-update-params.json', // No english leaks as custom attribute label comes from server
   'enroll-profile-new-additional-fields.json', // No english leaks on UI. Country and timezone dropdown values are not localized OKTA-454630
@@ -40,6 +38,12 @@ const ignoredMocks = [
   'end-user-remediation-custom-message-multiple-options.json', // custom error remediation message
   'end-user-remediation-custom-message-no-url.json' // custom error remediation message
 ];
+const recaptchaMocks = [
+  'identify-recovery-with-recaptcha-v2.json',
+  'identify-with-password-with-recaptcha-v2.json',
+  'enroll-profile-new-with-recaptcha-v2.json',
+];
+
 if (userVariables.gen3) {
   // TODO: Re-enable in OKTA-654489
   ignoredMocks.push('identify-with-webauthn-launch-authenticator.json');
@@ -205,7 +209,7 @@ async function setup(t, locale, fileName) {
 }
 
 const testEnglishLeaks = (mockIdxResponse, fileName, locale) => {
-  test.requestHooks(mockIdxResponse)(`${fileName} should not have english leaks`, async t => {
+  return test.requestHooks(mockIdxResponse)(`${fileName} should not have english leaks`, async t => {
     const hasContent = !mocksWithoutContent.includes(fileName);
     await setup(t, locale, fileName);
     if (!hasContent) {
@@ -236,8 +240,15 @@ const runTest = (mockData) => {
   for (let i = 0; i < mockData.length; i++) {
     const fileName = mockData[i];
     const filePath = `${mocksFolder}/${fileName}`;
-    // start test
-    testEnglishLeaks(setUpResponse(filePath), fileName, 'ok-PL');
+
+    // for recaptcha tests, we override window.__get$PostMessage with a dummy function to prevent message cloning error when recaptcha script is loaded.
+    if (recaptchaMocks.includes(fileName)) {
+      // start test with script injected to override window.__get$PostMessage
+      testEnglishLeaks(setUpResponse(filePath), fileName, 'ok-PL').clientScripts('../framework/shared/mockGetPostMessage.js');
+    } else {
+      // start test normally
+      testEnglishLeaks(setUpResponse(filePath), fileName, 'ok-PL');
+    }
   }
 };
 
