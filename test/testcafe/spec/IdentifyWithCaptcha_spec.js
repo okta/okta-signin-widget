@@ -112,8 +112,7 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha, hcaptchaReque
   await t.expect(hcaptchaRequestLogger.requests.filter(req => req.request.url === expectedSrc).length).eql(1);
 });
 
-// TODO: fix quarantined test - OKTA-1030856
-test.skip.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWithReCaptcha)('should sign in with reCaptcha enabled', async t => {
+test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWithReCaptcha)('should sign in with reCaptcha enabled', async t => {
   const identityPage = await setup(t, {
     language: 'en'
   });
@@ -139,7 +138,7 @@ test.skip.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMo
   await t.expect(reCaptchaRequestLogger.count(() => true)).eql(1);
   const req = reCaptchaRequestLogger.requests[0].request;
   await t.expect(req.url).contains('6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI');
-});
+}).clientScripts('../framework/shared/mockGetPostMessage.js');
 
 test.requestHooks(identifyRequestLogger, identifyMockWithReCaptcha)('can load reCAPTCHA script with custom URI', async t => {
   await setup(t, {
@@ -155,4 +154,4 @@ test.requestHooks(identifyRequestLogger, identifyMockWithReCaptcha)('can load re
     ? 'https://recaptcha.net/recaptcha/api.js?onload=onloadcallback&render=explicit'
     : 'https://recaptcha.net/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en';
   await t.expect(Selector(`script[src="${expectedSrc}"]`).exists).ok();
-});
+}).clientScripts('../framework/shared/mockGetPostMessage.js');

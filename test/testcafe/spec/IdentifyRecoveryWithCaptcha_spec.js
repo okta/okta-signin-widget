@@ -48,8 +48,7 @@ async function setup(t) {
   return identityPage;
 }
 
-// TODO: fix quarantined test - OKTA-1030856
-test.skip.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyRecoveryWithReCaptchaMock)('should be able to submit identifier with reCaptcha enabled', async t => {
+test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyRecoveryWithReCaptchaMock)('should be able to submit identifier with reCaptcha enabled', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   
@@ -65,7 +64,7 @@ test.skip.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyRe
   await t.expect(reCaptchaRequestLogger.count(() => true)).eql(1);
   const req = reCaptchaRequestLogger.requests[0].request;
   await t.expect(req.url).contains('6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI');
-});
+}).clientScripts('../framework/shared/mockGetPostMessage.js');
 
 // TODO: enable this test OKTA-504996
 test.requestHooks(identifyRequestLogger, identifyRecoveryWithHCaptchaMock)('should be able to submit identifier with hCaptcha enabled', async t => {
