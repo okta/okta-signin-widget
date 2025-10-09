@@ -430,4 +430,84 @@ describe('v2/view-builder/views/IdentifierView', function() {
       }
     });
   });
+
+  describe('Focus behavior (autoFocus feature)', () => {
+    beforeEach(() => {
+      // Ensure we start from a clean currentViewState for each focus test
+      currentViewState = {
+        uiSchema: [{
+          'autoComplete': 'username',
+          'data-se': 'o-form-fieldset-identifier',
+          'label': 'Username',
+          'label-top': true,
+          'name': 'identifier',
+          'type': 'text',
+        }, {
+          'label': 'Password',
+          'label-top': true,
+          'data-se': 'o-form-fieldset-credentials.passcode',
+          'name': 'credentials.passcode',
+          'params':  {
+            'showPasswordToggle': false,
+          },
+          'secret': true,
+          'type': 'password',
+        }]
+      };
+      jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
+      jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+      jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
+    });
+
+    it('auto-focuses password field when identifier is prefilled and autoFocus enabled', () => {
+      const appState = new AppState({}, {});
+      settings.set('features.autoFocus', true);
+      appState.set('remediations', XHRIdentifyWithPassword.remediation.value);
+      const view = new IdentifierView({ appState, settings, model: new Model(), currentViewState });
+      view.render();
+
+      // Simulate identifier being prefilled (e.g. from config or cookie) AFTER render so we can spy before focus
+      view.form.model.set('identifier', 'prefilled-user');
+
+      const inputs = view.form.getInputs();
+      const passwordInputView = inputs.find(i => i.options.name === 'credentials.passcode');
+      const passwordFocusSpy = jest.spyOn(passwordInputView, 'focus');
+
+      view.form.focus();
+      expect(passwordFocusSpy).toHaveBeenCalled();
+    });
+
+    it('does not auto-focus password field when identifier is empty even if autoFocus enabled', () => {
+      const appState = new AppState({}, {});
+      settings.set('features.autoFocus', true);
+      appState.set('remediations', XHRIdentifyWithPassword.remediation.value);
+      const view = new IdentifierView({ appState, settings, model: new Model(), currentViewState });
+      view.render();
+
+      const inputs = view.form.getInputs();
+      const passwordInputView = inputs.find(i => i.options.name === 'credentials.passcode');
+      const passwordFocusSpy = jest.spyOn(passwordInputView, 'focus');
+
+      view.form.focus();
+      expect(passwordFocusSpy).not.toHaveBeenCalled();
+    });
+
+    it('does not auto-focus password field when autoFocus disabled even identifier is filled', () => {
+      const appState = new AppState({}, {});
+      settings.set('features.autoFocus', false);
+      appState.set('remediations', XHRIdentifyWithPassword.remediation.value);
+      const view = new IdentifierView({ appState, settings, model: new Model(), currentViewState });
+      view.render();
+
+      // Simulate identifier being prefilled (e.g. from config or cookie) AFTER render so we can spy before focus
+      view.form.model.set('identifier', 'prefilled-user');
+
+      const inputs = view.form.getInputs();
+      const passwordInputView = inputs.find(i => i.options.name === 'credentials.passcode');
+      const passwordFocusSpy = jest.spyOn(passwordInputView, 'focus');
+
+      view.form.focus();
+      expect(passwordFocusSpy).not.toHaveBeenCalled();
+    });
+  });
 });
