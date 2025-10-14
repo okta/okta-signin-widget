@@ -303,7 +303,7 @@ var Select = BaseInput.extend({
     this.$el.addClass('o-form-control');
 
     if (this.params.chosen !== false) {
-      this.__applyChosen();
+      // this.__applyChosen();
     }
 
     return this;
