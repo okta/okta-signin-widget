@@ -1045,6 +1045,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                     {
                       name: 'credentials.questionKey',
                       type: 'select',
+                      value: 'disliked_food',
                       required: true,
                       label: 'Choose a security question',
                       options: {
