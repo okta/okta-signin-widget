@@ -133,8 +133,7 @@
   // prevent zooming when input/select field is focused on mobile phone
   @include mobile {
     select,
-    select:focus,
-    .chzn-container-single .chzn-search input {
+    select:focus {
       font-size: $font-size-default;
     }
   }
@@ -204,21 +203,6 @@
   margin-bottom: 25px;
   padding-top: 5px;
   clear: both;
-}
-
-.chzn-container-single .chzn-single {
-  border: 1px solid $input-border-color;
-  border-radius: 3px;
-  height: 38px;
-  line-height: 38px;
-}
-
-.chzn-container-single .chzn-single div b {
-  background-position: 0 6px;
-}
-
-.chzn-container-active.chzn-with-drop .chzn-single div b {
-  background-position: -17px 7px;
 }
 
 .custom-checkbox {

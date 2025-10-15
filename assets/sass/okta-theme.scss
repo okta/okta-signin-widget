@@ -948,45 +948,6 @@
     }
   }
 
-
-  .chzn-single {
-    /* -- Input Fields: Select Input -- */
-    background-color: $input-bg-color;
-    border-color: $input-border-color;
-
-    span {
-      /* -- Input Fields: Select Input -- */
-      color: $medium-text-color;
-    }
-
-    &:hover {
-      /* -- Input Fields: Select Input -- */
-      border-color: $input-border-color-hover;
-    }
-  }
-
-  .chzn-with-drop {
-    .chzn-single,
-    .chzn-drop {
-      /* -- Input Fields: Select Input -- */
-      background-color: $input-bg-color;
-      border-color: $input-border-color-hover;
-    }
-
-    .chzn-results {
-
-      li {
-        /* -- Input Fields: Select Input -- */
-        /* border-color: #fff; */
-      }
-
-      .highlighted {
-        /* -- Input Fields: Select Input -- */
-        /* background-color: #f9f9f9; */
-      }
-    }
-  }
-
   .primary-auth { /* -- Page specific top level selectors -- */ }
   .password-expired { /* -- Page specific top level selectors -- */ }
   .password-reset { /* -- Page specific top level selectors -- */ }
