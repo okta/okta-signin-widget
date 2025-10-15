@@ -58,7 +58,7 @@ const populateUISchemaForDisplay = (uiSchema, ionField) => {
       uiSchema.options = Object.assign({'placeholder': 'Select an Option'}, CountryUtil.getCountryCode());
     } else {
       //it will create a placeholder for dropdowns, by default it will show 'Select an Option'
-      uiSchema.options = Object.assign({'': ''}, ionOptionsToUiOptions(display.options));
+      uiSchema.options = Object.assign({'placeholder': 'Select an Option'}, ionOptionsToUiOptions(display.options));
     }
   }
 };
@@ -101,6 +101,10 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
       uiSchema.type = 'select';
       uiSchema.wide = true;
       uiSchema.options = ionOptionsToUiOptions(ionFormField.options);
+      // set initial value to the first option
+      if (ionFormField.options.length > 0) {
+        ionFormField.value = ionFormField.options[0].value;
+      }
     }
   }
 
