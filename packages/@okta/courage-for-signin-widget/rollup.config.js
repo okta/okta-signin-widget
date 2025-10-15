@@ -31,17 +31,10 @@ export default {
   preserveSymlinks: true,
   moduleContext: (id) => {
     // run yarn build:babel to see output pre-rollup
-    if (/.*chosen\.jquery\.js$/.test(id)) {
-      return '$'; // the variable holding the result of import('jquery')
-    }
     return 'undefined';
   },
   external,
   plugins: [
-    amd({
-      // babel-plugin-transform-amd-to-commonjs cannot handle this one, process before babel
-      include: 'src/courage/vendor/plugins/chosen.jquery.js'
-    }),
     babel({
       babelHelpers: 'bundled',
       extensions
