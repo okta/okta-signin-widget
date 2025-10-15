@@ -169,10 +169,6 @@
   .input-fix,
   .textarea-fix,
   .input[type="text"],
-  .chzn-single {
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-  }
 
   .link-button.option-selected {
     border-top-left-radius: 0;
@@ -241,46 +237,6 @@
 
   .link-button-icon span.icon {
     top: 5px;
-  }
-
-  .o-form-control .chzn-single {
-    box-shadow: none;
-  }
-
-  select:first-child + .o-form-control.chzn-container .chzn-single {
-    border-bottom-right-radius: 0;
-    border-right-width: 0;
-    border-top-right-radius: 0;
-  }
-
-  .o-form-control:last-child .chzn-single {
-    border-bottom-left-radius: 0;
-    border-left-width: 0;
-    border-top-left-radius: 0;
-  }
-
-  .o-form-control.chzn-container-active.chzn-with-drop:last-child {
-    .chzn-single {
-      border-left-width: 1px;
-      margin-left: -1px;
-    }
-    .chzn-drop {
-      border-left-width: 1px;
-      border-top-right-radius: 0;
-      left: -1px;
-      width: 101%;  /* This could break with wider fields */
-    }
-  }
-  select:first-child + .o-form-control.chzn-container-active.chzn-with-drop {
-    .chzn-single {
-      border-right-width: 1px;
-      margin-right: -1px;
-    }
-    .chzn-drop {
-      border-left-width: 1px;
-      right: -1px;
-      width: 101%;  /* This could break with wider fields */
-    }
   }
 }
 
@@ -352,9 +308,7 @@
 }
 
 .o-form-multi-input-2 .o-form-control + .o-form-control,
-.o-form-multi-input-3 .o-form-control + .o-form-control,
-.o-form-multi-input-2 .chzn-done + .o-form-control,  /* Ugly, need to work around the fact that the original select is in the dom */
-.o-form-multi-input-3 .chzn-done + .o-form-control {
+.o-form-multi-input-3 .o-form-control + .o-form-control {
   margin-left: 2%;
 }
 
@@ -371,26 +325,6 @@
   float: left;
 }
 
-.o-form-multi-input-2 .o-form-select .chzn-container,
-.o-form-multi-input-3 .o-form-select .chzn-container {
-  width: 100% !important;
-}
-
-/* Temporary overrides: Uzi has this solved in the JS */
-
-.o-form-multi-input-2 .chzn-container {
-  width: 49% !important;
-}
-
-.o-form-multi-input-3 .chzn-container {
-  width: 32% !important;
-}
-
-.o-form-wide .chzn-container {
-  width: 100% !important;
-}
-
-
 /*
  * Custom input/select hybrid
  */
@@ -400,23 +334,6 @@
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-
-.chzn-container-single.text-select .chzn-single {
-  width: 16%;
-  height: 30px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  border-color: #bbb #bbb #b1b1b1 #bbb;
-  cursor: pointer;
-  box-sizing: border-box;
-}
-
-.text-select.chzn-with-drop input[type=text] {
-  border-color: #888;
-  border-bottom-left-radius: 0;
-  box-shadow: 0 -1px 0 0 #aaa inset;
-}
-
 
 /*
  * Custom checkboxes, radios
@@ -1020,7 +937,6 @@ only screen and (min-resolution: 2dppx) {
 .o-form-has-errors {
   &.input-fix,
   &.textarea-fix,
-  &.chzn-container-single .chzn-single,
   &.link-button {
     border-color: $error-input-border-color;
   }
@@ -1051,21 +967,6 @@ only screen and (min-resolution: 2dppx) {
 
   .custom-radio label.checked {
     background-position: -16px -713px;
-  }
-
-  .o-form-input-group .o-form-control .chzn-single {
-    border-color: #bbbbbb #bbbbbb #b1b1b1;
-  }
-
-  .o-form-input-group .chzn-container-active.chzn-with-drop .chzn-single {
-    border-color: #888;
-  }
-
-  .chzn-container-active .chzn-single {
-    -webkit-box-shadow: 0 1px 2px rgba(175,175,175, 0.3);
-    -moz-box-shadow:  0 1px 2px rgba(175,175,175, 0.3);
-    box-shadow:  0 1px 2px rgba(175,175,175, 0.3);
-    border: 1px solid #888;
   }
 
   .infobox-error {
