@@ -10,7 +10,7 @@ export default class ProfileEnrollmentStringOptionsViewPageObject extends BasePa
   }
 
   selectValueFromDropdown(fieldName, index) {
-    return this.form.selectValueChozenDropdown(fieldName, index);
+    return this.form.selectValueDropdown(fieldName, index);
   }
 
   clickRadioButton(fieldName, index) {

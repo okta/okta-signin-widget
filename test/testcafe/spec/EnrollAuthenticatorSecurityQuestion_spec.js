@@ -96,7 +96,7 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)(
 
 test
   .meta('gen3', false) // Gen3 uses controlled select component which doesn't have such bug
-  .requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)('shoud hide security question options dropdown after changing page', async t => {
+  .requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)('should hide security question dropdown after changing page', async t => {
     const enrollSecurityQuestionPage = await setup(t);
     await checkA11y(t);
 
@@ -106,7 +106,7 @@ test
 
     await enrollSecurityQuestionPage.openSecurityQuestionDropdown();
     await enrollSecurityQuestionPage.clickReturnToAuthenticatorListLink();
-    await t.expect(enrollSecurityQuestionPage.isSecurityQuestionDropdownOpened()).notOk();
+    await t.expect(enrollSecurityQuestionPage.isSecurityQuestionDropdownVisible()).notOk();
   });
 
 test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)('enroll custom security question', async t => {
