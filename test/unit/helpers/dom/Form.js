@@ -43,14 +43,14 @@ export default Dom.extend({
   },
 
   selectedOption: function(field) {
-    return this.inputWrap(field).find('.chzn-single span').trimmedText();
+    const selectedOptionValue = this.inputWrap(field).find('select')[0].value;
+    return this.selectOptions(field).find(option => option.val === selectedOptionValue).text;
   },
 
   selectOption: function(field, val) {
     const $select = this.select(field);
 
     $select.val(val);
-    $select.trigger('liszt:updated');
     $select.trigger('change');
   },
 
