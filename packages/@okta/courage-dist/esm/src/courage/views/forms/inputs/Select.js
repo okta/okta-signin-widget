@@ -138,6 +138,9 @@ var Select = BaseInput.extend({
 
     this.$el.addClass('o-form-control');
 
+    // manually trigger the update event when the select is loaded so the initial selected value is set in the model
+    oktaUnderscore.defer(oktaUnderscore.bind(this.update, this));
+
     return this;
   },
   appendOptions: function () {

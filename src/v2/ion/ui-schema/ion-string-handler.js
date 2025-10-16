@@ -101,8 +101,6 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
       uiSchema.type = 'select';
       uiSchema.wide = true;
       uiSchema.options = ionOptionsToUiOptions(ionFormField.options);
-      // set initial value to the first option
-      ionFormField.value = ionFormField.options[0]?.value;
     }
   }
 
