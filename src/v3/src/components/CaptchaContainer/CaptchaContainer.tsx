@@ -177,7 +177,6 @@ const CaptchaContainer: UISchemaElementComponent<{
   if (captchaType === 'ALTCHA') {
     return isAltchaLoaded ? (
       <altcha-widget
-        debug
         floating
         hidefooter
         hidelogo

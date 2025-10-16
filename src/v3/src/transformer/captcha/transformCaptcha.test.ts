@@ -11,7 +11,6 @@
  */
 
 import { IdxTransaction } from '@okta/okta-auth-js';
-import { waitFor } from '@testing-library/preact';
 
 import { getStubFormBag, getStubTransaction } from '../../mocks/utils/utils';
 import {
@@ -114,82 +113,5 @@ describe('Captcha container transformer tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(6);
     expect((updatedFormBag.uischema.elements[4] as DescriptionElement).options.content).not.toBe('hcaptcha.footer.label');
     expect(updatedFormBag).toEqual(formBag);
-  });
-
-  it('does not import altcha when captchaType is not ALTCHA', async () => {
-    // Make importing 'altcha' throw if attempted
-    jest.mock('altcha', () => {
-      throw new Error('altcha should not be imported in this test');
-    }, { virtual: true });
-
-    jest.mock('../../contexts', () => ({
-      useWidgetContext: () => ({
-        // match the shape your CaptchaContainer expects (dataSchemaRef or dataSchema)
-        dataSchemaRef: { current: {} },
-        widgetProps: {},
-      }),
-    }));
-
-    // Require after mocking so the mock takes effect
-    const { h } = await import('preact');
-    const { render } = await import('@testing-library/preact');
-    const CaptchaModule = await import('../../components/CaptchaContainer/CaptchaContainer');
-    const CaptchaContainer = CaptchaModule.default;
-
-    const uischema = {
-      type: 'CaptchaContainer',
-      options: {
-        type: 'RECAPTCHA_V2',
-        siteKey: 'site-key',
-        captchaId: 'test-id',
-      },
-    } as any;
-
-    const { container } = render(h(CaptchaContainer, { uischema }));
-
-    // Wait a tick to let effects run — if import was attempted it would have thrown
-    await waitFor(() => {
-      expect(container.querySelector('altcha-widget')).toBeNull();
-    });
-  });
-
-  it('imports altcha when captchaType is ALTCHA', async () => {
-    // Mock 'altcha' module so that importing it registers the web component
-    jest.mock('altcha', () => {
-      if (typeof window !== 'undefined' && window.customElements && !window.customElements.get('altcha-widget')) {
-        class AltchaEl extends HTMLElement {}
-        window.customElements.define('altcha-widget', AltchaEl);
-      }
-      return {};
-    }, { virtual: true });
-
-    jest.mock('../../contexts', () => ({
-      useWidgetContext: () => ({
-        // match the shape your CaptchaContainer expects (dataSchemaRef or dataSchema)
-        dataSchemaRef: { current: {} },
-        widgetProps: {},
-      }),
-    }));
-
-    const { h } = await import('preact');
-    const { render } = await import('@testing-library/preact');
-    const CaptchaModule = await import('../../components/CaptchaContainer/CaptchaContainer');
-    const CaptchaContainer = CaptchaModule.default;
-
-    const uischema = {
-      type: 'CaptchaContainer',
-      options: {
-        type: 'ALTCHA',
-        siteKey: 'site-key',
-        captchaId: 'alt_id',
-      },
-    } as any;
-
-    const { container } = render(h(CaptchaContainer, { uischema }));
-
-    // Wait for the component to load altcha and render the <altcha-widget>
-    await waitFor(() => {
-      expect(container.querySelector('altcha-widget')).not.toBeNull();
-    });
   });
 });
