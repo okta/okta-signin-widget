@@ -138,9 +138,6 @@ var Select = BaseInput.extend({
 
     this.$el.addClass('o-form-control');
 
-    // manually trigger the update event when the select is loaded so the initial selected value is set in the model
-    oktaUnderscore.defer(oktaUnderscore.bind(this.update, this));
-
     return this;
   },
   appendOptions: function () {
@@ -152,11 +149,22 @@ var Select = BaseInput.extend({
     const keys = Object.keys(options);
     this.applySortByKey(keys);
     keys.forEach(key => {
-      this.$select.append(this.option({
-        key: key,
-        value: options[key]
-      }));
+      // option with no value is a placeholder
+      if (!key) {
+        this.$select.prepend(this.option({
+          key: '',
+          value: "Select an Option"
+        }));
+      } else {
+        this.$select.append(this.option({
+          key: key,
+          value: options[key]
+        }));
+      }
     });
+
+    // manually trigger the update event when the select is loaded so the initial selected value is set in the model
+    oktaUnderscore.defer(oktaUnderscore.bind(this.update, this));
   },
   applySortByKey: function (keys) {
     const sortByKey = this.options.sortByKey;
