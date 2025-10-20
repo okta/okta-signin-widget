@@ -1,6 +1,7 @@
 import _Handlebars2 from '../../../../../lib/handlebars/dist/cjs/handlebars.runtime.js';
 import oktaUnderscore from '../../../util/underscore-wrapper.js';
 import BaseInput from '../BaseInput.js';
+import StringUtil from '../../../util/StringUtil.js';
 
 const template = _Handlebars2.template({
   "compiler": [8, ">= 4.3.0"],
@@ -153,7 +154,7 @@ var Select = BaseInput.extend({
       if (!key) {
         this.$select.prepend(this.option({
           key: '',
-          value: "Select an Option"
+          value: StringUtil.localize('select.default_value', 'login')
         }));
       } else {
         this.$select.append(this.option({
