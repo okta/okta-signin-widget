@@ -140,7 +140,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('s
 
   requestLogger.clear();
   await t.expect(await enrollProfilePage.dropDownExistsByLabel('Country')).eql(true);
-  const defaultOptionLabel = userVariables.gen3 ? 'Select an option' : 'Select an Option';
+  const defaultOptionLabel = 'Select an option';
   await t.expect(await enrollProfilePage.form.getValueFromDropdown('userProfile.country')).eql(defaultOptionLabel);
   await enrollProfilePage.selectValueFromDropdown('userProfile.country', 1);
 
