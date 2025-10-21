@@ -15,3 +15,7 @@ if ! yarn test:testcafe-ci; then
 fi
 
 exit ${PUBLISH_TYPE_AND_RESULT_DIR};
+
+
+
+
