@@ -35,6 +35,7 @@ interface L10nErrorDetail {
 declare global {
   interface Window {
     okta?: {
+      supportedLocales?: string[];
       locale?: string
     }
   }
