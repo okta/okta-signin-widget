@@ -64,13 +64,12 @@ export const usePolling = (
   const timerRef = useRef<NodeJS.Timeout>();
 
   const pollingStep = useMemo(() => {
-    const idxTransactionPollingStep = getPollingStep(idxTransaction);
-    if (!idxTransactionPollingStep) {
-      return undefined;
+    // If an internal transaction exists, rely solely on it for polling step detection.
+    // This prevents resuming polling after reaching a non-polling (e.g. terminal) state.
+    if (transaction) {
+      return getPollingStep(transaction);
     }
-
-    const res = getPollingStep(transaction) || idxTransactionPollingStep;
-    return res;
+    return getPollingStep(idxTransaction);
   }, [idxTransaction, transaction]);
 
   // start polling timer when internal polling transaction changes

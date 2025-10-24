@@ -29,6 +29,23 @@ const Body = BaseForm.extend({
     return loc('oform.next', 'login');
   },
 
+  focus() {
+    BaseForm.prototype.focus.apply(this, arguments);
+
+    // Auto focus to password field when identifier is prefilled
+    if (this.settings.get('features.autoFocus')) {
+      const identifierInput = this.getInputs().filter((item) => {
+        return item.options.name === 'identifier';
+      })[0];
+      const passwordInput = this.getInputs().filter((item) => {
+        return item.options.name === 'credentials.passcode';
+      })[0];
+      if (identifierInput && identifierInput.model.get('identifier') && passwordInput) {
+        passwordInput.focus();
+      }
+    }
+  },
+
   initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
 
