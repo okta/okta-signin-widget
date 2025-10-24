@@ -24,6 +24,14 @@
     "node": ">=14.18",
     "yarn": "^1.7.0"
   },
+  "files": [
+    "dist",
+    "polyfill",
+    "types",
+    "package.json",
+    "LICENSE",
+    "THIRD-PARTY-NOTICES"
+  ],
   "types": "./types/src/exports/default.d.ts",
   "main": "./target/js/okta-sign-in.js",
   "module": "./target/esm/src/exports/exports/default.js",
