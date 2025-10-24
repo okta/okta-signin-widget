@@ -232,7 +232,10 @@ const derived: Record<string, ModelProperty>  = {
       // By default, the language be automatically detected from the browser
       // Developers can specify the language. It will be added to the supportedLanguages list.
       // Developers can also provide a list of languages with hosted assets, these replace the default list
-      const supportedLanguages = hostedLanguages || config.supportedLanguages;
+      const oktaSupportedLocales = window.okta?.supportedLocales;
+      // Use hostedLanguages if provided, otherwise use non-empty window.okta.supportedLocales list.
+      // If neither are present, fall back to config.supportedLanguages.
+      const supportedLanguages = hostedLanguages || (!_.isEmpty(oktaSupportedLocales) ? oktaSupportedLocales : config.supportedLanguages);
       return _.union(
         supportedLanguages,
         _.keys(i18n),

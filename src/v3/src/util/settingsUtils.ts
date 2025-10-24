@@ -48,10 +48,12 @@ import { loc } from './locUtil';
  *       the config (fallback for when `widgetProps.assets.languages` is not provided)
  * 3. `widgetProps.i18n` - Custom language overrides defined in the i18n configuration
  * 4. `widgetProps.language` - The language specified by the widget properties
+ * 5. `window.okta.supportedLocales` - the locales supported by Okta
  */
 export const getSupportedLanguages = (widgetProps: WidgetProps): string[] => {
   const { i18n, language, assets: { languages } = {} } = widgetProps;
-  const supportedLanguages = languages || config.supportedLanguages;
+  const oktaSupportedLocales = window.okta?.supportedLocales;
+  const supportedLanguages = languages || (Array.isArray(oktaSupportedLocales) && oktaSupportedLocales.length > 0 ? oktaSupportedLocales : config.supportedLanguages);
   const customLanguages = Object.keys(i18n || {});
 
   return union(
