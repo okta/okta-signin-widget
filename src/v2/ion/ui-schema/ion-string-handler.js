@@ -57,7 +57,7 @@ const populateUISchemaForDisplay = (uiSchema, ionField) => {
     if (display.format === ATTR_FORMAT.COUNTRY_CODE) {
       uiSchema.options = Object.assign({'': ''}, CountryUtil.getCountryCode());
     } else {
-      //it will create a placeholder for dropdowns, by default it will show 'Select an Option'
+      //it will create a placeholder for dropdowns, by default it will show 'Select an option'
       uiSchema.options = Object.assign({'': ''}, ionOptionsToUiOptions(display.options));
     }
   }

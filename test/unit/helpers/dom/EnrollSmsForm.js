@@ -17,11 +17,11 @@ export default Form.extend({
   },
 
   hasCountriesList: function() {
-    return this.inputWrap(COUNTRIES_FIELD).find('.chzn-container').length > 0;
+    return this.inputWrap(COUNTRIES_FIELD).find('select > option').length > 0;
   },
 
   countryDropdown: function() {
-    return this.inputWrap(COUNTRIES_FIELD).find('.chzn-container');
+    return this.inputWrap(COUNTRIES_FIELD).find('select');
   },
 
   phoneNumberField: function() {

@@ -369,52 +369,31 @@ export default class BaseFormObject {
     return selectContainer.innerText;
   }
   // =====================================
-  // Chozen Dropdown
+  // Select Dropdown
   // =====================================
 
-  getValueFromDropdown(fieldName, index = 0) {
-    if (userVariables.gen3) {
-      const selectEle = this.el.find(`[id="${fieldName}"]`);
-      const option = selectEle.child().nth(index);
-  
-      return option.textContent;
-    }
-    const selectContainer = this.findFormFieldInput(fieldName).find('.chzn-container');
-    return selectContainer.innerText;
+  getDropDown(fieldName) {
+    return userVariables.gen3
+      ? this.el.find(`[id="${fieldName}"]`) 
+      : this.findFormFieldInput(fieldName).find('select');
   }
 
-  async selectValueChozenDropdown(fieldName, index) {
-    if (userVariables.gen3) {
-      const selectEle = this.el.find(`[id="${fieldName}"]`);
-      await this.t.click(selectEle);
-      
-      const option = selectEle.child().nth(index);
-      await this.t.click(option);
-      return;
-    }
-    const selectContainer = await this.findFormFieldInput(fieldName)
-      .find('.chzn-container');
-    const containerId = await selectContainer.getAttribute('id');
-    await this.t.click(selectContainer);
+  getValueFromDropdown(fieldName, index = 0) {
+    const selectEle = this.getDropDown(fieldName);
+    const option = selectEle.child().nth(index);
+    return option.textContent;
+  }
 
-    const option = await new Selector(`#${containerId} .chzn-results .active-result`)
-      .nth(index);
+  async selectValueDropdown(fieldName, index) {
+    const selectEle = await this.openDropdown(fieldName);
+    const option = selectEle.child().nth(index);
     await this.t.click(option);
   }
 
-  async openChozenDropdown(fieldName) {
-    if (userVariables.gen3) {
-      const selectEle = this.el.find(`[id="${fieldName}"]`);
-      await this.t.click(selectEle);
-    } else {
-      const selectContainer = await this.findFormFieldInput(fieldName)
-        .find('.chzn-container');
-      await this.t.click(selectContainer);
-    }
-  }
-
-  isChozenDropdownOpened() {
-    return Selector('.chzn-container').exists;
+  async openDropdown(fieldName) {
+    const selectEle = this.getDropDown(fieldName);
+    await this.t.click(selectEle);
+    return selectEle;
   }
 
   // =====================================
