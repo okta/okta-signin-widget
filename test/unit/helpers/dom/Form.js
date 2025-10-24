@@ -44,7 +44,7 @@ export default Dom.extend({
 
   selectedOption: function(field) {
     const selectedOptionValue = this.inputWrap(field).find('select')[0].value;
-    return this.selectOptions(field).find(option => option.val === selectedOptionValue).text;
+    return this.selectOptions(field).find(option => option.val === selectedOptionValue).text.trim();
   },
 
   selectOption: function(field, val) {
