@@ -11,7 +11,7 @@ export default class BYOLPageObject extends BasePageObject {
     if (userVariables.gen3) {
       return this.hasText(text);
     }
-    const selectEle = await this.form.getDropDown('country');
+    const selectEle = this.form.getDropDown('country');
     return within(selectEle).getByText(text).exists;
   }
 }
