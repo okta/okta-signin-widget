@@ -1,15 +1,11 @@
 import _Handlebars2 from '../../../../../lib/handlebars/dist/cjs/handlebars.runtime.js';
-import oktaJQueryStatic from '../../../util/jquery-wrapper.js';
 import oktaUnderscore from '../../../util/underscore-wrapper.js';
-import Keys from '../../../util/Keys.js';
-import '../../../vendor/plugins/chosen.jquery.js';
 import BaseInput from '../BaseInput.js';
-import Util from '../../../util/Util.js';
 import StringUtil from '../../../util/StringUtil.js';
 
 const template = _Handlebars2.template({
   "compiler": [8, ">= 4.3.0"],
-  "main": function (container, depth0, helpers, partials, data) {
+  "main": function (container, depth0, helpers, data) {
     var helper,
         alias1 = depth0 != null ? depth0 : container.nullContext || {},
         alias2 = container.hooks.helperMissing,
@@ -58,7 +54,7 @@ const template = _Handlebars2.template({
 
 const option = _Handlebars2.template({
   "compiler": [8, ">= 4.3.0"],
-  "main": function (container, depth0, helpers, partials, data) {
+  "main": function (container, depth0, helpers, data) {
     var helper,
         alias1 = depth0 != null ? depth0 : container.nullContext || {},
         alias2 = container.hooks.helperMissing,
@@ -105,159 +101,6 @@ const option = _Handlebars2.template({
   "useData": true
 });
 
-const CHOSEN_WINDOW_MARGIN = 20;
-const isSafari = Util.isSafari; // Chosen has known problems when it's at the bottom of a container that has
-// overflow:hidden set. Because it attaches to the parent container, its
-// dropdown will be cut off in the UI. Any modal with a chosen select element
-// at the bottom will manifest this behavior.
-//
-// The fix (aside from replacing Chosen) is to change Chosen's behavior -
-// use the existing styles, but attach it to 'body' and position it correctly
-// so that it is not affected by a parent overflow.
-//
-// More details can be found in OKTA-46489, OKTA-83570
-
-const CHOSEN_MAX_HEIGHT = 240;
-const CHOSEN_Z_INDEX = 50000;
-
-function defer(fn) {
-  if (this.params.autoWidth) {
-    return fn.call(this);
-  } else {
-    return oktaUnderscore.defer(oktaUnderscore.bind(fn, this));
-  }
-}
-
-function findSelectWidth(self) {
-  self.$select.hide();
-  const select = oktaJQueryStatic(self.$select[0]).hide();
-  oktaJQueryStatic('body').append(select);
-  const width = self.params.width = select.width() * 1.2 + 'px';
-  self.$el.append(select.show());
-  return width;
-}
-
-function recalculateChosen($chosen, $results, $clone) {
-  const offset = $clone.offset();
-  $chosen.css({
-    left: offset.left,
-    top: offset.top
-  }); // Update the max-height to fit within the constraints of the window. This
-  // is especially important for modals because page scrolling is disabled.
-
-  const $win = oktaJQueryStatic(window);
-  const rHeight = $results.outerHeight();
-  const rBottom = rHeight + $results.offset().top - $win.scrollTop();
-  const wHeight = $win.height() - CHOSEN_WINDOW_MARGIN;
-  const maxHeight = Math.min(rHeight + wHeight - rBottom, CHOSEN_MAX_HEIGHT);
-  $results.css('max-height', maxHeight);
-}
-
-function handleKeyUpEvent($select, $chosen, $results) {
-  const $highlightedOption = $results.find('.active-result.highlighted');
-  $chosen.find('#' + $select.attr('id') + '_txt').attr('aria-activedescendant', $highlightedOption.attr('id')); // change the old selected item aria-selected to false
-  // and add add it to new item.
-
-  $results.find('[aria-selected=true]').attr('aria-selected', 'false');
-  $highlightedOption.attr('aria-selected', 'true'); // In case of Safari, add message to aria-live node to be read by screenreader.
-  // We need to do this special handling for Safari due to falkiness with aria-activedescendant
-  // handling. https://bit.ly/3z45IZF
-
-  if (isSafari()) {
-    // message read by screenReader i.e optionValue selected(United States selected)
-    const message = StringUtil.localize('oform.selectInput.country', 'courage', [$highlightedOption.text()]);
-    const elementId = $select.attr('id');
-
-    if (message !== '') {
-      oktaJQueryStatic(`#${elementId}_aria_div_id`).text(message);
-    }
-  }
-
-  const noResult = $results.find('li.no-results');
-
-  if (noResult.length) {
-    noResult.attr('role', 'alert');
-  }
-}
-
-function fixChosenModal($select, textPlaceholder) {
-  const $chosen = $select.next('.chzn-container');
-  const $clone = $chosen.clone();
-  const $results = $chosen.find('.chzn-results');
-  const $searchInput = $chosen.find('.chzn-search input[type=text]');
-  $searchInput.on('keyup', () => {
-    handleKeyUpEvent($select, $chosen, $results);
-  });
-  $chosen.addClass('closed'); // Will be used in SIW to fix screen reader focus.
-  // Use a hidden clone to maintain layout and calculate offset. This is
-  // necessary for more complex layouts (like adding a group rule) where
-  // the chosen element is floated.
-
-  $clone.css('visibility', 'hidden');
-  $clone.removeAttr('id');
-  $clone.find('li').removeAttr('id'); // Save the original styles - we'll revert to them when the select closes
-
-  const baseStyles = {
-    left: $chosen.css('left'),
-    top: $chosen.css('top'),
-    position: $chosen.css('position'),
-    float: $chosen.css('float'),
-    'z-index': $chosen.css('z-index')
-  };
-  $results.hide(); // Handler for any resize events that happen when the results list is open
-
-  const resizeHandler = oktaUnderscore.debounce(function () {
-    recalculateChosen($chosen, $results, $clone);
-  }, 10); // When the dropdown opens, attach it to body, with the correct absolute
-  // position coordinates
-
-
-  $select.off('.fixChosen'); // Remove events we could have added before
-
-  $select.on('liszt:showing_dropdown.fixChosen', function () {
-    $chosen.width($chosen.width());
-    $select.after($clone); // .chzn-container can trigger the vertical scrollbar if it causes scrollHeight > window height after append to
-    // the body. Force top -999999 to avoid the scrollbar so $chosen can find the right offset for relocation.
-
-    $chosen.css({
-      position: 'absolute',
-      float: 'none',
-      'z-index': CHOSEN_Z_INDEX,
-      top: -999999
-    });
-    oktaJQueryStatic('body').append($chosen);
-    oktaJQueryStatic('.chzn-search > :text').prop('placeholder', textPlaceholder);
-    $results.show();
-    recalculateChosen($chosen, $results, $clone); // Capture scroll events:
-    // - for forms that use fixed positioning (like editing attributes in
-    //   Profile Editor) - window scroll
-    // - for forms that are too long for the modal - o-form-content scroll
-
-    $select.parents().scroll(resizeHandler);
-    oktaJQueryStatic(window).on('resize scroll', resizeHandler);
-  });
-  $select.on('liszt:showing_dropdown', function () {
-    $chosen.removeClass('closed');
-  }); // When the dropdown closes or the element is removed, revert to the
-  // original styles and reattach it to its original placement in the dom.
-
-  $select.on('liszt:hiding_dropdown.fixChosen remove.fixChosen', function () {
-    $select.parents().off('scroll', resizeHandler);
-    oktaJQueryStatic(window).off('resize scroll', resizeHandler);
-    $chosen.css(baseStyles);
-    $results.hide();
-    $chosen.addClass('closed');
-    $results.css('max-height', CHOSEN_MAX_HEIGHT);
-    $clone.remove();
-    $select.after($chosen);
-  }); // Do not change the order of event listeners. This event must execute after 
-  // "liszt:hiding_dropdown.fixChosen remove.fixChosen"
-
-  $select.on('liszt:hiding_dropdown.fixChosen', function () {
-    $searchInput.focus(); // set focus back to input only when the dropdown is closed
-  });
-}
-
 var Select = BaseInput.extend({
   className: 'o-form-select',
 
@@ -266,12 +109,6 @@ var Select = BaseInput.extend({
    */
   events: {
     'change select': 'update',
-    'keyup .chzn-search > :text': function (e) {
-      if (Keys.isEsc(e)) {
-        this.$('.chzn-search > :text').val('');
-        e.stopPropagation();
-      }
-    }
   },
   constructor: function () {
     this.template = template;
@@ -302,10 +139,6 @@ var Select = BaseInput.extend({
 
     this.$el.addClass('o-form-control');
 
-    if (this.params.chosen !== false) {
-      this.__applyChosen();
-    }
-
     return this;
   },
   appendOptions: function () {
@@ -317,11 +150,22 @@ var Select = BaseInput.extend({
     const keys = Object.keys(options);
     this.applySortByKey(keys);
     keys.forEach(key => {
-      this.$select.append(this.option({
-        key: key,
-        value: options[key]
-      }));
+      // option with no value is a placeholder
+      if (!key) {
+        this.$select.prepend(this.option({
+          key: '',
+          value: StringUtil.localize('select.default_value', 'login')
+        }));
+      } else {
+        this.$select.append(this.option({
+          key: key,
+          value: options[key]
+        }));
+      }
     });
+
+    // manually trigger the update event when the select is loaded so the initial selected value is set in the model
+    oktaUnderscore.defer(oktaUnderscore.bind(this.update, this));
   },
   applySortByKey: function (keys) {
     const sortByKey = this.options.sortByKey;
@@ -342,42 +186,6 @@ var Select = BaseInput.extend({
       keys.sort();
       keys.reverse();
     }
-  },
-  __applyChosen: function (update) {
-    let width = this.options.wide ? '100%' : this.params.width || '62%';
-
-    if (this.params.autoWidth) {
-      width = findSelectWidth(this);
-    }
-
-    defer.call(this, function () {
-      const searchThreshold = this.getParam('searchThreshold', 10);
-
-      if (!oktaUnderscore.result(this.options, 'autoRender') && update !== false) {
-        this.update();
-      }
-
-      this.$select.chosen({
-        width: width,
-        disable_search_threshold: searchThreshold,
-        //eslint-disable-line camelcase
-        placeholder_text: this.options['placeholder'],
-        //eslint-disable-line camelcase
-        search_contains: true //eslint-disable-line camelcase
-
-      }); //if options are more than search threshold, consider it as a combobox
-
-      const isComboBox = this.options && this.options.options && Object.keys(this.options.options).length > searchThreshold;
-      this.accessibilityUpdate(isComboBox, this.params);
-      fixChosenModal(this.$select, this.searchPlaceholder);
-
-      if (this.params.autoWidth) {
-        // fix a chosen css bug
-        this.$el.width(0);
-      }
-
-      this.model.trigger('form:resize');
-    });
   },
 
   /**
@@ -441,18 +249,6 @@ var Select = BaseInput.extend({
   },
 
   /**
-   * @param ariaDivId id for div element
-   * Create a div element and add it to chosen container.
-   */
-  createAriaLiveNode: function (ariaDivId) {
-    const $chosen = this.$select.next('.chzn-container'); // set this to off-screen such that no user will see this and only screenReaders will pick this up.
-    // we should announce to user only on additions and not on removals.
-
-    const $node = oktaJQueryStatic('<div></div>').attr('role', 'log').attr('aria-live', 'polite').attr('id', ariaDivId).attr('aria-relevant', 'additions').attr('aria-atomic', 'false').attr('class', 'off-screen');
-    $node.insertAfter($chosen);
-  },
-
-  /**
    * Code to make the select/combobox component accessible with screen readers.
    *
    * @param {boolean} isComboBox - Is the select a combobox?
@@ -465,12 +261,6 @@ var Select = BaseInput.extend({
     const ulTagId = this.$select.attr('id') + '_ul'; // this is to fix(OKTA-506711) the accessibility issue due to partial support of aria-activedescendant
     // by Safari. Make use of aria-live to make screenReader announce the option selected by user as a workaround.
 
-    if (isSafari()) {
-      this.createAriaLiveNode(ariaDivId);
-    }
-
-    this.$('ul[class=chzn-results]').attr('role', 'listbox').attr('id', ulTagId);
-
     if (isComboBox) {
       this.$('input[type=text]').attr('id', txtBoxId).attr('aria-autocomplete', 'list').attr('aria-activedescendant', '').attr('role', 'combobox').attr('aria-expanded', 'true').attr('aria-controls', ulTagId);
     } else {
@@ -480,14 +270,10 @@ var Select = BaseInput.extend({
     if (params && params.aria && params.aria.label) {
       const ariaLabel = params.aria.label.trim();
       this.$('input[type=text]').attr('id', txtBoxId).attr('aria-label', ariaLabel);
-      this.$('ul[class=chzn-results]').attr('aria-label', ariaLabel);
     } else {
       const ariaLabel = this.$el.parent().prev('.o-form-label').find('label').text().trim();
       this.$('input[type=text]').attr('id', txtBoxId).attr('aria-label', ariaLabel);
-      this.$('ul[class=chzn-results]').attr('aria-label', ariaLabel);
     }
-
-    this.$('.chzn-results .active-result').attr('role', 'option').attr('aria-selected', 'false');
   }
 });
 

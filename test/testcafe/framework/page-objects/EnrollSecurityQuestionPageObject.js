@@ -31,19 +31,15 @@ export default class EnrollSecurityQuestionPageObject extends BasePageObject {
     if (userVariables.gen3) {
       index = index + 1;
     }
-    return this.form.selectValueChozenDropdown(QUESTION_KEY_FIELD, index);
+    return this.form.selectValueDropdown(QUESTION_KEY_FIELD, index);
   }
 
   openSecurityQuestionDropdown() {
-    return this.form.openChozenDropdown(QUESTION_KEY_FIELD);
+    return this.form.openDropdown(QUESTION_KEY_FIELD);
   }
 
   isSecurityQuestionDropdownVisible() {
     return this.form.findFormFieldInput(QUESTION_KEY_FIELD).visible;
-  }
-
-  isSecurityQuestionDropdownOpened() {
-    return this.form.isChozenDropdownOpened();
   }
 
   isSecurityQuestionTypeSelectVisible() {

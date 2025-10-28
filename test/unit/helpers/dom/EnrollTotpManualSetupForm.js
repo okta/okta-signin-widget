@@ -28,7 +28,7 @@ export default Form.extend({
   },
 
   countryCodeSelect: function() {
-    return this.inputWrap(COUNTRY_CODE_SELECTOR).find('.chzn-container');
+    return this.inputWrap(COUNTRY_CODE_SELECTOR).find('select');
   },
 
   waitForCountryCodeSelect: function(resolveValue) {
@@ -52,7 +52,7 @@ export default Form.extend({
   },
 
   dropdownElement: function() {
-    return this.inputWrap(DROPDOWN).find('.chzn-container');
+    return this.inputWrap(DROPDOWN).find('select');
   },
 
   waitForDropdownElement: function(resolveValue) {
