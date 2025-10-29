@@ -352,4 +352,3 @@ describe('flow-okta-verify-enrollment', () => {
     await user.click(await findByRole('button', { name: 'Set up Okta Verify.' }));
   }, 30 * 1000);
 });
-
