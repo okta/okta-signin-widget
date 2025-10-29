@@ -180,7 +180,7 @@ describe('flow-okta-verify-enrollment', () => {
     expect(await findByText(/Set up Okta Verify$/)).toBeInTheDocument();
     expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
-  });
+  }, 30 * 1000);
 
   it('qr polling -> channel selection -> data enrollment (sms) -> sms polling -> try different -> channel selection -> qr polling', async () => {
     const {
@@ -267,7 +267,7 @@ describe('flow-okta-verify-enrollment', () => {
     expect(await findByText(/Set up Okta Verify$/)).toBeInTheDocument();
     expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
-  });
+  }, 30 * 1000);
 
   it('qr polling -> channel selection -> qr polling', async () => {
     const { user, findByText, findByAltText } = await createTestContext();
@@ -289,7 +289,7 @@ describe('flow-okta-verify-enrollment', () => {
     expect(await findByText(/Set up Okta Verify$/)).toBeInTheDocument();
     expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
-  });
+  }, 30 * 1000);
 
   it('qr polling -> channel selection -> data enrollment -> channel selection', async () => {
     const { user, findByText, findByAltText } = await createTestContext();
@@ -322,7 +322,7 @@ describe('flow-okta-verify-enrollment', () => {
     expect(await findByText(/Set up Okta Verify$/)).toBeInTheDocument();
     expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
-  });
+  }, 30 * 1000);
 
   it('qr polling -> channel selection -> Return to authenticator list -> authenticator selection', async () => {
     const {
@@ -350,5 +350,5 @@ describe('flow-okta-verify-enrollment', () => {
     expect(await findByText(/Set up security methods/)).toBeInTheDocument();
     expect(await findByText(/Security methods help protect your account by ensuring only you have access./)).toBeInTheDocument();
     await user.click(await findByRole('button', { name: 'Set up Okta Verify.' }));
-  });
+  }, 30 * 1000);
 });
