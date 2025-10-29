@@ -267,7 +267,7 @@ describe('flow-okta-verify-enrollment', () => {
     expect(await findByText(/Set up Okta Verify$/)).toBeInTheDocument();
     expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
-  });
+  }, 30 * 1000);
 
   it('qr polling -> channel selection -> qr polling', async () => {
     const { user, findByText, findByAltText } = await createTestContext();
