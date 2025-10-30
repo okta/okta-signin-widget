@@ -1,6 +1,6 @@
-import { _, loc, createCallout } from '@okta/courage';
-import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
-import { BaseForm, BaseView, createIdpButtons, createCustomButtons } from '../internals';
+import {_, createCallout, loc} from '@okta/courage';
+import {FORMS as RemediationForms} from '../../ion/RemediationConstants';
+import {BaseForm, BaseView, createCustomButtons, createIdpButtons} from '../internals';
 import CryptoUtil from '../../../util/CryptoUtil';
 import DeviceFingerprinting from '../utils/DeviceFingerprinting';
 import IdentifierFooter from '../components/IdentifierFooter';
@@ -9,12 +9,13 @@ import signInWithIdps from './signin/SignInWithIdps';
 import customButtonsView from './signin/CustomButtons';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
 import signInWithWebAuthn from './signin/SignInWithWebAuthn';
-import { isCustomizedI18nKey, getMessageFromBrowserError } from '../../ion/i18nTransformer';
-import { getForgotPasswordLink } from '../utils/LinksUtil';
+import {getMessageFromBrowserError, isCustomizedI18nKey} from '../../ion/i18nTransformer';
+import {getForgotPasswordLink} from '../utils/LinksUtil';
 import CookieUtil from 'util/CookieUtil';
 import CustomAccessDeniedErrorMessage from './shared/CustomAccessDeniedErrorMessage';
 import Util from 'util/Util';
 import webauthn from '../../../util/webauthn';
+import SignInWithPasskeyButton from "v2/view-builder/components/SignInWithPasskeyButton";
 
 const CUSTOM_ACCESS_DENIED_KEY = 'security.access_denied_custom_message';
 
@@ -95,6 +96,15 @@ const Body = BaseForm.extend({
 
   render() {
     BaseForm.prototype.render.apply(this, arguments);
+
+    this.add(SignInWithPasskeyButton, {
+      selector: '.o-form-fieldset-container',
+      options: {
+        getCredentialsAndInvokeAction: this.getCredentialsAndInvokeAction,
+        formView: this,
+      },
+      prepend: true, // Ensures the button is before the input
+    });
 
     // Launch Device Authenticator
     if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_AUTHENTICATOR)) {
@@ -264,7 +274,7 @@ const Body = BaseForm.extend({
 
       this.options.appState.trigger(
         'invokeAction',
-        RemediationForms.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR, 
+        RemediationForms.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
         { credentials }
       );
     }, (error) => {
