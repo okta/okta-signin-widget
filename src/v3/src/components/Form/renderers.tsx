@@ -62,6 +62,7 @@ import StepperRadio from '../StepperRadio';
 import TextWithActionLink from '../TextWithActionLink';
 import Title from '../Title';
 import WebAuthNAutofill from '../WebAuthNAutofill';
+import WebAuthNSignInWithPasskeyButton from '../WebAuthNSignInWithPasskeyButton';
 import WebAuthNSubmitButton from '../WebAuthNSubmitButton';
 
 /**
@@ -147,6 +148,10 @@ export default [
   {
     tester: ({ type }) => type === 'WebAuthNAutofill',
     renderer: WebAuthNAutofill,
+  },
+  {
+    tester: ({ type }) => type === 'WebAuthNSignInWithPasskeyButton',
+    renderer: WebAuthNSignInWithPasskeyButton,
   },
   {
     tester: ({ type }) => type === 'LoopbackProbe',

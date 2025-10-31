@@ -16,7 +16,7 @@ import {
   TransformStepFnWithOptions,
 } from '../../types';
 import {
-  getCustomButtonElements, getFastPassButtonElement, getIdpButtonElements, loc,
+  getCustomButtonElements, getFastPassButtonElement, getIdpButtonElements, getSignInWithPasskeyButtonElement, loc,
 } from '../../util';
 
 export const transformIDPButtons: TransformStepFnWithOptions = ({
@@ -43,10 +43,12 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
   const idpButtonElements = getIdpButtonElements(transaction, widgetProps);
   // Only identify step contains custom buttons
   const customButtonElements = containsIdentifyStep ? getCustomButtonElements(widgetProps) : [];
+  const signInWithPasskeyButtonEl = getSignInWithPasskeyButtonElement(transaction, widgetProps);
   const buttonsToAdd = [
     ...fastPassButtonElement,
     ...idpButtonElements,
     ...customButtonElements,
+    ...signInWithPasskeyButtonEl,
   ];
 
   if (buttonsToAdd.length < 1) {

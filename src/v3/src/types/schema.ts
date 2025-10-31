@@ -450,6 +450,14 @@ export interface LaunchAuthenticatorButtonElement extends UISchemaElement {
   };
 }
 
+export interface PasskeyButtonElement extends UISchemaElement {
+  type: 'WebAuthNSignInWithPasskeyButton',
+  options: {
+    step: string;
+    getCredentials: ((abortController: AbortController) => Promise<WebAuthNAutofillUICredentials>)
+  }
+}
+
 export interface OpenOktaVerifyFPButtonElement extends UISchemaElement {
   type: 'OpenOktaVerifyFPButton';
   options: {
