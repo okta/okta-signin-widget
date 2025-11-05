@@ -39,7 +39,8 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
   const safelyPrefix = (value: string, prefix: 'ltr' | 'rtl'): string => {
     let resolvedValue = value;
     const prefixes = {
-      ltr: `${rootDirElement}:not(${RTL_ATTR_SELECTOR})`,
+      // ltr: `${rootDirElement}:not(${RTL_ATTR_SELECTOR})`, // FIXME this breaks checkbox
+      ltr: '',
       rtl: RTL_ATTR_SELECTOR,
     };
 
