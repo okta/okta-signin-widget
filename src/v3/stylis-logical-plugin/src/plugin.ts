@@ -39,7 +39,7 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
   const safelyPrefix = (value: string, prefix: 'ltr' | 'rtl'): string => {
     let resolvedValue = value;
     const prefixes = {
-      ltr: `${rootDirElement}:not(${RTL_ATTR_SELECTOR})`,
+      ltr: '', // ltr is the default, no prefix needed
       rtl: RTL_ATTR_SELECTOR,
     };
 
@@ -68,7 +68,7 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
       // to the list of elements to be processed.
       case ('rule'): {
         // do not prefix or copy rules in keyframes
-        if (element.root?.type === '@keyframes' || !element.children?.length) {
+        if (element.root?.type === '@keyframes') {
           break;
         }
 
