@@ -7,7 +7,7 @@ exports[`with emotion environment generates styles for scenario with nested pseu
   padding-bottom: 10px;
 }
 
-#container:not([dir="rtl"]) .emotion-0 {
+.emotion-0 {
   color: red;
   padding-right: 10px;
   padding-bottom: 10px;
@@ -19,8 +19,8 @@ exports[`with emotion environment generates styles for scenario with nested pseu
   color: black;
 }
 
-#container:not([dir="rtl"]) .emotion-0::before,
-#container:not([dir="rtl"]) .emotion-0::after {
+.emotion-0::before,
+.emotion-0::after {
   content: "";
   color: black;
 }
@@ -55,7 +55,7 @@ exports[`with emotion environment generates styles for scenario with nested pseu
   padding-bottom: 10px;
 }
 
-#container:not([dir="rtl"]) .emotion-0 {
+.emotion-0 {
   color: red;
   padding-right: 10px;
   padding-bottom: 10px;
@@ -67,8 +67,8 @@ exports[`with emotion environment generates styles for scenario with nested pseu
   color: black;
 }
 
-#container:not([dir="rtl"]) .emotion-0::before,
-#container:not([dir="rtl"]) .emotion-0::after {
+.emotion-0::before,
+.emotion-0::after {
   content: "";
   color: black;
 }
@@ -93,21 +93,21 @@ exports[`with emotion environment generates styles for scenario with nested pseu
       data-s=""
     >
       
-      #container:not([dir="rtl"]) .emotion-0{color:red;padding-right:10px;padding-bottom:10px;}
+      .emotion-0{color:red;padding-right:10px;padding-bottom:10px;}
     </style>
     <style
       data-emotion="test"
       data-s=""
     >
       
-      [dir="rtl"]  .emotion-0::before,[dir="rtl"]  .emotion-0::after{content:"";color:black;}
+      [dir="rtl"] .emotion-0::before,[dir="rtl"] .emotion-0::after{content:"";color:black;}
     </style>
     <style
       data-emotion="test"
       data-s=""
     >
       
-      #container:not([dir="rtl"])  .emotion-0::before,#container:not([dir="rtl"])  .emotion-0::after{content:"";color:black;}
+      .emotion-0::before,.emotion-0::after{content:"";color:black;}
     </style>
   </div>
   <div>
@@ -125,7 +125,7 @@ exports[`with emotion environment generates styles for simple scenario 1`] = `
   padding-bottom: 10px;
 }
 
-#container:not([dir="rtl"]) .emotion-0 {
+.emotion-0 {
   color: red;
   padding-right: 10px;
   padding-bottom: 10px;
@@ -161,7 +161,7 @@ exports[`with emotion environment generates styles for simple scenario when spee
   padding-bottom: 10px;
 }
 
-#container:not([dir="rtl"]) .emotion-0 {
+.emotion-0 {
   color: red;
   padding-right: 10px;
   padding-bottom: 10px;
@@ -187,7 +187,7 @@ exports[`with emotion environment generates styles for simple scenario when spee
       data-s=""
     >
       
-      #container:not([dir="rtl"]) .emotion-0{color:red;padding-right:10px;padding-bottom:10px;}
+      .emotion-0{color:red;padding-right:10px;padding-bottom:10px;}
     </style>
   </div>
   <div>

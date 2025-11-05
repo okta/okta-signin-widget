@@ -22,7 +22,7 @@ describe('compile, transform, and serialize', () => {
       [dir="rtl"] .a {
         color: red;
       }
-      html:not([dir="rtl"]) .a {
+      .a {
         color: red;
       }
     `));
@@ -39,7 +39,7 @@ describe('compile, transform, and serialize', () => {
       [dir="rtl"] .a {
         margin-left: 5px;
       }
-      html:not([dir="rtl"]) .a {
+      .a {
         margin-right: 5px;
       }
     `));
@@ -58,7 +58,7 @@ describe('compile, transform, and serialize', () => {
         color: red;
         margin-left: 5px;
       }
-      html:not([dir="rtl"]) .a {
+      .a {
         color: red;
         margin-right: 5px;
       }
@@ -76,7 +76,7 @@ describe('compile, transform, and serialize', () => {
       [dir="rtl"] .a, [dir="rtl"] .b {
         margin-left: 5px;
       }
-      html:not([dir="rtl"]) .a, html:not([dir="rtl"]) .b {
+      .a, .b {
         margin-right: 5px;
       }
     `));
@@ -97,7 +97,7 @@ describe('compile, transform, and serialize', () => {
         padding-left: 5px;
         padding-bottom: 5px;
       }
-      html:not([dir="rtl"]) .a {
+      .a {
         color: red;
         padding-right: 5px;
         padding-bottom: 5px;
@@ -118,7 +118,7 @@ describe('compile, transform, and serialize', () => {
           margin-right: 5px;
           margin-left: 5px;
         }
-        html:not([dir="rtl"]) .a {
+        .a {
           margin-right: 5px;
           margin-left: 5px;
         }
@@ -137,7 +137,7 @@ describe('compile, transform, and serialize', () => {
           margin-right: 5px;
           margin-left: 10px;
         }
-        html:not([dir="rtl"]) .a {
+        .a {
           margin-right: 10px;
           margin-left: 5px;
         }
@@ -157,7 +157,7 @@ describe('compile, transform, and serialize', () => {
         [dir="rtl"] .a {
           height: 5px;
         }
-        html:not([dir="rtl"]) .a {
+        .a {
           height: 5px;
         }
       `));
@@ -178,7 +178,7 @@ describe('compile, transform, and serialize', () => {
           margin-bottom: 5px;
           bottom: 5px 10px;
         }
-        html:not([dir="rtl"]) .a {
+        .a {
           margin-top: 5px;
           top: 5px 10px;
           margin-bottom: 5px;
@@ -200,7 +200,7 @@ describe('compile, transform, and serialize', () => {
         [dir="rtl"] .a {
           clear: both;
         }
-        html:not([dir="rtl"]) .a {
+        .a {
           clear: both;
         }
       `));
@@ -217,7 +217,7 @@ describe('compile, transform, and serialize', () => {
         [dir="rtl"] .a {
           clear: right;
         }
-        html:not([dir="rtl"]) .a {
+        .a {
           clear: left;
         }
       `));
@@ -242,7 +242,7 @@ describe('compile, transform, and serialize', () => {
         [dir="rtl"] .a {
           color: red;
         }
-        html:not([dir="rtl"]) .a {
+.a {
           color: red;
         }
         @media only screen and (max-width: 100px) {
@@ -250,7 +250,7 @@ describe('compile, transform, and serialize', () => {
             color: white;
             margin-left: 5px;
           }
-          html:not([dir="rtl"]) .a {
+          .a {
             color: white;
             margin-right: 5px;
           }
@@ -275,13 +275,13 @@ describe('compile, transform, and serialize', () => {
         [dir="rtl"] .a {
           color: white;
         }
-        html:not([dir="rtl"]) .a {
+        .a {
           color: white;
         }
         [dir="rtl"] .a::before, [dir="rtl"] .a::after {
           color: red;
         }
-        html:not([dir="rtl"]) .a::before, html:not([dir="rtl"]) .a::after {
+        .a::before, .a::after {
           color: red;
         }
       `));

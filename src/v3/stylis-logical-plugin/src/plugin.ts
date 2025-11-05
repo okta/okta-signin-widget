@@ -53,7 +53,8 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
       return false;
     });
 
-    return `${prefixes[prefix]} ${resolvedValue}`;
+    const selectedPrefix = prefixes[prefix];
+    return selectedPrefix ? `${selectedPrefix} ${resolvedValue}` : resolvedValue;
   };
 
   const plugin = function stylisLogicalPlugin(
