@@ -39,7 +39,9 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
   const safelyPrefix = (value: string, prefix: 'ltr' | 'rtl'): string => {
     let resolvedValue = value;
     const prefixes = {
-      ltr: '', // ltr is the default, no prefix needed
+      // LTR is the default direction, so no prefix is needed. This allows RTL rules
+      // with [dir="rtl"] to have higher specificity and properly override LTR rules.
+      ltr: '',
       rtl: RTL_ATTR_SELECTOR,
     };
 
