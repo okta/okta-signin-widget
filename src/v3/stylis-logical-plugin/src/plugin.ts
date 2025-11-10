@@ -56,6 +56,15 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
   };
 
   /**
+   * Check if a property is a spacing property (margin, padding, inset).
+   */
+  const isSpacingProperty = (property: string): boolean => {
+    return property.startsWith('margin') || 
+           property.startsWith('padding') || 
+           property.startsWith('inset');
+  };
+
+  /**
    * Check if a declaration actually needs logical transformation.
    * For properties with logical directional values (like clear, float, text-align),
    * we need to check if the value itself is logical, not just the property name.
@@ -86,6 +95,32 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
     return true;
   };
 
+  /**
+   * Check if a child should be included with logical properties.
+   * This includes:
+   * 1. Properties that need logical transformation
+   * 2. Related spacing properties (to keep all spacing together)
+   */
+  const shouldIncludeWithLogical = (child: any, hasLogicalSpacing: boolean): boolean => {
+    if (child.type !== 'decl') {
+      return false;
+    }
+
+    const property = child.props;
+
+    // Always include if it needs logical transform
+    if (needsLogicalTransform(child)) {
+      return true;
+    }
+
+    // If there are logical spacing properties, include all spacing properties together
+    if (hasLogicalSpacing && isSpacingProperty(property)) {
+      return true;
+    }
+
+    return false;
+  };
+
   const plugin = function stylisLogicalPlugin(
     element: MiddlewareParams[0],
     index: MiddlewareParams[1],
@@ -110,12 +145,23 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
           break;
         }
 
-        // Separate logical and non-logical properties
+        // First pass: identify if there are any logical spacing properties
+        let hasLogicalSpacing = false;
+        element.children?.forEach((child) => {
+          if (child.type === 'decl' && needsLogicalTransform(child)) {
+            const property = child.props;
+            if (isSpacingProperty(property)) {
+              hasLogicalSpacing = true;
+            }
+          }
+        });
+
+        // Second pass: separate properties based on whether they should be with logical transforms
         const logicalChildren: typeof element.children = [];
         const nonLogicalChildren: typeof element.children = [];
 
         element.children?.forEach((child) => {
-          if (needsLogicalTransform(child)) {
+          if (shouldIncludeWithLogical(child, hasLogicalSpacing)) {
             logicalChildren.push(child);
           } else {
             nonLogicalChildren.push(child);
