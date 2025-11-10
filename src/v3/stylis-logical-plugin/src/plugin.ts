@@ -39,9 +39,7 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
   const safelyPrefix = (value: string, prefix: 'ltr' | 'rtl'): string => {
     let resolvedValue = value;
     const prefixes = {
-      // LTR is the default direction, so no prefix is needed. This allows RTL rules
-      // with [dir="rtl"] to have higher specificity and properly override LTR rules.
-      ltr: '',
+      ltr: `${rootDirElement}:not(${RTL_ATTR_SELECTOR})`,
       rtl: RTL_ATTR_SELECTOR,
     };
 
@@ -55,6 +53,37 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
 
     const selectedPrefix = prefixes[prefix];
     return selectedPrefix ? `${selectedPrefix} ${resolvedValue}` : resolvedValue;
+  };
+
+  /**
+   * Check if a declaration actually needs logical transformation.
+   * For properties with logical directional values (like clear, float, text-align),
+   * we need to check if the value itself is logical, not just the property name.
+   */
+  const needsLogicalTransform = (child: any): boolean => {
+    if (child.type !== 'decl') {
+      return false;
+    }
+
+    const property = child.props;
+
+    // Check if property is in transforms map
+    if (!transforms.has(property)) {
+      return false;
+    }
+
+    // For properties that only transform specific values (clear, float, text-align),
+    // check if the value actually needs transformation
+    const propertiesWithLogicalValues = ['clear', 'float', 'text-align'];
+    const logicalDirectionalValues = ['inline-start', 'inline-end', 'start', 'end'];
+
+    if (propertiesWithLogicalValues.includes(property)) {
+      const value = child.children;
+      return logicalDirectionalValues.includes(value);
+    }
+
+    // For all other logical properties (margin-inline-start, etc.), they always need transformation
+    return true;
   };
 
   const plugin = function stylisLogicalPlugin(
@@ -77,39 +106,55 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
 
         // check if this already has rtl/ltr return sentinel value,
         // if so, skip because we created it earlier
-        if ([LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR].includes(element.return)) {
+        if ([LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR, 'BASE'].includes(element.return)) {
           break;
         }
 
-        const ltrElement = element;
+        // Separate logical and non-logical properties
+        const logicalChildren: typeof element.children = [];
+        const nonLogicalChildren: typeof element.children = [];
 
-        // make a copy of element, mark as [dir="rtl"]
-        const rtlElement = copy(ltrElement, {
-          // need to spread this in because `copy` doesn't deeply copy the array
-          props: [...ltrElement.props],
-          // set sentinel value on `return` to be used later
-          return: RTL_ATTR_SELECTOR,
+        element.children?.forEach((child) => {
+          if (needsLogicalTransform(child)) {
+            logicalChildren.push(child);
+          } else {
+            nonLogicalChildren.push(child);
+          }
         });
 
-        // also do deep copy of the children so we have new references
-        rtlElement.children = ltrElement.children.map((e) => copy(e, {
-          // point the `root` and `parent` references at the new rtl element
+        // If no logical properties, just let the rule pass through once
+        if (logicalChildren.length === 0) {
+          break;
+        }
+
+        // Reuse the original element as the base element to prevent duplication
+        const baseElement = element;
+        baseElement.children = nonLogicalChildren;
+        baseElement.return = 'BASE'; // sentinel to prevent re-processing
+
+        // Create LTR rule with only logical properties
+        const ltrElement = copy(element, {
+          props: element.props.map((prop) => safelyPrefix(prop, 'ltr')),
+          return: LTR_ATTR_SELECTOR,
+        });
+        // Map children AFTER creating ltrElement so they reference the correct parent
+        ltrElement.children = logicalChildren.map((e) => copy(e, {
+          root: ltrElement,
+          parent: ltrElement,
+        }));
+
+        // Create RTL rule with only logical properties
+        const rtlElement = copy(element, {
+          props: element.props.map((prop) => safelyPrefix(prop, 'rtl')),
+          return: RTL_ATTR_SELECTOR,
+        });
+        // Map children AFTER creating rtlElement so they reference the correct parent
+        rtlElement.children = logicalChildren.map((e) => copy(e, {
           root: rtlElement,
           parent: rtlElement,
         }));
 
-        // apply [dir="rtl"] to all rules in this ruleset
-        rtlElement.props = rtlElement.props.map((prop) => safelyPrefix(prop, 'rtl'));
-
-        // apply ${rootDirElement}:not([dir="rtl"]) to all rules in this ruleset
-        // this works since we assume ltr is the implicit writing direction and avoids rulesets
-        // for rtl and ltr overlapping when an inner element has a writing direction override.
-        ltrElement.props = ltrElement.props.map((prop) => safelyPrefix(prop, 'ltr'));
-        // set sentinel value on `return` to be used later
-        ltrElement.return = LTR_ATTR_SELECTOR;
-
-        // serialize the new rtl element immediately
-        return serialize([rtlElement], callback);
+        return serialize([ltrElement, rtlElement], callback);
       }
       // inspect DECLARATION type
       // if the element is a declaration, transform the declaration depending on the logical
