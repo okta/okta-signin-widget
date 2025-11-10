@@ -14,6 +14,10 @@ type PluginOptions = {
   rootDirElement: string;
 };
 
+const SELECTOR_SKIP_LIST = [
+  '-MuiInputAdornment-root',
+];
+
 /**
  * This stylis plugin transforms CSS logical properties to their equivalent physical ones.
  * In some cases, this means generating a second set of rules for the RTL (right-to-left)
@@ -170,6 +174,11 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
 
         // If no logical properties, just let the rule pass through once
         if (logicalChildren.length === 0) {
+          break;
+        }
+
+        // Skip transformation for selectors in the skip list (rtl not well supported scenarios)
+        if (SELECTOR_SKIP_LIST.some(item => element.value.includes(item))) {
           break;
         }
 
