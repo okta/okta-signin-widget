@@ -1123,7 +1123,7 @@ hcaptcha: {
   }
 },
 ```
-
+Lu test
 #### reCAPTCHA options
 
 Set the following config options to customize `reCAPTCHA` script URI:
