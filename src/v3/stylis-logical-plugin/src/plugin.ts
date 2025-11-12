@@ -150,14 +150,12 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
         }
 
         // First pass: identify if there are any logical spacing properties
-        let hasLogicalSpacing = false;
-        element.children?.forEach((child) => {
+        const hasLogicalSpacing = !!element.children?.some((child) => {
           if (child.type === 'decl' && needsLogicalTransform(child)) {
             const property = child.props;
-            if (isSpacingProperty(property)) {
-              hasLogicalSpacing = true;
-            }
+            return isSpacingProperty(property);
           }
+          return false;
         });
 
         // Second pass: separate properties based on whether they should be with logical transforms
