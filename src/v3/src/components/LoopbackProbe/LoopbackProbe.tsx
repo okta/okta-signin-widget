@@ -29,23 +29,43 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
   },
 }) => {
   const widgetContext = useWidgetContext();
-  const { authClient, idxTransaction, setIdxTransaction } = widgetContext;
+  const {
+    authClient,
+    pollingTransaction,
+    idxTransaction,
+    setIdxTransaction,
+  } = widgetContext;
 
+  // Use pollingTransaction if available to get latest challengeRequest during active polling
+  // Fall back to idxTransaction for initial state
+  const activeTransaction = pollingTransaction || idxTransaction;
+
+  // Extract fresh deviceChallengePayload from active transaction using same logic as transformer
+  // This ensures we respond to new challenges during continuous polling
+  const liveDeviceChallengePayload = activeTransaction?.nextStep?.name === 'device-challenge-poll'
+    ? activeTransaction.nextStep?.relatesTo?.value
+    // @ts-expect-error challenge is not defined on contextualData
+    : activeTransaction?.nextStep?.relatesTo?.value?.contextualData?.challenge?.value;
+
+  // Use static config from initial deviceChallengePayload (doesn't change during polling)
   const probeTimeoutMillis: number = typeof deviceChallengePayload.probeTimeoutMillis === 'undefined'
     ? 100 : deviceChallengePayload.probeTimeoutMillis;
   const ports: string[] = deviceChallengePayload.ports || [];
   const {
     domain,
     httpsDomain,
-    challengeRequest,
   } = deviceChallengePayload;
+
+  // Get latest challengeRequest from live transaction, fall back to initial value
+  const challengeRequest = liveDeviceChallengePayload?.challengeRequest
+    || deviceChallengePayload.challengeRequest;
 
   const submitHandler = async (stepName: string) => {
     const payload: IdxActionParams = {
       step: stepName,
     };
-    if (typeof idxTransaction?.context.stateHandle !== 'undefined') {
-      payload.stateHandle = idxTransaction.context.stateHandle;
+    if (typeof activeTransaction?.context.stateHandle !== 'undefined') {
+      payload.stateHandle = activeTransaction.context.stateHandle;
     }
     const newTransaction = await authClient?.idx.proceed(payload);
     setIdxTransaction(newTransaction);
@@ -58,8 +78,8 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
         params,
       }],
     };
-    if (typeof idxTransaction?.context.stateHandle !== 'undefined') {
-      payload.stateHandle = idxTransaction.context.stateHandle;
+    if (typeof activeTransaction?.context.stateHandle !== 'undefined') {
+      payload.stateHandle = activeTransaction.context.stateHandle;
     }
     const newTransaction = await authClient?.idx.proceed(payload);
     setIdxTransaction(newTransaction);
