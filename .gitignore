@@ -9,6 +9,7 @@ build2
 .widgetrc
 .widgetrc.js
 .vscode
+!.vscode/launch.json
 .DS_Store
 *.iml
 .idea
