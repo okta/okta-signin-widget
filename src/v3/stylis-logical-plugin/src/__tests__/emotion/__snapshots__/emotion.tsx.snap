@@ -1,26 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`with emotion environment generates styles for scenario with nested pseudoclass 1`] = `
-[dir="rtl"] .emotion-0 {
-  color: red;
-  padding-left: 10px;
-  padding-bottom: 10px;
-}
-
 #container:not([dir="rtl"]) .emotion-0 {
-  color: red;
   padding-right: 10px;
   padding-bottom: 10px;
 }
 
-[dir="rtl"] .emotion-0::before,
-[dir="rtl"] .emotion-0::after {
-  content: "";
-  color: black;
+[dir="rtl"] .emotion-0 {
+  padding-left: 10px;
+  padding-bottom: 10px;
 }
 
-#container:not([dir="rtl"]) .emotion-0::before,
-#container:not([dir="rtl"]) .emotion-0::after {
+.emotion-0 {
+  color: red;
+}
+
+.emotion-0::before,
+.emotion-0::after {
   content: "";
   color: black;
 }
@@ -49,26 +45,22 @@ exports[`with emotion environment generates styles for scenario with nested pseu
 `;
 
 exports[`with emotion environment generates styles for scenario with nested pseudoclass when speedy is disabled 1`] = `
-[dir="rtl"] .emotion-0 {
-  color: red;
-  padding-left: 10px;
-  padding-bottom: 10px;
-}
-
 #container:not([dir="rtl"]) .emotion-0 {
-  color: red;
   padding-right: 10px;
   padding-bottom: 10px;
 }
 
-[dir="rtl"] .emotion-0::before,
-[dir="rtl"] .emotion-0::after {
-  content: "";
-  color: black;
+[dir="rtl"] .emotion-0 {
+  padding-left: 10px;
+  padding-bottom: 10px;
 }
 
-#container:not([dir="rtl"]) .emotion-0::before,
-#container:not([dir="rtl"]) .emotion-0::after {
+.emotion-0 {
+  color: red;
+}
+
+.emotion-0::before,
+.emotion-0::after {
   content: "";
   color: black;
 }
@@ -86,28 +78,28 @@ exports[`with emotion environment generates styles for scenario with nested pseu
       data-s=""
     >
       
-      [dir="rtl"] .emotion-0{color:red;padding-left:10px;padding-bottom:10px;}
+      #container:not([dir="rtl"]) .emotion-0{padding-right:10px;padding-bottom:10px;}
     </style>
     <style
       data-emotion="test"
       data-s=""
     >
       
-      #container:not([dir="rtl"]) .emotion-0{color:red;padding-right:10px;padding-bottom:10px;}
+      [dir="rtl"] .emotion-0{padding-left:10px;padding-bottom:10px;}
     </style>
     <style
       data-emotion="test"
       data-s=""
     >
       
-      [dir="rtl"]  .emotion-0::before,[dir="rtl"]  .emotion-0::after{content:"";color:black;}
+      .emotion-0{color:red;}
     </style>
     <style
       data-emotion="test"
       data-s=""
     >
       
-      #container:not([dir="rtl"])  .emotion-0::before,#container:not([dir="rtl"])  .emotion-0::after{content:"";color:black;}
+      .emotion-0::before,.emotion-0::after{content:"";color:black;}
     </style>
   </div>
   <div>
@@ -119,16 +111,18 @@ exports[`with emotion environment generates styles for scenario with nested pseu
 `;
 
 exports[`with emotion environment generates styles for simple scenario 1`] = `
+#container:not([dir="rtl"]) .emotion-0 {
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
 [dir="rtl"] .emotion-0 {
-  color: red;
   padding-left: 10px;
   padding-bottom: 10px;
 }
 
-#container:not([dir="rtl"]) .emotion-0 {
+.emotion-0 {
   color: red;
-  padding-right: 10px;
-  padding-bottom: 10px;
 }
 
 <body>
@@ -155,16 +149,18 @@ exports[`with emotion environment generates styles for simple scenario 1`] = `
 `;
 
 exports[`with emotion environment generates styles for simple scenario when speedy is disabled 1`] = `
+#container:not([dir="rtl"]) .emotion-0 {
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
 [dir="rtl"] .emotion-0 {
-  color: red;
   padding-left: 10px;
   padding-bottom: 10px;
 }
 
-#container:not([dir="rtl"]) .emotion-0 {
+.emotion-0 {
   color: red;
-  padding-right: 10px;
-  padding-bottom: 10px;
 }
 
 <body>
@@ -180,14 +176,21 @@ exports[`with emotion environment generates styles for simple scenario when spee
       data-s=""
     >
       
-      [dir="rtl"] .emotion-0{color:red;padding-left:10px;padding-bottom:10px;}
+      #container:not([dir="rtl"]) .emotion-0{padding-right:10px;padding-bottom:10px;}
     </style>
     <style
       data-emotion="test"
       data-s=""
     >
       
-      #container:not([dir="rtl"]) .emotion-0{color:red;padding-right:10px;padding-bottom:10px;}
+      [dir="rtl"] .emotion-0{padding-left:10px;padding-bottom:10px;}
+    </style>
+    <style
+      data-emotion="test"
+      data-s=""
+    >
+      
+      .emotion-0{color:red;}
     </style>
   </div>
   <div>

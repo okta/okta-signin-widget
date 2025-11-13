@@ -67,7 +67,7 @@ describe('with emotion environment', () => {
       </CacheProvider>,
     );
 
-    expect(document.getElementsByTagName('style')).toHaveLength(2);
+    expect(document.getElementsByTagName('style')).toHaveLength(3);
 
     expect(body).toMatchSnapshot();
   });
