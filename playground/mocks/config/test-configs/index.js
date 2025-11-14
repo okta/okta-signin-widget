@@ -22,4 +22,6 @@ module.exports = {
   WidgetCustomization: require('./WidgetCustomization'),
   EnrollAuthenticatorEmail: require('./EnrollAuthenticatorEmail'),
   UserUnlockAccountLandingApp: require('./UserUnlockAccountLandingApp'),
+  OVAuthenticatorEmailEnrollOnSignOnSameDeviceEnrollmentDisabled: 
+    require('./OVAuthenticatorEmailEnrollOnSignOnSameDeviceEnrollmentDisabled'),
 };
