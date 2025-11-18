@@ -178,6 +178,24 @@ const getSignUpLink = (appState, settings) => {
   return signupLink;
 };
 
+const getGracePeriodRequiredSoonCustomLink = (settings) => {
+  let gracePeriodRequiredSoonCustomLink;
+
+  const gracePeriodRequiredSoonCustomLinkLabel = settings.get('helpLinks.gracePeriodRequiredSoon.text');
+  const gracePeriodRequiredSoonCustomLinkHref = settings.get('helpLinks.gracePeriodRequiredSoon.href');
+
+  if (gracePeriodRequiredSoonCustomLinkLabel && gracePeriodRequiredSoonCustomLinkHref) {
+    gracePeriodRequiredSoonCustomLink = {
+      type: 'link',
+      label: gracePeriodRequiredSoonCustomLinkLabel,
+      name: 'gracePeriodRequiredSoonCustomLink',
+      href: gracePeriodRequiredSoonCustomLinkHref,
+      target: '_blank',
+    };
+  }
+  return gracePeriodRequiredSoonCustomLink;
+};
+
 const getFactorPageCustomLink = (appState, settings) => {
   const factorPageCustomLink = [];
   const formsNeedFactorPageCustomLink = [
@@ -214,4 +232,5 @@ export {
   getSkipSetupLink,
   getReloadPageButtonLink,
   getFactorPageCustomLink,
+  getGracePeriodRequiredSoonCustomLink,
 };

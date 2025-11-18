@@ -16,7 +16,8 @@ import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import { WidgetProps } from '../types';
 import {
   getBackToSignInUri, getCustomHelpLinks, getDefaultCountryCode, getFactorPageCustomLink,
-  getForgotPasswordUri, getHelpLink, getLanguageCode, getPageTitle, getUnlockAccountUri,
+  getForgotPasswordUri, getGracePeriodRequiredSoonCustomLink,
+  getHelpLink, getLanguageCode, getPageTitle, getUnlockAccountUri,
   transformIdentifier,
 } from './settingsUtils';
 
@@ -107,6 +108,10 @@ describe('Settings Utils Tests', () => {
           text: 'custom factor page link',
           href: 'https://acme.com/what-is-okta-autheticators',
         },
+        gracePeriodRequiredSoon: {
+          text: 'custom grace period link',
+          href: 'https://acme.com/grace-period-info',
+        },
       },
       backToSignInLink: 'https://okta.okta.com/',
     };
@@ -128,6 +133,10 @@ describe('Settings Utils Tests', () => {
     expect(getFactorPageCustomLink(widgetProps)).toStrictEqual({
       text: 'custom factor page link',
       href: 'https://acme.com/what-is-okta-autheticators',
+    });
+    expect(getGracePeriodRequiredSoonCustomLink(widgetProps)).toStrictEqual({
+      text: 'custom grace period link',
+      href: 'https://acme.com/grace-period-info',
     });
   });
 

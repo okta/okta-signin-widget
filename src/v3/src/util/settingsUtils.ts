@@ -155,6 +155,11 @@ export const getCustomHelpLinks = (widgetProps: WidgetProps): CustomLink[] => {
   return custom || [];
 };
 
+export const getGracePeriodRequiredSoonCustomLink = (widgetProps: WidgetProps): Omit<CustomLink, 'target'> | undefined => {
+  const { gracePeriodRequiredSoon } = widgetProps.helpLinks || {};
+  return typeof gracePeriodRequiredSoon !== 'undefined' && 'href' in gracePeriodRequiredSoon ? gracePeriodRequiredSoon : undefined;
+};
+
 export const getFactorPageCustomLink = (widgetProps: WidgetProps): Omit<CustomLink, 'target'> | undefined => {
   const { factorPage } = widgetProps.helpLinks || {};
   return typeof factorPage !== 'undefined' && 'href' in factorPage ? factorPage : undefined;

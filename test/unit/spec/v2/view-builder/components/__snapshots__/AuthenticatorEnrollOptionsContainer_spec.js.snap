@@ -538,6 +538,17 @@ exports[`v2/view-builder/components/AuthenticatorEnrollOptionsContainer renders 
         When the deadline passes, you won’t be able to sign in until you complete setup.
       </p>
       <div
+        class="authenticator-list-subtitle-link-container"
+      >
+        <a
+          href="https://acme.com/grace-period-info"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          custom grace period link
+        </a>
+      </div>
+      <div
         class="authenticator-row clearfix"
       >
         <div

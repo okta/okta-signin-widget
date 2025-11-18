@@ -153,6 +153,11 @@ export default ListView.extend({
         {{subtitle}}
       </p>
     {{/if}}
+    {{#if subtitleLinkOptions}}
+      <div class="authenticator-list-subtitle-link-container">
+        <a href={{subtitleLinkOptions.href}} target="_blank" rel="noopener noreferrer">{{subtitleLinkOptions.label}}</a>
+      </div>
+    {{/if}}
   </div>`,
 
   getTemplateData() {
@@ -161,6 +166,7 @@ export default ListView.extend({
     return {
       title: this.options.listTitle || title,
       subtitle: this.options.listSubtitle || null,
+      subtitleLinkOptions: this.options.listSubtitleLinkOptions || null,
     };
   }
 
