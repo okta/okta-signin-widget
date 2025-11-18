@@ -12,6 +12,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     testContext.init = (
       authenticators,
       skipRemediation,
+      settingsOptions = {},
     ) => {
       const currentViewState = {
         name: 'select-authenticator-enroll',
@@ -24,7 +25,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
       );
       appState.set('idx', {neededToProceed: []});
 
-      const settings = new Settings({ baseUrl: 'http://localhost:3000' });
+      const settings = new Settings({ baseUrl: 'http://localhost:3000', ...settingsOptions });
 
       jest.spyOn(Date, 'now').mockReturnValue(new Date('12/30/2023').getTime());
       jest.spyOn(appState, 'hasRemediationObject').mockReturnValue(skipRemediation);
@@ -136,11 +137,17 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
         authenticatorKey: 'webauthn',
       },
     ];
-    testContext.init(authenticators, true);
+    const settings = {
+      'helpLinks.gracePeriodRequiredSoon.text': 'custom grace period link',
+      'helpLinks.gracePeriodRequiredSoon.href': 'https://acme.com/grace-period-info',
+    };
+    testContext.init(authenticators, true, settings);
     expect(testContext.view.el).toMatchSnapshot();
     expect(testContext.view.$('.authenticator-list-title').length).toBe(1);
     expect(testContext.view.$('.authenticator-list-title').text()).toBe('Required soon');
     expect(testContext.view.$('.authenticator-list-subtitle').length).toBe(1);
+    expect(testContext.view.$('.authenticator-list-subtitle-link-container').length).toBe(1);
+    expect(testContext.view.$('.authenticator-list-subtitle-link-container a').text()).toBe('custom grace period link');
     expect(testContext.view.$('.authenticator-row').length).toBe(2);
     expect(testContext.view.$('.authenticator-usage-text').length).toBe(0);
     expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(2);
@@ -197,6 +204,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.$('.authenticator-list-title')[0].textContent).toBe('Required now');
     expect(testContext.view.$('.authenticator-list-title')[1].textContent).toBe('Required soon');
     expect(testContext.view.$('.authenticator-list-subtitle').length).toBe(1);
+    expect(testContext.view.$('.authenticator-list-subtitle-link-container').length).toBe(0);
     expect(testContext.view.$('.authenticator-row').length).toBe(2);
     expect(testContext.view.$('.authenticator-usage-text').length).toBe(1);
     expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(1);
