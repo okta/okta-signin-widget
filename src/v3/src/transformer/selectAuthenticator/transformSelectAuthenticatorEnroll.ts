@@ -21,10 +21,11 @@ import {
   DescriptionElement,
   HeadingElement,
   IdxStepTransformer,
+  LinkElement,
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { getSupportedLanguages, loc } from '../../util';
+import { getGracePeriodRequiredSoonCustomLink, getSupportedLanguages, loc } from '../../util';
 import { getAuthenticatorEnrollButtonElements } from './utils';
 
 const getContentDescrAndParams = (brandName?: string): TitleElement['options'] => {
@@ -142,6 +143,22 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     },
   };
 
+  const customLink = getGracePeriodRequiredSoonCustomLink(widgetProps);
+  let gracePeriodRequiredSoonCustomLink: LinkElement | undefined;
+  if (customLink) {
+    const { href, text } = customLink;
+    gracePeriodRequiredSoonCustomLink = {
+      type: 'Link',
+      options: {
+        href,
+        target: '_blank',
+        step: '',
+        label: text,
+        dataSe: 'gracePeriodRequiredSoonCustomLink',
+      },
+    };
+  }
+
   const authenticatorListElementWithGracePeriod: AuthenticatorButtonListElement[] = [];
   if (authenticatorButtonsWithGracePeriod.length) {
     authenticatorListElementWithGracePeriod.push({
@@ -178,12 +195,14 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
       ...authenticatorListElementDueNow,
       headingRequiredSoon,
       descriptionGracePeriod,
+      ...(gracePeriodRequiredSoonCustomLink ? [gracePeriodRequiredSoonCustomLink] : []),
       ...authenticatorListElementWithGracePeriod,
     );
   } else if (authenticatorListElementWithGracePeriod.length) {
     elements.push(
       headingRequiredSoon,
       descriptionGracePeriod,
+      ...(gracePeriodRequiredSoonCustomLink ? [gracePeriodRequiredSoonCustomLink] : []),
       ...authenticatorListElementWithGracePeriod,
     );
   } else {

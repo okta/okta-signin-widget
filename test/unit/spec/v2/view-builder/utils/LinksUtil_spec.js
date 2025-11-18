@@ -1,6 +1,6 @@
 import AppState from 'v2/models/AppState';
 import { FORMS } from 'v2/ion/RemediationConstants';
-import { getSwitchAuthenticatorLink, getFactorPageCustomLink, getBackToSignInLink, getSignOutLink } from 'v2/view-builder/utils/LinksUtil';
+import { getSwitchAuthenticatorLink, getFactorPageCustomLink, getBackToSignInLink, getSignOutLink, getGracePeriodRequiredSoonCustomLink } from 'v2/view-builder/utils/LinksUtil';
 import Settings from '../../../../../../src/models/Settings';
 
 describe('v2/utils/LinksUtil', function() {
@@ -109,6 +109,20 @@ describe('v2/utils/LinksUtil', function() {
         'helpLinks.factorPage.href': 'https://acme.com/what-is-okta-autheticators',
       });
       expect(getFactorPageCustomLink(appState, settings).length).toEqual(0);
+    });
+  });
+
+  describe('getGracePeriodRequiredSoonCustomLink', () => {
+    it('returns custom link info', function() {
+      const settings = new Settings({
+        baseUrl: 'https://foo',
+        'helpLinks.gracePeriodRequiredSoon.text': 'custom grace period link',
+        'helpLinks.gracePeriodRequiredSoon.href': 'https://acme.com/grace-period-info',
+      });
+      const gracePeriodRequiredSoonCustomLink = getGracePeriodRequiredSoonCustomLink(settings);
+      expect(gracePeriodRequiredSoonCustomLink.label).toEqual('custom grace period link');
+      expect(gracePeriodRequiredSoonCustomLink.href).toEqual('https://acme.com/grace-period-info');
+      expect(gracePeriodRequiredSoonCustomLink.target).toEqual('_blank');
     });
   });
 
