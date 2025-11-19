@@ -37,7 +37,7 @@ const getContentDescrAndParams = (brandName?: string): TitleElement['options'] =
   return { content: loc('oie.select.authenticators.enroll.subtitle', 'login') };
 };
 
-const isGracePeriodStillActive = (expiry: string): boolean => {
+const isGracePeriodExpiryStillActive = (expiry: string): boolean => {
   const currentTimestampMs = Date.now();
   const gracePeriodTimestampMs = new Date(expiry).getTime();
   // using isNaN as ie11 does not support Number.isNaN
@@ -70,9 +70,14 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
   const authenticatorsDueNow : IdxOption[] = [];
   authenticator.options.forEach((option) => {
     // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
-    if (option.relatesTo?.gracePeriod?.expiry
+    const hasActiveGracePeriodExpiry = option.relatesTo?.gracePeriod?.expiry
       // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
-      && isGracePeriodStillActive(option.relatesTo?.gracePeriod?.expiry)) {
+      && isGracePeriodExpiryStillActive(option.relatesTo?.gracePeriod?.expiry);
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    const hasActiveSkipCount = option.relatesTo?.gracePeriod?.skipCount
+      // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+      && option.relatesTo?.gracePeriod?.skipCount > 0;
+    if (hasActiveGracePeriodExpiry || hasActiveSkipCount) {
       authenticatorsWithGracePeriod.push(option);
     } else {
       authenticatorsDueNow.push(option);

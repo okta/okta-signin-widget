@@ -808,6 +808,185 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues[1].options.ctaLabel).toBe('enroll.choices.setup.another');
       expect(authenticatorOptionValues[1].options.gracePeriodExpiry).toBeNull();
       expect(authenticatorOptionValues[1].options.gracePeriodRequiredDescription).toBeNull();
+      expect(authenticatorOptionValues[1].options.gracePeriodSkipCountDescription).toBeNull();
+    });
+
+    it('Correctly displays options for grace periods with skip counts', () => {
+      const mockDate = jest.spyOn(TimeUtil, 'formatDateToDeviceAssuranceGracePeriodExpiryLocaleString').mockReturnValue('09/27/2035, 06:00 PM EDT');
+      const authenticatorEnrollments: IdxAuthenticator[] = [];
+      const options: IdxOption[] = [
+        {
+          label: 'Password',
+          value: [
+            { name: 'methodType', value: 'password' },
+            { name: 'id', value: '1234abc' },
+          ],
+          relatesTo: {
+            id: '',
+            type: 'password',
+            methods: [{ type: 'password' }],
+            displayName: 'Okta Password',
+            key: AUTHENTICATOR_KEY.PASSWORD,
+            gracePeriod: {
+              id: 'gpe4hiasrPJX4zwZY123',
+              expiry: '2035-09-27 18:00:00.000.',
+            },
+          },
+        },
+        {
+          label: 'Email',
+          value: [
+            { name: 'methodType', value: 'email' },
+            { name: 'id', value: '1235abc' },
+          ],
+          relatesTo: {
+            id: '',
+            type: 'email',
+            methods: [{ type: 'email' }],
+            displayName: 'Okta Email',
+            key: AUTHENTICATOR_KEY.EMAIL,
+            gracePeriod: {
+              id: 'gpe4hiasrPJX4zwZY123',
+              skipCount: 3,
+            },
+          },
+        },
+        {
+          label: 'Phone',
+          value: [
+            { name: 'methodType', value: 'phone' },
+            { name: 'id', value: '1236abc' },
+          ],
+          relatesTo: {
+            id: '',
+            type: 'phone',
+            methods: [{ type: 'phone' }],
+            displayName: 'Phone',
+            key: AUTHENTICATOR_KEY.PHONE,
+            gracePeriod: {
+              id: 'gpe4hiasrPJX4zwZY123',
+              skipCount: 1,
+            },
+          },
+        },
+      ];
+
+      const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(
+        options, stepName, ['en-us'], authenticatorEnrollments,
+      );
+
+      expect(authenticatorOptionValues).toMatchSnapshot();
+      expect(authenticatorOptionValues.length).toBe(3);
+      expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.PASSWORD);
+      expect(authenticatorOptionValues[0].label).toBe('Password');
+      expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[0].options.gracePeriodExpiry).toBe('09/27/2035, 06:00 PM EDT');
+      expect(authenticatorOptionValues[0].options.gracePeriodRequiredDescription).toBe('oie.enrollment.policy.grace.period.required.in.days');
+
+      // Expired grace period will render without them
+      expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.EMAIL);
+      expect(authenticatorOptionValues[1].label).toBe('Email');
+      expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[1].options.gracePeriodExpiry).toBeNull();
+      expect(authenticatorOptionValues[1].options.gracePeriodRequiredDescription).toBeNull();
+      expect(authenticatorOptionValues[1].options.gracePeriodSkipCountDescription).toBe('oie.enrollment.policy.grace.period.required.in.number.of.skips');
+
+      expect(authenticatorOptionValues[2].options.key).toBe(AUTHENTICATOR_KEY.PHONE);
+      expect(authenticatorOptionValues[2].label).toBe('Phone');
+      expect(authenticatorOptionValues[2].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[2].options.gracePeriodExpiry).toBeNull();
+      expect(authenticatorOptionValues[1].options.gracePeriodRequiredDescription).toBeNull();
+      expect(authenticatorOptionValues[2].options.gracePeriodSkipCountDescription).toBe('oie.enrollment.policy.grace.period.required.in.one.skip');
+      mockDate.mockRestore();
+    });
+
+    it('Correctly displays options for grace periods with invalid skip counts', () => {
+      const mockDate = jest.spyOn(TimeUtil, 'formatDateToDeviceAssuranceGracePeriodExpiryLocaleString').mockReturnValue('09/27/2035, 06:00 PM EDT');
+      const authenticatorEnrollments: IdxAuthenticator[] = [];
+      const options: IdxOption[] = [
+        {
+          label: 'Password',
+          value: [
+            { name: 'methodType', value: 'password' },
+            { name: 'id', value: '1234abc' },
+          ],
+          relatesTo: {
+            id: '',
+            type: 'password',
+            methods: [{ type: 'password' }],
+            displayName: 'Okta Password',
+            key: AUTHENTICATOR_KEY.PASSWORD,
+            gracePeriod: {
+              id: 'gpe4hiasrPJX4zwZY123',
+              expiry: '2035-09-27 18:00:00.000.',
+            },
+          },
+        },
+        {
+          label: 'Email',
+          value: [
+            { name: 'methodType', value: 'email' },
+            { name: 'id', value: '1235abc' },
+          ],
+          relatesTo: {
+            id: '',
+            type: 'email',
+            methods: [{ type: 'email' }],
+            displayName: 'Okta Email',
+            key: AUTHENTICATOR_KEY.EMAIL,
+            gracePeriod: {
+              id: 'gpe4hiasrPJX4zwZY123',
+              skipCount: 0,
+            },
+          },
+        },
+        {
+          label: 'Phone',
+          value: [
+            { name: 'methodType', value: 'phone' },
+            { name: 'id', value: '1236abc' },
+          ],
+          relatesTo: {
+            id: '',
+            type: 'phone',
+            methods: [{ type: 'phone' }],
+            displayName: 'Phone',
+            key: AUTHENTICATOR_KEY.PHONE,
+            gracePeriod: {
+              id: 'gpe4hiasrPJX4zwZY123',
+              skipCount: undefined,
+            },
+          },
+        },
+      ];
+
+      const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(
+        options, stepName, ['en-us'], authenticatorEnrollments,
+      );
+
+      expect(authenticatorOptionValues).toMatchSnapshot();
+      expect(authenticatorOptionValues.length).toBe(3);
+      expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.PASSWORD);
+      expect(authenticatorOptionValues[0].label).toBe('Password');
+      expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[0].options.gracePeriodExpiry).toBe('09/27/2035, 06:00 PM EDT');
+      expect(authenticatorOptionValues[0].options.gracePeriodRequiredDescription).toBe('oie.enrollment.policy.grace.period.required.in.days');
+
+      // Expired grace period will render without them
+      expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.EMAIL);
+      expect(authenticatorOptionValues[1].label).toBe('Email');
+      expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[1].options.gracePeriodExpiry).toBeNull();
+      expect(authenticatorOptionValues[1].options.gracePeriodRequiredDescription).toBeNull();
+      expect(authenticatorOptionValues[1].options.gracePeriodSkipCountDescription).toBeNull();
+
+      expect(authenticatorOptionValues[2].options.key).toBe(AUTHENTICATOR_KEY.PHONE);
+      expect(authenticatorOptionValues[2].label).toBe('Phone');
+      expect(authenticatorOptionValues[2].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[2].options.gracePeriodExpiry).toBeNull();
+      expect(authenticatorOptionValues[1].options.gracePeriodRequiredDescription).toBeNull();
+      expect(authenticatorOptionValues[2].options.gracePeriodSkipCountDescription).toBeNull();
+      mockDate.mockRestore();
     });
 
     it('Correctly displays options for grace periods', () => {

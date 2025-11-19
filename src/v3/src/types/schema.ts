@@ -421,6 +421,7 @@ export interface AuthenticatorButtonElement extends UISchemaElement {
     iconDescr?: string;
     gracePeriodExpiry?: string;
     gracePeriodRequiredDescription?: string;
+    gracePeriodSkipCountDescription?: string;
   };
 }
 

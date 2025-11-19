@@ -116,7 +116,8 @@
     display: inline-block;
   }
 
-  .authenticator-grace-period-required-description {
+  .authenticator-grace-period-required-description,
+  .authenticator-grace-period-skip-count-description {
     color: $text-color-warning;
   }
 
