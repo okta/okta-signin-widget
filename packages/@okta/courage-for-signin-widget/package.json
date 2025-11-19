@@ -10,7 +10,7 @@
     "lint": "yarn lint:src && yarn lint:target",
     "prebuild": "yarn link:lib && yarn link:courage && ./scripts/patch.sh",
     "link:lib": "ln -snf ./node_modules ./lib",
-    "link:courage": "ln -snf node_modules/@okta/courage/src ./src/courage",
+    "link:courage": "bash -c 'pushd ./src && ln -snf ../node_modules/@okta/courage/src ./courage && popd'",
     "clean": "yarn clean:esm && yarn clean:types && rm -rf ./target",
     "clean:esm": "rm -rf ../courage-dist/esm && rm -rf ./target/esm",
     "clean:types": "rm -rf ../courage-dist/types && rm -rf ./target/types",
