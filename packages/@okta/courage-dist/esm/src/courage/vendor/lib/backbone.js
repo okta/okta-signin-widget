@@ -1,6 +1,6 @@
 import { commonjsGlobal } from '../../../../_virtual/_commonjsHelpers.js';
 import { b as backbone } from '../../../../_virtual/backbone.js';
-import $ from 'jquery';
+import require$$0 from 'jquery';
 import '../../../../lib/underscore/underscore-min.js';
 import { u as underscoreMin } from '../../../../_virtual/underscore-min.js';
 
@@ -10,7 +10,7 @@ import { u as underscoreMin } from '../../../../_virtual/underscore-min.js';
 //     Backbone may be freely distributed under the MIT license.
 //     For all details and documentation:
 //     http://backbonejs.org
-const jQuery = $;
+const jQuery = require$$0;
 (function (factory) {
   // Establish the root object, `window` (`self`) in the browser, or `global` on the server.
   // We use `self` instead of `window` for `WebWorker` support.

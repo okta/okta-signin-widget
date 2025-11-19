@@ -737,13 +737,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@okta/auth-foundation@npm:^0.3.0-g7a341fd":
-  version: 0.3.0-g7a341fd
-  resolution: "@okta/auth-foundation@npm:0.3.0-g7a341fd::__archiveUrl=https%3A%2F%2Fartifacts.aue1e.internal%2Fartifactory%2Fapi%2Fnpm%2Fnpm-okta-all%2F%40okta%2Fauth-foundation%2F-%2F%40okta%2Fauth-foundation-0.3.0-g7a341fd.tgz"
-  checksum: 10c0/0d9413091ec9427997cf6a27c641673fd22ce6c092bfe5aeb38b48164bedd8a8a09a4fc280b0b596168c0b51323d105d6217b2a73cc088aee5c8c001dd98cf9f
-  languageName: node
-  linkType: hard
-
 "@okta/babel-plugin-handlebars-inline-precompile@npm:3.1.0-beta.4200.gf3d0a27":
   version: 3.1.0-beta.4200.gf3d0a27
   resolution: "@okta/babel-plugin-handlebars-inline-precompile@npm:3.1.0-beta.4200.gf3d0a27::__archiveUrl=https%3A%2F%2Fartifacts.aue1e.internal%2Fartifactory%2Fapi%2Fnpm%2Fnpm-okta-master%2F%40okta%2Fbabel-plugin-handlebars-inline-precompile%2F-%2F%40okta%2Fbabel-plugin-handlebars-inline-precompile-3.1.0-beta.4200%2Bf3d0a27.tgz"
@@ -755,16 +748,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@okta/courage@npm:4.7.0-9909-g4278df1":
-  version: 4.7.0-9909-g4278df1
-  resolution: "@okta/courage@npm:4.7.0-9909-g4278df1::__archiveUrl=https%3A%2F%2Fartifacts.aue1e.internal%2Fartifactory%2Fapi%2Fnpm%2Fnpm-okta-all%2F%40okta%2Fcourage%2F-%2F%40okta%2Fcourage-4.7.0-9909-g4278df1.tgz"
+"@okta/courage@npm:4.5.0-9096-gf1f49cb":
+  version: 4.5.0-9096-gf1f49cb
+  resolution: "@okta/courage@npm:4.5.0-9096-gf1f49cb::__archiveUrl=https%3A%2F%2Fartifacts.aue1e.internal%2Fartifactory%2Fapi%2Fnpm%2Fnpm-okta-all%2F%40okta%2Fcourage%2F-%2F%40okta%2Fcourage-4.5.0-9096-gf1f49cb.tgz"
   dependencies:
-    "@okta/auth-foundation": "npm:^0.3.0-g7a341fd"
     "@okta/jquery.simplemodal": "npm:1.4.19-g8b711ea"
-    "@okta/spa-oauth2-flows": "npm:^0.3.0-g7a341fd"
-    "@okta/spa-platform": "npm:^0.3.0-g7a341fd"
-    "@okta/ui-libraries-monolith": "npm:^2.0.0"
-    "@okta/ui-libraries-oidc-auth-headers": "npm:^1.0.1"
     "@types/backbone": "npm:^1.4.10"
     "@types/jqueryui": "npm:^1.12.16"
     "@types/selectize": "npm:^0.12.35"
@@ -775,7 +763,7 @@ __metadata:
     handlebars: "npm:4.7.7"
     selectize: "npm:0.12.4"
     underscore: "npm:1.13.1"
-  checksum: 10c0/b53b3f415774329d8170bd3911df1cdc457c56b02a097c74ef741aafc397d1f7a50c5256961da7ecd938f37cacf06ce267c4132fb1050b408095590b6f934e8d
+  checksum: 10c0/818576b763112eaeb06e94cacb9c8a39926c3f1c72a0c5f0953f678ef963ebd0603b9fe1d59ebf8212c0800601ac50f71c7a10bed8ffd666b3fe0ac54603ac7b
   languageName: node
   linkType: hard
 
@@ -797,42 +785,6 @@ __metadata:
   version: 1.4.19-g8b711ea
   resolution: "@okta/jquery.simplemodal@npm:1.4.19-g8b711ea::__archiveUrl=https%3A%2F%2Fartifacts.aue1e.internal%2Fartifactory%2Fapi%2Fnpm%2Fnpm-okta-master%2F%40okta%2Fjquery.simplemodal%2F-%2F%40okta%2Fjquery.simplemodal-1.4.19-g8b711ea.tgz"
   checksum: 10c0/75203191aae7394250ec916db046fe7b8c98ee23e1e60effb6e7204086870d7d2012f4ceee357886a93deae2c9141281c6f184dd1c09a9696770466b4011eedc
-  languageName: node
-  linkType: hard
-
-"@okta/spa-oauth2-flows@npm:^0.3.0-g7a341fd":
-  version: 0.3.0-g7a341fd
-  resolution: "@okta/spa-oauth2-flows@npm:0.3.0-g7a341fd::__archiveUrl=https%3A%2F%2Fartifacts.aue1e.internal%2Fartifactory%2Fapi%2Fnpm%2Fnpm-okta-all%2F%40okta%2Fspa-oauth2-flows%2F-%2F%40okta%2Fspa-oauth2-flows-0.3.0-g7a341fd.tgz"
-  peerDependencies:
-    "@okta/auth-foundation": "*"
-  checksum: 10c0/37457506e4b90c1ea9d8602d3df09617c0d6eeefc59bc75451e946975ef2d2c4d29ad7a719d960a98dfe0d834bd2b8457569a0bc5655a5dd431d2759a42bef1d
-  languageName: node
-  linkType: hard
-
-"@okta/spa-platform@npm:^0.3.0-g7a341fd":
-  version: 0.3.0-g7a341fd
-  resolution: "@okta/spa-platform@npm:0.3.0-g7a341fd::__archiveUrl=https%3A%2F%2Fartifacts.aue1e.internal%2Fartifactory%2Fapi%2Fnpm%2Fnpm-okta-all%2F%40okta%2Fspa-platform%2F-%2F%40okta%2Fspa-platform-0.3.0-g7a341fd.tgz"
-  peerDependencies:
-    "@okta/auth-foundation": "*"
-    "@okta/spa-oauth2-flows": "*"
-  peerDependenciesMeta:
-    "@okta/spa-oauth2-flows":
-      optional: true
-  checksum: 10c0/09d2a3dd50efc4390b86d7e271f3a221e7edc103869c19f84d624756d10a297fb0f17f59bbbef41d67461492371379427f2082080c6188be108654af02c5fa89
-  languageName: node
-  linkType: hard
-
-"@okta/ui-libraries-monolith@npm:^2.0.0":
-  version: 2.1.0
-  resolution: "@okta/ui-libraries-monolith@npm:2.1.0::__archiveUrl=https%3A%2F%2Fartifacts.aue1e.internal%2Fartifactory%2Fapi%2Fnpm%2Fnpm-okta-all%2F%40okta%2Fui-libraries-monolith%2F-%2F%40okta%2Fui-libraries-monolith-2.1.0.tgz"
-  checksum: 10c0/3ff3e6724d0bae365b54fba7fd4941d7467266d7104c8d5bcbafeaf46a2faa737d75adb44f91aedfc3e65f7c4064d27d504db06c8d0599951191aa073bd4ad16
-  languageName: node
-  linkType: hard
-
-"@okta/ui-libraries-oidc-auth-headers@npm:^1.0.1":
-  version: 1.1.0
-  resolution: "@okta/ui-libraries-oidc-auth-headers@npm:1.1.0::__archiveUrl=https%3A%2F%2Fartifacts.aue1e.internal%2Fartifactory%2Fapi%2Fnpm%2Fnpm-okta-all%2F%40okta%2Fui-libraries-oidc-auth-headers%2F-%2F%40okta%2Fui-libraries-oidc-auth-headers-1.1.0.tgz"
-  checksum: 10c0/1ffbe3d9a0740c6967162f81ba92519c2bdb0642ddbffbfbc73638ec839f4bb4926ee021b5c01fa2623f12298a242d8ce20ea91e916c256ef9d14336aa49e7e4
   languageName: node
   linkType: hard
 
@@ -2036,7 +1988,7 @@ __metadata:
     "@babel/plugin-transform-shorthand-properties": "npm:^7.16.7"
     "@babel/preset-typescript": "npm:^7.16.7"
     "@okta/babel-plugin-handlebars-inline-precompile": "npm:3.1.0-beta.4200.gf3d0a27"
-    "@okta/courage": "npm:4.7.0-9909-g4278df1"
+    "@okta/courage": "npm:4.5.0-9096-gf1f49cb"
     "@okta/eslint-plugin-okta-ui": "npm:0.1.0-beta.4181.g1f38f27"
     "@rollup/plugin-alias": "npm:^3.1.9"
     "@rollup/plugin-babel": "npm:^5.3.1"

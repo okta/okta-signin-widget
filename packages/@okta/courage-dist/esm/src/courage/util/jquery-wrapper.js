@@ -1,9 +1,9 @@
-import $ from 'jquery';
+import require$$0 from 'jquery';
 
 /* eslint-disable @okta/okta-ui/enforce-requirejs-names, @okta/okta-ui/no-specific-modules */
-$.ajaxSetup({
+require$$0.ajaxSetup({
   beforeSend: function (xhr) {
-    xhr.setRequestHeader('X-Okta-XsrfToken', $('#_xsrfToken').text());
+    xhr.setRequestHeader('X-Okta-XsrfToken', require$$0('#_xsrfToken').text());
   },
   converters: {
     'text secureJSON': function (str) {
@@ -18,7 +18,7 @@ $.ajaxSetup({
 // Widget such as autocomplete and autosuggest needs to be triggered from the running version of jQuery.
 // We have 2 versions of jQuery running in parallel and they don't share the same events bus
 
-const oktaJQueryStatic = $;
+const oktaJQueryStatic = require$$0;
 window.jQueryCourage = oktaJQueryStatic;
 
 export { oktaJQueryStatic as default };

@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import require$$0 from 'jquery';
 
 /**
  * There are following local modifications:
@@ -15,14 +15,14 @@ import $ from 'jquery';
  * --------------------------------------------------------------------
 */
 (function () {
-  var jQuery = $;
+  var jQuery = require$$0;
 
-  var $$1 = jQuery;
+  var $ = jQuery;
 
   jQuery.fn.customInput = function () {
-    return $$1(this).each(function () {
-      if ($$1(this).is('[type=checkbox],[type=radio]')) {
-        var input = $$1(this); // get the associated label using the input's id
+    return $(this).each(function () {
+      if ($(this).is('[type=checkbox],[type=radio]')) {
+        var input = $(this); // get the associated label using the input's id
 
         var label = input.siblings('label[for="' + input.attr('id') + '"]:first');
 
@@ -34,20 +34,20 @@ import $ from 'jquery';
         input.add(label).wrapAll('<div class="custom-' + input.attr('type') + '"></div>'); // necessary for browsers that don't support the :hover pseudo class on labels
 
         label.hover(function () {
-          $$1(this).addClass('hover');
+          $(this).addClass('hover');
         }, function () {
-          $$1(this).removeClass('hover');
+          $(this).removeClass('hover');
         }); //bind custom event, trigger it, bind click,focus,blur events
 
         input.bind('updateState', function () {
           input.is(':checked') ? label.addClass('checked') : label.removeClass('checked checkedHover checkedFocus');
         }).trigger('updateState').click(function () {
-          $$1('input[name="' + $$1(this).attr('name') + '"]').trigger('updateState');
+          $('input[name="' + $(this).attr('name') + '"]').trigger('updateState');
         }).focus(function () {
           label.addClass('focus');
 
           if (input.is(':checked')) {
-            $$1(this).addClass('checkedFocus');
+            $(this).addClass('checkedFocus');
           }
         }).blur(function () {
           label.removeClass('focus checkedFocus');
