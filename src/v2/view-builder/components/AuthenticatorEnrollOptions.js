@@ -39,6 +39,12 @@ const AuthenticatorRow = View.extend({
             <p class="authenticator-grace-period-expiry-date">{{gracePeriodExpiry}}</p>
           {{/if}}
         </div>
+      {{else if gracePeriodSkipCountDescription}}
+        <span class="authenticator-grace-period-required-icon"></span>
+          <div class="authenticator-grace-period-text-container">
+            <p class="authenticator-grace-period-skip-count-description">{{gracePeriodSkipCountDescription}}</p>
+          </div>
+        </span>
       {{else}}
         {{#if description}}
           <p class="authenticator-description--text">{{description}}</p>
@@ -93,6 +99,14 @@ const AuthenticatorRow = View.extend({
 
     const data = View.prototype.getTemplateData.apply(this, arguments);
 
+    data.authenticatorUsageText = authenticatorUsageText;
+
+    const gracePeriodData = this._getGracePeriodData();
+
+    return { ...data, ...gracePeriodData };
+  },
+  _getGracePeriodData() {
+    const data = {};
     const currentTimestampMs = Date.now();
     const gracePeriodEpochTimestampMs = new Date(this.model.get('relatesTo')?.gracePeriod?.expiry).getTime();
     if (!isNaN(gracePeriodEpochTimestampMs) && currentTimestampMs < gracePeriodEpochTimestampMs) {
@@ -120,12 +134,21 @@ const AuthenticatorRow = View.extend({
           false,
         );
       }
+    } else if (this.model.get('relatesTo')?.gracePeriod?.skipCount
+      && this.model.get('relatesTo')?.gracePeriod?.skipCount > 0
+    ) {
+      if (this.model.get('relatesTo')?.gracePeriod?.skipCount === 1) {
+        data.gracePeriodSkipCountDescription = loc('oie.enrollment.policy.grace.period.required.in.one.skip', 'login');
+      } else {
+        data.gracePeriodSkipCountDescription = loc(
+          'oie.enrollment.policy.grace.period.required.in.number.of.skips', 'login', [
+            this.model.get('relatesTo')?.gracePeriod?.skipCount
+          ]
+        );
+      }
     }
-
-    data.authenticatorUsageText = authenticatorUsageText;
-
     return data;
-  },
+  }
 });
 
 export default ListView.extend({
