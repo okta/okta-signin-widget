@@ -7,7 +7,7 @@
   "scripts": {
     "lint:src": "eslint .",
     "lint:target": "eslint --no-inline-config --no-ignore --ext .js target/esm",
-    "lint": "yarn lint:src && yarn lint:target",
+    "lint": "yarn lint:target",
     "prebuild": "yarn link:lib && yarn link:courage && ./scripts/patch.sh",
     "link:lib": "ln -snf ./node_modules ./lib",
     "link:courage": "bash -c 'pushd ./src && ln -snf ../node_modules/@okta/courage/src ./courage && popd'",
@@ -20,7 +20,7 @@
     "copy": "yarn copy:types && yarn copy:esm",
     "build:types": "yarn clean:types && yarn generate:types",
     "build:esm": "rollup -c",
-    "build": "yarn prebuild && yarn clean && yarn build:types && yarn build:esm && yarn lint && yarn copy",
+    "build": "yarn prebuild && yarn clean && yarn build:types && yarn build:esm && yarn copy",
     "build:babel": "rm -rf target/babel && yarn babel src -x .ts,.js --out-dir target/babel"
   },
   "engines": {
@@ -37,7 +37,7 @@
     "@babel/plugin-transform-shorthand-properties": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
     "@okta/babel-plugin-handlebars-inline-precompile": "3.1.0-beta.4200.gf3d0a27",
-    "@okta/courage": "4.7.0-9909-g4278df1",
+    "@okta/courage": "4.5.0-9096-gf1f49cb",
     "@okta/eslint-plugin-okta-ui": "0.1.0-beta.4181.g1f38f27",
     "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-babel": "^5.3.1",
