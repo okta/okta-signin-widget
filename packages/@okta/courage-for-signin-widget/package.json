@@ -8,9 +8,9 @@
     "lint:src": "eslint .",
     "lint:target": "eslint --no-inline-config --no-ignore --ext .js target/esm",
     "lint": "yarn lint:src && yarn lint:target",
-    "prebuild": "yarn link:lib && yarn link:courage && yarn patch",
+    "prebuild": "yarn link:lib && yarn link:courage && ./scripts/patch.sh",
     "link:lib": "ln -snf ./node_modules ./lib",
-    "link:courage": "pushd ./src && ln -snf ../node_modules/@okta/courage/src ./courage && popd",
+    "link:courage": "ln -snf node_modules/@okta/courage/src ./src/courage",
     "clean": "yarn clean:esm && yarn clean:types && rm -rf ./target",
     "clean:esm": "rm -rf ../courage-dist/esm && rm -rf ./target/esm",
     "clean:types": "rm -rf ../courage-dist/types && rm -rf ./target/types",
@@ -21,8 +21,7 @@
     "build:types": "yarn clean:types && yarn generate:types",
     "build:esm": "rollup -c",
     "build": "yarn clean && yarn build:types && yarn build:esm && yarn lint && yarn copy",
-    "build:babel": "rm -rf target/babel && yarn babel src -x .ts,.js --out-dir target/babel",
-    "patch": "./scripts/patch.sh"
+    "build:babel": "rm -rf target/babel && yarn babel src -x .ts,.js --out-dir target/babel"
   },
   "engines": {
     "node": ">=12.22.0",
