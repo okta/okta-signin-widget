@@ -510,8 +510,7 @@ test.requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticators)('should lo
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1, true)).eql('phone_number');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(1)).eql(false);
-  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(1)).eql('Required today');
-  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('12/16/2022, 12:00 AM EST');
+  await t.expect(selectFactorPage.getFactorGracePeriodSkipCountDescriptionTextByIndex(1)).eql('3 skips remaining');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Security Key or Biometric Authenticator');
   await t.expect(selectFactorPage.getFactorIconSelectorByIndex(2)).contains('mfa-webauthn');
@@ -555,8 +554,7 @@ test.requestHooks(mockEnrollRequiredSoonAuthenticators)('should load select opti
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2, true)).eql('webauthn');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(2)).eql(false);
-  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(2)).eql('Required in 1 day');
-  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('12/17/2022, 12:00 AM EST');
+  await t.expect(selectFactorPage.getFactorGracePeriodSkipCountDescriptionTextByIndex(2)).eql('1 skip remaining');
 
   await t.expect(await selectFactorPage.skipButtonExists()).eql(true);
 }).clientScripts({ content: mockDate });
@@ -575,7 +573,6 @@ test
     // timezone is still in EST, but date format should follow ja (Japan) locale where year is first
     await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(0)).eql('2024/12/17 00:00 GMT-5');
     await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('2022/12/16 00:00 GMT-5');
-    await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('2022/12/17 00:00 GMT-5');
   });
 
 test
@@ -592,5 +589,4 @@ test
     // timezone is still in EST, but date format should follow cs (Czech) locale where date is first and dots are used as separators
     await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(0)).eql('17. 12. 2024 00:00 EST');
     await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('16. 12. 2022 00:00 EST');
-    await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('17. 12. 2022 00:00 EST');
   });

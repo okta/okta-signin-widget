@@ -152,7 +152,7 @@
         "id": "webauthn-enroll-id-123",
         "authenticatorId": "aidtheidkwh282hv8g3",
         "gracePeriod": {
-          "expiry": "2022-12-17T05:00:00.000Z"
+          "skipCount": 1
         }
       },
       {

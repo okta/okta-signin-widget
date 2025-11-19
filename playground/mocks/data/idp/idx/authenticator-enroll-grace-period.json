@@ -141,7 +141,7 @@
         "key": "phone_number",
         "authenticatorId": "aid568g3mXgtID0X1SLH",
         "gracePeriod": {
-          "expiry": "2022-12-16T05:00:00.000Z"
+          "skipCount": 3
         }
       }
     ]
