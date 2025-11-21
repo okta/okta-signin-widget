@@ -142,19 +142,18 @@
         "id": "password-enroll-id-123",
         "authenticatorsId": "autwa6eD9o02iBbtv0g3",
         "gracePeriod": {
-          "type": "BY_DATE_TIME",
           "expiry": "2024-12-17T05:00:00.000Z"
         }
       },
       {
-        "displayName": "Security Key or Biometric",
+        "displayName": "Security Key or Biometric Authenticator (FIDO2)",
         "type": "security_key",
         "key": "webauthn",
         "id": "webauthn-enroll-id-123",
         "authenticatorId": "aidtheidkwh282hv8g3",
         "gracePeriod": {
-          "type": "BY_DATE_TIME",
-          "expiry": "2022-12-17T05:00:00.000Z"
+          "type": "BY_SKIP_COUNT",
+          "skipCount": 1
         }
       },
       {
@@ -164,8 +163,8 @@
         "key": "phone_number",
         "authenticatorId": "aid568g3mXgtID0X1SLH",
         "gracePeriod": {
-          "type": "BY_DATE_TIME",
-          "expiry": "2022-12-16T05:00:00.000Z"
+          "type": "BY_SKIP_COUNT",
+          "skipCount": 3
         }
       }
     ]

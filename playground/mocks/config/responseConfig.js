@@ -57,6 +57,8 @@ const idx = {
     // 'authenticator-enroll-webauthn',
     // 'authenticator-enroll-grace-period-with-skip',
     // 'authenticator-enroll-grace-period',
+    // 'authenticator-enroll-grace-period-login-count-with-skip',
+    // 'authenticator-enroll-grace-period-login-count',
     // 'authenticator-verification-data-phone-sms-then-voice',
     // 'authenticator-verification-data-phone-voice-only',
     // 'authenticator-verification-data-phone-voice-then-sms',
