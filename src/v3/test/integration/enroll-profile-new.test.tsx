@@ -53,8 +53,8 @@ describe('enroll-profile-new', () => {
       ...createAuthJsPayloadArgs('POST', 'idp/idx/enroll/new', {
         stateHandle: 'fake-stateHandle',
         userProfile: {
-          firstName,
           lastName,
+          firstName,
           email,
         },
       }, 'application/vnd.okta.v1+json'),

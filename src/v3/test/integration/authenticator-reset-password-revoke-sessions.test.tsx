@@ -46,7 +46,7 @@ describe('authenticator-reset-password-revoke-sessions', () => {
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
-        credentials: { revokeSessions: true, passcode: password },
+        credentials: { passcode: password, revokeSessions: true },
       }),
     );
   });
@@ -74,7 +74,7 @@ describe('authenticator-reset-password-revoke-sessions', () => {
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
-        credentials: { revokeSessions: false, passcode: password },
+        credentials: { passcode: password, revokeSessions: false },
       }),
     );
   });

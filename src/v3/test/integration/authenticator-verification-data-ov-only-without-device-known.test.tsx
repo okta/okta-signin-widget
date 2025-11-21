@@ -33,7 +33,7 @@ describe('authenticator-verification-data-ov-only-without-device-known', () => {
     await user.click(authenticatorButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge', {
-        authenticator: { id: 'aut13qrZReYpIib7R0g4', methodType: 'push' },
+        authenticator: { methodType: 'push', id: 'aut13qrZReYpIib7R0g4' },
       }, 'application/ion+json; okta-version=1.0.0'),
     );
   });

@@ -37,8 +37,8 @@ describe('authenticator-verification-okta-verify-push', () => {
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge', {
         authenticator: {
-          autoChallenge: true,
           methodType: 'push',
+          autoChallenge: true,
           id: 'aut2h3fft4y9pDPCS1d7',
         },
       }),
@@ -64,8 +64,8 @@ describe('authenticator-verification-okta-verify-push', () => {
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge', {
         authenticator: {
-          autoChallenge: false,
           methodType: 'push',
+          autoChallenge: false,
           id: 'aut2h3fft4y9pDPCS1d7',
         },
       }),
