@@ -25,6 +25,15 @@ import { isCustomizedI18nKey } from '../i18n';
 import { transformer as attributesTransformer } from './attributes';
 import { transformer as typeTransformer } from './type';
 
+/**
+ * List of field names that should always have default empty string values set
+ * on transaction change, regardless of whether they have existing values.
+ * This is useful for fields that need to be cleared or reset between transactions.
+ */
+const FIELDS_WITH_DEFAULT_EMPTY_STRING = new Set([
+  'credentials.passcode',
+]);
+
 type ValidationErrorTransformer = (input: Input, data: Record<string, unknown>,
   widgetProps: WidgetProps, step?: NextStep) => WidgetMessage[] | undefined;
 type ValidationErrorTester = {
@@ -153,6 +162,15 @@ export const transformStepInputs = (
 
       if (type === 'boolean' && required) {
         acc.data[name] = (input.value as unknown) === true;
+      }
+
+      // Initialize string fields with their value or empty string
+      if (type === 'string' || FIELDS_WITH_DEFAULT_EMPTY_STRING.has(name)) {
+        // For fields in the default empty string list, always set to empty string
+        // For other fields, use existing value or default to empty string
+        acc.data[name] = FIELDS_WITH_DEFAULT_EMPTY_STRING.has(name)
+          ? ''
+          : ((input.value as string) ?? '');
       }
 
       // add client validation for "required" field
