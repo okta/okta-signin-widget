@@ -42,7 +42,7 @@ describe('transformStepInputs', () => {
 
       const result = transformStepInputs(formBag, widgetProps, step);
 
-      expect(result.data['identifier']).toBe('');
+      expect(result.data.identifier).toBe('');
     });
 
     it('should initialize string fields with existing value when present', () => {
@@ -62,7 +62,7 @@ describe('transformStepInputs', () => {
 
       const result = transformStepInputs(formBag, widgetProps, step);
 
-      expect(result.data['identifier']).toBe('test@example.com');
+      expect(result.data.identifier).toBe('test@example.com');
     });
 
     it('should always initialize credentials.passcode with empty string regardless of existing value', () => {
@@ -140,7 +140,7 @@ describe('transformStepInputs', () => {
 
       const result = transformStepInputs(formBag, widgetProps, step);
 
-      expect(result.data['consent']).toBe(false);
+      expect(result.data.consent).toBe(false);
     });
 
     it('should initialize required boolean fields with true when value is true', () => {
@@ -160,7 +160,7 @@ describe('transformStepInputs', () => {
 
       const result = transformStepInputs(formBag, widgetProps, step);
 
-      expect(result.data['consent']).toBe(true);
+      expect(result.data.consent).toBe(true);
     });
   });
 
@@ -180,7 +180,7 @@ describe('transformStepInputs', () => {
 
       const result = transformStepInputs(formBag, widgetProps, step);
 
-      expect(result.data['hiddenField']).toBeUndefined();
+      expect(result.data.hiddenField).toBeUndefined();
       expect(result.uischema.elements.length).toBe(0);
     });
 
@@ -199,7 +199,7 @@ describe('transformStepInputs', () => {
 
       const result = transformStepInputs(formBag, widgetProps, step);
 
-      expect(result.data['visibleField']).toBe('');
+      expect(result.data.visibleField).toBe('');
       expect(result.uischema.elements.length).toBe(1);
     });
   });
@@ -237,9 +237,9 @@ describe('transformStepInputs', () => {
 
       const result = transformStepInputs(formBag, widgetProps, step);
 
-      expect(result.data['username']).toBe('testuser');
-      expect(result.data['rememberMe']).toBe(true);
-      expect(result.data['password']).toBe('');
+      expect(result.data.username).toBe('testuser');
+      expect(result.data.rememberMe).toBe(true);
+      expect(result.data.password).toBe('');
     });
   });
 
@@ -280,7 +280,7 @@ describe('transformStepInputs', () => {
 
       const result = transformStepInputs(formBag, widgetProps, step);
 
-      expect(result.data['nullField']).toBe('');
+      expect(result.data.nullField).toBe('');
     });
   });
 });
