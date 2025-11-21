@@ -66,11 +66,11 @@ describe('enroll-profile-new-additional-fields', () => {
       ...createAuthJsPayloadArgs('POST', 'idp/idx/enroll/new', {
         stateHandle: 'fake-stateHandle',
         userProfile: {
+          country,
+          countryCode,
           firstName,
           lastName,
           email,
-          country,
-          countryCode,
           timezone,
         },
       }, 'application/vnd.okta.v1+json'),
