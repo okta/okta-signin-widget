@@ -150,15 +150,14 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
 
   const customLink = getGracePeriodRequiredSoonCustomLink(widgetProps);
   let gracePeriodRequiredSoonCustomLink: LinkElement | undefined;
-  if (customLink) {
-    const { href, text } = customLink;
+  if (customLink?.href && customLink?.text) {
     gracePeriodRequiredSoonCustomLink = {
       type: 'Link',
       options: {
-        href,
+        href: customLink.href,
         target: '_blank',
         step: '',
-        label: text,
+        label: customLink.text,
         dataSe: 'gracePeriodRequiredSoonCustomLink',
       },
     };
