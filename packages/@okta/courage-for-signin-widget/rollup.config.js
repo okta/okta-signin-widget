@@ -4,7 +4,6 @@ import { babel } from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import copy from 'rollup-plugin-copy';
 import { visualizer } from 'rollup-plugin-visualizer';
-import amd from 'rollup-plugin-amd';
 import replace from '@rollup/plugin-replace';
 
 const NODE_MODULES = path.resolve(__dirname, 'node_modules');
