@@ -30,11 +30,11 @@ import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
-  DeviceRemediation,
+  DeviceRemediation, FieldElement, IdxAuthenticatorWithChallengeData,
   IWidgetContext,
-  LaunchAuthenticatorButtonElement,
+  LaunchAuthenticatorButtonElement, PasskeyButtonElement,
   PhoneVerificationMethodType,
-  RequiredKeys,
+  RequiredKeys, WebAuthNAutofillElement, WebAuthNAutofillUICredentials,
   WidgetMessage,
   WidgetMessageLink,
   WidgetMessageOption,
@@ -43,6 +43,9 @@ import {
 import { idpIconMap } from './idpIconMap';
 import { loc } from './locUtil';
 import { probeLoopbackAndExecute } from './probeLoopbackAndExecute';
+import {getUIElementWithName} from "src/transformer/utils";
+import {traverseLayout} from "src/transformer/util";
+import {isConditionalMediationAvailable, webAuthNAutofillActionHandler} from "src/util/webauthnUtils";
 
 export type PhoneVerificationStep = typeof IDX_STEP.CHALLENGE_AUTHENTICATOR
 | typeof IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA;
@@ -164,6 +167,42 @@ export const getFastPassButtonElement = (
   };
 
   return [launchAuthenticatorButton];
+};
+
+export const getSignInWithPasskeyButtonElement = (
+  transaction: IdxTransaction,
+  widgetProps: WidgetProps,
+): PasskeyButtonElement[] => {
+  const webauthAutofillStep = transaction.availableSteps?.find(
+    ({ name }) => name === IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
+  );
+  const { features: { disableAutocomplete } = {} } = widgetProps;
+  // only apply this transformation if the remediation contains CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR
+  // and autocomplete is enabled (as the Passkey autofill relies on the autocomplete attribute containing 'webauthn')
+  console.log(webauthAutofillStep, disableAutocomplete);
+  if (!webauthAutofillStep || disableAutocomplete) {
+    return [];
+  }
+
+  // if the browser doesn't support passkey autofill, ignore the transformation
+  if (!isConditionalMediationAvailable()) {
+    return [];
+  }
+
+  const { challengeData } = webauthAutofillStep
+    .relatesTo?.value as IdxAuthenticatorWithChallengeData;
+  return [{
+    type: 'WebAuthNSignInWithPasskeyButton',
+    options: {
+      step: IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
+      getCredentials: (abortController) => (
+        webAuthNAutofillActionHandler(
+          challengeData,
+          abortController,
+        ) as Promise<WebAuthNAutofillUICredentials>
+      ),
+    },
+  }];
 };
 
 /**
