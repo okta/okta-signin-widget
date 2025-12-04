@@ -602,6 +602,7 @@ test
     // timezone is still in EST, but date format should follow cs (Czech) locale where date is first and dots are used as separators
     await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(0)).eql('17. 12. 2024 00:00 EST');
     await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('16. 12. 2022 00:00 EST');
+    await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('17. 12. 2022 00:00 EST');
   });
 
 test.requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticatorsWithLoginCount)('should load select required now and required soon authenticators with skip counts', async t => {
