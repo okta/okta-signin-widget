@@ -14,6 +14,7 @@ import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import AuthenticatorEnrollOptions from './AuthenticatorEnrollOptions';
 import remindMeLater from './RemindMeLaterButton';
 import skipAll from './SkipOptionalEnrollmentButton';
+import { getGracePeriodRequiredSoonCustomLink } from '../utils/LinksUtil';
 
 export default View.extend({
 
@@ -24,8 +25,11 @@ export default View.extend({
     const authenticators = [];
 
     this.options.optionItems.forEach((authenticator) => {
-      if (authenticator.relatesTo?.gracePeriod?.expiry
-        && new Date(authenticator.relatesTo?.gracePeriod?.expiry).getTime() > Date.now()) {
+      let hasActiveGracePeriodExpiry = authenticator.relatesTo?.gracePeriod?.expiry
+        && new Date(authenticator.relatesTo?.gracePeriod?.expiry).getTime() > Date.now();
+      let hasActiveSkipCount =
+        authenticator.relatesTo?.gracePeriod?.skipCount && authenticator.relatesTo?.gracePeriod?.skipCount > 0;
+      if (hasActiveGracePeriodExpiry || hasActiveSkipCount) {
         authenticatorsWithGracePeriod.push(authenticator);
       } else {
         authenticators.push(authenticator);
@@ -53,6 +57,7 @@ export default View.extend({
         optionItems: authenticatorsWithGracePeriod,
         listTitle: loc('oie.setup.required.soon', 'login'),
         listSubtitle: loc('oie.setup.required.soon.description', 'login'),
+        listSubtitleLinkOptions: getGracePeriodRequiredSoonCustomLink(this.options.settings),
       }));
     }
 

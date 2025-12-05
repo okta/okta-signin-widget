@@ -156,6 +156,8 @@ const local: Record<string, ModelProperty> = {
   'helpLinks.custom': 'array',
   'helpLinks.factorPage.href': 'string',
   'helpLinks.factorPage.text': 'string',
+  'helpLinks.gracePeriodRequiredSoon.href': 'string',
+  'helpLinks.gracePeriodRequiredSoon.text': 'string',
 
   //Custom Buttons
   customButtons: ['array', false, []],
