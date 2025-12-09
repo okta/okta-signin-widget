@@ -34,7 +34,7 @@ if [ -n "$SENTRY_AUTH_TOKEN" ]; then
   
   # Upload sourcemaps with release version
   # Note: Debug IDs are already injected during build:release
-  sentry-cli sourcemaps upload \
+  yarn sentry-cli sourcemaps upload \
     --org="${SENTRY_ORG}" \
     --project="${SENTRY_PROJECT}" \
     --release="${RELEASE_VERSION}" \
