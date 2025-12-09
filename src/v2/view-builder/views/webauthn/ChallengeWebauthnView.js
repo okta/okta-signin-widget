@@ -9,11 +9,12 @@ import { getMessageFromBrowserError } from '../../../ion/i18nTransformer';
 import ChallengeWebauthnFooter from '../../components/ChallengeWebauthnFooter';
 import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
 import EnrollWebAuthnResidentKeyLinkView from './EnrollWebAuthnResidentkeyLinkView';
+import { getWebAuthnTitle } from '../../utils/AuthenticatorUtil';
 
 const Body = BaseForm.extend({
 
   title() {
-    return loc('oie.verify.webauth.title', 'login');
+    return getWebAuthnTitle(this.options.currentViewState, true);
   },
 
   className: 'oie-verify-webauthn',

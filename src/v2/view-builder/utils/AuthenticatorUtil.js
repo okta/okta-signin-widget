@@ -16,6 +16,77 @@ import { AUTHENTICATOR_KEY, ID_PROOFING_TYPE } from '../../ion/RemediationConsta
 
 const { getPasswordComplexityDescriptionForHtmlList } = FactorUtil;
 
+// WebAuthn displayName constants for passkeys rebranding
+export const WEBAUTHN_DISPLAY_NAMES = {
+  DEFAULT: 'Security Key or Biometric',
+  PASSKEYS: 'Passkeys',
+};
+
+// WebAuthn i18n key mappings based on context and displayName
+const WEBAUTHN_I18N_KEYS = {
+  ENROLL_TITLE: {
+    DEFAULT: 'oie.enroll.webauthn.title',
+    PASSKEYS: 'oie.enroll.webauthn.passkeysRebrand.passkeys.title',
+    CUSTOM: 'oie.enroll.webauthn.passkeysRebrand.custom.title',
+  },
+  VERIFY_TITLE: {
+    DEFAULT: 'oie.verify.webauth.title',
+    PASSKEYS: 'oie.verify.webauth.passkeysRebrand.passkeys.title',
+    CUSTOM: 'oie.verify.webauth.passkeysRebrand.custom.title',
+  },
+  DESCRIPTION: {
+    DEFAULT: 'oie.webauthn.description',
+    PASSKEYS: 'oie.webauthn.passkeysRebrand.passkeys.description',
+  },
+  SELECT_ENROLL_LABEL: {
+    DEFAULT: 'oie.select.authenticator.enroll.webauthn.label',
+    PASSKEYS: 'oie.select.authenticator.enroll.webauthn.passkeysRebrand.passkeys.label',
+    CUSTOM: 'oie.select.authenticator.enroll.webauthn.passkeysRebrand.custom.label',
+  },
+  SELECT_VERIFY_LABEL: {
+    DEFAULT: 'oie.select.authenticator.verify.webauthn.label',
+    PASSKEYS: 'oie.select.authenticator.verify.webauthn.passkeysRebrand.passkeys.label',
+    CUSTOM: 'oie.select.authenticator.verify.webauthn.passkeysRebrand.custom.label',
+  },
+};
+
+/**
+ * Gets the appropriate i18n key based on WebAuthn displayName
+ * @param {Object} keyMap - The key mapping object (e.g., WEBAUTHN_I18N_KEYS.ENROLL_TITLE)
+ * @param {string} displayName - The displayName from IDX response
+ * @returns {string} - The complete i18n key
+ */
+export const getWebAuthnI18nKey = (keyMap, displayName) => {
+  if (!displayName || displayName === WEBAUTHN_DISPLAY_NAMES.DEFAULT) {
+    return keyMap.DEFAULT;
+  }
+  if (displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS) {
+    return keyMap.PASSKEYS;
+  }
+  return keyMap.CUSTOM;
+};
+
+/**
+ * Gets the WebAuthn title for enroll or verify views
+ * @param {Object} currentViewState - The current view state (remediation object)
+ * @param {boolean} isVerify - Whether this is a verify (challenge) flow or enroll flow
+ * @returns {string} - The localized title
+ */
+export const getWebAuthnTitle = (currentViewState, isVerify = false) => {
+  const displayName = currentViewState?.relatesTo?.value?.displayName;
+  const isCustom = displayName && 
+    displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT && 
+    displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS;
+  const params = isCustom ? [displayName] : [];
+  
+  const keyMap = isVerify 
+    ? WEBAUTHN_I18N_KEYS.VERIFY_TITLE 
+    : WEBAUTHN_I18N_KEYS.ENROLL_TITLE;
+  
+  const titleKey = getWebAuthnI18nKey(keyMap, displayName);
+  return loc(titleKey, 'login', params);
+};
+
 const getButtonDataSeAttr = function(authenticator) {
   if (authenticator.authenticatorKey) {
     const method = authenticator.value?.methodType ?
@@ -25,7 +96,7 @@ const getButtonDataSeAttr = function(authenticator) {
   return '';
 };
 
-/* eslint complexity: [0, 0], max-statements: [2, 25] */
+/* eslint complexity: [0, 0], max-statements: [2, 35] */
 const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   const authenticatorKey = authenticator.authenticatorKey;
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
@@ -87,18 +158,28 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
     });
     break;
 
-  case AUTHENTICATOR_KEY.WEBAUTHN:
+  case AUTHENTICATOR_KEY.WEBAUTHN: {
+    const displayName = authenticator.relatesTo?.displayName;
+    const isCustom = displayName && 
+      displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT && 
+      displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS;
+    const params = isCustom ? [displayName] : [];
+    
+    const descriptionKey = isCustom ? null : getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.DESCRIPTION, displayName);
+    const labelKey = isVerifyAuthenticator
+      ? getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.SELECT_VERIFY_LABEL, displayName)
+      : getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.SELECT_ENROLL_LABEL, displayName);
+    
     Object.assign(authenticatorData, {
-      description: isVerifyAuthenticator
+      description: isVerifyAuthenticator || !descriptionKey
         ? ''
-        : loc('oie.webauthn.description', 'login'),
+        : loc(descriptionKey, 'login', params),
       iconClassName: 'mfa-webauthn',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-      ariaLabel: isVerifyAuthenticator
-        ? loc('oie.select.authenticator.verify.webauthn.label', 'login')
-        : loc('oie.select.authenticator.enroll.webauthn.label', 'login')
+      ariaLabel: loc(labelKey, 'login', params)
     });
     break;
+  }
 
   case AUTHENTICATOR_KEY.OV:
     Object.assign(authenticatorData, {

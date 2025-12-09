@@ -16,12 +16,31 @@
 import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
 import { loc } from '../../util/loc';
-import { getAuthenticatorDisplayName } from '../view-builder/utils/AuthenticatorUtil';
+import { getAuthenticatorDisplayName, getWebAuthnI18nKey, WEBAUTHN_DISPLAY_NAMES } from '../view-builder/utils/AuthenticatorUtil';
 import { FORMS, AUTHENTICATOR_KEY } from './RemediationConstants';
 import { I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS } from '../view-builder/views/enroll-profile/i18nBaseAttributeMappings';
 
 const WEBAUTHN_API_GENERIC_ERROR_KEY = 'authfactor.webauthn.error';
 const DEVICE_ASSURANCE_CUSTOM_REMEDIATION_I18N_KEY_PREFIX = 'device.assurance.custom.remediation.';
+const WEBAUTHN_LABEL_KEY = 'oie.webauthn.label';
+
+// WebAuthn i18n key mappings based on context and displayName
+const WEBAUTHN_I18N_KEYS = {
+  SELECT_ENROLL: {
+    DEFAULT: 'oie.select.authenticator.enroll.webauthn.label',
+    PASSKEYS: 'oie.select.authenticator.enroll.webauthn.passkeysRebrand.passkeys.label',
+    CUSTOM: 'oie.select.authenticator.enroll.webauthn.passkeysRebrand.custom.label',
+  },
+  SELECT_VERIFY: {
+    DEFAULT: 'oie.select.authenticator.verify.webauthn.label',
+    PASSKEYS: 'oie.select.authenticator.verify.webauthn.passkeysRebrand.passkeys.label',
+    CUSTOM: 'oie.select.authenticator.verify.webauthn.passkeysRebrand.custom.label',
+  },
+  LABEL: {
+    DEFAULT: WEBAUTHN_LABEL_KEY,
+    PASSKEYS: 'oie.webauthn.passkeysRebrand.passkeys.label',
+  },
+};
 
 const SECURITY_QUESTION_PREFIXES = [
   'enroll-authenticator.security_question.credentials.questionKey.',
@@ -47,7 +66,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-enroll.authenticator.rsa_token': 'factor.totpHard.rsaSecurId',
   'select-authenticator-enroll.authenticator.security_question': 'oie.security.question.label',
   'select-authenticator-enroll.authenticator.symantec_vip': 'factor.totpHard.symantecVip',
-  'select-authenticator-enroll.authenticator.webauthn': 'oie.webauthn.label',
+  'select-authenticator-enroll.authenticator.webauthn': WEBAUTHN_LABEL_KEY,
   'select-authenticator-enroll.authenticator.yubikey_token': 'oie.yubikey.label',
 
   'select-authenticator-authenticate.authenticator.duo': 'factor.duo',
@@ -61,7 +80,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-authenticate.authenticator.rsa_token': 'factor.totpHard.rsaSecurId',
   'select-authenticator-authenticate.authenticator.security_question': 'oie.security.question.label',
   'select-authenticator-authenticate.authenticator.symantec_vip': 'factor.totpHard.symantecVip',
-  'select-authenticator-authenticate.authenticator.webauthn': 'oie.webauthn.label',
+  'select-authenticator-authenticate.authenticator.webauthn': WEBAUTHN_LABEL_KEY,
   'select-authenticator-authenticate.authenticator.yubikey_token': 'oie.yubikey.label',
   'select-authenticator-authenticate.authenticator.custom_app': 'oie.custom.app.authenticator.title',
   'select-authenticator-authenticate.authenticator.tac': 'oie.tac.label',
@@ -240,6 +259,19 @@ const getI8nKeyUsingParams = (key, param) => {
 const getI18NParams = (remediation, authenticatorKey) => {
   const params = [];
   const formName = remediation.name;
+  
+  // Handle WebAuthn custom displayName
+  if (authenticatorKey === AUTHENTICATOR_KEY.WEBAUTHN) {
+    const displayName = remediation?.relatesTo?.value?.displayName;
+    const isCustom = displayName && 
+      displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT && 
+      displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS;
+    if (isCustom) {
+      params.push(displayName);
+      return params;
+    }
+  }
+  
   if (I18N_PARAMS_MAPPING[formName] &&
     I18N_PARAMS_MAPPING[formName][authenticatorKey]) {
     const config = I18N_PARAMS_MAPPING[formName][authenticatorKey];
@@ -249,7 +281,7 @@ const getI18NParams = (remediation, authenticatorKey) => {
   return params;
 };
 
-const getI18nKey = (i18nPath) => {
+const getI18nKey = (i18nPath, remediation = null) => {
   let i18nKey;
   // Extract security question value from i18nPath
   SECURITY_QUESTION_PREFIXES.forEach(prefix => {
@@ -259,8 +291,29 @@ const getI18nKey = (i18nPath) => {
     }
   });
 
-  if (I18N_OVERRIDE_MAPPINGS[i18nPath]) {
+  // Handle WebAuthn authenticator dynamically based on displayName
+  // Note: We need to distinguish between the authenticator label and the select button aria-label
+  // The authenticator label uses LABEL keys, while aria-label uses SELECT_* keys
+  if (i18nPath === 'select-authenticator-enroll.authenticator.webauthn' ||
+      i18nPath === 'select-authenticator-authenticate.authenticator.webauthn') {
+    // This path is for the button aria-label, but we're using it for the label too
+    // We should use the simpler LABEL keys for the option label display
+    const displayName = remediation?.relatesTo?.value?.displayName;
+    i18nKey = getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.LABEL, displayName);
+  } else if (I18N_OVERRIDE_MAPPINGS[i18nPath]) {
     i18nKey = I18N_OVERRIDE_MAPPINGS[i18nPath];
+  }
+  
+  // For generic webauthn.label, check if we should use passkeys-specific label or displayName
+  const isGenericWebAuthnLabel = i18nKey === WEBAUTHN_LABEL_KEY;
+  if (isGenericWebAuthnLabel) {
+    const displayName = remediation?.relatesTo?.value?.displayName;
+    if (displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS) {
+      i18nKey = WEBAUTHN_I18N_KEYS.LABEL.PASSKEYS;
+    } else if (displayName && displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT) {
+      // For custom displayName, return null to use the displayName itself
+      return null;
+    }
   }
 
   if (i18nKey && !Bundles.login[i18nKey]) {
@@ -282,9 +335,10 @@ const doesI18NKeyExist = (i18nKey) => {
  * @param {string} i18nPath
  * @param {string} defaultValue
  * @param {string[]} params
+ * @param {Object} remediation
  */
-const getI18NValue = (i18nPath, defaultValue, params = []) => {
-  const i18nKey = getI18nKey(i18nPath);
+const getI18NValue = (i18nPath, defaultValue, params = [], remediation = null) => {
+  const i18nKey = getI18nKey(i18nPath, remediation);
   if (i18nKey) {
     return loc(i18nKey, 'login', params);
   } else {
