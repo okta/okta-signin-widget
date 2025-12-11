@@ -192,6 +192,32 @@ Object {
 }
 `;
 
+exports[`Terminal Transaction Transformer Tests should clear state and reload page for oie.tooManyRequests or verificationTimedOut message key when baseUrl not provided 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "focus": true,
+        "options": Object {
+          "dataSe": "cancel",
+          "isActionStep": true,
+          "label": "goback",
+          "onClick": [Function],
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
 exports[`Terminal Transaction Transformer Tests should clear state and reload page for tooManyRequests or verificationTimedOut message key when baseUrl not provided 1`] = `
 Object {
   "data": Object {},

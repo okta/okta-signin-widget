@@ -213,7 +213,10 @@ describe('Terminal Transaction Transformer Tests', () => {
       .toBe(TERMINAL_TITLE_KEY[TERMINAL_KEY.UNLOCK_ACCOUNT_KEY]);
   });
 
-  it('should clear state and reload page for tooManyRequests or verificationTimedOut message key when baseUrl not provided', () => {
+  it.each([
+    ['tooManyRequests', TERMINAL_KEY.TOO_MANY_REQUESTS],
+    ['oie.tooManyRequests', TERMINAL_KEY.OIE_TOO_MANY_REQUESTS],
+  ])('should clear state and reload page for %s or verificationTimedOut message key when baseUrl not provided', (description, terminalKey) => {
     const loginPath = 'http://example.com/login/path';
     const mockLocation = jest.spyOn(global, 'location', 'get');
     // Mock window.location.assign function
@@ -233,7 +236,7 @@ describe('Terminal Transaction Transformer Tests', () => {
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
       'ERROR',
-      TERMINAL_KEY.TOO_MANY_REQUESTS,
+      terminalKey,
     ));
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
     expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(0);
