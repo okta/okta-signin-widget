@@ -8,6 +8,8 @@ import CryptoUtil from 'util/CryptoUtil';
 import $sandbox from 'sandbox';
 import Expect from 'helpers/util/Expect';
 import ChallengeWebauthnResponse from '../../../../../../playground/mocks/data/idp/idx/authenticator-verification-webauthn.json';
+import ChallengeWebauthnPasskeysResponse from '../../../../../../playground/mocks/data/idp/idx/authenticator-verification-webauthn-passkeys.json';
+import ChallengeWebauthnCustomResponse from '../../../../../../playground/mocks/data/idp/idx/authenticator-verification-webauthn-custom.json';
 
 describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   let testContext;
@@ -378,5 +380,41 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
         done();
       })
       .catch(done.fail);
+  });
+
+  describe('WebAuthn displayName variations', function() {
+    it('shows DEFAULT title and no custom instructions for default displayName', function() {
+      testContext.init(ChallengeWebauthnResponse.currentAuthenticator.value);
+      expect(testContext.view.$('.okta-form-title').text()).toBe('Verify with Security Key or Biometric Authenticator');
+      expect(testContext.view.$('.additional-instructions-title').length).toBe(0);
+      expect(testContext.view.$('.additional-instructions-callout').length).toBe(0);
+    });
+
+    it('shows PASSKEYS title and no custom instructions for Passkeys displayName', function() {
+      testContext.init(ChallengeWebauthnPasskeysResponse.currentAuthenticator.value);
+      expect(testContext.view.$('.okta-form-title').text()).toBe('Verify with a passkey');
+      expect(testContext.view.$('.additional-instructions-title').length).toBe(0);
+      expect(testContext.view.$('.additional-instructions-callout').length).toBe(0);
+    });
+
+    it('shows CUSTOM title and custom instructions for custom displayName with description', function() {
+      testContext.init(ChallengeWebauthnCustomResponse.currentAuthenticator.value);
+      expect(testContext.view.$('.okta-form-title').text()).toBe('Verify with TouchID');
+      expect(testContext.view.$('.additional-instructions-title').length).toBe(1);
+      expect(testContext.view.$('.additional-instructions-title').text().trim()).toBe('Additional instructions from your administrator:');
+      expect(testContext.view.$('.additional-instructions-callout').length).toBe(1);
+      expect(testContext.view.$('.additional-instructions-callout').text().trim()).toBe(
+        'Use your fingerprint to verify your identity.'
+      );
+    });
+
+    it('hides custom instructions when description is missing', function() {
+      const currentAuthenticator = JSON.parse(JSON.stringify(ChallengeWebauthnCustomResponse.currentAuthenticator.value));
+      delete currentAuthenticator.description;
+      testContext.init(currentAuthenticator);
+      expect(testContext.view.$('.okta-form-title').text()).toBe('Verify with TouchID');
+      expect(testContext.view.$('.additional-instructions-title').length).toBe(0);
+      expect(testContext.view.$('.additional-instructions-callout').length).toBe(0);
+    });
   });
 });

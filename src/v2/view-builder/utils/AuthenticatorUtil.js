@@ -129,6 +129,7 @@ export const getWebAuthnAdditionalInstructions = (currentViewState) => {
   const description = relatesToObject?.value?.description;
   
   if (
+    displayName &&
     displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT &&
     displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS &&
     description
