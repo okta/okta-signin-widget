@@ -87,6 +87,58 @@ export const getWebAuthnTitle = (currentViewState, isVerify = false) => {
   return loc(titleKey, 'login', params);
 };
 
+/**
+ * Gets the WebAuthn description configuration for select-authenticator
+ * @param {Object} authenticator - The authenticator object
+ * @param {string} displayName - The displayName from IDX response
+ * @param {boolean} isVerifyAuthenticator - Whether this is verify flow
+ * @returns {string} - The localized description
+ */
+const getWebAuthnDescriptionConfig = (authenticator, displayName, isVerifyAuthenticator) => {
+  if (isVerifyAuthenticator) {
+    return '';
+  }
+  
+  const isCustom = displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT && displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS;
+  
+  if (isCustom) {
+    const customDescription = authenticator.relatesTo?.description;
+    if (customDescription) {
+      // Use raw custom description from relatesTo if available
+      return customDescription;
+    }
+    // Fall back to DEFAULT description for custom case without custom description
+    const descriptionKey = getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.DESCRIPTION, WEBAUTHN_DISPLAY_NAMES.DEFAULT);
+    return loc(descriptionKey, 'login');
+  }
+  
+  // For DEFAULT and PASSKEYS cases
+  const params = [];
+  const descriptionKey = getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.DESCRIPTION, displayName);
+  return loc(descriptionKey, 'login', params);
+};
+
+/**
+ * Checks if WebAuthn custom additional instructions should be displayed
+ * @param {Object} currentViewState - The current view state (remediation object)
+ * @returns {string|null} - Returns the description if should display, null otherwise
+ */
+export const getWebAuthnAdditionalInstructions = (currentViewState) => {
+  const relatesToObject = currentViewState?.relatesTo;
+  const displayName = relatesToObject?.value?.displayName;
+  const description = relatesToObject?.value?.description;
+  
+  if (
+    displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT &&
+    displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS &&
+    description
+  ) {
+    return description;
+  }
+  
+  return null;
+};
+
 const getButtonDataSeAttr = function(authenticator) {
   if (authenticator.authenticatorKey) {
     const method = authenticator.value?.methodType ?
@@ -96,7 +148,7 @@ const getButtonDataSeAttr = function(authenticator) {
   return '';
 };
 
-/* eslint complexity: [0, 0], max-statements: [2, 35] */
+/* eslint complexity: [0, 0], max-statements: [2, 32] */
 const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   const authenticatorKey = authenticator.authenticatorKey;
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
@@ -165,15 +217,14 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
       displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS;
     const params = isCustom ? [displayName] : [];
     
-    const descriptionKey = isCustom ? null : getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.DESCRIPTION, displayName);
+    const description = getWebAuthnDescriptionConfig(authenticator, displayName, isVerifyAuthenticator);
+    
     const labelKey = isVerifyAuthenticator
       ? getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.SELECT_VERIFY_LABEL, displayName)
       : getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.SELECT_ENROLL_LABEL, displayName);
     
     Object.assign(authenticatorData, {
-      description: isVerifyAuthenticator || !descriptionKey
-        ? ''
-        : loc(descriptionKey, 'login', params),
+      description,
       iconClassName: 'mfa-webauthn',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
       ariaLabel: loc(labelKey, 'login', params)
