@@ -32,6 +32,12 @@ import {
   webAuthNAuthenticationHandler,
   webAuthNEnrollmentHandler,
 } from '../../util';
+import {
+  getWebAuthnI18nKey,
+  getWebAuthnI18nParams,
+  shouldShowWebAuthnAdditionalInstructions,
+  WEBAUTHN_I18N_KEYS,
+} from '../../util/webauthnDisplayNameUtils';
 
 const appendViewCallouts = (
   uischema: UISchemaLayout,
@@ -139,6 +145,7 @@ const appendFooterAccordion = (uischema: UISchemaLayout, app: IdxContext['app'])
       {
         type: 'AccordionPanel',
         key: 'cant-verify',
+        variant: 'borderless',
         options: {
           id: 'cant-verify',
           summary: loc('oie.verify.webauthn.cant.verify', 'login'),
@@ -156,12 +163,20 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
   const { uischema } = formBag;
   const { nextStep: { name, relatesTo } = {}, context: { app } } = transaction;
 
+  const displayName = relatesTo?.value?.displayName;
+  const description = (relatesTo?.value as any)?.description;
+  const isEnroll = name === IDX_STEP.ENROLL_AUTHENTICATOR;
+
+  // Dynamic title based on displayName
+  const titleKey = isEnroll
+    ? getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.ENROLL_TITLE, displayName)
+    : getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.VERIFY_TITLE, displayName);
+  const titleParams = getWebAuthnI18nParams(displayName);
+
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: name === IDX_STEP.ENROLL_AUTHENTICATOR
-        ? loc('oie.enroll.webauthn.title', 'login')
-        : loc('oie.verify.webauth.title', 'login'),
+      content: loc(titleKey, 'login', titleParams),
     },
   };
 
@@ -182,13 +197,40 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
 
     appendViewCallouts(uischema, name, relatesTo);
 
+    // Add custom instructions if applicable (for custom displayName with description)
+    if (shouldShowWebAuthnAdditionalInstructions(displayName, description)) {
+      uischema.elements.unshift({
+        type: 'InfoBox',
+        options: {
+          message: {
+            class: 'INFO',
+            message: description!,
+          },
+          class: 'INFO',
+          dataSe: 'callout',
+        },
+      } as InfoboxElement);
+
+      uischema.elements.unshift({
+        type: 'Description',
+        options: {
+          content: `<strong>${loc('oie.verify.webauthn.instructions.additional', 'login')}</strong>`,
+        },
+      } as DescriptionElement);
+    }
+
+    // Dynamic instructions based on displayName
+    const instructionsKey = isEnroll
+      ? getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.ENROLL_INSTRUCTIONS, displayName)
+      : getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.VERIFY_INSTRUCTIONS, displayName);
+    // Note: Instructions don't need params since they're generic regardless of displayName
+    const instructionsParams: string[] = [];
+
     uischema.elements.unshift({
       type: 'Description',
       contentType: 'subtitle',
       options: {
-        content: name === IDX_STEP.ENROLL_AUTHENTICATOR
-          ? loc('oie.enroll.webauthn.instructions', 'login')
-          : loc('oie.verify.webauthn.instructions', 'login'),
+        content: loc(instructionsKey, 'login', instructionsParams),
       },
     } as DescriptionElement);
   } else {

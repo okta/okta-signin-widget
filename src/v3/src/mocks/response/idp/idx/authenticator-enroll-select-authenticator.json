@@ -78,7 +78,7 @@
                 "relatesTo": "$.authenticators.value[2]"
               },
               {
-                "label": "Security Key or Biometric Authenticator (FIDO2)",
+                "label": "Security Key or Biometric",
                 "value": {
                   "form": {
                     "value": [

@@ -38,6 +38,7 @@ const Accordion: FunctionComponent<AccordionProps> = ({ uischema }) => {
               hasShadow={false}
               label={element.options.summary}
               id={element.options.id}
+              {...(element.variant && { variant: element.variant })}
             >
               <LayoutContainer
                 uischema={element.options.content}

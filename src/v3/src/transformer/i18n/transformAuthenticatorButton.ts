@@ -26,9 +26,10 @@ import { addTranslation } from './util';
 const getAuthenticatorButtonKey = (
   stepName: string,
   options: AuthenticatorButtonElement['options'],
+  remediation?: any,
 ): string => {
   // try get i18nKey without methodType
-  const i18nKey = getI18nKey(`${stepName}.authenticator.${options.key}`);
+  const i18nKey = getI18nKey(`${stepName}.authenticator.${options.key}`, remediation);
   if (i18nKey) {
     return i18nKey;
   }
@@ -36,13 +37,13 @@ const getAuthenticatorButtonKey = (
   const methodType = options.authenticator?.methods?.[0]?.type
     || options.actionParams?.['authenticator.methodType'];
   // try get i18nKey with methodType
-  const i18nKeyWithMethod = getI18nKey(`${stepName}.authenticator.${options.key}.${methodType}`);
+  const i18nKeyWithMethod = getI18nKey(`${stepName}.authenticator.${options.key}.${methodType}`, remediation);
   if (i18nKeyWithMethod) {
     return i18nKeyWithMethod;
   }
 
   // try get i18nKey with authenticator.methodType in key
-  const i18nKeyWithMethodTypeInKey = getI18nKey(`${stepName}.${options.key}.authenticator.methodType.${methodType}`);
+  const i18nKeyWithMethodTypeInKey = getI18nKey(`${stepName}.${options.key}.authenticator.methodType.${methodType}`, remediation);
   if (i18nKeyWithMethodTypeInKey) {
     return i18nKeyWithMethodTypeInKey;
   }
@@ -71,15 +72,28 @@ export const transformAuthenticatorButton: TransformStepFnWithOptions = ({
       const buttonListElement = ele as AuthenticatorButtonListElement;
       buttonListElement.options.buttons.forEach(
         (authenticatorButtonElement: AuthenticatorButtonElement) => {
-          const i18nKey = getAuthenticatorButtonKey(stepName, authenticatorButtonElement.options);
           const {
             label,
             options: {
               key,
               description,
               isEnroll,
+              authenticator,
             },
           } = authenticatorButtonElement;
+          
+          // Create a remediation-like object for v2's getI18nKey to access displayName
+          const remediation = authenticator ? {
+            relatesTo: {
+              value: authenticator
+            }
+          } : null;
+          
+          const i18nKey = getAuthenticatorButtonKey(
+            stepName,
+            authenticatorButtonElement.options,
+            remediation
+          );
           const translateDescription = !isEnroll
             && AUTHENTICATORS_TO_TRANSLATE_DESCRIPTION.includes(key);
           addTranslation({

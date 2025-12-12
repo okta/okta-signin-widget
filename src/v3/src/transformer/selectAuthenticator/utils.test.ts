@@ -270,6 +270,8 @@ describe('Select Authenticator Utility Tests', () => {
         let expectedLabel;
         if (option.relatesTo?.key === AUTHENTICATOR_KEY.CUSTOM_APP) {
           expectedLabel = 'DisplayName';
+        } else if (option.relatesTo?.key === AUTHENTICATOR_KEY.WEBAUTHN) {
+          expectedLabel = 'DisplayName'; // Custom displayName case
         } else if (option.relatesTo?.key === AUTHENTICATOR_KEY.OV) {
           expectedLabel = 'oie.okta_verify.label';
         } else {
@@ -668,6 +670,8 @@ describe('Select Authenticator Utility Tests', () => {
         let expectedLabel;
         if (option.relatesTo?.key === AUTHENTICATOR_KEY.CUSTOM_APP) {
           expectedLabel = 'DisplayName';
+        } else if (option.relatesTo?.key === AUTHENTICATOR_KEY.WEBAUTHN) {
+          expectedLabel = 'DisplayName'; // Custom displayName case
         } else if (option.relatesTo?.key === AUTHENTICATOR_KEY.OV) {
           expectedLabel = 'oie.okta_verify.label';
         } else {
@@ -676,8 +680,11 @@ describe('Select Authenticator Utility Tests', () => {
         expect(currentOption?.label).toBe(expectedLabel);
         expect(currentOption?.options.ctaLabel)
           .toBe('oie.enroll.authenticator.button.text');
+        const expectedDescription = option.relatesTo?.key === AUTHENTICATOR_KEY.WEBAUTHN
+          ? 'oie.webauthn.description'
+          : AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[option.relatesTo?.key as string];
         expect(currentOption?.options.description)
-          .toBe(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[option.relatesTo?.key as string]);
+          .toBe(expectedDescription);
       });
     });
 

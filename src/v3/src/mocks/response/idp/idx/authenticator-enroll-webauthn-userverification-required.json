@@ -112,7 +112,7 @@
                 "relatesTo": "$.authenticators.value[2]"
               },
               {
-                "label": "Security Key or Biometric Authenticator (FIDO2)",
+                "label": "Security Key or Biometric",
                 "value": {
                   "form": {
                     "value": [
@@ -168,7 +168,7 @@
   "currentAuthenticator": {
     "type": "object",
     "value": {
-      "displayName": "Security Key or Biometric Authenticator (FIDO2)",
+      "displayName": "Security Key or Biometric",
       "catalogKey": "webauthn",
       "type": "security_key",
       "key": "webauthn",

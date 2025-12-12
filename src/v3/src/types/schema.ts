@@ -587,6 +587,7 @@ export interface LinkElement extends UISchemaElement {
 
 export interface AccordionPanelElement extends UISchemaElement {
   type: 'AccordionPanel',
+  variant?: 'borderless';
   options: {
     id: string;
     summary: string;

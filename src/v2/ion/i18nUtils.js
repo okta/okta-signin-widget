@@ -292,28 +292,20 @@ const getI18nKey = (i18nPath, remediation = null) => {
   });
 
   // Handle WebAuthn authenticator dynamically based on displayName
-  // Note: We need to distinguish between the authenticator label and the select button aria-label
-  // The authenticator label uses LABEL keys, while aria-label uses SELECT_* keys
+  // Check for WebAuthn paths BEFORE I18N_OVERRIDE_MAPPINGS to properly handle custom displayNames
   if (i18nPath === 'select-authenticator-enroll.authenticator.webauthn' ||
       i18nPath === 'select-authenticator-authenticate.authenticator.webauthn') {
-    // This path is for the button aria-label, but we're using it for the label too
-    // We should use the simpler LABEL keys for the option label display
     const displayName = remediation?.relatesTo?.value?.displayName;
+    
+    // For custom displayName (not DEFAULT, not PASSKEYS), return null to use the displayName itself
+    if (displayName && displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT && displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS) {
+      return null;
+    }
+    
+    // For DEFAULT or PASSKEYS, get the appropriate i18n key
     i18nKey = getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.LABEL, displayName);
   } else if (I18N_OVERRIDE_MAPPINGS[i18nPath]) {
     i18nKey = I18N_OVERRIDE_MAPPINGS[i18nPath];
-  }
-  
-  // For generic webauthn.label, check if we should use passkeys-specific label or displayName
-  const isGenericWebAuthnLabel = i18nKey === WEBAUTHN_LABEL_KEY;
-  if (isGenericWebAuthnLabel) {
-    const displayName = remediation?.relatesTo?.value?.displayName;
-    if (displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS) {
-      i18nKey = WEBAUTHN_I18N_KEYS.LABEL.PASSKEYS;
-    } else if (displayName && displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT) {
-      // For custom displayName, return null to use the displayName itself
-      return null;
-    }
   }
 
   if (i18nKey && !Bundles.login[i18nKey]) {
