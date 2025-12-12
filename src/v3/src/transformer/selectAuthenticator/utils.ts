@@ -26,7 +26,7 @@ import {
   getWebAuthnI18nParams,
   WEBAUTHN_DISPLAY_NAMES,
   WEBAUTHN_I18N_KEYS,
-} from '../../util/webauthnDisplayNameUtils';
+} from '../../../../util/webauthnDisplayNameUtils';
 
 const getVerifyEmailAriaLabel = (email?: string): string => (email
   ? loc('oie.select.authenticator.verify.email.with.email.label', 'login', [email])

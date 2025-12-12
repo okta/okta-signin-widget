@@ -13,58 +13,15 @@ import _ from 'underscore';
 import { loc } from '../../../util/loc';
 import FactorUtil from 'util/FactorUtil';
 import { AUTHENTICATOR_KEY, ID_PROOFING_TYPE } from '../../ion/RemediationConstants';
+import {
+  WEBAUTHN_DISPLAY_NAMES,
+  WEBAUTHN_I18N_KEYS,
+  getWebAuthnI18nKey,
+  getWebAuthnI18nParams,
+  shouldShowWebAuthnAdditionalInstructions,
+} from '../../../util/webauthnDisplayNameUtils';
 
 const { getPasswordComplexityDescriptionForHtmlList } = FactorUtil;
-
-// WebAuthn displayName constants for passkeys rebranding
-export const WEBAUTHN_DISPLAY_NAMES = {
-  DEFAULT: 'Security Key or Biometric',
-  PASSKEYS: 'Passkeys',
-};
-
-// WebAuthn i18n key mappings based on context and displayName
-const WEBAUTHN_I18N_KEYS = {
-  ENROLL_TITLE: {
-    DEFAULT: 'oie.enroll.webauthn.title',
-    PASSKEYS: 'oie.enroll.webauthn.passkeysRebrand.passkeys.title',
-    CUSTOM: 'oie.enroll.webauthn.passkeysRebrand.custom.title',
-  },
-  VERIFY_TITLE: {
-    DEFAULT: 'oie.verify.webauth.title',
-    PASSKEYS: 'oie.verify.webauth.passkeysRebrand.passkeys.title',
-    CUSTOM: 'oie.verify.webauth.passkeysRebrand.custom.title',
-  },
-  DESCRIPTION: {
-    DEFAULT: 'oie.webauthn.description',
-    PASSKEYS: 'oie.webauthn.passkeysRebrand.passkeys.description',
-  },
-  SELECT_ENROLL_LABEL: {
-    DEFAULT: 'oie.select.authenticator.enroll.webauthn.label',
-    PASSKEYS: 'oie.select.authenticator.enroll.webauthn.passkeysRebrand.passkeys.label',
-    CUSTOM: 'oie.select.authenticator.enroll.webauthn.passkeysRebrand.custom.label',
-  },
-  SELECT_VERIFY_LABEL: {
-    DEFAULT: 'oie.select.authenticator.verify.webauthn.label',
-    PASSKEYS: 'oie.select.authenticator.verify.webauthn.passkeysRebrand.passkeys.label',
-    CUSTOM: 'oie.select.authenticator.verify.webauthn.passkeysRebrand.custom.label',
-  },
-};
-
-/**
- * Gets the appropriate i18n key based on WebAuthn displayName
- * @param {Object} keyMap - The key mapping object (e.g., WEBAUTHN_I18N_KEYS.ENROLL_TITLE)
- * @param {string} displayName - The displayName from IDX response
- * @returns {string} - The complete i18n key
- */
-export const getWebAuthnI18nKey = (keyMap, displayName) => {
-  if (!displayName || displayName === WEBAUTHN_DISPLAY_NAMES.DEFAULT) {
-    return keyMap.DEFAULT;
-  }
-  if (displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS) {
-    return keyMap.PASSKEYS;
-  }
-  return keyMap.CUSTOM;
-};
 
 /**
  * Gets the WebAuthn title for enroll or verify views
@@ -74,10 +31,7 @@ export const getWebAuthnI18nKey = (keyMap, displayName) => {
  */
 export const getWebAuthnTitle = (currentViewState, isVerify = false) => {
   const displayName = currentViewState?.relatesTo?.value?.displayName;
-  const isCustom = displayName && 
-    displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT && 
-    displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS;
-  const params = isCustom ? [displayName] : [];
+  const params = getWebAuthnI18nParams(displayName);
   
   const keyMap = isVerify 
     ? WEBAUTHN_I18N_KEYS.VERIFY_TITLE 
@@ -128,12 +82,7 @@ export const getWebAuthnAdditionalInstructions = (currentViewState) => {
   const displayName = relatesToObject?.value?.displayName;
   const description = relatesToObject?.value?.description;
   
-  if (
-    displayName &&
-    displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT &&
-    displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS &&
-    description
-  ) {
+  if (shouldShowWebAuthnAdditionalInstructions(displayName, description)) {
     return description;
   }
   
@@ -213,10 +162,7 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
 
   case AUTHENTICATOR_KEY.WEBAUTHN: {
     const displayName = authenticator.relatesTo?.displayName;
-    const isCustom = displayName && 
-      displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT && 
-      displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS;
-    const params = isCustom ? [displayName] : [];
+    const params = getWebAuthnI18nParams(displayName);
     
     const description = getWebAuthnDescriptionConfig(authenticator, displayName, isVerifyAuthenticator);
     

@@ -3,11 +3,13 @@ import {
   getAuthenticatorDisplayName,
   getAuthenticatorDataForVerification,
   getAuthenticatorDataForEnroll,
-  getWebAuthnI18nKey,
   getWebAuthnTitle,
   getWebAuthnAdditionalInstructions,
-  WEBAUTHN_DISPLAY_NAMES,
 } from 'v2/view-builder/utils/AuthenticatorUtil';
+import {
+  getWebAuthnI18nKey,
+  WEBAUTHN_DISPLAY_NAMES,
+} from 'util/webauthnDisplayNameUtils';
 
 describe('v2/utils/AuthenticatorUtil', function() {
   it('filters requirements from password error', function() {

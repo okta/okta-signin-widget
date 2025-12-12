@@ -16,7 +16,7 @@ import {
   shouldShowWebAuthnAdditionalInstructions,
   WEBAUTHN_DISPLAY_NAMES,
   WEBAUTHN_I18N_KEYS,
-} from './webauthnDisplayNameUtils';
+} from '../../../util/webauthnDisplayNameUtils';
 
 describe('webauthnDisplayNameUtils', () => {
   describe('getWebAuthnI18nKey', () => {

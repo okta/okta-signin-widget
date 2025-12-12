@@ -37,7 +37,7 @@ import {
   getWebAuthnI18nParams,
   shouldShowWebAuthnAdditionalInstructions,
   WEBAUTHN_I18N_KEYS,
-} from '../../util/webauthnDisplayNameUtils';
+} from '../../../../util/webauthnDisplayNameUtils';
 
 const appendViewCallouts = (
   uischema: UISchemaLayout,

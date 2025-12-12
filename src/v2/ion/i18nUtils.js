@@ -16,31 +16,18 @@
 import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
 import { loc } from '../../util/loc';
-import { getAuthenticatorDisplayName, getWebAuthnI18nKey, WEBAUTHN_DISPLAY_NAMES } from '../view-builder/utils/AuthenticatorUtil';
+import { getAuthenticatorDisplayName } from '../view-builder/utils/AuthenticatorUtil';
+import {
+  getWebAuthnI18nKey,
+  WEBAUTHN_DISPLAY_NAMES,
+  WEBAUTHN_I18N_KEYS,
+} from '../../util/webauthnDisplayNameUtils';
 import { FORMS, AUTHENTICATOR_KEY } from './RemediationConstants';
 import { I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS } from '../view-builder/views/enroll-profile/i18nBaseAttributeMappings';
 
 const WEBAUTHN_API_GENERIC_ERROR_KEY = 'authfactor.webauthn.error';
 const DEVICE_ASSURANCE_CUSTOM_REMEDIATION_I18N_KEY_PREFIX = 'device.assurance.custom.remediation.';
 const WEBAUTHN_LABEL_KEY = 'oie.webauthn.label';
-
-// WebAuthn i18n key mappings based on context and displayName
-const WEBAUTHN_I18N_KEYS = {
-  SELECT_ENROLL: {
-    DEFAULT: 'oie.select.authenticator.enroll.webauthn.label',
-    PASSKEYS: 'oie.select.authenticator.enroll.webauthn.passkeysRebrand.passkeys.label',
-    CUSTOM: 'oie.select.authenticator.enroll.webauthn.passkeysRebrand.custom.label',
-  },
-  SELECT_VERIFY: {
-    DEFAULT: 'oie.select.authenticator.verify.webauthn.label',
-    PASSKEYS: 'oie.select.authenticator.verify.webauthn.passkeysRebrand.passkeys.label',
-    CUSTOM: 'oie.select.authenticator.verify.webauthn.passkeysRebrand.custom.label',
-  },
-  LABEL: {
-    DEFAULT: WEBAUTHN_LABEL_KEY,
-    PASSKEYS: 'oie.webauthn.passkeysRebrand.passkeys.label',
-  },
-};
 
 const SECURITY_QUESTION_PREFIXES = [
   'enroll-authenticator.security_question.credentials.questionKey.',
