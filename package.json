@@ -237,7 +237,7 @@
     "webpack-dev-server": "^4.15.2"
   },
   "dependencies": {
-    "@okta/okta-auth-js": "7.14.0",
+    "@okta/okta-auth-js": "7.15.0-gde39846",
     "@sentry/cli": "^2.58.2",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "@types/backbone": "^1.4.15",
