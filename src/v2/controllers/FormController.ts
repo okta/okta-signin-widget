@@ -300,16 +300,23 @@ export default Controller.extend({
     const authClient = this.options.settings.getAuthClient();
     const idxOptions: ProceedOptions = {
       exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
+      alwaysSaveResponse: true,
     };
     try {
       const idx = this.options.appState.get('idx');
-      const { stateHandle } = idx.context;
+      // const { stateHandle } = idx.context;
+      // make sure it's passing the latest stateHandle
+      const stateHandle = sessionStorageHelper.getStateHandle() || idx.context.stateHandle;
+      console.log('stateHandle', stateHandle);
       const resp = await authClient.idx.proceed({
         ...idxOptions,
         step: formName,
         stateHandle,
         ...values
       });
+
+      // always track stateHandle when response comes back
+      sessionStorageHelper.setStateHandle(resp.context.stateHandle);
 
       if (resp.status === IdxStatus.FAILURE) {
         throw resp.error; // caught and handled in this function

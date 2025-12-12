@@ -19,7 +19,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -92,7 +92,7 @@ const idx = {
     // 'identify-with-third-party-idps',
     // 'identify-with-only-third-party-idps',
     // 'identify-with-only-one-third-party-idp',
-    // 'identify-with-password',
+    'identify-with-password',
     // 'identify-with-universal-link',
     // 'identify-with-app-link',
     // 'success',
@@ -134,11 +134,11 @@ const idx = {
   ],
   '/idp/idx/identify': [
     // 'authenticator-verification-data-ov-only-without-device-known',
-    'authenticator-verification-email',
+    // 'authenticator-verification-email',
     // 'authenticator-enroll-select-authenticator',
     // 'authenticator-verification-email-without-emailmagiclink',
     // 'identify-with-only-one-third-party-idp',
-    // 'error-identify-access-denied',
+    'error-identify-access-denied',
     // 'error-identify-access-denied-custom-message',
     // 'error-identify-user-locked-unable-challenge',
     // 'error-unable-to-authenticate-user',
