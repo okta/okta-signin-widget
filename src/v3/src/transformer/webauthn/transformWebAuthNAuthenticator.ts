@@ -204,10 +204,10 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
         options: {
           message: {
             class: 'INFO',
-            message: description!,
+            message: description,
           },
           class: 'INFO',
-          dataSe: 'callout',
+          dataSe: 'additionalInstructionsCallout',
         },
       } as InfoboxElement);
 
