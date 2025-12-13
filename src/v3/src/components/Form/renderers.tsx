@@ -61,6 +61,7 @@ import StepperNavigator from '../StepperNavigator';
 import StepperRadio from '../StepperRadio';
 import TextWithActionLink from '../TextWithActionLink';
 import Title from '../Title';
+import LaunchPasskeysAuthenticatorButton from '../LaunchPasskeysAuthenticatorButton';
 import WebAuthNAutofill from '../WebAuthNAutofill';
 import WebAuthNSubmitButton from '../WebAuthNSubmitButton';
 
@@ -139,6 +140,10 @@ export default [
   {
     tester: ({ type }) => type === 'ChromeDtcContainer',
     renderer: ChromeDtcContainer,
+  },
+  {
+    tester: ({ type }) => type === 'LaunchPasskeysAuthenticatorButton',
+    renderer: LaunchPasskeysAuthenticatorButton,
   },
   {
     tester: ({ type }) => type === 'WebAuthNSubmitButton',

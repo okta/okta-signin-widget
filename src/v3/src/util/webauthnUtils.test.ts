@@ -20,7 +20,7 @@ import {
 } from '@okta/okta-auth-js';
 import { getMockCreateCredentialsResponse, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
-import { webAuthNAuthenticationHandler, webAuthNEnrollmentHandler } from '.';
+import { webAuthNAuthenticationHandler, webAuthNEnrollmentHandler, webAuthNModalActionHandler } from '.';
 
 describe('WebAuthN Util Tests', () => {
   const transaction = getStubTransactionWithNextStep();
@@ -123,5 +123,10 @@ describe('WebAuthN Util Tests', () => {
     );
 
     await expect(webAuthNAuthenticationHandler(transaction)).rejects.toThrow('NotAllowed');
+  });
+
+  it('returns undefined if no abortController', async () => {
+    const result = await webAuthNModalActionHandler({} as any, undefined);
+    expect(result).toBeUndefined();
   });
 });

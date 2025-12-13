@@ -188,6 +188,18 @@
     }
   }
 
+  .okta-passkeys-authenticator {
+    /* -- Passkeys Authenticator (small) -- */
+    background-image: url('../img/icons/mfa/passkeys_authenticator.png');
+
+    @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
+      /* -- Passkeys Authenticator Icons (high DPI) -- */
+      background-image: url('../img/icons/mfa/passkeys_authenticator@2x.png');
+    }
+  }
+
   .okta-verify-authenticator {
     /* -- Okta Verify Authenticator (small) -- */
     background-image: url('../img/icons/mfa/oktaVerify_authenticator.png');

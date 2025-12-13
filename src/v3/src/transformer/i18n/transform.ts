@@ -27,6 +27,7 @@ import { transformPhoneAuthenticator } from './transformPhoneAuthenticator';
 import { transformQRCode } from './transformQRCode';
 import { transformSecondEmailInputExplain } from './transformSecondEmailInputExplain';
 import { transformWebAuthNSubmitButton } from './transformWebAuthNSubmitButton';
+import { transformLaunchPasskeysAuthenticatorButton } from './transformLaunchPasskeysAuthenticatorButton';
 
 export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) => flow(
   transformField(options),
@@ -41,6 +42,7 @@ export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) 
   transformWebAuthNSubmitButton(options),
   transformLaunchAuthenticatorButton,
   transformOpenOktaVerifyFPButton,
+  transformLaunchPasskeysAuthenticatorButton,
   transformPasswordMatches(options),
   transformDefaultSelectOptionLabel,
 )(formbag);

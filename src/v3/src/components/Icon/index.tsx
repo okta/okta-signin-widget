@@ -34,3 +34,4 @@ export * from './SmartCardIcon';
 export * from './SymantecIcon';
 export * from './WindowsStoreIcon';
 export * from './YubiKeyIcon';
+export * from './PasskeysIcon';

@@ -97,4 +97,10 @@ export default {
   isRelyingPartyIdMismatchError: function(error) {
     return error?.name === 'SecurityError' && error?.code === 18;
   },
+  isAbortError: function(error) {
+    return error?.name === 'AbortError' && error?.code === 20;
+  },
+  isNotAllowedError: function(error) {
+    return error?.name === 'NotAllowedError' && error?.code === 0;
+  }
 };

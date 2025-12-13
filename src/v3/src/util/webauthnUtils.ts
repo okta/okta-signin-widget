@@ -141,30 +141,48 @@ function isAuthenticatorAssertionResponse(
   );
 }
 
-export const webAuthNAutofillActionHandler = async (
+const createPayloadFromCredentials = (
+  credential: PublicKeyCredential,
+): WebAuthNAutofillUICredentials | undefined => {
+  if (credential && isAuthenticatorAssertionResponse(credential.response)) {
+    return {
+      clientData: binToStr(credential.response.clientDataJSON),
+      authenticatorData: binToStr(credential.response.authenticatorData),
+      signatureData: binToStr(credential.response.signature),
+      userHandle: binToStr(credential.response.userHandle as ArrayBuffer),
+    } as WebAuthNAutofillUICredentials;
+  }
+  return undefined;
+};
+
+const webAuthNActionHandler = async (
+  mediation: 'conditional' | 'optional',
   challengeData: WebAuthNChallengeDataWithUserVerification,
-  abortController: AbortController,
+  abortController: AbortController | undefined,
 ): Promise<WebAuthNAutofillUICredentials | undefined> => {
   // if the browser doesn't support Passkey autofill and AbortController,
   // no action needs to be taken as there are other steps the user can take to proceed
   const supportsPasskeyAutofill = await isPasskeyAutofillAvailable();
   const supportsAbortController = typeof AbortController !== 'undefined';
-  if (supportsPasskeyAutofill && supportsAbortController) {
+  if (supportsPasskeyAutofill && supportsAbortController && abortController) {
     const credential = (await navigator.credentials.get({
-      mediation: 'conditional',
+      // @ts-ignore
+      mediation,
       publicKey: challengeDataToCredentialRequestOptions(challengeData),
       signal: abortController.signal,
     })) as PublicKeyCredential;
 
-    if (isAuthenticatorAssertionResponse(credential.response)) {
-      const credentials: WebAuthNAutofillUICredentials = {
-        clientData: binToStr(credential.response.clientDataJSON),
-        authenticatorData: binToStr(credential.response.authenticatorData),
-        signatureData: binToStr(credential.response.signature),
-        userHandle: binToStr(credential.response.userHandle as ArrayBuffer),
-      };
-      return credentials;
-    }
+    return createPayloadFromCredentials(credential);
   }
   return undefined;
 };
+
+export const webAuthNAutofillActionHandler = async (
+  challengeData: WebAuthNChallengeDataWithUserVerification,
+  abortController: AbortController | undefined,
+): Promise<WebAuthNAutofillUICredentials | undefined> => webAuthNActionHandler('conditional', challengeData, abortController);
+
+export const webAuthNModalActionHandler = async (
+  challengeData: WebAuthNChallengeDataWithUserVerification,
+  abortController: AbortController | undefined,
+): Promise<WebAuthNAutofillUICredentials | undefined> => webAuthNActionHandler('optional', challengeData, abortController);

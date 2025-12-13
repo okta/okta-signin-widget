@@ -9,6 +9,7 @@ import signInWithIdps from './signin/SignInWithIdps';
 import customButtonsView from './signin/CustomButtons';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
 import signInWithWebAuthn from './signin/SignInWithWebAuthn';
+import signInWithPasskeys from './signin/SignInWithPasskeys';
 import { isCustomizedI18nKey, getMessageFromBrowserError } from '../../ion/i18nTransformer';
 import { getForgotPasswordLink } from '../utils/LinksUtil';
 import CookieUtil from 'util/CookieUtil';
@@ -17,6 +18,7 @@ import Util from 'util/Util';
 import webauthn from '../../../util/webauthn';
 
 const CUSTOM_ACCESS_DENIED_KEY = 'security.access_denied_custom_message';
+const ABORT_REASON_CLEANUP = 'WebAuthNAutofill component cleanup';
 
 
 const Body = BaseForm.extend({
@@ -53,6 +55,11 @@ const Body = BaseForm.extend({
     if (uiSchema.find(schema => schema.name === 'credentials.passcode')) {
       this.save = loc('oie.primaryauth.submit', 'login');
     }
+
+    // listen to error:clear
+    this.listenTo(this.model, 'errors:clear', function() {
+      this.clearErrors();
+    });
 
     // Precedence for pre-filling identifier field:
     // 1. Use username/identifier from the config.
@@ -103,6 +110,18 @@ const Body = BaseForm.extend({
 
     if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_WEBAUTHN_AUTHENTICATOR)) {
       this.add(signInWithWebAuthn, '.o-form-fieldset-container', false, true, { isRequired: false });
+    }
+
+    // Launch Passkeys Authenticator
+    if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_PASSKEYS_AUTHENTICATOR)) {
+      this.add(signInWithPasskeys, {
+        selector: '.o-form-fieldset-container',
+        options: {
+          getCredentialsAndInvokeAction: this.getCredentialsForModalAndInvokeAction,
+          formView: this,
+        },
+        prepend: true, // Ensures the button is before the input
+      });
     }
 
     // add forgot password link and external idps buttons if needed
@@ -227,67 +246,98 @@ const Body = BaseForm.extend({
     }
   },
 
-  async getCredentialsAndInvokeAction() {
-    const challengeData = this.options.appState.get('webauthnAutofillUIChallenge')?.challengeData;
-    const isPasskeyAutofillAvailable = await webauthn.isPasskeyAutofillAvailable();
-    if (!challengeData || !isPasskeyAutofillAvailable || typeof AbortController === 'undefined') {
+  remediateWithAssertion(assertion, remediation) {
+    if (!assertion || !remediation) {
       return;
     }
 
-    const options = _.extend({}, challengeData, {
-      challenge: CryptoUtil.strToBin(challengeData.challenge),
-    });
+    const userHandle = CryptoUtil.binToStr(assertion.response.userHandle ?? '');
+    if (_.isEmpty(userHandle)) {
+      const errorSummary = loc('oie.webauthn.error.invalidPasskey', 'login');
+      this.model.trigger('error', this.model, this._generateErrorObject(errorSummary));
+      return;
+    }
+    const credentials = {
+      clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),
+      authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
+      signatureData: CryptoUtil.binToStr(assertion.response.signature),
+      userHandle
+    };
 
-    // There is already a check to make sure the browser supports AbortController
+    this.options.appState.trigger('invokeAction', remediation, {credentials});
+  },
+
+  async getCredential(mediation) {
+    const challengeData = this.options.appState.get('webauthnAutofillUIChallenge')?.challengeData;
+    if (!challengeData || typeof AbortController === 'undefined') {
+      return;
+    }
+
+    // Abort any existing ongoing request
+    if(this.webauthnAbortController) {
+      this.webauthnAbortController.abort(ABORT_REASON_CLEANUP);
+    }
+
     // eslint-disable-next-line compat/compat
     this.webauthnAbortController = new AbortController();
 
-    // There is already a check to make sure the browser supports WebAuthn
-    // eslint-disable-next-line compat/compat
-    navigator.credentials.get({
-      mediation: 'conditional',
-      publicKey: options,
-      signal: this.webauthnAbortController.signal
-    }).then((assertion) => {
-      const userHandle = CryptoUtil.binToStr(assertion.response.userHandle ?? '');
-      if (_.isEmpty(userHandle)) {
-        const errorSummary = loc('oie.webauthn.error.invalidPasskey', 'login');
-        this.model.trigger('error', this.model, this._generateErrorObject(errorSummary));
-        return;
-      }
-      const credentials = {
-        clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),
-        authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
-        signatureData: CryptoUtil.binToStr(assertion.response.signature),
-        userHandle
-      };
-
-      this.options.appState.trigger(
-        'invokeAction',
-        RemediationForms.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR, 
-        { credentials }
-      );
-    }, (error) => {
-      // Suppress the error shown to the enduser in case of the relying party id mismatch.
-      // The error message shown was:
-      // "The relying party ID is not a registrable domain suffix of, nor equal to the current domain.
-      // Subsequently, an attempt to fetch the .well-known/webauthn resource of the claimed RP ID failed."
-      // There is no need to show this error, as it was not triggered by a user action,
-      // nor is it stopping the user from proceeding.
-      if (webauthn.isRelyingPartyIdMismatchError(error)) {
-        return;
-      }
-
-      // Do not display if it is abort error triggered by code when switching.
-      // this.webauthnAbortController would be null if abort was triggered by code.
-      if (this.webauthnAbortController) {
-        const errorSummary = getMessageFromBrowserError(error);
-        this.model.trigger('error', this.model, this._generateErrorObject(errorSummary));
-      }
-    }).finally(() => {
-      // unset webauthnAbortController on successful authentication or error
-      this.webauthnAbortController = null;
+    const publicKey = _.extend({}, challengeData, {
+      challenge: CryptoUtil.strToBin(challengeData.challenge),
     });
+
+    // eslint-disable-next-line compat/compat
+    return navigator.credentials.get({
+      mediation,
+      publicKey,
+      signal: this.webauthnAbortController.signal
+    });
+  },
+
+  async getCredentialsAndInvokeAction() {
+    return this.getCredential('conditional')
+      .then((assertion) => {
+        this.remediateWithAssertion(assertion, RemediationForms.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR);
+      }, (error) => {
+        // Abort error during cleanup, no need to show error to user
+        if (error === ABORT_REASON_CLEANUP) {
+          return;
+        }
+
+        // Suppress the error shown to the enduser in case of the relying party id mismatch.
+        // The error message shown was:
+        // "The relying party ID is not a registrable domain suffix of, nor equal to the current domain.
+        // Subsequently, an attempt to fetch the .well-known/webauthn resource of the claimed RP ID failed."
+        // There is no need to show this error, as it was not triggered by a user action,
+        // nor is it stopping the user from proceeding.
+        if (webauthn.isRelyingPartyIdMismatchError(error)) {
+          return;
+        }
+
+        // Do not display if it is abort error triggered by code when switching.
+        // this.webauthnAbortController would be null if abort was triggered by code.
+        if (this.webauthnAbortController) {
+          const errorSummary = getMessageFromBrowserError(error);
+          this.model.trigger('error', this.model, this._generateErrorObject(errorSummary));
+        }
+      });
+  },
+
+  async getCredentialsForModalAndInvokeAction() {
+    return this.getCredential('optional')
+      .then((assertion) => {
+        this.remediateWithAssertion(assertion, RemediationForms.LAUNCH_PASSKEYS_AUTHENTICATOR);
+      }, (error) => {
+        // Clear error before showing new one
+        this.model.trigger('errors:clear');
+
+        if (webauthn.isNotAllowedError(error)) {
+          const errorSummary = loc('signin.passkeys.error', 'login');
+          this.model.trigger('error', this.model, this._generateErrorObject(errorSummary));
+        } else if (this.webauthnAbortController) {
+          const errorSummary = getMessageFromBrowserError(error);
+          this.model.trigger('error', this.model, this._generateErrorObject(errorSummary));
+        }
+      });
   },
 
   _generateErrorObject(errorSummary) {

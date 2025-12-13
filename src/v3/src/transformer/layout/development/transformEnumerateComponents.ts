@@ -43,6 +43,7 @@ import {
   SpinnerElement,
   TextWithActionLinkElement,
   TitleElement,
+  LaunchPasskeysAuthenticatorButtonElement,
 } from '../../../types';
 
 /**
@@ -526,6 +527,19 @@ export const transformEnumerateComponents: IdxStepTransformer = ({
     },
   };
   uischema.elements.push(ImageLink);
+
+  const launchPasskeysAuthenticatorButton: LaunchPasskeysAuthenticatorButtonElement = {
+    type: 'LaunchPasskeysAuthenticatorButton',
+    options: {
+      step: '',
+    },
+    translations: [{
+      name: 'label',
+      i18nKey: '',
+      value: 'Launch Passkeys Authenticator button with long name and icon',
+    }],
+  };
+  uischema.elements.push(launchPasskeysAuthenticatorButton);
 
   return formBag;
 };

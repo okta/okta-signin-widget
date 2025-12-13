@@ -31,10 +31,13 @@ import {
   ButtonType,
   DescriptionElement,
   DeviceRemediation,
+  IdxAuthenticatorWithChallengeData,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
+  LaunchPasskeysAuthenticatorButtonElement,
   PhoneVerificationMethodType,
   RequiredKeys,
+  WebAuthNAutofillUICredentials,
   WidgetMessage,
   WidgetMessageLink,
   WidgetMessageOption,
@@ -43,6 +46,7 @@ import {
 import { idpIconMap } from './idpIconMap';
 import { loc } from './locUtil';
 import { probeLoopbackAndExecute } from './probeLoopbackAndExecute';
+import { webAuthNModalActionHandler } from './webauthnUtils';
 
 export type PhoneVerificationStep = typeof IDX_STEP.CHALLENGE_AUTHENTICATOR
 | typeof IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA;
@@ -92,6 +96,32 @@ export const getCustomButtonElements = (widgetProps: WidgetProps): ButtonElement
     };
     return customButtonElement;
   });
+};
+
+export const getSignInWithPasskeyButtonElement = (
+  transaction: IdxTransaction,
+): LaunchPasskeysAuthenticatorButtonElement[] => {
+  const launchPasskeysAuthenticatorStep = transaction.availableSteps?.find(
+    ({ name }) => name === IDX_STEP.LAUNCH_PASSKEYS_AUTHENTICATOR,
+  );
+  // only apply this transformation if the remediation contains CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR
+  // and autocomplete is enabled (as the Passkey autofill relies on the autocomplete attribute containing 'webauthn')
+  if (!launchPasskeysAuthenticatorStep) {
+    return [];
+  }
+
+  const { challengeData } = launchPasskeysAuthenticatorStep
+    .relatesTo?.value as IdxAuthenticatorWithChallengeData;
+  return [{
+    type: 'LaunchPasskeysAuthenticatorButton',
+    options: {
+      step: IDX_STEP.LAUNCH_PASSKEYS_AUTHENTICATOR,
+      getCredentials: (abortController: AbortController | undefined) => (webAuthNModalActionHandler(
+        challengeData,
+        abortController,
+      ) as Promise<WebAuthNAutofillUICredentials>),
+    },
+  }];
 };
 
 const getPIVButtonElement = (
