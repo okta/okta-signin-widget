@@ -485,20 +485,20 @@ describe('WebAuthN Transformer Tests', () => {
       expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('oie.enroll.webauthn.passkeysRebrand.custom.title');
-      
+
       // Main instructions
       expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
       expect((updatedFormBag.uischema.elements[1] as DescriptionElement).contentType).toBe('subtitle');
       expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
         .toBe('oie.enroll.webauthn.instructions');
-      
+
       // Additional instructions heading (as Description with <strong>)
       expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
       expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
         .toContain('<strong>');
       expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
         .toContain('oie.verify.webauthn.instructions.additional');
-      
+
       // InfoBox with custom description
       expect(updatedFormBag.uischema.elements[3].type).toBe('InfoBox');
       expect((updatedFormBag.uischema.elements[3] as InfoboxElement).options.class).toBe('INFO');
@@ -507,7 +507,7 @@ describe('WebAuthN Transformer Tests', () => {
           class: 'INFO',
           message: 'Insert your YubiKey and tap to authenticate.',
         });
-      
+
       // Submit button
       expect(updatedFormBag.uischema.elements[4].type).toBe('WebAuthNSubmitButton');
     });
@@ -533,20 +533,20 @@ describe('WebAuthN Transformer Tests', () => {
       expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('oie.verify.webauth.passkeysRebrand.custom.title');
-      
+
       // Main instructions
       expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
       expect((updatedFormBag.uischema.elements[1] as DescriptionElement).contentType).toBe('subtitle');
       expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
         .toBe('oie.verify.webauthn.instructions');
-      
+
       // Additional instructions heading
       expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
       expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
         .toContain('<strong>');
       expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
         .toContain('oie.verify.webauthn.instructions.additional');
-      
+
       // InfoBox with custom description
       expect(updatedFormBag.uischema.elements[3].type).toBe('InfoBox');
       expect((updatedFormBag.uischema.elements[3] as InfoboxElement).options.class).toBe('INFO');
@@ -555,10 +555,10 @@ describe('WebAuthN Transformer Tests', () => {
           class: 'INFO',
           message: 'Use your company-issued passkey to sign in.',
         });
-      
+
       // Submit button
       expect(updatedFormBag.uischema.elements[4].type).toBe('WebAuthNSubmitButton');
-      
+
       // Accordion (for CHALLENGE_AUTHENTICATOR)
       expect(updatedFormBag.uischema.elements[5].type).toBe('Accordion');
     });
@@ -584,7 +584,7 @@ describe('WebAuthN Transformer Tests', () => {
         (el: any) => el.type === 'Description' && el.options?.content?.includes('oie.verify.webauthn.instructions.additional'),
       );
       expect(hasAdditionalInstructions).toBe(false);
-      
+
       const hasInfoBox = updatedFormBag.uischema.elements.some(
         (el: any) => el.type === 'InfoBox',
       );
@@ -612,7 +612,7 @@ describe('WebAuthN Transformer Tests', () => {
         (el: any) => el.type === 'Description' && el.options?.content?.includes('oie.verify.webauthn.instructions.additional'),
       );
       expect(hasAdditionalInstructions).toBe(false);
-      
+
       const hasInfoBox = updatedFormBag.uischema.elements.some(
         (el: any) => el.type === 'InfoBox',
       );
@@ -639,7 +639,7 @@ describe('WebAuthN Transformer Tests', () => {
         (el: any) => el.type === 'Description' && el.options?.content?.includes('oie.verify.webauthn.instructions.additional'),
       );
       expect(hasAdditionalInstructions).toBe(false);
-      
+
       const hasInfoBox = updatedFormBag.uischema.elements.some(
         (el: any) => el.type === 'InfoBox',
       );

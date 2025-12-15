@@ -153,7 +153,9 @@ const AuthenticatorButton: UISchemaElementComponent<{
           </Box>
         </Box>
       );
-    } else if (description) {
+    }
+
+    if (description) {
       return (
         <Typography
           paragraph

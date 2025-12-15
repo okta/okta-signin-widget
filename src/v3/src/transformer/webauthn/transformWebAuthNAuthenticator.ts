@@ -13,6 +13,12 @@
 import { IdxAuthenticator, IdxContext } from '@okta/okta-auth-js';
 
 import BrowserFeatures from '../../../../util/BrowserFeatures';
+import {
+  getWebAuthnI18nKey,
+  getWebAuthnI18nParams,
+  shouldShowWebAuthnAdditionalInstructions,
+  WEBAUTHN_I18N_KEYS,
+} from '../../../../util/webauthnDisplayNameUtils';
 import { IDX_STEP } from '../../constants';
 import {
   AccordionLayout,
@@ -32,12 +38,6 @@ import {
   webAuthNAuthenticationHandler,
   webAuthNEnrollmentHandler,
 } from '../../util';
-import {
-  getWebAuthnI18nKey,
-  getWebAuthnI18nParams,
-  shouldShowWebAuthnAdditionalInstructions,
-  WEBAUTHN_I18N_KEYS,
-} from '../../../../util/webauthnDisplayNameUtils';
 
 const appendViewCallouts = (
   uischema: UISchemaLayout,

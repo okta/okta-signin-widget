@@ -35,10 +35,9 @@ const Accordion: FunctionComponent<AccordionProps> = ({ uischema }) => {
             {...(!(element).noMargin && { marginBlockEnd: tokens.Spacing4 })}
           >
             <OdyAccordion
-              hasShadow={false}
               label={element.options.summary}
               id={element.options.id}
-              {...(element.variant && { variant: element.variant })}
+              variant={element.variant || 'default'}
             >
               <LayoutContainer
                 uischema={element.options.content}

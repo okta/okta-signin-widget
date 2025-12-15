@@ -81,18 +81,18 @@ export const transformAuthenticatorButton: TransformStepFnWithOptions = ({
               authenticator,
             },
           } = authenticatorButtonElement;
-          
+
           // Create a remediation-like object for v2's getI18nKey to access displayName
           const remediation = authenticator ? {
             relatesTo: {
-              value: authenticator
-            }
+              value: authenticator,
+            },
           } : null;
-          
+
           const i18nKey = getAuthenticatorButtonKey(
             stepName,
             authenticatorButtonElement.options,
-            remediation
+            remediation,
           );
           const translateDescription = !isEnroll
             && AUTHENTICATORS_TO_TRANSLATE_DESCRIPTION.includes(key);

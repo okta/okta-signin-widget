@@ -15,18 +15,18 @@ import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import TimeUtil from 'util/TimeUtil';
 
 import {
+  getWebAuthnI18nKey,
+  getWebAuthnI18nParams,
+  WEBAUTHN_DISPLAY_NAMES,
+  WEBAUTHN_I18N_KEYS,
+} from '../../../../util/webauthnDisplayNameUtils';
+import {
   AUTHENTICATOR_ALLOWED_FOR_OPTIONS,
   AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP,
   AUTHENTICATOR_KEY,
 } from '../../constants';
 import { ActionParams, AuthenticatorButtonElement, ButtonType } from '../../types';
 import { loc } from '../../util';
-import {
-  getWebAuthnI18nKey,
-  getWebAuthnI18nParams,
-  WEBAUTHN_DISPLAY_NAMES,
-  WEBAUTHN_I18N_KEYS,
-} from '../../../../util/webauthnDisplayNameUtils';
 
 const getVerifyEmailAriaLabel = (email?: string): string => (email
   ? loc('oie.select.authenticator.verify.email.with.email.label', 'login', [email])
@@ -236,28 +236,28 @@ const getAuthenticatorDescription = (
     authenticatorKey,
     isEnroll,
   );
-  
+
   // Handle WebAuthn enrollment descriptions based on displayName
   if (isEnroll && authenticatorKey === AUTHENTICATOR_KEY.WEBAUTHN) {
     const displayName = option.relatesTo?.displayName;
     const customDescription = option.relatesTo?.description;
-    
+
     // For custom with description, use that
-    if (customDescription && 
-        displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT && 
-        displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS) {
+    if (customDescription
+        && displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT
+        && displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS) {
       return customDescription;
     }
-    
+
     // For Passkeys, use specific description
     if (displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS) {
       return loc('oie.webauthn.passkeysRebrand.passkeys.description', 'login');
     }
-    
+
     // Default description
     return loc('oie.webauthn.description', 'login');
   }
-  
+
   if (isEnroll) {
     return loc(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[authenticatorKey], 'login', descrParams);
   }
