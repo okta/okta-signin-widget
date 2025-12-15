@@ -3,6 +3,59 @@
   "version": "1.0.0",
   "expiresAt": "2020-02-21T15:29:41.000Z",
   "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "challenge-authenticator",
+        "relatesTo": [
+          "$.currentAuthenticator"
+        ],
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "credentials",
+            "type": "object",
+            "requred": true,
+            "form": {
+              "value": [
+                {
+                  "name": "clientData",
+                  "label": "Client Data",
+                  "required": true,
+                  "visible": false
+                },
+                {
+                  "name": "authenticatorData",
+                  "label": "Authenticator Data",
+                  "required": true,
+                  "visible": false
+                },
+                {
+                  "name": "signatureData",
+                  "label": "Signature Data",
+                  "required": true,
+                  "visible": false
+                }
+              ]
+            }
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "022afk9OLqrN2DipVIuIxC0wqzuxMaFIbpOf6pcBh8",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  },
   "currentAuthenticator": {
     "type": "object",
     "value": {
@@ -25,5 +78,46 @@
         }
       ]
     }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "security_key",
+        "key": "webauthn",
+        "id": "aut12uqz8PnlDpzQ20g4",
+        "displayName": "Passkeys",
+        "methods": [
+          {
+            "type": "webauthn"
+          }
+        ]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00utjm1GstPjCF9Ad0g3",
+      "identifier": "testUser@okta.com"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "022afk9OLqrN2DipVIuIxC0wqzuxMaFIbpOf6pcBh8",
+        "visible": false,
+        "mutable": false
+      }
+    ]
   }
 }
