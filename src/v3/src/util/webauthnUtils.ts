@@ -30,8 +30,12 @@ export const strToBin = (str: string) => (
   Uint8Array.from(atob(base64UrlSafeToBase64(str)), (c) => c.charCodeAt(0))
 );
 
-export const isCredentialsApiAvailable = (): boolean => (
-  !!(navigator && navigator.credentials && navigator.credentials.create)
+export const isCredentialsApiAvailable = (): boolean => !!(navigator && navigator.credentials);
+export const isCredentialsGetApiAvailable = (): boolean => !!(
+  isCredentialsApiAvailable() && navigator.credentials.get
+);
+export const isCredentialsCreateApiAvailable = (): boolean => !!(
+  isCredentialsApiAvailable() && navigator.credentials.create
 );
 
 // eslint-disable-next-line compat/compat, no-undef
@@ -43,13 +47,14 @@ export const isConditionalMediationAvailable = () => typeof PublicKeyCredential 
 // https://passkeys.dev/docs/reference/terms/#autofill-ui
 export const isPasskeyAutofillAvailable = async () => {
   let isAvailable = false;
-  if (isConditionalMediationAvailable()) {
+  if (isCredentialsGetApiAvailable() && isConditionalMediationAvailable()) {
     // eslint-disable-next-line compat/compat, no-undef
     isAvailable = await PublicKeyCredential.isConditionalMediationAvailable();
   }
   return isAvailable;
 };
 
+export const isGetPasskeyAvailable = () => isCredentialsGetApiAvailable() && typeof PublicKeyCredential !== 'undefined';
 /**
  * Uses the Web Authentication API to generate credentials for enrolling
  * a user into the WebAuthN flow
@@ -141,30 +146,58 @@ function isAuthenticatorAssertionResponse(
   );
 }
 
+const createPayloadFromCredentials = (
+  credential: PublicKeyCredential,
+): WebAuthNAutofillUICredentials | undefined => {
+  if (credential && isAuthenticatorAssertionResponse(credential.response)) {
+    return {
+      clientData: binToStr(credential.response.clientDataJSON),
+      authenticatorData: binToStr(credential.response.authenticatorData),
+      signatureData: binToStr(credential.response.signature),
+      userHandle: binToStr(credential.response.userHandle as ArrayBuffer),
+    } as WebAuthNAutofillUICredentials;
+  }
+  return undefined;
+};
+
 export const webAuthNAutofillActionHandler = async (
   challengeData: WebAuthNChallengeDataWithUserVerification,
-  abortController: AbortController,
+  abortController: AbortController | undefined,
 ): Promise<WebAuthNAutofillUICredentials | undefined> => {
   // if the browser doesn't support Passkey autofill and AbortController,
   // no action needs to be taken as there are other steps the user can take to proceed
   const supportsPasskeyAutofill = await isPasskeyAutofillAvailable();
   const supportsAbortController = typeof AbortController !== 'undefined';
-  if (supportsPasskeyAutofill && supportsAbortController) {
+  if (supportsPasskeyAutofill && supportsAbortController && abortController) {
     const credential = (await navigator.credentials.get({
+      // @ts-ignore
       mediation: 'conditional',
       publicKey: challengeDataToCredentialRequestOptions(challengeData),
       signal: abortController.signal,
     })) as PublicKeyCredential;
 
-    if (isAuthenticatorAssertionResponse(credential.response)) {
-      const credentials: WebAuthNAutofillUICredentials = {
-        clientData: binToStr(credential.response.clientDataJSON),
-        authenticatorData: binToStr(credential.response.authenticatorData),
-        signatureData: binToStr(credential.response.signature),
-        userHandle: binToStr(credential.response.userHandle as ArrayBuffer),
-      };
-      return credentials;
-    }
+    return createPayloadFromCredentials(credential);
   }
   return undefined;
+};
+
+export const webAuthNModalActionHandler = async (
+  challengeData: WebAuthNChallengeDataWithUserVerification,
+  abortController: AbortController | undefined,
+): Promise<WebAuthNAutofillUICredentials | undefined> => {
+  // if the browser doesn't support Passkey and AbortController,
+  // no action needs to be taken as there are other steps the user can take to proceed
+  const supportsAbortController = typeof AbortController !== 'undefined';
+  if (!(isGetPasskeyAvailable() && supportsAbortController && abortController)) {
+    const notSupportedError = new Error('Browser does not support Passkeys.');
+    notSupportedError.name = 'NotSupportedError';
+    throw notSupportedError;
+  }
+  const credential = (await navigator.credentials.get({
+    mediation: 'optional',
+    publicKey: challengeDataToCredentialRequestOptions(challengeData),
+    signal: abortController.signal,
+  })) as PublicKeyCredential;
+
+  return createPayloadFromCredentials(credential);
 };

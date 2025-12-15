@@ -24,6 +24,7 @@ export * from './IncodeIcon';
 export * from './OktaVerifyIcon';
 export * from './OnPremMFAIcon';
 export * from './OSXStoreIcon';
+export * from './PasskeysIcon';
 export * from './PasswordIcon';
 export * from './PersonaIcon';
 export * from './PhoneIcon';
