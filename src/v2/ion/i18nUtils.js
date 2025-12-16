@@ -19,7 +19,7 @@ import { loc } from '../../util/loc';
 import { getAuthenticatorDisplayName } from '../view-builder/utils/AuthenticatorUtil';
 import {
   getWebAuthnI18nKey,
-  WEBAUTHN_DISPLAY_NAMES,
+  isCustomDisplayName,
   WEBAUTHN_I18N_KEYS,
 } from '../../util/webauthnDisplayNameUtils';
 import { FORMS, AUTHENTICATOR_KEY } from './RemediationConstants';
@@ -250,10 +250,7 @@ const getI18NParams = (remediation, authenticatorKey) => {
   // Handle WebAuthn custom displayName
   if (authenticatorKey === AUTHENTICATOR_KEY.WEBAUTHN) {
     const displayName = remediation?.relatesTo?.value?.displayName;
-    const isCustom = displayName && 
-      displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT && 
-      displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS;
-    if (isCustom) {
+    if (isCustomDisplayName(displayName)) {
       params.push(displayName);
       return params;
     }
@@ -285,7 +282,7 @@ const getI18nKey = (i18nPath, remediation = null) => {
     const displayName = remediation?.relatesTo?.value?.displayName;
     
     // For custom displayName (not DEFAULT, not PASSKEYS), return null to use the displayName itself
-    if (displayName && displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT && displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS) {
+    if (isCustomDisplayName(displayName)) {
       return null;
     }
     

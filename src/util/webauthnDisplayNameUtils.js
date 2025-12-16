@@ -64,7 +64,7 @@ export const WEBAUTHN_I18N_KEYS = {
  * @param {string|undefined} displayName - The displayName from IDX response
  * @returns {boolean} true if displayName is custom
  */
-const isCustomDisplayName = (displayName) => {
+export const isCustomDisplayName = (displayName) => {
   return Boolean(displayName &&
     displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT &&
     displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS);

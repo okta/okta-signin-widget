@@ -18,6 +18,7 @@ import {
   WEBAUTHN_I18N_KEYS,
   getWebAuthnI18nKey,
   getWebAuthnI18nParams,
+  isCustomDisplayName,
   shouldShowWebAuthnAdditionalInstructions,
 } from '../../../util/webauthnDisplayNameUtils';
 
@@ -53,9 +54,7 @@ const getWebAuthnDescriptionConfig = (authenticator, displayName, isVerifyAuthen
     return '';
   }
   
-  const isCustom = displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT && displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS;
-  
-  if (isCustom) {
+  if (isCustomDisplayName(displayName)) {
     const customDescription = authenticator.relatesTo?.description;
     if (customDescription) {
       // Use raw custom description from relatesTo if available
