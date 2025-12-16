@@ -160,10 +160,10 @@ const getAuthenticatorLabel = (
       // For Passkeys, return localized label; for custom, return displayName itself
       if (displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS) {
         return loc('oie.webauthn.passkeysRebrand.passkeys.label', 'login');
-      } if (displayName && displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT) {
+      } else if (displayName && displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT) {
         return displayName; // Custom display name
       }
-      return option.label; // DEFAULT case
+      return loc('oie.webauthn.label', 'login'); // DEFAULT case
     }
     case AUTHENTICATOR_KEY.OV:
       return loc('oie.okta_verify.label', 'login');
