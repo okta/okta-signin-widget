@@ -16,7 +16,6 @@ import BrowserFeatures from '../../../../util/BrowserFeatures';
 import {
   getWebAuthnI18nKey,
   getWebAuthnI18nParams,
-  shouldShowWebAuthnAdditionalInstructions,
   WEBAUTHN_I18N_KEYS,
 } from '../../../../util/webauthnDisplayNameUtils';
 import { IDX_STEP } from '../../constants';
@@ -197,8 +196,8 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
 
     appendViewCallouts(uischema, name, relatesTo);
 
-    // Add custom instructions if applicable (for custom displayName with description)
-    if (shouldShowWebAuthnAdditionalInstructions(displayName, description)) {
+    // Add additional instructions if description is present
+    if (description) {
       uischema.elements.unshift({
         type: 'InfoBox',
         options: {

@@ -563,7 +563,7 @@ describe('WebAuthN Transformer Tests', () => {
       expect(updatedFormBag.uischema.elements[5].type).toBe('Accordion');
     });
 
-    it('should NOT render additional instructions for DEFAULT displayName even with description', () => {
+    it('should render additional instructions when description is present', () => {
       transaction = getStubTransactionWithNextStep();
       formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
       transaction.nextStep = {
@@ -579,47 +579,23 @@ describe('WebAuthN Transformer Tests', () => {
 
       const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
 
-      // Should NOT have additional instructions Description or InfoBox
+      // Should have additional instructions Description and InfoBox
       const hasAdditionalInstructions = updatedFormBag.uischema.elements.some(
         (el: any) => el.type === 'Description' && el.options?.content?.includes('oie.verify.webauthn.instructions.additional'),
       );
-      expect(hasAdditionalInstructions).toBe(false);
+      expect(hasAdditionalInstructions).toBe(true);
 
-      const hasInfoBox = updatedFormBag.uischema.elements.some(
+      const infoBoxElement = updatedFormBag.uischema.elements.find(
         (el: any) => el.type === 'InfoBox',
-      );
-      expect(hasInfoBox).toBe(false);
+      ) as InfoboxElement;
+      expect(infoBoxElement).toBeDefined();
+      expect(infoBoxElement.options.message).toEqual({
+        class: 'INFO',
+        message: 'Some description',
+      });
     });
 
-    it('should NOT render additional instructions for PASSKEYS displayName even with description', () => {
-      transaction = getStubTransactionWithNextStep();
-      formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
-      transaction.nextStep = {
-        name: IDX_STEP.ENROLL_AUTHENTICATOR,
-        action: jest.fn(),
-        relatesTo: {
-          value: {
-            displayName: 'Passkeys',
-            description: 'Some description',
-          } as unknown as IdxAuthenticator,
-        },
-      };
-
-      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
-
-      // Should NOT have additional instructions Description or InfoBox
-      const hasAdditionalInstructions = updatedFormBag.uischema.elements.some(
-        (el: any) => el.type === 'Description' && el.options?.content?.includes('oie.verify.webauthn.instructions.additional'),
-      );
-      expect(hasAdditionalInstructions).toBe(false);
-
-      const hasInfoBox = updatedFormBag.uischema.elements.some(
-        (el: any) => el.type === 'InfoBox',
-      );
-      expect(hasInfoBox).toBe(false);
-    });
-
-    it('should NOT render additional instructions for custom displayName without description', () => {
+    it('should NOT render additional instructions without description', () => {
       transaction = getStubTransactionWithNextStep();
       formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
       transaction.nextStep = {

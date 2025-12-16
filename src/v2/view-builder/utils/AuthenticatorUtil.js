@@ -19,7 +19,6 @@ import {
   getWebAuthnI18nKey,
   getWebAuthnI18nParams,
   isCustomDisplayName,
-  shouldShowWebAuthnAdditionalInstructions,
 } from '../../../util/webauthnDisplayNameUtils';
 
 const { getPasswordComplexityDescriptionForHtmlList } = FactorUtil;
@@ -72,20 +71,13 @@ const getWebAuthnDescriptionConfig = (authenticator, displayName, isVerifyAuthen
 };
 
 /**
- * Checks if WebAuthn custom additional instructions should be displayed
+ * Returns the description to display in the additional instructions if present
  * @param {Object} currentViewState - The current view state (remediation object)
  * @returns {string|null} - Returns the description if should display, null otherwise
  */
 export const getWebAuthnAdditionalInstructions = (currentViewState) => {
-  const relatesToObject = currentViewState?.relatesTo;
-  const displayName = relatesToObject?.value?.displayName;
-  const description = relatesToObject?.value?.description;
-  
-  if (shouldShowWebAuthnAdditionalInstructions(displayName, description)) {
-    return description;
-  }
-  
-  return null;
+  const description = currentViewState?.relatesTo?.value?.description;
+  return description || null;
 };
 
 const getButtonDataSeAttr = function(authenticator) {

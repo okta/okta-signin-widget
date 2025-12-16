@@ -197,70 +197,22 @@ describe('v2/utils/AuthenticatorUtil', function() {
     });
 
     describe('getWebAuthnAdditionalInstructions', function() {
-      it('returns null for DEFAULT displayName', function() {
+      it('returns description when description is present', function() {
         const currentViewState = {
           relatesTo: {
             value: {
-              displayName: WEBAUTHN_DISPLAY_NAMES.DEFAULT,
               description: 'Some description',
             }
           }
         };
-        expect(getWebAuthnAdditionalInstructions(currentViewState)).toBeNull();
+        expect(getWebAuthnAdditionalInstructions(currentViewState)).toBe('Some description');
       });
 
-      it('returns null for PASSKEYS displayName', function() {
-        const currentViewState = {
-          relatesTo: {
-            value: {
-              displayName: WEBAUTHN_DISPLAY_NAMES.PASSKEYS,
-              description: 'Some description',
-            }
-          }
-        };
-        expect(getWebAuthnAdditionalInstructions(currentViewState)).toBeNull();
-      });
-
-      it('returns description for custom displayName with description', function() {
+      it('returns null when description is not present', function() {
         const currentViewState = {
           relatesTo: {
             value: {
               displayName: 'My Custom Authenticator',
-              description: 'Custom authenticator instructions',
-            }
-          }
-        };
-        expect(getWebAuthnAdditionalInstructions(currentViewState)).toBe('Custom authenticator instructions');
-      });
-
-      it('returns null for custom displayName without description', function() {
-        const currentViewState = {
-          relatesTo: {
-            value: {
-              displayName: 'My Custom Authenticator',
-            }
-          }
-        };
-        expect(getWebAuthnAdditionalInstructions(currentViewState)).toBeNull();
-      });
-
-      it('returns null when displayName is missing', function() {
-        const currentViewState = {
-          relatesTo: {
-            value: {
-              description: 'Some description',
-            }
-          }
-        };
-        expect(getWebAuthnAdditionalInstructions(currentViewState)).toBeNull();
-      });
-
-      it('returns null when displayName is empty string', function() {
-        const currentViewState = {
-          relatesTo: {
-            value: {
-              displayName: '',
-              description: 'Some description',
             }
           }
         };

@@ -135,12 +135,4 @@ export const getWebAuthnI18nParams = (displayName?: string): string[] => {
   return [];
 };
 
-/**
- * Checks if additional instructions should be shown for custom authenticators
- */
-export const shouldShowWebAuthnAdditionalInstructions = (
-  displayName?: string,
-  description?: string
-): boolean => {
-  return Boolean(isCustomDisplayName(displayName) && description);
-};
+

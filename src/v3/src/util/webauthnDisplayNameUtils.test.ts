@@ -13,7 +13,6 @@
 import {
   getWebAuthnI18nKey,
   getWebAuthnI18nParams,
-  shouldShowWebAuthnAdditionalInstructions,
   WEBAUTHN_DISPLAY_NAMES,
   WEBAUTHN_I18N_KEYS,
 } from '../../../util/webauthnDisplayNameUtils';
@@ -66,49 +65,6 @@ describe('webauthnDisplayNameUtils', () => {
 
     it('should return array with displayName for TouchID', () => {
       expect(getWebAuthnI18nParams('TouchID')).toEqual(['TouchID']);
-    });
-  });
-
-  describe('shouldShowWebAuthnAdditionalInstructions', () => {
-    it('should return false for DEFAULT displayName with description', () => {
-      expect(shouldShowWebAuthnAdditionalInstructions(
-        WEBAUTHN_DISPLAY_NAMES.DEFAULT,
-        'Some description',
-      )).toBe(false);
-    });
-
-    it('should return false for PASSKEYS displayName with description', () => {
-      expect(shouldShowWebAuthnAdditionalInstructions(
-        WEBAUTHN_DISPLAY_NAMES.PASSKEYS,
-        'Some description',
-      )).toBe(false);
-    });
-
-    it('should return true for custom displayName with description', () => {
-      expect(shouldShowWebAuthnAdditionalInstructions(
-        'YubiKey',
-        'Insert your YubiKey and tap.',
-      )).toBe(true);
-    });
-
-    it('should return false for custom displayName without description', () => {
-      expect(shouldShowWebAuthnAdditionalInstructions('YubiKey', undefined)).toBe(false);
-    });
-
-    it('should return false when displayName is undefined', () => {
-      expect(shouldShowWebAuthnAdditionalInstructions(undefined, 'Some description')).toBe(false);
-    });
-
-    it('should return false when both displayName and description are undefined', () => {
-      expect(shouldShowWebAuthnAdditionalInstructions(undefined, undefined)).toBe(false);
-    });
-
-    it('should return false for empty string displayName', () => {
-      expect(shouldShowWebAuthnAdditionalInstructions('', 'Some description')).toBe(false);
-    });
-
-    it('should return false for empty string description', () => {
-      expect(shouldShowWebAuthnAdditionalInstructions('YubiKey', '')).toBe(false);
     });
   });
 

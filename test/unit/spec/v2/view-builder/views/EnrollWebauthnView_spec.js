@@ -459,21 +459,17 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     });
 
-    it('shows DEFAULT title and no custom instructions for default displayName', function() {
+    it('shows DEFAULT title', function() {
       testContext.init(EnrollWebauthnResponse.currentAuthenticator.value);
       expect(testContext.view.$('.okta-form-title').text()).toBe('Set up security key or biometric authenticator');
-      expect(testContext.view.$('.additional-instructions-title').length).toBe(0);
-      expect(testContext.view.$('.additional-instructions-callout').length).toBe(0);
     });
 
-    it('shows PASSKEYS title and no custom instructions for Passkeys displayName', function() {
+    it('shows PASSKEYS title', function() {
       testContext.init(EnrollWebauthnPasskeysResponse.currentAuthenticator.value);
       expect(testContext.view.$('.okta-form-title').text()).toBe('Set up a passkey');
-      expect(testContext.view.$('.additional-instructions-title').length).toBe(0);
-      expect(testContext.view.$('.additional-instructions-callout').length).toBe(0);
     });
 
-    it('shows CUSTOM title and custom instructions for custom displayName with description', function() {
+    it('shows additional instructions when description is present', function() {
       testContext.init(EnrollWebauthnCustomResponse.currentAuthenticator.value);
       expect(testContext.view.$('.okta-form-title').text()).toBe('Set up YubiKey');
       expect(testContext.view.$('.additional-instructions-title').length).toBe(1);

@@ -383,21 +383,17 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   describe('WebAuthn displayName variations', function() {
-    it('shows DEFAULT title and no custom instructions for default displayName', function() {
+    it('shows DEFAULT title', function() {
       testContext.init(ChallengeWebauthnResponse.currentAuthenticator.value);
       expect(testContext.view.$('.okta-form-title').text()).toBe('Verify with Security Key or Biometric Authenticator');
-      expect(testContext.view.$('.additional-instructions-title').length).toBe(0);
-      expect(testContext.view.$('.additional-instructions-callout').length).toBe(0);
     });
 
-    it('shows PASSKEYS title and no custom instructions for Passkeys displayName', function() {
+    it('shows PASSKEYS title', function() {
       testContext.init(ChallengeWebauthnPasskeysResponse.currentAuthenticator.value);
       expect(testContext.view.$('.okta-form-title').text()).toBe('Verify with a passkey');
-      expect(testContext.view.$('.additional-instructions-title').length).toBe(0);
-      expect(testContext.view.$('.additional-instructions-callout').length).toBe(0);
     });
 
-    it('shows CUSTOM title and custom instructions for custom displayName with description', function() {
+    it('shows additional instructions when description is present', function() {
       testContext.init(ChallengeWebauthnCustomResponse.currentAuthenticator.value);
       expect(testContext.view.$('.okta-form-title').text()).toBe('Verify with TouchID');
       expect(testContext.view.$('.additional-instructions-title').length).toBe(1);
