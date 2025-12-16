@@ -16,13 +16,35 @@
 export const WEBAUTHN_DISPLAY_NAMES = {
   DEFAULT: 'Security Key or Biometric',
   PASSKEYS: 'Passkeys',
-};
+} as const;
+
+/**
+ * Variant key mapping for i18n keys with DEFAULT/PASSKEYS/CUSTOM variants
+ */
+interface VariantKeyMap {
+  DEFAULT: string;
+  PASSKEYS: string;
+  CUSTOM: string;
+}
 
 /**
  * i18n key mappings based on context and displayName
  * Organized by keys that have variants vs static keys
  */
-export const WEBAUTHN_I18N_KEYS = {
+interface WebAuthnI18nKeys {
+  // Keys with displayName variants (DEFAULT, PASSKEYS, CUSTOM)
+  ENROLL_TITLE: VariantKeyMap;
+  VERIFY_TITLE: VariantKeyMap;
+  DESCRIPTION: VariantKeyMap;
+  SELECT_ENROLL_LABEL: VariantKeyMap;
+  SELECT_VERIFY_LABEL: VariantKeyMap;
+  LABEL: VariantKeyMap;
+  // Static keys that don't vary by displayName
+  ENROLL_INSTRUCTIONS: string;
+  VERIFY_INSTRUCTIONS: string;
+}
+
+export const WEBAUTHN_I18N_KEYS: WebAuthnI18nKeys = {
   // Keys with displayName variants (DEFAULT, PASSKEYS, CUSTOM)
   ENROLL_TITLE: {
     DEFAULT: 'oie.enroll.webauthn.title',
@@ -61,24 +83,24 @@ export const WEBAUTHN_I18N_KEYS = {
 
 /**
  * Checks if displayName is a custom value (not DEFAULT, not PASSKEYS)
- * @param {string|undefined} displayName - The displayName from IDX response
- * @returns {boolean} true if displayName is custom
  */
-export const isCustomDisplayName = (displayName) => {
-  return Boolean(displayName &&
+export const isCustomDisplayName = (displayName?: string): boolean => {
+  return Boolean(
+    displayName &&
     displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT &&
-    displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS);
+    displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS
+  );
 };
 
 /**
  * Determines which i18n key to use based on displayName
  * Handles both variant key maps (objects with DEFAULT/PASSKEYS/CUSTOM)
  * and static keys (strings)
- * @param {Object|string} keyMap - The key mapping
- * @param {string|undefined} displayName - The displayName from IDX response
- * @returns {string|null} The complete i18n key, or null if key map is invalid
  */
-export const getWebAuthnI18nKey = (keyMap, displayName) => {
+export const getWebAuthnI18nKey = (
+  keyMap: VariantKeyMap | string,
+  displayName?: string
+): string | null => {
   // Handle static string keys (no variant)
   if (typeof keyMap === 'string') {
     return keyMap;
@@ -105,19 +127,20 @@ export const getWebAuthnI18nKey = (keyMap, displayName) => {
 
 /**
  * Gets parameters for i18n string replacement (for CUSTOM case)
- * @param {string|undefined} displayName - The displayName from IDX response
- * @returns {string[]} Array of parameters for loc() function
  */
-export const getWebAuthnI18nParams = (displayName) => {
-  return isCustomDisplayName(displayName) ? [displayName] : [];
+export const getWebAuthnI18nParams = (displayName?: string): string[] => {
+  if (isCustomDisplayName(displayName) && displayName) {
+    return [displayName];
+  }
+  return [];
 };
 
 /**
  * Checks if additional instructions should be shown for custom authenticators
- * @param {string|undefined} displayName - The displayName from IDX response
- * @param {string|undefined} description - The description from IDX response
- * @returns {boolean} true if custom instructions should be displayed
  */
-export const shouldShowWebAuthnAdditionalInstructions = (displayName, description) => {
+export const shouldShowWebAuthnAdditionalInstructions = (
+  displayName?: string,
+  description?: string
+): boolean => {
   return Boolean(isCustomDisplayName(displayName) && description);
 };
