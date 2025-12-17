@@ -238,6 +238,7 @@
   },
   "dependencies": {
     "@okta/okta-auth-js": "7.14.0",
+    "@sentry/cli": "^2.58.2",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "@types/backbone": "^1.4.15",
     "@types/eslint-scope": "^3.7.3",

@@ -245,6 +245,7 @@ module.exports = function(grunt) {
       'build-types': 'yarn build:types',
       'build-debugger': 'ENTRY=debugger yarn build:webpack-release',
       'build-debugger-watch': 'ENTRY=debugger yarn build:webpack-release --watch',
+      'sentry-inject': 'sentry-cli sourcemaps inject ./target/js',
     },
 
     connect: {
@@ -374,6 +375,7 @@ module.exports = function(grunt) {
 
     if (prodBuild) {
       buildTasks.push('exec:retirejs');
+      postBuildTasks.push('exec:sentry-inject');
     }
 
     // Both dev and prod builds will update dist folder and package.json
