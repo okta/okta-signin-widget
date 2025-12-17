@@ -26,32 +26,6 @@ Object {
 }
 `;
 
-exports[`Terminal Transaction Transformer Tests should add back to signin link for tooManyRequests message key when baseUrl not provided 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
-  },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "focus": true,
-        "options": Object {
-          "dataSe": "cancel",
-          "href": "http://localhost:3000/",
-          "isActionStep": true,
-          "label": "goback",
-          "step": "cancel",
-        },
-        "type": "Link",
-      },
-    ],
-    "type": "VerticalLayout",
-  },
-}
-`;
-
 exports[`Terminal Transaction Transformer Tests should add return empty formbag when interaction code flow transaction 1`] = `
 Object {
   "data": Object {},
@@ -208,6 +182,58 @@ Object {
           "href": "http://localhost:3000/",
           "isActionStep": true,
           "label": "oie.try.again",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Transaction Transformer Tests should clear state and reload page for oie.tooManyRequests or verificationTimedOut message key when baseUrl not provided 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "focus": true,
+        "options": Object {
+          "dataSe": "cancel",
+          "isActionStep": true,
+          "label": "goback",
+          "onClick": [Function],
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Transaction Transformer Tests should clear state and reload page for tooManyRequests or verificationTimedOut message key when baseUrl not provided 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "focus": true,
+        "options": Object {
+          "dataSe": "cancel",
+          "isActionStep": true,
+          "label": "goback",
+          "onClick": [Function],
           "step": "cancel",
         },
         "type": "Link",

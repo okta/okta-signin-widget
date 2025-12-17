@@ -118,7 +118,11 @@ const appendViewLinks = (
     if (backToSigninUri) {
       // If a backtoSigninUri is set, always use it
       cancelLink.options.href = backToSigninUri;
-    } else if (containsMessageKey(TERMINAL_KEY.VERIFICATION_TIMED_OUT, transaction.messages)) {
+    } else if (containsOneOfMessageKeys([
+      TERMINAL_KEY.VERIFICATION_TIMED_OUT,
+      TERMINAL_KEY.TOO_MANY_REQUESTS,
+      TERMINAL_KEY.OIE_TOO_MANY_REQUESTS,
+    ], transaction.messages)) {
       // This covers terminal views that should have a page reload to start a new transaction in the case
       // that the URI is specifing a particular application to login to, so we need to stay on the same URI
       // but start a new transaction.

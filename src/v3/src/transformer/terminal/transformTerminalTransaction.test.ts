@@ -213,23 +213,49 @@ describe('Terminal Transaction Transformer Tests', () => {
       .toBe(TERMINAL_TITLE_KEY[TERMINAL_KEY.UNLOCK_ACCOUNT_KEY]);
   });
 
-  it('should add back to signin link for tooManyRequests message key when baseUrl not provided', () => {
-    const mockIssueOrigin = 'http://localhost:3000/';
-    mockAuthClient = { getIssuerOrigin: () => mockIssueOrigin };
+  it.each([
+    ['tooManyRequests', TERMINAL_KEY.TOO_MANY_REQUESTS],
+    ['oie.tooManyRequests', TERMINAL_KEY.OIE_TOO_MANY_REQUESTS],
+  ])('should clear state and reload page for %s or verificationTimedOut message key when baseUrl not provided', (description, terminalKey) => {
+    const loginPath = 'http://example.com/login/path';
+    const mockLocation = jest.spyOn(global, 'location', 'get');
+    // Mock window.location.assign function
+    const assignMock: jest.Mock = jest.fn();
+    mockLocation.mockReturnValue({
+      href: loginPath,
+      assign: assignMock,
+    } as unknown as Location);
+
+    mockAuthClient = {
+      transactionManager: {
+        clear: jest.fn(),
+      },
+    };
     widgetProps = { authClient: mockAuthClient } as WidgetProps;
     const mockErrorMessage = 'Too many requests';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
       'ERROR',
-      TERMINAL_KEY.TOO_MANY_REQUESTS,
+      terminalKey,
     ));
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(0);
+    expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(0);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('Link');
     expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('goback');
-    expect((formBag.uischema.elements[0] as LinkElement).options?.href).toBe(mockIssueOrigin);
+    // Should have onClick handler instead of href when no backToSignInUri is provided
+    expect(typeof (formBag.uischema.elements[0] as LinkElement).options?.onClick).toBe('function');
+    expect((formBag.uischema.elements[0] as LinkElement).options?.href).toBeUndefined();
+    act(() => {
+      (formBag.uischema.elements[0] as LinkElement).options?.onClick?.();
+    });
+    expect(SessionStorage.removeStateHandle).toHaveBeenCalledTimes(1);
+    expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(1);
+    expect(assignMock).toHaveBeenCalledTimes(1);
+    expect(assignMock).toHaveBeenCalledWith(loginPath);
   });
 
   it('should not add back to sign in link when cancel is not available', () => {
