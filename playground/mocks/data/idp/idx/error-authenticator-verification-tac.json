@@ -84,7 +84,7 @@
                 "relatesTo": "$.authenticatorEnrollments.value[0]"
               },
               {
-                "label": "FIDO2 (WebAuthn)",
+                "label": "Security Key or Biometric",
                 "value": {
                   "form": {
                     "value": [
@@ -108,7 +108,7 @@
                 "relatesTo": "$.authenticatorEnrollments.value[1]"
               },
               {
-                "label": "FIDO2 (WebAuthn)",
+                "label": "Security Key or Biometric",
                 "value": {
                   "form": {
                     "value": [
@@ -561,14 +561,14 @@
         "authenticatorId": "aidwboITrg4b4yAYd0g3"
       },
       {
-        "displayName": "FIDO2 (WebAuthn)",
+        "displayName": "Security Key or Biometric",
         "type": "security_key",
         "key": "webauthn",
         "id": "autwa6eD9o02iBbtv0g2",
         "authenticatorId": "aidtheidkwh282hv8g3"
       },
       {
-        "displayName": "FIDO2 (WebAuthn)",
+        "displayName": "Security Key or Biometric",
         "type": "security_key",
         "key": "webauthn",
         "id": "autwa6eD9o02iBbtv0g2",

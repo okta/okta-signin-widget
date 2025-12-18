@@ -131,7 +131,7 @@
                 "relatesTo": "$.authenticators.value[2]"
               },
               {
-                "label": "Security Key or Biometric Authenticator (FIDO2)",
+                "label": "Security Key or Biometric",
                 "value": {
                   "form": {
                     "value": [
@@ -204,7 +204,7 @@
         "id": "password-enroll-id-123"
       },
       {
-        "displayName": "Security Key or Biometric Authenticator (FIDO2)",
+        "displayName": "Security Key or Biometric",
         "type": "security_key",
         "key": "webauthn",
         "authenticatorid": "aidtheidkwh282hv8g3",

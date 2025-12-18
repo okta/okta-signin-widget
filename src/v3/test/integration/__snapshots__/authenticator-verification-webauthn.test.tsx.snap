@@ -215,7 +215,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                       >
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded emotion-31"
-                          data-ods-variant="default"
+                          data-ods-variant="borderless"
                         >
                           <div
                             aria-controls="cant-verify-content"
@@ -593,7 +593,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                       >
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded emotion-29"
-                          data-ods-variant="default"
+                          data-ods-variant="borderless"
                         >
                           <div
                             aria-controls="cant-verify-content"
@@ -971,7 +971,7 @@ exports[`authenticator-verification-webauthn should render form with required us
                       >
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded emotion-29"
-                          data-ods-variant="default"
+                          data-ods-variant="borderless"
                         >
                           <div
                             aria-controls="cant-verify-content"

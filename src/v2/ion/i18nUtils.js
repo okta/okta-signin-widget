@@ -17,11 +17,17 @@ import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
 import { loc } from '../../util/loc';
 import { getAuthenticatorDisplayName } from '../view-builder/utils/AuthenticatorUtil';
+import {
+  getWebAuthnI18nKey,
+  isCustomDisplayName,
+  WEBAUTHN_I18N_KEYS,
+} from '../../util/webauthnDisplayNameUtils';
 import { FORMS, AUTHENTICATOR_KEY } from './RemediationConstants';
 import { I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS } from '../view-builder/views/enroll-profile/i18nBaseAttributeMappings';
 
 const WEBAUTHN_API_GENERIC_ERROR_KEY = 'authfactor.webauthn.error';
 const DEVICE_ASSURANCE_CUSTOM_REMEDIATION_I18N_KEY_PREFIX = 'device.assurance.custom.remediation.';
+const WEBAUTHN_LABEL_KEY = 'oie.webauthn.label';
 
 const SECURITY_QUESTION_PREFIXES = [
   'enroll-authenticator.security_question.credentials.questionKey.',
@@ -47,7 +53,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-enroll.authenticator.rsa_token': 'factor.totpHard.rsaSecurId',
   'select-authenticator-enroll.authenticator.security_question': 'oie.security.question.label',
   'select-authenticator-enroll.authenticator.symantec_vip': 'factor.totpHard.symantecVip',
-  'select-authenticator-enroll.authenticator.webauthn': 'oie.webauthn.label',
+  'select-authenticator-enroll.authenticator.webauthn': WEBAUTHN_LABEL_KEY,
   'select-authenticator-enroll.authenticator.yubikey_token': 'oie.yubikey.label',
 
   'select-authenticator-authenticate.authenticator.duo': 'factor.duo',
@@ -61,7 +67,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-authenticate.authenticator.rsa_token': 'factor.totpHard.rsaSecurId',
   'select-authenticator-authenticate.authenticator.security_question': 'oie.security.question.label',
   'select-authenticator-authenticate.authenticator.symantec_vip': 'factor.totpHard.symantecVip',
-  'select-authenticator-authenticate.authenticator.webauthn': 'oie.webauthn.label',
+  'select-authenticator-authenticate.authenticator.webauthn': WEBAUTHN_LABEL_KEY,
   'select-authenticator-authenticate.authenticator.yubikey_token': 'oie.yubikey.label',
   'select-authenticator-authenticate.authenticator.custom_app': 'oie.custom.app.authenticator.title',
   'select-authenticator-authenticate.authenticator.tac': 'oie.tac.label',
@@ -240,6 +246,16 @@ const getI8nKeyUsingParams = (key, param) => {
 const getI18NParams = (remediation, authenticatorKey) => {
   const params = [];
   const formName = remediation.name;
+  
+  // Handle WebAuthn custom displayName
+  if (authenticatorKey === AUTHENTICATOR_KEY.WEBAUTHN) {
+    const displayName = remediation?.relatesTo?.value?.displayName;
+    if (isCustomDisplayName(displayName)) {
+      params.push(displayName);
+      return params;
+    }
+  }
+  
   if (I18N_PARAMS_MAPPING[formName] &&
     I18N_PARAMS_MAPPING[formName][authenticatorKey]) {
     const config = I18N_PARAMS_MAPPING[formName][authenticatorKey];
@@ -249,7 +265,7 @@ const getI18NParams = (remediation, authenticatorKey) => {
   return params;
 };
 
-const getI18nKey = (i18nPath) => {
+const getI18nKey = (i18nPath, remediation = null) => {
   let i18nKey;
   // Extract security question value from i18nPath
   SECURITY_QUESTION_PREFIXES.forEach(prefix => {
@@ -259,7 +275,20 @@ const getI18nKey = (i18nPath) => {
     }
   });
 
-  if (I18N_OVERRIDE_MAPPINGS[i18nPath]) {
+  // Handle WebAuthn authenticator dynamically based on displayName
+  // Check for WebAuthn paths BEFORE I18N_OVERRIDE_MAPPINGS to properly handle custom displayNames
+  if (i18nPath === 'select-authenticator-enroll.authenticator.webauthn' ||
+      i18nPath === 'select-authenticator-authenticate.authenticator.webauthn') {
+    const displayName = remediation?.relatesTo?.value?.displayName;
+    
+    // For custom displayName (not DEFAULT, not PASSKEYS), return null to use the displayName itself
+    if (isCustomDisplayName(displayName)) {
+      return null;
+    }
+    
+    // For DEFAULT or PASSKEYS, get the appropriate i18n key
+    i18nKey = getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.LABEL, displayName);
+  } else if (I18N_OVERRIDE_MAPPINGS[i18nPath]) {
     i18nKey = I18N_OVERRIDE_MAPPINGS[i18nPath];
   }
 
@@ -282,9 +311,10 @@ const doesI18NKeyExist = (i18nKey) => {
  * @param {string} i18nPath
  * @param {string} defaultValue
  * @param {string[]} params
+ * @param {Object} remediation
  */
-const getI18NValue = (i18nPath, defaultValue, params = []) => {
-  const i18nKey = getI18nKey(i18nPath);
+const getI18NValue = (i18nPath, defaultValue, params = [], remediation = null) => {
+  const i18nKey = getI18nKey(i18nPath, remediation);
   if (i18nKey) {
     return loc(i18nKey, 'login', params);
   } else {

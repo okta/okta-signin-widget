@@ -1,6 +1,8 @@
 import { loc, View, createCallout } from '@okta/courage';
-import BrowserFeatures from 'util/BrowserFeatures';
 import hbs from '@okta/handlebars-inline-precompile';
+import BrowserFeatures from 'util/BrowserFeatures';
+import { getWebAuthnAdditionalInstructions } from '../../utils/AuthenticatorUtil';
+import WebauthnCustomInstructionsView from './WebauthnCustomInstructionsView';
 
 export default View.extend({
   // eslint-disable-next-line max-len
@@ -23,6 +25,12 @@ export default View.extend({
         subtitle: loc('oie.enroll.webauthn.uv.required.instructions', 'login'),
       }));
     }
+
+    const description = getWebAuthnAdditionalInstructions(this.options.currentViewState);
+    if (description) {
+      this.add(WebauthnCustomInstructionsView, { options: { description } });
+    }
+
     this.add('<div data-se="webauthn-waiting" class="okta-waiting-spinner"></div>');
   },
 });

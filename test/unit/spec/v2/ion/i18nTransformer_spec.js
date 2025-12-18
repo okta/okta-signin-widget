@@ -274,14 +274,14 @@ describe('v2/ion/i18nTransformer', function() {
                   'authenticatorKey': 'okta_password'
                 },
                 {
-                  'label': 'FIDO2 (WebAuthn)',
+                  'label': 'Security Key or Biometric',
                   'value': {
                     'id': 'fwftheidkwh282hv8g3'
                   },
                   'authenticatorKey': 'webauthn'
                 },
                 {
-                  'label': 'FIDO2 (WebAuthn)',
+                  'label': 'Security Key or Biometric',
                   'value': {
                     'id': 'aidtheidkwh282hv8g3'
                   },
@@ -389,14 +389,14 @@ describe('v2/ion/i18nTransformer', function() {
                   'authenticatorKey': 'okta_password'
                 },
                 {
-                  'label': 'FIDO2 (WebAuthn)',
+                  'label': 'Security Key or Biometric',
                   'value': {
                     'id': 'fwftheidkwh282hv8g3'
                   },
                   'authenticatorKey': 'webauthn'
                 },
                 {
-                  'label': 'FIDO2 (WebAuthn)',
+                  'label': 'Security Key or Biometric',
                   'value': {
                     'id': 'aidtheidkwh282hv8g3'
                   },

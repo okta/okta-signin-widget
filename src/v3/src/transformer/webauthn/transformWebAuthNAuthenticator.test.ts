@@ -335,4 +335,457 @@ describe('WebAuthN Transformer Tests', () => {
         .elements[0].options.content.elements.length).toBe(5);
     });
   });
+
+  describe('WebAuthN displayName variations', () => {
+    beforeEach(() => {
+      mockCredentialsContainer = {
+        create: jest.fn().mockResolvedValue({}),
+        get: jest.fn().mockResolvedValue({}),
+        preventSilentAccess: jest.fn(),
+        store: jest.fn(),
+      };
+      const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+      navigatorCredentials.mockReturnValue(
+        { credentials: mockCredentialsContainer } as unknown as Navigator,
+      );
+    });
+
+    it('should render DEFAULT title for enroll when displayName is "Security Key or Biometric"', () => {
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.ENROLL_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'Security Key or Biometric',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.enroll.webauthn.title');
+    });
+
+    it('should render PASSKEYS title for enroll when displayName is "Passkeys"', () => {
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.ENROLL_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'Passkeys',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.enroll.webauthn.passkeysRebrand.passkeys.title');
+    });
+
+    it('should render CUSTOM title for enroll with displayName parameter', () => {
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.ENROLL_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'YubiKey',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.enroll.webauthn.passkeysRebrand.custom.title');
+    });
+
+    it('should render DEFAULT title for verify when displayName is "Security Key or Biometric"', () => {
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.CHALLENGE_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.CHALLENGE_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'Security Key or Biometric',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.verify.webauth.title');
+    });
+
+    it('should render PASSKEYS title for verify when displayName is "Passkeys"', () => {
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.CHALLENGE_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.CHALLENGE_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'Passkeys',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.verify.webauth.passkeysRebrand.passkeys.title');
+    });
+
+    it('should render CUSTOM title for verify with displayName parameter', () => {
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.CHALLENGE_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.CHALLENGE_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'TouchID',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.verify.webauth.passkeysRebrand.custom.title');
+    });
+
+    it('should render additional instructions heading and InfoBox for custom displayName with description during ENROLL', () => {
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.ENROLL_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'YubiKey',
+            description: 'Insert your YubiKey and tap to authenticate.',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      // Should have: Title, Description (instructions), Description (additional instructions heading with <strong>), InfoBox (custom description), Button
+      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.enroll.webauthn.passkeysRebrand.custom.title');
+
+      // Main instructions
+      expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).contentType).toBe('subtitle');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+        .toBe('oie.enroll.webauthn.instructions');
+
+      // Additional instructions heading (as Description with <strong>)
+      expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
+      expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+        .toContain('<strong>');
+      expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+        .toContain('oie.verify.webauthn.instructions.additional');
+
+      // InfoBox with custom description
+      expect(updatedFormBag.uischema.elements[3].type).toBe('InfoBox');
+      expect((updatedFormBag.uischema.elements[3] as InfoboxElement).options.class).toBe('INFO');
+      expect((updatedFormBag.uischema.elements[3] as InfoboxElement).options.message)
+        .toEqual({
+          class: 'INFO',
+          message: 'Insert your YubiKey and tap to authenticate.',
+        });
+
+      // Submit button
+      expect(updatedFormBag.uischema.elements[4].type).toBe('WebAuthNSubmitButton');
+    });
+
+    it('should render additional instructions heading and InfoBox for custom displayName with description during VERIFY', () => {
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.CHALLENGE_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.CHALLENGE_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'Passkeys Rebrand Super Cool Company Passkeys',
+            description: 'Use your company-issued passkey to sign in.',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      // Should have: Title, Description (instructions), Description (additional instructions heading), InfoBox (custom description), Button, Accordion
+      expect(updatedFormBag.uischema.elements.length).toBe(6);
+      expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.verify.webauth.passkeysRebrand.custom.title');
+
+      // Main instructions
+      expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).contentType).toBe('subtitle');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+        .toBe('oie.verify.webauthn.instructions');
+
+      // Additional instructions heading
+      expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
+      expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+        .toContain('<strong>');
+      expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+        .toContain('oie.verify.webauthn.instructions.additional');
+
+      // InfoBox with custom description
+      expect(updatedFormBag.uischema.elements[3].type).toBe('InfoBox');
+      expect((updatedFormBag.uischema.elements[3] as InfoboxElement).options.class).toBe('INFO');
+      expect((updatedFormBag.uischema.elements[3] as InfoboxElement).options.message)
+        .toEqual({
+          class: 'INFO',
+          message: 'Use your company-issued passkey to sign in.',
+        });
+
+      // Submit button
+      expect(updatedFormBag.uischema.elements[4].type).toBe('WebAuthNSubmitButton');
+
+      // Accordion (for CHALLENGE_AUTHENTICATOR)
+      expect(updatedFormBag.uischema.elements[5].type).toBe('Accordion');
+    });
+
+    it('should render additional instructions when description is present', () => {
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.ENROLL_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'Security Key or Biometric',
+            description: 'Some description',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      // Should have additional instructions Description and InfoBox
+      const hasAdditionalInstructions = updatedFormBag.uischema.elements.some(
+        (el: any) => el.type === 'Description' && el.options?.content?.includes('oie.verify.webauthn.instructions.additional'),
+      );
+      expect(hasAdditionalInstructions).toBe(true);
+
+      const infoBoxElement = updatedFormBag.uischema.elements.find(
+        (el: any) => el.type === 'InfoBox',
+      ) as InfoboxElement;
+      expect(infoBoxElement).toBeDefined();
+      expect(infoBoxElement.options.message).toEqual({
+        class: 'INFO',
+        message: 'Some description',
+      });
+    });
+
+    it('should NOT render additional instructions without description', () => {
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.ENROLL_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'YubiKey',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      // Should NOT have additional instructions Description or InfoBox
+      const hasAdditionalInstructions = updatedFormBag.uischema.elements.some(
+        (el: any) => el.type === 'Description' && el.options?.content?.includes('oie.verify.webauthn.instructions.additional'),
+      );
+      expect(hasAdditionalInstructions).toBe(false);
+
+      const hasInfoBox = updatedFormBag.uischema.elements.some(
+        (el: any) => el.type === 'InfoBox',
+      );
+      expect(hasInfoBox).toBe(false);
+    });
+
+    it('should use same instructions key for all displayName types (no parameters for instructions)', () => {
+      // Test DEFAULT
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.ENROLL_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'Security Key or Biometric',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+      let updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+      let instructionsElement = updatedFormBag.uischema.elements.find(
+        (el: any) => el.type === 'Description' && el.contentType === 'subtitle',
+      ) as DescriptionElement;
+      expect(instructionsElement.options.content).toBe('oie.enroll.webauthn.instructions');
+
+      // Test PASSKEYS
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.ENROLL_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'Passkeys',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+      updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+      instructionsElement = updatedFormBag.uischema.elements.find(
+        (el: any) => el.type === 'Description' && el.contentType === 'subtitle',
+      ) as DescriptionElement;
+      expect(instructionsElement.options.content).toBe('oie.enroll.webauthn.instructions');
+
+      // Test CUSTOM
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.ENROLL_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'Company Passkeys',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+      updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+      instructionsElement = updatedFormBag.uischema.elements.find(
+        (el: any) => el.type === 'Description' && el.contentType === 'subtitle',
+      ) as DescriptionElement;
+      // Instructions should be the same key, no parameters
+      expect(instructionsElement.options.content).toBe('oie.enroll.webauthn.instructions');
+    });
+
+    it('should render title with displayName for CUSTOM authenticator during enroll', () => {
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.ENROLL_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'Passkeys Rebrand Super Cool Company Passkeys',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.enroll.webauthn.passkeysRebrand.custom.title');
+    });
+
+    it('should render title with displayName for CUSTOM authenticator during verify', () => {
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.CHALLENGE_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.CHALLENGE_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'Company YubiKey',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.verify.webauth.passkeysRebrand.custom.title');
+    });
+
+    it('should handle empty string displayName as DEFAULT', () => {
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.ENROLL_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: '',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.enroll.webauthn.title');
+    });
+
+    it('should render multiple custom displayName authenticators with different descriptions', () => {
+      // First custom authenticator
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.CHALLENGE_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.CHALLENGE_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'Hardware Security Key',
+            description: 'Insert and tap your hardware key.',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag1 = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      expect((updatedFormBag1.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.verify.webauth.passkeysRebrand.custom.title');
+      const infoBox1 = updatedFormBag1.uischema.elements.find(
+        (el: any) => el.type === 'InfoBox',
+      ) as InfoboxElement;
+      expect(infoBox1.options.message).toEqual({
+        class: 'INFO',
+        message: 'Insert and tap your hardware key.',
+      });
+
+      // Second custom authenticator with different description
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.CHALLENGE_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.CHALLENGE_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'Biometric Auth',
+            description: 'Use your fingerprint or face to authenticate.',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag2 = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      const infoBox2 = updatedFormBag2.uischema.elements.find(
+        (el: any) => el.type === 'InfoBox',
+      ) as InfoboxElement;
+      expect(infoBox2.options.message).toEqual({
+        class: 'INFO',
+        message: 'Use your fingerprint or face to authenticate.',
+      });
+    });
+  });
 });

@@ -15,6 +15,12 @@ import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import TimeUtil from 'util/TimeUtil';
 
 import {
+  getWebAuthnI18nKey,
+  getWebAuthnI18nParams,
+  WEBAUTHN_DISPLAY_NAMES,
+  WEBAUTHN_I18N_KEYS,
+} from '../../../../util/webauthnDisplayNameUtils';
+import {
   AUTHENTICATOR_ALLOWED_FOR_OPTIONS,
   AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP,
   AUTHENTICATOR_KEY,
@@ -74,10 +80,15 @@ const getAuthenticatorAriaLabel = (
       return isEnroll
         ? loc('oie.select.authenticator.enroll.security.question.label', 'login')
         : loc('oie.select.authenticator.verify.security.question.label', 'login');
-    case AUTHENTICATOR_KEY.WEBAUTHN:
-      return isEnroll
-        ? loc('oie.select.authenticator.enroll.webauthn.label', 'login')
-        : loc('oie.select.authenticator.verify.webauthn.label', 'login');
+    case AUTHENTICATOR_KEY.WEBAUTHN: {
+      const displayName = option.relatesTo?.displayName;
+      const keyMap = isEnroll
+        ? WEBAUTHN_I18N_KEYS.SELECT_ENROLL_LABEL
+        : WEBAUTHN_I18N_KEYS.SELECT_VERIFY_LABEL;
+      const i18nKey = getWebAuthnI18nKey(keyMap, displayName);
+      const params = getWebAuthnI18nParams(displayName);
+      return loc(i18nKey, 'login', params);
+    }
     case AUTHENTICATOR_KEY.OV:
       return getOktaVerifyAriaLabel(isEnroll, methodType);
     default:
@@ -144,6 +155,16 @@ const getAuthenticatorLabel = (
   switch (authenticatorKey) {
     case AUTHENTICATOR_KEY.CUSTOM_APP:
       return option.relatesTo?.displayName ?? option.label;
+    case AUTHENTICATOR_KEY.WEBAUTHN: {
+      const displayName = option.relatesTo?.displayName;
+      // For Passkeys, return localized label; for custom, return displayName itself
+      if (displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS) {
+        return loc('oie.webauthn.passkeysRebrand.passkeys.label', 'login');
+      } else if (displayName && displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT) {
+        return displayName; // Custom display name
+      }
+      return loc('oie.webauthn.label', 'login'); // DEFAULT case
+    }
     case AUTHENTICATOR_KEY.OV:
       return loc('oie.okta_verify.label', 'login');
     default:
@@ -215,6 +236,28 @@ const getAuthenticatorDescription = (
     authenticatorKey,
     isEnroll,
   );
+
+  // Handle WebAuthn enrollment descriptions based on displayName
+  if (isEnroll && authenticatorKey === AUTHENTICATOR_KEY.WEBAUTHN) {
+    const displayName = option.relatesTo?.displayName;
+    const customDescription = option.relatesTo?.description;
+
+    // For custom with description, use that
+    if (customDescription
+        && displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT
+        && displayName !== WEBAUTHN_DISPLAY_NAMES.PASSKEYS) {
+      return customDescription;
+    }
+
+    // For Passkeys, use specific description
+    if (displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS) {
+      return loc('oie.webauthn.passkeysRebrand.passkeys.description', 'login');
+    }
+
+    // Default description
+    return loc('oie.webauthn.description', 'login');
+  }
+
   if (isEnroll) {
     return loc(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[authenticatorKey], 'login', descrParams);
   }

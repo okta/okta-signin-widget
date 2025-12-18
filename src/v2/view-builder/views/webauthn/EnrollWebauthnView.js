@@ -5,6 +5,7 @@ import webauthn from 'util/webauthn';
 import CryptoUtil from 'util/CryptoUtil';
 import EnrollWebauthnInfoView from './EnrollWebauthnInfoView';
 import { getMessageFromBrowserError } from '../../../ion/i18nTransformer';
+import { getWebAuthnTitle } from '../../utils/AuthenticatorUtil';
 
 function getExcludeCredentials(authenticatorEnrollments = []) {
   const credentials = [];
@@ -21,7 +22,7 @@ function getExcludeCredentials(authenticatorEnrollments = []) {
 
 const Body = BaseForm.extend({
   title() {
-    return loc('oie.enroll.webauthn.title', 'login');
+    return getWebAuthnTitle(this.options.currentViewState, false);
   },
   className: 'oie-enroll-webauthn',
   modelEvents: {
