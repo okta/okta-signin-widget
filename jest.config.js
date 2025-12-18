@@ -13,7 +13,24 @@ const TEST_TIMEOUT = 20 * 1000;
 module.exports = {
   coverageDirectory: COVERAGE_DIR,
   collectCoverage: false,
-  collectCoverageFrom: ['./src/**', '!./test/**'],
+  collectCoverageFrom: [
+    './src/**/*.{js,ts}',
+    '!./src/v3/**',
+    '!./test/**',
+    '!./src/**/*.d.ts',
+  ],
+  coverageReporters: ['text', 'lcov', 'html', 'json-summary'],
+  coverageThreshold: {
+    // Baseline thresholds for Gen1/Gen2 - track coverage trends and identify critical gaps
+    // Current coverage (Dec 2025): Lines 73.73%, Branches 70.51%, Functions 71.78%, Statements 73.57%
+    // Set slightly below current to allow minor fluctuations but prevent regression
+    global: {
+      branches: 70,
+      functions: 71,
+      lines: 73,
+      statements: 73,
+    },
+  },
   transform: {
     '^.+\\.m?[jt]s$': 'babel-jest',
   },
