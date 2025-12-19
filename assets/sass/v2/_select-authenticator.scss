@@ -26,6 +26,9 @@
     .authenticator-list-subtitle {
       margin-bottom: $font-size-header;
     }
+    .authenticator-list-subtitle-link-container {
+      margin-bottom: $font-size-header;
+    }
   }
   .skip-all {
     width: 100%;
@@ -113,7 +116,8 @@
     display: inline-block;
   }
 
-  .authenticator-grace-period-required-description {
+  .authenticator-grace-period-required-description,
+  .authenticator-grace-period-skip-count-description {
     color: $text-color-warning;
   }
 
