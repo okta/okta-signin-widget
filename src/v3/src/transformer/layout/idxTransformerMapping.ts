@@ -587,6 +587,7 @@ const TransformerMap: {
   // does not contain the sign in form elements and should be treated
   // as the Identify step for rendering purposes, we use the same transformer settings
   [IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR]: IdentifyTransformerSettings,
+  [IDX_STEP.LAUNCH_PASSKEYS_AUTHENTICATOR]: IdentifyTransformerSettings,
 };
 
 if (isDevelopmentEnvironment() || isTestEnvironment()) {

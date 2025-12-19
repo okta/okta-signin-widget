@@ -12,34 +12,31 @@
 
 import { isEmpty } from 'lodash';
 import { useEffect } from 'preact/hooks';
-
 import {
   ABORT_REASON_CLEANUP,
   ABORT_REASON_WEBAUTHN_AUTOFILLUI_STEP_NOT_FOUND,
   IDX_STEP,
-} from '../../constants';
-import { useWidgetContext } from '../../contexts';
-import { useOnSubmit } from '../../hooks';
-import { UISchemaElementComponent, WebAuthNAutofillElement } from '../../types';
-import { isPasskeyAutofillAvailable, loc } from '../../util';
+} from 'src/constants';
+import { useWidgetContext } from 'src/contexts';
+import { useOnSubmit } from 'src/hooks';
+import { UISchemaElementComponent, WebAuthNAutofillElement } from 'src/types';
+import { isPasskeyAutofillAvailable, loc } from 'src/util';
 
 const WebAuthNAutofill: UISchemaElementComponent<{
   uischema: WebAuthNAutofillElement;
 }> = ({ uischema }) => {
-  const { setAbortController, setMessage } = useWidgetContext();
+  const {
+    abortController,
+    setAbortController,
+    setMessage,
+  } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
   const { options } = uischema;
 
-  let abortController: AbortController;
-
-  if (typeof AbortController !== 'undefined') {
-    abortController = new AbortController();
-  }
-
-  const executeNextStep = async () => {
+  const executeNextStep = async (controller: AbortController | undefined) => {
     if (await isPasskeyAutofillAvailable()) {
       try {
-        const credentials = await options.getCredentials(abortController);
+        const credentials = await options.getCredentials(controller);
 
         if (credentials) {
           onSubmitHandler({
@@ -74,13 +71,20 @@ const WebAuthNAutofill: UISchemaElementComponent<{
   };
 
   useEffect(() => {
-    setAbortController(abortController);
-    executeNextStep();
+    if (typeof AbortController === 'undefined') {
+      return;
+    }
+
+    if (abortController === undefined) {
+      setAbortController(new AbortController());
+    }
+    executeNextStep(abortController);
+    // eslint-disable-next-line consistent-return
     return () => {
       abortController?.abort(ABORT_REASON_CLEANUP);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [abortController]);
 
   return null;
 };

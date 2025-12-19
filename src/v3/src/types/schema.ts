@@ -164,6 +164,19 @@ export interface ActionOptions {
 }
 
 /**
+ * LaunchPasskeysAuthenticatorButton
+ */
+export interface LaunchPasskeysAuthenticatorButtonElement extends UISchemaElement {
+  type: 'LaunchPasskeysAuthenticatorButton';
+  options: {
+    step: string;
+    getCredentials: (
+      (abortController: AbortController | undefined) => Promise<WebAuthNAutofillUICredentials>
+    );
+  };
+}
+
+/**
  * WebAuthNEnrollmentPayload
  */
 export type WebAuthNEnrollmentPayload = {
@@ -433,7 +446,9 @@ export interface WebAuthNAutofillElement extends UISchemaElement {
   type: 'WebAuthNAutofill';
   options: {
     step: string;
-    getCredentials: ((abortController: AbortController) => Promise<WebAuthNAutofillUICredentials>)
+    getCredentials: (
+      (abortController: AbortController | undefined) => Promise<WebAuthNAutofillUICredentials>
+    );
   };
 }
 

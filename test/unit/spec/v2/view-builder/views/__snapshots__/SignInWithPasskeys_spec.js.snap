@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`v2/view-builder/views/signin/SignInWithPasskeys should render the signin with a passkey button 1`] = `
+<div
+  class="sign-in-with-passkeys-option"
+>
+  <div
+    class="okta-passkeys-container"
+  >
+    <a
+      class="button link-button link-button-icon"
+      data-se="button"
+      href="#"
+    >
+      <span
+        class="icon okta-passkeys-authenticator"
+      />
+      Sign in with a passkey
+    </a>
+  </div>
+  <div
+    class="separation-line"
+  >
+    <span>
+      or
+    </span>
+  </div>
+</div>
+`;

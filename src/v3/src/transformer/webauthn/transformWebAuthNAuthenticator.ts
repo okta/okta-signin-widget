@@ -32,7 +32,7 @@ import {
   WebAuthNButtonElement,
 } from '../../types';
 import {
-  isCredentialsApiAvailable,
+  isCredentialsCreateApiAvailable,
   loc,
   webAuthNAuthenticationHandler,
   webAuthNEnrollmentHandler,
@@ -181,7 +181,7 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
 
   // This verifies that the browser supports the credentials API
   // and the step is supported for this transformer
-  if (isCredentialsApiAvailable()) {
+  if (isCredentialsCreateApiAvailable()) {
     const submitButtonEle: WebAuthNButtonElement = {
       type: 'WebAuthNSubmitButton',
       options: {

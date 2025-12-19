@@ -94,7 +94,21 @@ export default {
     }
     return isAvailable;
   },
+  isPasskeyAvailable: function() {
+    // eslint-disable-next-line compat/compat
+    const credentials = navigator?.credentials || {};
+    return (typeof PublicKeyCredential !== 'undefined'
+      && typeof credentials.get === 'function'
+      && typeof credentials.create === 'function'
+    );
+  },
   isRelyingPartyIdMismatchError: function(error) {
     return error?.name === 'SecurityError' && error?.code === 18;
   },
+  isAbortError: function(error) {
+    return error?.name === 'AbortError' && error?.code === 20;
+  },
+  isNotAllowedError: function(error) {
+    return error?.name === 'NotAllowedError' && error?.code === 0;
+  }
 };
