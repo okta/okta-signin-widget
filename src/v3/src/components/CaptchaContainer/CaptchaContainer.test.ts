@@ -20,6 +20,28 @@ jest.mock('../../../../util/Logger', () => ({
   error: jest.fn(),
 }));
 
+const mockOnSubmit = jest.fn();
+jest.mock('../../hooks', () => ({
+  useOnSubmit: () => mockOnSubmit,
+}));
+
+const mockLoadAltchaWidget = () => {
+  jest.mock(
+    'altcha',
+    () => {
+      if (
+        typeof window !== 'undefined'
+          && window.customElements
+          && !window.customElements.get('altcha-widget')
+      ) {
+        class AltchaEl extends HTMLElement {}
+        window.customElements.define('altcha-widget', AltchaEl);
+      }
+      return {};
+    },
+  );
+};
+
 jest.mock('../../contexts', () => ({
   useWidgetContext: () => ({
     dataSchemaRef: {
@@ -31,14 +53,40 @@ jest.mock('../../contexts', () => ({
         },
       },
     },
-    widgetProps: {},
+    widgetProps: {
+      baseUrl: 'https://test.okta.com',
+    },
     recaptchaOptions: undefined,
   }),
 }));
 
+jest.mock('../../util', () => ({
+  getBaseUrl: () => 'https://test.okta.com',
+  loc: (key: string) => key,
+}));
+
+const altchaUischema = {
+  type: 'CaptchaContainer',
+  options: {
+    type: 'ALTCHA',
+    siteKey: 'test-site-key',
+    captchaId: 'altcha-captcha-id',
+  },
+} as any;
+
+const recaptchaUischema = {
+  type: 'CaptchaContainer',
+  options: {
+    type: 'RECAPTCHA_V2',
+    siteKey: 'site-key',
+    captchaId: 'test-id',
+  },
+} as any;
+
 describe('CaptchaContainer dynamic altcha import', () => {
   beforeEach(() => {
     (Logger.error as jest.Mock).mockClear();
+    mockOnSubmit.mockClear();
   });
 
   it('logs error when dynamic import of altcha fails', async () => {
@@ -50,16 +98,7 @@ describe('CaptchaContainer dynamic altcha import', () => {
       { virtual: true },
     );
 
-    const uischema = {
-      type: 'CaptchaContainer',
-      options: {
-        type: 'ALTCHA',
-        siteKey: 'site-key',
-        captchaId: 'alt_id',
-      },
-    } as any;
-
-    render(h(CaptchaContainer, { uischema }));
+    render(h(CaptchaContainer, { uischema: altchaUischema }));
 
     await waitFor(() => {
       expect(Logger.error).toHaveBeenCalledTimes(1);
@@ -79,16 +118,7 @@ describe('CaptchaContainer dynamic altcha import', () => {
       { virtual: true },
     );
 
-    const uischema = {
-      type: 'CaptchaContainer',
-      options: {
-        type: 'RECAPTCHA_V2',
-        siteKey: 'site-key',
-        captchaId: 'test-id',
-      },
-    } as any;
-
-    const { container } = render(h(CaptchaContainer, { uischema }));
+    const { container } = render(h(CaptchaContainer, { uischema: recaptchaUischema }));
 
     await waitFor(() => {
       expect(container.querySelector('altcha-widget')).toBeNull();
@@ -97,36 +127,94 @@ describe('CaptchaContainer dynamic altcha import', () => {
   });
 
   it('imports altcha when captchaType is ALTCHA', async () => {
-    jest.doMock(
-      'altcha',
-      () => {
-        if (
-          typeof window !== 'undefined'
-          && window.customElements
-          && !window.customElements.get('altcha-widget')
-        ) {
-          class AltchaEl extends HTMLElement {}
-          window.customElements.define('altcha-widget', AltchaEl);
-        }
-        return {};
-      },
-      { virtual: true },
-    );
+    mockLoadAltchaWidget();
 
-    const uischema = {
-      type: 'CaptchaContainer',
-      options: {
-        type: 'ALTCHA',
-        siteKey: 'site-key',
-        captchaId: 'alt_id',
-      },
-    } as any;
-
-    const { container } = render(h(CaptchaContainer, { uischema }));
+    const { container } = render(h(CaptchaContainer, { uischema: altchaUischema }));
 
     await waitFor(() => {
       expect(container.querySelector('altcha-widget')).not.toBeNull();
       expect(Logger.error).toHaveBeenCalledTimes(0);
     });
+  });
+
+  it('renders ALTCHA widget with correct attributes', async () => {
+    mockLoadAltchaWidget();
+
+    const { container } = render(h(CaptchaContainer, { uischema: altchaUischema }));
+
+    await waitFor(() => {
+      const altchaWidget = container.querySelector('altcha-widget');
+      expect(altchaWidget).not.toBeNull();
+      expect(altchaWidget?.getAttribute('floating')).toBe('true');
+      expect(altchaWidget?.getAttribute('hidefooter')).toBe('true');
+      expect(altchaWidget?.getAttribute('hidelogo')).toBe('true');
+      expect(altchaWidget?.getAttribute('challengeurl')).toBe('https://test.okta.com/api/v1/altcha');
+    });
+  });
+
+  it('renders ALTCHA widget with localized strings', async () => {
+    mockLoadAltchaWidget();
+
+    const { container } = render(h(CaptchaContainer, { uischema: altchaUischema }));
+
+    await waitFor(() => {
+      const altchaWidget = container.querySelector('altcha-widget');
+      expect(altchaWidget).not.toBeNull();
+      const stringsAttr = altchaWidget?.getAttribute('strings');
+      expect(stringsAttr).not.toBeNull();
+      const strings = JSON.parse(stringsAttr!);
+      expect(strings).toHaveProperty('error');
+      expect(strings).toHaveProperty('expired');
+      expect(strings).toHaveProperty('label');
+      expect(strings).toHaveProperty('loading');
+      expect(strings).toHaveProperty('reload');
+      expect(strings).toHaveProperty('verify');
+      expect(strings).toHaveProperty('verificationRequired');
+      expect(strings).toHaveProperty('verified');
+      expect(strings).toHaveProperty('verifying');
+      expect(strings).toHaveProperty('waitAlert');
+    });
+  });
+
+  it('calls onSubmit with correct params when ALTCHA is verified', async () => {
+    mockLoadAltchaWidget();
+
+    const { container } = render(h(CaptchaContainer, { uischema: altchaUischema }));
+
+    await waitFor(() => {
+      const altchaWidget = container.querySelector('altcha-widget');
+      expect(altchaWidget).not.toBeNull();
+    });
+
+    const altchaWidget = container.querySelector('altcha-widget');
+    const verifyEvent = new CustomEvent('verified', {
+      detail: { payload: 'test-altcha-token' },
+    });
+    altchaWidget?.dispatchEvent(verifyEvent);
+
+    expect(mockOnSubmit).toHaveBeenCalledWith({
+      includeData: true,
+      includeImmutableData: false,
+      params: {
+        captchaVerify: {
+          captchaToken: 'test-altcha-token',
+          captchaId: 'altcha',
+        },
+      },
+      step: 'test-step',
+    });
+  });
+
+  it('does not render ALTCHA widget before script is loaded', () => {
+    // Delay the import to simulate loading state
+    jest.mock(
+      'altcha',
+      () => new Promise(() => {}),
+    );
+
+    const { container } = render(h(CaptchaContainer, { uischema: altchaUischema }));
+
+    // Initially, the widget should not be rendered
+    expect(container.querySelector('altcha-widget')).toBeNull();
   });
 });

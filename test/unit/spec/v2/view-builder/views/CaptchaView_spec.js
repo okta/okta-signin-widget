@@ -6,6 +6,18 @@ import enrollProfileWithReCaptcha from '../../../../../../playground/mocks/data/
 import enrollProfileWithHCaptcha from '../../../../../../playground/mocks/data/idp/idx/enroll-profile-new-with-hcaptcha.json';
 import { WIDGET_FOOTER_CLASS } from 'v2/view-builder/utils/Constants';
 
+const captchaAltchaObject = {
+  captcha: {
+    type: 'object',
+    value: {
+      id: 'altcha',
+      name: 'altcha',
+      siteKey: 'altcha-site-key',
+      type: 'ALTCHA'
+    }
+  }
+};
+
 describe('v2/view-builder/views/CaptchaView', function() {
   let testContext;
   let language = undefined;
@@ -159,5 +171,115 @@ describe('v2/view-builder/views/CaptchaView', function() {
     expect(spy).toHaveBeenCalledWith('saveForm', testContext.view.model);
 
     window.grecaptcha = original;
+  });
+
+  describe('ALTCHA Captcha', function() {
+    it('view renders correctly with ALTCHA configuration', function() {
+      testContext.init(captchaAltchaObject.captcha.value);
+      expect(testContext.view.el).toMatchSnapshot('with ALTCHA configuration');
+    });
+
+    it('ALTCHA Captcha gets loaded with correct URL', function() {
+      const spy = jest.spyOn(CaptchaView.prototype, '_loadCaptchaLib');
+      testContext.init(captchaAltchaObject.captcha.value);
+      expect(spy).toHaveBeenCalledWith('https://cdn.jsdelivr.net/gh/altcha-org/altcha/dist/altcha.min.js');
+    });
+
+    it('ALTCHA uses altcha-captcha class in template', function() {
+      testContext.init(captchaAltchaObject.captcha.value);
+      expect(testContext.view.$el.find('#captcha-container').hasClass('altcha-captcha')).toBe(true);
+    });
+
+    it('ALTCHA callback creates altcha-widget element with correct attributes', function() {
+      testContext.init(captchaAltchaObject.captcha.value);
+      
+      // Simulate the onAltchaCaptchaLoaded callback
+      window.OktaSignInWidgetOnCaptchaLoaded();
+      
+      const altchaWidget = testContext.view.$el.find('altcha-widget')[0];
+      expect(altchaWidget).toBeDefined();
+      expect(altchaWidget.getAttribute('floating')).toBe('true');
+      expect(altchaWidget.getAttribute('hidefooter')).toBe('true');
+      expect(altchaWidget.getAttribute('hidelogo')).toBe('true');
+      expect(altchaWidget.getAttribute('challengeurl')).toBe('http://localhost:3000/api/v1/altcha');
+    });
+
+    it('ALTCHA callback sets up temp token and triggers onCaptchaLoaded', function() {
+      testContext.init(captchaAltchaObject.captcha.value);
+      const spy = jest.spyOn(testContext.view.options.appState, 'trigger');
+      
+      window.OktaSignInWidgetOnCaptchaLoaded();
+      
+      expect(testContext.view.model.get('captchaVerify.captchaToken')).toEqual('tempToken');
+      expect(testContext.view.$el.find('#captcha-container').attr('data-captcha-id')).toEqual('altcha');
+      expect(spy).toHaveBeenCalledWith('onCaptchaLoaded', expect.any(HTMLElement));
+    });
+
+    it('ALTCHA widget strings attribute contains localized strings', function() {
+      testContext.init(captchaAltchaObject.captcha.value);
+      
+      window.OktaSignInWidgetOnCaptchaLoaded();
+      
+      const altchaWidget = testContext.view.$el.find('altcha-widget')[0];
+      const stringsAttr = altchaWidget.getAttribute('strings');
+      expect(stringsAttr).not.toBeNull();
+      
+      const strings = JSON.parse(stringsAttr);
+      expect(strings).toHaveProperty('error');
+      expect(strings).toHaveProperty('expired');
+      expect(strings).toHaveProperty('label');
+      expect(strings).toHaveProperty('loading');
+      expect(strings).toHaveProperty('reload');
+      expect(strings).toHaveProperty('verify');
+      expect(strings).toHaveProperty('verificationRequired');
+      expect(strings).toHaveProperty('verified');
+      expect(strings).toHaveProperty('verifying');
+      expect(strings).toHaveProperty('waitAlert');
+    });
+
+    it('ALTCHA verified event triggers form submission with correct token', function() {
+      testContext.init(captchaAltchaObject.captcha.value);
+      const spy = jest.spyOn(testContext.view.options.appState, 'trigger');
+      
+      window.OktaSignInWidgetOnCaptchaLoaded();
+      
+      // Mock the reset method on window.altcha since onCaptchaSolved calls captchaObject.reset()
+      window.altcha.reset = jest.fn();
+      
+      const altchaWidget = testContext.view.$el.find('altcha-widget')[0];
+      
+      // Simulate the verified event
+      const verifiedEvent = new CustomEvent('verified', {
+        detail: { payload: 'altcha-test-token' }
+      });
+      altchaWidget.dispatchEvent(verifiedEvent);
+      
+      expect(window.altcha.reset).toHaveBeenCalledWith('altcha');
+      expect(testContext.view.model.get('captchaVerify.captchaToken')).toEqual('altcha-test-token');
+      expect(spy).toHaveBeenCalledWith('saveForm', testContext.view.model);
+    });
+
+    it('ALTCHA _getCaptchaObject returns window.altcha', function() {
+      testContext.init(captchaAltchaObject.captcha.value);
+      
+      window.OktaSignInWidgetOnCaptchaLoaded();
+      
+      const captchaObj = testContext.view._getCaptchaOject();
+      expect(captchaObj).toBe(window.altcha);
+    });
+
+    it('ALTCHA script tag is loaded with type="module"', function() {
+      const appendChildSpy = jest.fn();
+      jest.spyOn(window.document, 'getElementById').mockReturnValue({
+        appendChild: appendChildSpy
+      });
+      
+      testContext.init(captchaAltchaObject.captcha.value);
+      
+      expect(appendChildSpy).toHaveBeenCalled();
+      const scriptTag = appendChildSpy.mock.calls[0][0];
+      expect(scriptTag.type).toBe('module');
+      expect(scriptTag.src).toContain('altcha');
+    });
   });
 });
