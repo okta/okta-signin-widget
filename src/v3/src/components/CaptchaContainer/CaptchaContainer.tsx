@@ -22,7 +22,7 @@ import {
   CaptchaContainerElement,
   UISchemaElementComponent,
 } from '../../types';
-import { loc, getBaseUrl } from '../../util';
+import { getBaseUrl, loc } from '../../util';
 
 declare global {
   interface Window {
@@ -36,17 +36,17 @@ declare global {
 }
 
 const getAltchaWidgetStrings = () => ({
-    error: loc('altcha.error.label', 'login'),
-    expired: loc('altcha.expired.label', 'login'),
-    label: loc('altcha.label.label', 'login'),
-    loading: loc('altcha.loading.label', 'login'),
-    reload: loc('altcha.reload.label', 'login'),
-    verify: loc('altcha.verify.label', 'login'),
-    verificationRequired: loc('altcha.verificationRequired.label', 'login'),
-    verified: loc('altcha.verified.label', 'login'),
-    verifying: loc('altcha.verifying.label', 'login'),
-    waitAlert: loc('altcha.waitAlert.label', 'login'),
-})
+  error: loc('altcha.error.label', 'login'),
+  expired: loc('altcha.expired.label', 'login'),
+  label: loc('altcha.label.label', 'login'),
+  loading: loc('altcha.loading.label', 'login'),
+  reload: loc('altcha.reload.label', 'login'),
+  verify: loc('altcha.verify.label', 'login'),
+  verificationRequired: loc('altcha.verificationRequired.label', 'login'),
+  verified: loc('altcha.verified.label', 'login'),
+  verifying: loc('altcha.verifying.label', 'login'),
+  waitAlert: loc('altcha.waitAlert.label', 'login'),
+});
 
 const CaptchaContainer: UISchemaElementComponent<{
   uischema: CaptchaContainerElement
