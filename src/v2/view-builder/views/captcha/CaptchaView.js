@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { View } from '@okta/courage';
+import { View , loc } from '@okta/courage';
 import Enums from 'util/Enums';
 import Util from 'util/Util';
 import hbs from '@okta/handlebars-inline-precompile';
@@ -114,17 +114,35 @@ export default View.extend({
       this.model.set(this.options.name, 'tempToken');
     };
 
+    const getAltchaWidgetStrings = () => {
+      return JSON.stringify({
+        error: loc('altcha.error.label', 'login'),
+        expired: loc('altcha.expired.label', 'login'),
+        label: loc('altcha.label.label', 'login'),
+        loading: loc('altcha.loading.label', 'login'),
+        reload: loc('altcha.reload.label', 'login'),
+        verify: loc('altcha.verify.label', 'login'),
+        verificationRequired: loc('altcha.verificationRequired.label', 'login'),
+        verified: loc('altcha.verified.label', 'login'),
+        verifying: loc('altcha.verifying.label', 'login'),
+        waitAlert: loc('altcha.waitAlert.label', 'login'),
+      });
+    };
+
     const onAltchaCaptchaLoaded = () => {
       setUpTempToken();
 
       const $container = this.$el.find('#captcha-container');
       const altEl = document.createElement('altcha-widget');
 
+      const challengeurl = `${this.options.settings.get('baseUrl')}/api/v1/altcha`;
+
       Object.entries({
         floating: true,
         hidefooter: true,
         hidelogo: true,
-        challengeurl: '/api/v1/altcha',
+        challengeurl,
+        strings: getAltchaWidgetStrings()
       }).forEach(([key, value]) => altEl.setAttribute(key, value));
 
       if (altEl.addEventListener) {

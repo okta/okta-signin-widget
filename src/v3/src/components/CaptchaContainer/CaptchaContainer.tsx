@@ -22,6 +22,8 @@ import {
   CaptchaContainerElement,
   UISchemaElementComponent,
 } from '../../types';
+import { loc } from '../../util';
+import { getBaseUrl } from 'src/util';
 
 declare global {
   interface Window {
@@ -33,6 +35,21 @@ declare global {
     }
   }
 }
+
+const getAltchaWidgetStrings = () => {
+  return JSON.stringify({
+    error: loc('altcha.error.label', 'login'),
+    expired: loc('altcha.expired.label', 'login'),
+    label: loc('altcha.label.label', 'login'),
+    loading: loc('altcha.loading.label', 'login'),
+    reload: loc('altcha.reload.label', 'login'),
+    verify: loc('altcha.verify.label', 'login'),
+    verificationRequired: loc('altcha.verificationRequired.label', 'login'),
+    verified: loc('altcha.verified.label', 'login'),
+    verifying: loc('altcha.verifying.label', 'login'),
+    waitAlert: loc('altcha.waitAlert.label', 'login'),
+  });
+};
 
 const CaptchaContainer: UISchemaElementComponent<{
   uischema: CaptchaContainerElement
@@ -50,6 +67,7 @@ const CaptchaContainer: UISchemaElementComponent<{
   const onSubmitHandler = useOnSubmit();
   const dataSchema = dataSchemaRef.current!;
   const captchaRef = useRef<ReCAPTCHA | HCaptcha>(null);
+  const widgetContext = useWidgetContext();
 
   // State to track if the ALTCHA script has been loaded
   const [isAltchaLoaded, setIsAltchaLoaded] = useState(false);
@@ -172,7 +190,11 @@ const CaptchaContainer: UISchemaElementComponent<{
       params: captchaSubmitParams,
       step,
     });
+
+    setIsAltchaLoaded(false);
   };
+
+  const challengeurl = `${getBaseUrl(widgetContext.widgetProps)}/api/v1/altcha`;
 
   if (captchaType === 'ALTCHA') {
     return isAltchaLoaded ? (
@@ -181,7 +203,8 @@ const CaptchaContainer: UISchemaElementComponent<{
         hidefooter
         hidelogo
         onverified={onAltchaVerify}
-        challengeurl="/api/v1/altcha"
+        challengeurl={challengeurl}
+        strings={getAltchaWidgetStrings()}
       />
     ) : (
       null
