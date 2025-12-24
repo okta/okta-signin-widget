@@ -13,6 +13,7 @@
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { Box } from '@mui/material';
 import { useEffect, useRef, useState } from 'preact/hooks';
+import { useMemo } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 import Logger from '../../../../util/Logger';
@@ -22,6 +23,7 @@ import {
   CaptchaContainerElement,
   UISchemaElementComponent,
 } from '../../types';
+import { getBaseUrl, loc } from '../../util';
 
 declare global {
   interface Window {
@@ -33,6 +35,19 @@ declare global {
     }
   }
 }
+
+const getAltchaWidgetStrings = () => ({
+  error: loc('altcha.error.label', 'login'),
+  expired: loc('altcha.expired.label', 'login'),
+  label: loc('altcha.label.label', 'login'),
+  loading: loc('altcha.loading.label', 'login'),
+  reload: loc('altcha.reload.label', 'login'),
+  verify: loc('altcha.verify.label', 'login'),
+  verificationRequired: loc('altcha.verificationRequired.label', 'login'),
+  verified: loc('altcha.verified.label', 'login'),
+  verifying: loc('altcha.verifying.label', 'login'),
+  waitAlert: loc('altcha.waitAlert.label', 'login'),
+});
 
 const CaptchaContainer: UISchemaElementComponent<{
   uischema: CaptchaContainerElement
@@ -50,6 +65,15 @@ const CaptchaContainer: UISchemaElementComponent<{
   const onSubmitHandler = useOnSubmit();
   const dataSchema = dataSchemaRef.current!;
   const captchaRef = useRef<ReCAPTCHA | HCaptcha>(null);
+  const widgetContext = useWidgetContext();
+
+  const challengeurl = useMemo(() => {
+    if (!widgetContext?.widgetProps) {
+      return '';
+    }
+
+    return `${getBaseUrl(widgetContext.widgetProps)}/api/v1/altcha`;
+  }, [widgetContext.widgetProps]);
 
   // State to track if the ALTCHA script has been loaded
   const [isAltchaLoaded, setIsAltchaLoaded] = useState(false);
@@ -172,6 +196,10 @@ const CaptchaContainer: UISchemaElementComponent<{
       params: captchaSubmitParams,
       step,
     });
+
+    // Setting isAltchaLoaded to false removes the altcha container from the page and waits for re-render of the component before adding it back
+    // The goal is to re-trigger the useEffect which reloads the chunk rather than keep the ALTCHA visible
+    setIsAltchaLoaded(false);
   };
 
   if (captchaType === 'ALTCHA') {
@@ -181,7 +209,8 @@ const CaptchaContainer: UISchemaElementComponent<{
         hidefooter
         hidelogo
         onverified={onAltchaVerify}
-        challengeurl="/api/v1/altcha"
+        challengeurl={challengeurl}
+        strings={JSON.stringify(getAltchaWidgetStrings())}
       />
     ) : (
       null
