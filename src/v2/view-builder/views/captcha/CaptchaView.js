@@ -114,20 +114,18 @@ export default View.extend({
       this.model.set(this.options.name, 'tempToken');
     };
 
-    const getAltchaWidgetStrings = () => {
-      return JSON.stringify({
-        error: loc('altcha.error.label', 'login'),
-        expired: loc('altcha.expired.label', 'login'),
-        label: loc('altcha.label.label', 'login'),
-        loading: loc('altcha.loading.label', 'login'),
-        reload: loc('altcha.reload.label', 'login'),
-        verify: loc('altcha.verify.label', 'login'),
-        verificationRequired: loc('altcha.verificationRequired.label', 'login'),
-        verified: loc('altcha.verified.label', 'login'),
-        verifying: loc('altcha.verifying.label', 'login'),
-        waitAlert: loc('altcha.waitAlert.label', 'login'),
-      });
-    };
+    const getAltchaWidgetStrings = () => ({
+      error: loc('altcha.error.label', 'login'),
+      expired: loc('altcha.expired.label', 'login'),
+      label: loc('altcha.label.label', 'login'),
+      loading: loc('altcha.loading.label', 'login'),
+      reload: loc('altcha.reload.label', 'login'),
+      verify: loc('altcha.verify.label', 'login'),
+      verificationRequired: loc('altcha.verificationRequired.label', 'login'),
+      verified: loc('altcha.verified.label', 'login'),
+      verifying: loc('altcha.verifying.label', 'login'),
+      waitAlert: loc('altcha.waitAlert.label', 'login'),
+    });
 
     const onAltchaCaptchaLoaded = () => {
       setUpTempToken();
@@ -142,7 +140,7 @@ export default View.extend({
         hidefooter: true,
         hidelogo: true,
         challengeurl,
-        strings: getAltchaWidgetStrings()
+        strings: JSON.stringify(getAltchaWidgetStrings())
       }).forEach(([key, value]) => altEl.setAttribute(key, value));
 
       if (altEl.addEventListener) {

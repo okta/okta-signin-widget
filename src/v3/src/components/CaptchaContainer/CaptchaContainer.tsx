@@ -22,8 +22,7 @@ import {
   CaptchaContainerElement,
   UISchemaElementComponent,
 } from '../../types';
-import { loc } from '../../util';
-import { getBaseUrl } from 'src/util';
+import { loc, getBaseUrl } from '../../util';
 
 declare global {
   interface Window {
@@ -36,8 +35,7 @@ declare global {
   }
 }
 
-const getAltchaWidgetStrings = () => {
-  return JSON.stringify({
+const getAltchaWidgetStrings = () => ({
     error: loc('altcha.error.label', 'login'),
     expired: loc('altcha.expired.label', 'login'),
     label: loc('altcha.label.label', 'login'),
@@ -48,8 +46,7 @@ const getAltchaWidgetStrings = () => {
     verified: loc('altcha.verified.label', 'login'),
     verifying: loc('altcha.verifying.label', 'login'),
     waitAlert: loc('altcha.waitAlert.label', 'login'),
-  });
-};
+})
 
 const CaptchaContainer: UISchemaElementComponent<{
   uischema: CaptchaContainerElement
@@ -204,7 +201,7 @@ const CaptchaContainer: UISchemaElementComponent<{
         hidelogo
         onverified={onAltchaVerify}
         challengeurl={challengeurl}
-        strings={getAltchaWidgetStrings()}
+        strings={JSON.stringify(getAltchaWidgetStrings())}
       />
     ) : (
       null
