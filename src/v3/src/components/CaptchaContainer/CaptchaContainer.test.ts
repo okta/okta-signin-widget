@@ -29,14 +29,7 @@ const mockLoadAltchaWidget = () => {
   jest.mock(
     'altcha',
     () => {
-      if (
-        typeof window !== 'undefined'
-          && window.customElements
-          && !window.customElements.get('altcha-widget')
-      ) {
-        class AltchaEl extends HTMLElement {}
-        window.customElements.define('altcha-widget', AltchaEl);
-      }
+      window.customElements.define('altcha-widget', HTMLElement);
       return {};
     },
   );
@@ -58,11 +51,6 @@ jest.mock('../../contexts', () => ({
     },
     recaptchaOptions: undefined,
   }),
-}));
-
-jest.mock('../../util', () => ({
-  getBaseUrl: () => 'https://test.okta.com',
-  loc: (key: string) => key,
 }));
 
 const altchaUischema = {

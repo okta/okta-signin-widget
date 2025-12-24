@@ -197,7 +197,8 @@ describe('v2/view-builder/views/CaptchaView', function() {
       window.OktaSignInWidgetOnCaptchaLoaded();
       
       const altchaWidget = testContext.view.$el.find('altcha-widget')[0];
-      expect(altchaWidget).toBeDefined();
+      expect(altchaWidget).not.toBeNull();
+
       expect(altchaWidget.getAttribute('floating')).toBe('true');
       expect(altchaWidget.getAttribute('hidefooter')).toBe('true');
       expect(altchaWidget.getAttribute('hidelogo')).toBe('true');
@@ -221,6 +222,8 @@ describe('v2/view-builder/views/CaptchaView', function() {
       window.OktaSignInWidgetOnCaptchaLoaded();
       
       const altchaWidget = testContext.view.$el.find('altcha-widget')[0];
+      expect(altchaWidget).not.toBeNull();
+
       const stringsAttr = altchaWidget.getAttribute('strings');
       expect(stringsAttr).not.toBeNull();
       
@@ -247,6 +250,7 @@ describe('v2/view-builder/views/CaptchaView', function() {
       window.altcha.reset = jest.fn();
       
       const altchaWidget = testContext.view.$el.find('altcha-widget')[0];
+      expect(altchaWidget).not.toBeNull();
       
       // Simulate the verified event
       const verifiedEvent = new CustomEvent('verified', {
@@ -263,7 +267,7 @@ describe('v2/view-builder/views/CaptchaView', function() {
       testContext.init(captchaAltchaObject.captcha.value);
       
       window.OktaSignInWidgetOnCaptchaLoaded();
-      
+
       const captchaObj = testContext.view._getCaptchaOject();
       expect(captchaObj).toBe(window.altcha);
     });
