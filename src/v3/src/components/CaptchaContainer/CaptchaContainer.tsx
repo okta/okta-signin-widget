@@ -182,28 +182,29 @@ const CaptchaContainer: UISchemaElementComponent<{
   const altchaCustomFetch : typeof window.fetch = async (url, init) => {
     // If we do not have a challengeUrlForm, we can return window.fetch immediately
     if (!challengeUrlForm) {
+      // eslint-disable-next-line compat/compat
       return window.fetch(url, init);
     }
 
     const { accepts, method, value } = challengeUrlForm;
 
-    init = { ...init };
+    const newInit = { ...init };
 
     if (accepts) {
-      init.headers = { ...init.headers, 'Content-Type': accepts };
+      newInit.headers = { ...newInit.headers, 'Content-Type': accepts };
     }
 
     if (method) {
-      init.method = method;
+      newInit.method = method;
     }
     // Check if the state handle is one of the fields that should be passed
     // in the body
     if (value?.find((field) => field?.name === 'stateHandle')) {
-      init.body = JSON.stringify({ stateHandle });
+      newInit.body = JSON.stringify({ stateHandle });
     }
 
     // eslint-disable-next-line compat/compat
-    return window.fetch(url, init);
+    return window.fetch(url, newInit);
   };
 
   const onAltchaVerify = (ev: CustomEvent) => {

@@ -139,25 +139,25 @@ export default View.extend({
 
       const { accepts, method, value } = challengeUrlForm;
 
-      init = { ...init };
+      const newInit = { ...init };
 
       if (accepts) {
-        init.headers = { ...init.headers, 'Content-Type': accepts };
+        newInit.headers = { ...newInit.headers, 'Content-Type': accepts };
       }
 
       if (method) {
-        init.method = method;
+        newInit.method = method;
       }
 
       // Check if the state handle is one of the fields that should be passed in the body
       if (value?.find((field) => field?.name === 'stateHandle')) {
-        init.body = JSON.stringify({ 
+        newInit.body = JSON.stringify({ 
           stateHandle: this.options.appState.settings.options.stateToken
         });
       }
 
       // eslint-disable-next-line compat/compat
-      return window.fetch(url, init);
+      return window.fetch(url, newInit);
     };
 
     const onAltchaCaptchaLoaded = () => {
