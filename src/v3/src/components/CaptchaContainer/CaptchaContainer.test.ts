@@ -25,11 +25,32 @@ jest.mock('../../hooks', () => ({
   useOnSubmit: () => mockOnSubmit,
 }));
 
+/**
+ * Mock custom element for altcha-widget that properly captures the `customfetch` property.
+ *
+ * When Preact renders `<altcha-widget customfetch={fn} />`, it sets the property directly
+ * on the DOM element (e.g., `element.customfetch = fn`). A plain HTMLElement doesn't have
+ * this property defined, so we need a custom class with an explicit getter/setter to:
+ * 1. Allow Preact to set the function via the setter
+ * 2. Allow tests to retrieve and invoke it via the getter
+ */
+class MockAltchaWidget extends HTMLElement {
+  private mockCustomFetch?: typeof window.fetch;
+
+  get customfetch() {
+    return this.mockCustomFetch;
+  }
+
+  set customfetch(value: typeof window.fetch | undefined) {
+    this.mockCustomFetch = value;
+  }
+}
+
 const mockLoadAltchaWidget = () => {
   jest.mock(
     'altcha',
     () => {
-      window.customElements.define('altcha-widget', HTMLElement);
+      window.customElements.define('altcha-widget', MockAltchaWidget);
       return {};
     },
   );
@@ -47,7 +68,7 @@ jest.mock('../../contexts', () => ({
       },
     },
     widgetProps: {
-      baseUrl: 'https://test.okta.com',
+      baseUrl: 'https://base.okta.com',
     },
     recaptchaOptions: undefined,
   }),
@@ -59,6 +80,20 @@ const altchaUischema = {
     type: 'ALTCHA',
     siteKey: 'test-site-key',
     captchaId: 'altcha-captcha-id',
+    stateHandle: 'test-state-handle',
+  },
+} as any;
+
+const altchaUischemaWithChallengeUrl = {
+  type: 'CaptchaContainer',
+  options: {
+    ...altchaUischema.options,
+    challengeUrlForm: {
+      href: 'https://custom.okta.com/custom/altcha/challenge',
+      method: 'POST',
+      accepts: 'application/json',
+      value: [{ name: 'stateHandle' }],
+    },
   },
 } as any;
 
@@ -68,6 +103,7 @@ const recaptchaUischema = {
     type: 'RECAPTCHA_V2',
     siteKey: 'site-key',
     captchaId: 'test-id',
+    stateHandle: 'test-state-handle',
   },
 } as any;
 
@@ -125,7 +161,7 @@ describe('CaptchaContainer dynamic altcha import', () => {
     });
   });
 
-  it('renders ALTCHA widget with correct attributes', async () => {
+  it('renders ALTCHA widget with correct attributes using default challenge path', async () => {
     mockLoadAltchaWidget();
 
     const { container } = render(h(CaptchaContainer, { uischema: altchaUischema }));
@@ -136,7 +172,19 @@ describe('CaptchaContainer dynamic altcha import', () => {
       expect(altchaWidget?.getAttribute('floating')).toBe('true');
       expect(altchaWidget?.getAttribute('hidefooter')).toBe('true');
       expect(altchaWidget?.getAttribute('hidelogo')).toBe('true');
-      expect(altchaWidget?.getAttribute('challengeurl')).toBe('https://test.okta.com/api/v1/altcha');
+      expect(altchaWidget?.getAttribute('challengeurl')).toBe('https://base.okta.com/api/v1/altcha');
+    });
+  });
+
+  it('renders ALTCHA widget with custom challengeUrlForm.href when provided', async () => {
+    mockLoadAltchaWidget();
+
+    const { container } = render(h(CaptchaContainer, { uischema: altchaUischemaWithChallengeUrl }));
+
+    await waitFor(() => {
+      const altchaWidget = container.querySelector('altcha-widget');
+      expect(altchaWidget).not.toBeNull();
+      expect(altchaWidget?.getAttribute('challengeurl')).toBe('https://custom.okta.com/custom/altcha/challenge');
     });
   });
 
@@ -204,5 +252,94 @@ describe('CaptchaContainer dynamic altcha import', () => {
 
     // Initially, the widget should not be rendered
     expect(container.querySelector('altcha-widget')).toBeNull();
+  });
+
+  it('ALTCHA customfetch calls window.fetch directly when challengeUrlForm is not provided', async () => {
+    mockLoadAltchaWidget();
+
+    const { container } = render(h(CaptchaContainer, { uischema: altchaUischema }));
+
+    await waitFor(() => {
+      const altchaWidget = container.querySelector('altcha-widget');
+      expect(altchaWidget).not.toBeNull();
+    });
+
+    const altchaWidget = container.querySelector('altcha-widget') as MockAltchaWidget;
+    const mockFetch = jest.spyOn(window, 'fetch').mockResolvedValue(new Response('{}'));
+
+    const testUrl = '/api/v1/altcha';
+    const testInit = { method: 'GET' };
+    await altchaWidget.customfetch!(testUrl, testInit);
+
+    expect(mockFetch).toHaveBeenCalledWith(testUrl, testInit);
+    mockFetch.mockRestore();
+  });
+
+  it('ALTCHA customfetch sets Content-Type header from challengeUrlForm.accepts', async () => {
+    mockLoadAltchaWidget();
+
+    const { container } = render(h(CaptchaContainer, { uischema: altchaUischemaWithChallengeUrl }));
+
+    await waitFor(() => {
+      const altchaWidget = container.querySelector('altcha-widget');
+      expect(altchaWidget).not.toBeNull();
+    });
+
+    const altchaWidget = container.querySelector('altcha-widget') as MockAltchaWidget;
+    const mockFetch = jest.spyOn(window, 'fetch').mockResolvedValue(new Response('{}'));
+
+    const testUrl = 'https://custom.okta.com/custom/altcha/challenge';
+    await altchaWidget.customfetch!(testUrl, {});
+
+    expect(mockFetch).toHaveBeenCalledWith(testUrl, expect.objectContaining({
+      headers: expect.objectContaining({
+        'Content-Type': 'application/json',
+      }),
+    }));
+    mockFetch.mockRestore();
+  });
+
+  it('ALTCHA customfetch sets HTTP method from challengeUrlForm.method', async () => {
+    mockLoadAltchaWidget();
+
+    const { container } = render(h(CaptchaContainer, { uischema: altchaUischemaWithChallengeUrl }));
+
+    await waitFor(() => {
+      const altchaWidget = container.querySelector('altcha-widget');
+      expect(altchaWidget).not.toBeNull();
+    });
+
+    const altchaWidget = container.querySelector('altcha-widget') as MockAltchaWidget;
+    const mockFetch = jest.spyOn(window, 'fetch').mockResolvedValue(new Response('{}'));
+
+    const testUrl = 'https://custom.okta.com/custom/altcha/challenge';
+    await altchaWidget.customfetch!(testUrl, {});
+
+    expect(mockFetch).toHaveBeenCalledWith(testUrl, expect.objectContaining({
+      method: 'POST',
+    }));
+    mockFetch.mockRestore();
+  });
+
+  it('ALTCHA customfetch includes stateHandle in body when value contains stateHandle field', async () => {
+    mockLoadAltchaWidget();
+
+    const { container } = render(h(CaptchaContainer, { uischema: altchaUischemaWithChallengeUrl }));
+
+    await waitFor(() => {
+      const altchaWidget = container.querySelector('altcha-widget');
+      expect(altchaWidget).not.toBeNull();
+    });
+
+    const altchaWidget = container.querySelector('altcha-widget') as MockAltchaWidget;
+    const mockFetch = jest.spyOn(window, 'fetch').mockResolvedValue(new Response('{}'));
+
+    const testUrl = 'https://custom.okta.com/custom/altcha/challenge';
+    await altchaWidget.customfetch!(testUrl, {});
+
+    expect(mockFetch).toHaveBeenCalledWith(testUrl, expect.objectContaining({
+      body: JSON.stringify({ stateHandle: 'test-state-handle' }),
+    }));
+    mockFetch.mockRestore();
   });
 });

@@ -36,6 +36,8 @@ declare global {
   }
 }
 
+const ALTCHA_CHALLENGE_PATH = '/api/v1/altcha';
+
 const getAltchaWidgetStrings = () => ({
   error: loc('altcha.error.label', 'login'),
   expired: loc('altcha.expired.label', 'login'),
@@ -57,6 +59,8 @@ const CaptchaContainer: UISchemaElementComponent<{
       siteKey,
       type: captchaType,
       captchaId,
+      stateHandle,
+      challengeUrlForm,
     },
   } = uischema;
 
@@ -67,12 +71,14 @@ const CaptchaContainer: UISchemaElementComponent<{
   const captchaRef = useRef<ReCAPTCHA | HCaptcha>(null);
   const widgetContext = useWidgetContext();
 
-  const challengeurl = useMemo(() => {
+  const challengeUrlFallback = useMemo(() => {
     if (!widgetContext?.widgetProps) {
       return '';
     }
 
-    return `${getBaseUrl(widgetContext.widgetProps)}/api/v1/altcha`;
+    const baseUrl = getBaseUrl(widgetContext.widgetProps) ?? '';
+
+    return `${baseUrl}${ALTCHA_CHALLENGE_PATH}`;
   }, [widgetContext.widgetProps]);
 
   // State to track if the ALTCHA script has been loaded
@@ -173,6 +179,33 @@ const CaptchaContainer: UISchemaElementComponent<{
     resetCaptchaContainer();
   };
 
+  const altchaCustomFetch : typeof window.fetch = async (url, init) => {
+    // If we do not have a challengeUrlForm, we can return window.fetch immediately
+    if (!challengeUrlForm) {
+      return window.fetch(url, init);
+    }
+
+    const { accepts, method, value } = challengeUrlForm;
+
+    init = { ...init };
+
+    if (accepts) {
+      init.headers = { ...init.headers, 'Content-Type': accepts };
+    }
+
+    if (method) {
+      init.method = method;
+    }
+    // Check if the state handle is one of the fields that should be passed
+    // in the body
+    if (value?.find((field) => field?.name === 'stateHandle')) {
+      init.body = JSON.stringify({ stateHandle });
+    }
+
+    // eslint-disable-next-line compat/compat
+    return window.fetch(url, init);
+  };
+
   const onAltchaVerify = (ev: CustomEvent) => {
     const { payload } = ev.detail;
 
@@ -209,7 +242,8 @@ const CaptchaContainer: UISchemaElementComponent<{
         hidefooter
         hidelogo
         onverified={onAltchaVerify}
-        challengeurl={challengeurl}
+        challengeurl={challengeUrlForm?.href ?? challengeUrlFallback}
+        customfetch={altchaCustomFetch}
         strings={JSON.stringify(getAltchaWidgetStrings())}
       />
     ) : (

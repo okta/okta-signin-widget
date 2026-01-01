@@ -32,6 +32,7 @@ export const transformCaptcha: TransformStepFnWithOptions = ({ transaction }) =>
           id: captchaId,
           type: captchaType,
           siteKey,
+          challengeUrlForm,
         },
       },
     },
@@ -67,6 +68,8 @@ export const transformCaptcha: TransformStepFnWithOptions = ({ transaction }) =>
       captchaId,
       siteKey,
       type: captchaType,
+      stateHandle: transaction.rawIdxState.stateHandle,
+      challengeUrlForm,
     },
   };
 

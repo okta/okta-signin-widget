@@ -23,6 +23,8 @@ const HCAPTCHA_URL = 'https://hcaptcha.com/1/api.js';
 const ALTCHA_URL = 'https://cdn.jsdelivr.net/gh/altcha-org/altcha/dist/altcha.min.js';
 const RECAPTCHAV2_URL = 'https://www.google.com/recaptcha/api.js';
 
+const ALTCHA_CHALLENGE_PATH = '/api/v1/altcha';
+
 export default View.extend({
   className: 'captcha-view',
 
@@ -127,21 +129,56 @@ export default View.extend({
       waitAlert: loc('altcha.waitAlert.label', 'login'),
     });
 
+    const altchaCustomFetch = async (url, init) => {
+      const { challengeUrlForm } = this.captchaConfig;
+
+      // If we do not have a challengeUrlForm, we can return window.fetch immediately
+      if (!challengeUrlForm) {
+        return window.fetch(url, init);
+      }
+
+      const { accepts, method, value } = challengeUrlForm;
+
+      init = { ...init };
+
+      if (accepts) {
+        init.headers = { ...init.headers, 'Content-Type': accepts };
+      }
+
+      if (method) {
+        init.method = method;
+      }
+
+      // Check if the state handle is one of the fields that should be passed in the body
+      if (value?.find((field) => field?.name === 'stateHandle')) {
+        init.body = JSON.stringify({ 
+          stateHandle: this.options.appState.settings.options.stateToken
+        });
+      }
+
+      // eslint-disable-next-line compat/compat
+      return window.fetch(url, init);
+    };
+
     const onAltchaCaptchaLoaded = () => {
       setUpTempToken();
 
       const $container = this.$el.find('#captcha-container');
       const altEl = document.createElement('altcha-widget');
 
-      const challengeurl = `${this.options.settings.get('baseUrl')}/api/v1/altcha`;
+      const challengeUrlFallback = `${this.options.settings.get('baseUrl') ?? ''}${ALTCHA_CHALLENGE_PATH}`;
+
+      const { challengeUrlForm } = this.captchaConfig;
 
       Object.entries({
         floating: true,
         hidefooter: true,
         hidelogo: true,
-        challengeurl,
+        challengeurl: challengeUrlForm?.href ?? challengeUrlFallback,
         strings: JSON.stringify(getAltchaWidgetStrings())
       }).forEach(([key, value]) => altEl.setAttribute(key, value));
+
+      altEl.customfetch = altchaCustomFetch;
 
       if (altEl.addEventListener) {
         altEl.addEventListener('verified', (e) => {

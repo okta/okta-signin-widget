@@ -18,6 +18,24 @@ const captchaAltchaObject = {
   }
 };
 
+const captchaAltchaWithChallengeUrl = {
+  captcha: {
+    type: 'object',
+    value: {
+      id: 'altcha',
+      name: 'altcha',
+      siteKey: 'altcha-site-key',
+      type: 'ALTCHA',
+      challengeUrlForm: {
+        href: 'https://custom.okta.com/altcha/challenge',
+        method: 'POST',
+        accepts: 'application/json',
+        value: [{ name: 'stateHandle' }],
+      }
+    }
+  }
+};
+
 describe('v2/view-builder/views/CaptchaView', function() {
   let testContext;
   let language = undefined;
@@ -26,15 +44,16 @@ describe('v2/view-builder/views/CaptchaView', function() {
   beforeEach(function() { 
     testContext = {};
     testContext.init = (captcha = enrollProfileWithReCaptcha.captcha.value) => {
-      const appState = new AppState({
-        captcha
-      }, {});
       const settings = new Settings({
-        baseUrl: 'http://localhost:3000',
+        baseUrl: 'http://base.okta.com',
         language,
+        stateToken: 'test-state-token',
         ...hcaptchaOptions,
         ...recaptchaOptions,
       });
+      const appState = new AppState({
+        captcha
+      }, { settings });
       testContext.view = new CaptchaView({
         appState,
         settings,
@@ -202,7 +221,111 @@ describe('v2/view-builder/views/CaptchaView', function() {
       expect(altchaWidget.getAttribute('floating')).toBe('true');
       expect(altchaWidget.getAttribute('hidefooter')).toBe('true');
       expect(altchaWidget.getAttribute('hidelogo')).toBe('true');
-      expect(altchaWidget.getAttribute('challengeurl')).toBe('http://localhost:3000/api/v1/altcha');
+      expect(altchaWidget.getAttribute('challengeurl')).toBe('http://base.okta.com/api/v1/altcha');
+    });
+
+    it('ALTCHA uses custom challengeUrlForm.href when provided in config', function() {
+      testContext.init(captchaAltchaWithChallengeUrl.captcha.value);
+      
+      // Simulate the onAltchaCaptchaLoaded callback
+      window.OktaSignInWidgetOnCaptchaLoaded();
+      
+      const altchaWidget = testContext.view.$el.find('altcha-widget')[0];
+      expect(altchaWidget).not.toBeNull();
+      expect(altchaWidget.getAttribute('challengeurl')).toBe('https://custom.okta.com/altcha/challenge');
+    });
+
+    it('ALTCHA always sets customfetch function', function() {
+      testContext.init(captchaAltchaObject.captcha.value);
+      
+      // Simulate the onAltchaCaptchaLoaded callback
+      window.OktaSignInWidgetOnCaptchaLoaded();
+      
+      const altchaWidget = testContext.view.$el.find('altcha-widget')[0];
+      expect(altchaWidget).not.toBeNull();
+      expect(altchaWidget.customfetch).toBeDefined();
+      expect(typeof altchaWidget.customfetch).toBe('function');
+    });
+
+    it('ALTCHA customfetch calls window.fetch directly when challengeUrlForm is not provided', async function() {
+      testContext.init(captchaAltchaObject.captcha.value);
+      
+      window.OktaSignInWidgetOnCaptchaLoaded();
+      
+      const altchaWidget = testContext.view.$el.find('altcha-widget')[0];
+      
+      // Define window.fetch before spying since jsdom doesn't provide it
+      const originalFetch = window.fetch;
+      window.fetch = jest.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve({}) });
+      
+      const testUrl = '/api/v1/altcha';
+      const testInit = { method: 'GET' };
+      await altchaWidget.customfetch(testUrl, testInit);
+      
+      expect(window.fetch).toHaveBeenCalledWith(testUrl, testInit);
+      window.fetch = originalFetch;
+    });
+
+    it('ALTCHA customfetch sets Content-Type header from challengeUrlForm.accepts', async function() {
+      testContext.init(captchaAltchaWithChallengeUrl.captcha.value);
+      
+      window.OktaSignInWidgetOnCaptchaLoaded();
+      
+      const altchaWidget = testContext.view.$el.find('altcha-widget')[0];
+      
+      // Define window.fetch before spying since jsdom doesn't provide it
+      const originalFetch = window.fetch;
+      window.fetch = jest.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve({}) });
+      
+      const testUrl = 'https://custom.okta.com/altcha/challenge';
+      await altchaWidget.customfetch(testUrl, {});
+      
+      expect(window.fetch).toHaveBeenCalledWith(testUrl, expect.objectContaining({
+        headers: expect.objectContaining({
+          'Content-Type': 'application/json'
+        })
+      }));
+      window.fetch = originalFetch;
+    });
+
+    it('ALTCHA customfetch sets HTTP method from challengeUrlForm.method', async function() {
+      testContext.init(captchaAltchaWithChallengeUrl.captcha.value);
+      
+      window.OktaSignInWidgetOnCaptchaLoaded();
+      
+      const altchaWidget = testContext.view.$el.find('altcha-widget')[0];
+      
+      // Define window.fetch before spying since jsdom doesn't provide it
+      const originalFetch = window.fetch;
+      window.fetch = jest.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve({}) });
+      
+      const testUrl = 'https://custom.okta.com/altcha/challenge';
+      await altchaWidget.customfetch(testUrl, {});
+      
+      expect(window.fetch).toHaveBeenCalledWith(testUrl, expect.objectContaining({
+        method: 'POST'
+      }));
+      window.fetch = originalFetch;
+    });
+
+    it('ALTCHA customfetch includes stateHandle in body when value contains stateHandle field', async function() {
+      testContext.init(captchaAltchaWithChallengeUrl.captcha.value);
+      
+      window.OktaSignInWidgetOnCaptchaLoaded();
+      
+      const altchaWidget = testContext.view.$el.find('altcha-widget')[0];
+      
+      // Define window.fetch before spying since jsdom doesn't provide it
+      const originalFetch = window.fetch;
+      window.fetch = jest.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve({}) });
+      
+      const testUrl = 'https://custom.okta.com/altcha/challenge';
+      await altchaWidget.customfetch(testUrl, {});
+      
+      expect(window.fetch).toHaveBeenCalledWith(testUrl, expect.objectContaining({
+        body: JSON.stringify({ stateHandle: 'test-state-token' })
+      }));
+      window.fetch = originalFetch;
     });
 
     it('ALTCHA callback sets up temp token and triggers onCaptchaLoaded', function() {
