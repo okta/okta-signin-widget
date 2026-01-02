@@ -134,7 +134,7 @@ export default View.extend({
 
       // If we do not have a challengeUrlForm, we can return window.fetch immediately
       if (!challengeUrlForm) {
-        return window.fetch(url, init);
+        return fetch(url, init);
       }
 
       const { accepts, method, value } = challengeUrlForm;
@@ -156,8 +156,7 @@ export default View.extend({
         });
       }
 
-      // eslint-disable-next-line compat/compat
-      return window.fetch(url, newInit);
+      return fetch(url, newInit);
     };
 
     const onAltchaCaptchaLoaded = () => {

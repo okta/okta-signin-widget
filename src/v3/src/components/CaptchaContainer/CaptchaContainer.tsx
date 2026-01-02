@@ -182,8 +182,7 @@ const CaptchaContainer: UISchemaElementComponent<{
   const altchaCustomFetch : typeof window.fetch = async (url, init) => {
     // If we do not have a challengeUrlForm, we can return window.fetch immediately
     if (!challengeUrlForm) {
-      // eslint-disable-next-line compat/compat
-      return window.fetch(url, init);
+      return fetch(url, init);
     }
 
     const { accepts, method, value } = challengeUrlForm;
@@ -203,8 +202,7 @@ const CaptchaContainer: UISchemaElementComponent<{
       newInit.body = JSON.stringify({ stateHandle });
     }
 
-    // eslint-disable-next-line compat/compat
-    return window.fetch(url, newInit);
+    return fetch(url, newInit);
   };
 
   const onAltchaVerify = (ev: CustomEvent) => {
