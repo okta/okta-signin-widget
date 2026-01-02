@@ -134,6 +134,7 @@ export default View.extend({
 
       // If we do not have a challengeUrlForm, we can return window.fetch immediately
       if (!challengeUrlForm) {
+        // eslint-disable-next-line compat/compat, no-undef
         return fetch(url, init);
       }
 
@@ -156,6 +157,7 @@ export default View.extend({
         });
       }
 
+      // eslint-disable-next-line compat/compat, no-undef
       return fetch(url, newInit);
     };
 
