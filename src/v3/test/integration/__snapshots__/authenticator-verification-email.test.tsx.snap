@@ -344,61 +344,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       </div>
                       <div
                         class="MuiBox-root emotion-12"
-                      >
-                        <div
-                          class="MuiBox-root emotion-12"
-                        >
-                          <div
-                            aria-label="warning"
-                            aria-labelledby="82mvyq"
-                            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-24"
-                            role="alert"
-                          >
-                            <div
-                              class="MuiAlert-icon emotion-25"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-26"
-                                fill="none"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-                                  d="M9.342 2.918c1.123-2.144 4.192-2.144 5.315 0l7.695 14.69C23.398 19.605 21.95 22 19.695 22H4.305c-2.255 0-3.703-2.395-2.657-4.392l7.694-14.69ZM12 14a1 1 0 0 1-1-1V8h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                              </svg>
-                            </div>
-                            <div
-                              class="MuiAlert-message emotion-27"
-                            >
-                              <div
-                                class="emotion-28"
-                              >
-                                <div
-                                  class="MuiBox-root emotion-2"
-                                >
-                                  <div
-                                    class="MuiBox-root emotion-30"
-                                  >
-                                    Haven't received an email?
-                                  </div>
-                                  <a
-                                    class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways emotion-31"
-                                    href="#"
-                                  >
-                                    Send again
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      />
                       <div
                         class="MuiBox-root emotion-12"
                       >
@@ -406,7 +352,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                           class="MuiBox-root emotion-20"
                         >
                           <p
-                            class="MuiTypography-root MuiTypography-body1 emotion-34"
+                            class="MuiTypography-root MuiTypography-body1 emotion-25"
                             data-se="o-form-explain"
                             tabindex="-1"
                           >
@@ -424,7 +370,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiBox-root emotion-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth Mui-focusVisible MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-36"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth Mui-focusVisible MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-27"
                           tabindex="0"
                           type="button"
                         >
@@ -436,7 +382,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-38"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-29"
                         data-se="cancel"
                         role="link"
                         type="button"
@@ -693,7 +639,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
 </div>
 `;
 
-exports[`Email authenticator verification when email magic link = undefined renders correct form renders the otp challenge form 2`] = `
+exports[`Email authenticator verification when email magic link = undefined renders correct form should display reminder prompt, then global error after invalid entry and finally display reminder again with global error 1`] = `
 <div>
   <div
     class="emotion-0"
@@ -908,7 +854,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                           class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-34"
                         >
                           <label
-                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-35"
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-35"
                             data-shrink="false"
                             for="credentials.passcode"
                             id="credentials.passcode-label"
@@ -918,7 +864,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                             </span>
                           </label>
                           <div
-                            class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error Mui-focused MuiInputBase-formControl emotion-36"
+                            class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-36"
                             required="true"
                           >
                             <input
@@ -937,7 +883,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                             />
                           </div>
                           <div
-                            class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium Mui-focused MuiFormHelperText-filled emotion-38"
+                            class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-filled emotion-38"
                             id="credentials.passcode-error"
                           >
                             <span
@@ -1002,7 +948,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
 </div>
 `;
 
-exports[`Email authenticator verification when email magic link = undefined renders correct form should display reminder prompt, then global error after invalid entry and finally display reminder again with global error 1`] = `
+exports[`Email authenticator verification when email magic link = undefined renders correct form should render session expired terminal view when polling results in expired session 1`] = `
 <div>
   <div
     class="emotion-0"
@@ -1082,67 +1028,24 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      aria-label="error"
-                      aria-labelledby="82mvyq"
-                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-12"
-                      role="alert"
+                      class="MuiBox-root emotion-12"
                     >
                       <div
-                        class="MuiAlert-icon emotion-13"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
-                          fill="none"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            clip-rule="evenodd"
-                            d="M9.879 1.707a3 3 0 0 1 4.242 0l8.172 8.172a3 3 0 0 1 0 4.242l-8.172 8.172a3 3 0 0 1-4.242 0L1.707 14.12a3 3 0 0 1 0-4.242L9.88 1.707ZM12 13a1 1 0 0 1-1-1V7h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
-                            fill="currentColor"
-                            fill-rule="evenodd"
-                          />
-                        </svg>
-                      </div>
-                      <div
-                        class="MuiAlert-message emotion-15"
-                      >
-                        <div
-                          class="emotion-16"
-                        >
-                          <div
-                            class="MuiBox-root emotion-2"
-                          >
-                            We found some errors. Please review the form and make corrections.
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-18"
-                  >
-                    <div
-                      class="MuiBox-root emotion-19"
-                    >
-                      <div
-                        class="MuiBox-root emotion-20"
+                        class="MuiBox-root emotion-13"
                         data-se="identifier-container"
-                        title="testUser@okta.com"
+                        title="firstname.lastname@example.com"
                       >
                         <div
-                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-21"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-14"
                           data-se="identifier"
                           translate="no"
                         >
                           <div
-                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-22"
+                            class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-15"
                           >
                             <svg
                               aria-label="User"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-23"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
                               fill="none"
                               focusable="false"
                               role="img"
@@ -1161,24 +1064,24 @@ exports[`Email authenticator verification when email magic link = undefined rend
                             </svg>
                           </div>
                           <span
-                            class="MuiChip-label MuiChip-labelMedium emotion-24"
+                            class="MuiChip-label MuiChip-labelMedium emotion-17"
                           >
-                            testUser@okta.com
+                            firstname.lastname@example.com
                           </span>
                         </div>
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-18"
+                      class="MuiBox-root emotion-11"
                     >
                       <div
-                        class="MuiBox-root emotion-19"
+                        class="MuiBox-root emotion-12"
                       >
                         <div
-                          class="MuiBox-root emotion-27"
+                          class="MuiBox-root emotion-20"
                         >
                           <h1
-                            class="MuiTypography-root MuiTypography-h4 emotion-28"
+                            class="MuiTypography-root MuiTypography-h4 emotion-21"
                             data-se="o-form-head"
                             tabindex="-1"
                           >
@@ -1187,70 +1090,16 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         </div>
                       </div>
                       <div
-                        class="MuiBox-root emotion-19"
-                      >
-                        <div
-                          class="MuiBox-root emotion-19"
-                        >
-                          <div
-                            aria-label="warning"
-                            aria-labelledby="82mvyq"
-                            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-31"
-                            role="alert"
-                          >
-                            <div
-                              class="MuiAlert-icon emotion-32"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
-                                fill="none"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-                                  d="M9.342 2.918c1.123-2.144 4.192-2.144 5.315 0l7.695 14.69C23.398 19.605 21.95 22 19.695 22H4.305c-2.255 0-3.703-2.395-2.657-4.392l7.694-14.69ZM12 14a1 1 0 0 1-1-1V8h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                              </svg>
-                            </div>
-                            <div
-                              class="MuiAlert-message emotion-15"
-                            >
-                              <div
-                                class="emotion-16"
-                              >
-                                <div
-                                  class="MuiBox-root emotion-2"
-                                >
-                                  <div
-                                    class="MuiBox-root emotion-37"
-                                  >
-                                    Haven't received an email?
-                                  </div>
-                                  <a
-                                    class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways emotion-38"
-                                    href="#"
-                                  >
-                                    Send again
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                        class="MuiBox-root emotion-12"
+                      />
                       <div
-                        class="MuiBox-root emotion-19"
+                        class="MuiBox-root emotion-12"
                       >
                         <div
-                          class="MuiBox-root emotion-27"
+                          class="MuiBox-root emotion-20"
                         >
                           <p
-                            class="MuiTypography-root MuiTypography-body1 emotion-41"
+                            class="MuiTypography-root MuiTypography-body1 emotion-25"
                             data-se="o-form-explain"
                             tabindex="-1"
                           >
@@ -1258,215 +1107,29 @@ exports[`Email authenticator verification when email magic link = undefined rend
                             <span
                               class="strong no-translate"
                             >
-                              t***t@idx.com
+                              f****************e@example.com
                             </span>
                             . Click the verification link in your email to continue or enter the code below.
                           </p>
                         </div>
                       </div>
                       <div
-                        class="MuiBox-root emotion-19"
-                      >
-                        <div
-                          class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-43"
-                        >
-                          <label
-                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-44"
-                            data-shrink="false"
-                            for="credentials.passcode"
-                            id="credentials.passcode-label"
-                          >
-                            <span>
-                              Enter Code
-                            </span>
-                          </label>
-                          <div
-                            class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error Mui-focused MuiInputBase-formControl emotion-45"
-                            required="true"
-                          >
-                            <input
-                              aria-describedby="credentials.passcode-error"
-                              aria-errormessage="credentials.passcode-error"
-                              aria-invalid="true"
-                              aria-labelledby="credentials.passcode-label"
-                              autocomplete="off"
-                              class="MuiInputBase-input emotion-46"
-                              data-se="credentials.passcode"
-                              id="credentials.passcode"
-                              inputmode="numeric"
-                              name="credentials.passcode"
-                              required=""
-                              type="text"
-                            />
-                          </div>
-                          <div
-                            class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium Mui-focused MuiFormHelperText-filled emotion-47"
-                            id="credentials.passcode-error"
-                          >
-                            <span
-                              class="MuiBox-root emotion-48"
-                            >
-                              Error:
-                            </span>
-                            <div
-                              class="MuiBox-root emotion-2"
-                            >
-                              Invalid code. Try again.
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="MuiBox-root emotion-19"
+                        class="MuiBox-root emotion-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-51"
-                          data-se="save"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-27"
                           tabindex="0"
-                          type="submit"
+                          type="button"
                         >
-                          Verify
+                          Enter a verification code instead
                         </button>
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-19"
+                      class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-53"
-                        data-se="switchAuthenticator"
-                        role="link"
-                        type="button"
-                      >
-                        Verify with something else
-                      </button>
-                    </div>
-                    <div
-                      class="MuiBox-root emotion-19"
-                    >
-                      <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-53"
-                        data-se="cancel"
-                        role="link"
-                        type="button"
-                      >
-                        Back to sign in
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Email authenticator verification when email magic link = undefined renders correct form should render session expired terminal view when polling results in expired session 1`] = `
-<div>
-  <div
-    class="emotion-0"
-  >
-    <div
-      class="MuiScopedCssBaseline-root emotion-1"
-    >
-      <main
-        class="MuiBox-root emotion-2"
-        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-        data-se="auth-container main-container"
-        data-version="0.0.0"
-        dir="ltr"
-        id="okta-sign-in"
-        lang="en"
-      >
-        <div
-          class="MuiScopedCssBaseline-root emotion-3"
-        >
-          <div
-            class="MuiBox-root emotion-4"
-          >
-            <div
-              class="MuiBox-root emotion-5"
-            >
-              <div
-                class="MuiBox-root emotion-6"
-                data-se="okta-sign-in-header auth-header "
-              >
-                <h1
-                  class="MuiTypography-root MuiTypography-h1 emotion-7"
-                  role="presentation"
-                  tabindex="-1"
-                />
-              </div>
-              <div
-                class="MuiBox-root emotion-8"
-              >
-                <form
-                  aria-live="polite"
-                  class="o-form MuiBox-root emotion-9"
-                  data-se="o-form"
-                  novalidate=""
-                >
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <div
-                      class="MuiBox-root emotion-11"
-                    >
-                      <div
-                        class="MuiBox-root emotion-12"
-                        data-se="infobox-error"
-                      >
-                        <div
-                          aria-label="error"
-                          aria-labelledby="82mvyq"
-                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-calloutError MuiAlert-callout emotion-13"
-                          data-se="callout"
-                          role="alert"
-                        >
-                          <div
-                            class="MuiAlert-icon emotion-14"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
-                              fill="none"
-                              focusable="false"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                clip-rule="evenodd"
-                                d="M9.879 1.707a3 3 0 0 1 4.242 0l8.172 8.172a3 3 0 0 1 0 4.242l-8.172 8.172a3 3 0 0 1-4.242 0L1.707 14.12a3 3 0 0 1 0-4.242L9.88 1.707ZM12 13a1 1 0 0 1-1-1V7h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
-                                fill="currentColor"
-                                fill-rule="evenodd"
-                              />
-                            </svg>
-                          </div>
-                          <div
-                            class="MuiAlert-message emotion-16"
-                          >
-                            <div
-                              class="emotion-17"
-                            >
-                              <div
-                                class="MuiBox-root emotion-2"
-                              >
-                                You have been logged out due to inactivity. Refresh or return to the sign in screen.
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="MuiBox-root emotion-11"
-                    >
-                      <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-20"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-29"
                         data-se="cancel"
                         role="link"
                         type="button"

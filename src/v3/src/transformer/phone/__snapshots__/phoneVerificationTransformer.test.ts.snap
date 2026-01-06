@@ -1,44 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Phone verification Transformer Tests should add correct UI elements to schema when multiple methodType choices exists and sms is the first methodType choice 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.phone.verify.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "oie.phone.verify.sms.sendText.without.phone",
         },
         "type": "Description",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.phone.carrier.charges",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "oie.phone.sms.primaryButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "authenticator.methodType": "sms",
           },
           "step": "authenticator-verification-data",
@@ -46,10 +46,10 @@ Object {
         },
         "type": "Button",
       },
-      Object {
+      {
         "label": "oie.phone.call.secondaryButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "authenticator.methodType": "voice",
           },
           "step": "authenticator-verification-data",
@@ -65,44 +65,44 @@ Object {
 `;
 
 exports[`Phone verification Transformer Tests should add correct UI elements to schema when multiple methodType choices exists and voice is the first methodType choice 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.phone.verify.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "oie.phone.verify.call.sendText.without.phone",
         },
         "type": "Description",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.phone.carrier.charges",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "oie.phone.call.primaryButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "authenticator.methodType": "voice",
           },
           "step": "authenticator-verification-data",
@@ -110,10 +110,10 @@ Object {
         },
         "type": "Button",
       },
-      Object {
+      {
         "label": "oie.phone.sms.secondaryButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "authenticator.methodType": "sms",
           },
           "step": "authenticator-verification-data",
@@ -129,44 +129,44 @@ Object {
 `;
 
 exports[`Phone verification Transformer Tests should add correct UI elements to schema when only sms methodType choice exists 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.phone.verify.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "oie.phone.verify.sms.sendText.without.phone",
         },
         "type": "Description",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.phone.carrier.charges",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "oie.phone.sms.primaryButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "authenticator.methodType": "sms",
           },
           "step": "authenticator-verification-data",
@@ -181,44 +181,44 @@ Object {
 `;
 
 exports[`Phone verification Transformer Tests should add correct UI elements to schema when only sms methodType choice exists and redacted phoneNumber and nickname exists in Idx response  1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.phone.verify.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "oie.phone.verify.sms.sendText.with.phone.with.nickname",
         },
         "type": "Description",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.phone.carrier.charges",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "oie.phone.sms.primaryButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "authenticator.methodType": "sms",
           },
           "step": "authenticator-verification-data",
@@ -233,44 +233,44 @@ Object {
 `;
 
 exports[`Phone verification Transformer Tests should add correct UI elements to schema when only sms methodType choice exists and redacted phoneNumber exists in Idx response  1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.phone.verify.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "oie.phone.verify.sms.sendText.with.phone.without.nickname",
         },
         "type": "Description",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.phone.carrier.charges",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "oie.phone.sms.primaryButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "authenticator.methodType": "sms",
           },
           "step": "authenticator-verification-data",
@@ -285,44 +285,44 @@ Object {
 `;
 
 exports[`Phone verification Transformer Tests should add correct UI elements to schema when only voice methodType choice exists 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.phone.verify.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "oie.phone.verify.call.sendText.without.phone",
         },
         "type": "Description",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.phone.carrier.charges",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "oie.phone.call.primaryButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "authenticator.methodType": "voice",
           },
           "step": "authenticator-verification-data",
@@ -337,44 +337,44 @@ Object {
 `;
 
 exports[`Phone verification Transformer Tests should add correct UI elements to schema when only voice methodType choice exists and redacted phoneNumber and nickname exists in Idx response  1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.phone.verify.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "oie.phone.verify.call.sendText.with.phone.with.nickname",
         },
         "type": "Description",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.phone.carrier.charges",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "oie.phone.call.primaryButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "authenticator.methodType": "voice",
           },
           "step": "authenticator-verification-data",
@@ -389,44 +389,44 @@ Object {
 `;
 
 exports[`Phone verification Transformer Tests should add correct UI elements to schema when only voice methodType choice exists and redacted phoneNumber exists in Idx response  1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.phone.verify.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "oie.phone.verify.call.sendText.with.phone.without.nickname",
         },
         "type": "Description",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.phone.carrier.charges",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "oie.phone.call.primaryButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "authenticator.methodType": "voice",
           },
           "step": "authenticator-verification-data",

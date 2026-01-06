@@ -16,10 +16,6 @@ import mockResponse from '../../../../playground/mocks/data/idp/idx/authenticato
 import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('Email authenticator enroll when magic link = false Tests', () => {
-  beforeEach(() => {
-    jest.useFakeTimers();
-  });
-
   afterEach(() => {
     jest.useRealTimers();
   });

@@ -41,14 +41,15 @@ describe('authenticator-enroll-select-authenticator', () => {
 
     it('should only send api request once when double clicked', async () => {
       const {
-        authClient,
         user,
         findByTestId,
+        getNewRequestCount,
       } = await setup({ mockResponse });
 
       const authenticatorButton = await findByTestId('google_otp');
       await user.dblClick(authenticatorButton);
-      expect(authClient.options.httpRequestClient).toHaveBeenCalledTimes(1);
+      // Only one NEW request should be made (the select action), not counting initial introspect
+      expect(getNewRequestCount()).toBe(1);
     });
   });
 

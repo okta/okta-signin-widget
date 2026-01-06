@@ -1,27 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SSO extension Transformer Tests should create title and loading spinner elements for display 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "deviceTrust.sso.redirectText",
         },
         "type": "ActionPending",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "step": "",
         },
         "type": "AutoSubmit",

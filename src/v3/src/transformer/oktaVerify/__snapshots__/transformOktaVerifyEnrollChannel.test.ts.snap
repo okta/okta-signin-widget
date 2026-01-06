@@ -1,50 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TransformOktaVerifyEnrollChannel Tests should append email input field to elements list when email is the selectedChannel 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.enroll.okta_verify.enroll.channel.email.title",
         },
         "type": "Title",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "email",
           },
         },
         "type": "Field",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.enroll.okta_verify.enroll.channel.email.subtitle",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "oie.enroll.okta_verify.setupLink",
-        "options": Object {
+        "options": {
           "step": "",
           "type": "submit",
         },
         "type": "Button",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "content": "oie.enroll.okta_verify.switch.channel.link.text",
           "contentClassname": "switch-channel-link",
           "step": "select-enrollment-channel",
@@ -59,50 +59,50 @@ Object {
 `;
 
 exports[`TransformOktaVerifyEnrollChannel Tests should append phone input field to elements list when sms is the selectedChannel 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.enroll.okta_verify.enroll.channel.sms.title",
         },
         "type": "Title",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "phoneNumber",
           },
         },
         "type": "Field",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.enroll.okta_verify.channel.sms.description.updated",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "oie.enroll.okta_verify.setupLink",
-        "options": Object {
+        "options": {
           "step": "",
           "type": "submit",
         },
         "type": "Button",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "content": "oie.enroll.okta_verify.switch.channel.link.text",
           "contentClassname": "switch-channel-link",
           "step": "select-enrollment-channel",

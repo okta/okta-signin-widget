@@ -167,7 +167,7 @@ describe('enroll-profile-with-password', () => {
 
   it('should show custom error message and prevent submission when failure is triggered in preSubmit callback', async () => {
     const {
-      authClient, container, user, findByRole, findByLabelText, findByText,
+      container, user, findByRole, findByLabelText, findByText, getNewRequestCount,
     } = await setup({
       mockResponses: {
         '/introspect': {
@@ -223,7 +223,7 @@ describe('enroll-profile-with-password', () => {
     expect(usernameEle.value).toEqual(username);
 
     await user.click(submitButton);
-    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    expect(getNewRequestCount()).toBe(0);
     await waitFor(() => expect(lastNameEle).toHaveErrorMessage(/Custom preSubmit error/));
     expect(container).toMatchSnapshot();
   });

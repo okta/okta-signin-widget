@@ -1,36 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Email Verification Transformer Tests should update methodType element and add appropriate UI elements to schema when redacted email does not exist in Idx response 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.email.challenge.mfa.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.email.verify.subtitle.text.without.email",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "oie.email.verify.primaryButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "authenticator.methodType": "email",
           },
           "step": "",
@@ -45,36 +45,36 @@ Object {
 `;
 
 exports[`Email Verification Transformer Tests should update methodType element and add appropriate UI elements to schema when redacted email exists in Idx response 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.email.challenge.mfa.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.email.verify.subtitle.text.with.email",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "oie.email.verify.primaryButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "authenticator.methodType": "email",
           },
           "step": "mock-step",

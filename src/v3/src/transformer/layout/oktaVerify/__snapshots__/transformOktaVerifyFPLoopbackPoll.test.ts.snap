@@ -1,35 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined should create Loopback Poll elements for display when permission state is "denied" and loopback is triggered by registered condition silent probe 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "deviceTrust.sso.redirectText",
         },
         "type": "ActionPending",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "cancelStep": "authenticatorChallenge-cancel",
-          "deviceChallengePayload": Object {
+          "deviceChallengePayload": {
             "challengeRequest": "mockChallengeRequest",
-            "chromeLocalNetworkAccessDetails": Object {
+            "chromeLocalNetworkAccessDetails": {
               "chromeLNAHelpLink": "https://okta.com",
             },
             "domain": "http://localhost",
-            "ports": Array [
+            "ports": [
               "2000",
               "6511",
               "6512",
@@ -40,10 +40,10 @@ Object {
         },
         "type": "LoopbackProbe",
       },
-      Object {
+      {
         "contentType": "footer",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "reason": "USER_CANCELED",
             "statusCode": null,
           },
@@ -60,35 +60,35 @@ Object {
 `;
 
 exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined should create Loopback Poll elements for display when permission state is "granted" 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "deviceTrust.sso.redirectText",
         },
         "type": "ActionPending",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "cancelStep": "authenticatorChallenge-cancel",
-          "deviceChallengePayload": Object {
+          "deviceChallengePayload": {
             "challengeRequest": "mockChallengeRequest",
-            "chromeLocalNetworkAccessDetails": Object {
+            "chromeLocalNetworkAccessDetails": {
               "chromeLNAHelpLink": "https://okta.com",
             },
             "domain": "http://localhost",
-            "ports": Array [
+            "ports": [
               "2000",
               "6511",
               "6512",
@@ -99,10 +99,10 @@ Object {
         },
         "type": "LoopbackProbe",
       },
-      Object {
+      {
         "contentType": "footer",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "reason": "USER_CANCELED",
             "statusCode": null,
           },
@@ -119,35 +119,35 @@ Object {
 `;
 
 exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined should create Loopback Poll elements for display when permission state is "prompt" 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "deviceTrust.sso.redirectText",
         },
         "type": "ActionPending",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "cancelStep": "authenticatorChallenge-cancel",
-          "deviceChallengePayload": Object {
+          "deviceChallengePayload": {
             "challengeRequest": "mockChallengeRequest",
-            "chromeLocalNetworkAccessDetails": Object {
+            "chromeLocalNetworkAccessDetails": {
               "chromeLNAHelpLink": "https://okta.com",
             },
             "domain": "http://localhost",
-            "ports": Array [
+            "ports": [
               "2000",
               "6511",
               "6512",
@@ -158,10 +158,10 @@ Object {
         },
         "type": "LoopbackProbe",
       },
-      Object {
+      {
         "contentType": "footer",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "reason": "USER_CANCELED",
             "statusCode": null,
           },
@@ -178,47 +178,47 @@ Object {
 `;
 
 exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined should create error remediation elements when permission state is "denied" and loopback is not triggered by registered condition silent probe 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "chrome.lna.fastpass.requires.permission.title",
         },
         "type": "Title",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "class": "ERROR",
-          "message": Array [
-            Object {
+          "message": [
+            {
               "message": "chrome.lna.error.description.part1",
               "title": "chrome.lna.error.title",
             },
-            Object {
+            {
               "message": "chrome.lna.error.description.part2",
             },
-            Object {
+            {
               "message": "chrome.lna.error.description.more.information",
             },
           ],
         },
         "type": "InfoBox",
       },
-      Object {
+      {
         "contentType": "footer",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "reason": "USER_CANCELED",
             "statusCode": null,
           },
@@ -235,32 +235,32 @@ Object {
 `;
 
 exports[`Transform Okta Verify FP Loopback Poll where remediation is challenge-poll should create Loopback Poll elements for display 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "deviceTrust.sso.redirectText",
         },
         "type": "ActionPending",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "cancelStep": "currentAuthenticator-cancel",
-          "deviceChallengePayload": Object {
+          "deviceChallengePayload": {
             "challengeRequest": "mockChallengeRequest",
             "domain": "http://localhost",
-            "ports": Array [
+            "ports": [
               "2000",
               "6511",
               "6512",
@@ -271,19 +271,19 @@ Object {
         },
         "type": "LoopbackProbe",
       },
-      Object {
+      {
         "contentType": "footer",
-        "options": Object {
+        "options": {
           "label": "oie.verification.switch.authenticator",
           "onClick": [Function],
           "step": "select-authenticator-authenticate",
         },
         "type": "Link",
       },
-      Object {
+      {
         "contentType": "footer",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "reason": "USER_CANCELED",
             "statusCode": null,
           },
@@ -300,32 +300,32 @@ Object {
 `;
 
 exports[`Transform Okta Verify FP Loopback Poll where remediation is device-challenge-poll should create Loopback Poll elements for display when step is device-challenge-poll 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "deviceTrust.sso.redirectText",
         },
         "type": "ActionPending",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "cancelStep": "authenticatorChallenge-cancel",
-          "deviceChallengePayload": Object {
+          "deviceChallengePayload": {
             "challengeRequest": "mockChallengeRequest",
             "domain": "http://localhost",
-            "ports": Array [
+            "ports": [
               "2000",
               "6511",
               "6512",
@@ -336,19 +336,19 @@ Object {
         },
         "type": "LoopbackProbe",
       },
-      Object {
+      {
         "contentType": "footer",
-        "options": Object {
+        "options": {
           "label": "oie.verification.switch.authenticator",
           "onClick": [Function],
           "step": "select-authenticator-authenticate",
         },
         "type": "Link",
       },
-      Object {
+      {
         "contentType": "footer",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "reason": "USER_CANCELED",
             "statusCode": null,
           },

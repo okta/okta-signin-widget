@@ -1,39 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Verify Authenticator Selector Transformer Tests should add UI elements for verification authenticator selector when in password recovery flow 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "password.reset.title.generic",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.password.reset.verification",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "buttons": Array [
-            Object {
+      {
+        "options": {
+          "buttons": [
+            {
               "label": "Email",
-              "options": Object {
-                "actionParams": Object {
+              "options": {
+                "actionParams": {
                   "authenticator.id": "123abc",
                 },
                 "ariaLabel": "Select email.",
@@ -56,39 +56,39 @@ Object {
 `;
 
 exports[`Verify Authenticator Selector Transformer Tests should add UI elements for verification authenticator selector when in password recovery flow and brand name is provided 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "password.reset.title.specific",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.password.reset.verification",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "buttons": Array [
-            Object {
+      {
+        "options": {
+          "buttons": [
+            {
               "label": "Email",
-              "options": Object {
-                "actionParams": Object {
+              "options": {
+                "actionParams": {
                   "authenticator.id": "123abc",
                 },
                 "ariaLabel": "Select email.",
@@ -111,39 +111,39 @@ Object {
 `;
 
 exports[`Verify Authenticator Selector Transformer Tests should add UI elements for verification authenticator selector when not in password recovery flow 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.select.authenticators.verify.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.select.authenticators.verify.subtitle",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "buttons": Array [
-            Object {
+      {
+        "options": {
+          "buttons": [
+            {
               "label": "Email",
-              "options": Object {
-                "actionParams": Object {
+              "options": {
+                "actionParams": {
                   "authenticator.id": "123abc",
                 },
                 "ariaLabel": "Select email.",

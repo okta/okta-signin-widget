@@ -1,35 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Enroll Profile Update Transformer Tests should add title button and input elements from remediation with at least one required field 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.profile.additional.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.form.field.optional.description",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.firstName",
             "required": false,
             "validate": true,
@@ -38,9 +38,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.lastName",
             "required": false,
             "validate": true,
@@ -49,9 +49,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.email",
             "required": false,
             "validate": true,
@@ -60,10 +60,10 @@ Object {
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "Another field",
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.anotherField",
             "required": true,
             "validate": true,
@@ -72,9 +72,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "enroll.choices.submit.finish",
-        "options": Object {
+        "options": {
           "step": "",
           "type": "submit",
         },
@@ -87,37 +87,37 @@ Object {
 `;
 
 exports[`Enroll Profile Update Transformer Tests should add title button and input elements from remediation with at least one required field and secondEmail field 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "userProfile.secondEmail": "",
   },
-  "dataSchema": Object {
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.profile.additional.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.form.field.optional.description",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.firstName",
             "required": false,
             "validate": true,
@@ -126,9 +126,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.lastName",
             "required": false,
             "validate": true,
@@ -137,9 +137,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.email",
             "required": false,
             "validate": true,
@@ -148,10 +148,10 @@ Object {
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "Secondary email",
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.secondEmail",
             "required": true,
             "validate": true,
@@ -160,9 +160,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "enroll.choices.submit.finish",
-        "options": Object {
+        "options": {
           "step": "",
           "type": "submit",
         },
@@ -175,35 +175,35 @@ Object {
 `;
 
 exports[`Enroll Profile Update Transformer Tests should add title, button and input elements from remediation with all optional fields when skip is missing from remediation 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.profile.additional.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.form.field.optional.description",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.firstName",
             "required": false,
             "validate": true,
@@ -212,9 +212,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.lastName",
             "required": false,
             "validate": true,
@@ -223,9 +223,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.email",
             "required": false,
             "validate": true,
@@ -234,9 +234,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "enroll.choices.submit.finish",
-        "options": Object {
+        "options": {
           "step": "",
           "type": "submit",
         },
@@ -249,35 +249,35 @@ Object {
 `;
 
 exports[`Enroll Profile Update Transformer Tests should add title, button, skip link and input elements from remediation with all optional fields 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.profile.additional.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.form.field.optional.description",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.firstName",
             "required": false,
             "validate": true,
@@ -286,9 +286,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.lastName",
             "required": false,
             "validate": true,
@@ -297,9 +297,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.email",
             "required": false,
             "validate": true,
@@ -308,16 +308,16 @@ Object {
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "enroll.choices.submit.finish",
-        "options": Object {
+        "options": {
           "step": "",
           "type": "submit",
         },
         "type": "Button",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "isActionStep": false,
           "label": "oie.enroll.skip.profile",
           "step": "skip",

@@ -58,7 +58,7 @@ describe('enroll-profile-update', () => {
 
   it('fails client side validation with empty required fields', async () => {
     const {
-      authClient, container, user, findByLabelText, findByRole,
+      container, user, findByLabelText, findByRole, getNewRequestCount,
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     const submitButton = await findByRole('button', { name: 'Submit' });
@@ -69,7 +69,7 @@ describe('enroll-profile-update', () => {
     const newAttributeEle = await findByLabelText('Custom attribute') as HTMLInputElement;
     expect(newAttributeEle).toHaveErrorMessage(/This field cannot be left blank/);
 
-    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    expect(getNewRequestCount()).toBe(0);
     expect(container).toMatchSnapshot();
   });
 });

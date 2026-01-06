@@ -1,29 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Field transformer tests should use provided custom labels instead of translations 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "label": "Please enter your first name",
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "customLabel": true,
             "name": "userProfile.firstName",
           },
         },
-        "translations": Array [
-          Object {
+        "translations": [
+          {
             "i18nKey": "oie.user.profile.firstname",
             "name": "label",
             "noTranslate": true,
@@ -32,16 +32,16 @@ Object {
         ],
         "type": "Field",
       },
-      Object {
+      {
         "label": "Please enter your last name",
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "customLabel": true,
             "name": "userProfile.lastName",
           },
         },
-        "translations": Array [
-          Object {
+        "translations": [
+          {
             "i18nKey": "oie.user.profile.lastname",
             "name": "label",
             "noTranslate": true,
@@ -50,16 +50,16 @@ Object {
         ],
         "type": "Field",
       },
-      Object {
+      {
         "label": "Please enter your email",
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "customLabel": false,
             "name": "userProfile.email",
           },
         },
-        "translations": Array [
-          Object {
+        "translations": [
+          {
             "i18nKey": "oie.user.profile.primary.email",
             "name": "label",
             "noTranslate": false,

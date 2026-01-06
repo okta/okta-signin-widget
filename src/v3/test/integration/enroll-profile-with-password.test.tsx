@@ -27,7 +27,7 @@ describe('enroll-profile-with-password', () => {
 
   it('should display field level error when password field is required but is not filled', async () => {
     const {
-      authClient, container, user, findByText, findByLabelText,
+      container, user, findByText, findByLabelText, getNewRequestCount,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Sign up/);
@@ -50,7 +50,7 @@ describe('enroll-profile-with-password', () => {
     expect(emailEle.value).toEqual(email);
 
     await user.click(submitButton);
-    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    expect(getNewRequestCount()).toBe(0);
     const passwordEle = await findByLabelText('Password') as HTMLInputElement;
     expect(passwordEle).toHaveErrorMessage(/This field cannot be left blank/);
     expect(container).toMatchSnapshot();
@@ -58,7 +58,7 @@ describe('enroll-profile-with-password', () => {
 
   it('should display field level error when password does not fulfill minLength requirement', async () => {
     const {
-      authClient, container, user, findByText, findByLabelText,
+      container, user, findByText, findByLabelText, getNewRequestCount,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Sign up/);
@@ -85,14 +85,14 @@ describe('enroll-profile-with-password', () => {
     expect(passwordEle.value).toEqual(password);
 
     await user.click(submitButton);
-    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    expect(getNewRequestCount()).toBe(0);
     expect(passwordEle).toHaveErrorMessage(/Password requirements were not met/);
     expect(container).toMatchSnapshot();
   });
 
   it('should display field level error when password does not fulfill username requirement', async () => {
     const {
-      authClient, container, user, findByText, findByLabelText,
+      container, user, findByText, findByLabelText, getNewRequestCount,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Sign up/);
@@ -119,14 +119,14 @@ describe('enroll-profile-with-password', () => {
     expect(passwordEle.value).toEqual(password);
 
     await user.click(submitButton);
-    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    expect(getNewRequestCount()).toBe(0);
     expect(passwordEle).toHaveErrorMessage(/No parts of your username/);
     expect(container).toMatchSnapshot();
   });
 
   it('should display field level error when password does not fulfill first and last name exclusion requirement', async () => {
     const {
-      authClient, container, user, findByText, findByLabelText,
+      container, user, findByText, findByLabelText, getNewRequestCount,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Sign up/);
@@ -153,7 +153,7 @@ describe('enroll-profile-with-password', () => {
     expect(passwordEle.value).toEqual(password);
 
     await user.click(submitButton);
-    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    expect(getNewRequestCount()).toBe(0);
     expect(passwordEle).toHaveErrorMessage(/Does not include your first name/);
     expect(passwordEle).toHaveErrorMessage(/Does not include your last name/);
     expect(container).toMatchSnapshot();
@@ -161,7 +161,7 @@ describe('enroll-profile-with-password', () => {
 
   it('should display field level error when password does not fulfill max consecutive repeating characters requirement', async () => {
     const {
-      authClient, container, user, findByText, findByLabelText,
+      container, user, findByText, findByLabelText, getNewRequestCount,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Sign up/);
@@ -188,7 +188,7 @@ describe('enroll-profile-with-password', () => {
     expect(passwordEle.value).toEqual(password);
 
     await user.click(submitButton);
-    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    expect(getNewRequestCount()).toBe(0);
     expect(passwordEle).toHaveErrorMessage(/Maximum 3 consecutive repeating characters/);
     expect(container).toMatchSnapshot();
   });

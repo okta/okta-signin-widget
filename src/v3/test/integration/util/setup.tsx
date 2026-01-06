@@ -11,7 +11,7 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { render, RenderResult } from '@testing-library/preact';
+import { render, RenderResult, waitFor } from '@testing-library/preact';
 import { h } from 'preact';
 import { TinyEmitter as EventEmitter } from 'tiny-emitter';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
@@ -40,6 +40,12 @@ export async function setup(options: Options): Promise<RenderResult & {
   user: UserEvent;
   pauseMocks: () => void;
   resumeMocks: () => void;
+  /**
+   * Returns the number of calls made to httpRequestClient after setup completed.
+   * Use this instead of `not.toHaveBeenCalled()` to check no NEW requests were made.
+   * Jest 29/jsdom 20+ has different microtask timing that affects when initial calls complete.
+   */
+  getNewRequestCount: () => number;
 }> {
   const { widgetOptions = {}, ...rest } = options;
   const { authClient, pauseMocks, resumeMocks } = createAuthClient(rest);
@@ -56,10 +62,35 @@ export async function setup(options: Options): Promise<RenderResult & {
     />,
   );
 
+  // Wait for the widget to complete initial loading (introspect call)
+  // by waiting for loading spinner to disappear or for a reasonable timeout
+  // This ensures consistent behavior across Jest 26/29 and different jsdom versions
+  const httpMock = authClient.options.httpRequestClient as jest.Mock | undefined;
+  
+  // Wait until we see at least one call (the introspect) complete
+  await waitFor(() => {
+    const callCount = httpMock?.mock?.calls?.length ?? 0;
+    if (callCount === 0) {
+      throw new Error('Waiting for introspect call');
+    }
+  }, { timeout: 5000 }).catch(() => {
+    // Timeout is ok - some tests may not make introspect calls
+  });
+
+  // Small delay to let any async state updates settle
+  await new Promise((resolve) => { setTimeout(resolve, 10); });
+
+  // Capture the call count after setup for comparison
+  const initialCallCount = httpMock?.mock?.calls?.length ?? 0;
+
   return {
     authClient,
     pauseMocks,
     resumeMocks,
+    getNewRequestCount: () => {
+      const currentCount = httpMock?.mock?.calls?.length ?? 0;
+      return currentCount - initialCallCount;
+    },
     // https://github.com/testing-library/user-event/issues/833#issuecomment-1013632841
     user: userEvent.setup({ delay: null }),
     ...renderResult,

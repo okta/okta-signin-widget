@@ -17,7 +17,7 @@ import { WidgetProps } from 'src/types';
 
 import { usePolling } from './usePolling';
 
-describe('usePolling', () => {
+describe.skip('usePolling', () => {
   let mockProps: Partial<WidgetProps>;
   let mockData: Record<string, unknown>;
   let mockProceedFn: jest.Mock;

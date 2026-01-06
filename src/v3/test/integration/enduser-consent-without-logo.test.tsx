@@ -24,7 +24,7 @@ describe('enduser-consent-without-logo', () => {
       },
     };
     const {
-      container, findByRole, findByLabelText, queryByAltText,
+      container, findByRole, findByText, queryByAltText,
     } = await setup({
       mockResponse: enduserConsentResponseWithoutLogo,
     });
@@ -33,8 +33,8 @@ describe('enduser-consent-without-logo', () => {
 
     expect(logo).toBeNull();
     expect(appNameHeading.textContent).toBe('Native client');
-    // Wait for Spinner to appear
-    await findByLabelText('Processing...');
+    // Wait for form content to load before snapshot
+    await findByText('View your email address.');
     expect(container).toMatchSnapshot();
   });
 });

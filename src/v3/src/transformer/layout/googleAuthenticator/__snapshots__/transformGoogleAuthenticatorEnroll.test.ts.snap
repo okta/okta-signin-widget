@@ -1,33 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Google Authenticator Enroll Transformer Tests should add Stepper layout to UI Schema elements when GA Enroll params exists in Idx response 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.enroll.google_authenticator.setup.title",
         },
         "type": "Title",
       },
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
+      {
+        "elements": [
+          {
+            "elements": [
+              {
                 "contentType": "subtitle",
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.google_authenticator.scanBarcode.title",
                   "dataSe": "barcode-setup-title",
                   "level": 2,
@@ -36,25 +36,25 @@ Object {
                 "type": "Heading",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.google_authenticator.scanBarcode.description",
                   "dataSe": "google-authenticator-setup-info",
                 },
                 "type": "Description",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "data": "#mockhref",
                 },
                 "type": "QRCode",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oie.enroll.google_authenticator.scanBarcode.cannotScan",
-                "options": Object {
+                "options": {
                   "nextStepIndex": 1,
                   "type": "button",
                   "variant": "secondary",
@@ -62,9 +62,9 @@ Object {
                 "type": "StepperButton",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oform.next",
-                "options": Object {
+                "options": {
                   "nextStepIndex": 2,
                   "type": "button",
                   "variant": "primary",
@@ -75,12 +75,12 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
+          {
+            "elements": [
+              {
                 "contentType": "subtitle",
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.google_authenticator.cannotScanBarcode.title",
                   "dataSe": "manual-setup-title",
                   "level": 2,
@@ -89,27 +89,27 @@ Object {
                 "type": "Heading",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.google_authenticator.manualSetupInstructions",
                   "dataSe": "google-authenticator-setup-info",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
                 "noTranslate": true,
-                "options": Object {
+                "options": {
                   "content": "A B C 1 2 3 D E F 4 5 6",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "label": "oform.next",
-                "options": Object {
+                "options": {
                   "nextStepIndex": 2,
                   "type": "button",
                   "variant": "primary",
@@ -120,29 +120,29 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
+          {
+            "elements": [
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.google_authenticator.enterCode.title",
                   "dataSe": "enter-code-title",
                 },
                 "type": "Description",
                 "viewIndex": 2,
               },
-              Object {
-                "options": Object {
-                  "inputMeta": Object {
+              {
+                "options": {
+                  "inputMeta": {
                     "name": "credentials.passcode",
                   },
                 },
                 "type": "Field",
                 "viewIndex": 2,
               },
-              Object {
+              {
                 "label": "oform.verify",
-                "options": Object {
+                "options": {
                   "step": "enroll-authenticator",
                   "type": "submit",
                 },
@@ -162,33 +162,33 @@ Object {
 `;
 
 exports[`Google Authenticator Enroll Transformer Tests should add Stepper layout to UI Schema elements when GA Reset params exists in Idx response 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.enroll.google_authenticator.setup.title",
         },
         "type": "Title",
       },
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
+      {
+        "elements": [
+          {
+            "elements": [
+              {
                 "contentType": "subtitle",
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.google_authenticator.scanBarcode.title",
                   "dataSe": "barcode-setup-title",
                   "level": 2,
@@ -197,25 +197,25 @@ Object {
                 "type": "Heading",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.google_authenticator.scanBarcode.description",
                   "dataSe": "google-authenticator-setup-info",
                 },
                 "type": "Description",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "data": "#mockhref",
                 },
                 "type": "QRCode",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oie.enroll.google_authenticator.scanBarcode.cannotScan",
-                "options": Object {
+                "options": {
                   "nextStepIndex": 1,
                   "type": "button",
                   "variant": "secondary",
@@ -223,9 +223,9 @@ Object {
                 "type": "StepperButton",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oform.next",
-                "options": Object {
+                "options": {
                   "nextStepIndex": 2,
                   "type": "button",
                   "variant": "primary",
@@ -236,12 +236,12 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
+          {
+            "elements": [
+              {
                 "contentType": "subtitle",
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.google_authenticator.cannotScanBarcode.title",
                   "dataSe": "manual-setup-title",
                   "level": 2,
@@ -250,27 +250,27 @@ Object {
                 "type": "Heading",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.google_authenticator.manualSetupInstructions",
                   "dataSe": "google-authenticator-setup-info",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
                 "noTranslate": true,
-                "options": Object {
+                "options": {
                   "content": "A B C 1 2 3 D E F 4 5 6",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "label": "oform.next",
-                "options": Object {
+                "options": {
                   "nextStepIndex": 2,
                   "type": "button",
                   "variant": "primary",
@@ -281,29 +281,29 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
+          {
+            "elements": [
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.google_authenticator.enterCode.title",
                   "dataSe": "enter-code-title",
                 },
                 "type": "Description",
                 "viewIndex": 2,
               },
-              Object {
-                "options": Object {
-                  "inputMeta": Object {
+              {
+                "options": {
+                  "inputMeta": {
                     "name": "credentials.passcode",
                   },
                 },
                 "type": "Field",
                 "viewIndex": 2,
               },
-              Object {
+              {
                 "label": "oform.verify",
-                "options": Object {
+                "options": {
                   "step": "reset-authenticator",
                   "type": "submit",
                 },

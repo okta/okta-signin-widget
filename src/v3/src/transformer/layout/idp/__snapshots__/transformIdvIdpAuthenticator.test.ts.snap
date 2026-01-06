@@ -1,35 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IDV IDP Authenticator transformer Tests should add back to signin link 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.idv.idp.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.idv.idp.desc",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "oie.optional.authenticator.button.title",
-        "options": Object {
+        "options": {
           "isActionStep": false,
           "onClick": [Function],
           "step": "redirect-idverify",
@@ -37,12 +37,12 @@ Object {
         },
         "type": "Button",
       },
-      Object {
+      {
         "type": "Divider",
       },
-      Object {
+      {
         "contentType": "footer",
-        "options": Object {
+        "options": {
           "dataSe": "cancel",
           "isActionStep": true,
           "label": "goback",
@@ -50,17 +50,17 @@ Object {
         },
         "type": "Link",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.idv.idp.desc.termsOfUse",
           "variant": "subtitle1",
         },
         "type": "Description",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.idv.idp.desc.agreement",
           "variant": "subtitle1",
         },
@@ -73,35 +73,35 @@ Object {
 `;
 
 exports[`IDV IDP Authenticator transformer Tests should add correct title, descriptions, and button 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.idv.idp.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.idv.idp.desc",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "oie.optional.authenticator.button.title",
-        "options": Object {
+        "options": {
           "isActionStep": false,
           "onClick": [Function],
           "step": "redirect-idverify",
@@ -109,20 +109,20 @@ Object {
         },
         "type": "Button",
       },
-      Object {
+      {
         "type": "Divider",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.idv.idp.desc.termsOfUse",
           "variant": "subtitle1",
         },
         "type": "Description",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.idv.idp.desc.agreement",
           "variant": "subtitle1",
         },

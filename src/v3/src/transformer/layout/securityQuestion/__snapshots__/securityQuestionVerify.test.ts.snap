@@ -1,35 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SecurityQuestionVerify Tests should create security question verify UI elements 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.security.question.challenge.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "noTranslate": true,
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "name": "credentials.answer",
             "secret": true,
           },
         },
-        "translations": Array [
-          Object {
+        "translations": [
+          {
             "i18nKey": "",
             "name": "label",
             "value": "security.disliked_food",
@@ -37,9 +37,9 @@ Object {
         ],
         "type": "Field",
       },
-      Object {
+      {
         "label": "oform.verify",
-        "options": Object {
+        "options": {
           "step": "mock-step",
           "type": "submit",
         },
@@ -52,35 +52,35 @@ Object {
 `;
 
 exports[`SecurityQuestionVerify Tests should create security question verify UI elements for custom question 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.security.question.challenge.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "noTranslate": true,
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "name": "credentials.answer",
             "secret": true,
           },
         },
-        "translations": Array [
-          Object {
+        "translations": [
+          {
             "i18nKey": "",
             "name": "label",
             "value": "What is love?",
@@ -88,9 +88,9 @@ Object {
         ],
         "type": "Field",
       },
-      Object {
+      {
         "label": "oform.verify",
-        "options": Object {
+        "options": {
           "step": "mock-step",
           "type": "submit",
         },
@@ -103,35 +103,35 @@ Object {
 `;
 
 exports[`SecurityQuestionVerify Tests should create security question verify UI elements from remediation inputs when question is custom 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.security.question.challenge.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "noTranslate": true,
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "name": "credentials.answer",
             "secret": true,
           },
         },
-        "translations": Array [
-          Object {
+        "translations": [
+          {
             "i18nKey": "",
             "name": "label",
             "value": "What is the answer to this custom question?",
@@ -139,9 +139,9 @@ Object {
         ],
         "type": "Field",
       },
-      Object {
+      {
         "label": "oform.verify",
-        "options": Object {
+        "options": {
           "step": "mock-step",
           "type": "submit",
         },
@@ -154,35 +154,35 @@ Object {
 `;
 
 exports[`SecurityQuestionVerify Tests should create security question verify UI elements from remediation inputs when question key should be localized 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.security.question.challenge.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "noTranslate": true,
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "name": "credentials.answer",
             "secret": true,
           },
         },
-        "translations": Array [
-          Object {
+        "translations": [
+          {
             "i18nKey": "",
             "name": "label",
             "value": "security.disliked_food",
@@ -190,9 +190,9 @@ Object {
         ],
         "type": "Field",
       },
-      Object {
+      {
         "label": "oform.verify",
-        "options": Object {
+        "options": {
           "step": "mock-step",
           "type": "submit",
         },

@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Terminal Transaction Transformer Tests should add back to signin element when transaction contains API error 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "focus": true,
-        "options": Object {
+        "options": {
           "dataSe": "cancel",
           "href": undefined,
           "isActionStep": true,
@@ -27,37 +27,37 @@ Object {
 `;
 
 exports[`Terminal Transaction Transformer Tests should add return empty formbag when interaction code flow transaction 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [],
+  "schema": {},
+  "uischema": {
+    "elements": [],
     "type": "VerticalLayout",
   },
 }
 `;
 
 exports[`Terminal Transaction Transformer Tests should add title and back to signin elements for link expired message key 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.email.return.link.expired.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "focus": true,
-        "options": Object {
+        "options": {
           "dataSe": "cancel",
           "href": undefined,
           "isActionStep": true,
@@ -73,23 +73,23 @@ Object {
 `;
 
 exports[`Terminal Transaction Transformer Tests should add title and skip setup link for idx.error.server.safe.mode.enrollment.unavailable message key 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.safe.mode.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "focus": true,
-        "options": Object {
+        "options": {
           "dataSe": "cancel",
           "isActionStep": false,
           "label": "oie.enroll.skip.setup",
@@ -104,16 +104,16 @@ Object {
 `;
 
 exports[`Terminal Transaction Transformer Tests should add title element with message for oie.selfservice.unlock_user.success.message message key 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "account.unlock.unlocked.title",
         },
         "type": "Title",
@@ -125,16 +125,16 @@ Object {
 `;
 
 exports[`Terminal Transaction Transformer Tests should add title only for idx.error.server.safe.mode.enrollment.unavailable message key when intent is "CREDENTIAL_ENROLLMENT" 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.safe.mode.title",
         },
         "type": "Title",
@@ -146,16 +146,16 @@ Object {
 `;
 
 exports[`Terminal Transaction Transformer Tests should add title when terminal key indicates to return to orig tab 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.consent.enduser.email.allow.title",
         },
         "type": "Title",
@@ -167,17 +167,17 @@ Object {
 `;
 
 exports[`Terminal Transaction Transformer Tests should add try again link for idx.device.not.activated.consent.denied message key 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "focus": true,
-        "options": Object {
+        "options": {
           "dataSe": "cancel",
           "href": "http://localhost:3000/",
           "isActionStep": true,
@@ -193,17 +193,17 @@ Object {
 `;
 
 exports[`Terminal Transaction Transformer Tests should clear state and reload page for oie.tooManyRequests or verificationTimedOut message key when baseUrl not provided 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "focus": true,
-        "options": Object {
+        "options": {
           "dataSe": "cancel",
           "isActionStep": true,
           "label": "goback",
@@ -219,17 +219,17 @@ Object {
 `;
 
 exports[`Terminal Transaction Transformer Tests should clear state and reload page for tooManyRequests or verificationTimedOut message key when baseUrl not provided 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "focus": true,
-        "options": Object {
+        "options": {
           "dataSe": "cancel",
           "isActionStep": true,
           "label": "goback",
@@ -245,17 +245,17 @@ Object {
 `;
 
 exports[`Terminal Transaction Transformer Tests should clear state and reload page for verification time out 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "focus": true,
-        "options": Object {
+        "options": {
           "dataSe": "cancel",
           "isActionStep": true,
           "label": "goback",
@@ -271,17 +271,17 @@ Object {
 `;
 
 exports[`Terminal Transaction Transformer Tests should clear state and use backToSigninUri 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "focus": true,
-        "options": Object {
+        "options": {
           "dataSe": "cancel",
           "href": "http://domain.com/custom/backto/signin",
           "isActionStep": true,
@@ -297,23 +297,23 @@ Object {
 `;
 
 exports[`Terminal Transaction Transformer Tests should have link href to base URI for email link expired 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.activation.request.email.title.invalid",
         },
         "type": "Title",
       },
-      Object {
+      {
         "focus": true,
-        "options": Object {
+        "options": {
           "dataSe": "cancel",
           "href": "http://localhost:3000/",
           "isActionStep": true,

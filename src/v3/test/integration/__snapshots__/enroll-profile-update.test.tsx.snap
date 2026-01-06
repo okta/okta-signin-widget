@@ -172,7 +172,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                         class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-31"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-32"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-32"
                           data-shrink="false"
                           for="userProfile.favoriteSport"
                           id="userProfile.favoriteSport-label"
@@ -182,7 +182,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error Mui-focused MuiInputBase-formControl emotion-33"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-33"
                           required="true"
                         >
                           <input
@@ -199,7 +199,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                           />
                         </div>
                         <div
-                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium Mui-focused emotion-35"
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-35"
                           id="userProfile.favoriteSport-error"
                         >
                           <span
@@ -269,7 +269,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       class="MuiBox-root emotion-18"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-47"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth Mui-focusVisible MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-47"
                         data-se="save"
                         tabindex="0"
                         type="submit"

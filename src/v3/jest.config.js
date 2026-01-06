@@ -27,21 +27,28 @@ const esModules = [
 
 const devMode = process.env.NODE_ENV === 'development';
 
-/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
+/** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
-  globals: {
-    'ts-jest': {
+  // Jest 29: Use V8 coverage provider - 50-70% less memory than Istanbul
+  coverageProvider: 'v8',
+  
+  // Jest 29: Auto-restart workers when memory exceeds 512MB
+  workerIdleMemoryLimit: '512MB',
+  
+  // TypeScript configuration - Jest 29 uses transform array syntax
+  transform: {
+    '^.+\\.[jt]sx?$': ['ts-jest', {
       tsconfig: '<rootDir>/src/tsconfig.json',
       // https://kulshekhar.github.io/ts-jest/docs/26.5/getting-started/options/isolatedModules
       isolatedModules: true,
-    },
-  },
-  transform: {
-    '^.+\\.[jt]sx?$': 'ts-jest',
+    }],
   },
   verbose: true,
-  testURL: 'http://localhost:8080',
+  // Jest 29: testURL deprecated, use testEnvironmentOptions
   testEnvironment: './config/jsdom-env-with-polyfills.js',
+  testEnvironmentOptions: {
+    url: 'http://localhost:8080',
+  },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   moduleDirectories: [
     'node_modules',
@@ -87,7 +94,7 @@ module.exports = {
     }],
   ],
   transformIgnorePatterns: [
-    `/node_modules/(?!${esModules})`,
+    `/node_modules/(?!${esModules}|preact)`,
     // TODO: remove when re-enable transformers tests - OKTA-516578
     // eslint-disable-next-line no-useless-escape
     '<rootDir>/src/transformer/^.*\.test\.*',

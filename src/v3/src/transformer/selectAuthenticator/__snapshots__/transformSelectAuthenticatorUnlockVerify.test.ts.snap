@@ -1,42 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Unlock Verification Authenticator Selector Tests should add UI elements for unlock account flow 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "account.unlock.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
-                  "inputMeta": Object {
+              {
+                "options": {
+                  "inputMeta": {
                     "name": "identifier",
                   },
                 },
                 "type": "Field",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oform.next",
-                "options": Object {
+                "options": {
                   "nextStepIndex": [Function],
                   "type": "submit",
                   "variant": "primary",
@@ -47,30 +47,30 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.select.authenticators.verify.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.select.authenticators.verify.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
-                  "buttons": Array [
-                    Object {
+              {
+                "options": {
+                  "buttons": [
+                    {
                       "label": "Email",
-                      "options": Object {
-                        "actionParams": Object {
+                      "options": {
+                        "actionParams": {
                           "authenticator.id": "123abc",
                         },
                         "ariaLabel": "Select email.",
@@ -101,44 +101,44 @@ Object {
 `;
 
 exports[`Unlock Verification Authenticator Selector Tests should add identifier container when features.showIdentifier = true 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "identifier": "testUser@okta.com",
   },
-  "dataSchema": Object {
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "account.unlock.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
-                  "inputMeta": Object {
+              {
+                "options": {
+                  "inputMeta": {
                     "name": "identifier",
                   },
                 },
                 "type": "Field",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oform.next",
-                "options": Object {
+                "options": {
                   "nextStepIndex": [Function],
                   "type": "submit",
                   "variant": "primary",
@@ -149,36 +149,36 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "identifier": "testUser@okta.com",
                 },
                 "type": "IdentifierContainer",
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "content": "oie.select.authenticators.verify.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.select.authenticators.verify.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
-                  "buttons": Array [
-                    Object {
+              {
+                "options": {
+                  "buttons": [
+                    {
                       "label": "Email",
-                      "options": Object {
-                        "actionParams": Object {
+                      "options": {
+                        "actionParams": {
                           "authenticator.id": "123abc",
                         },
                         "ariaLabel": "Select email.",
@@ -209,42 +209,42 @@ Object {
 `;
 
 exports[`Unlock Verification Authenticator Selector Tests should not add identifier container if identifier is empty string 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "account.unlock.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
-                  "inputMeta": Object {
+              {
+                "options": {
+                  "inputMeta": {
                     "name": "identifier",
                   },
                 },
                 "type": "Field",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oform.next",
-                "options": Object {
+                "options": {
                   "nextStepIndex": [Function],
                   "type": "submit",
                   "variant": "primary",
@@ -255,30 +255,30 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.select.authenticators.verify.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.select.authenticators.verify.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
-                  "buttons": Array [
-                    Object {
+              {
+                "options": {
+                  "buttons": [
+                    {
                       "label": "Email",
-                      "options": Object {
-                        "actionParams": Object {
+                      "options": {
+                        "actionParams": {
                           "authenticator.id": "123abc",
                         },
                         "ariaLabel": "Select email.",
@@ -309,42 +309,42 @@ Object {
 `;
 
 exports[`Unlock Verification Authenticator Selector Tests should not add identifier container if transaction NextStep is "admin-consent" 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "account.unlock.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
-                  "inputMeta": Object {
+              {
+                "options": {
+                  "inputMeta": {
                     "name": "identifier",
                   },
                 },
                 "type": "Field",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oform.next",
-                "options": Object {
+                "options": {
                   "nextStepIndex": [Function],
                   "type": "submit",
                   "variant": "primary",
@@ -355,30 +355,30 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.select.authenticators.verify.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.select.authenticators.verify.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
-                  "buttons": Array [
-                    Object {
+              {
+                "options": {
+                  "buttons": [
+                    {
                       "label": "Email",
-                      "options": Object {
-                        "actionParams": Object {
+                      "options": {
+                        "actionParams": {
                           "authenticator.id": "123abc",
                         },
                         "ariaLabel": "Select email.",
@@ -409,42 +409,42 @@ Object {
 `;
 
 exports[`Unlock Verification Authenticator Selector Tests should not add identifier container if transaction NextStep is "identify" 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "account.unlock.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
-                  "inputMeta": Object {
+              {
+                "options": {
+                  "inputMeta": {
                     "name": "identifier",
                   },
                 },
                 "type": "Field",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oform.next",
-                "options": Object {
+                "options": {
                   "nextStepIndex": [Function],
                   "type": "submit",
                   "variant": "primary",
@@ -455,30 +455,30 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.select.authenticators.verify.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.select.authenticators.verify.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
-                  "buttons": Array [
-                    Object {
+              {
+                "options": {
+                  "buttons": [
+                    {
                       "label": "Email",
-                      "options": Object {
-                        "actionParams": Object {
+                      "options": {
+                        "actionParams": {
                           "authenticator.id": "123abc",
                         },
                         "ariaLabel": "Select email.",
@@ -509,42 +509,42 @@ Object {
 `;
 
 exports[`Unlock Verification Authenticator Selector Tests should not add identifier container when features.showIdentifier = false 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "account.unlock.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
-                  "inputMeta": Object {
+              {
+                "options": {
+                  "inputMeta": {
                     "name": "identifier",
                   },
                 },
                 "type": "Field",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oform.next",
-                "options": Object {
+                "options": {
                   "nextStepIndex": [Function],
                   "type": "submit",
                   "variant": "primary",
@@ -555,30 +555,30 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.select.authenticators.verify.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.select.authenticators.verify.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
-                  "buttons": Array [
-                    Object {
+              {
+                "options": {
+                  "buttons": [
+                    {
                       "label": "Email",
-                      "options": Object {
-                        "actionParams": Object {
+                      "options": {
+                        "actionParams": {
                           "authenticator.id": "123abc",
                         },
                         "ariaLabel": "Select email.",
@@ -609,42 +609,42 @@ Object {
 `;
 
 exports[`Unlock Verification Authenticator Selector Tests should not add identifier container when features.showIdentifier is undefined 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "account.unlock.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
-                  "inputMeta": Object {
+              {
+                "options": {
+                  "inputMeta": {
                     "name": "identifier",
                   },
                 },
                 "type": "Field",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oform.next",
-                "options": Object {
+                "options": {
                   "nextStepIndex": [Function],
                   "type": "submit",
                   "variant": "primary",
@@ -655,30 +655,30 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.select.authenticators.verify.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.select.authenticators.verify.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
-                  "buttons": Array [
-                    Object {
+              {
+                "options": {
+                  "buttons": [
+                    {
                       "label": "Email",
-                      "options": Object {
-                        "actionParams": Object {
+                      "options": {
+                        "actionParams": {
                           "authenticator.id": "123abc",
                         },
                         "ariaLabel": "Select email.",

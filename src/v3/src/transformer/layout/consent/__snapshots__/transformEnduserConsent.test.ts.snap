@@ -1,48 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`transformEnduserConsent tests should add customized scope elements to formbag 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "consent.scopes.custom1": true,
     "consent.scopes.custom2": true,
   },
-  "dataSchema": Object {
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "oie.consent.scopes.granular.description",
           "dataSe": "consent-description",
         },
         "type": "Description",
       },
-      Object {
+      {
         "key": "consent.scopes.custom1",
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "mutable": false,
             "name": "consent.scopes.custom1",
             "type": "boolean",
           },
         },
-        "translations": Array [
-          Object {
+        "translations": [
+          {
             "i18nKey": "consent.scopes.custom1.label",
             "name": "label",
             "noTranslate": true,
             "value": "View your custom info",
           },
-          Object {
+          {
             "i18nKey": "consent.scopes.custom1.desc",
             "name": "description",
             "noTranslate": true,
@@ -51,23 +51,23 @@ Object {
         ],
         "type": "Field",
       },
-      Object {
+      {
         "key": "consent.scopes.custom2",
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "mutable": false,
             "name": "consent.scopes.custom2",
             "type": "boolean",
           },
         },
-        "translations": Array [
-          Object {
+        "translations": [
+          {
             "i18nKey": "consent.scopes.custom2.label",
             "name": "label",
             "noTranslate": true,
             "value": "View your custom 2",
           },
-          Object {
+          {
             "i18nKey": "consent.scopes.custom2.desc",
             "name": "description",
             "noTranslate": true,
@@ -76,8 +76,8 @@ Object {
         ],
         "type": "Field",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "dataSe": "terms-of-service",
           "href": "https://okta1.com/tos",
           "label": "consent.required.termsOfService",
@@ -86,8 +86,8 @@ Object {
         },
         "type": "Link",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "dataSe": "privacy-policy",
           "href": "https://okta1.com/privacypolicy",
           "label": "consent.required.privacyPolicy",
@@ -96,10 +96,10 @@ Object {
         },
         "type": "Link",
       },
-      Object {
+      {
         "label": "consent.required.consentButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "consent": true,
           },
           "dataType": "save",
@@ -110,10 +110,10 @@ Object {
         },
         "type": "Button",
       },
-      Object {
+      {
         "label": "oform.cancel",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "consent": false,
           },
           "dataType": "cancel",
@@ -131,48 +131,48 @@ Object {
 `;
 
 exports[`transformEnduserConsent tests should add non-customized scope elements to formbag 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "consent.scopes.email": true,
     "consent.scopes.phone": true,
   },
-  "dataSchema": Object {
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "oie.consent.scopes.granular.description",
           "dataSe": "consent-description",
         },
         "type": "Description",
       },
-      Object {
+      {
         "key": "consent.scopes.email",
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "mutable": false,
             "name": "consent.scopes.email",
             "type": "boolean",
           },
         },
-        "translations": Array [
-          Object {
+        "translations": [
+          {
             "i18nKey": "consent.scopes.email.label",
             "name": "label",
             "noTranslate": false,
             "value": "consent.scopes.email.label",
           },
-          Object {
+          {
             "i18nKey": "consent.scopes.email.desc",
             "name": "description",
             "noTranslate": false,
@@ -181,23 +181,23 @@ Object {
         ],
         "type": "Field",
       },
-      Object {
+      {
         "key": "consent.scopes.phone",
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "mutable": false,
             "name": "consent.scopes.phone",
             "type": "boolean",
           },
         },
-        "translations": Array [
-          Object {
+        "translations": [
+          {
             "i18nKey": "consent.scopes.phone.label",
             "name": "label",
             "noTranslate": false,
             "value": "consent.scopes.phone.label",
           },
-          Object {
+          {
             "i18nKey": "consent.scopes.phone.desc",
             "name": "description",
             "noTranslate": false,
@@ -206,8 +206,8 @@ Object {
         ],
         "type": "Field",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "dataSe": "terms-of-service",
           "href": "https://okta1.com/tos",
           "label": "consent.required.termsOfService",
@@ -216,8 +216,8 @@ Object {
         },
         "type": "Link",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "dataSe": "privacy-policy",
           "href": "https://okta1.com/privacypolicy",
           "label": "consent.required.privacyPolicy",
@@ -226,10 +226,10 @@ Object {
         },
         "type": "Link",
       },
-      Object {
+      {
         "label": "consent.required.consentButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "consent": true,
           },
           "dataType": "save",
@@ -240,10 +240,10 @@ Object {
         },
         "type": "Button",
       },
-      Object {
+      {
         "label": "oform.cancel",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "consent": false,
           },
           "dataType": "cancel",
@@ -261,30 +261,30 @@ Object {
 `;
 
 exports[`transformEnduserConsent tests should not add scopes when none exist in the transaction 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "oie.consent.scopes.granular.description",
           "dataSe": "consent-description",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "dataSe": "terms-of-service",
           "href": "https://okta1.com/tos",
           "label": "consent.required.termsOfService",
@@ -293,8 +293,8 @@ Object {
         },
         "type": "Link",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "dataSe": "privacy-policy",
           "href": "https://okta1.com/privacypolicy",
           "label": "consent.required.privacyPolicy",
@@ -303,10 +303,10 @@ Object {
         },
         "type": "Link",
       },
-      Object {
+      {
         "label": "consent.required.consentButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "consent": true,
           },
           "dataType": "save",
@@ -317,10 +317,10 @@ Object {
         },
         "type": "Button",
       },
-      Object {
+      {
         "label": "oform.cancel",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "consent": false,
           },
           "dataType": "cancel",

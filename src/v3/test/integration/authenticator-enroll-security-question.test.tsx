@@ -69,14 +69,14 @@ describe('authenticator-enroll-security-question', () => {
 
     it('fails client side validation when answer is missing', async () => {
       const {
-        authClient, user, findAllByRole, findByLabelText, findByText,
+        user, findAllByRole, findByLabelText, findByText, getNewRequestCount,
       } = await setup({ mockResponse });
 
       await findByText(/Set up security question/);
       await user.click(await findByText('Verify', { selector: 'button' }));
 
       // assert no network request
-      expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+      expect(getNewRequestCount()).toBe(0);
       // assert global alert
       const [globalError] = await findAllByRole('alert');
       expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
@@ -156,13 +156,13 @@ describe('authenticator-enroll-security-question', () => {
 
     it('fails client side validation when custom question is missing', async () => {
       const {
-        authClient,
         user,
         container,
         findByText,
         findByRole,
         findByLabelText,
         findAllByRole,
+        getNewRequestCount,
       } = await setup({ mockResponse });
 
       // switch to custom question form
@@ -177,7 +177,7 @@ describe('authenticator-enroll-security-question', () => {
       await user.click(await findByText('Verify', { selector: 'button' }));
 
       // assert no network request
-      expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+      expect(getNewRequestCount()).toBe(0);
       // assert global alert
       const [globalError] = await findAllByRole('alert');
       expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
@@ -189,12 +189,12 @@ describe('authenticator-enroll-security-question', () => {
 
     it('fails client side validation when answer is missing', async () => {
       const {
-        authClient,
         user,
         findByText,
         findByRole,
         findByLabelText,
         findAllByRole,
+        getNewRequestCount,
       } = await setup({ mockResponse });
 
       // switch to custom question form
@@ -207,7 +207,7 @@ describe('authenticator-enroll-security-question', () => {
       await user.click(await findByText('Verify', { selector: 'button' }));
 
       // assert no network request
-      expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+      expect(getNewRequestCount()).toBe(0);
       // assert global alert
       const [globalError] = await findAllByRole('alert');
       expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
@@ -219,19 +219,19 @@ describe('authenticator-enroll-security-question', () => {
 
     it('fails client side validation when both custom question and answer are missing', async () => {
       const {
-        authClient,
         user,
         findByText,
         findByLabelText,
         findAllByRole,
         findByRole,
+        getNewRequestCount,
       } = await setup({ mockResponse });
 
       // switch to custom question form
       user.click(await findByLabelText(/Create my own security question/));
 
       await user.click(await findByText('Verify', { selector: 'button' }));
-      expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+      expect(getNewRequestCount()).toBe(0);
       // assert global alert
       const [globalError] = await findAllByRole('alert');
       expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');

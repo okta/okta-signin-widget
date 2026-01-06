@@ -1,31 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`transformGranularConsent tests should not add privacy policy or terms of service links when they do not exist in transaction 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "oie.consent.scopes.granular.description",
           "dataSe": "consent-description",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "desc": "This is a custom description for the custom field.",
             "label": "Custom 1 label",
             "mutable": true,
@@ -38,9 +38,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "desc": "This is a custom description for the custom 2 field.",
             "label": "Custom 2 label",
             "mutable": true,
@@ -53,9 +53,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "mutable": false,
             "name": "optedScopes.openid",
             "required": true,
@@ -66,9 +66,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "desc": "This is a description for the profile field.",
             "label": "Label for profile field",
             "mutable": false,
@@ -81,10 +81,10 @@ Object {
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "consent.required.consentButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "consent": true,
           },
           "dataType": "save",
@@ -95,10 +95,10 @@ Object {
         },
         "type": "Button",
       },
-      Object {
+      {
         "label": "oform.cancel",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "consent": false,
           },
           "dataType": "cancel",
@@ -116,31 +116,31 @@ Object {
 `;
 
 exports[`transformGranularConsent tests should not reorder existing field elements when all are mutable and should add additional granular consent elements to formbag 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "oie.consent.scopes.granular.description",
           "dataSe": "consent-description",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "desc": "This is a custom description for the custom field.",
             "label": "Custom 1 label",
             "mutable": true,
@@ -153,9 +153,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "desc": "This is a custom description for the custom 2 field.",
             "label": "Custom 2 label",
             "mutable": true,
@@ -168,8 +168,8 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "dataSe": "terms-of-service",
           "href": "https://okta1.com/tos",
           "label": "consent.required.termsOfService",
@@ -178,8 +178,8 @@ Object {
         },
         "type": "Link",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "dataSe": "privacy-policy",
           "href": "https://okta1.com/privacypolicy",
           "label": "consent.required.privacyPolicy",
@@ -188,10 +188,10 @@ Object {
         },
         "type": "Link",
       },
-      Object {
+      {
         "label": "consent.required.consentButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "consent": true,
           },
           "dataType": "save",
@@ -202,10 +202,10 @@ Object {
         },
         "type": "Button",
       },
-      Object {
+      {
         "label": "oform.cancel",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "consent": false,
           },
           "dataType": "cancel",
@@ -223,31 +223,31 @@ Object {
 `;
 
 exports[`transformGranularConsent tests should reorder existing field elements and add additional granular consent elements to formbag 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "oie.consent.scopes.granular.description",
           "dataSe": "consent-description",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "desc": "This is a custom description for the custom field.",
             "label": "Custom 1 label",
             "mutable": true,
@@ -260,9 +260,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "desc": "This is a custom description for the custom 2 field.",
             "label": "Custom 2 label",
             "mutable": true,
@@ -275,9 +275,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "mutable": false,
             "name": "optedScopes.openid",
             "required": true,
@@ -288,9 +288,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "desc": "This is a description for the profile field.",
             "label": "Label for profile field",
             "mutable": false,
@@ -303,8 +303,8 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "dataSe": "terms-of-service",
           "href": "https://okta1.com/tos",
           "label": "consent.required.termsOfService",
@@ -313,8 +313,8 @@ Object {
         },
         "type": "Link",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "dataSe": "privacy-policy",
           "href": "https://okta1.com/privacypolicy",
           "label": "consent.required.privacyPolicy",
@@ -323,10 +323,10 @@ Object {
         },
         "type": "Link",
       },
-      Object {
+      {
         "label": "consent.required.consentButton",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "consent": true,
           },
           "dataType": "save",
@@ -337,10 +337,10 @@ Object {
         },
         "type": "Button",
       },
-      Object {
+      {
         "label": "oform.cancel",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "consent": false,
           },
           "dataType": "cancel",

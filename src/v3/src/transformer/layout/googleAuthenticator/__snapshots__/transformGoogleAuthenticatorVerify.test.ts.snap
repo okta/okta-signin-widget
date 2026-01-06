@@ -1,46 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Google Authenticator Verify Transformer Tests should add UI elements 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "credentials.passcode": Object {
+{
+  "data": {},
+  "dataSchema": {
+    "credentials.passcode": {
       "validate": [Function],
     },
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.verify.google_authenticator.otp.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.verify.google_authenticator.otp.description",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "credentials.passcode",
           },
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "mfa.challenge.verify",
-        "options": Object {
+        "options": {
           "step": "",
           "type": "submit",
         },

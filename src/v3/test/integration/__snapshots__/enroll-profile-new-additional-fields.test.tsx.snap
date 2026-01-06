@@ -128,7 +128,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
                           data-shrink="false"
                           for="userProfile.firstName"
                           id="userProfile.firstName-label"
@@ -138,7 +138,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error Mui-focused MuiInputBase-formControl emotion-27"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-27"
                           required="true"
                         >
                           <input
@@ -156,7 +156,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                           />
                         </div>
                         <div
-                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium Mui-focused emotion-29"
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-29"
                           id="userProfile.firstName-error"
                         >
                           <span
@@ -1835,7 +1835,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       class="MuiBox-root emotion-18"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-75"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth Mui-focusVisible MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-75"
                         data-se="save"
                         tabindex="0"
                         type="submit"

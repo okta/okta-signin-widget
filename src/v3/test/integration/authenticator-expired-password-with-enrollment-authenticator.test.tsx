@@ -54,7 +54,7 @@ describe('authenticator-expired-password-with-enrollment-authenticator', () => {
 
   it('should present field level error message of (failed) password requirements', async () => {
     const {
-      authClient, user, findByLabelText, findByText, container,
+      user, findByLabelText, findByText, container, getNewRequestCount,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Your password has expired/);
@@ -75,7 +75,7 @@ describe('authenticator-expired-password-with-enrollment-authenticator', () => {
     const confirmPasswordEle = await findByLabelText(/Re-enter password/) as HTMLInputElement;
 
     expect(confirmPasswordEle).toHaveErrorMessage(/This field cannot be left blank/);
-    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    expect(getNewRequestCount()).toBe(0);
     expect(container).toMatchSnapshot();
   });
 });

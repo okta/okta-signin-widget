@@ -1,44 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Terminal ODA enrollment Android App Link transformer adds UI elements appropriately 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "hasOVAccount": "no",
   },
-  "dataSchema": Object {
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "enroll.title.oda.with.account",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "key": "hasOVAccount",
-                "options": Object {
+                "options": {
                   "format": "radio",
-                  "inputMeta": Object {
+                  "inputMeta": {
                     "name": "hasOVAccount",
-                    "options": Array [
-                      Object {
+                    "options": [
+                      {
                         "label": "enroll.option.noaccount.fastpass",
                         "value": "no",
                       },
-                      Object {
+                      {
                         "label": "enroll.option.account.fastpass",
                         "value": "yes",
                       },
@@ -46,8 +46,8 @@ Object {
                   },
                   "name": "hasOVAccount",
                 },
-                "translations": Array [
-                  Object {
+                "translations": [
+                  {
                     "i18nKey": "enroll.subtitle.fastpass",
                     "name": "label",
                     "value": "enroll.subtitle.fastpass",
@@ -56,9 +56,9 @@ Object {
                 "type": "Field",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oform.next",
-                "options": Object {
+                "options": {
                   "nextStepIndex": [Function],
                   "type": "button",
                   "variant": "primary",
@@ -69,33 +69,33 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "enroll.title.oda.with.account",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "enroll.oda.with.account.explanation",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "description": "enroll.oda.with.account.subtitile1",
-                  "items": Array [
-                    Object {
-                      "elements": Array [
-                        Object {
+                  "items": [
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "enroll.oda.with.account.step1",
                           },
                           "type": "Description",
@@ -103,11 +103,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "enroll.oda.with.account.step2",
                           },
                           "type": "Description",
@@ -115,11 +115,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "enroll.oda.with.account.step3",
                           },
                           "type": "Description",
@@ -133,16 +133,16 @@ Object {
                 "type": "List",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "description": "enroll.oda.with.account.subtitile2",
-                  "items": Array [
-                    Object {
-                      "elements": Array [
-                        Object {
+                  "items": [
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "enroll.oda.with.account.step4",
                           },
                           "type": "Description",
@@ -150,11 +150,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "enroll.oda.with.account.step5",
                           },
                           "type": "Description",
@@ -162,11 +162,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "enroll.oda.with.account.step6",
                           },
                           "type": "Description",
@@ -174,11 +174,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "enroll.oda.with.account.step7",
                           },
                           "type": "Description",
@@ -192,10 +192,10 @@ Object {
                 "type": "List",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "footer",
                 "label": "oform.back",
-                "options": Object {
+                "options": {
                   "nextStepIndex": 0,
                 },
                 "type": "StepperLink",
@@ -204,30 +204,30 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "enroll.title.oda.without.account",
                 },
                 "type": "Title",
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "enroll.oda.without.account.explanation",
                 },
                 "type": "Description",
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [
-                    Object {
-                      "elements": Array [
-                        Object {
+                "options": {
+                  "items": [
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "enroll.oda.without.account.step1",
                           },
                           "type": "Description",
@@ -235,11 +235,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "enroll.oda.step1",
                           },
                           "type": "Description",
@@ -247,25 +247,25 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "enroll.oda.step2",
                           },
                           "type": "Description",
                         },
-                        Object {
+                        {
                           "noMargin": true,
-                          "options": Object {
-                            "content": "<span class=\\"no-translate\\">https://okta.com</span>",
+                          "options": {
+                            "content": "<span class="no-translate">https://okta.com</span>",
                           },
                           "type": "Description",
                         },
-                        Object {
+                        {
                           "label": "enroll.oda.org.copyLink",
-                          "options": Object {
+                          "options": {
                             "onClick": [Function],
                             "step": "",
                             "type": "button",
@@ -282,10 +282,10 @@ Object {
                 },
                 "type": "List",
               },
-              Object {
+              {
                 "contentType": "footer",
                 "label": "oform.back",
-                "options": Object {
+                "options": {
                   "nextStepIndex": 0,
                 },
                 "type": "StepperLink",

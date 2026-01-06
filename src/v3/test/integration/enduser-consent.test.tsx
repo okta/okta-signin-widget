@@ -17,7 +17,7 @@ import enduserConsentResponse from '../../../../playground/mocks/data/idp/idx/co
 describe('enduser-consent', () => {
   it('should render form with logo', async () => {
     const {
-      container, findByRole, findByLabelText, queryByAltText,
+      container, findByRole, queryByAltText, findByText,
     } = await setup({
       mockResponse: enduserConsentResponse,
     });
@@ -26,8 +26,8 @@ describe('enduser-consent', () => {
 
     expect(logo).toBeDefined();
     expect(appNameHeading.textContent).toBe('Native client');
-    // Wait for Spinner to appear
-    await findByLabelText('Processing...');
+    // Wait for form to fully load (spinner disappears, consent scopes appear)
+    await findByText('View your email address.');
     expect(container).toMatchSnapshot();
   });
 

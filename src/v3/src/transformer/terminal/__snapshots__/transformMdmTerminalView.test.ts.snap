@@ -1,48 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Terminal MDM enrollment transformer adds UI elements appropriately when name is mdm 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "enroll.title.mdm",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "enroll.explanation.mdm",
         },
         "type": "Description",
       },
-      Object {
+      {
         "noMargin": true,
-        "options": Object {
-          "items": Array [
-            Object {
-              "elements": Array [
-                Object {
+        "options": {
+          "items": [
+            {
+              "elements": [
+                {
                   "noMargin": true,
-                  "options": Object {
+                  "options": {
                     "content": "enroll.mdm.step.copyLink",
                   },
                   "type": "Description",
                 },
-                Object {
+                {
                   "label": "enroll.mdm.copyLink",
-                  "options": Object {
+                  "options": {
                     "onClick": [Function],
                     "step": "",
                     "type": "button",
@@ -53,11 +53,11 @@ Object {
               ],
               "type": "VerticalLayout",
             },
-            Object {
-              "elements": Array [
-                Object {
+            {
+              "elements": [
+                {
                   "noMargin": true,
-                  "options": Object {
+                  "options": {
                     "content": "enroll.mdm.step.pasteLink",
                   },
                   "type": "Description",
@@ -65,11 +65,11 @@ Object {
               ],
               "type": "VerticalLayout",
             },
-            Object {
-              "elements": Array [
-                Object {
+            {
+              "elements": [
+                {
                   "noMargin": true,
-                  "options": Object {
+                  "options": {
                     "content": "enroll.mdm.step.followInstructions",
                   },
                   "type": "Description",
@@ -77,11 +77,11 @@ Object {
               ],
               "type": "VerticalLayout",
             },
-            Object {
-              "elements": Array [
-                Object {
+            {
+              "elements": [
+                {
                   "noMargin": true,
-                  "options": Object {
+                  "options": {
                     "content": "enroll.mdm.step.relogin",
                   },
                   "type": "Description",
@@ -101,48 +101,48 @@ Object {
 `;
 
 exports[`Terminal MDM enrollment transformer adds UI elements appropriately when name is ws1 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "enroll.title.mdm",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "enroll.explanation.mdm",
         },
         "type": "Description",
       },
-      Object {
+      {
         "noMargin": true,
-        "options": Object {
-          "items": Array [
-            Object {
-              "elements": Array [
-                Object {
+        "options": {
+          "items": [
+            {
+              "elements": [
+                {
                   "noMargin": true,
-                  "options": Object {
+                  "options": {
                     "content": "enroll.mdm.step.copyLink",
                   },
                   "type": "Description",
                 },
-                Object {
+                {
                   "label": "enroll.mdm.copyLink",
-                  "options": Object {
+                  "options": {
                     "onClick": [Function],
                     "step": "",
                     "type": "button",
@@ -153,11 +153,11 @@ Object {
               ],
               "type": "VerticalLayout",
             },
-            Object {
-              "elements": Array [
-                Object {
+            {
+              "elements": [
+                {
                   "noMargin": true,
-                  "options": Object {
+                  "options": {
                     "content": "enroll.mdm.step.pasteLink",
                   },
                   "type": "Description",
@@ -165,11 +165,11 @@ Object {
               ],
               "type": "VerticalLayout",
             },
-            Object {
-              "elements": Array [
-                Object {
+            {
+              "elements": [
+                {
                   "noMargin": true,
-                  "options": Object {
+                  "options": {
                     "content": "enroll.mdm.step.followInstructions",
                   },
                   "type": "Description",
@@ -177,11 +177,11 @@ Object {
               ],
               "type": "VerticalLayout",
             },
-            Object {
-              "elements": Array [
-                Object {
+            {
+              "elements": [
+                {
                   "noMargin": true,
-                  "options": Object {
+                  "options": {
                     "content": "enroll.mdm.step.relogin",
                   },
                   "type": "Description",

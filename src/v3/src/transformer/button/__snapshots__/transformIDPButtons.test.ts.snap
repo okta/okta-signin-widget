@@ -1,64 +1,64 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IDP Button transformer tests should add Fastpass button when exists in remediation 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "Sign in",
         },
         "type": "Title",
       },
-      Object {
+      {
         "label": "oktaVerify.button",
-        "options": Object {
+        "options": {
           "challengeMethod": undefined,
           "deviceChallengeUrl": undefined,
           "step": "launch-authenticator",
         },
         "type": "LaunchAuthenticatorButton",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "text": "socialauth.divider.text",
         },
         "type": "Divider",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "identifier",
           },
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "credentials.passcode",
           },
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "type": "submit",
         },
         "type": "Button",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "label": "Forgot Password",
         },
         "type": "Link",
@@ -70,56 +70,56 @@ Object {
 `;
 
 exports[`IDP Button transformer tests should add PIV/CAC IDP button when exists in remediation with SECONDARY display 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "Sign in",
         },
         "type": "Title",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "identifier",
           },
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "credentials.passcode",
           },
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "type": "submit",
         },
         "type": "Button",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "text": "socialauth.divider.text",
         },
         "type": "Divider",
       },
-      Object {
+      {
         "label": "piv.cac.card",
-        "options": Object {
+        "options": {
           "Icon": "MockSVGIcon",
           "dataSe": "piv-card-button",
           "iconAlt": "piv.card",
@@ -131,8 +131,8 @@ Object {
         },
         "type": "Button",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "label": "Forgot Password",
         },
         "type": "Link",
@@ -144,28 +144,28 @@ Object {
 `;
 
 exports[`IDP Button transformer tests should add PIV/CAC IDP button when exists in remediation with default (PRIMARY) display 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "Sign in",
         },
         "type": "Title",
       },
-      Object {
+      {
         "label": "piv.cac.card",
-        "options": Object {
+        "options": {
           "Icon": "MockSVGIcon",
           "dataSe": "piv-card-button",
           "iconAlt": "piv.card",
@@ -177,36 +177,36 @@ Object {
         },
         "type": "Button",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "text": "socialauth.divider.text",
         },
         "type": "Divider",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "identifier",
           },
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "credentials.passcode",
           },
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "type": "submit",
         },
         "type": "Button",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "label": "Forgot Password",
         },
         "type": "Link",
@@ -218,49 +218,49 @@ Object {
 `;
 
 exports[`IDP Button transformer tests should not add PIV IDP button when PIV does not exist in remediation but Identify does 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "Sign in",
         },
         "type": "Title",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "identifier",
           },
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "credentials.passcode",
           },
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "type": "submit",
         },
         "type": "Button",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "label": "Forgot Password",
         },
         "type": "Link",
@@ -272,49 +272,49 @@ Object {
 `;
 
 exports[`IDP Button transformer tests should not add PIV IDP button when PIV remediation exists but identify does not 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "Sign in",
         },
         "type": "Title",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "identifier",
           },
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "credentials.passcode",
           },
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "type": "submit",
         },
         "type": "Button",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "label": "Forgot Password",
         },
         "type": "Link",

@@ -573,7 +573,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                       <div
                         class="MuiBox-root emotion-13"
                         data-se="identifier-container"
-                        title="tester5@test.com"
+                        title="testUser@okta.com"
                       >
                         <div
                           class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-14"
@@ -606,7 +606,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                           <span
                             class="MuiChip-label MuiChip-labelMedium emotion-17"
                           >
-                            tester5@test.com
+                            testUser@okta.com
                           </span>
                         </div>
                       </div>
@@ -660,10 +660,25 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                       class="MuiBox-root emotion-12"
                     >
                       <div
+                        class="MuiBox-root emotion-19"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 emotion-23"
+                          data-se="o-form-explain"
+                          tabindex="-1"
+                        >
+                          Biometric verification or a PIN is required to setup this authenticator.
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <div
                         class="MuiBox-root emotion-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-29"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-32"
                           data-se="button"
                           tabindex="0"
                           type="button"
@@ -676,7 +691,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-31"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-34"
                         data-se="switchAuthenticator"
                         role="link"
                         type="button"
@@ -688,7 +703,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-31"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-34"
                         data-se="cancel"
                         role="link"
                         type="button"

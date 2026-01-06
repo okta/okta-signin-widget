@@ -1,38 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Enroll Profile Transformer Tests should add link to log in when select-identify step exists in remediation 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "credentials.passcode": Object {
+{
+  "data": {},
+  "dataSchema": {
+    "credentials.passcode": {
       "validate": [Function],
     },
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.registration.form.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.form.field.optional.description",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.firstName",
             "validate": true,
           },
@@ -40,9 +40,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.lastName",
             "validate": true,
           },
@@ -50,9 +50,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.email",
             "validate": true,
           },
@@ -60,29 +60,29 @@ Object {
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "oie.registration.form.submit",
-        "options": Object {
+        "options": {
           "step": "",
           "type": "submit",
         },
         "type": "Button",
       },
-      Object {
+      {
         "type": "Divider",
       },
-      Object {
-        "elements": Array [
-          Object {
-            "options": Object {
+      {
+        "elements": [
+          {
+            "options": {
               "content": "haveaccount",
               "dataSe": "haveaccount",
             },
             "type": "Description",
           },
-          Object {
+          {
             "contentType": "footer",
-            "options": Object {
+            "options": {
               "label": "signin",
               "step": "select-identify",
             },
@@ -98,38 +98,38 @@ Object {
 `;
 
 exports[`Enroll Profile Transformer Tests should add password requirements along with title, and submit button when passcode and password settings exists 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "credentials.passcode": Object {
+{
+  "data": {},
+  "dataSchema": {
+    "credentials.passcode": {
       "validate": [Function],
     },
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.registration.form.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.form.field.optional.description",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.firstName",
             "validate": true,
           },
@@ -137,9 +137,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.lastName",
             "validate": true,
           },
@@ -147,9 +147,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.email",
             "validate": true,
           },
@@ -157,48 +157,48 @@ Object {
         },
         "type": "Field",
       },
-      Object {
+      {
         "noMargin": true,
-        "options": Object {
+        "options": {
           "header": "password.complexity.requirements.header",
           "id": "password-authenticator--list",
-          "requirements": Array [
-            Object {
+          "requirements": [
+            {
               "label": "password.complexity.number.description",
               "ruleKey": "minNumber",
             },
-            Object {
+            {
               "label": "password.complexity.symbol.description",
               "ruleKey": "minSymbol",
             },
           ],
-          "settings": Object {
-            "complexity": Object {
+          "settings": {
+            "complexity": {
               "minNumber": 1,
               "minSymbol": 1,
             },
           },
-          "userInfo": Object {},
+          "userInfo": {},
           "validationDelayMs": 50,
         },
         "type": "PasswordRequirements",
       },
-      Object {
+      {
         "label": "Password",
-        "options": Object {
-          "attributes": Object {
+        "options": {
+          "attributes": {
             "autocomplete": "new-password",
           },
-          "inputMeta": Object {
+          "inputMeta": {
             "name": "credentials.passcode",
             "secret": true,
           },
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "oie.registration.form.submit",
-        "options": Object {
+        "options": {
           "step": "",
           "type": "submit",
         },
@@ -211,38 +211,38 @@ Object {
 `;
 
 exports[`Enroll Profile Transformer Tests should not add password requirements but should add title, password, and button elements when passcode exists but password settings are empty 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "credentials.passcode": Object {
+{
+  "data": {},
+  "dataSchema": {
+    "credentials.passcode": {
       "validate": [Function],
     },
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.registration.form.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.form.field.optional.description",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.firstName",
             "validate": true,
           },
@@ -250,9 +250,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.lastName",
             "validate": true,
           },
@@ -260,9 +260,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.email",
             "validate": true,
           },
@@ -270,22 +270,22 @@ Object {
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "Password",
-        "options": Object {
-          "attributes": Object {
+        "options": {
+          "attributes": {
             "autocomplete": "new-password",
           },
-          "inputMeta": Object {
+          "inputMeta": {
             "name": "credentials.passcode",
             "secret": true,
           },
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "oie.registration.form.submit",
-        "options": Object {
+        "options": {
           "step": "",
           "type": "submit",
         },
@@ -298,35 +298,35 @@ Object {
 `;
 
 exports[`Enroll Profile Transformer Tests should only add title and submit button when select-identify doesnt exist in available steps and passcode element doesnt exist in schema 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.registration.form.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.form.field.optional.description",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.firstName",
             "validate": true,
           },
@@ -334,9 +334,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.lastName",
             "validate": true,
           },
@@ -344,9 +344,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "userProfile.email",
             "validate": true,
           },
@@ -354,9 +354,9 @@ Object {
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "oie.registration.form.submit",
-        "options": Object {
+        "options": {
           "step": "",
           "type": "submit",
         },

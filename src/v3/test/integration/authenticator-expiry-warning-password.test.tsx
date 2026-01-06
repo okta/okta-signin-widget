@@ -55,7 +55,7 @@ describe('authenticator-expiry-warning-password', () => {
 
   it('should present field level error message of (failed) password requirements', async () => {
     const {
-      authClient, user, findByText, container, findByLabelText,
+      user, findByText, container, findByLabelText, getNewRequestCount,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Your password will expire in/);
@@ -76,7 +76,7 @@ describe('authenticator-expiry-warning-password', () => {
     const confirmPasswordEle = await findByLabelText(/Re-enter password/) as HTMLInputElement;
 
     expect(confirmPasswordEle).toHaveErrorMessage(/This field cannot be left blank$/);
-    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    expect(getNewRequestCount()).toBe(0);
     expect(container).toMatchSnapshot();
   });
 });

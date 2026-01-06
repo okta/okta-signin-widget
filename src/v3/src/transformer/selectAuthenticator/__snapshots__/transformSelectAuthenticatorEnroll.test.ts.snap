@@ -1,47 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elements when all elements have expired grace periods 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.select.authenticators.enroll.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.select.authenticators.enroll.subtitle",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "content": "oie.setup.required.now",
           "level": 2,
           "visualLevel": 6,
         },
         "type": "Heading",
       },
-      Object {
-        "options": Object {
-          "buttons": Array [
-            Object {
+      {
+        "options": {
+          "buttons": [
+            {
               "label": "Email",
-              "options": Object {
-                "actionParams": Object {
+              "options": {
+                "actionParams": {
                   "authenticator.id": "123abc",
                 },
                 "ariaLabel": "Select email.",
@@ -65,34 +65,34 @@ Object {
 `;
 
 exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elements when all elements have non-expired grace periods 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.select.authenticators.enroll.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.select.authenticators.enroll.subtitle",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "content": "oie.setup.required.soon",
           "dataSe": "authenticator-list-title",
           "level": 2,
@@ -100,20 +100,20 @@ Object {
         },
         "type": "Heading",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.setup.required.soon.description",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "buttons": Array [
-            Object {
+      {
+        "options": {
+          "buttons": [
+            {
               "label": "Email",
-              "options": Object {
-                "actionParams": Object {
+              "options": {
+                "actionParams": {
                   "authenticator.id": "123abc",
                 },
                 "ariaLabel": "Select email.",
@@ -130,9 +130,9 @@ Object {
         },
         "type": "AuthenticatorButtonList",
       },
-      Object {
+      {
         "label": "oie.setup.remind.me.later",
-        "options": Object {
+        "options": {
           "step": "skip",
           "type": "submit",
         },
@@ -145,34 +145,34 @@ Object {
 `;
 
 exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elements when mix of expired grace period and non-expired grace periods 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.select.authenticators.enroll.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.select.authenticators.enroll.subtitle",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "content": "oie.setup.required.now",
           "dataSe": "authenticator-list-title",
           "level": 2,
@@ -180,13 +180,13 @@ Object {
         },
         "type": "Heading",
       },
-      Object {
-        "options": Object {
-          "buttons": Array [
-            Object {
+      {
+        "options": {
+          "buttons": [
+            {
               "label": "Email",
-              "options": Object {
-                "actionParams": Object {
+              "options": {
+                "actionParams": {
                   "authenticator.id": "123abc",
                 },
                 "ariaLabel": "Select email.",
@@ -203,8 +203,8 @@ Object {
         },
         "type": "AuthenticatorButtonList",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "content": "oie.setup.required.soon",
           "dataSe": "authenticator-list-title",
           "level": 2,
@@ -212,20 +212,20 @@ Object {
         },
         "type": "Heading",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.setup.required.soon.description",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "buttons": Array [
-            Object {
+      {
+        "options": {
+          "buttons": [
+            {
               "label": "Email",
-              "options": Object {
-                "actionParams": Object {
+              "options": {
+                "actionParams": {
                   "authenticator.id": "123abc",
                 },
                 "ariaLabel": "Select email.",
@@ -249,47 +249,47 @@ Object {
 `;
 
 exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elements when step is not skippable 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.select.authenticators.enroll.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.select.authenticators.enroll.subtitle",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "content": "oie.setup.required.now",
           "level": 2,
           "visualLevel": 6,
         },
         "type": "Heading",
       },
-      Object {
-        "options": Object {
-          "buttons": Array [
-            Object {
+      {
+        "options": {
+          "buttons": [
+            {
               "label": "Email",
-              "options": Object {
-                "actionParams": Object {
+              "options": {
+                "actionParams": {
                   "authenticator.id": "123abc",
                 },
                 "ariaLabel": "Select email.",
@@ -313,47 +313,47 @@ Object {
 `;
 
 exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elements when step is skippable 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.select.authenticators.enroll.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.select.authenticators.enroll.subtitle",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "content": "oie.setup.optional.short",
           "level": 2,
           "visualLevel": 6,
         },
         "type": "Heading",
       },
-      Object {
-        "options": Object {
-          "buttons": Array [
-            Object {
+      {
+        "options": {
+          "buttons": [
+            {
               "label": "Email",
-              "options": Object {
-                "actionParams": Object {
+              "options": {
+                "actionParams": {
                   "authenticator.id": "123abc",
                 },
                 "ariaLabel": "Select email.",
@@ -370,9 +370,9 @@ Object {
         },
         "type": "AuthenticatorButtonList",
       },
-      Object {
+      {
         "label": "oie.optional.authenticator.button.title",
-        "options": Object {
+        "options": {
           "step": "skip",
           "type": "submit",
         },
@@ -385,47 +385,47 @@ Object {
 `;
 
 exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elements when step is skippable and brandName is provided 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.select.authenticators.enroll.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.select.authenticators.enroll.subtitle.custom",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "content": "oie.setup.optional.short",
           "level": 2,
           "visualLevel": 6,
         },
         "type": "Heading",
       },
-      Object {
-        "options": Object {
-          "buttons": Array [
-            Object {
+      {
+        "options": {
+          "buttons": [
+            {
               "label": "Email",
-              "options": Object {
-                "actionParams": Object {
+              "options": {
+                "actionParams": {
                   "authenticator.id": "123abc",
                 },
                 "ariaLabel": "Select email.",
@@ -442,9 +442,9 @@ Object {
         },
         "type": "AuthenticatorButtonList",
       },
-      Object {
+      {
         "label": "oie.optional.authenticator.button.title",
-        "options": Object {
+        "options": {
           "step": "skip",
           "type": "submit",
         },
@@ -457,47 +457,47 @@ Object {
 `;
 
 exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elemtns when no elements have grace periods 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.select.authenticators.enroll.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.select.authenticators.enroll.subtitle",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "content": "oie.setup.required.now",
           "level": 2,
           "visualLevel": 6,
         },
         "type": "Heading",
       },
-      Object {
-        "options": Object {
-          "buttons": Array [
-            Object {
+      {
+        "options": {
+          "buttons": [
+            {
               "label": "Email",
-              "options": Object {
-                "actionParams": Object {
+              "options": {
+                "actionParams": {
                   "authenticator.id": "123abc",
                 },
                 "ariaLabel": "Select email.",
@@ -521,47 +521,47 @@ Object {
 `;
 
 exports[`Enroll Authenticator Selector Transformer Tests should treat authenticator elements as due now when badly formatted dates 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.select.authenticators.enroll.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.select.authenticators.enroll.subtitle",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "content": "oie.setup.required.now",
           "level": 2,
           "visualLevel": 6,
         },
         "type": "Heading",
       },
-      Object {
-        "options": Object {
-          "buttons": Array [
-            Object {
+      {
+        "options": {
+          "buttons": [
+            {
               "label": "Email",
-              "options": Object {
-                "actionParams": Object {
+              "options": {
+                "actionParams": {
                   "authenticator.id": "123abc",
                 },
                 "ariaLabel": "Select email.",

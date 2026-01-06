@@ -1,28 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Email Authenticator Verify Transformer Tests Email Magic Link = false should create email challenge UI elements when profile email is NOT available 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.email.mfa.title",
         },
         "type": "Title",
       },
-      Object {
-        "options": Object {
-          "actionParams": Object {
+      {
+        "options": {
+          "actionParams": {
             "resend": true,
           },
           "buttonText": "email.button.resend",
@@ -32,25 +32,25 @@ Object {
         },
         "type": "Reminder",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.verificationCode.instructions",
         },
         "type": "Description",
       },
-      Object {
+      {
         "focus": true,
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "name": "credentials.passcode",
           },
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "mfa.challenge.verify",
-        "options": Object {
+        "options": {
           "step": "mock-step",
           "type": "submit",
         },
@@ -63,44 +63,44 @@ Object {
 `;
 
 exports[`Email Authenticator Verify Transformer Tests Email Magic Link = false should create email challenge UI elements when resend code is NOT available 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.email.mfa.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.verificationCode.instructions",
         },
         "type": "Description",
       },
-      Object {
+      {
         "focus": true,
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "name": "credentials.passcode",
           },
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "mfa.challenge.verify",
-        "options": Object {
+        "options": {
           "step": "mock-step",
           "type": "submit",
         },
@@ -113,28 +113,28 @@ Object {
 `;
 
 exports[`Email Authenticator Verify Transformer Tests Email Magic Link = false should create email challenge UI elements when resend code is available 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.email.mfa.title",
         },
         "type": "Title",
       },
-      Object {
-        "options": Object {
-          "actionParams": Object {
+      {
+        "options": {
+          "actionParams": {
             "resend": true,
           },
           "buttonText": "email.button.resend",
@@ -144,25 +144,25 @@ Object {
         },
         "type": "Reminder",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.verificationCode.instructions",
         },
         "type": "Description",
       },
-      Object {
+      {
         "focus": true,
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "name": "credentials.passcode",
           },
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "mfa.challenge.verify",
-        "options": Object {
+        "options": {
           "step": "",
           "type": "submit",
         },
@@ -175,33 +175,33 @@ Object {
 `;
 
 exports[`Email Authenticator Verify Transformer Tests Email Magic Link = true should create email challenge UI elements when profile email is NOT available 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "buttonText": "email.button.resend",
@@ -212,17 +212,17 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oie.email.verify.alternate.show.verificationCode.text",
-                "options": Object {
+                "options": {
                   "nextStepIndex": 1,
                   "type": "button",
                   "variant": "secondary",
@@ -233,18 +233,18 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "buttonText": "email.button.resend",
@@ -255,27 +255,27 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "focus": true,
-                "options": Object {
-                  "inputMeta": Object {
+                "options": {
+                  "inputMeta": {
                     "name": "credentials.passcode",
                   },
                 },
                 "type": "Field",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "label": "mfa.challenge.verify",
-                "options": Object {
+                "options": {
                   "step": "mock-step",
                   "type": "submit",
                 },
@@ -295,41 +295,41 @@ Object {
 `;
 
 exports[`Email Authenticator Verify Transformer Tests Email Magic Link = true should create email challenge UI elements when resend code is NOT available 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oie.email.verify.alternate.show.verificationCode.text",
-                "options": Object {
+                "options": {
                   "nextStepIndex": 1,
                   "type": "button",
                   "variant": "secondary",
@@ -340,36 +340,36 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "focus": true,
-                "options": Object {
-                  "inputMeta": Object {
+                "options": {
+                  "inputMeta": {
                     "name": "credentials.passcode",
                   },
                 },
                 "type": "Field",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "label": "mfa.challenge.verify",
-                "options": Object {
+                "options": {
                   "step": "mock-step",
                   "type": "submit",
                 },
@@ -389,33 +389,33 @@ Object {
 `;
 
 exports[`Email Authenticator Verify Transformer Tests Email Magic Link = true should create email challenge UI elements when resend code is available 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "buttonText": "email.button.resend",
@@ -426,17 +426,17 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oie.email.verify.alternate.show.verificationCode.text",
-                "options": Object {
+                "options": {
                   "nextStepIndex": 1,
                   "type": "button",
                   "variant": "secondary",
@@ -447,18 +447,18 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "buttonText": "email.button.resend",
@@ -469,27 +469,27 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "focus": true,
-                "options": Object {
-                  "inputMeta": Object {
+                "options": {
+                  "inputMeta": {
                     "name": "credentials.passcode",
                   },
                 },
                 "type": "Field",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "label": "mfa.challenge.verify",
-                "options": Object {
+                "options": {
                   "step": "",
                   "type": "submit",
                 },
@@ -509,33 +509,33 @@ Object {
 `;
 
 exports[`Email Authenticator Verify Transformer Tests Email Magic Link = undefined should create email challenge UI elements when profile email is NOT available 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "buttonText": "email.button.resend",
@@ -546,17 +546,17 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oie.email.verify.alternate.show.verificationCode.text",
-                "options": Object {
+                "options": {
                   "nextStepIndex": 1,
                   "type": "button",
                   "variant": "secondary",
@@ -567,18 +567,18 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "buttonText": "email.button.resend",
@@ -589,27 +589,27 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "focus": true,
-                "options": Object {
-                  "inputMeta": Object {
+                "options": {
+                  "inputMeta": {
                     "name": "credentials.passcode",
                   },
                 },
                 "type": "Field",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "label": "mfa.challenge.verify",
-                "options": Object {
+                "options": {
                   "step": "mock-step",
                   "type": "submit",
                 },
@@ -629,41 +629,41 @@ Object {
 `;
 
 exports[`Email Authenticator Verify Transformer Tests Email Magic Link = undefined should create email challenge UI elements when resend code is NOT available 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oie.email.verify.alternate.show.verificationCode.text",
-                "options": Object {
+                "options": {
                   "nextStepIndex": 1,
                   "type": "button",
                   "variant": "secondary",
@@ -674,36 +674,36 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "focus": true,
-                "options": Object {
-                  "inputMeta": Object {
+                "options": {
+                  "inputMeta": {
                     "name": "credentials.passcode",
                   },
                 },
                 "type": "Field",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "label": "mfa.challenge.verify",
-                "options": Object {
+                "options": {
                   "step": "mock-step",
                   "type": "submit",
                 },
@@ -723,33 +723,33 @@ Object {
 `;
 
 exports[`Email Authenticator Verify Transformer Tests Email Magic Link = undefined should create email challenge UI elements when resend code is available 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "buttonText": "email.button.resend",
@@ -760,17 +760,17 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "oie.email.verify.alternate.show.verificationCode.text",
-                "options": Object {
+                "options": {
                   "nextStepIndex": 1,
                   "type": "button",
                   "variant": "secondary",
@@ -781,18 +781,18 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "buttonText": "email.button.resend",
@@ -803,27 +803,27 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "focus": true,
-                "options": Object {
-                  "inputMeta": Object {
+                "options": {
+                  "inputMeta": {
                     "name": "credentials.passcode",
                   },
                 },
                 "type": "Field",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "label": "mfa.challenge.verify",
-                "options": Object {
+                "options": {
                   "step": "",
                   "type": "submit",
                 },

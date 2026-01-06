@@ -102,12 +102,14 @@ export const createAuthClient = (options: CreateAuthClientOptions): {
               // eslint-disable-next-line prefer-promise-reject-errors
               return Promise.reject({
                 responseText: JSON.stringify(data),
+                responseJSON: data,
                 status,
-                headers: {},
+                headers: { 'content-type': 'application/ion+json; okta-version=1.0.0' },
               });
             }
             return Promise.resolve({
               responseText: JSON.stringify(data),
+              headers: { 'content-type': 'application/ion+json; okta-version=1.0.0' },
             });
           }
         }

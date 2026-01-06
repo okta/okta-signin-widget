@@ -1,28 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Granular Consent field transformer tests should update translations array with label and description for granular consent field elements 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "Allowing access will share",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "desc": "This is a custom description for the custom field.",
             "label": "Custom 1 label",
             "mutable": true,
@@ -33,14 +33,14 @@ Object {
             "visible": true,
           },
         },
-        "translations": Array [
-          Object {
+        "translations": [
+          {
             "i18nKey": "",
             "name": "label",
             "noTranslate": true,
             "value": "Custom 1 label",
           },
-          Object {
+          {
             "i18nKey": "",
             "name": "description",
             "noTranslate": true,
@@ -49,9 +49,9 @@ Object {
         ],
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "label": "Custom 2 label",
             "mutable": true,
             "name": "optedScopes.custom.custom2",
@@ -61,8 +61,8 @@ Object {
             "visible": true,
           },
         },
-        "translations": Array [
-          Object {
+        "translations": [
+          {
             "i18nKey": "",
             "name": "label",
             "noTranslate": true,
@@ -71,9 +71,9 @@ Object {
         ],
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "mutable": false,
             "name": "optedScopes.openid",
             "required": true,
@@ -82,14 +82,14 @@ Object {
             "visible": true,
           },
         },
-        "translations": Array [
-          Object {
+        "translations": [
+          {
             "i18nKey": "",
             "name": "label",
             "noTranslate": true,
             "value": "openid",
           },
-          Object {
+          {
             "i18nKey": "consent.scopes.openid.desc",
             "name": "description",
             "noTranslate": true,
@@ -98,9 +98,9 @@ Object {
         ],
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "label": "Label for email field",
             "mutable": false,
             "name": "optedScopes.email",
@@ -110,14 +110,14 @@ Object {
             "visible": true,
           },
         },
-        "translations": Array [
-          Object {
+        "translations": [
+          {
             "i18nKey": "consent.scopes.email.label",
             "name": "label",
             "noTranslate": false,
             "value": "consent.scopes.email.label",
           },
-          Object {
+          {
             "i18nKey": "consent.scopes.email.desc",
             "name": "description",
             "noTranslate": false,
@@ -126,28 +126,28 @@ Object {
         ],
         "type": "Field",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "label": "Terms of Service",
         },
         "type": "Link",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "label": "Privacy Policy",
         },
         "type": "Link",
       },
-      Object {
+      {
         "label": "Allow access",
-        "options": Object {
+        "options": {
           "type": "button",
         },
         "type": "Button",
       },
-      Object {
+      {
         "label": "Cancel",
-        "options": Object {
+        "options": {
           "type": "button",
         },
         "type": "Button",

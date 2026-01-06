@@ -1,21 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Unhandled Error Transformer Tests When AuthApiError is returned should add Infobox with unexpected error message when error is not provided 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": Object {
+          "message": {
             "class": "ERROR",
-            "i18n": Object {
+            "i18n": {
               "key": "oform.error.unexpected",
             },
             "message": "oform.error.unexpected",
@@ -30,19 +30,19 @@ Object {
 `;
 
 exports[`Unhandled Error Transformer Tests When AuthApiError is returned should add infobox with custom message from server 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": Object {
+          "message": {
             "class": "ERROR",
             "message": "Custom error message",
           },
@@ -56,21 +56,21 @@ Object {
 `;
 
 exports[`Unhandled Error Transformer Tests When OAuthError is returned should add Infobox with unexpected error message when error is not provided 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": Object {
+          "message": {
             "class": "ERROR",
-            "i18n": Object {
+            "i18n": {
               "key": "oform.error.unexpected",
             },
             "message": "oform.error.unexpected",
@@ -85,21 +85,21 @@ Object {
 `;
 
 exports[`Unhandled Error Transformer Tests When OAuthError is returned should add info box when oie configuration error 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": Object {
+          "message": {
             "class": "ERROR",
-            "i18n": Object {
+            "i18n": {
               "key": "oie.configuration.error",
             },
             "message": "oie.configuration.error",
@@ -114,21 +114,21 @@ Object {
 `;
 
 exports[`Unhandled Error Transformer Tests When OAuthError is returned should add info box when oie is not enabled error 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": Object {
+          "message": {
             "class": "ERROR",
-            "i18n": Object {
+            "i18n": {
               "key": "oie.feature.disabled",
             },
             "message": "oie.feature.disabled",
@@ -143,21 +143,21 @@ Object {
 `;
 
 exports[`Unhandled Error Transformer Tests When OAuthError is returned should add info box when response is invalid activation token error 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": Object {
+          "message": {
             "class": "ERROR",
-            "i18n": Object {
+            "i18n": {
               "key": "idx.missing.activation.token",
             },
             "message": "idx.missing.activation.token",
@@ -173,21 +173,21 @@ Object {
 `;
 
 exports[`Unhandled Error Transformer Tests When OAuthError is returned should add info box when response is invalid recovery token error 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
+{
+  "data": {},
+  "dataSchema": {
+    "fieldsToValidate": [],
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": Object {
+          "message": {
             "class": "ERROR",
-            "i18n": Object {
+            "i18n": {
               "key": "oie.invalid.recovery.token",
             },
             "message": "oie.invalid.recovery.token",

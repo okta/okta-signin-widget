@@ -12,7 +12,7 @@
 
 /* eslint-disable import/no-extraneous-dependencies */
 const { TextEncoder } = require('util');
-const JsDomEnvironment = require('jest-environment-jsdom');
+const JsDomEnvironment = require('jest-environment-jsdom').default;
 
 /**
  * A custom environment that extends jsdom with polyfills we need to run tests

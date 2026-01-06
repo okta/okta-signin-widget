@@ -1,27 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Duo Authenticator Transformer Tests should add correct title and DuoWindow in enroll flow 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.duo.enroll.title",
         },
         "type": "Title",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "host": "testhost",
           "signedToken": "testSignedToken",
           "step": "enroll-authenticator",
@@ -36,27 +36,27 @@ Object {
 `;
 
 exports[`Duo Authenticator Transformer Tests should add correct title and DuoWindow in verify flow 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.duo.verify.title",
         },
         "type": "Title",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "host": "testhost",
           "signedToken": "testSignedToken",
           "step": "challenge-authenticator",

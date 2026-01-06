@@ -79,7 +79,7 @@ describe('enroll-profile-new-additional-fields', () => {
 
   it('fails client side validation with empty required fields', async () => {
     const {
-      authClient, container, user, findByLabelText, findByRole,
+      container, user, findByLabelText, findByRole, getNewRequestCount,
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     const submitButton = await findByRole('button', { name: 'Sign Up' });
@@ -92,7 +92,7 @@ describe('enroll-profile-new-additional-fields', () => {
     expect(lastNameEle).toHaveErrorMessage(/This field cannot be left blank/);
     expect(emailEle).toHaveErrorMessage(/This field cannot be left blank/);
 
-    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    expect(getNewRequestCount()).toBe(0);
     expect(container).toMatchSnapshot();
   });
 });

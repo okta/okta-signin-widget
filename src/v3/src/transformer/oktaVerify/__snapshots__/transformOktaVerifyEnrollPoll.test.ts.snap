@@ -1,34 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TransformOktaVerifyEnrollPoll Tests Setup OV button should use APP_LINK challenge method when selectedChannel is samedevice and platform is android 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [],
+                "options": {
+                  "items": [],
                   "type": "ol",
                 },
                 "type": "List",
@@ -37,25 +37,25 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.email.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.switch.channel.link.text",
                   "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
@@ -67,25 +67,25 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 2,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.sms.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 2,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.switch.channel.link.text",
                   "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
@@ -97,36 +97,36 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "contentType": "subtitle",
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [],
+                "options": {
+                  "items": [],
                   "type": "ol",
                 },
                 "type": "List",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.canBeClosed",
                 },
                 "type": "Description",
@@ -135,36 +135,36 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "contentType": "subtitle",
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [],
+                "options": {
+                  "items": [],
                   "type": "ol",
                 },
                 "type": "List",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.canBeClosed",
                 },
                 "type": "Description",
@@ -173,25 +173,25 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 5,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.customUri.makeSureHaveOVToContinue",
                 },
                 "type": "Description",
                 "viewIndex": 5,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "alignment": "center",
                   "altText": "enroll.oda.step3",
                   "dataSe": "app-store-link",
@@ -202,15 +202,15 @@ Object {
                 "type": "ImageLink",
                 "viewIndex": 5,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.customUri.setup",
                 },
                 "type": "Description",
                 "viewIndex": 5,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "challengeMethod": "APP_LINK",
                   "href": "www.testSetupUrl.com",
                   "i18nKey": "oie.enroll.okta_verify.setup.title",
@@ -224,7 +224,7 @@ Object {
           },
         ],
         "key": "stepper_sameDeviceOVEnrollment",
-        "options": Object {
+        "options": {
           "defaultStepIndex": [Function],
         },
         "type": "Stepper",
@@ -236,39 +236,39 @@ Object {
 `;
 
 exports[`TransformOktaVerifyEnrollPoll Tests should add Stepper elements when selectedChannel is devicebootstrap 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [
-                    Object {
-                      "elements": Array [
-                        Object {
+                "options": {
+                  "items": [
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.skipAuth.openOv.suchAs",
                           },
                           "type": "Description",
@@ -276,11 +276,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.skipAuth.selectAccount",
                           },
                           "type": "Description",
@@ -288,11 +288,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.skipAuth.addAccount",
                           },
                           "type": "Description",
@@ -300,11 +300,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.skipAuth.followInstruction",
                           },
                           "type": "Description",
@@ -321,25 +321,25 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.email.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.switch.channel.link.text",
                   "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
@@ -351,25 +351,25 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 2,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.sms.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 2,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.switch.channel.link.text",
                   "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
@@ -381,33 +381,33 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "contentType": "subtitle",
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [
-                    Object {
-                      "elements": Array [
-                        Object {
+                "options": {
+                  "items": [
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.skipAuth.openOv.suchAs",
                           },
                           "type": "Description",
@@ -415,11 +415,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.skipAuth.selectAccount",
                           },
                           "type": "Description",
@@ -427,11 +427,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.skipAuth.addAccount",
                           },
                           "type": "Description",
@@ -439,11 +439,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.skipAuth.followInstruction",
                           },
                           "type": "Description",
@@ -457,9 +457,9 @@ Object {
                 "type": "List",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.canBeClosed",
                 },
                 "type": "Description",
@@ -468,33 +468,33 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "contentType": "subtitle",
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [
-                    Object {
-                      "elements": Array [
-                        Object {
+                "options": {
+                  "items": [
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.skipAuth.openOv.suchAs",
                           },
                           "type": "Description",
@@ -502,11 +502,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.skipAuth.selectAccount",
                           },
                           "type": "Description",
@@ -514,11 +514,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.skipAuth.addAccount",
                           },
                           "type": "Description",
@@ -526,11 +526,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.skipAuth.followInstruction",
                           },
                           "type": "Description",
@@ -544,9 +544,9 @@ Object {
                 "type": "List",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.canBeClosed",
                 },
                 "type": "Description",
@@ -555,10 +555,10 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
@@ -569,7 +569,7 @@ Object {
           },
         ],
         "key": "stepper_devicebootstrap",
-        "options": Object {
+        "options": {
           "defaultStepIndex": [Function],
         },
         "type": "Stepper",
@@ -581,34 +581,34 @@ Object {
 `;
 
 exports[`TransformOktaVerifyEnrollPoll Tests should add Stepper elements when selectedChannel is qrcode and canResend = true 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [
+                "options": {
+                  "items": [
                     "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
                     "oie.enroll.okta_verify.qrcode.step3.updated",
@@ -618,16 +618,16 @@ Object {
                 "type": "List",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "data": "#mockQrCode",
                 },
                 "type": "QRCode",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "enroll.totp.cannotScan",
-                "options": Object {
+                "options": {
                   "ariaLabel": "enroll.totp.aria.cannotScan",
                   "step": "select-enrollment-channel",
                   "stepToRender": "select-enrollment-channel",
@@ -640,25 +640,25 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.email.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.switch.channel.link.text",
                   "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
@@ -670,25 +670,25 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 2,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.sms.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 2,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.switch.channel.link.text",
                   "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
@@ -700,28 +700,28 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "contentType": "subtitle",
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [
+                "options": {
+                  "items": [
                     "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
                     "oie.enroll.okta_verify.qrcode.step3.updated",
@@ -731,9 +731,9 @@ Object {
                 "type": "List",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.canBeClosed",
                 },
                 "type": "Description",
@@ -742,28 +742,28 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "contentType": "subtitle",
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [
+                "options": {
+                  "items": [
                     "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
                     "oie.enroll.okta_verify.qrcode.step3.updated",
@@ -773,9 +773,9 @@ Object {
                 "type": "List",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.canBeClosed",
                 },
                 "type": "Description",
@@ -784,10 +784,10 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
@@ -798,7 +798,7 @@ Object {
           },
         ],
         "key": "stepper_qrcode",
-        "options": Object {
+        "options": {
           "defaultStepIndex": [Function],
         },
         "type": "Stepper",
@@ -810,39 +810,39 @@ Object {
 `;
 
 exports[`TransformOktaVerifyEnrollPoll Tests should add Stepper elements when selectedChannel is samedevice 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [
-                    Object {
-                      "elements": Array [
-                        Object {
+                "options": {
+                  "items": [
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "enroll.oda.without.account.step1",
                           },
                           "type": "Description",
@@ -850,11 +850,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.openOv",
                           },
                           "type": "Description",
@@ -862,25 +862,25 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.signInUrl",
                           },
                           "type": "Description",
                         },
-                        Object {
+                        {
                           "noMargin": true,
-                          "options": Object {
-                            "content": "<span class=\\"strong no-translate\\">okta.okta.com</span>",
+                          "options": {
+                            "content": "<span class="strong no-translate">okta.okta.com</span>",
                           },
                           "type": "Description",
                         },
-                        Object {
+                        {
                           "label": "enroll.oda.org.copyLink",
-                          "options": Object {
+                          "options": {
                             "onClick": [Function],
                             "step": "",
                             "type": "button",
@@ -891,11 +891,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.skipAuth.followInstruction",
                           },
                           "type": "Description",
@@ -912,25 +912,25 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.email.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.switch.channel.link.text",
                   "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
@@ -942,25 +942,25 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 2,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.sms.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 2,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.switch.channel.link.text",
                   "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
@@ -972,33 +972,33 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "contentType": "subtitle",
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [
-                    Object {
-                      "elements": Array [
-                        Object {
+                "options": {
+                  "items": [
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "enroll.oda.without.account.step1",
                           },
                           "type": "Description",
@@ -1006,11 +1006,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.openOv",
                           },
                           "type": "Description",
@@ -1018,25 +1018,25 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.signInUrl",
                           },
                           "type": "Description",
                         },
-                        Object {
+                        {
                           "noMargin": true,
-                          "options": Object {
-                            "content": "<span class=\\"strong no-translate\\">okta.okta.com</span>",
+                          "options": {
+                            "content": "<span class="strong no-translate">okta.okta.com</span>",
                           },
                           "type": "Description",
                         },
-                        Object {
+                        {
                           "label": "enroll.oda.org.copyLink",
-                          "options": Object {
+                          "options": {
                             "onClick": [Function],
                             "step": "",
                             "type": "button",
@@ -1047,11 +1047,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.skipAuth.followInstruction",
                           },
                           "type": "Description",
@@ -1065,9 +1065,9 @@ Object {
                 "type": "List",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.canBeClosed",
                 },
                 "type": "Description",
@@ -1076,33 +1076,33 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "contentType": "subtitle",
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [
-                    Object {
-                      "elements": Array [
-                        Object {
+                "options": {
+                  "items": [
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "enroll.oda.without.account.step1",
                           },
                           "type": "Description",
@@ -1110,11 +1110,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.openOv",
                           },
                           "type": "Description",
@@ -1122,25 +1122,25 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.signInUrl",
                           },
                           "type": "Description",
                         },
-                        Object {
+                        {
                           "noMargin": true,
-                          "options": Object {
-                            "content": "<span class=\\"strong no-translate\\">okta.okta.com</span>",
+                          "options": {
+                            "content": "<span class="strong no-translate">okta.okta.com</span>",
                           },
                           "type": "Description",
                         },
-                        Object {
+                        {
                           "label": "enroll.oda.org.copyLink",
-                          "options": Object {
+                          "options": {
                             "onClick": [Function],
                             "step": "",
                             "type": "button",
@@ -1151,11 +1151,11 @@ Object {
                       ],
                       "type": "VerticalLayout",
                     },
-                    Object {
-                      "elements": Array [
-                        Object {
+                    {
+                      "elements": [
+                        {
                           "noMargin": true,
-                          "options": Object {
+                          "options": {
                             "content": "oie.enroll.okta_verify.setup.skipAuth.followInstruction",
                           },
                           "type": "Description",
@@ -1169,9 +1169,9 @@ Object {
                 "type": "List",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.canBeClosed",
                 },
                 "type": "Description",
@@ -1180,10 +1180,10 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
@@ -1194,7 +1194,7 @@ Object {
           },
         ],
         "key": "stepper_samedevice",
-        "options": Object {
+        "options": {
           "defaultStepIndex": [Function],
         },
         "type": "Stepper",
@@ -1206,33 +1206,33 @@ Object {
 `;
 
 exports[`TransformOktaVerifyEnrollPoll Tests should return a channel selection formBag when email is selected channel and canResend = true 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.email.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "content": "oie.enroll.okta_verify.email.notReceived",
@@ -1244,10 +1244,10 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [
+                "options": {
+                  "items": [
                     "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
                     "oie.enroll.okta_verify.qrcode.step3.updated",
@@ -1257,16 +1257,16 @@ Object {
                 "type": "List",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "data": "#mockQrCode",
                 },
                 "type": "QRCode",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "enroll.totp.cannotScan",
-                "options": Object {
+                "options": {
                   "ariaLabel": "enroll.totp.aria.cannotScan",
                   "step": "select-enrollment-channel",
                   "stepToRender": "select-enrollment-channel",
@@ -1279,18 +1279,18 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.email.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "content": "oie.enroll.okta_verify.email.notReceived",
@@ -1302,16 +1302,16 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.email.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.switch.channel.link.text",
                   "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
@@ -1323,18 +1323,18 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.email.title",
                 },
                 "type": "Title",
                 "viewIndex": 2,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "content": "oie.enroll.okta_verify.email.notReceived",
@@ -1346,16 +1346,16 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 2,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.sms.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 2,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.switch.channel.link.text",
                   "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
@@ -1367,18 +1367,18 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.email.title",
                 },
                 "type": "Title",
                 "viewIndex": 3,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "content": "oie.enroll.okta_verify.email.notReceived",
@@ -1390,19 +1390,19 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "contentType": "subtitle",
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [
+                "options": {
+                  "items": [
                     "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
                     "oie.enroll.okta_verify.qrcode.step3.updated",
@@ -1412,9 +1412,9 @@ Object {
                 "type": "List",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.canBeClosed",
                 },
                 "type": "Description",
@@ -1423,18 +1423,18 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.email.title",
                 },
                 "type": "Title",
                 "viewIndex": 4,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "content": "oie.enroll.okta_verify.email.notReceived",
@@ -1446,19 +1446,19 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "contentType": "subtitle",
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [
+                "options": {
+                  "items": [
                     "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
                     "oie.enroll.okta_verify.qrcode.step3.updated",
@@ -1468,9 +1468,9 @@ Object {
                 "type": "List",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.canBeClosed",
                 },
                 "type": "Description",
@@ -1479,10 +1479,10 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.email.title",
                 },
                 "type": "Title",
@@ -1493,7 +1493,7 @@ Object {
           },
         ],
         "key": "stepper_email",
-        "options": Object {
+        "options": {
           "defaultStepIndex": [Function],
         },
         "type": "Stepper",
@@ -1505,33 +1505,33 @@ Object {
 `;
 
 exports[`TransformOktaVerifyEnrollPoll Tests should return a channel selection formBag when sms is selected channel with canResend = true 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.sms.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "content": "oie.enroll.okta_verify.sms.notReceived",
@@ -1543,10 +1543,10 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [
+                "options": {
+                  "items": [
                     "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
                     "oie.enroll.okta_verify.qrcode.step3.updated",
@@ -1556,16 +1556,16 @@ Object {
                 "type": "List",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "data": "#mockQrCode",
                 },
                 "type": "QRCode",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "label": "enroll.totp.cannotScan",
-                "options": Object {
+                "options": {
                   "ariaLabel": "enroll.totp.aria.cannotScan",
                   "step": "select-enrollment-channel",
                   "stepToRender": "select-enrollment-channel",
@@ -1578,18 +1578,18 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.sms.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "content": "oie.enroll.okta_verify.sms.notReceived",
@@ -1601,16 +1601,16 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.email.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 1,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.switch.channel.link.text",
                   "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
@@ -1622,18 +1622,18 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.sms.title",
                 },
                 "type": "Title",
                 "viewIndex": 2,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "content": "oie.enroll.okta_verify.sms.notReceived",
@@ -1645,16 +1645,16 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 2,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.sms.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 2,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.switch.channel.link.text",
                   "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
@@ -1666,18 +1666,18 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.sms.title",
                 },
                 "type": "Title",
                 "viewIndex": 3,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "content": "oie.enroll.okta_verify.sms.notReceived",
@@ -1689,19 +1689,19 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "contentType": "subtitle",
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [
+                "options": {
+                  "items": [
                     "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
                     "oie.enroll.okta_verify.qrcode.step3.updated",
@@ -1711,9 +1711,9 @@ Object {
                 "type": "List",
                 "viewIndex": 3,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.canBeClosed",
                 },
                 "type": "Description",
@@ -1722,18 +1722,18 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.sms.title",
                 },
                 "type": "Title",
                 "viewIndex": 4,
               },
-              Object {
-                "options": Object {
-                  "actionParams": Object {
+              {
+                "options": {
+                  "actionParams": {
                     "resend": true,
                   },
                   "content": "oie.enroll.okta_verify.sms.notReceived",
@@ -1745,19 +1745,19 @@ Object {
                 "type": "Reminder",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "contentType": "subtitle",
                 "noMargin": true,
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.subtitle",
                 },
                 "type": "Description",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "noMargin": true,
-                "options": Object {
-                  "items": Array [
+                "options": {
+                  "items": [
                     "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
                     "oie.enroll.okta_verify.qrcode.step3.updated",
@@ -1767,9 +1767,9 @@ Object {
                 "type": "List",
                 "viewIndex": 4,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.skipAuth.canBeClosed",
                 },
                 "type": "Description",
@@ -1778,10 +1778,10 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "oie.enroll.okta_verify.setup.sms.title",
                 },
                 "type": "Title",
@@ -1792,7 +1792,7 @@ Object {
           },
         ],
         "key": "stepper_sms",
-        "options": Object {
+        "options": {
           "defaultStepIndex": [Function],
         },
         "type": "Stepper",

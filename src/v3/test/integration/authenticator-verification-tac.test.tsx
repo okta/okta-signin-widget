@@ -55,6 +55,7 @@ describe('authenticator-verification-custom-otp', () => {
     const {
       user, findByLabelText, findByRole, findByText,
     } = await setup({
+      mockResponse,
       mockResponses: {
         '/challenge/answer': {
           data: invalidTacMock,

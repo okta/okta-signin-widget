@@ -63,7 +63,7 @@ describe('enroll-profile-new', () => {
 
   it('fails client side validation with empty fields', async () => {
     const {
-      authClient, user, findByLabelText, findByText,
+      user, findByLabelText, findByText, getNewRequestCount,
     } = await setup({ mockResponse });
 
     const submitButton = await findByText('Sign Up', { selector: 'button' });
@@ -76,6 +76,7 @@ describe('enroll-profile-new', () => {
     expect(lastNameEle).toHaveErrorMessage(/This field cannot be left blank/);
     expect(emailEle).toHaveErrorMessage(/This field cannot be left blank/);
 
-    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    // No new requests should be made after form validation fails
+    expect(getNewRequestCount()).toBe(0);
   });
 });

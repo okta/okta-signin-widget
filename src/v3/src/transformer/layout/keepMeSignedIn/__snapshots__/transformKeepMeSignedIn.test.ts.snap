@@ -1,36 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`transformKeepMeSignedIn Tests should create keep me signed in elements with valid response 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.kmsi.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.kmsi.subtitle",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "oie.kmsi.accept",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "keepMeSignedIn": true,
           },
           "dataSe": "stay-signed-in-btn",
@@ -41,10 +41,10 @@ Object {
         },
         "type": "Button",
       },
-      Object {
+      {
         "label": "oie.kmsi.reject",
-        "options": Object {
-          "actionParams": Object {
+        "options": {
+          "actionParams": {
             "keepMeSignedIn": false,
           },
           "dataSe": "do-not-stay-signed-in-btn",

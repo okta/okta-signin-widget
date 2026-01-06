@@ -1,30 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Email Magic Link OTP Only Transformer Tests should add default instructions, otp and warning text when client, app, and intent data are missing from context 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.enter.otp.in.original.tab",
           "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
-      Object {
+      {
         "noTranslate": true,
-        "options": Object {
+        "options": {
           "content": "123456",
           "dataSe": "otp-value",
           "level": 2,
@@ -32,9 +32,9 @@ Object {
         },
         "type": "Heading",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.warning.text",
           "dataSe": "otp-warning",
         },
@@ -47,30 +47,30 @@ Object {
 `;
 
 exports[`Email Magic Link OTP Only Transformer Tests should add password reset instructions (with recovery intent), otp and warning text when client & app dataare missing from context 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.enter.code.on.password.reset.page",
           "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
-      Object {
+      {
         "noTranslate": true,
-        "options": Object {
+        "options": {
           "content": "123456",
           "dataSe": "otp-value",
           "level": 2,
@@ -78,9 +78,9 @@ Object {
         },
         "type": "Heading",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.warning.text",
           "dataSe": "otp-warning",
         },
@@ -93,30 +93,30 @@ Object {
 `;
 
 exports[`Email Magic Link OTP Only Transformer Tests should add sign up instructions (with enroll intent), otp and warning text when client & app data are missing from context 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.enter.code.on.sign.up.page",
           "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
-      Object {
+      {
         "noTranslate": true,
-        "options": Object {
+        "options": {
           "content": "123456",
           "dataSe": "otp-value",
           "level": 2,
@@ -124,9 +124,9 @@ Object {
         },
         "type": "Heading",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.warning.text",
           "dataSe": "otp-warning",
         },
@@ -139,30 +139,30 @@ Object {
 `;
 
 exports[`Email Magic Link OTP Only Transformer Tests should add sign-in instructions (with auth intent), otp and warning text when client & app data are missing from context 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.enter.code.on.sign.in.page",
           "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
-      Object {
+      {
         "noTranslate": true,
-        "options": Object {
+        "options": {
           "content": "123456",
           "dataSe": "otp-value",
           "level": 2,
@@ -170,9 +170,9 @@ Object {
         },
         "type": "Heading",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.warning.text",
           "dataSe": "otp-warning",
         },
@@ -185,30 +185,30 @@ Object {
 `;
 
 exports[`Email Magic Link OTP Only Transformer Tests should add sign-in instructions, otp, warning and app info only when client data is missing from context 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.enter.code.on.sign.in.page",
           "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
-      Object {
+      {
         "noTranslate": true,
-        "options": Object {
+        "options": {
           "content": "123456",
           "dataSe": "otp-value",
           "level": 2,
@@ -216,26 +216,26 @@ Object {
         },
         "type": "Heading",
       },
-      Object {
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.request",
           "dataSe": "otp-only-request-info",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "SVGIcon": [Function],
           "id": "app",
           "textContent": "idx.return.link.otponly.app",
         },
         "type": "ImageWithText",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.warning.text",
           "dataSe": "otp-warning",
         },
@@ -248,30 +248,30 @@ Object {
 `;
 
 exports[`Email Magic Link OTP Only Transformer Tests should add sign-in instructions, otp, warning, app info, and browser info and partial location when all data exists except for state in context 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.enter.code.on.sign.in.page",
           "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
-      Object {
+      {
         "noTranslate": true,
-        "options": Object {
+        "options": {
           "content": "123456",
           "dataSe": "otp-value",
           "level": 2,
@@ -279,42 +279,42 @@ Object {
         },
         "type": "Heading",
       },
-      Object {
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.request",
           "dataSe": "otp-only-request-info",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "SVGIcon": [Function],
           "id": "browser",
           "textContent": "idx.return.link.otponly.browser.on.os",
         },
         "type": "ImageWithText",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "SVGIcon": [Function],
           "id": "app",
           "textContent": "idx.return.link.otponly.app",
         },
         "type": "ImageWithText",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "SVGIcon": [Function],
           "id": "location",
           "textContent": "geolocation.formatting.partial",
         },
         "type": "ImageWithText",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.warning.text",
           "dataSe": "otp-warning",
         },
@@ -327,30 +327,30 @@ Object {
 `;
 
 exports[`Email Magic Link OTP Only Transformer Tests should add sign-in instructions, otp, warning, app info, and browser info when all data exists except for location in context 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.enter.code.on.sign.in.page",
           "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
-      Object {
+      {
         "noTranslate": true,
-        "options": Object {
+        "options": {
           "content": "123456",
           "dataSe": "otp-value",
           "level": 2,
@@ -358,34 +358,34 @@ Object {
         },
         "type": "Heading",
       },
-      Object {
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.request",
           "dataSe": "otp-only-request-info",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "SVGIcon": [Function],
           "id": "browser",
           "textContent": "idx.return.link.otponly.browser.on.os",
         },
         "type": "ImageWithText",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "SVGIcon": [Function],
           "id": "app",
           "textContent": "idx.return.link.otponly.app",
         },
         "type": "ImageWithText",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.warning.text",
           "dataSe": "otp-warning",
         },
@@ -398,30 +398,30 @@ Object {
 `;
 
 exports[`Email Magic Link OTP Only Transformer Tests should add sign-in instructions, otp, warning, app info, browser info, and location when all expected data exists in context 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.enter.code.on.sign.in.page",
           "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
-      Object {
+      {
         "noTranslate": true,
-        "options": Object {
+        "options": {
           "content": "123456",
           "dataSe": "otp-value",
           "level": 2,
@@ -429,42 +429,42 @@ Object {
         },
         "type": "Heading",
       },
-      Object {
+      {
         "contentType": "subtitle",
         "noMargin": true,
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.request",
           "dataSe": "otp-only-request-info",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "SVGIcon": [Function],
           "id": "browser",
           "textContent": "idx.return.link.otponly.browser.on.os",
         },
         "type": "ImageWithText",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "SVGIcon": [Function],
           "id": "app",
           "textContent": "idx.return.link.otponly.app",
         },
         "type": "ImageWithText",
       },
-      Object {
-        "options": Object {
+      {
+        "options": {
           "SVGIcon": [Function],
           "id": "location",
           "textContent": "geolocation.formatting.all",
         },
         "type": "ImageWithText",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.warning.text",
           "dataSe": "otp-warning",
         },
@@ -477,30 +477,30 @@ Object {
 `;
 
 exports[`Email Magic Link OTP Only Transformer Tests should add unlock acct instructions (with unlock intent), otp and warning text when client & app dataare missing from context 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.enter.code.on.account.unlock.page",
           "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
-      Object {
+      {
         "noTranslate": true,
-        "options": Object {
+        "options": {
           "content": "123456",
           "dataSe": "otp-value",
           "level": 2,
@@ -508,9 +508,9 @@ Object {
         },
         "type": "Heading",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "idx.return.link.otponly.warning.text",
           "dataSe": "otp-warning",
         },

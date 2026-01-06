@@ -21,7 +21,7 @@ describe('flow-enroll-profile-transition-clear-errors', () => {
       queryByText,
       findByText,
       findByRole,
-      authClient,
+      getNewRequestCount,
     } = await setup({
       mockResponses: {
         '/introspect': {
@@ -38,11 +38,7 @@ describe('flow-enroll-profile-transition-clear-errors', () => {
     const submitButton = await findByText('Sign Up', { selector: 'button' });
 
     await user.click(submitButton);
-    expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
-      'POST',
-      'http://localhost:3000/idp/idx/enroll/new',
-      expect.anything(),
-    );
+    expect(getNewRequestCount()).toBe(0);
     await findByText(/We found some errors./);
     const signinLink = await findByRole('link', { name: 'Sign In' });
     await user.click(signinLink);

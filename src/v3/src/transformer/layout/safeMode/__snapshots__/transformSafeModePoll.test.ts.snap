@@ -1,40 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Transform Safe Mode Poll Tests renders safe mode poll view 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "elements": Array [
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "elements": [
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "poll.form.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
               },
-              Object {
+              {
                 "contentType": "subtitle",
-                "options": Object {
+                "options": {
                   "content": "poll.form.message",
                 },
                 "type": "Description",
                 "viewIndex": 0,
               },
-              Object {
-                "options": Object {
+              {
+                "options": {
                   "callback": [Function],
                 },
                 "type": "StepperNavigator",
@@ -43,16 +43,16 @@ Object {
             ],
             "type": "VerticalLayout",
           },
-          Object {
-            "elements": Array [
-              Object {
-                "options": Object {
+          {
+            "elements": [
+              {
+                "options": {
                   "content": "poll.form.title",
                 },
                 "type": "Title",
                 "viewIndex": 1,
               },
-              Object {
+              {
                 "type": "Spinner",
                 "viewIndex": 1,
               },

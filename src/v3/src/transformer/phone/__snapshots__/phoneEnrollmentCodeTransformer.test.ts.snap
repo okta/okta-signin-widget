@@ -1,42 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PhoneEnrollmentCodeTransformer Tests should create phone code enrollment UI elements with sms as the first method type 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.phone.enroll.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.phone.verify.sms.codeSentText oie.phone.alternate.title. oie.phone.verify.enterCodeText",
         },
         "type": "Description",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.phone.carrier.charges",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "mfa.challenge.verify",
-        "options": Object {
+        "options": {
           "step": "",
           "type": "submit",
         },
@@ -49,42 +49,42 @@ Object {
 `;
 
 exports[`PhoneEnrollmentCodeTransformer Tests should create phone code enrollment UI elements with sms as the first method type and phoneNumber in profile 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.phone.enroll.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
-          "content": "oie.phone.verify.sms.codeSentText <span class=\\"strong no-translate\\">&lrm;1215XXXXXX8.</span> oie.phone.verify.enterCodeText",
+        "options": {
+          "content": "oie.phone.verify.sms.codeSentText <span class="strong no-translate">&lrm;1215XXXXXX8.</span> oie.phone.verify.enterCodeText",
         },
         "type": "Description",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.phone.carrier.charges",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "mfa.challenge.verify",
-        "options": Object {
+        "options": {
           "step": "",
           "type": "submit",
         },
@@ -97,42 +97,42 @@ Object {
 `;
 
 exports[`PhoneEnrollmentCodeTransformer Tests should create phone code enrollment UI elements with voice as the first method type 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.phone.enroll.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "mfa.calling oie.phone.alternate.title. oie.phone.verify.enterCodeText",
         },
         "type": "Description",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.phone.carrier.charges",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "mfa.challenge.verify",
-        "options": Object {
+        "options": {
           "step": "",
           "type": "submit",
         },
@@ -145,42 +145,42 @@ Object {
 `;
 
 exports[`PhoneEnrollmentCodeTransformer Tests should create phone code enrollment UI elements with voice as the first method type and phoneNumber in profile 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.phone.enroll.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
-          "content": "mfa.calling <span class=\\"strong no-translate\\">&lrm;1215XXXXXX8.</span> oie.phone.verify.enterCodeText",
+        "options": {
+          "content": "mfa.calling <span class="strong no-translate">&lrm;1215XXXXXX8.</span> oie.phone.verify.enterCodeText",
         },
         "type": "Description",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.phone.carrier.charges",
         },
         "type": "Description",
       },
-      Object {
+      {
         "label": "mfa.challenge.verify",
-        "options": Object {
+        "options": {
           "step": "",
           "type": "submit",
         },

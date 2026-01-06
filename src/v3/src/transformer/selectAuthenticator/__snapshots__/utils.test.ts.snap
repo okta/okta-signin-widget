@@ -1,29 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Select Authenticator Utility Tests getAuthenticatorEnrollButtonElements Tests Correctly displays options for grace periods 1`] = `
-Array [
-  Object {
+[
+  {
     "dir": undefined,
     "id": "auth_btn_okta_password_1234abc",
     "label": "Password",
     "noTranslate": false,
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.enrollmentId": undefined,
         "authenticator.id": "1234abc",
         "authenticator.methodType": undefined,
       },
       "ariaLabel": "oie.select.authenticator.enroll.password.label",
-      "authenticator": Object {
+      "authenticator": {
         "displayName": "Okta Password",
-        "gracePeriod": Object {
+        "gracePeriod": {
           "expiry": "2035-09-27 18:00:00.000.",
           "id": "gpe4hiasrPJX4zwZY123",
         },
         "id": "",
         "key": "okta_password",
-        "methods": Array [
-          Object {
+        "methods": [
+          {
             "type": "password",
           },
         ],
@@ -48,28 +48,28 @@ Array [
     },
     "type": "AuthenticatorButton",
   },
-  Object {
+  {
     "dir": undefined,
     "id": "auth_btn_okta_email_1235abc",
     "label": "Email",
     "noTranslate": false,
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.enrollmentId": undefined,
         "authenticator.id": "1235abc",
         "authenticator.methodType": undefined,
       },
       "ariaLabel": "oie.select.authenticator.enroll.email.label",
-      "authenticator": Object {
+      "authenticator": {
         "displayName": "Okta Email",
-        "gracePeriod": Object {
+        "gracePeriod": {
           "expiry": "2022-09-27 18:00:00.000.",
           "id": "gpe4hiasrPJX4zwZY123",
         },
         "id": "",
         "key": "okta_email",
-        "methods": Array [
-          Object {
+        "methods": [
+          {
             "type": "email",
           },
         ],
@@ -94,24 +94,24 @@ Array [
     },
     "type": "AuthenticatorButton",
   },
-  Object {
+  {
     "dir": undefined,
     "id": "auth_btn_phone_number_1235abc",
     "label": "Phone",
     "noTranslate": false,
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.enrollmentId": undefined,
         "authenticator.id": "1235abc",
         "authenticator.methodType": undefined,
       },
       "ariaLabel": "oie.select.authenticator.enroll.phone.label",
-      "authenticator": Object {
+      "authenticator": {
         "displayName": "Phone",
         "id": "",
         "key": "phone_number",
-        "methods": Array [
-          Object {
+        "methods": [
+          {
             "type": "phone",
           },
         ],
@@ -140,29 +140,29 @@ Array [
 `;
 
 exports[`Select Authenticator Utility Tests getAuthenticatorEnrollButtonElements Tests Does not display options when grace period date badly formatted 1`] = `
-Array [
-  Object {
+[
+  {
     "dir": undefined,
     "id": "auth_btn_okta_password_1234abc",
     "label": "Password",
     "noTranslate": false,
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.enrollmentId": undefined,
         "authenticator.id": "1234abc",
         "authenticator.methodType": undefined,
       },
       "ariaLabel": "oie.select.authenticator.enroll.password.label",
-      "authenticator": Object {
+      "authenticator": {
         "displayName": "Okta Password",
-        "gracePeriod": Object {
+        "gracePeriod": {
           "expiry": "BAD",
           "id": "gpe4hiasrPJX4zwZY123",
         },
         "id": "",
         "key": "okta_password",
-        "methods": Array [
-          Object {
+        "methods": [
+          {
             "type": "password",
           },
         ],
@@ -191,29 +191,29 @@ Array [
 `;
 
 exports[`Select Authenticator Utility Tests getAuthenticatorEnrollButtonElements Tests Does not display options when locale not supplied 1`] = `
-Array [
-  Object {
+[
+  {
     "dir": undefined,
     "id": "auth_btn_okta_password_1234abc",
     "label": "Password",
     "noTranslate": false,
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.enrollmentId": undefined,
         "authenticator.id": "1234abc",
         "authenticator.methodType": undefined,
       },
       "ariaLabel": "oie.select.authenticator.enroll.password.label",
-      "authenticator": Object {
+      "authenticator": {
         "displayName": "Okta Password",
-        "gracePeriod": Object {
+        "gracePeriod": {
           "expiry": "2035-09-27 18:00:00.000.",
           "id": "gpe4hiasrPJX4zwZY123",
         },
         "id": "",
         "key": "okta_password",
-        "methods": Array [
-          Object {
+        "methods": [
+          {
             "type": "password",
           },
         ],
@@ -242,25 +242,25 @@ Array [
 `;
 
 exports[`Select Authenticator Utility Tests getAuthenticatorEnrollButtonElements Tests should detect authenticator options for additional enroll 1`] = `
-Array [
-  Object {
+[
+  {
     "dir": undefined,
     "id": "auth_btn_okta_password_1234abc",
     "label": "Password",
     "noTranslate": false,
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.enrollmentId": undefined,
         "authenticator.id": "1234abc",
         "authenticator.methodType": undefined,
       },
       "ariaLabel": "oie.select.authenticator.enroll.password.label",
-      "authenticator": Object {
+      "authenticator": {
         "displayName": "Okta Password",
         "id": "",
         "key": "okta_password",
-        "methods": Array [
-          Object {
+        "methods": [
+          {
             "type": "password",
           },
         ],
@@ -285,24 +285,24 @@ Array [
     },
     "type": "AuthenticatorButton",
   },
-  Object {
+  {
     "dir": undefined,
     "id": "auth_btn_okta_email_1235abc",
     "label": "Email",
     "noTranslate": false,
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.enrollmentId": undefined,
         "authenticator.id": "1235abc",
         "authenticator.methodType": undefined,
       },
       "ariaLabel": "oie.select.authenticator.enroll.email.label",
-      "authenticator": Object {
+      "authenticator": {
         "displayName": "Okta Email",
         "id": "",
         "key": "okta_email",
-        "methods": Array [
-          Object {
+        "methods": [
+          {
             "type": "email",
           },
         ],
@@ -331,25 +331,25 @@ Array [
 `;
 
 exports[`Select Authenticator Utility Tests getAuthenticatorEnrollButtonElements Tests should format on_prem authenticator option when display name exists 1`] = `
-Array [
-  Object {
+[
+  {
     "dir": undefined,
     "id": "auth_btn_onprem_mfa_undefined",
     "label": "On Prem",
     "noTranslate": false,
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.enrollmentId": undefined,
         "authenticator.id": undefined,
         "authenticator.methodType": "onprem_mfa",
       },
       "ariaLabel": "oie.select.authenticator.enroll.named.authenticator.label",
-      "authenticator": Object {
+      "authenticator": {
         "displayName": "Some Company Name",
         "id": "",
         "key": "onprem_mfa",
-        "methods": Array [
-          Object {
+        "methods": [
+          {
             "type": "",
           },
         ],
@@ -378,12 +378,12 @@ Array [
 `;
 
 exports[`Select Authenticator Utility Tests getAuthenticatorEnrollButtonElements Tests should return formatted Okta Verify method type options when raw options are provided 1`] = `
-Array [
-  Object {
+[
+  {
     "id": "auth_btn_okta_verify_totp",
     "label": "oie.okta_verify.label",
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.id": "1234abc",
         "authenticator.methodType": "totp",
       },
@@ -403,11 +403,11 @@ Array [
     },
     "type": "AuthenticatorButton",
   },
-  Object {
+  {
     "id": "auth_btn_okta_verify_push",
     "label": "oie.okta_verify.label",
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.id": "1234abc",
         "authenticator.methodType": "push",
       },
@@ -431,12 +431,12 @@ Array [
 `;
 
 exports[`Select Authenticator Utility Tests getAuthenticatorVerifyButtonElements Tests should not reorder OV option when fastpass is not an option 1`] = `
-Array [
-  Object {
+[
+  {
     "id": "auth_btn_okta_verify_totp",
     "label": "oie.okta_verify.label",
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.id": "1234abc",
         "authenticator.methodType": "totp",
       },
@@ -456,11 +456,11 @@ Array [
     },
     "type": "AuthenticatorButton",
   },
-  Object {
+  {
     "id": "auth_btn_okta_verify_push",
     "label": "oie.okta_verify.label",
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.id": "1234abc",
         "authenticator.methodType": "push",
       },
@@ -480,28 +480,28 @@ Array [
     },
     "type": "AuthenticatorButton",
   },
-  Object {
+  {
     "dir": "ltr",
     "id": "auth_btn_phone_number_undefined",
     "label": "phone_number",
     "noTranslate": true,
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.enrollmentId": undefined,
         "authenticator.id": undefined,
         "authenticator.methodType": undefined,
       },
       "ariaLabel": "oie.select.authenticator.verify.phone.with.phone.label",
-      "authenticator": Object {
+      "authenticator": {
         "displayName": "",
         "id": "",
         "key": "phone_number",
-        "methods": Array [
-          Object {
+        "methods": [
+          {
             "type": "",
           },
         ],
-        "profile": Object {
+        "profile": {
           "phoneNumber": "216XXXXX43",
         },
         "type": "",
@@ -529,25 +529,25 @@ Array [
 `;
 
 exports[`Select Authenticator Utility Tests getAuthenticatorVerifyButtonElements Tests should not reorder OV option when method types are not set in IDX response 1`] = `
-Array [
-  Object {
+[
+  {
     "dir": undefined,
     "id": "auth_btn_okta_verify_abc234",
     "label": "oie.okta_verify.label",
     "noTranslate": false,
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.enrollmentId": undefined,
         "authenticator.id": "abc234",
         "authenticator.methodType": "signed_nonce",
       },
       "ariaLabel": "oie.select.authenticator.okta_verify.signed_nonce.label",
-      "authenticator": Object {
+      "authenticator": {
         "displayName": "",
         "id": "",
         "key": "okta_verify",
-        "methods": Array [
-          Object {
+        "methods": [
+          {
             "type": "",
           },
         ],
@@ -572,28 +572,28 @@ Array [
     },
     "type": "AuthenticatorButton",
   },
-  Object {
+  {
     "dir": "ltr",
     "id": "auth_btn_phone_number_undefined",
     "label": "phone_number",
     "noTranslate": true,
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.enrollmentId": undefined,
         "authenticator.id": undefined,
         "authenticator.methodType": undefined,
       },
       "ariaLabel": "oie.select.authenticator.verify.phone.with.phone.label",
-      "authenticator": Object {
+      "authenticator": {
         "displayName": "",
         "id": "",
         "key": "phone_number",
-        "methods": Array [
-          Object {
+        "methods": [
+          {
             "type": "",
           },
         ],
-        "profile": Object {
+        "profile": {
           "phoneNumber": "216XXXXX43",
         },
         "type": "",
@@ -621,12 +621,12 @@ Array [
 `;
 
 exports[`Select Authenticator Utility Tests getAuthenticatorVerifyButtonElements Tests should return formatted Okta Verify method type options when raw options are provided 1`] = `
-Array [
-  Object {
+[
+  {
     "id": "auth_btn_okta_verify_totp",
     "label": "oie.okta_verify.label",
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.id": "1234abc",
         "authenticator.methodType": "totp",
       },
@@ -646,11 +646,11 @@ Array [
     },
     "type": "AuthenticatorButton",
   },
-  Object {
+  {
     "id": "auth_btn_okta_verify_push",
     "label": "oie.okta_verify.label",
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.id": "1234abc",
         "authenticator.methodType": "push",
       },
@@ -674,12 +674,12 @@ Array [
 `;
 
 exports[`Select Authenticator Utility Tests getAuthenticatorVerifyButtonElements Tests should set fastpass at beginning of array when deviceKnown = true with multiple OV method types 1`] = `
-Array [
-  Object {
+[
+  {
     "id": "auth_btn_okta_verify_signed_nonce",
     "label": "oie.okta_verify.label",
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.id": "1234abc",
         "authenticator.methodType": "signed_nonce",
       },
@@ -699,11 +699,11 @@ Array [
     },
     "type": "AuthenticatorButton",
   },
-  Object {
+  {
     "id": "auth_btn_okta_verify_totp",
     "label": "oie.okta_verify.label",
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.id": "1234abc",
         "authenticator.methodType": "totp",
       },
@@ -723,11 +723,11 @@ Array [
     },
     "type": "AuthenticatorButton",
   },
-  Object {
+  {
     "id": "auth_btn_okta_verify_push",
     "label": "oie.okta_verify.label",
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.id": "1234abc",
         "authenticator.methodType": "push",
       },
@@ -747,28 +747,28 @@ Array [
     },
     "type": "AuthenticatorButton",
   },
-  Object {
+  {
     "dir": "ltr",
     "id": "auth_btn_phone_number_undefined",
     "label": "phone_number",
     "noTranslate": true,
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.enrollmentId": undefined,
         "authenticator.id": undefined,
         "authenticator.methodType": undefined,
       },
       "ariaLabel": "oie.select.authenticator.verify.phone.with.phone.label",
-      "authenticator": Object {
+      "authenticator": {
         "displayName": "",
         "id": "",
         "key": "phone_number",
-        "methods": Array [
-          Object {
+        "methods": [
+          {
             "type": "",
           },
         ],
-        "profile": Object {
+        "profile": {
           "phoneNumber": "216XXXXX43",
         },
         "type": "",
@@ -796,12 +796,12 @@ Array [
 `;
 
 exports[`Select Authenticator Utility Tests getAuthenticatorVerifyButtonElements Tests should set fastpass at end of array when deviceKnown is not set with multiple OV method types 1`] = `
-Array [
-  Object {
+[
+  {
     "id": "auth_btn_okta_verify_totp",
     "label": "oie.okta_verify.label",
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.id": "1234abc",
         "authenticator.methodType": "totp",
       },
@@ -821,11 +821,11 @@ Array [
     },
     "type": "AuthenticatorButton",
   },
-  Object {
+  {
     "id": "auth_btn_okta_verify_push",
     "label": "oie.okta_verify.label",
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.id": "1234abc",
         "authenticator.methodType": "push",
       },
@@ -845,28 +845,28 @@ Array [
     },
     "type": "AuthenticatorButton",
   },
-  Object {
+  {
     "dir": "ltr",
     "id": "auth_btn_phone_number_undefined",
     "label": "phone_number",
     "noTranslate": true,
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.enrollmentId": undefined,
         "authenticator.id": undefined,
         "authenticator.methodType": undefined,
       },
       "ariaLabel": "oie.select.authenticator.verify.phone.with.phone.label",
-      "authenticator": Object {
+      "authenticator": {
         "displayName": "",
         "id": "",
         "key": "phone_number",
-        "methods": Array [
-          Object {
+        "methods": [
+          {
             "type": "",
           },
         ],
-        "profile": Object {
+        "profile": {
           "phoneNumber": "216XXXXX43",
         },
         "type": "",
@@ -890,11 +890,11 @@ Array [
     },
     "type": "AuthenticatorButton",
   },
-  Object {
+  {
     "id": "auth_btn_okta_verify_signed_nonce",
     "label": "oie.okta_verify.label",
-    "options": Object {
-      "actionParams": Object {
+    "options": {
+      "actionParams": {
         "authenticator.id": "1234abc",
         "authenticator.methodType": "signed_nonce",
       },

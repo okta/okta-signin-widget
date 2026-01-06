@@ -36,7 +36,7 @@ describe('authenticator-enroll-data-phone', () => {
 
   it('should display field level error when phone number is not entered', async () => {
     const {
-      authClient, user, findByLabelText, findByText,
+      user, findByLabelText, findByText, getNewRequestCount,
     } = await setup({ mockResponse });
 
     await findByText(/Set up phone authentication/);
@@ -46,7 +46,7 @@ describe('authenticator-enroll-data-phone', () => {
     await user.click(submitButton);
     const phoneNumberEle = await findByLabelText('Phone number') as HTMLInputElement;
     expect(phoneNumberEle).toHaveErrorMessage(/This field cannot be left blank/);
-    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    expect(getNewRequestCount()).toBe(0);
   });
 
   it('should send correct payload when selecting sms', async () => {

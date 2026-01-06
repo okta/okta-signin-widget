@@ -1,49 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`transformRSAAuthenticator tests should add appropriate title and button elements for RSA Remediation step: challenge-authenticator with titleKey: oie.on_prem.verify.title and titleKeyParams: ["SecureID"] 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "credentials.clientData": "rsa_username",
   },
-  "dataSchema": Object {
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.on_prem.verify.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "dir": "ltr",
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "name": "credentials.clientData",
             "value": "rsa_username",
           },
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "credentials.passcode",
             "secret": true,
           },
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "mfa.challenge.verify",
-        "options": Object {
+        "options": {
           "step": "challenge-authenticator",
           "type": "submit",
         },
@@ -56,49 +56,49 @@ Object {
 `;
 
 exports[`transformRSAAuthenticator tests should add appropriate title and button elements for RSA Remediation step: challenge-authenticator with titleKey: oie.on_prem.verify.title and titleKeyParams: ["oie.on_prem.authenticator.default.vendorName"] 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "credentials.clientData": "rsa_username",
   },
-  "dataSchema": Object {
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.on_prem.verify.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "dir": "ltr",
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "name": "credentials.clientData",
             "value": "rsa_username",
           },
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "credentials.passcode",
             "secret": true,
           },
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "mfa.challenge.verify",
-        "options": Object {
+        "options": {
           "step": "challenge-authenticator",
           "type": "submit",
         },
@@ -111,49 +111,49 @@ Object {
 `;
 
 exports[`transformRSAAuthenticator tests should add appropriate title and button elements for RSA Remediation step: enroll-authenticator with titleKey: oie.on_prem.enroll.title and titleKeyParams: ["SecureID"] 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "credentials.clientData": "rsa_username",
   },
-  "dataSchema": Object {
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.on_prem.enroll.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "dir": "ltr",
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "name": "credentials.clientData",
             "value": "rsa_username",
           },
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "credentials.passcode",
             "secret": true,
           },
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "mfa.challenge.verify",
-        "options": Object {
+        "options": {
           "step": "enroll-authenticator",
           "type": "submit",
         },
@@ -166,49 +166,49 @@ Object {
 `;
 
 exports[`transformRSAAuthenticator tests should add appropriate title and button elements for RSA Remediation step: enroll-authenticator with titleKey: oie.on_prem.enroll.title and titleKeyParams: ["oie.on_prem.authenticator.default.vendorName"] 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "credentials.clientData": "rsa_username",
   },
-  "dataSchema": Object {
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.on_prem.enroll.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "dir": "ltr",
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "name": "credentials.clientData",
             "value": "rsa_username",
           },
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "credentials.passcode",
             "secret": true,
           },
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "mfa.challenge.verify",
-        "options": Object {
+        "options": {
           "step": "enroll-authenticator",
           "type": "submit",
         },
@@ -221,50 +221,50 @@ Object {
 `;
 
 exports[`transformRSAAuthenticator tests should clear password field when change token error is present in transaction 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "credentials.clientData": "rsa_username",
     "credentials.passcode": "",
   },
-  "dataSchema": Object {
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.on_prem.enroll.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "dir": "ltr",
-        "options": Object {
-          "inputMeta": Object {
+        "options": {
+          "inputMeta": {
             "name": "credentials.clientData",
             "value": "rsa_username",
           },
         },
         "type": "Field",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "credentials.passcode",
             "secret": true,
           },
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "mfa.challenge.verify",
-        "options": Object {
+        "options": {
           "step": "",
           "type": "submit",
         },

@@ -1,48 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Transform Select Custom App Method Verify Tests should transform elements when transaction only contains push method type with Custom App authenticator key, autoChallenge option, and has verify with something else link 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "authenticator.autoChallenge": "true",
     "authenticator.methodType": "push",
   },
-  "dataSchema": Object {
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.custom_app.push.title",
         },
         "type": "Title",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "authenticator.autoChallenge",
             "value": "true",
           },
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "oie.custom_app.sendPushButton",
-        "options": Object {
+        "options": {
           "step": "select-authenticator-authenticate",
           "type": "submit",
         },
         "type": "Button",
       },
-      Object {
+      {
         "contentType": "footer",
-        "options": Object {
+        "options": {
           "label": "oie.verification.switch.authenticator",
           "onClick": [Function],
           "step": "select-authenticator-authenticate",
@@ -56,40 +56,40 @@ Object {
 `;
 
 exports[`Transform Select Custom App Method Verify Tests should transform elements when transaction only contains push method type with autoChallenge option and Custom App authenticator key 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "authenticator.autoChallenge": "true",
     "authenticator.methodType": "push",
   },
-  "dataSchema": Object {
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.custom_app.push.title",
         },
         "type": "Title",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "authenticator.autoChallenge",
             "value": "true",
           },
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "oie.custom_app.sendPushButton",
-        "options": Object {
+        "options": {
           "step": "select-authenticator-authenticate",
           "type": "submit",
         },
@@ -102,42 +102,42 @@ Object {
 `;
 
 exports[`Transform Select OV Method Verify Tests should transform elements when transaction contains push and totp method types 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "authenticator.autoChallenge": "true",
     "authenticator.methodType": "push",
   },
-  "dataSchema": Object {
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.select.authenticators.verify.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.select.authenticators.verify.subtitle",
         },
         "type": "Description",
       },
-      Object {
-        "options": Object {
-          "buttons": Array [
-            Object {
+      {
+        "options": {
+          "buttons": [
+            {
               "label": "Get a push notification",
-              "options": Object {
-                "actionParams": Object {
+              "options": {
+                "actionParams": {
                   "authenticator.id": "abcde1234",
                   "authenticator.methodType": "push",
                 },
@@ -149,10 +149,10 @@ Object {
               },
               "type": "AuthenticatorButton",
             },
-            Object {
+            {
               "label": "Enter a code",
-              "options": Object {
-                "actionParams": Object {
+              "options": {
+                "actionParams": {
                   "authenticator.id": "abcde1234",
                   "authenticator.methodType": "totp",
                 },
@@ -176,40 +176,40 @@ Object {
 `;
 
 exports[`Transform Select OV Method Verify Tests should transform elements when transaction only contains push method type with autoChallenge option 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "authenticator.autoChallenge": "true",
     "authenticator.methodType": "push",
   },
-  "dataSchema": Object {
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.okta_verify.push.title",
         },
         "type": "Title",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "authenticator.autoChallenge",
             "value": "true",
           },
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "oie.okta_verify.sendPushButton",
-        "options": Object {
+        "options": {
           "step": "select-authenticator-authenticate",
           "type": "submit",
         },
@@ -222,48 +222,48 @@ Object {
 `;
 
 exports[`Transform Select OV Method Verify Tests should transform elements when transaction only contains push method type with autoChallenge option and has verify with something else link 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "authenticator.autoChallenge": "true",
     "authenticator.methodType": "push",
   },
-  "dataSchema": Object {
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "oie.okta_verify.push.title",
         },
         "type": "Title",
       },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
+      {
+        "options": {
+          "inputMeta": {
             "name": "authenticator.autoChallenge",
             "value": "true",
           },
         },
         "type": "Field",
       },
-      Object {
+      {
         "label": "oie.okta_verify.sendPushButton",
-        "options": Object {
+        "options": {
           "step": "select-authenticator-authenticate",
           "type": "submit",
         },
         "type": "Button",
       },
-      Object {
+      {
         "contentType": "footer",
-        "options": Object {
+        "options": {
           "label": "oie.verification.switch.authenticator",
           "onClick": [Function],
           "step": "select-authenticator-authenticate",

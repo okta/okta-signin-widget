@@ -1,29 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IDP Redirect transformer Tests IDP Redirect page tests should add correct title and IDP buttons 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "content": "primaryauth.title",
         },
         "type": "Title",
       },
-      Object {
+      {
         "label": "socialauth.google.label",
         "noTranslate": false,
-        "options": Object {
+        "options": {
           "Icon": "MockSVGIcon",
           "dataSe": "piv-card-button social-auth-google-button",
           "iconAlt": "",
@@ -35,10 +35,10 @@ Object {
         },
         "type": "Button",
       },
-      Object {
+      {
         "label": "socialauth.facebook.label",
         "noTranslate": false,
-        "options": Object {
+        "options": {
           "Icon": "MockSVGIcon",
           "dataSe": "piv-card-button social-auth-facebook-button",
           "iconAlt": "",

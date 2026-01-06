@@ -1,22 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Terminal Message Transformer Tests should add Description element with message for oie.selfservice.unlock_user.success.message message key 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.selfservice.unlock_user.success.message",
         },
         "type": "Description",
@@ -28,26 +28,26 @@ Object {
 `;
 
 exports[`Terminal Message Transformer Tests should add Info box element with message for tooManyRequests message key 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": Object {
+          "message": {
             "class": "ERROR",
-            "i18n": Object {
+            "i18n": {
               "key": "tooManyRequests",
             },
             "message": "oie.tooManyRequests",
@@ -62,26 +62,26 @@ Object {
 `;
 
 exports[`Terminal Message Transformer Tests should add an Info box and Description elements for idx.operation.cancelled.on.other.device message key 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": Object {
+          "message": {
             "class": "ERROR",
-            "i18n": Object {
+            "i18n": {
               "key": "idx.operation.cancelled.on.other.device",
             },
             "message": "idx.operation.cancelled.on.other.device",
@@ -89,9 +89,9 @@ Object {
         },
         "type": "InfoBox",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.consent.enduser.deny.description",
         },
         "type": "Description",
@@ -103,26 +103,26 @@ Object {
 `;
 
 exports[`Terminal Message Transformer Tests should add error Info box element for idx.session.expired message key 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": Object {
+          "message": {
             "class": "ERROR",
-            "i18n": Object {
+            "i18n": {
               "key": "idx.session.expired",
             },
             "message": "idx.session.expired",
@@ -137,26 +137,26 @@ Object {
 `;
 
 exports[`Terminal Message Transformer Tests should add error Info box element with title for message keys prefixed with core.auth.factor.signedNonce.error 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": Object {
+          "message": {
             "class": "ERROR",
-            "i18n": Object {
+            "i18n": {
               "key": "core.auth.factor.signedNonce.error.invalidDevice",
             },
             "message": "core.auth.factor.signedNonce.error.invalidDevice",
@@ -172,26 +172,26 @@ Object {
 `;
 
 exports[`Terminal Message Transformer Tests should add info Box element for link expired message key 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": Object {
+          "message": {
             "class": "ERROR",
-            "i18n": Object {
+            "i18n": {
               "key": "idx.return.link.expired",
             },
             "message": "idx.return.link.expired",
@@ -206,25 +206,25 @@ Object {
 `;
 
 exports[`Terminal Message Transformer Tests should add info box & cancel elements when transaction contains API error 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "class": "ERROR",
-          "message": Object {
+          "message": {
             "class": "ERROR",
-            "i18n": Object {
+            "i18n": {
               "key": "oform.error.unexpected",
             },
             "message": "oform.error.unexpected",
@@ -239,26 +239,26 @@ Object {
 `;
 
 exports[`Terminal Message Transformer Tests should add info box element for generic terminal message key 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
+        "options": {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": Object {
+          "message": {
             "class": "ERROR",
-            "i18n": Object {
+            "i18n": {
               "key": "some.test.key",
             },
             "message": "Test error message",
@@ -273,29 +273,29 @@ Object {
 `;
 
 exports[`Terminal Message Transformer Tests should transform elements when terminal key indicates to return to orig tab 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
+{
+  "data": {},
+  "dataSchema": {
     "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
+    "fieldsToTrim": [],
+    "fieldsToValidate": [],
+    "submit": {
       "step": "challenge-authenticator",
     },
   },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+  "schema": {},
+  "uischema": {
+    "elements": [
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.consent.enduser.email.allow.description",
         },
         "type": "Description",
       },
-      Object {
+      {
         "contentType": "subtitle",
-        "options": Object {
+        "options": {
           "content": "oie.return.to.original.tab",
         },
         "type": "Description",

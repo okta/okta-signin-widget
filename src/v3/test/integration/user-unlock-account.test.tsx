@@ -25,13 +25,13 @@ describe('user-unlock-account', () => {
 
   it('should display client-side validation errors when trying to submit the flow without a username', async () => {
     const {
-      authClient, user, findAllByRole, findByText,
+      user, findAllByRole, findByText, getNewRequestCount,
     } = await setup({ mockResponse });
 
     const nextButton = await findByText('Next', { selector: 'button' });
     user.click(nextButton);
 
-    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    expect(getNewRequestCount()).toBe(0);
     const [alertBox] = await findAllByRole('alert');
     expect(await within(alertBox).findByText(/We found some errors/)).toBeInTheDocument();
   });
