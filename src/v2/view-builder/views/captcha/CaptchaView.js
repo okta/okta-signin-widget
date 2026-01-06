@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { View } from '@okta/courage';
+import { View , loc } from '@okta/courage';
 import Enums from 'util/Enums';
 import Util from 'util/Util';
 import hbs from '@okta/handlebars-inline-precompile';
@@ -22,6 +22,8 @@ const OktaSignInWidgetOnCaptchaSolvedCallback = 'OktaSignInWidgetOnCaptchaSolved
 const HCAPTCHA_URL = 'https://hcaptcha.com/1/api.js';
 const ALTCHA_URL = 'https://cdn.jsdelivr.net/gh/altcha-org/altcha/dist/altcha.min.js';
 const RECAPTCHAV2_URL = 'https://www.google.com/recaptcha/api.js';
+
+const ALTCHA_CHALLENGE_PATH = '/api/v1/altcha';
 
 export default View.extend({
   className: 'captcha-view',
@@ -114,18 +116,70 @@ export default View.extend({
       this.model.set(this.options.name, 'tempToken');
     };
 
+    const getAltchaWidgetStrings = () => ({
+      error: loc('altcha.error.label', 'login'),
+      expired: loc('altcha.expired.label', 'login'),
+      label: loc('altcha.label.label', 'login'),
+      loading: loc('altcha.loading.label', 'login'),
+      reload: loc('altcha.reload.label', 'login'),
+      verify: loc('altcha.verify.label', 'login'),
+      verificationRequired: loc('altcha.verificationRequired.label', 'login'),
+      verified: loc('altcha.verified.label', 'login'),
+      verifying: loc('altcha.verifying.label', 'login'),
+      waitAlert: loc('altcha.waitAlert.label', 'login'),
+    });
+
+    const altchaCustomFetch = async (url, init) => {
+      const { challengeUrlForm } = this.captchaConfig;
+
+      // If we do not have a challengeUrlForm, we can return window.fetch immediately
+      if (!challengeUrlForm) {
+        // eslint-disable-next-line compat/compat, no-undef
+        return fetch(url, init);
+      }
+
+      const { accepts, method, value } = challengeUrlForm;
+
+      const newInit = { ...init };
+
+      if (accepts) {
+        newInit.headers = { ...newInit.headers, 'Content-Type': accepts };
+      }
+
+      if (method) {
+        newInit.method = method;
+      }
+
+      // Check if the state handle is one of the fields that should be passed in the body
+      if (value?.find((field) => field?.name === 'stateHandle')) {
+        newInit.body = JSON.stringify({ 
+          stateHandle: this.options.appState.settings.options.stateToken
+        });
+      }
+
+      // eslint-disable-next-line compat/compat, no-undef
+      return fetch(url, newInit);
+    };
+
     const onAltchaCaptchaLoaded = () => {
       setUpTempToken();
 
       const $container = this.$el.find('#captcha-container');
       const altEl = document.createElement('altcha-widget');
 
+      const challengeUrlFallback = `${this.options.settings.get('baseUrl') ?? ''}${ALTCHA_CHALLENGE_PATH}`;
+
+      const { challengeUrlForm } = this.captchaConfig;
+
       Object.entries({
         floating: true,
         hidefooter: true,
         hidelogo: true,
-        challengeurl: '/api/v1/altcha',
+        challengeurl: challengeUrlForm?.href ?? challengeUrlFallback,
+        strings: JSON.stringify(getAltchaWidgetStrings())
       }).forEach(([key, value]) => altEl.setAttribute(key, value));
+
+      altEl.customfetch = altchaCustomFetch;
 
       if (altEl.addEventListener) {
         altEl.addEventListener('verified', (e) => {

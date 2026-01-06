@@ -18,7 +18,7 @@ import {
   Input,
   WebauthnVerificationValues,
 } from '@okta/okta-auth-js';
-import { ChallengeData, IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
+import { ChallengeData, IdxOption, IdxRemediation } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent } from 'preact';
 import { Ref } from 'preact/hooks';
@@ -743,6 +743,8 @@ export interface CaptchaContainerElement extends UISchemaElement {
     captchaId: string;
     siteKey: string;
     type: 'HCAPTCHA' | 'RECAPTCHA_V2' | 'ALTCHA';
+    stateHandle: string;
+    challengeUrlForm?: IdxRemediation;
   };
 }
 
