@@ -27,7 +27,7 @@ describe('granular-consent', () => {
       },
     };
     const {
-      container, findByRole, queryByAltText,
+      container, findByRole, findByText, queryByAltText,
     } = await setup({
       mockResponse: granularConsentResponseWithLogo,
     });
@@ -36,7 +36,8 @@ describe('granular-consent', () => {
 
     expect(logo).toBeDefined();
     expect(appNameHeading.textContent).toBe('Native client');
-    // Note: With Jest 29 and updated setup timing, spinner may already be gone
+    // Wait for form content to load before snapshot
+    await findByText('View your profile information.');
     expect(container).toMatchSnapshot();
   });
 
