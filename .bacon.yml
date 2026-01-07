@@ -55,10 +55,17 @@ test_suites:
     script_name: unit-v3
     criteria: MERGE
     queue_name: small
+  - name: integration-v3
+    script_path: /root/okta/okta-signin-widget/scripts
+    sort_order: '9'
+    timeout: '20'
+    script_name: integration-v3
+    criteria: MERGE
+    queue_name: small
     # NOTE: runs the testcafe suite within v3
   - name: e2e-v3
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '9'
+    sort_order: '10'
     timeout: '15'
     script_name: e2e-v3
     criteria: MERGE
@@ -67,42 +74,42 @@ test_suites:
   # v2 and v3 for select flows
   - name: parity-v3
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '10'
+    sort_order: '11'
     timeout: '40'
     script_name: parity-v3
     criteria: MERGE
     queue_name: small
   - name: parity-v3-mobile
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '11'
+    sort_order: '12'
     timeout: '40'
     script_name: parity-v3-mobile
     criteria: MERGE
     queue_name: small
   - name: e2e
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '12'
+    sort_order: '13'
     timeout: '40'
     script_name: e2e
     criteria: OPTIONAL # OKTA-561398 - skipping due to SMS scenario failure
     queue_name: small
   - name: e2e-lang
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '13'
+    sort_order: '14'
     timeout: '30'
     script_name: e2e-lang
     criteria: MERGE
     queue_name: small
   - name: e2e-saucelabs
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '14'
+    sort_order: '15'
     timeout: '30'
     script_name: e2e-saucelabs
     criteria: OPTIONAL
     queue_name: small
   - name: e2e-saucelabs-v3
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '15'
+    sort_order: '16'
     timeout: '30'
     script_name: e2e-saucelabs-v3
     criteria: OPTIONAL
@@ -110,35 +117,35 @@ test_suites:
   # Optional test suite until Android is enabled
   - name: e2e-saucelabs-mobile
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '16'
+    sort_order: '17'
     timeout: '20'
     script_name: e2e-saucelabs-mobile
     criteria: OPTIONAL
     queue_name: small
   - name: e2e-saucelabs-mobile-v3
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '17'
+    sort_order: '18'
     timeout: '20'
     script_name: e2e-saucelabs-mobile-v3
     criteria: OPTIONAL
     queue_name: small
   - name: tsd
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '18'
+    sort_order: '19'
     timeout: '15'
     script_name: tsd
     criteria: MERGE
     queue_name: small
   - name: detect-english-leaks
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '19'
+    sort_order: '20'
     timeout: '20'
     script_name: detect-english-leaks
     criteria: MERGE
     queue_name: small
   - name: detect-english-leaks-v3
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '20'
+    sort_order: '21'
     timeout: '20'
     script_name: detect-english-leaks-v3
     criteria: MERGE
