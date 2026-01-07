@@ -24,10 +24,18 @@ export default View.extend({
     const authenticatorsWithGracePeriod = [];
     const authenticators = [];
 
+    const isGracePeriodExpiryStillActive = (expiry) => {
+      const currentTimestampMs = Date.now();
+      const gracePeriodTimestampMs = new Date(expiry).getTime();
+      // using isNaN as ie11 does not support Number.isNaN
+      // eslint-disable-next-line no-restricted-globals
+      return !isNaN(gracePeriodTimestampMs) && currentTimestampMs < gracePeriodTimestampMs;
+    };
+
     this.options.optionItems.forEach((authenticator) => {
-      let hasActiveGracePeriodExpiry = authenticator.relatesTo?.gracePeriod?.expiry
-        && new Date(authenticator.relatesTo?.gracePeriod?.expiry).getTime() > Date.now();
-      let hasActiveSkipCount =
+      const hasActiveGracePeriodExpiry = authenticator.relatesTo?.gracePeriod?.expiry
+        && isGracePeriodExpiryStillActive(authenticator.relatesTo?.gracePeriod?.expiry);
+      const hasActiveSkipCount =
         authenticator.relatesTo?.gracePeriod?.skipCount && authenticator.relatesTo?.gracePeriod?.skipCount > 0;
       if (hasActiveGracePeriodExpiry || hasActiveSkipCount) {
         authenticatorsWithGracePeriod.push(authenticator);
