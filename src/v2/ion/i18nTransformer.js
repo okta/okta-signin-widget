@@ -80,7 +80,7 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
   if (uiSchema.label) {
     Logger.info('\t 2: ', i18nPath);
     const params = getI18NParams(remediation, authenticatorKey);
-    uiSchema.label = uiSchema.customLabel ? uiSchema.label : getI18NValue(i18nPath, uiSchema.label, params);
+    uiSchema.label = uiSchema.customLabel ? uiSchema.label : getI18NValue(i18nPath, uiSchema.label, params, remediation);
   }
   if ($.isPlainObject(uiSchema.options)) {
     uiSchema.options = _.mapObject(uiSchema.options, (value, key) => {
@@ -108,7 +108,15 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
         i18nPathOption = i18nPath;
       }
       Logger.info('\t 4: ', i18nPathOption);
-      o.label = getI18NValue(i18nPathOption, o.label);
+      
+      // For select-authenticator options, use the option's relatesTo for context
+      const optionRemediation = o.relatesTo ? {
+        ...remediation,
+        relatesTo: { value: o.relatesTo }
+      } : remediation;
+      
+      const params = getI18NParams(optionRemediation, o.authenticatorKey);
+      o.label = getI18NValue(i18nPathOption, o.label, params, optionRemediation);
     });
   }
 

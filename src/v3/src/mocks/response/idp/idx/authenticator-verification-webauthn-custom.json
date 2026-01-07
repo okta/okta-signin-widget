@@ -1,0 +1,30 @@
+{
+  "stateHandle": "022afk9OLqrN2DipVIuIxC0wqzuxMaFIbpOf6pcBh8",
+  "version": "1.0.0",
+  "expiresAt": "2020-02-21T15:29:41.000Z",
+  "intent": "LOGIN",
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "contextualData": {
+        "challengeData": {
+          "challenge": "qjUCU0xoVe5QZ3-etDCD",
+          "userVerification": "discouraged",
+          "extensions": {
+            "appid": "https://localhost:3000"
+          }
+        }
+      },
+      "type": "security_key",
+      "key": "webauthn",
+      "id": "auteq0lLiL9o1cYoN0g4",
+      "displayName": "TouchID",
+      "description": "Use your fingerprint to verify your identity.",
+      "methods": [
+        {
+          "type": "webauthn"
+        }
+      ]
+    }
+  }
+}

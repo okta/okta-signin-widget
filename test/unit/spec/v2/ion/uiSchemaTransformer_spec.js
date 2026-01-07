@@ -318,7 +318,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                       },
                     },
                     relatesTo: {
-                      displayName: 'Security Key or Biometric Authenticator (FIDO2)',
+                      displayName: 'Security Key or Biometric',
                       type: 'security_key',
                       key: 'webauthn',
                       authenticatorid: 'aidtheidkwh282hv8g3',
@@ -972,7 +972,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                       },
                     },
                     relatesTo: {
-                      displayName: 'Security Key or Biometric Authenticator (FIDO2)',
+                      displayName: 'Security Key or Biometric',
                       type: 'security_key',
                       key: 'webauthn',
                       authenticatorid: 'aidtheidkwh282hv8g3',
@@ -1255,7 +1255,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                       },
                     },
                     relatesTo: {
-                      displayName: 'Security Key or Biometric Authenticator (FIDO2)',
+                      displayName: 'Security Key or Biometric',
                       type: 'security_key',
                       key: 'webauthn',
                       authenticatorid: 'aidtheidkwh282hv8g3',

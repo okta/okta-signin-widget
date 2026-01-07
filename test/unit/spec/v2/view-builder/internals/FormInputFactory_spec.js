@@ -29,7 +29,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
             id: 'fwftheidkwh282hv8g3',
           },
           relatesTo: {
-            displayName: 'FIDO2 (WebAuthn)',
+            displayName: 'Security Key or Biometric',
             type: 'security_key',
             key: 'webauthn',
             id: 'autwa6eD9o02iBbtv0g2',
@@ -43,7 +43,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
             id: 'aidtheidkwh282hv8g3',
           },
           relatesTo: {
-            displayName: 'FIDO2 (WebAuthn)',
+            displayName: 'Security Key or Biometric',
             type: 'security_key',
             key: 'webauthn',
             id: 'autwa6eD9o02iBbtv0g2',
@@ -308,7 +308,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
           id: 'fwftheidkwh282hv8g3',
         },
         relatesTo: {
-          displayName: 'FIDO2 (WebAuthn)',
+          displayName: 'Security Key or Biometric',
           type: 'security_key',
           key: 'webauthn',
           id: 'autwa6eD9o02iBbtv0g2',
@@ -874,7 +874,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
             id: 'aidtheidkwh282hv8g3',
           },
           relatesTo: {
-            displayName: 'Security Key or Biometric Authenticator (FIDO2)',
+            displayName: 'Security Key or Biometric',
             type: 'security_key',
             key: 'webauthn',
             authenticatorid: 'aidtheidkwh282hv8g3',
@@ -1036,7 +1036,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
           id: 'aidtheidkwh282hv8g3',
         },
         relatesTo: {
-          displayName: 'Security Key or Biometric Authenticator (FIDO2)',
+          displayName: 'Security Key or Biometric',
           type: 'security_key',
           key: 'webauthn',
           authenticatorid: 'aidtheidkwh282hv8g3',

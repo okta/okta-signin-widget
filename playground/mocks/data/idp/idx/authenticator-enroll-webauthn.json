@@ -182,7 +182,7 @@
   "currentAuthenticator": {
     "type": "object",
     "value": {
-      "displayName": "Security Key or Biometric Authenticator (FIDO2)",
+      "displayName": "Security Key or Biometric",
       "catalogKey": "webauthn",
       "type": "security_key",
       "key": "webauthn",
@@ -269,7 +269,7 @@
         "id": "password-enroll-id-123"
       },
       {
-        "displayName": "Security Key or Biometric Authenticator (FIDO2)",
+        "displayName": "Security Key or Biometric",
         "type": "security_key",
         "key": "webauthn",
         "authenticatorid": "aidtheidkwh282hv8g3",

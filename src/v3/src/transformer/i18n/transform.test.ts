@@ -54,6 +54,9 @@ jest.mock('./transformLaunchAuthenticatorButton', () => ({
 jest.mock('./transformOpenOktaVerifyFPButton', () => ({
   transformOpenOktaVerifyFPButton: () => () => ({}),
 }));
+jest.mock('./transformLaunchPasskeysAuthenticatorButton', () => ({
+  transformLaunchPasskeysAuthenticatorButton: () => () => ({}),
+}));
 jest.mock('./transformDefaultSelectOptionLabel', () => ({
   transformDefaultSelectOptionLabel: () => ({}),
 }));
@@ -73,6 +76,7 @@ const mocked = {
   passwordMatches: require('./transformPasswordMatches'),
   launchAuthenticator: require('./transformLaunchAuthenticatorButton'),
   openOktaVerifyFP: require('./transformOpenOktaVerifyFPButton'),
+  openPasskeysAuthenticator: require('./transformLaunchPasskeysAuthenticatorButton'),
   defaultSelectOptionLabel: require('./transformDefaultSelectOptionLabel'),
 };
 /* eslint-enable global-require */
@@ -92,6 +96,7 @@ describe('i18n Transformer Tests', () => {
     jest.spyOn(mocked.passwordMatches, 'transformPasswordMatches');
     jest.spyOn(mocked.launchAuthenticator, 'transformLaunchAuthenticatorButton');
     jest.spyOn(mocked.openOktaVerifyFP, 'transformOpenOktaVerifyFPButton');
+    jest.spyOn(mocked.openPasskeysAuthenticator, 'transformLaunchPasskeysAuthenticatorButton');
     jest.spyOn(mocked.defaultSelectOptionLabel, 'transformDefaultSelectOptionLabel');
 
     const formBag = getStubFormBag();
@@ -117,6 +122,8 @@ describe('i18n Transformer Tests', () => {
     expect(mocked.passwordMatches.transformPasswordMatches).toHaveBeenCalled();
     expect(mocked.launchAuthenticator.transformLaunchAuthenticatorButton).toHaveBeenCalled();
     expect(mocked.openOktaVerifyFP.transformOpenOktaVerifyFPButton).toHaveBeenCalled();
+    expect(mocked.openPasskeysAuthenticator.transformLaunchPasskeysAuthenticatorButton)
+      .toHaveBeenCalled();
     expect(mocked.defaultSelectOptionLabel.transformDefaultSelectOptionLabel).toHaveBeenCalled();
   });
 });

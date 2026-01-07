@@ -1,0 +1,144 @@
+{
+  "stateHandle": "022afk9OLqrN2DipVIuIxC0wqzuxMaFIbpOf6pcBh8",
+  "version": "1.0.0",
+  "expiresAt": "2020-02-21T15:29:41.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "enroll-authenticator",
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "credentials",
+            "form": {
+              "value": [
+                {
+                  "name": "clientData",
+                  "label": "Client Data",
+                  "visible": false,
+                  "required": true,
+                  "hint": "webauthn"
+                },
+                {
+                  "name": "attestation",
+                  "label": "Attestation",
+                  "visible": false,
+                  "required": true,
+                  "hint": "webauthn"
+                },
+                {
+                  "name": "transports",
+                  "label": "Transports",
+                  "visible": false,
+                  "required": true,
+                  "hint": "webauthn"
+                },
+                {
+                  "name": "clientExtensions",
+                  "label": "clientExtensions",
+                  "visible": false,
+                  "required": true,
+                  "hint": "webauthn"
+                }
+              ]
+            }
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "022afk9OLqrN2DipVIuIxC0wqzuxMaFIbpOf6pcBh8",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "relatesTo": ["$.currentAuthenticator"]
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "displayName": "YubiKey",
+      "description": "Insert your YubiKey and tap to authenticate.",
+      "catalogKey": "webauthn",
+      "type": "security_key",
+      "key": "webauthn",
+      "id": "aidtheidkwh282hv8g3",
+      "settings": {},
+      "contextualData": {
+        "activationData": {
+          "rp": {
+            "name": "idx"
+          },
+          "user": {
+            "displayName": "test user",
+            "name": "test@okta.com",
+            "id": "00utjm1GstPjCF9Ad0g3"
+          },
+          "pubKeyCredParams": [
+            {
+              "type": "public-key",
+              "alg": -7
+            },
+            {
+              "type": "public-key",
+              "alg": -257
+            }
+          ],
+          "challenge": "zrTo0mMXyCt90mweh2HL",
+          "attestation": "direct",
+          "authenticatorSelection": {
+            "userVerification": "discouraged"
+          },
+          "u2fParams": {
+            "appid": "http://idx.okta1.com:1802"
+          }
+        }
+      }
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "displayName": "YubiKey",
+        "type": "security_key",
+        "key": "webauthn",
+        "authenticatorid": "aidtheidkwh282hv8g3",
+        "id": "webauthn-enroll-id-123"
+      }
+    ]
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "022afk9OLqrN2DipVIuIxC0wqzuxMaFIbpOf6pcBh8",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u12iwg7zlRVxEQU0g4",
+      "identifier": "testUser@okta.com"
+    }
+  }
+}

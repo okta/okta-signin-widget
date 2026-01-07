@@ -160,7 +160,7 @@
         "authenticatorsId": "autwa6eD9o02iBbtv0g3"
       },
       {
-        "displayName": "Security Key or Biometric Authenticator (FIDO2)",
+        "displayName": "Security Key or Biometric",
         "type": "security_key",
         "key": "webauthn",
         "id": "webauthn-enroll-id-123",

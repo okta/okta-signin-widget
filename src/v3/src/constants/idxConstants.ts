@@ -67,6 +67,7 @@ export const IDX_STEP: Record<string, string> = {
   KEEP_ME_SIGNED_IN: 'keep-me-signed-in',
   LAUNCH_AUTHENTICATOR: 'launch-authenticator',
   LAUNCH_WEBAUTHN_AUTHENTICATOR: 'launch-webauthn-authenticator',
+  LAUNCH_PASSKEYS_AUTHENTICATOR: 'launch-passkeys-authenticator',
   PIV_IDP: 'piv-idp',
   POLL: 'poll',
   REDIRECT_IDP: 'redirect-idp',

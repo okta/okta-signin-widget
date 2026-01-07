@@ -20,6 +20,7 @@ import { transformGranularConsentFields } from './transformGranularConsentFields
 import { transformIdentifierHint } from './transformIdentifierHint';
 import { transformInputPassword } from './transformInputPassword';
 import { transformLaunchAuthenticatorButton } from './transformLaunchAuthenticatorButton';
+import { transformLaunchPasskeysAuthenticatorButton } from './transformLaunchPasskeysAuthenticatorButton';
 import { transformOpenOktaVerifyFPButton } from './transformOpenOktaVerifyFPButton';
 import { transformPasscodeHint } from './transformPasscodeHint';
 import { transformPasswordMatches } from './transformPasswordMatches';
@@ -41,6 +42,7 @@ export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) 
   transformWebAuthNSubmitButton(options),
   transformLaunchAuthenticatorButton,
   transformOpenOktaVerifyFPButton,
+  transformLaunchPasskeysAuthenticatorButton,
   transformPasswordMatches(options),
   transformDefaultSelectOptionLabel,
 )(formbag);

@@ -25,6 +25,7 @@ module.exports = {
       'PublicKeyCredential',
       // API availability is checked at runtime
       'navigator.permissions',
+      'fetch'
     ],
   }
 };

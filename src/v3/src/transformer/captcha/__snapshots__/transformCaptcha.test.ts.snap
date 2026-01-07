@@ -51,7 +51,9 @@ Object {
       Object {
         "options": Object {
           "captchaId": "test_id",
+          "challengeUrlForm": undefined,
           "siteKey": "test_site_key",
+          "stateHandle": "test_state_handle",
           "type": "RECAPTCHA_V2",
         },
         "type": "CaptchaContainer",

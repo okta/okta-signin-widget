@@ -18,7 +18,7 @@ import {
   Input,
   WebauthnVerificationValues,
 } from '@okta/okta-auth-js';
-import { ChallengeData, IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
+import { ChallengeData, IdxOption, IdxRemediation } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent } from 'preact';
 import { Ref } from 'preact/hooks';
@@ -161,6 +161,19 @@ export interface ActionOptions {
   includeImmutableData?: boolean;
   // TODO - Remove Apple SSOE fix (OKTA-813638)
   isSSOExtensionVerifyEndpointAlreadyCalled?: boolean;
+}
+
+/**
+ * LaunchPasskeysAuthenticatorButton
+ */
+export interface LaunchPasskeysAuthenticatorButtonElement extends UISchemaElement {
+  type: 'LaunchPasskeysAuthenticatorButton';
+  options: {
+    step: string;
+    getCredentials: (
+      (abortController: AbortController | undefined) => Promise<WebAuthNAutofillUICredentials>
+    );
+  };
 }
 
 /**
@@ -433,7 +446,9 @@ export interface WebAuthNAutofillElement extends UISchemaElement {
   type: 'WebAuthNAutofill';
   options: {
     step: string;
-    getCredentials: ((abortController: AbortController) => Promise<WebAuthNAutofillUICredentials>)
+    getCredentials: (
+      (abortController: AbortController | undefined) => Promise<WebAuthNAutofillUICredentials>
+    );
   };
 }
 
@@ -587,6 +602,7 @@ export interface LinkElement extends UISchemaElement {
 
 export interface AccordionPanelElement extends UISchemaElement {
   type: 'AccordionPanel',
+  variant?: 'borderless';
   options: {
     id: string;
     summary: string;
@@ -727,6 +743,8 @@ export interface CaptchaContainerElement extends UISchemaElement {
     captchaId: string;
     siteKey: string;
     type: 'HCAPTCHA' | 'RECAPTCHA_V2' | 'ALTCHA';
+    stateHandle: string;
+    challengeUrlForm?: IdxRemediation;
   };
 }
 

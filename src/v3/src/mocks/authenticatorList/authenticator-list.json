@@ -25,7 +25,7 @@
             }
           },
           {
-            "label": "FIDO2 (WebAuthn)",
+            "label": "Security Key or Biometric",
             "value": {
               "key": "webauthn",
               "id": "fwftheidkwh282hv8g3",
@@ -33,7 +33,7 @@
             }
           },
           {
-            "label": "FIDO2 (WebAuthn)",
+            "label": "Security Key or Biometric",
             "value": {
               "key": "webauthn",
               "id": "aidtheidkwh282hv8g3",

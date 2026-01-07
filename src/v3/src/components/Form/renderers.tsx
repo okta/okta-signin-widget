@@ -41,6 +41,7 @@ import InputPassword from '../InputPassword';
 import InputText from '../InputText';
 import InputTextWithValidation from '../InputTextWithValidation';
 import LaunchAuthenticatorButton from '../LaunchAuthenticatorButton';
+import LaunchPasskeysAuthenticatorButton from '../LaunchPasskeysAuthenticatorButton';
 import Link from '../Link';
 import List from '../List';
 import LoopbackProbe from '../LoopbackProbe';
@@ -139,6 +140,10 @@ export default [
   {
     tester: ({ type }) => type === 'ChromeDtcContainer',
     renderer: ChromeDtcContainer,
+  },
+  {
+    tester: ({ type }) => type === 'LaunchPasskeysAuthenticatorButton',
+    renderer: LaunchPasskeysAuthenticatorButton,
   },
   {
     tester: ({ type }) => type === 'WebAuthNSubmitButton',

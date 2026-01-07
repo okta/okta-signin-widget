@@ -55,6 +55,10 @@ describe('Captcha container transformer tests', () => {
         },
       },
     };
+    transaction.rawIdxState = {
+      version: '',
+      stateHandle: 'test_state_handle',
+    };
     const updatedFormBag = transformCaptcha({
       transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
     })(formBag);
@@ -65,6 +69,7 @@ describe('Captcha container transformer tests', () => {
     expect((updatedFormBag.uischema.elements[5] as CaptchaContainerElement).options.type).toBe('RECAPTCHA_V2');
     expect((updatedFormBag.uischema.elements[5] as CaptchaContainerElement).options.captchaId).toBe('test_id');
     expect((updatedFormBag.uischema.elements[5] as CaptchaContainerElement).options.siteKey).toBe('test_site_key');
+    expect((updatedFormBag.uischema.elements[5] as CaptchaContainerElement).options.stateHandle).toBe('test_state_handle');
   });
 
   it('should not add captcha container when captcha object is not in transaction context', () => {
@@ -113,5 +118,68 @@ describe('Captcha container transformer tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(6);
     expect((updatedFormBag.uischema.elements[4] as DescriptionElement).options.content).not.toBe('hcaptcha.footer.label');
     expect(updatedFormBag).toEqual(formBag);
+  });
+
+  it('should add captcha container for ALTCHA type with stateHandle and challengeUrlForm', () => {
+    const challengeUrlForm = {
+      href: 'https://example.okta.com/api/v1/altcha',
+      method: 'POST',
+      accepts: 'application/json',
+      value: [
+        { name: 'stateHandle', value: 'test_state_handle' },
+      ],
+    };
+    transaction.context = {
+      // @ts-expect-error OKTA-627610 captcha missing from context type
+      captcha: {
+        value: {
+          type: 'ALTCHA',
+          id: 'altcha_id',
+          challengeUrlForm,
+        },
+      },
+    };
+    transaction.rawIdxState = {
+      version: '',
+      stateHandle: 'test_state_handle',
+    };
+    const updatedFormBag = transformCaptcha({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(6);
+    const captchaElement = updatedFormBag.uischema.elements[5] as CaptchaContainerElement;
+    expect(captchaElement.type).toBe('CaptchaContainer');
+    expect(captchaElement.options.type).toBe('ALTCHA');
+    expect(captchaElement.options.captchaId).toBe('altcha_id');
+    expect(captchaElement.options.stateHandle).toBe('test_state_handle');
+    expect(captchaElement.options.challengeUrlForm).toEqual(challengeUrlForm);
+  });
+
+  it('should add captcha container for ALTCHA without challengeUrlForm', () => {
+    transaction.context = {
+      // @ts-expect-error OKTA-627610 captcha missing from context type
+      captcha: {
+        value: {
+          type: 'ALTCHA',
+          id: 'altcha_id',
+        },
+      },
+    };
+    transaction.rawIdxState = {
+      version: '',
+      stateHandle: 'test_state_handle',
+    };
+    const updatedFormBag = transformCaptcha({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(6);
+    const captchaElement = updatedFormBag.uischema.elements[5] as CaptchaContainerElement;
+    expect(captchaElement.type).toBe('CaptchaContainer');
+    expect(captchaElement.options.type).toBe('ALTCHA');
+    expect(captchaElement.options.captchaId).toBe('altcha_id');
+    expect(captchaElement.options.stateHandle).toBe('test_state_handle');
+    expect(captchaElement.options.challengeUrlForm).toBeUndefined();
   });
 });
