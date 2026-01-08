@@ -67,6 +67,7 @@ export interface WidgetOptions
     factorPage?: Link;
     unlock?: string;
     custom?: Array<Link>;
+    gracePeriodRequiredSoon?: Link;
   };
   signOutLink?: string;
   // Buttons
