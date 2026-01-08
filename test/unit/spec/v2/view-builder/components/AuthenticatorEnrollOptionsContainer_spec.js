@@ -12,6 +12,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     testContext.init = (
       authenticators,
       skipRemediation,
+      settingsOptions = {},
     ) => {
       const currentViewState = {
         name: 'select-authenticator-enroll',
@@ -24,7 +25,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
       );
       appState.set('idx', {neededToProceed: []});
 
-      const settings = new Settings({ baseUrl: 'http://localhost:3000' });
+      const settings = new Settings({ baseUrl: 'http://localhost:3000', ...settingsOptions });
 
       jest.spyOn(Date, 'now').mockReturnValue(new Date('12/30/2023').getTime());
       jest.spyOn(appState, 'hasRemediationObject').mockReturnValue(skipRemediation);
@@ -41,7 +42,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     };
   });
 
-  it('renders required now list for all expired grace periods', function() {
+  it.each([true, false])('renders required now list for all inactive grace periods', function(useSkipCount) {
     const authenticators = [
       {
         label: 'Okta Phone',
@@ -56,7 +57,11 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aid568g3mXgtID0X1SLH',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            'expiry': '2019-12-17T05:00:00.000Z'
+            ...(useSkipCount ? {
+              'skipCount': 0,
+            } : {
+              'expiry': '2019-12-17T05:00:00.000Z'
+            }),
           },
           allowedFor: 'any',
         },
@@ -75,7 +80,11 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aidtheidkwh282hv8g3',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            'expiry': '2019-12-17T05:00:00.000Z'
+            ...(useSkipCount ? {
+              'skipCount': 0,
+            } : {
+              'expiry': '2019-12-17T05:00:00.000Z'
+            }),
           },
           allowedFor: 'any'
         },
@@ -92,10 +101,11 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(0);
     expect(testContext.view.$('.authenticator-grace-period-required-description').length).toBe(0);
     expect(testContext.view.$('.authenticator-grace-period-expiry-date').length).toBe(0);
+    expect(testContext.view.$('.authenticator-grace-period-skip-count-description').length).toBe(0);
     expect(testContext.view.$('.skip-all').length).toBe(0);
   });
 
-  it('renders required soon list for all non-expired grace periods', function() {
+  it.each([true, false])('renders required soon list for all active grace periods', function(useSkipCount) {
     const authenticators = [
       {
         label: 'Okta Phone',
@@ -110,7 +120,211 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aid568g3mXgtID0X1SLH',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            'expiry': '2023-12-31T05:00:00.000Z'
+            ...(useSkipCount ? {
+              'skipCount': 3,
+            } : {
+              'expiry': '2023-12-31T05:00:00.000Z'
+            }),
+          },
+          allowedFor: 'any',
+        },
+        authenticatorKey: 'phone_number',
+      },
+      {
+        label: 'Security Key or Biometric Authenticator',
+        value: {
+          id: 'aidtheidkwh282hv8g3',
+        },
+        relatesTo: {
+          displayName: 'Security Key or Biometric Authenticator (FIDO2)',
+          type: 'security_key',
+          key: 'webauthn',
+          id: 'webauthn-enroll-id-123',
+          authenticatorId: 'aidtheidkwh282hv8g3',
+          gracePeriod: {
+            'id': 'gpe4hiasrPJX4zwZY789',
+            ...(useSkipCount ? {
+              'skipCount': 1,
+            } : {
+              'expiry': '2023-12-30T23:00:00.000Z'
+            }),
+          },
+          allowedFor: 'any'
+        },
+        authenticatorKey: 'webauthn',
+      },
+    ];
+    const settings = {
+      'helpLinks.gracePeriodRequiredSoon.text': 'custom grace period link',
+      'helpLinks.gracePeriodRequiredSoon.href': 'https://acme.com/grace-period-info',
+    };
+    testContext.init(authenticators, true, settings);
+    expect(testContext.view.el).toMatchSnapshot();
+    expect(testContext.view.$('.authenticator-list-title').length).toBe(1);
+    expect(testContext.view.$('.authenticator-list-title').text()).toBe('Required soon');
+    expect(testContext.view.$('.authenticator-list-subtitle').length).toBe(1);
+    expect(testContext.view.$('.authenticator-list-subtitle-link-container').length).toBe(1);
+    expect(testContext.view.$('.authenticator-list-subtitle-link-container a').text()).toBe('custom grace period link');
+    expect(testContext.view.$('.authenticator-row').length).toBe(2);
+    expect(testContext.view.$('.authenticator-usage-text').length).toBe(0);
+    expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(2);
+    if (useSkipCount) {
+      expect(testContext.view.$('.authenticator-grace-period-skip-count-description').length).toBe(2);
+    } else {
+      expect(testContext.view.$('.authenticator-grace-period-required-description').length).toBe(2);
+      expect(testContext.view.$('.authenticator-grace-period-expiry-date').length).toBe(2);
+    }
+    expect(testContext.view.$('.skip-all').length).toBe(1);
+    expect(testContext.view.$('.skip-all').text()).toBe('Remind me later');
+  });
+
+  it.each([true, false])('renders required now and required soon for active and inactive grace periods', function(useSkipCount) {
+    const authenticators = [
+      {
+        label: 'Okta Phone',
+        value: {
+          id: 'aid568g3mXgtID0X1SLH',
+        },
+        relatesTo: {
+          label: 'Okta Phone',
+          id: 'phone-enroll-id-123',
+          type: 'phone',
+          key: 'phone_number',
+          authenticatorId: 'aid568g3mXgtID0X1SLH',
+          gracePeriod: {
+            'id': 'gpe4hiasrPJX4zwZY789',
+            ...(useSkipCount ? {
+              'skipCount': 0,
+            } : {
+              'expiry': '2020-12-17T05:00:00.000Z'
+            }),
+          },
+          allowedFor: 'any',
+        },
+        authenticatorKey: 'phone_number',
+      },
+      {
+        label: 'Security Key or Biometric Authenticator',
+        value: {
+          id: 'aidtheidkwh282hv8g3',
+        },
+        relatesTo: {
+          displayName: 'Security Key or Biometric Authenticator (FIDO2)',
+          type: 'security_key',
+          key: 'webauthn',
+          id: 'webauthn-enroll-id-123',
+          authenticatorId: 'aidtheidkwh282hv8g3',
+          gracePeriod: {
+            'id': 'gpe4hiasrPJX4zwZY789',
+            ...(useSkipCount ? {
+              'skipCount': 9,
+            } : {
+              'expiry': '2025-12-17T05:00:00.000Z'
+            }),
+          },
+          allowedFor: 'any'
+        },
+        authenticatorKey: 'webauthn',
+      },
+    ];
+    testContext.init(authenticators, false);
+    expect(testContext.view.el).toMatchSnapshot();
+    expect(testContext.view.$('.authenticator-list-title').length).toBe(2);
+    expect(testContext.view.$('.authenticator-list-title')[0].textContent).toBe('Required now');
+    expect(testContext.view.$('.authenticator-list-title')[1].textContent).toBe('Required soon');
+    expect(testContext.view.$('.authenticator-list-subtitle').length).toBe(1);
+    expect(testContext.view.$('.authenticator-list-subtitle-link-container').length).toBe(0);
+    expect(testContext.view.$('.authenticator-row').length).toBe(2);
+    expect(testContext.view.$('.authenticator-usage-text').length).toBe(1);
+    expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(1);
+    if (useSkipCount) {
+      expect(testContext.view.$('.authenticator-grace-period-skip-count-description').length).toBe(1);
+    } else {
+      expect(testContext.view.$('.authenticator-grace-period-required-description').length).toBe(1);
+      expect(testContext.view.$('.authenticator-grace-period-expiry-date').length).toBe(1);
+    }
+    expect(testContext.view.$('.skip-all').length).toBe(0);
+  });
+
+  it.each([true, false])('renders required now list for all inactive grace periods', function(useSkipCount) {
+    const authenticators = [
+      {
+        label: 'Okta Phone',
+        value: {
+          id: 'aid568g3mXgtID0X1SLH',
+        },
+        relatesTo: {
+          label: 'Okta Phone',
+          id: 'phone-enroll-id-123',
+          type: 'phone',
+          key: 'phone_number',
+          authenticatorId: 'aid568g3mXgtID0X1SLH',
+          gracePeriod: {
+            'id': 'gpe4hiasrPJX4zwZY789',
+            ...(useSkipCount ? {
+              'skipCount': 0,
+            } : {
+              'expiry': '2019-12-17T05:00:00.000Z'
+            }),
+          },
+          allowedFor: 'any',
+        },
+        authenticatorKey: 'phone_number',
+      },
+      {
+        label: 'Security Key or Biometric Authenticator',
+        value: {
+          id: 'aidtheidkwh282hv8g3',
+        },
+        relatesTo: {
+          displayName: 'Security Key or Biometric Authenticator (FIDO2)',
+          type: 'security_key',
+          key: 'webauthn',
+          id: 'webauthn-enroll-id-123',
+          authenticatorId: 'aidtheidkwh282hv8g3',
+          gracePeriod: {
+            'id': 'gpe4hiasrPJX4zwZY789',
+            ...(useSkipCount ? {
+              'skipCount': 0,
+            } : {
+              'expiry': '2019-12-17T05:00:00.000Z'
+            }),
+          },
+          allowedFor: 'any'
+        },
+        authenticatorKey: 'webauthn',
+      },
+    ];
+    testContext.init(authenticators, false);
+    expect(testContext.view.el).toMatchSnapshot();
+    expect(testContext.view.$('.authenticator-list-title').length).toBe(1);
+    expect(testContext.view.$('.authenticator-list-title').text()).toBe('Required now');
+    expect(testContext.view.$('.authenticator-list-subtitle').length).toBe(0);
+    expect(testContext.view.$('.authenticator-row').length).toBe(2);
+    expect(testContext.view.$('.authenticator-usage-text').length).toBe(2);
+    expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(0);
+    expect(testContext.view.$('.authenticator-grace-period-required-description').length).toBe(0);
+    expect(testContext.view.$('.authenticator-grace-period-expiry-date').length).toBe(0);
+    expect(testContext.view.$('.authenticator-grace-period-skip-count-description').length).toBe(0);
+    expect(testContext.view.$('.skip-all').length).toBe(0);
+  });
+
+  it('renders required soon list for all skip count and expiry date grace periods', function() {
+    const authenticators = [
+      {
+        label: 'Okta Phone',
+        value: {
+          id: 'aid568g3mXgtID0X1SLH',
+        },
+        relatesTo: {
+          label: 'Okta Phone',
+          id: 'phone-enroll-id-123',
+          type: 'phone',
+          key: 'phone_number',
+          authenticatorId: 'aid568g3mXgtID0X1SLH',
+          gracePeriod: {
+            'id': 'gpe4hiasrPJX4zwZY789',
+            'skipCount': 3,
           },
           allowedFor: 'any',
         },
@@ -136,21 +350,28 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
         authenticatorKey: 'webauthn',
       },
     ];
-    testContext.init(authenticators, true);
+    const settings = {
+      'helpLinks.gracePeriodRequiredSoon.text': 'custom grace period link',
+      'helpLinks.gracePeriodRequiredSoon.href': 'https://acme.com/grace-period-info',
+    };
+    testContext.init(authenticators, true, settings);
     expect(testContext.view.el).toMatchSnapshot();
     expect(testContext.view.$('.authenticator-list-title').length).toBe(1);
     expect(testContext.view.$('.authenticator-list-title').text()).toBe('Required soon');
     expect(testContext.view.$('.authenticator-list-subtitle').length).toBe(1);
+    expect(testContext.view.$('.authenticator-list-subtitle-link-container').length).toBe(1);
+    expect(testContext.view.$('.authenticator-list-subtitle-link-container a').text()).toBe('custom grace period link');
     expect(testContext.view.$('.authenticator-row').length).toBe(2);
     expect(testContext.view.$('.authenticator-usage-text').length).toBe(0);
     expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(2);
-    expect(testContext.view.$('.authenticator-grace-period-required-description').length).toBe(2);
-    expect(testContext.view.$('.authenticator-grace-period-expiry-date').length).toBe(2);
+    expect(testContext.view.$('.authenticator-grace-period-required-description').length).toBe(1);
+    expect(testContext.view.$('.authenticator-grace-period-expiry-date').length).toBe(1);
+    expect(testContext.view.$('.authenticator-grace-period-skip-count-description').length).toBe(1);
     expect(testContext.view.$('.skip-all').length).toBe(1);
     expect(testContext.view.$('.skip-all').text()).toBe('Remind me later');
   });
 
-  it('renders required now and required soon for expired and non-expired grace periods', function() {
+  it('renders required now and required soon for skip count and expiry date grace periods', function() {
     const authenticators = [
       {
         label: 'Okta Phone',
@@ -165,7 +386,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aid568g3mXgtID0X1SLH',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            'expiry': '2020-12-17T05:00:00.000Z'
+            'skipCount': 0,
           },
           allowedFor: 'any',
         },
@@ -197,11 +418,13 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.$('.authenticator-list-title')[0].textContent).toBe('Required now');
     expect(testContext.view.$('.authenticator-list-title')[1].textContent).toBe('Required soon');
     expect(testContext.view.$('.authenticator-list-subtitle').length).toBe(1);
+    expect(testContext.view.$('.authenticator-list-subtitle-link-container').length).toBe(0);
     expect(testContext.view.$('.authenticator-row').length).toBe(2);
     expect(testContext.view.$('.authenticator-usage-text').length).toBe(1);
     expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(1);
     expect(testContext.view.$('.authenticator-grace-period-required-description').length).toBe(1);
     expect(testContext.view.$('.authenticator-grace-period-expiry-date').length).toBe(1);
+    expect(testContext.view.$('.authenticator-grace-period-skip-count-description').length).toBe(0);
     expect(testContext.view.$('.skip-all').length).toBe(0);
   });
 
@@ -248,10 +471,11 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(0);
     expect(testContext.view.$('.authenticator-grace-period-required-description').length).toBe(0);
     expect(testContext.view.$('.authenticator-grace-period-expiry-date').length).toBe(0);
+    expect(testContext.view.$('.authenticator-grace-period-skip-count-description').length).toBe(0);
     expect(testContext.view.$('.skip-all').length).toBe(0);
   });
 
-  it('renders required now list for badly formatted grace period dates', function() {
+  it.each([true, false])('renders required now list for badly formatted grace period values', function(useSkipCount) {
     const authenticators = [
       {
         label: 'Okta Phone',
@@ -266,7 +490,11 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aid568g3mXgtID0X1SLH',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            'expiry': 'aksjdfhkawef'
+            ...(useSkipCount ? {
+              'skipCount': 'aksjdfhkawef',
+            } : {
+              'expiry': 'aksjdfhkawef',
+            }),
           },
           allowedFor: 'any',
         },
@@ -285,7 +513,11 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aidtheidkwh282hv8g3',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            'expiry': ''
+            ...(useSkipCount ? {
+              'skipCount': -9.23,
+            } : {
+              'expiry': ''
+            }),
           },
           allowedFor: 'any'
         },
@@ -302,6 +534,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(0);
     expect(testContext.view.$('.authenticator-grace-period-required-description').length).toBe(0);
     expect(testContext.view.$('.authenticator-grace-period-expiry-date').length).toBe(0);
+    expect(testContext.view.$('.authenticator-grace-period-skip-count-description').length).toBe(0);
     expect(testContext.view.$('.skip-all').length).toBe(0);
   });
 
@@ -348,6 +581,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(0);
     expect(testContext.view.$('.authenticator-grace-period-required-description').length).toBe(0);
     expect(testContext.view.$('.authenticator-grace-period-expiry-date').length).toBe(0);
+    expect(testContext.view.$('.authenticator-grace-period-skip-count-description').length).toBe(0);
     expect(testContext.view.$('.skip-all').length).toBe(1);
     expect(testContext.view.$('.skip-all').text()).toBe('Continue');
   });

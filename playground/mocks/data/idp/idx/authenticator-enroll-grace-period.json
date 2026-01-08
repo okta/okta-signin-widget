@@ -131,6 +131,7 @@
         "id": "webauthn-enroll-id-123",
         "authenticatorId": "aidtheidkwh282hv8g3",
         "gracePeriod": {
+          "type": "BY_DATE_TIME",
           "expiry": "2022-12-17T05:00:00.000Z"
         }
       },
@@ -141,6 +142,7 @@
         "key": "phone_number",
         "authenticatorId": "aid568g3mXgtID0X1SLH",
         "gracePeriod": {
+          "type": "BY_DATE_TIME",
           "expiry": "2022-12-16T05:00:00.000Z"
         }
       }

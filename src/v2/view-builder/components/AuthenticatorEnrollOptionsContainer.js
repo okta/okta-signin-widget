@@ -14,6 +14,7 @@ import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import AuthenticatorEnrollOptions from './AuthenticatorEnrollOptions';
 import remindMeLater from './RemindMeLaterButton';
 import skipAll from './SkipOptionalEnrollmentButton';
+import { getGracePeriodRequiredSoonCustomLink } from '../utils/LinksUtil';
 
 export default View.extend({
 
@@ -23,9 +24,20 @@ export default View.extend({
     const authenticatorsWithGracePeriod = [];
     const authenticators = [];
 
+    const isGracePeriodExpiryStillActive = (expiry) => {
+      const currentTimestampMs = Date.now();
+      const gracePeriodTimestampMs = new Date(expiry).getTime();
+      // using isNaN as ie11 does not support Number.isNaN
+      // eslint-disable-next-line no-restricted-globals
+      return !isNaN(gracePeriodTimestampMs) && currentTimestampMs < gracePeriodTimestampMs;
+    };
+
     this.options.optionItems.forEach((authenticator) => {
-      if (authenticator.relatesTo?.gracePeriod?.expiry
-        && new Date(authenticator.relatesTo?.gracePeriod?.expiry).getTime() > Date.now()) {
+      const hasActiveGracePeriodExpiry = authenticator.relatesTo?.gracePeriod?.expiry
+        && isGracePeriodExpiryStillActive(authenticator.relatesTo?.gracePeriod?.expiry);
+      const hasActiveSkipCount =
+        authenticator.relatesTo?.gracePeriod?.skipCount && authenticator.relatesTo?.gracePeriod?.skipCount > 0;
+      if (hasActiveGracePeriodExpiry || hasActiveSkipCount) {
         authenticatorsWithGracePeriod.push(authenticator);
       } else {
         authenticators.push(authenticator);
@@ -53,6 +65,7 @@ export default View.extend({
         optionItems: authenticatorsWithGracePeriod,
         listTitle: loc('oie.setup.required.soon', 'login'),
         listSubtitle: loc('oie.setup.required.soon.description', 'login'),
+        listSubtitleLinkOptions: getGracePeriodRequiredSoonCustomLink(this.options.settings),
       }));
     }
 

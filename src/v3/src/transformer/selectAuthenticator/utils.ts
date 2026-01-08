@@ -427,15 +427,30 @@ const formatAuthenticatorOptions = (
 
       let remainingGracePeriodDays = 0;
       let hasGracePeriods = false;
+      // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+      const gracePeriodSkipCount = authenticator?.gracePeriod?.skipCount;
+      let gracePeriodSkipCountDescription = null;
       if (currentTimestampMs < gracePeriodEpochTimestampMs) {
         remainingGracePeriodDays = TimeUtil.calculateDaysBetween(
           currentTimestampMs,
           gracePeriodEpochTimestampMs,
         );
         hasGracePeriods = true;
+      } else if (gracePeriodSkipCount && gracePeriodSkipCount > 0) {
+        hasGracePeriods = true;
+        if (gracePeriodSkipCount === 1) {
+          gracePeriodSkipCountDescription = loc('oie.enrollment.policy.grace.period.required.in.one.skip', 'login');
+        } else if (gracePeriodSkipCount > 1) {
+          gracePeriodSkipCountDescription = loc(
+            'oie.enrollment.policy.grace.period.required.in.number.of.skips',
+            'login',
+            [gracePeriodSkipCount],
+          );
+        }
       }
 
-      const gracePeriodExpiry = (hasGracePeriods && Array.isArray(languageTags)
+      const gracePeriodExpiry = (hasGracePeriods
+        && gracePeriodEpochTimestampMs && Array.isArray(languageTags)
         && TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(
           new Date(gracePeriodEpochTimestampMs),
           languageTags,
@@ -476,6 +491,7 @@ const formatAuthenticatorOptions = (
           },
           gracePeriodExpiry,
           gracePeriodRequiredDescription,
+          gracePeriodSkipCountDescription,
           step,
           includeData: true,
           includeImmutableData: false,

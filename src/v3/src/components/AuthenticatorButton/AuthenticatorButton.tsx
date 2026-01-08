@@ -55,6 +55,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
       ariaLabel,
       gracePeriodExpiry,
       gracePeriodRequiredDescription,
+      gracePeriodSkipCountDescription,
     },
   } = uischema;
   const label = getTranslation(translations, 'label') ?? uischema.label;
@@ -105,7 +106,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
   };
 
   const renderDescription = () => {
-    if (gracePeriodRequiredDescription && gracePeriodExpiry) {
+    if ((gracePeriodRequiredDescription && gracePeriodExpiry) || gracePeriodSkipCountDescription) {
       return (
         <Box
           sx={{
@@ -119,38 +120,61 @@ const AuthenticatorButton: UISchemaElementComponent<{
               color: tokens.TypographyColorWarning,
             }}
           />
-          <Box
-            sx={{
-              marginLeft: tokens.Spacing1,
-            }}
-          >
-            <Typography
-              paragraph
-              data-se="authenticator-grace-period-required-description"
+          {gracePeriodRequiredDescription ? (
+            <Box
               sx={{
-                fontSize: tokens.TypographySizeSubordinate,
-                fontWeight: tokens.TypographyWeightBodyBold,
-                color: tokens.TypographyColorWarning,
-                margin: tokens.Spacing0,
-                textAlign: 'start',
+                marginLeft: tokens.Spacing1,
               }}
             >
-              {gracePeriodRequiredDescription}
-            </Typography>
-            <Typography
-              paragraph
-              data-se="authenticator-grace-period-expiry-date"
+              <Typography
+                paragraph
+                data-se="authenticator-grace-period-required-description"
+                sx={{
+                  fontSize: tokens.TypographySizeSubordinate,
+                  fontWeight: tokens.TypographyWeightBodyBold,
+                  color: tokens.TypographyColorWarning,
+                  margin: tokens.Spacing0,
+                  textAlign: 'start',
+                }}
+              >
+                {gracePeriodRequiredDescription}
+              </Typography>
+              <Typography
+                paragraph
+                data-se="authenticator-grace-period-expiry-date"
+                sx={{
+                  fontSize: tokens.TypographySizeSubordinate,
+                  fontWeight: tokens.TypographyWeightBody,
+                  color: tokens.TypographyColorSubordinate,
+                  margin: tokens.Spacing0,
+                  textAlign: 'start',
+                }}
+              >
+                {gracePeriodExpiry}
+              </Typography>
+            </Box>
+          ) : (gracePeriodSkipCountDescription && (
+            <Box
               sx={{
-                fontSize: tokens.TypographySizeSubordinate,
-                fontWeight: tokens.TypographyWeightBody,
-                color: tokens.TypographyColorSubordinate,
-                margin: tokens.Spacing0,
-                textAlign: 'start',
+                marginLeft: tokens.Spacing1,
               }}
             >
-              {gracePeriodExpiry}
-            </Typography>
-          </Box>
+              <Typography
+                paragraph
+                data-se="authenticator-grace-period-skip-count-description"
+                sx={{
+                  fontSize: tokens.TypographySizeSubordinate,
+                  fontWeight: tokens.TypographyWeightBodyBold,
+                  color: tokens.TypographyColorWarning,
+                  margin: tokens.Spacing0,
+                  textAlign: 'start',
+                }}
+              >
+                {gracePeriodSkipCountDescription}
+              </Typography>
+            </Box>
+          )
+          )}
         </Box>
       );
     } else if (description) {
