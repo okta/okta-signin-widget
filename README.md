@@ -1106,6 +1106,10 @@ Custom link href for the "Unlock Account" link. For this link to display, `featu
 
 Array of custom link objects `{text, href, target}` that will be added after the "Help" link. The `target` of the link is optional.
 
+##### helpLinks.gracePeriodRequiredSoon
+
+Custom link object `{text, href}` that will override the text after the "Required soon" title.
+
 #### hCaptcha options
 
 Set the following config options to customize `hCaptcha` script URI:
