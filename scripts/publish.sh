@@ -37,7 +37,6 @@ if [ -n "$SENTRY_AUTH_TOKEN" ]; then
   yarn sentry-cli sourcemaps upload \
     --org="${SENTRY_ORG}" \
     --project="${SENTRY_PROJECT}" \
-    --release="7.40.0-local" \
     ./dist/dist/js
   
   echo "Sourcemaps uploaded successfully for release ${RELEASE_VERSION}"
