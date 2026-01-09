@@ -117,6 +117,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
       - [helpLinks.forgotPassword](#helplinksforgotpassword)
       - [helpLinks.unlock](#helplinksunlock)
       - [helpLinks.custom](#helplinkscustom)
+      - [helpLinks.gracePeriodRequiredSoon](#helplinksgraceperiodrequiredsoon)
   - [Hooks](#hooks)
   - [Username and password](#username-and-password)
     - [transformUsername](#transformusername)
@@ -1086,7 +1087,11 @@ helpLinks: {
       href: 'https://acme.com',
       target: '_blank'
     }
-  ]
+  ],
+  gracePeriodRequiredSoon: {
+    text: 'Learn more about Authenticator Enrollment Policy Grace Period',
+    href: 'https://acme.com/authenticator-enrollment-policy-grace-period'
+  }
 }
 ```
 
@@ -1108,7 +1113,7 @@ Array of custom link objects `{text, href, target}` that will be added after the
 
 ##### helpLinks.gracePeriodRequiredSoon
 
-Custom link object `{text, href}` that will override the text after the "Required soon" title.
+Custom link object `{text, href}` that will add a link under the "Required soon" title.
 
 #### hCaptcha options
 
