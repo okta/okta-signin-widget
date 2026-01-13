@@ -207,6 +207,7 @@ export type WidgetOptions = {
     factorPage?: Omit<CustomLink, 'target'>;
     forgotPassword?: string;
     unlock?: string;
+    gracePeriodRequiredSoon: Omit<CustomLink, 'target'>;
   };
   defaultCountryCode?: string;
   transformUsername?: (username: string, operation: UserOperation) => string;
