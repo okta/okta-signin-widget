@@ -42,7 +42,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     };
   });
 
-  it.each([true, false])('renders required now list for all inactive grace periods', function(useSkipCount) {
+  it.each([true, false])('renders required now list for all inactive grace periods', function(useRemainingSkips) {
     const authenticators = [
       {
         label: 'Okta Phone',
@@ -57,8 +57,8 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aid568g3mXgtID0X1SLH',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            ...(useSkipCount ? {
-              'skipCount': 0,
+            ...(useRemainingSkips ? {
+              'remainingSkips': 0,
             } : {
               'expiry': '2019-12-17T05:00:00.000Z'
             }),
@@ -80,8 +80,8 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aidtheidkwh282hv8g3',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            ...(useSkipCount ? {
-              'skipCount': 0,
+            ...(useRemainingSkips ? {
+              'remainingSkips': 0,
             } : {
               'expiry': '2019-12-17T05:00:00.000Z'
             }),
@@ -105,7 +105,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.$('.skip-all').length).toBe(0);
   });
 
-  it.each([true, false])('renders required soon list for all active grace periods', function(useSkipCount) {
+  it.each([true, false])('renders required soon list for all active grace periods', function(useRemainingSkips) {
     const authenticators = [
       {
         label: 'Okta Phone',
@@ -120,8 +120,8 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aid568g3mXgtID0X1SLH',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            ...(useSkipCount ? {
-              'skipCount': 3,
+            ...(useRemainingSkips ? {
+              'remainingSkips': 3,
             } : {
               'expiry': '2023-12-31T05:00:00.000Z'
             }),
@@ -143,8 +143,8 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aidtheidkwh282hv8g3',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            ...(useSkipCount ? {
-              'skipCount': 1,
+            ...(useRemainingSkips ? {
+              'remainingSkips': 1,
             } : {
               'expiry': '2023-12-30T23:00:00.000Z'
             }),
@@ -168,7 +168,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.$('.authenticator-row').length).toBe(2);
     expect(testContext.view.$('.authenticator-usage-text').length).toBe(0);
     expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(2);
-    if (useSkipCount) {
+    if (useRemainingSkips) {
       expect(testContext.view.$('.authenticator-grace-period-skip-count-description').length).toBe(2);
     } else {
       expect(testContext.view.$('.authenticator-grace-period-required-description').length).toBe(2);
@@ -178,7 +178,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.$('.skip-all').text()).toBe('Remind me later');
   });
 
-  it.each([true, false])('renders required now and required soon for active and inactive grace periods', function(useSkipCount) {
+  it.each([true, false])('renders required now and required soon for active and inactive grace periods', function(useRemainingSkips) {
     const authenticators = [
       {
         label: 'Okta Phone',
@@ -193,8 +193,8 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aid568g3mXgtID0X1SLH',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            ...(useSkipCount ? {
-              'skipCount': 0,
+            ...(useRemainingSkips ? {
+              'remainingSkips': 0,
             } : {
               'expiry': '2020-12-17T05:00:00.000Z'
             }),
@@ -216,8 +216,8 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aidtheidkwh282hv8g3',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            ...(useSkipCount ? {
-              'skipCount': 9,
+            ...(useRemainingSkips ? {
+              'remainingSkips': 9,
             } : {
               'expiry': '2025-12-17T05:00:00.000Z'
             }),
@@ -237,7 +237,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.$('.authenticator-row').length).toBe(2);
     expect(testContext.view.$('.authenticator-usage-text').length).toBe(1);
     expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(1);
-    if (useSkipCount) {
+    if (useRemainingSkips) {
       expect(testContext.view.$('.authenticator-grace-period-skip-count-description').length).toBe(1);
     } else {
       expect(testContext.view.$('.authenticator-grace-period-required-description').length).toBe(1);
@@ -246,7 +246,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.$('.skip-all').length).toBe(0);
   });
 
-  it.each([true, false])('renders required now list for all inactive grace periods', function(useSkipCount) {
+  it.each([true, false])('renders required now list for all inactive grace periods', function(useRemainingSkips) {
     const authenticators = [
       {
         label: 'Okta Phone',
@@ -261,8 +261,8 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aid568g3mXgtID0X1SLH',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            ...(useSkipCount ? {
-              'skipCount': 0,
+            ...(useRemainingSkips ? {
+              'remainingSkips': 0,
             } : {
               'expiry': '2019-12-17T05:00:00.000Z'
             }),
@@ -284,8 +284,8 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aidtheidkwh282hv8g3',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            ...(useSkipCount ? {
-              'skipCount': 0,
+            ...(useRemainingSkips ? {
+              'remainingSkips': 0,
             } : {
               'expiry': '2019-12-17T05:00:00.000Z'
             }),
@@ -324,7 +324,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aid568g3mXgtID0X1SLH',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            'skipCount': 3,
+            'remainingSkips': 3,
           },
           allowedFor: 'any',
         },
@@ -386,7 +386,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aid568g3mXgtID0X1SLH',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            'skipCount': 0,
+            'remainingSkips': 0,
           },
           allowedFor: 'any',
         },
@@ -475,7 +475,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.$('.skip-all').length).toBe(0);
   });
 
-  it.each([true, false])('renders required now list for badly formatted grace period values', function(useSkipCount) {
+  it.each([true, false])('renders required now list for badly formatted grace period values', function(useRemainingSkips) {
     const authenticators = [
       {
         label: 'Okta Phone',
@@ -490,8 +490,8 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aid568g3mXgtID0X1SLH',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            ...(useSkipCount ? {
-              'skipCount': 'aksjdfhkawef',
+            ...(useRemainingSkips ? {
+              'remainingSkips': 'aksjdfhkawef',
             } : {
               'expiry': 'aksjdfhkawef',
             }),
@@ -513,8 +513,8 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           authenticatorId: 'aidtheidkwh282hv8g3',
           gracePeriod: {
             'id': 'gpe4hiasrPJX4zwZY789',
-            ...(useSkipCount ? {
-              'skipCount': -9.23,
+            ...(useRemainingSkips ? {
+              'remainingSkips': -9.23,
             } : {
               'expiry': ''
             }),

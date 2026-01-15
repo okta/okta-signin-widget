@@ -630,14 +630,14 @@ test.requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticatorsWithLoginCou
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1, true)).eql('phone_number');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(1)).eql(false);
-  await t.expect(selectFactorPage.getFactorGracePeriodSkipCountDescriptionTextByIndex(1)).eql('9 skips remaining');
+  await t.expect(selectFactorPage.getFactorGracePeriodRemainingSkipsDescriptionTextByIndex(1)).eql('9 skips remaining');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Security Key or Biometric Authenticator');
   await t.expect(selectFactorPage.getFactorIconSelectorByIndex(2)).contains('mfa-webauthn');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2, true)).eql('webauthn');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(2)).eql(false);
-  await t.expect(selectFactorPage.getFactorGracePeriodSkipCountDescriptionTextByIndex(2)).eql('1 skip remaining');
+  await t.expect(selectFactorPage.getFactorGracePeriodRemainingSkipsDescriptionTextByIndex(2)).eql('1 skip remaining');
 
   await t.expect(await selectFactorPage.skipButtonExists()).eql(false);
 }).clientScripts({ content: mockDate });
@@ -665,14 +665,14 @@ test.requestHooks(mockEnrollRequiredSoonAuthenticatorsWithLoginCount)('should lo
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1, true)).eql('phone_number');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(1)).eql(false);
-  await t.expect(selectFactorPage.getFactorGracePeriodSkipCountDescriptionTextByIndex(1)).eql('3 skips remaining');
+  await t.expect(selectFactorPage.getFactorGracePeriodRemainingSkipsDescriptionTextByIndex(1)).eql('3 skips remaining');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Security Key or Biometric Authenticator');
   await t.expect(selectFactorPage.getFactorIconSelectorByIndex(2)).contains('mfa-webauthn');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2, true)).eql('webauthn');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(2)).eql(false);
-  await t.expect(selectFactorPage.getFactorGracePeriodSkipCountDescriptionTextByIndex(2)).eql('1 skip remaining');
+  await t.expect(selectFactorPage.getFactorGracePeriodRemainingSkipsDescriptionTextByIndex(2)).eql('1 skip remaining');
 
   await t.expect(await selectFactorPage.skipButtonExists()).eql(true);
 }).clientScripts({ content: mockDate });

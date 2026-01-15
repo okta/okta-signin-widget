@@ -39,10 +39,10 @@ const AuthenticatorRow = View.extend({
             <p class="authenticator-grace-period-expiry-date">{{gracePeriodExpiry}}</p>
           {{/if}}
         </div>
-      {{else if gracePeriodSkipCountDescription}}
+      {{else if gracePeriodRemainingSkipsDescription}}
         <span class="authenticator-grace-period-required-icon"></span>
           <div class="authenticator-grace-period-text-container">
-            <p class="authenticator-grace-period-skip-count-description">{{gracePeriodSkipCountDescription}}</p>
+            <p class="authenticator-grace-period-skip-count-description">{{gracePeriodRemainingSkipsDescription}}</p>
           </div>
         </span>
       {{else}}
@@ -134,15 +134,15 @@ const AuthenticatorRow = View.extend({
           false,
         );
       }
-    } else if (this.model.get('relatesTo')?.gracePeriod?.skipCount
-      && this.model.get('relatesTo')?.gracePeriod?.skipCount > 0
+    } else if (this.model.get('relatesTo')?.gracePeriod?.remainingSkips
+      && this.model.get('relatesTo')?.gracePeriod?.remainingSkips > 0
     ) {
-      if (this.model.get('relatesTo')?.gracePeriod?.skipCount === 1) {
-        data.gracePeriodSkipCountDescription = loc('oie.enrollment.policy.grace.period.required.in.one.skip', 'login');
+      if (this.model.get('relatesTo')?.gracePeriod?.remainingSkips === 1) {
+        data.gracePeriodRemainingSkipsDescription = loc('oie.enrollment.policy.grace.period.required.in.one.skip', 'login');
       } else {
-        data.gracePeriodSkipCountDescription = loc(
+        data.gracePeriodRemainingSkipsDescription = loc(
           'oie.enrollment.policy.grace.period.required.in.number.of.skips', 'login', [
-            this.model.get('relatesTo')?.gracePeriod?.skipCount
+            this.model.get('relatesTo')?.gracePeriod?.remainingSkips
           ]
         );
       }

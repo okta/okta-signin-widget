@@ -428,23 +428,23 @@ const formatAuthenticatorOptions = (
       let remainingGracePeriodDays = 0;
       let hasGracePeriods = false;
       // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
-      const gracePeriodSkipCount = authenticator?.gracePeriod?.skipCount;
-      let gracePeriodSkipCountDescription = null;
+      const gracePeriodRemainingSkips = authenticator?.gracePeriod?.remainingSkips;
+      let gracePeriodRemainingSkipsDescription = null;
       if (currentTimestampMs < gracePeriodEpochTimestampMs) {
         remainingGracePeriodDays = TimeUtil.calculateDaysBetween(
           currentTimestampMs,
           gracePeriodEpochTimestampMs,
         );
         hasGracePeriods = true;
-      } else if (gracePeriodSkipCount && gracePeriodSkipCount > 0) {
+      } else if (gracePeriodRemainingSkips && gracePeriodRemainingSkips > 0) {
         hasGracePeriods = true;
-        if (gracePeriodSkipCount === 1) {
-          gracePeriodSkipCountDescription = loc('oie.enrollment.policy.grace.period.required.in.one.skip', 'login');
-        } else if (gracePeriodSkipCount > 1) {
-          gracePeriodSkipCountDescription = loc(
+        if (gracePeriodRemainingSkips === 1) {
+          gracePeriodRemainingSkipsDescription = loc('oie.enrollment.policy.grace.period.required.in.one.skip', 'login');
+        } else if (gracePeriodRemainingSkips > 1) {
+          gracePeriodRemainingSkipsDescription = loc(
             'oie.enrollment.policy.grace.period.required.in.number.of.skips',
             'login',
-            [gracePeriodSkipCount],
+            [gracePeriodRemainingSkips],
           );
         }
       }
@@ -491,7 +491,7 @@ const formatAuthenticatorOptions = (
           },
           gracePeriodExpiry,
           gracePeriodRequiredDescription,
-          gracePeriodSkipCountDescription,
+          gracePeriodRemainingSkipsDescription,
           step,
           includeData: true,
           includeImmutableData: false,
