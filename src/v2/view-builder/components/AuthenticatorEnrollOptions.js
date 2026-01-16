@@ -138,7 +138,10 @@ const AuthenticatorRow = View.extend({
       && this.model.get('relatesTo')?.gracePeriod?.remainingSkips > 0
     ) {
       if (this.model.get('relatesTo')?.gracePeriod?.remainingSkips === 1) {
-        data.gracePeriodRemainingSkipsDescription = loc('oie.enrollment.policy.grace.period.required.in.one.skip', 'login');
+        data.gracePeriodRemainingSkipsDescription = loc(
+          'oie.enrollment.policy.grace.period.required.in.one.skip',
+          'login'
+        );
       } else {
         data.gracePeriodRemainingSkipsDescription = loc(
           'oie.enrollment.policy.grace.period.required.in.number.of.skips', 'login', [

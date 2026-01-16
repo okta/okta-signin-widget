@@ -36,7 +36,8 @@ export default View.extend({
       const hasActiveGracePeriodExpiry = authenticator.relatesTo?.gracePeriod?.expiry
         && isGracePeriodExpiryStillActive(authenticator.relatesTo?.gracePeriod?.expiry);
       const hasActiveRemainingSkips =
-        authenticator.relatesTo?.gracePeriod?.remainingSkips && authenticator.relatesTo?.gracePeriod?.remainingSkips > 0;
+        authenticator.relatesTo?.gracePeriod?.remainingSkips &&
+        authenticator.relatesTo?.gracePeriod?.remainingSkips > 0;
       if (hasActiveGracePeriodExpiry || hasActiveRemainingSkips) {
         authenticatorsWithGracePeriod.push(authenticator);
       } else {
