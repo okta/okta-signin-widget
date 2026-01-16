@@ -106,7 +106,9 @@ const AuthenticatorButton: UISchemaElementComponent<{
   };
 
   const renderDescription = () => {
-    if ((gracePeriodRequiredDescription && gracePeriodExpiry) || gracePeriodRemainingSkipsDescription) {
+    if (
+      (gracePeriodRequiredDescription && gracePeriodExpiry) || gracePeriodRemainingSkipsDescription
+    ) {
       return (
         <Box
           sx={{

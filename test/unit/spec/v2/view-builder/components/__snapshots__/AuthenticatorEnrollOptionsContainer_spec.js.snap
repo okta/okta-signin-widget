@@ -350,7 +350,7 @@ exports[`v2/view-builder/components/AuthenticatorEnrollOptionsContainer renders 
 </div>
 `;
 
-exports[`v2/view-builder/components/AuthenticatorEnrollOptionsContainer renders required now and required soon for skip count and expiry date grace periods 1`] = `
+exports[`v2/view-builder/components/AuthenticatorEnrollOptionsContainer renders required now and required soon for remaining skips and expiry date grace periods 1`] = `
 <div
   class="authenticator-enroll-list-container"
 >
@@ -1424,7 +1424,7 @@ exports[`v2/view-builder/components/AuthenticatorEnrollOptionsContainer renders 
 </div>
 `;
 
-exports[`v2/view-builder/components/AuthenticatorEnrollOptionsContainer renders required soon list for all skip count and expiry date grace periods 1`] = `
+exports[`v2/view-builder/components/AuthenticatorEnrollOptionsContainer renders required soon list for all remaining skips and expiry date grace periods 1`] = `
 <div
   class="authenticator-enroll-list-container"
 >

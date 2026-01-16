@@ -264,7 +264,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       .toBe(ButtonType.SUBMIT);
   });
 
-  it('should transform authenticator elements when all elements have mixed skip count and expiry date grace periods', () => {
+  it('should transform authenticator elements when all elements have mixed remaining skips and expiry date grace periods', () => {
     const options = [
       {
         label: 'Email',
@@ -328,7 +328,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       .toBe('skip');
   });
 
-  it('should transform authenticator elements when mix of required now and required soon with skip count and expiry date grace periods', () => {
+  it('should transform authenticator elements when mix of required now and required soon with remaining skips and expiry date grace periods', () => {
     transaction.nextStep = {
       name: IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
       canSkip: isSkippable.mockReturnValue(false)(),

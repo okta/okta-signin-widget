@@ -811,7 +811,7 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues[1].options.gracePeriodRemainingSkipsDescription).toBeNull();
     });
 
-    it('Correctly displays options for grace periods with skip counts', () => {
+    it('Correctly displays options for grace periods with remaining skipss', () => {
       const mockDate = jest.spyOn(TimeUtil, 'formatDateToDeviceAssuranceGracePeriodExpiryLocaleString').mockReturnValue('09/27/2035, 06:00 PM EDT');
       const authenticatorEnrollments: IdxAuthenticator[] = [];
       const options: IdxOption[] = [
@@ -900,7 +900,7 @@ describe('Select Authenticator Utility Tests', () => {
       mockDate.mockRestore();
     });
 
-    it('Correctly displays options for grace periods with invalid skip counts', () => {
+    it('Correctly displays options for grace periods with invalid remaining skipss', () => {
       const mockDate = jest.spyOn(TimeUtil, 'formatDateToDeviceAssuranceGracePeriodExpiryLocaleString').mockReturnValue('09/27/2035, 06:00 PM EDT');
       const authenticatorEnrollments: IdxAuthenticator[] = [];
       const options: IdxOption[] = [

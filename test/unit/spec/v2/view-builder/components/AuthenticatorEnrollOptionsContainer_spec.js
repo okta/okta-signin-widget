@@ -309,7 +309,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.$('.skip-all').length).toBe(0);
   });
 
-  it('renders required soon list for all skip count and expiry date grace periods', function() {
+  it('renders required soon list for all remaining skips and expiry date grace periods', function() {
     const authenticators = [
       {
         label: 'Okta Phone',
@@ -371,7 +371,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.$('.skip-all').text()).toBe('Remind me later');
   });
 
-  it('renders required now and required soon for skip count and expiry date grace periods', function() {
+  it('renders required now and required soon for remaining skips and expiry date grace periods', function() {
     const authenticators = [
       {
         label: 'Okta Phone',
