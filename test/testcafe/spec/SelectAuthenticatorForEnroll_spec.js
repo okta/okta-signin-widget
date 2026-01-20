@@ -605,7 +605,7 @@ test
     await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('17. 12. 2022 00:00 EST');
   });
 
-test.requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticatorsWithLoginCount)('should load select required now and required soon authenticators with remaining skipss', async t => {
+test.requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticatorsWithLoginCount)('should load select required now and required soon authenticators with remaining skips', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
@@ -642,7 +642,7 @@ test.requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticatorsWithLoginCou
   await t.expect(await selectFactorPage.skipButtonExists()).eql(false);
 }).clientScripts({ content: mockDate });
 
-test.requestHooks(mockEnrollRequiredSoonAuthenticatorsWithLoginCount)('should load select required soon authenticator lists with remaining skipss', async t => {
+test.requestHooks(mockEnrollRequiredSoonAuthenticatorsWithLoginCount)('should load select required soon authenticator lists with remaining skips', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
