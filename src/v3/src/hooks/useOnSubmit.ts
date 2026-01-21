@@ -255,6 +255,9 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
           // do not preserve field data when auth-js sets `stepUp` for expected 401 error used by Apple SSOE flow
           && !newTransaction.stepUp
       ) || (areTransactionsEqual(currTransaction, newTransaction) && transactionHasWarning);
+      const prevHasFormData = currTransaction?.nextStep?.inputs
+        && currTransaction.nextStep.inputs.length > 0;
+      const hasMessage = newTransaction.messages && newTransaction.messages.length > 0;
 
       const onSuccess = (resolve?: (val: unknown) => void) => {
         setIdxTransaction(newTransaction);
@@ -281,6 +284,16 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         setLoading(false);
         resolve?.(true);
       };
+
+      if (isClientTransaction && prevHasFormData && hasMessage) {
+        const messageObj = newTransaction.messages![0];
+        setMessage({
+          message: messageObj.message,
+          class: messageObj.class,
+          i18n: { key: messageObj.i18n?.key },
+        } as IdxMessage);
+        return;
+      }
 
       if (step === IDX_STEP.ENROLL_PROFILE && !isClientTransaction) {
         const postRegistrationSubmitPromise = new Promise((resolve) => {

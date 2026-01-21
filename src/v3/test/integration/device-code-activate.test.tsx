@@ -13,6 +13,7 @@
 import { waitFor } from '@testing-library/preact';
 
 import mockResponse from '../../../../playground/mocks/data/idp/idx/device-code-activate.json';
+import errorResponse from '../../../../playground/mocks/data/idp/idx/error-invalid-device-code.json';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('device-code-activate', () => {
@@ -50,5 +51,46 @@ describe('device-code-activate', () => {
         userCode: hyphenatedCode,
       }, 'application/vnd.okta.v1+json'),
     );
+  });
+
+  it('should preserve form and show error message when invalid code is submitted', async () => {
+    const {
+      user, findByLabelText, findByText, findByRole,
+    } = await setup({
+      mockResponses: {
+        '/introspect': {
+          data: mockResponse,
+          status: 200,
+        },
+        '/idp/idx/device/activate': {
+          data: errorResponse,
+          status: 400, // Error responses typically have 4xx status codes
+        },
+      },
+      widgetOptions: { features: { autoFocus: true } },
+    });
+
+    const heading = await findByRole('heading', { level: 1 });
+    expect(heading.textContent).toBe('Activate your device');
+
+    const submitButton = await findByText('Next', { selector: 'button' });
+    const userCodeEle = await findByLabelText(/^Activation Code/) as HTMLInputElement;
+
+    const invalidCode = 'BADCODE1';
+    await user.type(userCodeEle, invalidCode);
+
+    await user.click(submitButton);
+
+    // Wait for error message to appear
+    const errorMessage = await findByText('Invalid code. Try again.');
+    expect(errorMessage).toBeInTheDocument();
+
+    // Verify that the input field is still present
+    const userCodeEleAfterError = await findByLabelText(/^Activation Code/) as HTMLInputElement;
+    expect(userCodeEleAfterError).toBeInTheDocument();
+
+    // Verify form title and subtitle are still present
+    const headingAfterError = await findByRole('heading', { level: 1 });
+    expect(headingAfterError.textContent).toBe('Activate your device');
   });
 });
