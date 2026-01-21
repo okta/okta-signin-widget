@@ -60,10 +60,11 @@ export default FormController.extend({
           }
           this.$('.okta-waiting-spinner').hide();
           let factorPollingIntervalSeconds = Math.ceil(resp.transaction.profile.refresh / 1000);
-          this._startCountDown(factorPollingIntervalSeconds);
+          // this._startCountDown(factorPollingIntervalSeconds);
         })
         .catch(() => {
           this._stopCountDown();
+          // TODO: if TimeoutException, then call poll() again
         });
     },
 
@@ -111,7 +112,8 @@ export default FormController.extend({
       this.transactionObject = options.appState.get('transaction');
       this.factorPollingIntervalSeconds = Math.ceil(this.transactionObject.transaction.profile.refresh / 1000);
       this._updateTitle(this.factorPollingIntervalSeconds);
-      this._startCountDown(this.factorPollingIntervalSeconds);
+      // this._startCountDown(this.factorPollingIntervalSeconds);
+      this._checkStatus();
     },
   },
 
