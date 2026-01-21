@@ -425,7 +425,7 @@ signIn.showSignIn({
 }).then(function(res) {
   // Most flows will not require any redirection. In these cases, tokens will be returned directly.
   // res.tokens is an object
-  oktaSignIn.authClient.handleLoginRedirect(res.tokens);
+  signIn.authClient.handleLoginRedirect(res.tokens);
 }).catch(function(error) {
   // This function is invoked with errors the widget cannot recover from:
   // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR
@@ -589,7 +589,7 @@ oktaSignIn.showSignIn({
   // Assumes there is an empty element on the page with an id of ‘osw-container’
   el: ‘#osw-container’,
 }).then(response => {
-  oktaSignIn.authClient.handleLoginRedirect(res.tokens);
+  signIn.authClient.handleLoginRedirect(res.tokens);
 }).catch(function(error) {
   // This function is invoked with errors the widget cannot recover from:
   // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR
