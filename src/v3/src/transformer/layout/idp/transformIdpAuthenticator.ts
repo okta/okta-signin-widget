@@ -21,7 +21,7 @@ import {
   SpinnerElement,
   TitleElement,
 } from '../../../types';
-import { getDisplayName, loc } from '../../../util';
+import { getDisplayName, loc, buildAuthCoinProps } from '../../../util';
 
 // This is the page where the user launches the selected IDP authenticator
 export const transformIdpAuthenticator: IdxStepTransformer = ({
@@ -33,6 +33,7 @@ export const transformIdpAuthenticator: IdxStepTransformer = ({
   const { nextStep } = transaction;
   const { features } = widgetProps;
   const displayName = getDisplayName(transaction);
+  const authCoinProps= buildAuthCoinProps(transaction);
   const isEnrollStep = nextStep?.name === IDX_STEP.ENROLL_AUTHENTICATOR;
   // In case of failure, don't auto-redirect which will result in infinite redirects.
   const autoRedirect = features?.skipIdpFactorVerificationBtn && !transaction.messages?.length;
@@ -75,6 +76,7 @@ export const transformIdpAuthenticator: IdxStepTransformer = ({
     type: 'Redirect',
     options: {
       url: nextStep!.href!,
+      hasCustomLogo: Boolean(authCoinProps?.url?.trim()),
     },
   };
 

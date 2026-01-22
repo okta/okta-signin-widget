@@ -697,7 +697,7 @@ export interface StepperRadioElement extends UISchemaElement {
 
 export interface RedirectElement extends UISchemaElement {
   type: 'Redirect',
-  options: { url: string; },
+  options: { url: string; hasCustomLogo?: boolean };
 }
 
 export interface AutoSubmitElement extends UISchemaElement {

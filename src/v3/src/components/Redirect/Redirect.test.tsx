@@ -51,13 +51,27 @@ describe('Redirect', () => {
     expect(mockChangeLocation).toHaveBeenCalledWith('https://example.com');
   });
 
-  it('delays redirect on safari by 150ms', () => {
+  it('redirects immediately on safari when hasCustomLogo is not set', () => {
     jest.useFakeTimers();
     mockIsSafari.mockReturnValue(true);
 
     render(
       <Redirect
         uischema={{ type: 'Redirect', options: { url: 'https://example.com' } } as any}
+      />,
+    );
+
+    expect(mockExecuteOnVisiblePage).toHaveBeenCalledTimes(1);
+    expect(mockChangeLocation).toHaveBeenCalledWith('https://example.com');
+  });
+
+  it('delays redirect on safari by 150ms when hasCustomLogo is true', () => {
+    jest.useFakeTimers();
+    mockIsSafari.mockReturnValue(true);
+
+    render(
+      <Redirect
+        uischema={{ type: 'Redirect', options: { url: 'https://example.com', hasCustomLogo: true } } as any}
       />,
     );
 

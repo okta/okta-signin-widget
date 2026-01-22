@@ -29,7 +29,7 @@ const Redirect: UISchemaElementComponent<{ uischema: RedirectElement }> = ({
     let timeoutId: number | undefined;
 
     Util.executeOnVisiblePage(() => {
-      if (BrowserFeatures.isSafari()) {
+      if (options?.hasCustomLogo && BrowserFeatures.isSafari()) {
         timeoutId = setTimeout(() => {
           Util.changeLocation(options.url);
         }, 150);
