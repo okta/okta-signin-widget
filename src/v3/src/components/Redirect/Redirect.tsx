@@ -13,6 +13,7 @@
 import { useEffect } from 'preact/hooks';
 
 import Util from '../../../../util/Util';
+import BrowserFeatures from '../../../../util/BrowserFeatures';
 import { RedirectElement, UISchemaElementComponent } from '../../types';
 
 const Redirect: UISchemaElementComponent<{ uischema: RedirectElement }> = ({
@@ -21,12 +22,28 @@ const Redirect: UISchemaElementComponent<{ uischema: RedirectElement }> = ({
   useEffect(() => {
     // we only want this to ever happen once (on initial component mount)
     // and when document is visible
-    if (options?.url) {
-      Util.executeOnVisiblePage(() => {
-        Util.changeLocation(options.url);
-      });
+    if (!options?.url) {
+      return;
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    let timeoutId: number | undefined;
+
+    Util.executeOnVisiblePage(() => {
+      if (BrowserFeatures.isSafari()) {
+        timeoutId = setTimeout(() => {
+          Util.changeLocation(options.url);
+        }, 150);
+      } else {
+        Util.changeLocation(options.url);
+      }
+    });
+
+    return () => {
+      if (typeof timeoutId !== 'undefined') {
+        window.clearTimeout(timeoutId);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;
