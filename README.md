@@ -117,6 +117,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
       - [helpLinks.forgotPassword](#helplinksforgotpassword)
       - [helpLinks.unlock](#helplinksunlock)
       - [helpLinks.custom](#helplinkscustom)
+      - [helpLinks.gracePeriodRequiredSoon](#helplinksgraceperiodrequiredsoon)
   - [Hooks](#hooks)
   - [Username and password](#username-and-password)
     - [transformUsername](#transformusername)
@@ -256,9 +257,9 @@ To embed the Sign-in Widget via CDN, include links to the JS and CSS files in yo
 
 ```html
 <!-- Latest CDN production Javascript and CSS -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.39.2/js/okta-sign-in.min.js" type="text/javascript" integrity="sha384-9+B1rV7ZW0CSVwEVJRvVK2uhVSICqEJ3UdmME1s8/jyIBN0k0iofJzoRvDb8V1k5" crossorigin="anonymous"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.39.3/js/okta-sign-in.min.js" type="text/javascript" integrity="sha384-S1A/tuV/nQRZ1Z1oRQ3yKoBq7NP7KZZH/ZTcf5rTXDlPdlooHg1nUVVhLRVqmd96" crossorigin="anonymous"></script>
 
-<link href="https://global.oktacdn.com/okta-signin-widget/7.39.2/css/okta-sign-in.min.css" type="text/css" rel="stylesheet" integrity="sha384-lLi8BP7Xdnl86D4vgcRMTi57yNNbI/SsENL5aNdg5r7PwSyF5MMNPRMuTesyAhmn" crossorigin="anonymous" />
+<link href="https://global.oktacdn.com/okta-signin-widget/7.39.3/css/okta-sign-in.min.css" type="text/css" rel="stylesheet" integrity="sha384-lLi8BP7Xdnl86D4vgcRMTi57yNNbI/SsENL5aNdg5r7PwSyF5MMNPRMuTesyAhmn" crossorigin="anonymous" />
 ```
 
 **NOTE:** The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](https://github.com/okta/okta-signin-widget/releases). We recommend using the latest widget version.
@@ -268,13 +269,13 @@ When using one of the bundles without the polyfill included, you may want to con
 
 ```html
 <!-- Polyfill for older browsers -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.39.2/js/okta-sign-in.polyfill.min.js" type="text/javascript" integrity="sha384-+DS0RljMM3tnmQzqdVElvuSupLm2eKfQU2Tb1n2kzvr/6ZWzlYzyRriGMoLtRTfx" crossorigin="anonymous"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.39.3/js/okta-sign-in.polyfill.min.js" type="text/javascript" integrity="sha384-+DS0RljMM3tnmQzqdVElvuSupLm2eKfQU2Tb1n2kzvr/6ZWzlYzyRriGMoLtRTfx" crossorigin="anonymous"></script>
 
 <!-- Widget bundle for Okta Identity Engine -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.39.2/js/okta-sign-in.oie.min.js" type="text/javascript" integrity="sha384-Avng7D8bMVhSyetD1NeZZGW560uA2muRrL0sB0WOy7eq6UQis1zx86DfCJFTBIoQ" crossorigin="anonymous"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.39.3/js/okta-sign-in.oie.min.js" type="text/javascript" integrity="sha384-c8gKmHs81jzAauw/2jyuZicDXIrUlmjUixXU7InqvYECS0H52/cPz1tDWxRCx/TC" crossorigin="anonymous"></script>
 
 <!-- CSS for widget -->
-<link href="https://global.oktacdn.com/okta-signin-widget/7.39.2/css/okta-sign-in.min.css" type="text/css" rel="stylesheet" integrity="sha384-lLi8BP7Xdnl86D4vgcRMTi57yNNbI/SsENL5aNdg5r7PwSyF5MMNPRMuTesyAhmn" crossorigin="anonymous" />
+<link href="https://global.oktacdn.com/okta-signin-widget/7.39.3/css/okta-sign-in.min.css" type="text/css" rel="stylesheet" integrity="sha384-lLi8BP7Xdnl86D4vgcRMTi57yNNbI/SsENL5aNdg5r7PwSyF5MMNPRMuTesyAhmn" crossorigin="anonymous" />
 ```
 
 
@@ -1086,7 +1087,11 @@ helpLinks: {
       href: 'https://acme.com',
       target: '_blank'
     }
-  ]
+  ],
+  gracePeriodRequiredSoon: {
+    text: 'Learn more about Authenticator Enrollment Policy Grace Period',
+    href: 'https://acme.com/authenticator-enrollment-policy-grace-period'
+  }
 }
 ```
 
@@ -1105,6 +1110,10 @@ Custom link href for the "Unlock Account" link. For this link to display, `featu
 ##### helpLinks.custom
 
 Array of custom link objects `{text, href, target}` that will be added after the "Help" link. The `target` of the link is optional.
+
+##### helpLinks.gracePeriodRequiredSoon
+
+Custom link object `{text, href}` that will add a link under the "Required soon" title.
 
 #### hCaptcha options
 
