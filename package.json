@@ -145,6 +145,7 @@
     "@rollup/plugin-node-resolve": "^13.2.1",
     "@rollup/plugin-replace": "^4.0.0",
     "@rollup/plugin-strip": "^2.1.0",
+    "@sentry/cli": "^2.58.2",
     "@testcafe-community/axe": "^3.5.0",
     "@testing-library/testcafe": "^4.4.1",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
@@ -246,7 +247,6 @@
   },
   "dependencies": {
     "@okta/okta-auth-js": "7.14.0",
-    "@sentry/cli": "^2.58.2",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "@types/backbone": "^1.4.15",
     "@types/eslint-scope": "^3.7.3",
