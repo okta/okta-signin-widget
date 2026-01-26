@@ -91,7 +91,14 @@ fn.getChromeLNAPermissionState = async function(
 ) {
   try {
     if (navigator.permissions && typeof navigator.permissions.query === 'function') {
-      const result = await navigator.permissions.query({ name: 'local-network-access' as any });
+      let result: PermissionStatus;
+      try {
+        // Query for the new granular `loopback-network` permission only available on Chromium 145+
+        result = await navigator.permissions.query({ name: 'loopback-network' as any });
+      } catch (e) {
+        // Fallback to the legacy `local-network-access` aggregate permission on < Chromium 145
+        result = await navigator.permissions.query({ name: 'local-network-access' as any });
+      }
       
       handlePermissionState(result.state);
     } else {

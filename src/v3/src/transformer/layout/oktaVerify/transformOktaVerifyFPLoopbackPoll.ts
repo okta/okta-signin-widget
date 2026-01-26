@@ -72,10 +72,24 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
       message: [
         {
           title: loc('chrome.lna.error.title', 'login'),
-          message: loc('chrome.lna.error.description.part1', 'login'),
+          message: loc('chrome.lna.error.description.intro', 'login'),
         },
         {
-          message: loc('chrome.lna.error.description.part2', 'login'),
+          options: [
+            {
+              type: 'text',
+              label: loc('chrome.lna.error.description.step1', 'login'),
+            },
+            {
+              type: 'text',
+              label: loc('chrome.lna.error.description.step2', 'login'),
+            },
+            {
+              type: 'text',
+              label: loc('chrome.lna.error.description.step3', 'login'),
+            },
+          ],
+          listStyleType: 'decimal',
         },
         {
           message: loc(

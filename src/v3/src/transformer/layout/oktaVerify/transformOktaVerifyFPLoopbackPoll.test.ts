@@ -268,10 +268,24 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
         [
           {
             title: 'chrome.lna.error.title',
-            message: 'chrome.lna.error.description.part1',
+            message: 'chrome.lna.error.description.intro',
           },
           {
-            message: 'chrome.lna.error.description.part2',
+            options: [
+              {
+                type: 'text',
+                label: 'chrome.lna.error.description.step1',
+              },
+              {
+                type: 'text',
+                label: 'chrome.lna.error.description.step2',
+              },
+              {
+                type: 'text',
+                label: 'chrome.lna.error.description.step3',
+              },
+            ],
+            listStyleType: 'decimal',
           },
           {
             message:
