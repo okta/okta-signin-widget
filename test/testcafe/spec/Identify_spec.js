@@ -294,13 +294,7 @@ test.requestHooks(identifyLockedUserMock)('should show global error for invalid 
   await identityPage.clickNextButton();
 
   await identityPage.waitForErrorBox();
-  if (userVariables.gen3) {
-    // Gen3 follows the IDX response, this response is terminal and does not have remediations
-    // hence why it will not display a button or fields, only the error message
-    await t.expect(identityPage.form.queryButton('Next').exists).eql(false);
-  } else {
-    await t.expect(identityPage.getNextButton().exists).eql(true);
-  }
+  await t.expect(identityPage.getNextButton().exists).eql(true);
 
   await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action');
 });
