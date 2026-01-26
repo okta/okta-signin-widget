@@ -264,14 +264,14 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       .toBe(ButtonType.SUBMIT);
   });
 
-  it('should transform authenticator elements when all elements have mixed skip count and expiry date grace periods', () => {
+  it('should transform authenticator elements when all elements have mixed remaining skips and expiry date grace periods', () => {
     const options = [
       {
         label: 'Email',
         value: 'okta_email',
         relatesTo: {
           gracePeriod: {
-            skipCount: 2,
+            remainingSkips: 2,
           },
         },
       } as unknown as IdxOption,
@@ -328,7 +328,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       .toBe('skip');
   });
 
-  it('should transform authenticator elements when mix of required now and required soon with skip count and expiry date grace periods', () => {
+  it('should transform authenticator elements when mix of required now and required soon with remaining skips and expiry date grace periods', () => {
     transaction.nextStep = {
       name: IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
       canSkip: isSkippable.mockReturnValue(false)(),
@@ -340,7 +340,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
             value: 'okta_email',
             relatesTo: {
               gracePeriod: {
-                skipCount: 2,
+                remainingSkips: 2,
               },
             },
           } as unknown as IdxOption,
@@ -393,16 +393,16 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       .options.buttons[0] as AuthenticatorButtonElement).label).toBe('Email');
   });
 
-  it.each([true, false])('should transform authenticator elements when all elements have active grace periods', (useSkipCount) => {
+  it.each([true, false])('should transform authenticator elements when all elements have active grace periods', (useRemainingSkips) => {
     const options = [
       {
         label: 'Email',
         value: 'okta_email',
         relatesTo: {
           gracePeriod: {
-            ...(useSkipCount
+            ...(useRemainingSkips
               ? {
-                skipCount: 2,
+                remainingSkips: 2,
               } : {
                 expiry: '2045-09-27T18:00:00.000Z',
               }),
@@ -414,9 +414,9 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         value: 'okta_email',
         relatesTo: {
           gracePeriod: {
-            ...(useSkipCount
+            ...(useRemainingSkips
               ? {
-                skipCount: 1,
+                remainingSkips: 1,
               } : {
                 expiry: '2030-09-27T18:00:00.000Z',
               }),
@@ -467,7 +467,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       .toBe('skip');
   });
 
-  it.each([true, false])('should transform authenticator elements when mix of active and inactive grace periods', (useSkipCount) => {
+  it.each([true, false])('should transform authenticator elements when mix of active and inactive grace periods', (useRemainingSkips) => {
     transaction.nextStep = {
       name: IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
       canSkip: isSkippable.mockReturnValue(false)(),
@@ -479,9 +479,9 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
             value: 'okta_email',
             relatesTo: {
               gracePeriod: {
-                ...(useSkipCount
+                ...(useRemainingSkips
                   ? {
-                    skipCount: 0,
+                    remainingSkips: 0,
                   } : {
                     expiry: '2022-09-27T18:00:00.000Z',
                   }),
@@ -493,9 +493,9 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
             value: 'okta_email',
             relatesTo: {
               gracePeriod: {
-                ...(useSkipCount
+                ...(useRemainingSkips
                   ? {
-                    skipCount: 2,
+                    remainingSkips: 2,
                   } : {
                     expiry: '2030-09-27T18:00:00.000Z',
                   }),
@@ -589,14 +589,14 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       .options.buttons[0] as AuthenticatorButtonElement).label).toBe('Email');
   });
 
-  it.each([true, false])('should transform authenticator elements when all elements have inactive grace periods', (useSkipCount) => {
+  it.each([true, false])('should transform authenticator elements when all elements have inactive grace periods', (useRemainingSkips) => {
     const options = [
       {
         relatesTo: {
           gracePeriod: {
-            ...(useSkipCount
+            ...(useRemainingSkips
               ? {
-                skipCount: 0,
+                remainingSkips: 0,
               } : {
                 expiry: '2020-09-27T18:00:00.000Z',
               }),
@@ -606,9 +606,9 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       {
         relatesTo: {
           gracePeriod: {
-            ...(useSkipCount
+            ...(useRemainingSkips
               ? {
-                skipCount: 0,
+                remainingSkips: 0,
               } : {
                 expiry: '2020-09-27T18:00:00.000Z',
               }),
@@ -652,14 +652,14 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       .options.buttons[0] as AuthenticatorButtonElement).label).toBe('Email');
   });
 
-  it.each([true, false])('should treat authenticator elements as due now when badly formatted values', (useSkipCount) => {
+  it.each([true, false])('should treat authenticator elements as due now when badly formatted values', (useRemainingSkips) => {
     const options = [
       {
         relatesTo: {
           gracePeriod: {
-            ...(useSkipCount
+            ...(useRemainingSkips
               ? {
-                skipCount: 'balsjfjaskldj',
+                remainingSkips: 'balsjfjaskldj',
               } : {
                 expiry: 'balsjfjaskldj',
               }),
@@ -669,9 +669,9 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       {
         relatesTo: {
           gracePeriod: {
-            ...(useSkipCount
+            ...(useRemainingSkips
               ? {
-                skipCount: -9.23,
+                remainingSkips: -9.23,
               } : {
                 expiry: '',
               }),

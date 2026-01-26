@@ -74,10 +74,10 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
       // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
       && isGracePeriodExpiryStillActive(option.relatesTo?.gracePeriod?.expiry);
     // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
-    const hasActiveSkipCount = option.relatesTo?.gracePeriod?.skipCount
+    const hasActiveRemainingSkips = option.relatesTo?.gracePeriod?.remainingSkips
       // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
-      && option.relatesTo?.gracePeriod?.skipCount > 0;
-    if (hasActiveGracePeriodExpiry || hasActiveSkipCount) {
+      && option.relatesTo?.gracePeriod?.remainingSkips > 0;
+    if (hasActiveGracePeriodExpiry || hasActiveRemainingSkips) {
       authenticatorsWithGracePeriod.push(option);
     } else {
       authenticatorsDueNow.push(option);

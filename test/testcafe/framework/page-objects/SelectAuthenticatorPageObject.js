@@ -36,7 +36,7 @@ const authenticatorGracePeriodRequiredDescriptionSelector = userVariables.gen3
 const authenticatorGracePeriodExpirySelector = userVariables.gen3
   ? '[data-se="authenticator-grace-period-expiry-date"]'
   : '.authenticator-grace-period-expiry-date';
-const authenticatorGracePeriodSkipCountDescriptionSelector = userVariables.gen3
+const authenticatorGracePeriodRemainingSkipsDescriptionSelector = userVariables.gen3
   ? '[data-se="authenticator-grace-period-skip-count-description"]'
   : '.authenticator-grace-period-skip-count-description';
 const authenticatorListTitleSelector = userVariables.gen3 
@@ -202,8 +202,8 @@ export default class SelectFactorPageObject extends BasePageObject {
     return elCount === 1;
   }
 
-  getFactorGracePeriodSkipCountDescriptionTextByIndex(index) {
-    return this.getFactorButtons().nth(index).find(authenticatorGracePeriodSkipCountDescriptionSelector).textContent;
+  getFactorGracePeriodRemainingSkipsDescriptionTextByIndex(index) {
+    return this.getFactorButtons().nth(index).find(authenticatorGracePeriodRemainingSkipsDescriptionSelector).textContent;
   }
 
   getFactorGracePeriodRequiredDescriptionTextByIndex(index) {

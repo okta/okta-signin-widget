@@ -378,7 +378,7 @@ Object {
 }
 `;
 
-exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elements when all elements have mixed skip count and expiry date grace periods 1`] = `
+exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elements when all elements have mixed remaining skips and expiry date grace periods 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -666,7 +666,7 @@ Object {
 }
 `;
 
-exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elements when mix of required now and required soon with skip count and expiry date grace periods 1`] = `
+exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elements when mix of required now and required soon with remaining skips and expiry date grace periods 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {

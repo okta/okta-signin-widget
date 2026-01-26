@@ -55,7 +55,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
       ariaLabel,
       gracePeriodExpiry,
       gracePeriodRequiredDescription,
-      gracePeriodSkipCountDescription,
+      gracePeriodRemainingSkipsDescription,
     },
   } = uischema;
   const label = getTranslation(translations, 'label') ?? uischema.label;
@@ -106,7 +106,9 @@ const AuthenticatorButton: UISchemaElementComponent<{
   };
 
   const renderDescription = () => {
-    if ((gracePeriodRequiredDescription && gracePeriodExpiry) || gracePeriodSkipCountDescription) {
+    if (
+      (gracePeriodRequiredDescription && gracePeriodExpiry) || gracePeriodRemainingSkipsDescription
+    ) {
       return (
         <Box
           sx={{
@@ -153,7 +155,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
                 {gracePeriodExpiry}
               </Typography>
             </Box>
-          ) : (gracePeriodSkipCountDescription && (
+          ) : (gracePeriodRemainingSkipsDescription && (
             <Box
               sx={{
                 marginLeft: tokens.Spacing1,
@@ -170,7 +172,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
                   textAlign: 'start',
                 }}
               >
-                {gracePeriodSkipCountDescription}
+                {gracePeriodRemainingSkipsDescription}
               </Typography>
             </Box>
           )

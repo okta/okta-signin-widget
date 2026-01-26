@@ -153,7 +153,7 @@
         "authenticatorId": "aidtheidkwh282hv8g3",
         "gracePeriod": {
           "type": "BY_SKIP_COUNT",
-          "skipCount": 1
+          "remainingSkips": 1
         }
       },
       {
@@ -164,7 +164,7 @@
         "authenticatorId": "aid568g3mXgtID0X1SLH",
         "gracePeriod": {
           "type": "BY_SKIP_COUNT",
-          "skipCount": 3
+          "remainingSkips": 3
         }
       }
     ]
