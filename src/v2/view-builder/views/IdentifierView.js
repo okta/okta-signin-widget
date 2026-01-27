@@ -149,11 +149,7 @@ const Body = BaseForm.extend({
     // When a user enters invalid credentials, /introspect returns an error,
     // along with a user object containing the identifier entered by the user.
     this.$el.find('.identifier-container').remove();
-
-    // there is no need to invoke the webauthn API unless we have Autofill UI enabled
-    if (this._hasAutofillUIChallenge()) {
-      this.getCredentialsAndInvokeAction();
-    }
+    this.getCredentialsAndInvokeAction();
   },
 
   /**
@@ -179,8 +175,10 @@ const Body = BaseForm.extend({
           };
         }
 
+        const isAutoFillUIChallenge =
+          this.options.appState.hasRemediationObject(RemediationForms.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR);
         // Setting the autocomplete value to 'webauthn' allows the browser to list passkeys alongside usernames
-        const autoCompleteDefaultValue = this._hasAutofillUIChallenge() && webauthn.isConditionalMediationAvailable()
+        const autoCompleteDefaultValue = isAutoFillUIChallenge && webauthn.isConditionalMediationAvailable()
           ? 'username webauthn'
           : 'username';
         // We enable the browser's autocomplete for the identifier input
@@ -309,13 +307,6 @@ const Body = BaseForm.extend({
           return;
         }
 
-        // If one navigator.credentials call is canceled in order to invoke another one
-        // (eg. when we have both Autofill UI and Sign in with a passkey button)
-        // we want to suppress the error and let the user continue with authentication.
-        if (webauthn.isAbortError(error)) {
-          return;
-        }
-
         // Suppress the error shown to the enduser in case of the relying party id mismatch.
         // The error message shown was:
         // "The relying party ID is not a registrable domain suffix of, nor equal to the current domain.
@@ -413,10 +404,6 @@ const Body = BaseForm.extend({
     if (cookieUsername) {
       this.model.set('identifier', cookieUsername);
     }
-  },
-
-  _hasAutofillUIChallenge() {
-    return this.options.appState.hasRemediationObject(RemediationForms.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR);
   }
 });
 
