@@ -259,6 +259,14 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
 
       const onSuccess = (resolve?: (val: unknown) => void) => {
         setIdxTransaction(newTransaction);
+        // Do not emit errors when auth-js sets `stepUp` for expected 401 error used by Apple SSOE flow
+        if (newTransaction.requestDidSucceed === false && !newTransaction.stepUp) {
+          eventEmitter.emit(
+            'afterError',
+            getEventContext(newTransaction),
+            getErrorEventContext(newTransaction.rawIdxState),
+          );
+        }
         setIsClientTransaction(isClientTransaction);
         if (isClientTransaction
             && !newTransaction.messages?.length
@@ -274,15 +282,6 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         setLoading(false);
         resolve?.(true);
       };
-
-      // Do not emit errors when auth-js sets `stepUp` for expected 401 error used by Apple SSOE flow
-      if (newTransaction.requestDidSucceed === false && !newTransaction.stepUp) {
-        eventEmitter.emit(
-          'afterError',
-          getEventContext(newTransaction),
-          getErrorEventContext(newTransaction.rawIdxState),
-        );
-      }
 
       if (step === IDX_STEP.ENROLL_PROFILE && !isClientTransaction) {
         const postRegistrationSubmitPromise = new Promise((resolve) => {
@@ -313,6 +312,8 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         return;
       }
 
+      // Add targeted handling for invalid device code message to show form level error message
+      // This change makes sure parity between gen2 and gen3 widget behavior
       const invalidDeviceCodeMessage = newTransaction.messages?.find(
         (msg) => msg.i18n?.key === 'idx.invalid.device.code',
       );
