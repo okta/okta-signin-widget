@@ -167,7 +167,7 @@ test.requestHooks(deviceCodeInternalErrorMock)('should be able to get device not
   await t.expect(deviceCodeActivatePageObject.isTryAgainButtonPresent()).eql(true);
 });
 
-test.requestHooks(invalidDeviceCodeMock)('should be able show error when wrong activation code is entered', async t => {
+test.requestHooks(invalidDeviceCodeMock)('should preserve form and show error when wrong activation code is entered', async t => {
   identifyRequestLogger.clear();
   const deviceCodeActivatePageObject = await setup(t);
   await checkA11y(t);
@@ -176,7 +176,15 @@ test.requestHooks(invalidDeviceCodeMock)('should be able show error when wrong a
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCD-WXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
 
+  // Verify error message is displayed
   await t.expect(deviceCodeActivatePageObject.getGlobalErrors()).contains('Invalid code. Try again.');
+  
+  // Verify that the form is preserved (input field still visible)
+  await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
+  
+  // Verify form title and subtitle are still present
+  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Activate your device');
+  await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device to get an activation code');
 });
 
 test.requestHooks(identifyRequestLogger, deviceCodeInvalidUserCodeMock)('should be able show error when wrong activation code is passed in the url', async t => {

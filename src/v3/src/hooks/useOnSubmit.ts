@@ -23,6 +23,7 @@ import { useCallback } from 'preact/hooks';
 import { generateDeviceFingerprint } from 'src/util/deviceFingerprintingUtils';
 
 import Logger from '../../../util/Logger';
+import { getMessage } from '../../../v2/ion/i18nUtils';
 import { IDX_STEP, ON_PREM_TOKEN_CHANGE_ERROR_KEY } from '../constants';
 import { useWidgetContext } from '../contexts';
 import { MessageType } from '../types';
@@ -308,6 +309,20 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
           return;
         }
         // No need to continue since onSuccess is called in registration hook callback
+        return;
+      }
+
+      // Add targeted handling for invalid device code message to show form level error message
+      // This change makes sure parity between gen2 and gen3 widget behavior
+      const invalidDeviceCodeMessage = newTransaction.messages?.find(
+        (msg) => msg.i18n?.key === 'idx.invalid.device.code',
+      );
+      if (isClientTransaction && invalidDeviceCodeMessage) {
+        setMessage({
+          message: getMessage(invalidDeviceCodeMessage),
+          class: invalidDeviceCodeMessage.class,
+          i18n: { key: invalidDeviceCodeMessage.i18n.key },
+        } as IdxMessage);
         return;
       }
 
