@@ -402,8 +402,9 @@ const mockChromeLNAPermissionsQuery = ClientFunction((permissionState) => {
   // Replace the original query method with a mock
   const originalQuery = navigator.permissions.query;
   navigator.permissions.query = (permissionDesc) => {
-    // Return a promise that resolves to the specified state
-    if (permissionDesc.name === 'local-network-access') {
+    // Return a promise that resolves to the specified state for either the legacy 'local-network-access'
+    // permission name (< Chromium 145) or the new 'loopback-network' name (Chromium 145+)
+    if (permissionDesc.name === 'local-network-access' || permissionDesc.name === 'loopback-network') {
       return Promise.resolve({ state: permissionState });
     }
     // Fall back to the original method for other permissions
@@ -1083,8 +1084,10 @@ test
     const errorBox = userVariables.gen3 ? deviceChallengeFallbackPage.form.getErrorBox() : deviceChallengeFallbackPage.form.getErrorBoxCallout();
     await t.expect(errorBox.withText('Unable to sign in').exists).eql(true);
     await t.expect(errorBox.withText('The browser is blocking communication with Okta Verify.').exists).eql(true);
-    await t.expect(errorBox.withText('To sign in, go to your browser\'s site settings, find "Local network access", and change the permission from "Block" to "Allow." Then, reload this page.').exists).eql(true);
-    await t.expect(errorBox.withText('For more information, follow the instructions on the Local Network Access page or contact your administrator for help.').exists).eql(true);
-    await t.expect(errorBox.withText('Local Network Access').find('a[href="https://okta.com"]').exists).eql(true);
+    await t.expect(errorBox.withText('Go to your browser\'s site settings').exists).eql(true);
+    await t.expect(errorBox.withText('Find “Local network access” or “Apps on device”').exists).eql(true);
+    await t.expect(errorBox.withText('Change the permission from “Block” to “Allow” and reload this page').exists).eql(true);
+    await t.expect(errorBox.withText('For more information, follow the instructions on the Local app access page or contact your administrator for help.').exists).eql(true);
+    await t.expect(errorBox.withText('Local app access').find('a[href="https://okta.com"]').exists).eql(true);
   });
   

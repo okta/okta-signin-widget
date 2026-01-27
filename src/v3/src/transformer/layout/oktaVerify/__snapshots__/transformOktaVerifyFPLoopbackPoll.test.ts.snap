@@ -202,11 +202,25 @@ Object {
           "class": "ERROR",
           "message": Array [
             Object {
-              "message": "chrome.lna.error.description.part1",
+              "message": "chrome.lna.error.description.intro",
               "title": "chrome.lna.error.title",
             },
             Object {
-              "message": "chrome.lna.error.description.part2",
+              "listStyleType": "decimal",
+              "options": Array [
+                Object {
+                  "label": "chrome.lna.error.description.step1",
+                  "type": "text",
+                },
+                Object {
+                  "label": "chrome.lna.error.description.step2",
+                  "type": "text",
+                },
+                Object {
+                  "label": "chrome.lna.error.description.step3",
+                  "type": "text",
+                },
+              ],
             },
             Object {
               "message": "chrome.lna.error.description.more.information",

@@ -4,6 +4,16 @@
       text-align: center;
       margin: 0 auto;
 
+      // Reset alignment for nested callouts
+      .infobox {
+        text-align: left;
+      }
+
+      .chrome-lna-error-steps {
+        list-style-type: decimal;
+        margin: 15px 0 15px 15px;
+      }
+
       .spinner {
         height: 38px;
         margin-top: 40px;

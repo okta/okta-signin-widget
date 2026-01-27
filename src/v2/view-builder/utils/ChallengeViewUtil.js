@@ -34,10 +34,12 @@ export function appendLoginHint(deviceChallengeUrl, loginHint) {
 
 const LNAErrorViewContent = View.extend({
   template: hbs`
-  {{i18n code="chrome.lna.error.description.part1" bundle="login"}}
-  <br><br>
-  {{i18n code="chrome.lna.error.description.part2" bundle="login"}}
-  <br><br>
+  {{i18n code="chrome.lna.error.description.intro" bundle="login"}}
+  <ol class="chrome-lna-error-steps">
+    <li>{{i18n code="chrome.lna.error.description.step1" bundle="login"}}</li>
+    <li>{{i18n code="chrome.lna.error.description.step2" bundle="login"}}</li>
+    <li>{{i18n code="chrome.lna.error.description.step3" bundle="login"}}</li>
+  </ol>
   {{i18n code="chrome.lna.error.description.more.information" bundle="login"
     $1="<a href='#' target='_blank' rel='noopener noreferrer' class='chrome-lna-help-link'>$1</a>"}}
   `,

@@ -28,19 +28,27 @@ export const isIOS = (): boolean => (
 export const getChromeLNAPermissionState = async (
   handlePermissionState: (currPermissionState?: PermissionState) => void,
 ) => {
-  try {
-    if (navigator.permissions && typeof navigator.permissions.query === 'function') {
-      const result = await navigator.permissions.query({ name: 'local-network-access' as any });
+  if (!navigator.permissions || typeof navigator.permissions.query !== 'function') {
+    handlePermissionState(undefined);
+    return;
+  }
 
-      handlePermissionState(result.state);
-    } else {
-      // Fallback for browsers that do not support Permissions API
-      handlePermissionState(undefined);
+  try {
+    let result: PermissionStatus;
+    try {
+      // Query for the new granular `loopback-network` permission only available on Chromium 145+
+      result = await navigator.permissions.query({ name: 'loopback-network' as any });
+    } catch (e) {
+      // Fallback to the legacy `local-network-access` aggregate permission on < Chromium 145
+      result = await navigator.permissions.query({ name: 'local-network-access' as any });
     }
+    handlePermissionState(result.state);
   } catch (error) {
     if (error instanceof ChromeLNADeniedError) {
       throw error; // Rethrow custom Chrome LNA denied error so Sentry can capture it for monitoring
     }
+
+    // If both queries fail or the browser blocks the API entirely
     handlePermissionState(undefined);
   }
 };
