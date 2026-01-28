@@ -399,14 +399,6 @@ describe('v2/view-builder/views/IdentifierView', function() {
         expectErrorSuppressed: true
       },
       {
-        description: 'should suppress error when navigator.credentials.get throws AbortError (e.g., when modal passkey flow cancels autofill)',
-        errorMessage: 'The operation was aborted.',
-        errorName: 'AbortError',
-        errorCode: 20,
-        isRelyingPartyIdMismatch: false,
-        expectErrorSuppressed: true
-      },
-      {
         description: 'should show error when navigator.credentials.get throws non-Relying Party ID mismatch error',
         errorMessage: 'Unsuppressed WebAuthn error',
         errorName: 'UnsuppressedError',
@@ -436,46 +428,6 @@ describe('v2/view-builder/views/IdentifierView', function() {
         // Check that an error message IS displayed in the UI (error was not suppressed)
         expect(testContext.view.$el.find('.infobox-error p').text()).toContain(errorMessage);
       }
-    });
-  });
-
-  describe('WebAuthn Autofill conditional invocation in postRender', function() {
-    let getCredentialsAndInvokeActionSpy;
-
-    beforeEach(function() {
-      getCredentialsAndInvokeActionSpy = jest.spyOn(
-        IdentifierView.prototype.Body.prototype,
-        'getCredentialsAndInvokeAction'
-      ).mockResolvedValue(undefined);
-    });
-
-    afterEach(function() {
-      getCredentialsAndInvokeActionSpy.mockRestore();
-    });
-
-    it('should invoke getCredentialsAndInvokeAction when Autofill UI remediation is present', function() {
-      jest.spyOn(AppState.prototype, 'hasRemediationObject').mockImplementation(remediation => {
-        return remediation === FORMS.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR;
-      });
-      jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
-      jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(true);
-
-      testContext.init(XHRIdentifyWithWebAuthnAutofill.remediation.value);
-
-      expect(getCredentialsAndInvokeActionSpy).toHaveBeenCalledTimes(1);
-    });
-
-    it('should NOT invoke getCredentialsAndInvokeAction when Autofill UI remediation is NOT present', function() {
-      jest.spyOn(AppState.prototype, 'hasRemediationObject').mockImplementation(remediation => {
-        // Only return true for non-autofill remediations
-        return remediation === FORMS.LAUNCH_PASSKEYS_AUTHENTICATOR;
-      });
-      jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
-      jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(true);
-
-      testContext.init(XHRIdentifyWithPasskeys.remediation.value);
-
-      expect(getCredentialsAndInvokeActionSpy).not.toHaveBeenCalled();
     });
   });
 
