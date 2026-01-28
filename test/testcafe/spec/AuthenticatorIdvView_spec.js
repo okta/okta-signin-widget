@@ -56,7 +56,7 @@ test
   .requestHooks(logger, personaIdvMock)('validate content on verify page for Persona', async t => {
     const pageObject = await setup(t);
     await t.expect(pageObject.getFormTitle()).eql('Verify your identity with Persona');
-    await t.expect(pageObject.getPageSubtitle()).eql('Verify your identity with Persona and share your verification results with Okta to finish setting up your Okta account.');
+    await t.expect(pageObject.getPageSubtitle()).eql('Verify your identity with Persona to continue and share your verification results with Okta. You may need a valid government-issued ID.');
     await t.expect(pageObject.getBeaconSelector()).contains('mfa-idv-persona');
 
     const termsOfUseLink = pageObject.getLinkElement('Terms of Use');
@@ -81,7 +81,7 @@ test
   .requestHooks(logger, clearIdvMock)('validate content on verify page for Clear', async t => {
     const pageObject = await setup(t);
     await t.expect(pageObject.getFormTitle()).eql('Verify your identity with Clear');
-    await t.expect(pageObject.getPageSubtitle()).eql('Verify your identity with Clear and share your verification results with Okta to finish setting up your Okta account.');
+    await t.expect(pageObject.getPageSubtitle()).eql('Verify your identity with Clear to continue and share your verification results with Okta. You may need a valid government-issued ID.');
     await t.expect(pageObject.getBeaconSelector()).contains('mfa-idv-clear');
 
     const termsOfUseLink = pageObject.getLinkElement('Terms of Use');
@@ -106,7 +106,7 @@ test
   .requestHooks(logger, incodeIdvMock)('validate content on verify page for Incode', async t => {
     const pageObject = await setup(t);
     await t.expect(pageObject.getFormTitle()).eql('Verify your identity with Incode');
-    await t.expect(pageObject.getPageSubtitle()).eql('Verify your identity with Incode and share your verification results with Okta to finish setting up your Okta account.');
+    await t.expect(pageObject.getPageSubtitle()).eql('Verify your identity with Incode to continue and share your verification results with Okta. You may need a valid government-issued ID.');
     await t.expect(pageObject.getBeaconSelector()).contains('mfa-idv-incode');
 
     const termsOfUseLink = pageObject.getLinkElement('Terms of Use');
@@ -131,7 +131,7 @@ test
   .requestHooks(logger, customIdvMock)('validate content on verify page for Custom IDV', async t => {
     const pageObject = await setup(t);
     await t.expect(pageObject.getFormTitle()).eql('Verify your identity with Custom_IDV');
-    await t.expect(pageObject.getPageSubtitle()).eql('Verify your identity with Custom_IDV and share your verification results with Okta to finish setting up your Okta account.');
+    await t.expect(pageObject.getPageSubtitle()).eql('Verify your identity with Custom_IDV to continue and share your verification results with Okta. You may need a valid government-issued ID.');
     await t.expect(pageObject.getBeaconSelector()).contains('mfa-idv-standard');
 
     const termsOfUseLink = pageObject.getLinkElement('Terms of Use');
