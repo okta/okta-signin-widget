@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { View } from '@okta/courage';
+import { getMetaInfoLinksForCustomIDV } from '../utils/IdpUtil';
 import hbs from '@okta/handlebars-inline-precompile';
 
 export default View.extend({
@@ -39,9 +40,20 @@ export default View.extend({
   },
   getTemplateData: function() {
     const appState = this.options?.appState;
-    return { className: this.getBeaconClassName() || '',
-      logoUri: appState?.get('currentAuthenticator')?.logoUri || 
-        appState?.get('currentAuthenticatorEnrollment')?.logoUri
+    const remediations = appState?.get('remediations');
+    
+    let logoUri = appState?.get('currentAuthenticator')?.logoUri || 
+                  appState?.get('currentAuthenticatorEnrollment')?.logoUri;
+    
+    // Fallback to idvMetadata.url if available
+    if (!logoUri) {
+      const idvMetadata = getMetaInfoLinksForCustomIDV(remediations);
+      logoUri = idvMetadata?.logoLink;
+    }
+
+    return {
+      className: this.getBeaconClassName() || '',
+      logoUri,
     };
   },
   getBeaconClassName() {

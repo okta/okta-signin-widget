@@ -239,4 +239,10 @@ export const getAuthCoinConfiguration = (): Record<string, AuthCoinConfig> => ({
     description: loc('oie.idv.customIDV', 'login'),
     iconClassName: 'mfa-idv-standard',
   },
+    [ID_PROOFING_TYPE.IDV_OIN]: {
+    name: 'mfa-idv-oin',
+    customizable: true,
+    description: loc('oie.idv.customIDV', 'login'),
+    iconClassName: 'mfa-idv-oin',
+  },
 });
