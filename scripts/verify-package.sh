@@ -162,7 +162,8 @@ if [ -n "${TEST_SUITE_ID}" ]; then
   setup_service node v16.19.1
 
   # Verify minimum supported version of yarn
-  setup_service yarn 1.22.19
+  # setup_service yarn 1.22.19
+  npm install -g yarn@1.22.19
   export PATH="${PATH}:$(yarn global bin)"
 
   # ensure registry is configured after node verison is changed
