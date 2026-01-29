@@ -150,7 +150,16 @@ export const buildAuthCoinProps = (
   }
 
   if (nextStep?.name === IDX_STEP.REDIRECT_IDVERIFY && nextStep?.idp?.id) {
-    return { authenticatorKey: nextStep.idp.id };
+    const idpId = nextStep.idp.id;
+    const metaData =
+      idpId === ID_PROOFING_TYPE.IDV_OIN
+        ? (nextStep as NextStepWithIdvMetadata)?.idvMetadata
+        : undefined;
+
+    return {
+      authenticatorKey: idpId,
+      ...(metaData?.logoLink && { url: metaData.logoLink })
+    };
   }
 
   // @ts-expect-error Property 'deviceEnrollment' does not exist on type 'IdxContext' ts(2339)
@@ -481,9 +490,12 @@ export const getIDVDisplayInfo = (
   transaction: IdxTransaction,
 ): IdvDisplayInfo => {
   const idpName = transaction.nextStep?.idp?.name;
-  const metaData = transaction.nextStep?.idp?.id === ID_PROOFING_TYPE.IDV_STANDARD
-    ? (transaction.nextStep as NextStepWithIdvMetadata)?.idvMetadata
-    : undefined;
+  const idpId = transaction.nextStep?.idp?.id;
+  const metaData =
+    idpId === ID_PROOFING_TYPE.IDV_STANDARD ||
+    idpId === ID_PROOFING_TYPE.IDV_OIN
+      ? (transaction.nextStep as NextStepWithIdvMetadata)?.idvMetadata
+      : undefined;
   let termsOfUse;
   let privacyPolicy;
   switch (idpName?.toUpperCase()) {

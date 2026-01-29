@@ -12,7 +12,8 @@ export function getMetaInfoLinksForCustomIDV(remediations) {
     r => r.name === FORMS.REDIRECT_IDVERIFY
   );
   return (
-    (redirectIDVerifyRemediation?.idp?.id === ID_PROOFING_TYPE.IDV_STANDARD &&
+    ((redirectIDVerifyRemediation?.idp?.id === ID_PROOFING_TYPE.IDV_STANDARD ||
+      redirectIDVerifyRemediation?.idp?.id === ID_PROOFING_TYPE.IDV_OIN) &&
       redirectIDVerifyRemediation?.idvMetadata) ||
     undefined
   );
