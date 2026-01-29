@@ -8,6 +8,11 @@ if ! setup_service node v16.19.1; then
   exit ${FAILED_SETUP}
 fi
 
+# if ! setup_service yarn 1.22.19 &> /dev/null; then
+#   echo "Failed to install yarn"
+#   exit ${FAILED_SETUP}
+# fi
+
 if ! npm install -g yarn@1.22.19; then
   echo "Failed to install yarn"
   exit ${FAILED_SETUP}
