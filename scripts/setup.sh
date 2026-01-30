@@ -18,15 +18,23 @@ function yarn_sync() {
   return 0
 }
 
-if ! setup_service node v16.19.1 &> /dev/null; then
+if ! setup_service node v16.19.1; then
   echo "Failed to install node"
   exit ${FAILED_SETUP}
 fi
 
-if ! setup_service yarn 1.22.19 &> /dev/null; then
+# if ! setup_service yarn 1.22.19; then
+#   echo "Failed to install yarn"
+#   exit ${FAILED_SETUP}
+# fi
+
+if ! npm install -g yarn@1.22.19; then
   echo "Failed to install yarn"
   exit ${FAILED_SETUP}
 fi
+
+export PATH="$PATH:$(npm config get prefix)/bin"
+
 
 cd ${OKTA_HOME}/${REPO}
 
