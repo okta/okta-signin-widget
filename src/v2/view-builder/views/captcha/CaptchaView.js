@@ -117,7 +117,7 @@ export default View.extend({
       // Calls saveForm on the parent view (ex. IdentifierView) to trigger the form submission flow.
       // This ensures ParentView.saveForm() runs (for deviceFingerprint, etc. if applicable)
       // and the parent view triggers BaseForm.saveForm().
-      this.options.appState.trigger('onAltchaSolved');
+      this.options.appState.trigger('altchaSolved');
     };
 
     const setUpTempToken = () => {

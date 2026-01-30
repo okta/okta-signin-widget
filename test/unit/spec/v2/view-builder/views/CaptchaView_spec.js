@@ -383,7 +383,7 @@ describe('v2/view-builder/views/CaptchaView', function() {
       
       expect(window.altcha.reset).toHaveBeenCalledWith('altcha');
       expect(testContext.view.model.get('captchaVerify.captchaToken')).toEqual('altcha-test-token');
-      expect(spy).toHaveBeenCalledWith('onAltchaSolved');
+      expect(spy).toHaveBeenCalledWith('altchaSolved');
     });
 
     it('ALTCHA _getCaptchaObject returns window.altcha', function() {
