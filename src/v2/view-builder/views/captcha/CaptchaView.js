@@ -202,6 +202,7 @@ export default View.extend({
         altEl.addEventListener('verified', (e) => {
           const token = (e && e.detail && e.detail.payload) || e;
           onAltchaSolved(token);
+ 
           $container.empty();
         });
       }
