@@ -39,6 +39,12 @@ export default Form.extend({
       this.captchaObject = captchaObject;
     });
 
+    // When ALTCHA captcha is solved, trigger the form's save flow
+    // This ensures IdentifierView.saveForm() runs (for deviceFingerprint, etc.)
+    this.listenTo(this.options.appState, 'altchaSolved', () => {
+      this.trigger('save', this.model);
+    });
+
     inputOptions.forEach(input => {
       this.addInputOrView(input);
     });
