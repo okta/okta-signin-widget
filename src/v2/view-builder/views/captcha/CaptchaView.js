@@ -85,8 +85,8 @@ export default View.extend({
    *  the parent form to actually render the CAPTCHA.
   * */   
   _addCaptcha() {
-    // Callback invoked when CAPTCHA is solved.
-    const onCaptchaSolved = (token) => {
+    // Base callback invoked when CAPTCHA is solved.
+    const onCaptchaSolvedBase = (token) => {
       const captchaObject = this._getCaptchaOject();
 
       // We reset the Captcha. We need to reset because every time the 
@@ -99,8 +99,25 @@ export default View.extend({
       // Set the token in the model
       const fieldName = this.options.name;
       this.model.set(fieldName, token);
+    };
 
+    // Callback invoked when reCAPTCHA or HCaptcha is solved.
+    const onReCaptchaOrHCaptchaSolved = (token) => {
+      onCaptchaSolvedBase(token);
+
+      // Calls saveForm on the BaseForm to trigger the form submission flow.
+      // IdentifierView.saveForm ran BEFORE hCAPTCHA and reCAPTCHA loaded
       this.options.appState.trigger('saveForm', this.model); 
+    };
+
+    // Callback invoked when ALTCHA is solved.
+    const onAltchaSolved = (token) => {
+      onCaptchaSolvedBase(token);
+
+      // Calls saveForm on the parent view (ex. IdentifierView) to trigger the form submission flow.
+      // This ensures ParentView.saveForm() runs (for deviceFingerprint, etc. if applicable)
+      // and the parent view triggers BaseForm.saveForm().
+      this.options.appState.trigger('altchaSolved');
     };
 
     const setUpTempToken = () => {
@@ -184,7 +201,8 @@ export default View.extend({
       if (altEl.addEventListener) {
         altEl.addEventListener('verified', (e) => {
           const token = (e && e.detail && e.detail.payload) || e;
-          onCaptchaSolved(token);
+          onAltchaSolved(token);
+ 
           $container.empty();
         });
       }
@@ -205,7 +223,7 @@ export default View.extend({
 
       const captchaId = captchaObject.render('captcha-container', {
         sitekey: this.captchaConfig.siteKey,
-        callback: onCaptchaSolved
+        callback: onReCaptchaOrHCaptchaSolved
       });
       
       this.$el.find('#captcha-container').attr('data-captcha-id', captchaId);
@@ -229,7 +247,7 @@ export default View.extend({
 
     // Attaching the Captcha solved callback to the window object because we reference it in our template under
     // the 'data-callback' attribute which the Captcha library uses to invoke the callback.
-    window[OktaSignInWidgetOnCaptchaSolvedCallback] = onCaptchaSolved;
+    window[OktaSignInWidgetOnCaptchaSolvedCallback] = onReCaptchaOrHCaptchaSolved;
 
 
     if (this.captchaConfig.type === 'HCAPTCHA') {
