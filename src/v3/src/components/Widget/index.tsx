@@ -74,6 +74,7 @@ import {
   isOauth2Enabled,
   loadLanguage,
   SessionStorage,
+  shouldAutoRedirect,
   triggerEmailVerifyCallback,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
@@ -107,6 +108,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     otp,
     flow,
     widgetHooks,
+    features,
   } = widgetProps;
 
   const [hide, setHide] = useState<boolean>(false);
@@ -548,6 +550,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
             logoText={logoText}
             brandName={brandName}
             authCoinProps={buildAuthCoinProps(idxTransaction)}
+            autoRedirect={shouldAutoRedirect(idxTransaction, features)}
           />
           <AuthContent>
             {isConsentStep(idxTransaction) && <ConsentHeader />}

@@ -15,6 +15,15 @@ import { h } from 'preact';
 
 import AuthHeader, { AuthHeaderProps } from './AuthHeader';
 
+const mockIsSafari = jest.fn();
+
+jest.mock('../../../../util/BrowserFeatures', () => ({
+  __esModule: true,
+  default: {
+    isSafari: () => mockIsSafari(),
+  },
+}));
+
 describe('AuthHeader tests', () => {
   let props: AuthHeaderProps;
 
@@ -74,5 +83,36 @@ describe('AuthHeader tests', () => {
 
     expect(await findByAltText('Atko Logo')).toBeDefined();
     expect(container.querySelector('[class="authCoin"]')).toBeDefined();
+  });
+
+  describe('Safari auto-redirect behavior', () => {
+    it.each`
+      authenticatorKey  | isSafari | autoRedirect | hasCustomUrl | shouldShow | scenario
+      ${'external_idp'} | ${true}  | ${true}      | ${true}      | ${false}   | ${'Safari + auto-redirect + external_idp + custom logo'}
+      ${'external_idp'} | ${true}  | ${true}      | ${false}     | ${true}    | ${'Safari + auto-redirect + external_idp + no custom logo'}
+      ${'external_idp'} | ${false} | ${true}      | ${true}      | ${true}    | ${'non-Safari + auto-redirect + external_idp + custom logo'}
+      ${'external_idp'} | ${true}  | ${false}     | ${true}      | ${true}    | ${'Safari + no auto-redirect + external_idp + custom logo'}
+      ${'custom_app'}  | ${true}  | ${true}      | ${true}      | ${true}    | ${'Safari + auto-redirect + custom_app + custom logo'}
+    `('should ${shouldShow ? "show" : "hide"} AuthCoin for $scenario', ({ authenticatorKey, isSafari, autoRedirect, hasCustomUrl, shouldShow }) => {
+      mockIsSafari.mockReturnValue(isSafari);
+      
+      props = {
+        ...props,
+        authCoinProps: {
+          authenticatorKey,
+          ...(hasCustomUrl && { url: 'https://example.com/custom-logo.png' }),
+        },
+        autoRedirect,
+      };
+
+      const { container } = render(<AuthHeader {...props} />);
+      const authCoin = container.querySelector('[class="authCoin"]');
+      
+      if (shouldShow) {
+        expect(authCoin).toBeDefined();
+      } else {
+        expect(authCoin).toBeNull();
+      }
+    });
   });
 });
