@@ -86,35 +86,52 @@ describe('AuthHeader tests', () => {
   });
 
   describe('Safari auto-redirect behavior', () => {
-    it.each`
-      authenticatorKey  | isSafari | autoRedirect | hasCustomUrl | shouldShow | scenario
-      ${'external_idp'} | ${true}  | ${true}      | ${true}      | ${false}   | ${'Safari + auto-redirect + external_idp + custom logo'}
-      ${'external_idp'} | ${true}  | ${true}      | ${false}     | ${true}    | ${'Safari + auto-redirect + external_idp + no custom logo'}
-      ${'external_idp'} | ${false} | ${true}      | ${true}      | ${true}    | ${'non-Safari + auto-redirect + external_idp + custom logo'}
-      ${'external_idp'} | ${true}  | ${false}     | ${true}      | ${true}    | ${'Safari + no auto-redirect + external_idp + custom logo'}
-      ${'custom_app'}  | ${true}  | ${true}      | ${true}      | ${true}    | ${'Safari + auto-redirect + custom_app + custom logo'}
-    `('should ${shouldShow ? "show" : "hide"} AuthCoin for $scenario', ({
-      authenticatorKey, isSafari, autoRedirect, hasCustomUrl, shouldShow,
-    }) => {
-      mockIsSafari.mockReturnValue(isSafari);
+    describe('when AuthCoin should be hidden', () => {
+      it('hides AuthCoin on Safari with auto-redirect + external_idp + custom logo', () => {
+        mockIsSafari.mockReturnValue(true);
 
-      props = {
-        ...props,
-        authCoinProps: {
-          authenticatorKey,
-          ...(hasCustomUrl && { url: 'https://example.com/custom-logo.png' }),
-        },
-        autoRedirect,
-      };
+        props = {
+          ...props,
+          authCoinProps: {
+            authenticatorKey: 'external_idp',
+            url: 'https://example.com/custom-logo.png',
+          },
+          autoRedirect: true,
+        };
 
-      const { container } = render(<AuthHeader {...props} />);
-      const authCoin = container.querySelector('[class="authCoin"]');
+        const { container } = render(<AuthHeader {...props} />);
+        const authCoin = container.querySelector('[class="authCoin"]');
 
-      if (shouldShow) {
-        expect(authCoin).toBeDefined();
-      } else {
         expect(authCoin).toBeNull();
-      }
+      });
+    });
+
+    describe('when AuthCoin should be visible', () => {
+      it.each`
+        authenticatorKey  | isSafari | autoRedirect | hasCustomUrl | scenario
+        ${'external_idp'} | ${true}  | ${true}      | ${false}     | ${'Safari + auto-redirect + external_idp + no custom logo'}
+        ${'external_idp'} | ${false} | ${true}      | ${true}      | ${'non-Safari + auto-redirect + external_idp + custom logo'}
+        ${'external_idp'} | ${true}  | ${false}     | ${true}      | ${'Safari + no auto-redirect + external_idp + custom logo'}
+        ${'custom_app'}   | ${true}  | ${true}      | ${true}      | ${'Safari + auto-redirect + custom_app + custom logo'}
+      `('shows AuthCoin for $scenario', ({
+        authenticatorKey, isSafari, autoRedirect, hasCustomUrl,
+      }) => {
+        mockIsSafari.mockReturnValue(isSafari);
+
+        props = {
+          ...props,
+          authCoinProps: {
+            authenticatorKey,
+            ...(hasCustomUrl && { url: 'https://example.com/custom-logo.png' }),
+          },
+          autoRedirect,
+        };
+
+        const { container } = render(<AuthHeader {...props} />);
+        const authCoin = container.querySelector('[class="authCoin"]');
+
+        expect(authCoin).not.toBeNull();
+      });
     });
   });
 });
