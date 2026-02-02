@@ -82,7 +82,7 @@ describe('AuthHeader tests', () => {
     const { container, findByAltText } = render(<AuthHeader {...props} />);
 
     expect(await findByAltText('Atko Logo')).toBeDefined();
-    expect(container.querySelector('[class="authCoin"]')).toBeDefined();
+    expect(container.querySelector('[data-se^="factor-beacon"]')).toBeDefined();
   });
 
   describe('Safari auto-redirect behavior', () => {
@@ -100,7 +100,7 @@ describe('AuthHeader tests', () => {
         };
 
         const { container } = render(<AuthHeader {...props} />);
-        const authCoin = container.querySelector('[class="authCoin"]');
+        const authCoin = container.querySelector('[data-se^="factor-beacon"]');
 
         expect(authCoin).toBeNull();
       });
@@ -128,7 +128,7 @@ describe('AuthHeader tests', () => {
         };
 
         const { container } = render(<AuthHeader {...props} />);
-        const authCoin = container.querySelector('[class="authCoin"]');
+        const authCoin = container.querySelector('[data-se^="factor-beacon"]');
 
         expect(authCoin).not.toBeNull();
       });
