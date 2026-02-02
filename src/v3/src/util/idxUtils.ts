@@ -519,7 +519,6 @@ export const shouldAutoRedirect = (
   if (!transaction) {
     return false;
   }
-  console.log(features?.skipIdpFactorVerificationBtn, !transaction.messages?.length);
   return Boolean(
     features?.skipIdpFactorVerificationBtn
     && !transaction.messages?.length,
