@@ -93,9 +93,11 @@ describe('AuthHeader tests', () => {
       ${'external_idp'} | ${false} | ${true}      | ${true}      | ${true}    | ${'non-Safari + auto-redirect + external_idp + custom logo'}
       ${'external_idp'} | ${true}  | ${false}     | ${true}      | ${true}    | ${'Safari + no auto-redirect + external_idp + custom logo'}
       ${'custom_app'}  | ${true}  | ${true}      | ${true}      | ${true}    | ${'Safari + auto-redirect + custom_app + custom logo'}
-    `('should ${shouldShow ? "show" : "hide"} AuthCoin for $scenario', ({ authenticatorKey, isSafari, autoRedirect, hasCustomUrl, shouldShow }) => {
+    `('should ${shouldShow ? "show" : "hide"} AuthCoin for $scenario', ({
+      authenticatorKey, isSafari, autoRedirect, hasCustomUrl, shouldShow,
+    }) => {
       mockIsSafari.mockReturnValue(isSafari);
-      
+
       props = {
         ...props,
         authCoinProps: {
@@ -107,7 +109,7 @@ describe('AuthHeader tests', () => {
 
       const { container } = render(<AuthHeader {...props} />);
       const authCoin = container.querySelector('[class="authCoin"]');
-      
+
       if (shouldShow) {
         expect(authCoin).toBeDefined();
       } else {

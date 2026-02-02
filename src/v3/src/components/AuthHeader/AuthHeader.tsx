@@ -15,23 +15,23 @@ import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 import { AuthCoinProps } from 'src/types';
 
+import BrowserFeatures from '../../../../util/BrowserFeatures';
 import { loc } from '../../util';
 import AuthCoin from '../AuthCoin/AuthCoin';
 import { getAuthCoinConfiguration } from '../AuthCoin/authCoinConfigUtil';
-import BrowserFeatures from '../../../../util/BrowserFeatures';
 import Image from '../Image';
 
 // TODO: maybe extract to util class if used reused
 const shouldRenderAuthCoin = (
   props?: AuthCoinProps,
-  autoRedirect?: boolean
+  autoRedirect?: boolean,
 ): boolean => {
   // Hide auth coin on Safari when auto-redirecting with external_idp custom logo
   if (
-    autoRedirect &&
-    BrowserFeatures.isSafari() &&
-    props?.authenticatorKey === "external_idp" &&
-    props?.url
+    autoRedirect
+    && BrowserFeatures.isSafari()
+    && props?.authenticatorKey === 'external_idp'
+    && props?.url
   ) {
     return false;
   }
@@ -56,7 +56,7 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
   logoText,
   brandName,
   authCoinProps,
-  autoRedirect
+  autoRedirect,
 }) => {
   const showAuthCoin = shouldRenderAuthCoin(authCoinProps, autoRedirect);
   const containerTestIds = `okta-sign-in-header auth-header ${showAuthCoin ? 'authCoinSpacing' : ''}`;
