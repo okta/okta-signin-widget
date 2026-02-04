@@ -1,0 +1,6 @@
+/* VRT-specific font loading for consistent rendering across CI environments */
+/* This ensures Inter font is available when system fonts differ between containers */
+
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
