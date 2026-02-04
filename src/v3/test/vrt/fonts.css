@@ -1,6 +1,5 @@
 /* VRT-specific font loading for consistent rendering across CI environments */
 /* This ensures Inter font is available when system fonts differ between containers */
 
-@import '@fontsource/inter/400.css';
-@import '@fontsource/inter/600.css';
-@import '@fontsource/inter/700.css';
+/* Load Inter from Google Fonts CDN for VRT tests */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
