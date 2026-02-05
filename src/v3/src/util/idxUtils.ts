@@ -13,6 +13,7 @@
 import {
   APIError,
   FieldError,
+  IdxFeature,
   IdxMessage,
   IdxMessages,
   IdxRemediation,
@@ -509,4 +510,17 @@ export const getIDVDisplayInfo = (
     privacyPolicy,
     termsOfUse,
   };
+};
+
+export const shouldAutoRedirect = (
+  transaction?: IdxTransaction | null,
+  features?: IdxFeature,
+): boolean => {
+  if (!transaction) {
+    return false;
+  }
+  return Boolean(
+    features?.skipIdpFactorVerificationBtn
+    && !transaction.messages?.length,
+  );
 };

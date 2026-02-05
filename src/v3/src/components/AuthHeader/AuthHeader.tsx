@@ -15,13 +15,27 @@ import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 import { AuthCoinProps } from 'src/types';
 
+import BrowserFeatures from '../../../../util/BrowserFeatures';
 import { loc } from '../../util';
 import AuthCoin from '../AuthCoin/AuthCoin';
 import { getAuthCoinConfiguration } from '../AuthCoin/authCoinConfigUtil';
 import Image from '../Image';
 
 // TODO: maybe extract to util class if used reused
-const shouldRenderAuthCoin = (props?: AuthCoinProps): boolean => {
+const shouldRenderAuthCoin = (
+  props?: AuthCoinProps,
+  autoRedirect?: boolean,
+): boolean => {
+  // Hide auth coin on Safari when auto-redirecting with external_idp custom logo
+  if (
+    autoRedirect
+    && BrowserFeatures.isSafari()
+    && props?.authenticatorKey === 'external_idp'
+    && props?.url
+  ) {
+    return false;
+  }
+
   const authCoinConfiguration = getAuthCoinConfiguration();
   const authCoinConfigByAuthKey = props?.authenticatorKey
     && authCoinConfiguration[props?.authenticatorKey];
@@ -35,14 +49,16 @@ export type AuthHeaderProps = {
   logoText?: string;
   brandName?: string;
   authCoinProps?: AuthCoinProps;
+  autoRedirect?: boolean;
 };
 const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
   logo,
   logoText,
   brandName,
   authCoinProps,
+  autoRedirect,
 }) => {
-  const showAuthCoin = shouldRenderAuthCoin(authCoinProps);
+  const showAuthCoin = shouldRenderAuthCoin(authCoinProps, autoRedirect);
   const containerTestIds = `okta-sign-in-header auth-header ${showAuthCoin ? 'authCoinSpacing' : ''}`;
   const tokens = useOdysseyDesignTokens();
 
