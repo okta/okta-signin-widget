@@ -3,6 +3,7 @@ import AuthenticatorIdPEnrollView from 'v2/view-builder/views/idp/AuthenticatorI
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
 import $sandbox from 'sandbox';
+import BrowserFeatures from 'util/BrowserFeatures';
 import IdpAuthenticatorVerifyResponse from '../../../../../../playground/mocks/data/idp/idx/authenticator-verification-idp.json';
 import IdpAuthenticatorEnrollResponse from '../../../../../../playground/mocks/data/idp/idx/authenticator-enroll-idp.json';
 
@@ -14,11 +15,12 @@ describe('v2/view-builder/views/idp/AuthenticatorIdPVerifyView', function() {
     testContext.init = (
       requestName = 'Verification',
       skipIdpFactorVerification = false,
-      isFailure = false
+      isFailure = false,
+      customAuthenticator = null
     ) => {
       let isVerify = requestName === 'Verification';
-      let currentAuthenticator =  isVerify ? IdpAuthenticatorVerifyResponse.currentAuthenticator.value :
-        IdpAuthenticatorEnrollResponse.currentAuthenticator.value;
+      let currentAuthenticator = customAuthenticator || (isVerify ? IdpAuthenticatorVerifyResponse.currentAuthenticator.value :
+        IdpAuthenticatorEnrollResponse.currentAuthenticator.value);
       let authenticatorEnrollments = [];
       let app = {};
       const appState = new AppState({
@@ -131,5 +133,27 @@ describe('v2/view-builder/views/idp/AuthenticatorIdPVerifyView', function() {
     );
     // make sure no save form is called in case of error.
     expect(appStateTriggerSpy).toHaveBeenCalledTimes(0);
+  });
+
+  describe('Safari beacon hiding during auto-redirect', function() {
+    it.each([
+      ['Safari', 'with custom logo', true, true, 'none'],
+      ['non-Safari', 'with custom logo', false, true, 'block'],
+      ['Safari', 'without custom logo', true, false, 'block']
+    ])('beacon display on %s %s for Verification', function(browser, logoDesc, isSafari, hasLogo, expectedDisplay) {
+      jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(isSafari);
+      
+      const customAuth = hasLogo ? { 
+        ...IdpAuthenticatorVerifyResponse.currentAuthenticator.value,
+        logoUri: '/img/logos/custom.png' 
+      } : null;
+      
+      testContext.init('Verification', true, false, customAuth);
+      
+      // Verify beacon display matches expected behavior
+      expect(testContext.view.$('.beacon-container').css('display')).toBe(expectedDisplay);
+      
+      BrowserFeatures.isSafari.mockRestore();
+    });
   });
 });
