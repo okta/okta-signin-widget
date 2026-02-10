@@ -19,14 +19,14 @@ test_suites:
     timeout: '10'
     script_name: lint
     criteria: MERGE
-    queue_name: small
+    queue_name: al2023
   - name: unit-jest
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '4'
     timeout: '20'
     script_name: unit-jest
     criteria: MERGE
-    queue_name: small
+    queue_name: al2023
   - name: testcafe
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '5'
