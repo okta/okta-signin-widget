@@ -18,7 +18,7 @@ function yarn_sync() {
   return 0
 }
 
-if ! setup_service node v16.19.1; then
+if ! setup_service node v20.20.0; then
   echo "Failed to install node"
   exit ${FAILED_SETUP}
 fi
