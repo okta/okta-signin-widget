@@ -60,8 +60,11 @@ fi
 if [ ! -z "$AUTHJS_VERSION" ]; then
   echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
 
-  yarn global add @okta/siw-platform-scripts@0.13.0
+  rm .npmrc     # the project level .npmrc forces the wrong registry to install downstreams
+  npm config set @okta:registry ${INTERNAL_REGISTRY}
+  npm config set registry ${PUBLIC_REGISTRY}
 
+  yarn global add @okta/siw-platform-scripts@0.15.0
   if ! siw-platform install-downstream @okta/okta-auth-js ${AUTHJS_VERSION} ; then
     echo "AUTHJS_VERSION could not be installed: ${AUTHJS_VERSION}"
     exit ${FAILED_SETUP}
