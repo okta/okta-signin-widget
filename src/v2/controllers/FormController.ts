@@ -237,12 +237,15 @@ export default Controller.extend({
 
     // if request did not succeed, show error on the current form
     if (error) {
-      // OKTA-1083742: For transient network errors during polling, restart polling silently
-      // Here we consider an error as transient network error if it's not an IonErrorResponse and the action is a polling action.
-      const isIonErrorResponse = IonResponseHelper.isIonErrorResponse(error);
+      // OKTA-1083742: For transient network errors during polling, restart polling silently.
+      // Server errors have identifiable properties:
+      //   - rawIdxState: IDX responses (429 rate limit, session expired, etc.)
+      //   - errorCode: API errors (429 API limit exceeded, etc.)
+      // Errors without these are treated as transient network failures (e.g. fetch TypeError).
+      const isServerError = error.rawIdxState || error.errorCode;
       const isPollingAction = invokeOptions.actions?.[0]?.name?.endsWith('-poll');
-      
-      if (!isIonErrorResponse && isPollingAction && this.formView?.form?.startPolling) {
+
+      if (!isServerError && isPollingAction && this.formView?.form?.startPolling) {
         // Silently restart polling for transient network failures
         this.formView.form.startPolling();
         return;
