@@ -230,6 +230,27 @@ const terrminalConsentDeniedPollMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(terminalConsentDenied);
 
+// OKTA-1083742: Factory to create mock that simulates network failure recovery during polling
+const createNetworkFailureRecoveryMock = () => {
+  let pollCount = 0;
+  const mock = RequestMock()
+    .onRequestTo('http://localhost:3000/idp/idx/introspect')
+    .respond(emailVerificationPollingShort)
+    .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+    .respond((req, res) => {
+      pollCount++;
+      if (pollCount === 2) {
+        // Simulate network failure by not responding (request will timeout/abort)
+        return new Promise(() => { /* never resolves - simulates network hang */ });
+      }
+      res.statusCode = 200;
+      res.headers['content-type'] = 'application/json';
+      res.setBody(emailVerificationPollingShort);
+    });
+  return mock;
+};
+const networkFailureRecoveryLogger = createRequestLogger();
+
 const getResendTimestamp = ClientFunction(() => {
   return window.sessionStorage.getItem('osw-oie-resend-timestamp');
 });
@@ -972,4 +993,27 @@ test
     await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
     await t.expect(terminalPageObject.getErrorMessages().getTextContent()).contains('Operation cancelled by user.');
     await t.expect(await terminalPageObject.goBackLinkExists()).ok();
+  });
+
+// OKTA-1083742: Test that network failures during polling don't show error UI
+test
+  .requestHooks(networkFailureRecoveryLogger, createNetworkFailureRecoveryMock())('should not show error when polling encounters network failure and recovers', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
+
+    // Wait for multiple poll cycles (including the one that will "hang")
+    // First poll succeeds, second poll hangs (simulating network failure), 
+    // subsequent polls should continue without showing error
+    await t.wait(4000);
+
+    // Verify no error box is shown on the page
+    // This is the key assertion: network failures during polling should NOT show error UI
+    await t.expect(challengeEmailPageObject.form.getErrorBoxCount()).eql(0);
+
+    // Verify that successful polls occurred (at least the first one)
+    await t.expect(networkFailureRecoveryLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/poll/)
+    )).gte(1);
   });

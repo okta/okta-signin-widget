@@ -237,6 +237,17 @@ export default Controller.extend({
 
     // if request did not succeed, show error on the current form
     if (error) {
+      // OKTA-1083742: For transient network errors during polling, restart polling silently
+      // Here we consider an error as transient network error if it's not an IonErrorResponse and the action is a polling action.
+      const isIonErrorResponse = IonResponseHelper.isIonErrorResponse(error);
+      const isPollingAction = invokeOptions.actions?.[0]?.name?.endsWith('-poll');
+      
+      if (!isIonErrorResponse && isPollingAction && this.formView?.form?.startPolling) {
+        // Silently restart polling for transient network failures
+        this.formView.form.startPolling();
+        return;
+      }
+      
       await this.showFormErrors(this.formView.model, error, this.formView.form);
       return;
     }

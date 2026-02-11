@@ -1,5 +1,6 @@
 const path = require('path');
 const responseConfig = require('./responseConfig');
+const { isNetworkFailureConfig, createNetworkFailureRoute, resetAllCounters } = require('./networkFailureHelper');
 const supportedApi = [
   '/oauth2/',
   '/api/v1/authn',
@@ -24,6 +25,13 @@ const configMock = (option) => {
   let index = 0;
   const apiPath = option.path;
   const chainedMockData = responseConfig.mocks[apiPath];
+
+  // If the mock config uses withNetworkFailure(), produce a
+  // route that simulates socket destruction on specified request numbers.
+  if (isNetworkFailureConfig(chainedMockData)) {
+    return createNetworkFailureRoute(apiPath, chainedMockData, option.method || 'POST');
+  }
+
   const hasChainedMockData = Array.isArray(chainedMockData) && chainedMockData.length > 0;
   const updateIndex = () => {
     index++;
@@ -44,6 +52,10 @@ const configMock = (option) => {
     proxy: false,
     method: option.method || 'POST',
     status: (req, res, next) => {
+      // Reset network failure counters at the start of each IDX flow (OKTA-1083742)
+      if (apiPath.endsWith('/introspect')) {
+        resetAllCounters();
+      }
       if (!hasChainedMockData) {
         res.status(403);
         next();

@@ -1,5 +1,7 @@
 // These response configs match the mocks configured in ChallengeAuthenticatorEmail_spec.js
 
+const { withNetworkFailure } = require('../networkFailureHelper');
+
 const sendEmailMock = {
   '/idp/idx/introspect': [
     'authenticator-verification-data-email'
@@ -102,6 +104,20 @@ const terrminalConsentDeniedPollMock = {
   ],
 };
 
+// OKTA-1083742: Simulate network failure during polling to test recovery
+const networkFailurePollingMock = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-data-email'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-email'
+  ],
+  '/idp/idx/challenge/poll': withNetworkFailure(
+    ['authenticator-verification-email'],
+    { failOnRequests: [2] }
+  ),
+};
+
 module.exports = {
   sendEmailMock,
   sendEmailNoProfileMock,
@@ -112,5 +128,6 @@ module.exports = {
   dynamicRefreshLongIntervalMock,
   stopPollMock,
   invalidOTPMockWithPoll,
-  terrminalConsentDeniedPollMock
+  terrminalConsentDeniedPollMock,
+  networkFailurePollingMock,
 };
