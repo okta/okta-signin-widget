@@ -11,6 +11,7 @@
  */
 
 import _ from 'underscore';
+import { loc } from '@okta/courage';
 import { getMessage, getMessageKey } from './i18nUtils';
 
 const convertErrorMessageToErrorSummary = (formName, remediationValues = []) => {
@@ -158,8 +159,40 @@ const isIdxSessionExpiredError = (response) => {
   return errorI18NKey && errorI18NKey === 'idx.session.expired';
 };
 
+/**
+ * Build a normalized error object from various error shapes
+ * (IDX response, API error, network error, etc.).
+ *
+ * @param {object} error - the raw error (or rawIdxState if already unwrapped)
+ * @param {function} [onUnsupportedError] - optional callback invoked when error is unrecognized
+ * @returns {object} errorObj with responseJSON
+ */
+const buildErrorObject = (error, onUnsupportedError) => {
+  if (isIonErrorResponse(error)) {
+    return convertFormErrors(error);
+  } else if (error.errorSummary) {
+    return { responseJSON: error };
+  } else {
+    if (typeof onUnsupportedError === 'function') {
+      onUnsupportedError(error);
+    }
+    return { responseJSON: { errorSummary: loc('error.unsupported.response', 'login') } };
+  }
+};
+
+/**
+ * Check if error is a rate limit error (429).
+ * Handles both IDX API errors (tooManyRequests key) and standard API errors (E0000047 errorCode).
+ */
+const isRateLimitError = (error) => {
+  return !!(error.responseJSON?.errorSummaryKeys?.includes('tooManyRequests')
+    || ((error.responseJSON?.errorCode === 'E0000047') && !error.responseJSON?.errorIntent));
+};
+
 export default {
   convertFormErrors,
   isIonErrorResponse,
-  isIdxSessionExpiredError
+  isIdxSessionExpiredError,
+  buildErrorObject,
+  isRateLimitError,
 };
