@@ -239,9 +239,14 @@ const createNetworkFailureRecoveryMock = () => {
     .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
     .respond((req, res) => {
       pollCount++;
-      if (pollCount === 2) {
-        // Simulate network failure by not responding (request will timeout/abort)
-        return new Promise(() => { /* never resolves - simulates network hang */ });
+      if (pollCount === 2 || pollCount === 3) {
+        // Simulate network failure by responding with non-JSON error
+        // This causes the SDK to throw an error without rawIdxState/errorCode,
+        // which the widget should treat as a transient network failure
+        res.statusCode = 500;
+        res.headers['content-type'] = 'text/plain';
+        res.setBody('Service Unavailable');
+        return;
       }
       res.statusCode = 200;
       res.headers['content-type'] = 'application/json';
@@ -1002,18 +1007,25 @@ test
     await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
 
-    // Wait for multiple poll cycles (including the one that will "hang")
-    // First poll succeeds, second poll hangs (simulating network failure), 
-    // subsequent polls should continue without showing error
-    await t.wait(4000);
+    // Polling at ~1s intervals (emailVerificationPollingShort):
+    //   Poll 1: success (200)
+    //   Poll 2: network failure (500 non-JSON)
+    //   Poll 3: network failure (500 non-JSON)
+    //   Poll 4+: success (200) — recovered
+    await t.wait(6000);
 
-    // Verify no error box is shown on the page
-    // This is the key assertion: network failures during polling should NOT show error UI
+    // Verify no error box is shown on the page — network failures during polling are silent
     await t.expect(challengeEmailPageObject.form.getErrorBoxCount()).eql(0);
 
-    // Verify that successful polls occurred (at least the first one)
+    // Verify failed polls were detected
+    await t.expect(networkFailureRecoveryLogger.count(
+      record => record.response.statusCode === 500 &&
+        record.request.url.match(/poll/)
+    )).eql(2);
+
+    // Verify polling recovered — successful polls after the failures
     await t.expect(networkFailureRecoveryLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
-    )).gte(1);
+    )).gte(2);
   });
