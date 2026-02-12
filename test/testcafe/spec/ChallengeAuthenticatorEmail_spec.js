@@ -1003,6 +1003,11 @@ test
 // OKTA-1083742: Test that network failures during polling don't show error UI
 test
   .requestHooks(networkFailureRecoveryLogger, createNetworkFailureRecoveryMock())('should not show error when polling encounters network failure and recovers', async t => {
+    if (userVariables.gen3) {
+      // Test targets to gen2 only
+      return;
+    }
+
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
