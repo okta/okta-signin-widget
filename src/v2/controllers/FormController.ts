@@ -12,6 +12,7 @@
 import { _, Controller } from '@okta/courage';
 import ViewFactory from '../view-builder/ViewFactory';
 import IonResponseHelper from '../ion/IonResponseHelper';
+import errorUtils from '../ion/errorUtils';
 import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 import {
   FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP, ORG_PASSWORD_RECOVERY_LINK
@@ -239,14 +240,14 @@ export default Controller.extend({
     if (error) {
       // OKTA-1083742: For transient network errors during polling, restart polling silently.
       const errorResp = error.rawIdxState || error;
-      const errorObj = IonResponseHelper.buildErrorObject(errorResp);
+      const errorObj = errorUtils.buildErrorObject(errorResp);
       const isPollingAction = invokeOptions.actions?.[0]?.name?.endsWith('-poll');
 
       // Here we only want to restart polling for network errors (non Ion errors) during polling actions
       // As rate limit error is handled in view layer, we skip it here and leave to showFormErrors to decide whether to restart polling or not based on the view logic.
       if (
         !IonResponseHelper.isIonErrorResponse(errorResp) 
-        && !IonResponseHelper.isRateLimitError(errorObj) 
+        && !errorUtils.isRateLimitError(errorObj) 
         && isPollingAction 
         && this.formView?.form?.startPolling
       ) {
@@ -408,7 +409,7 @@ export default Controller.extend({
       error = error.rawIdxState;
     }
 
-    const errorObj = IonResponseHelper.buildErrorObject(error, (unsupported) => {
+    const errorObj = errorUtils.buildErrorObject(error, (unsupported) => {
       Util.logConsoleError(unsupported);
     });
 

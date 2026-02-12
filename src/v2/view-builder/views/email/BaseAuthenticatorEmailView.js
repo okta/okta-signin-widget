@@ -4,7 +4,7 @@ import email from '../shared/email';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import BaseResendView from '../shared/BaseResendView';
 import BaseFormWithPolling from '../../internals/BaseFormWithPolling';
-import IonResponseHelper from '../../../ion/IonResponseHelper';
+import errorUtils from '../../../ion/errorUtils';
 
 const ResendView = BaseResendView.extend(
   {
@@ -89,7 +89,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
         return;
       }
 
-      if (IonResponseHelper.isRateLimitError(error)) {
+      if (errorUtils.isRateLimitError(error)) {
         // When polling encounter rate limit error, wait 60 sec for rate limit bucket to reset
         // before polling again & hide error message
         if (isFormPolling) {
