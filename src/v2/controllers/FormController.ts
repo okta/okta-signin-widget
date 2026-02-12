@@ -242,7 +242,7 @@ export default Controller.extend({
       //   - rawIdxState: IDX responses (429 rate limit, session expired, etc.)
       //   - errorCode: API errors (429 API limit exceeded, etc.)
       // Errors without these are treated as transient network failures (e.g. fetch TypeError).
-      const isServerError = error.rawIdxState || error.errorCode;
+      const isServerError = !!(error.rawIdxState?.stateHandle || error.errorCode);
       const isPollingAction = invokeOptions.actions?.[0]?.name?.endsWith('-poll');
 
       if (!isServerError && isPollingAction && this.formView?.form?.startPolling) {
