@@ -37,7 +37,7 @@ export default function getAuthClientInstance(
       recoveryToken,
       pollDelay: 500,
       idx: {
-        ...(authParams.idx ?? {}),
+        ...(authParams?.idx ?? {}),
         // @ts-ignore
         enableLegacyMode: true
       },
