@@ -36,8 +36,7 @@ const config = {
   browsers: [ 'chrome:headless' ],
   clientScripts: [
     { module: 'axe-core/axe.min.js' },
-    { module: '@testing-library/dom/dist/@testing-library/dom.umd.js' },
-    { path: 'test/vrt/fonts.css' }
+    { module: '@testing-library/dom/dist/@testing-library/dom.umd.js' }
   ],
   src: [ '../../test/testcafe/spec/uiDemo_spec.js' ],
   userVariables: {

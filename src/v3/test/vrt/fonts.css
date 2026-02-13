@@ -1,9 +1,0 @@
-/* VRT-specific font loading for consistent rendering across CI environments */
-/* This ensures Odyssey fonts are available when system fonts differ between containers */
-
-/* Load Inter from Google Fonts CDN for VRT tests (primary body font) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-/* Load Aeonik from Okta CDN for VRT tests (headings and buttons) */
-/* Aeonik is Okta's custom brand font used in Odyssey design system */
-@import url('https://global.oktacdn.com/fonts/aeonik/1.0.0/aeonik.css');
