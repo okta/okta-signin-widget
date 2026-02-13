@@ -15,6 +15,15 @@ import { h } from 'preact';
 
 import AuthHeader, { AuthHeaderProps } from './AuthHeader';
 
+const mockIsSafari = jest.fn();
+
+jest.mock('../../../../util/BrowserFeatures', () => ({
+  __esModule: true,
+  default: {
+    isSafari: () => mockIsSafari(),
+  },
+}));
+
 describe('AuthHeader tests', () => {
   let props: AuthHeaderProps;
 
@@ -73,6 +82,56 @@ describe('AuthHeader tests', () => {
     const { container, findByAltText } = render(<AuthHeader {...props} />);
 
     expect(await findByAltText('Atko Logo')).toBeDefined();
-    expect(container.querySelector('[class="authCoin"]')).toBeDefined();
+    expect(container.querySelector('[data-se^="factor-beacon"]')).toBeDefined();
+  });
+
+  describe('Safari auto-redirect behavior', () => {
+    describe('when AuthCoin should be hidden', () => {
+      it('hides AuthCoin on Safari with auto-redirect + external_idp + custom logo', () => {
+        mockIsSafari.mockReturnValue(true);
+
+        props = {
+          ...props,
+          authCoinProps: {
+            authenticatorKey: 'external_idp',
+            url: 'https://example.com/custom-logo.png',
+          },
+          autoRedirect: true,
+        };
+
+        const { container } = render(<AuthHeader {...props} />);
+        const authCoin = container.querySelector('[data-se^="factor-beacon"]');
+
+        expect(authCoin).toBeNull();
+      });
+    });
+
+    describe('when AuthCoin should be visible', () => {
+      it.each`
+        authenticatorKey  | isSafari | autoRedirect | hasCustomUrl | scenario
+        ${'external_idp'} | ${true}  | ${true}      | ${false}     | ${'Safari + auto-redirect + external_idp + no custom logo'}
+        ${'external_idp'} | ${false} | ${true}      | ${true}      | ${'non-Safari + auto-redirect + external_idp + custom logo'}
+        ${'external_idp'} | ${true}  | ${false}     | ${true}      | ${'Safari + no auto-redirect + external_idp + custom logo'}
+        ${'custom_app'}   | ${true}  | ${true}      | ${true}      | ${'Safari + auto-redirect + custom_app + custom logo'}
+      `('shows AuthCoin for $scenario', ({
+        authenticatorKey, isSafari, autoRedirect, hasCustomUrl,
+      }) => {
+        mockIsSafari.mockReturnValue(isSafari);
+
+        props = {
+          ...props,
+          authCoinProps: {
+            authenticatorKey,
+            ...(hasCustomUrl && { url: 'https://example.com/custom-logo.png' }),
+          },
+          autoRedirect,
+        };
+
+        const { container } = render(<AuthHeader {...props} />);
+        const authCoin = container.querySelector('[data-se^="factor-beacon"]');
+
+        expect(authCoin).not.toBeNull();
+      });
+    });
   });
 });

@@ -74,6 +74,7 @@ import {
   isOauth2Enabled,
   loadLanguage,
   SessionStorage,
+  shouldAutoRedirect,
   triggerEmailVerifyCallback,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
@@ -107,6 +108,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     otp,
     flow,
     widgetHooks,
+    features,
   } = widgetProps;
 
   const [hide, setHide] = useState<boolean>(false);
@@ -121,7 +123,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [stepToRender, setStepToRender] = useState<string | undefined>(undefined);
   const prevIdxTransactionRef = useRef<IdxTransaction>();
   const [responseError, setResponseError] = useState<AuthApiError | OAuthError | null>(null);
-  const pollingTransaction = usePolling(idxTransaction, widgetProps, data);
+  const [
+    pollingTransaction,
+    stablePollingTransaction,
+  ] = usePolling(idxTransaction, widgetProps, {});
   const interactionCodeFlowFormBag = useInteractionCodeFlow(
     idxTransaction,
     widgetProps,
@@ -414,7 +419,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // Update idxTransaction when new status comes back from polling
   useEffect(() => {
-    if (!idxTransaction || !pollingTransaction) {
+    if (!idxTransaction || !stablePollingTransaction) {
       return;
     }
 
@@ -426,11 +431,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
      * But if for some reason the keys are the same between them, we perform a last ditch check
      * against the current authenticator's ID, which should always be unique between challenges
     */
-    if (!areTransactionsEqual(idxTransaction, pollingTransaction)) {
-      setIdxTransaction(pollingTransaction);
+    if (!areTransactionsEqual(idxTransaction, stablePollingTransaction)) {
+      setIdxTransaction(stablePollingTransaction);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pollingTransaction]); // only watch on pollingTransaction changes
+  }, [stablePollingTransaction, idxTransaction]); // watch both transactions
 
   useEffect(() => {
     if (typeof interactionCodeFlowFormBag === 'undefined') {
@@ -506,6 +511,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       onSuccessCallback: globalSuccessFn,
       onErrorCallback: globalErrorFn,
       idxTransaction,
+      pollingTransaction,
       setResponseError,
       setIdxTransaction,
       setIsClientTransaction,
@@ -548,6 +554,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
             logoText={logoText}
             brandName={brandName}
             authCoinProps={buildAuthCoinProps(idxTransaction)}
+            autoRedirect={shouldAutoRedirect(idxTransaction, features)}
           />
           <AuthContent>
             {isConsentStep(idxTransaction) && <ConsentHeader />}
