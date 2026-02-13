@@ -249,7 +249,7 @@ export default Controller.extend({
         !IonResponseHelper.isIonErrorResponse(errorResp) 
         && !errorUtils.isRateLimitError(errorObj) 
         && isPollingAction 
-        && this.formView?.form?.startPolling
+        && typeof this.formView?.form?.startPolling === 'function'
       ) {
         // Silently restart polling for transient network failures
         this.formView.form.startPolling();
