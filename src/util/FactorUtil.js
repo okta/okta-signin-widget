@@ -166,6 +166,12 @@ const factorData = {
     iconClassName: 'mfa-custom-factor',
     sortOrder: 18,
   },
+  NFC: {
+    label: '',
+    description: 'oie.nfc.description',
+    iconClassName: 'mfa-nfc',
+    sortOrder: 19
+  }
 };
 
 const getPasswordComplexityRequirementsAsArray = function(policy, i18nKeys) {

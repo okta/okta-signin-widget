@@ -1,0 +1,309 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "02.id.yK9MJlZQzdBJpH91JIzPQc__enPwksLdCaeIMflg",
+    "expiresAt": "2026-02-12T23:17:12.000Z",
+    "intent": "CREDENTIAL_ENROLLMENT",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "enroll-authenticator",
+                "relatesTo": [
+                    "$.currentAuthenticator"
+                ],
+                "href": "https://devorg1.okta1.com/idp/idx/challenge/answer",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "credentials",
+                        "type": "object",
+                        "form": {
+                            "value": [
+                                {
+                                    "name": "passcode",
+                                    "label": "Enter 6 Digit Pin"
+                                }
+                            ]
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.yK9MJlZQzdBJpH91JIzPQc__enPwksLdCaeIMflg",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "select-authenticator-enroll",
+                "href": "https://devorg1.okta1.com/idp/idx/credential/enroll",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "authenticator",
+                        "type": "object",
+                        "options": [
+                            {
+                                "label": "NFC + PIN Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut7lyl8HrdZr83Sa0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "nfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticators.value[0]"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.yK9MJlZQzdBJpH91JIzPQc__enPwksLdCaeIMflg",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            }
+        ]
+    },
+    "currentAuthenticator": {
+        "type": "object",
+        "value": {
+            "type": "nfc",
+            "key": "nfc",
+            "id": "aut7lyl8HrdZr83Sa0g5",
+            "displayName": "NFC + PIN Authenticator",
+            "deviceKnown": true,
+            "methods": [
+                {
+                    "type": "nfc"
+                }
+            ]
+        }
+    },
+    "authenticators": {
+        "type": "array",
+        "value": [
+            {
+                "type": "nfc",
+                "key": "nfc",
+                "id": "aut7lyl8HrdZr83Sa0g5",
+                "displayName": "NFC + PIN Authenticator",
+                "deviceKnown": true,
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ],
+                "allowedFor": "none"
+            }
+        ]
+    },
+    "authenticatorEnrollments": {
+        "type": "array",
+        "value": [
+            {
+                "type": "security_key",
+                "key": "webauthn",
+                "id": "fwf18afsT2wQtEYve0g4",
+                "displayName": "Chrome on Mac",
+                "credentialId": "LHJXMsENbVbCqFw5D3zgTxlFtixwYOGYeMrth_mRfnA",
+                "methods": [
+                    {
+                        "type": "webauthn"
+                    }
+                ]
+            },
+            {
+                "type": "email",
+                "key": "okta_email",
+                "id": "eae630097KemlyGzK0g5",
+                "displayName": "Email",
+                "methods": [
+                    {
+                        "type": "email"
+                    }
+                ]
+            },
+            {
+                "type": "federated",
+                "key": "external_idp",
+                "id": "clp1da8dREXCfy4Er0g5",
+                "displayName": "OIDC IDP - factor - possession",
+                "methods": [
+                    {
+                        "type": "idp"
+                    }
+                ]
+            },
+            {
+                "type": "app",
+                "key": "okta_verify",
+                "id": "pfd1xvzesjzBEDsdf0g5",
+                "displayName": "Okta Verify",
+                "methods": [
+                    {
+                        "type": "signed_nonce"
+                    }
+                ]
+            },
+            {
+                "type": "app",
+                "key": "okta_verify",
+                "id": "pfd5vg1txRKXIAJ4d0g5",
+                "displayName": "Okta Verify",
+                "methods": [
+                    {
+                        "type": "signed_nonce"
+                    },
+                    {
+                        "type": "totp"
+                    }
+                ]
+            },
+            {
+                "type": "password",
+                "key": "okta_password",
+                "id": "lae5zvcpbANAn1Iv80g3",
+                "displayName": "Password",
+                "methods": [
+                    {
+                        "type": "password"
+                    }
+                ]
+            },
+            {
+                "type": "phone",
+                "key": "phone_number",
+                "id": "sms1gmfpFPM7ZZUQH0g5",
+                "displayName": "Phone",
+                "methods": [
+                    {
+                        "type": "sms"
+                    }
+                ]
+            },
+            {
+                "type": "security_question",
+                "key": "security_question",
+                "id": "qae36evsVFOZb5v4e0g5",
+                "displayName": "Security Question",
+                "methods": [
+                    {
+                        "type": "security_question"
+                    }
+                ]
+            },
+            {
+                "type": "security_key",
+                "key": "webauthn",
+                "id": "fwf5vdo7hfeDRpPPd0g5",
+                "displayName": "YubiKey 5 Series with NFC (Enterprise Profile)",
+                "credentialId": "rc3zR-4o2d86HYhlTzGKAFp2P79BZsvZ1iN-sto0oWhqm-fdeYCoNG_6UcO3MDBoL7nlLe8JAG65oO02vC57ZA",
+                "methods": [
+                    {
+                        "type": "webauthn"
+                    }
+                ]
+            },
+            {
+                "type": "security_key",
+                "key": "webauthn",
+                "id": "fwf3s9vi1aIdQSLi20g5",
+                "displayName": "iCloud Keychain",
+                "credentialId": "biO0gH9JTggSKbz__ccbodA-p5M",
+                "methods": [
+                    {
+                        "type": "webauthn"
+                    }
+                ]
+            }
+        ]
+    },
+    "enrollmentAuthenticator": {
+        "type": "object",
+        "value": {
+            "type": "nfc",
+            "key": "nfc",
+            "id": "aut7lyl8HrdZr83Sa0g5",
+            "displayName": "NFC + PIN Authenticator",
+            "methods": [
+                {
+                    "type": "nfc"
+                }
+            ]
+        }
+    },
+    "user": {
+        "type": "object",
+        "value": {
+            "id": "00u17wrE8oziY7PUn0g4",
+            "identifier": "jake.bacher@okta.com",
+            "profile": {
+                "firstName": "jake",
+                "lastName": "bacher",
+                "timeZone": "America/Los_Angeles",
+                "locale": "en_US",
+                "email": "j***r@okta.com"
+            }
+        }
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "https://devorg1.okta1.com/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "02.id.yK9MJlZQzdBJpH91JIzPQc__enPwksLdCaeIMflg",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "okta_enduser",
+            "label": "Okta Dashboard",
+            "id": "DEFAULT_APP"
+        }
+    },
+    "authentication": {
+        "type": "object",
+        "value": {
+            "protocol": "URL",
+            "request": {}
+        }
+    }
+}

@@ -1,0 +1,193 @@
+yarn run v1.22.19
+$ yarn codegen && jest
+$ yarn workspace @okta/okta-signin-widget codegen
+$ ./scripts/codegen.sh
+[codegen]: no changes detected in packages/@okta/i18n
+[codegen]: no changes detected in src/types
+  console.error
+    Error: Not implemented: HTMLFormElement.prototype.submit
+        at module.exports (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+        at HTMLFormElementImpl.submit (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/jsdom/lib/jsdom/living/nodes/HTMLFormElement-impl.js:88:5)
+        at HTMLFormElementImpl._doSubmit (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/jsdom/lib/jsdom/living/nodes/HTMLFormElement-impl.js:80:10)
+        at HTMLInputElementImpl._activationBehavior (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/jsdom/lib/jsdom/living/nodes/HTMLInputElement-impl.js:204:12)
+        at HTMLInputElementImpl._dispatch (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:240:26)
+        at fireAnEvent (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/jsdom/lib/jsdom/living/helpers/events.js:18:36)
+        at HTMLInputElementImpl.click (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/jsdom/lib/jsdom/living/nodes/HTMLElement-impl.js:79:5)
+        at HTMLInputElement.click (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/jsdom/lib/jsdom/living/generated/HTMLElement.js:110:34)
+        at Object.<anonymous>.Util.redirectWithForm (/Users/jake.bacher/open_source/okta-signin-widget/src/util/Util.js:260:46)
+        at Object.<anonymous>.Util.redirectWithFormGet (/Users/jake.bacher/open_source/okta-signin-widget/src/util/Util.js:241:8) undefined
+
+      at VirtualConsole.<anonymous> (../../node_modules/jsdom/lib/jsdom/virtual-console.js:29:45)
+      at module.exports (../../node_modules/jsdom/lib/jsdom/browser/not-implemented.js:12:26)
+      at HTMLFormElementImpl.submit (../../node_modules/jsdom/lib/jsdom/living/nodes/HTMLFormElement-impl.js:88:5)
+      at HTMLFormElementImpl._doSubmit (../../node_modules/jsdom/lib/jsdom/living/nodes/HTMLFormElement-impl.js:80:10)
+      at HTMLInputElementImpl._activationBehavior (../../node_modules/jsdom/lib/jsdom/living/nodes/HTMLInputElement-impl.js:204:12)
+      at HTMLInputElementImpl._dispatch (../../node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:240:26)
+
+  console.error
+    AuthApiError: Unknown request
+        at formatError (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/http/request.ts:32:12)
+        at /Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/http/request.ts:182:13
+        at Object.action (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/idx/idxState/v1/generateIdxAction.ts:39:24)
+        at remediate (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/idx/remediate.ts:165:17)
+        at getDataFromRemediate (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/idx/run.ts:194:7)
+        at run (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/idx/run.ts:317:10) {
+      errorSummary: 'Unknown request',
+      errorCode: undefined,
+      errorLink: undefined,
+      errorId: undefined,
+      errorCauses: undefined
+    }
+
+      16 |   //  or if debugger is enabled
+      17 |   if (DEBUG || level === 'error' || window?.OktaSignInDebug?.isEnabled?.()) {
+    > 18 |     window.console[level].apply(window.console, args);
+         |                           ^
+      19 |   }
+      20 | }
+      21 | 
+
+      at log (../util/Logger.js:18:27)
+      at Object.error (../util/Logger.js:67:12)
+      at handleError (src/hooks/useOnSubmit.ts:101:14)
+      at src/hooks/useOnSubmit.ts:313:7
+          at Generator.throw (<anonymous>)
+      at rejected (src/hooks/useOnSubmit.ts:17:65)
+
+  console.error
+    OAuthError: The requested feature is not enabled in this environment.
+        at formatError (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/http/request.ts:62:11)
+        at /Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/http/request.ts:182:13
+        at processTicksAndRejections (node:internal/process/task_queues:96:5)
+        at interact (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/idx/interact.ts:105:16)
+        at getDataFromIntrospect (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/idx/run.ts:143:32)
+        at run (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/idx/run.ts:316:10) {
+      resp: {
+        responseText: '{"error":"access_denied","error_description":"The requested feature is not enabled in this environment."}'
+      },
+      errorCode: 'access_denied',
+      errorSummary: 'The requested feature is not enabled in this environment.',
+      error: 'access_denied',
+      error_description: 'The requested feature is not enabled in this environment.'
+    }
+
+      16 |   //  or if debugger is enabled
+      17 |   if (DEBUG || level === 'error' || window?.OktaSignInDebug?.isEnabled?.()) {
+    > 18 |     window.console[level].apply(window.console, args);
+         |                           ^
+      19 |   }
+      20 | }
+      21 | 
+
+      at log (../util/Logger.js:18:27)
+      at Object.error (../util/Logger.js:67:12)
+      at src/components/Widget/index.tsx:180:12
+      at fulfilled (src/components/Widget/index.tsx:5:58)
+
+  console.error
+    OAuthError: The client is not authorized to use the provided grant type. Configured grant types: [refresh_token, implicit, authorization_code].
+        at formatError (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/http/request.ts:62:11)
+        at /Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/http/request.ts:182:13
+        at processTicksAndRejections (node:internal/process/task_queues:96:5)
+        at interact (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/idx/interact.ts:105:16)
+        at getDataFromIntrospect (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/idx/run.ts:143:32)
+        at run (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/idx/run.ts:316:10) {
+      resp: {
+        responseText: '{"error":"unauthorized_client","error_description":"The client is not authorized to use the provided grant type. Configured grant types: [refresh_token, implicit, authorization_code]."}'
+      },
+      errorCode: 'unauthorized_client',
+      errorSummary: 'The client is not authorized to use the provided grant type. Configured grant types: [refresh_token, implicit, authorization_code].',
+      error: 'unauthorized_client',
+      error_description: 'The client is not authorized to use the provided grant type. Configured grant types: [refresh_token, implicit, authorization_code].'
+    }
+
+      16 |   //  or if debugger is enabled
+      17 |   if (DEBUG || level === 'error' || window?.OktaSignInDebug?.isEnabled?.()) {
+    > 18 |     window.console[level].apply(window.console, args);
+         |                           ^
+      19 |   }
+      20 | }
+      21 | 
+
+      at log (../util/Logger.js:18:27)
+      at Object.error (../util/Logger.js:67:12)
+      at src/components/Widget/index.tsx:180:12
+      at fulfilled (src/components/Widget/index.tsx:5:58)
+
+  console.error
+    OAuthError: The activation token is invalid
+        at formatError (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/http/request.ts:62:11)
+        at /Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/http/request.ts:182:13
+        at processTicksAndRejections (node:internal/process/task_queues:96:5)
+        at interact (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/idx/interact.ts:105:16)
+        at getDataFromIntrospect (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/idx/run.ts:143:32)
+        at run (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/idx/run.ts:316:10) {
+      resp: {
+        responseText: '{"error":"invalid_request","error_description":"The activation token is invalid"}'
+      },
+      errorCode: 'invalid_request',
+      errorSummary: 'The activation token is invalid',
+      error: 'invalid_request',
+      error_description: 'The activation token is invalid'
+    }
+
+      16 |   //  or if debugger is enabled
+      17 |   if (DEBUG || level === 'error' || window?.OktaSignInDebug?.isEnabled?.()) {
+    > 18 |     window.console[level].apply(window.console, args);
+         |                           ^
+      19 |   }
+      20 | }
+      21 | 
+
+      at log (../util/Logger.js:18:27)
+      at Object.error (../util/Logger.js:67:12)
+      at src/components/Widget/index.tsx:180:12
+      at fulfilled (src/components/Widget/index.tsx:5:58)
+
+  console.error
+    OAuthError: The recovery token is invalid
+        at formatError (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/http/request.ts:62:11)
+        at /Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/http/request.ts:182:13
+        at processTicksAndRejections (node:internal/process/task_queues:96:5)
+        at interact (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/idx/interact.ts:105:16)
+        at getDataFromIntrospect (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/idx/run.ts:143:32)
+        at run (/Users/jake.bacher/open_source/okta-signin-widget/node_modules/@okta/lib/idx/run.ts:316:10) {
+      resp: {
+        responseText: '{"error":"invalid_request","error_description":"The recovery token is invalid"}'
+      },
+      errorCode: 'invalid_request',
+      errorSummary: 'The recovery token is invalid',
+      error: 'invalid_request',
+      error_description: 'The recovery token is invalid'
+    }
+
+      16 |   //  or if debugger is enabled
+      17 |   if (DEBUG || level === 'error' || window?.OktaSignInDebug?.isEnabled?.()) {
+    > 18 |     window.console[level].apply(window.console, args);
+         |                           ^
+      19 |   }
+      20 | }
+      21 | 
+
+      at log (../util/Logger.js:18:27)
+      at Object.error (../util/Logger.js:67:12)
+      at src/components/Widget/index.tsx:180:12
+      at fulfilled (src/components/Widget/index.tsx:5:58)
+
+  console.error
+    Invalid value passed to setPageTitle, valid types include boolean, string or function.
+
+      16 |   //  or if debugger is enabled
+      17 |   if (DEBUG || level === 'error' || window?.OktaSignInDebug?.isEnabled?.()) {
+    > 18 |     window.console[level].apply(window.console, args);
+         |                           ^
+      19 |   }
+      20 | }
+      21 | 
+
+      at log (../util/Logger.js:18:27)
+      at Object.error (../util/Logger.js:67:12)
+      at getPageTitle (src/util/settingsUtils.ts:282:14)
+      at Object.<anonymous> (src/util/settingsUtils.test.ts:230:24)
+
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
