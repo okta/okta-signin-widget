@@ -124,7 +124,8 @@ const AUTHENTICATOR_KEY = {
   YUBIKEY: 'yubikey_token',
   CUSTOM_APP: 'custom_app',
   SMARTCARD: 'smart_card_idp',
-  TAC: 'tac'
+  TAC: 'tac',
+  NFC: 'nfc'
 };
 
 const AUTHENTICATOR_METHODS = {

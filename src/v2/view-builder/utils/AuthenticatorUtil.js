@@ -89,7 +89,7 @@ const getButtonDataSeAttr = function(authenticator) {
   return '';
 };
 
-/* eslint complexity: [0, 0], max-statements: [2, 32] */
+/* eslint complexity: [0, 0], max-statements: [2, 33] */
 const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   const authenticatorKey = authenticator.authenticatorKey;
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
@@ -341,6 +341,20 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   });
   break;
 
+  }
+
+  case AUTHENTICATOR_KEY.NFC: {
+    Object.assign(authenticatorData, {
+      description: isVerifyAuthenticator
+        ? ''
+        : loc('oie.nfc.description', 'login'),
+      iconClassName: 'mfa-nfc',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      ariaLabel: isVerifyAuthenticator
+        ? loc('oie.select.authenticator.verify.named.authenticator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authenticator.label', 'login', [authenticator.label])
+    });
+    break;
   }
 
   }
