@@ -10,6 +10,11 @@
 //-----------------------------------------------------------
 //SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
 //-----------------------------------------------------------
+
+// Import Inter font from Google Fonts (required by Odyssey Design System)
+// https://fonts.google.com/specimen/Inter
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
 @font-face {
   font-family: 'montserrat-okta';
   src: url('../font/montserrat-okta-light-webfont.eot');
