@@ -9,9 +9,10 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { _, Controller, loc } from '@okta/courage';
+import { _, Controller } from '@okta/courage';
 import ViewFactory from '../view-builder/ViewFactory';
 import IonResponseHelper from '../ion/IonResponseHelper';
+import errorUtils from '../ion/errorUtils';
 import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 import {
   FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP, ORG_PASSWORD_RECOVERY_LINK
@@ -237,6 +238,24 @@ export default Controller.extend({
 
     // if request did not succeed, show error on the current form
     if (error) {
+      // OKTA-1083742: For transient network errors during polling, restart polling silently.
+      const errorResp = error.rawIdxState || error;
+      const errorObj = errorUtils.buildErrorObject(errorResp);
+      const isPollingAction = invokeOptions.actions?.[0]?.name?.endsWith('-poll');
+
+      // Here we only want to restart polling for network errors (non Ion errors) during polling actions
+      // As rate limit error is handled in view layer, we skip it here and leave to showFormErrors to decide whether to restart polling or not based on the view logic.
+      if (
+        !IonResponseHelper.isIonErrorResponse(errorResp) 
+        && !errorUtils.isRateLimitError(errorObj) 
+        && isPollingAction 
+        && typeof this.formView?.form?.startPolling === 'function'
+      ) {
+        // Silently restart polling for transient network failures
+        this.formView.form.startPolling();
+        return;
+      }
+      
       await this.showFormErrors(this.formView.model, error, this.formView.form);
       return;
     }
@@ -376,7 +395,6 @@ export default Controller.extend({
    */
   async showFormErrors(model, error, form) {
     /* eslint max-statements: [2, 24] */
-    let errorObj;
     let idxStateError;
     let showErrorBanner = true;
     model.trigger('clearFormError');
@@ -391,14 +409,9 @@ export default Controller.extend({
       error = error.rawIdxState;
     }
 
-    if (IonResponseHelper.isIonErrorResponse(error)) {
-      errorObj = IonResponseHelper.convertFormErrors(error);
-    } else if (error.errorSummary) {
-      errorObj = { responseJSON: error };
-    } else {
-      Util.logConsoleError(error);
-      errorObj = { responseJSON: { errorSummary: loc('error.unsupported.response', 'login')}};
-    }
+    const errorObj = errorUtils.buildErrorObject(error, (unsupported) => {
+      Util.logConsoleError(unsupported);
+    });
 
     if(_.isFunction(form?.showCustomFormErrorCallout)) {
       showErrorBanner = !form.showCustomFormErrorCallout(errorObj, idxStateError?.messages);

@@ -194,6 +194,11 @@ const idx = {
     // 'okta-verify-version-upgrade',
     // 'okta-verify-uv-verify-enable-biometrics'
   ],
+  // To test network failure recovery (OKTA-1083742), replace the above with:
+  // '/idp/idx/challenge/poll': withNetworkFailure(
+  //   ['authenticator-verification-email'],
+  //   { failOnRequests: [3] }  // fail on the 3rd poll, then recover
+  // ),
   '/idp/idx/challenge': [
     // 'authenticator-verification-webauthn',
     // 'authenticator-verification-password',
@@ -1188,5 +1193,6 @@ const temporaryAccessCode = {
 };
 
 module.exports = {
-  mocks: idx
+  mocks: idx,
+  // mocks: Test.ChallengeAuthenticatorEmail.networkFailurePollingMock
 };

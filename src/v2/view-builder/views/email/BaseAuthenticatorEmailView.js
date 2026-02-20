@@ -4,6 +4,7 @@ import email from '../shared/email';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import BaseResendView from '../shared/BaseResendView';
 import BaseFormWithPolling from '../../internals/BaseFormWithPolling';
+import errorUtils from '../../../ion/errorUtils';
 
 const ResendView = BaseResendView.extend(
   {
@@ -88,7 +89,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
         return;
       }
 
-      if (this.isRateLimitError(error)) {
+      if (errorUtils.isRateLimitError(error)) {
         // When polling encounter rate limit error, wait 60 sec for rate limit bucket to reset
         // before polling again & hide error message
         if (isFormPolling) {
@@ -100,11 +101,6 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       } else {
         this.startPolling(this.options.appState.get('dynamicRefreshInterval'));
       }
-    },
-
-    isRateLimitError(error) {
-      return (error.responseJSON?.errorSummaryKeys?.includes('tooManyRequests') // IDX API error
-        || (error.responseJSON?.errorCode === 'E0000047') && !error.responseJSON?.errorIntent); // Standard API error
     },
   },
   email,

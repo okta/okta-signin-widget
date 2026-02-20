@@ -230,6 +230,32 @@ const terrminalConsentDeniedPollMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(terminalConsentDenied);
 
+// OKTA-1083742: Factory to create mock that simulates network failure recovery during polling
+const createNetworkFailureRecoveryMock = () => {
+  let pollCount = 0;
+  const mock = RequestMock()
+    .onRequestTo('http://localhost:3000/idp/idx/introspect')
+    .respond(emailVerificationPollingShort)
+    .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+    .respond((req, res) => {
+      pollCount++;
+      if (pollCount === 2 || pollCount === 3) {
+        // Simulate network failure by responding with non-JSON error
+        // This causes the SDK to throw an error without rawIdxState/errorCode,
+        // which the widget should treat as a transient network failure
+        res.statusCode = 500;
+        res.headers['content-type'] = 'text/plain';
+        res.setBody('Service Unavailable');
+        return;
+      }
+      res.statusCode = 200;
+      res.headers['content-type'] = 'application/json';
+      res.setBody(emailVerificationPollingShort);
+    });
+  return mock;
+};
+const networkFailureRecoveryLogger = createRequestLogger();
+
 const getResendTimestamp = ClientFunction(() => {
   return window.sessionStorage.getItem('osw-oie-resend-timestamp');
 });
@@ -972,4 +998,39 @@ test
     await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
     await t.expect(terminalPageObject.getErrorMessages().getTextContent()).contains('Operation cancelled by user.');
     await t.expect(await terminalPageObject.goBackLinkExists()).ok();
+  });
+
+// OKTA-1083742: Test that network failures during polling don't show error UI
+test
+  .requestHooks(networkFailureRecoveryLogger, createNetworkFailureRecoveryMock())('should not show error when polling encounters network failure and recovers', async t => {
+    if (userVariables.gen3) {
+      // Test targets to gen2 only
+      return;
+    }
+
+    const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
+
+    // Polling at ~1s intervals (emailVerificationPollingShort):
+    //   Poll 1: success (200)
+    //   Poll 2: network failure (500 non-JSON)
+    //   Poll 3: network failure (500 non-JSON)
+    //   Poll 4+: success (200) — recovered
+    await t.wait(6000);
+
+    // Verify no error box is shown on the page — network failures during polling are silent
+    await t.expect(challengeEmailPageObject.form.getErrorBoxCount()).eql(0);
+
+    // Verify failed polls were detected
+    await t.expect(networkFailureRecoveryLogger.count(
+      record => record.response.statusCode === 500 &&
+        record.request.url.match(/poll/)
+    )).eql(2);
+
+    // Verify polling recovered — successful polls after the failures
+    await t.expect(networkFailureRecoveryLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/poll/)
+    )).gte(2);
   });
