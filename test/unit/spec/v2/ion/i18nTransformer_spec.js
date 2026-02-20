@@ -2319,7 +2319,7 @@ describe('v2/ion/i18nTransformer', function() {
         name: 'NotAllowedError'
       })).toEqual('unit test - translated browser thrown error');
     });
-  
+
     it('should get original message if the browser thrown error is not supported in our i18n bundle', () => {
       expect(getMessageFromBrowserError({
         message: 'browser message',
@@ -2330,6 +2330,7 @@ describe('v2/ion/i18nTransformer', function() {
 
   describe('getMessage', () => {
     const expectedWebAuthnGenericError = 'You are currently unable to use a Security key or biometric authenticator. Try again.';
+    const expectedPasskeysWebAuthnGenericError = 'You are currently unable to use a passkey. Try again.';
 
     it.each([
       [
@@ -2452,6 +2453,17 @@ describe('v2/ion/i18nTransformer', function() {
         },
         'This is not a api error that can be generic.',
       ],
+      [
+        'passkeys.authfactor.webauthn.error.invalid_enrollment_request_data',
+        {
+          message:'Invalid data in the WebAuthn enrollment request. {0}',
+          i18n:{
+            key:'passkeys.authfactor.webauthn.error.invalid_enrollment_request_data',
+            params: ['User present bit was not set'],
+          },
+        },
+        expectedPasskeysWebAuthnGenericError,
+      ]
     ])('should render correct error message by get key from API: %s', (key, error, expectedMessage) => {
       Bundles.login = originalLoginBundle;
       expect(Bundles.login[key]).toBeUndefined();

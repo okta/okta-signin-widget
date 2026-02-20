@@ -26,6 +26,7 @@ import { FORMS, AUTHENTICATOR_KEY } from './RemediationConstants';
 import { I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS } from '../view-builder/views/enroll-profile/i18nBaseAttributeMappings';
 
 const WEBAUTHN_API_GENERIC_ERROR_KEY = 'authfactor.webauthn.error';
+const PASSKEYS_WEBAUTHN_API_GENERIC_ERROR_KEY = 'passkeys.authfactor.webauthn.error';
 const DEVICE_ASSURANCE_CUSTOM_REMEDIATION_I18N_KEY_PREFIX = 'device.assurance.custom.remediation.';
 const WEBAUTHN_LABEL_KEY = 'oie.webauthn.label';
 
@@ -41,7 +42,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'identify.credentials.passcode': 'primaryauth.password.placeholder',
   'identify.rememberMe': 'oie.remember',
   'enroll-profile.userProfile.rememberMe': 'oie.remember',
-  
+
   'identify-recovery.identifier': 'password.forgot.email.or.username.placeholder',
 
   'select-authenticator-enroll.authenticator.duo': 'factor.duo',
@@ -168,7 +169,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'authenticator-verification-data.authenticator.autoChallenge': 'autoPush', // authenticator-verification-data-okta-verify-push-autoChallenge-off.json
   'authenticator-verification-data.okta_verify.authenticator.autoChallenge': 'autoPush',
   'authenticator-verification-data.custom_app.authenticator.autoChallenge': 'autoPush',
-  
+
   // Existing overrides
   ...I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS, //enroll-profile strings
 };
@@ -246,7 +247,7 @@ const getI8nKeyUsingParams = (key, param) => {
 const getI18NParams = (remediation, authenticatorKey) => {
   const params = [];
   const formName = remediation.name;
-  
+
   // Handle WebAuthn custom displayName
   if (authenticatorKey === AUTHENTICATOR_KEY.WEBAUTHN) {
     const displayName = remediation?.relatesTo?.value?.displayName;
@@ -255,7 +256,7 @@ const getI18NParams = (remediation, authenticatorKey) => {
       return params;
     }
   }
-  
+
   if (I18N_PARAMS_MAPPING[formName] &&
     I18N_PARAMS_MAPPING[formName][authenticatorKey]) {
     const config = I18N_PARAMS_MAPPING[formName][authenticatorKey];
@@ -280,12 +281,12 @@ const getI18nKey = (i18nPath, remediation = null) => {
   if (i18nPath === 'select-authenticator-enroll.authenticator.webauthn' ||
       i18nPath === 'select-authenticator-authenticate.authenticator.webauthn') {
     const displayName = remediation?.relatesTo?.value?.displayName;
-    
+
     // For custom displayName (not DEFAULT, not PASSKEYS), return null to use the displayName itself
     if (isCustomDisplayName(displayName)) {
       return null;
     }
-    
+
     // For DEFAULT or PASSKEYS, get the appropriate i18n key
     i18nKey = getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.LABEL, displayName);
   } else if (I18N_OVERRIDE_MAPPINGS[i18nPath]) {
@@ -324,6 +325,7 @@ const getI18NValue = (i18nPath, defaultValue, params = [], remediation = null) =
 };
 
 const isWebAuthnAPIError = (i18nKey) => i18nKey.startsWith(WEBAUTHN_API_GENERIC_ERROR_KEY);
+const isPasskeysWebAuthnAPIError = (i18nKey) => i18nKey.startsWith(PASSKEYS_WEBAUTHN_API_GENERIC_ERROR_KEY);
 
 /**
  * @typedef {Object} Message
@@ -371,6 +373,8 @@ const getMessage = (message) => {
       // The WebAuthn api error doesn't make much sense to a typical end user, but useful for developer.
       // So keep the api message in response, but show a generic error message on UI.
       return loc(WEBAUTHN_API_GENERIC_ERROR_KEY, 'login');
+    } else if (isPasskeysWebAuthnAPIError(i18nKey)) {
+      return loc(PASSKEYS_WEBAUTHN_API_GENERIC_ERROR_KEY, 'login');
     }
 
     // Return unlocalized IDX `message.message` for admin-defined custom device assurance remediation keys
@@ -420,7 +424,7 @@ const isCustomizedI18nKey = (i18nKey, settings) => {
   if (typeof i18n === 'undefined' || i18n === null) {
     return false;
   }
-  
+
   // Lower case the language codes when searching for i18n key so it is case insensitive
   return Object.entries(i18n).some(
     ([customizedLangCode, customizedI18nKeys]) => customizedLangCode.toLowerCase() === widgetLanguageLowerCase && !!customizedI18nKeys[i18nKey]
