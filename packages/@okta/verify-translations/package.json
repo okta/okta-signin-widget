@@ -1,0 +1,11 @@
+{
+  "name": "verify-translations",
+  "version": "1.0.0",
+  "description": "Sync translations from core to SIW",
+  "scripts": {
+    "verify": "node verify-translations.js"
+  },
+  "devDependencies": {
+    "properties": "^1.2.1"
+  }
+}
