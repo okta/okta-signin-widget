@@ -135,7 +135,6 @@
             "challengeMethod": "LOOPBACK",
             "challengeRequest": "02vQULJDA20fnlkloDn2swWJkaxVTPQ10lyJH6I5c",
             "domain": "http://localhost",
-            "enhancedPollingEnabled": false,
             "ports": [
               "2000",
               "6511",
