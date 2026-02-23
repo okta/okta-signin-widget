@@ -58,6 +58,8 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
   constructor(options: BaseLoginRouterOptions) {
     super(options);
 
+    throw new Error('This is a test error thrown from BaseLoginRouter constructor');
+
     // Create a default success and/or error handler if
     // one is not provided.
     if (!options.globalSuccessFn) {

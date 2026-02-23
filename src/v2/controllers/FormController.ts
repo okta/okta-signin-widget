@@ -49,6 +49,8 @@ export default Controller.extend({
   },
 
   postRender() {
+    throw new Error('This is a test error thrown from FormController postRender');
+  
     const currentViewState = this.options.appState.getCurrentViewState();
     // TODO: add comments regarding when `currentViewState` would be null?
     if (!currentViewState) {
