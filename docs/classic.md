@@ -37,7 +37,7 @@ This document is provided as a reference for customers who are still using Class
 
 <!-- TOC is generated using Markdown All in One -->
 - [Related SDKs](#related-sdks)
-  - [Javascript](#javascript)
+  - [JavaScript](#javascript)
   - [Java](#java)
   - [.Net](#net)
 - [Sample applications](#sample-applications)
@@ -105,7 +105,7 @@ The Sign-in Widget is self-contained and requires no other frameworks at runtime
 
 These SDKs are fully compatible with the Okta Sign-in Widget and provide utilities to help integrate Okta [authentication][] end-to-end in your own application.
 
-### Javascript
+### JavaScript
 
 - [okta-auth-js](https://github.com/okta/okta-auth-js)
 - [okta-react](https://github.com/okta/okta-react)
@@ -126,7 +126,7 @@ These SDKs are fully compatible with the Okta Sign-in Widget and provide utiliti
 
 Complete sample applications demonstrate usage of the Okta Sign-In Widget in both [Okta-hosted](#okta-hosted-sign-in-page-default) and [embedded](#embedded-self-hosted) scenarios.
 
-- [Javascript](https://github.com/okta/okta-auth-js/tree/master/samples)
+- [JavaScript](https://github.com/okta/okta-auth-js/tree/master/samples)
 - [React](https://github.com/okta/samples-js-react)
 - [Angular](https://github.com/okta/samples-js-angular)
 - [Vue](https://github.com/okta/samples-js-vue)
@@ -183,18 +183,18 @@ Loading our assets directly from the CDN is a good choice if you want an easy wa
 To embed the Sign-in Widget via CDN, include links to the JS and CSS files in your HTML:
 
 ```html
-<!-- Latest CDN production Javascript and CSS -->
+<!-- Latest CDN production JavaScript and CSS -->
 <script src="https://global.oktacdn.com/okta-signin-widget/6.1.2/js/okta-sign-in.min.js" type="text/javascript"></script>
 
 <link href="https://global.oktacdn.com/okta-signin-widget/6.1.2/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
 ```
 
-The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](../../releases).
+The CDN URLs contain a version number. This number should be the same for both the JavaScript and the CSS file and match a version on the [releases page](../../releases).
 
 The standard JS asset served from our CDN includes polyfills via [`core-js`](https://github.com/zloirock/core-js) and [`regenerator-runtime`](https://github.com/facebook/regenerator/blob/master/packages/regenerator-runtime/runtime.js) to ensure compatibility with older browsers.
 
 ```html
-<!-- Latest CDN production Javascript without polyfills -->
+<!-- Latest CDN production JavaScript without polyfills -->
 <script src="https://global.oktacdn.com/okta-signin-widget/6.1.2/js/okta-sign-in.no-polyfill.min.js" type="text/javascript"></script>
 ```
 
