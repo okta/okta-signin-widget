@@ -77,8 +77,8 @@ export const WEBAUTHN_I18N_KEYS: WebAuthnI18nKeys = {
     CUSTOM: 'oie.webauthn.label', // Falls back to DEFAULT for custom
   },
   // Static keys that don't vary by displayName
-  ENROLL_INSTRUCTIONS: 'oie.enroll.webauthn.instructions',
-  VERIFY_INSTRUCTIONS: 'oie.verify.webauthn.instructions',
+  ENROLL_INSTRUCTIONS: 'oie.enroll.webauthn.passkeysRebrand.instructions',
+  VERIFY_INSTRUCTIONS: 'oie.verify.webauthn.passkeysRebrand.instructions',
 };
 
 /**
@@ -105,22 +105,22 @@ export const getWebAuthnI18nKey = (
   if (typeof keyMap === 'string') {
     return keyMap;
   }
-  
+
   // Validate keyMap is an object
   if (!keyMap || typeof keyMap !== 'object') {
     return null;
   }
-  
+
   // Check for exact PASSKEYS match
   if (displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS && keyMap.PASSKEYS) {
     return keyMap.PASSKEYS;
   }
-  
+
   // Check for CUSTOM displayName
   if (isCustomDisplayName(displayName) && keyMap.CUSTOM) {
     return keyMap.CUSTOM;
   }
-  
+
   // Fallback to DEFAULT
   return keyMap.DEFAULT || null;
 };
