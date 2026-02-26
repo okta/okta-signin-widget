@@ -123,10 +123,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [stepToRender, setStepToRender] = useState<string | undefined>(undefined);
   const prevIdxTransactionRef = useRef<IdxTransaction>();
   const [responseError, setResponseError] = useState<AuthApiError | OAuthError | null>(null);
-  const [
-    pollingTransaction,
-    stablePollingTransaction,
-  ] = usePolling(idxTransaction, widgetProps, {});
+  const pollingTransaction = usePolling(idxTransaction, widgetProps, data);
   const interactionCodeFlowFormBag = useInteractionCodeFlow(
     idxTransaction,
     widgetProps,
@@ -419,7 +416,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // Update idxTransaction when new status comes back from polling
   useEffect(() => {
-    if (!idxTransaction || !stablePollingTransaction) {
+    if (!idxTransaction || !pollingTransaction) {
       return;
     }
 
@@ -431,11 +428,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
      * But if for some reason the keys are the same between them, we perform a last ditch check
      * against the current authenticator's ID, which should always be unique between challenges
     */
-    if (!areTransactionsEqual(idxTransaction, stablePollingTransaction)) {
-      setIdxTransaction(stablePollingTransaction);
+    if (!areTransactionsEqual(idxTransaction, pollingTransaction)) {
+      setIdxTransaction(pollingTransaction);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stablePollingTransaction, idxTransaction]); // watch both transactions
+  }, [pollingTransaction]); // only watch on pollingTransaction changes
 
   useEffect(() => {
     if (typeof interactionCodeFlowFormBag === 'undefined') {
@@ -511,7 +508,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       onSuccessCallback: globalSuccessFn,
       onErrorCallback: globalErrorFn,
       idxTransaction,
-      pollingTransaction,
       setResponseError,
       setIdxTransaction,
       setIsClientTransaction,

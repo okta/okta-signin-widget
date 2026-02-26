@@ -124,7 +124,7 @@ const config = {
     : (env.OKTA_SIW_EN_LEAKS ? 2 : 4),
 
   // retry failed tests
-  quarantineMode: (env.OKTA_SIW_EN_LEAKS || !env.CI) ? false : {
+  quarantineMode: env.OKTA_SIW_EN_LEAKS ? false : {
     successThreshold: 1,
     attemptLimit: 5,
   },

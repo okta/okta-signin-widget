@@ -30,7 +30,6 @@ export type IWidgetContext = {
   onSuccessCallback?: WidgetProps['globalSuccessFn'];
   onErrorCallback?: WidgetProps['globalErrorFn'];
   idxTransaction: IdxTransaction | undefined;
-  pollingTransaction: IdxTransaction | undefined;
   setResponseError: StateUpdater<AuthApiError | OAuthError | null>;
   setIdxTransaction: StateUpdater<IdxTransaction | undefined>;
   setIsClientTransaction: StateUpdater<boolean>;
