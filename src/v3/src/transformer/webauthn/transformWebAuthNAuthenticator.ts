@@ -233,13 +233,18 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
       },
     } as DescriptionElement);
   } else {
+    const notSupportedKey = getWebAuthnI18nKey({
+      DEFAULT: 'oie.webauthn.error.not.supported',
+      PASSKEYS: 'oie.webauthn.passkeysRebrand.error.not.supported',
+      CUSTOM: 'oie.webauthn.passkeysRebrand.error.not.supported',
+    }, displayName) || 'oie.webauthn.error.not.supported';
     uischema.elements.unshift({
       type: 'InfoBox',
       options: {
         message: {
           class: 'ERROR',
-          message: loc('oie.webauthn.error.not.supported', 'login'),
-          i18n: { key: 'oie.webauthn.error.not.supported' },
+          message: loc(notSupportedKey, 'login'),
+          i18n: { key: notSupportedKey },
         },
         class: 'ERROR',
         dataSe: 'callout',

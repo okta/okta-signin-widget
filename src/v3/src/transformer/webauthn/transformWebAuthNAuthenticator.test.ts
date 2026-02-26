@@ -563,6 +563,62 @@ describe('WebAuthN Transformer Tests', () => {
       expect(updatedFormBag.uischema.elements[5].type).toBe('Accordion');
     });
 
+    it('should use passkeys rebrand error key when displayName is "Passkeys" and WebAuthN API is not available during ENROLL', () => {
+      const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+      navigatorCredentials.mockReturnValue(
+        { credentials: {} } as unknown as Navigator,
+      );
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.ENROLL_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'Passkeys',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      expect(updatedFormBag.uischema.elements.length).toBe(2);
+      expect((updatedFormBag.uischema.elements[1] as InfoboxElement).options.message)
+        .toEqual({
+          class: 'ERROR',
+          i18n: { key: 'oie.webauthn.passkeysRebrand.error.not.supported' },
+          message: 'oie.webauthn.passkeysRebrand.error.not.supported',
+        });
+    });
+
+    it('should use passkeys rebrand error key when displayName is "Passkeys" and WebAuthN API is not available during VERIFY', () => {
+      const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+      navigatorCredentials.mockReturnValue(
+        { credentials: {} } as unknown as Navigator,
+      );
+      transaction = getStubTransactionWithNextStep();
+      formBag = getStubFormBag(IDX_STEP.CHALLENGE_AUTHENTICATOR);
+      transaction.nextStep = {
+        name: IDX_STEP.CHALLENGE_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            displayName: 'Passkeys',
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      expect(updatedFormBag.uischema.elements.length).toBe(3);
+      expect((updatedFormBag.uischema.elements[1] as InfoboxElement).options.message)
+        .toEqual({
+          class: 'ERROR',
+          i18n: { key: 'oie.webauthn.passkeysRebrand.error.not.supported' },
+          message: 'oie.webauthn.passkeysRebrand.error.not.supported',
+        });
+    });
+
     it('should render additional instructions when description is present', () => {
       transaction = getStubTransactionWithNextStep();
       formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
