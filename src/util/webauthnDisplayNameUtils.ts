@@ -39,9 +39,8 @@ interface WebAuthnI18nKeys {
   SELECT_ENROLL_LABEL: VariantKeyMap;
   SELECT_VERIFY_LABEL: VariantKeyMap;
   LABEL: VariantKeyMap;
-  // Static keys that don't vary by displayName
-  ENROLL_INSTRUCTIONS: string;
-  VERIFY_INSTRUCTIONS: string;
+  ENROLL_INSTRUCTIONS: VariantKeyMap;
+  VERIFY_INSTRUCTIONS: VariantKeyMap;
 }
 
 export const WEBAUTHN_I18N_KEYS: WebAuthnI18nKeys = {
@@ -76,9 +75,16 @@ export const WEBAUTHN_I18N_KEYS: WebAuthnI18nKeys = {
     PASSKEYS: 'oie.webauthn.passkeysRebrand.passkeys.label',
     CUSTOM: 'oie.webauthn.label', // Falls back to DEFAULT for custom
   },
-  // Static keys that don't vary by displayName
-  ENROLL_INSTRUCTIONS: 'oie.enroll.webauthn.passkeysRebrand.instructions',
-  VERIFY_INSTRUCTIONS: 'oie.verify.webauthn.passkeysRebrand.instructions',
+  ENROLL_INSTRUCTIONS: {
+    DEFAULT: 'oie.enroll.webauthn.instructions',
+    PASSKEYS: 'oie.enroll.webauthn.passkeysRebrand.instructions',
+    CUSTOM: 'oie.enroll.webauthn.passkeysRebrand.instructions',
+  },
+  VERIFY_INSTRUCTIONS: {
+    DEFAULT: 'oie.verify.webauthn.instructions',
+    PASSKEYS: 'oie.verify.webauthn.passkeysRebrand.instructions',
+    CUSTOM: 'oie.verify.webauthn.passkeysRebrand.instructions',
+  },
 };
 
 /**

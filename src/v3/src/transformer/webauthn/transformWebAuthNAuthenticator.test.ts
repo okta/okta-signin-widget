@@ -490,7 +490,7 @@ describe('WebAuthN Transformer Tests', () => {
       expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
       expect((updatedFormBag.uischema.elements[1] as DescriptionElement).contentType).toBe('subtitle');
       expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
-        .toBe('oie.enroll.webauthn.instructions');
+        .toBe('oie.enroll.webauthn.passkeysRebrand.instructions');
 
       // Additional instructions heading (as Description with <strong>)
       expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
@@ -538,7 +538,7 @@ describe('WebAuthN Transformer Tests', () => {
       expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
       expect((updatedFormBag.uischema.elements[1] as DescriptionElement).contentType).toBe('subtitle');
       expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
-        .toBe('oie.verify.webauthn.instructions');
+        .toBe('oie.verify.webauthn.passkeysRebrand.instructions');
 
       // Additional instructions heading
       expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
@@ -620,63 +620,6 @@ describe('WebAuthN Transformer Tests', () => {
         (el: any) => el.type === 'InfoBox',
       );
       expect(hasInfoBox).toBe(false);
-    });
-
-    it('should use same instructions key for all displayName types (no parameters for instructions)', () => {
-      // Test DEFAULT
-      transaction = getStubTransactionWithNextStep();
-      formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
-      transaction.nextStep = {
-        name: IDX_STEP.ENROLL_AUTHENTICATOR,
-        action: jest.fn(),
-        relatesTo: {
-          value: {
-            displayName: 'Security Key or Biometric',
-          } as unknown as IdxAuthenticator,
-        },
-      };
-      let updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
-      let instructionsElement = updatedFormBag.uischema.elements.find(
-        (el: any) => el.type === 'Description' && el.contentType === 'subtitle',
-      ) as DescriptionElement;
-      expect(instructionsElement.options.content).toBe('oie.enroll.webauthn.instructions');
-
-      // Test PASSKEYS
-      transaction = getStubTransactionWithNextStep();
-      formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
-      transaction.nextStep = {
-        name: IDX_STEP.ENROLL_AUTHENTICATOR,
-        action: jest.fn(),
-        relatesTo: {
-          value: {
-            displayName: 'Passkeys',
-          } as unknown as IdxAuthenticator,
-        },
-      };
-      updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
-      instructionsElement = updatedFormBag.uischema.elements.find(
-        (el: any) => el.type === 'Description' && el.contentType === 'subtitle',
-      ) as DescriptionElement;
-      expect(instructionsElement.options.content).toBe('oie.enroll.webauthn.instructions');
-
-      // Test CUSTOM
-      transaction = getStubTransactionWithNextStep();
-      formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
-      transaction.nextStep = {
-        name: IDX_STEP.ENROLL_AUTHENTICATOR,
-        action: jest.fn(),
-        relatesTo: {
-          value: {
-            displayName: 'Company Passkeys',
-          } as unknown as IdxAuthenticator,
-        },
-      };
-      updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
-      instructionsElement = updatedFormBag.uischema.elements.find(
-        (el: any) => el.type === 'Description' && el.contentType === 'subtitle',
-      ) as DescriptionElement;
-      // Instructions should be the same key, no parameters
-      expect(instructionsElement.options.content).toBe('oie.enroll.webauthn.instructions');
     });
 
     it('should render title with displayName for CUSTOM authenticator during enroll', () => {
