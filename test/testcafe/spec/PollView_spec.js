@@ -42,12 +42,11 @@ test.requestHooks(requestLogger, identifyMock)('should make request based on tim
   await identityPage.clickSignInButton();
   const pollingPageObject = new PollingPageObject();
 
-  await t.expect(pollingPageObject.getHeader()).eql('Unable to complete your request');
-  await t.expect(pollingPageObject.getRetryMessage().exists).eql(true);
-  
   await t.wait(2000);
   await t.expect(requestLogger.count(() => true)).eql(1);
-  
+
+  await t.expect(pollingPageObject.getHeader()).eql('Unable to complete your request');
+  await t.expect(pollingPageObject.getRetryMessage().exists).eql(true);
   await t.wait(3000);
   await t.expect(requestLogger.count(() => true)).eql(2);
 });

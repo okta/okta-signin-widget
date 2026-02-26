@@ -53,75 +53,32 @@ const getAutoChallengeValue = (
     : undefined;
 };
 
-/**
- * usePolling
- *
- * Manages an IDX polling lifecycle with two-track approach:
- * 1. Internal polling state for components that need to react to intermediate changes
- * 2. Stable state for UI rendering to avoid unnecessary re-renders
- *
- * Logic:
- * Detects a polling step on the incoming (external) idxTransaction.
- *   If found, starts/restarts an internal polling chain (pollTransaction).
- *   If not found, clears both transactions to respect external idxTransaction as source of truth.
- *
- * While internal pollTransaction has a polling step, schedules a timer (refresh or DEFAULT_TIMEOUT)
- * to call authClient.idx.proceed.
- *
- * Each network response:
- * If still a polling step, replaces pollTransaction (exposed for components like LoopbackProbe).
- * If no polling step (stable / terminal / success), sets stableTransaction (for main UI).
- *
- * Automatically aborts previous timer whenever a new external transaction starts polling or completes.
- *
- * @returns A tuple of [pollingTransaction, stableTransaction]
- * - pollingTransaction: Current polling state, updates on every poll response. Used by components
- *   that need to react to intermediate changes (e.g., LoopbackProbe watching challengeRequest).
- * - stableTransaction: Only set when polling completes. Used for main UI rendering to prevent
- *   unnecessary re-renders during active polling.
- */
+// returns polling transaction or undefined
 export const usePolling = (
   idxTransaction: IdxTransaction | undefined,
   widgetProps: Partial<WidgetOptions>,
   data: Record<string, unknown>,
-): readonly [
-  pollingTransaction: IdxTransaction | undefined,
-  stableTransaction: IdxTransaction | undefined,
-] => {
+): IdxTransaction | undefined => {
   const { stateToken, authClient } = widgetProps;
-  // Internal chain while polling
-  const [pollTransaction, setPollTransaction] = useState<IdxTransaction | undefined>();
-  // Exposed stable transaction (UI should render this)
-  const [stableTransaction, setStableTransaction] = useState<IdxTransaction | undefined>();
+  const [transaction, setTransaction] = useState<IdxTransaction | undefined>();
   const timerRef = useRef<NodeJS.Timeout>();
 
-  // Only respect inner polling state
-  const pollingStep = useMemo(() => getPollingStep(pollTransaction), [pollTransaction]);
+  const pollingStep = useMemo(() => {
+    const idxTransactionPollingStep = getPollingStep(idxTransaction);
+    if (!idxTransactionPollingStep) {
+      return undefined;
+    }
 
-  // Seed / restart polling when external transaction starts a polling step.
-  // If external is already stable (no poll step), expose it immediately.
-  useEffect(() => {
-    if (!idxTransaction) {
-      return;
-    }
-    const outerPolling = getPollingStep(idxTransaction);
-    if (outerPolling) {
-      // Restart polling with fresh outer transaction; clear previous stableTransaction
-      clearTimeout(timerRef.current);
-      setPollTransaction(idxTransaction);
-      setStableTransaction(undefined); // Clear stable transaction when starting new polling
-    } else {
-      // External is stable: stop any polling and return undefined
-      clearTimeout(timerRef.current);
-      setPollTransaction(undefined);
-      setStableTransaction(undefined);
-    }
-  }, [idxTransaction]);
+    const res = getPollingStep(transaction) || idxTransactionPollingStep;
+    return res;
+  }, [idxTransaction, transaction]);
 
   // start polling timer when internal polling transaction changes
   useEffect(() => {
-    if (!pollingStep || !pollTransaction) {
-      return;
+    if (!pollingStep) {
+      clearTimeout(timerRef.current);
+      setTransaction(undefined);
+      return undefined;
     }
 
     const { name, refresh = DEFAULT_TIMEOUT } = pollingStep;
@@ -130,21 +87,19 @@ export const usePolling = (
     // the following polling requests will be triggered based on idxTransaction update
     timerRef.current = setTimeout(async () => {
       let payload: IdxActionParams = {};
-      const autoChallenge = getAutoChallengeValue(pollTransaction, data);
+      const autoChallenge = getAutoChallengeValue(idxTransaction, data);
       if (autoChallenge !== undefined) {
         payload.autoChallenge = autoChallenge;
       }
-
       // POLL_STEPS are not an action, so must treat as such
       if (isPollingStep(name)) {
         payload.step = name;
       } else {
         payload = { actions: [{ name, params: payload }] };
       }
-
       // TODO: Revert to use action once this fix is completed OKTA-512706
       const newTransaction = await authClient?.idx.proceed({
-        stateHandle: stateToken && pollTransaction?.context?.stateHandle,
+        stateHandle: stateToken && idxTransaction?.context?.stateHandle,
         ...payload,
       });
 
@@ -155,32 +110,25 @@ export const usePolling = (
       if ((newTransaction?.context?.errorCode === 'E0000047' && !newTransaction?.context?.errorIntent)
         || containsMessageKey(TERMINAL_KEY.TOO_MANY_REQUESTS, newTransaction?.messages)) {
         // When polling encounter rate limit error, wait 60 sec for rate limit bucket to reset before polling again
-        const clonedTransaction = cloneDeep(pollTransaction);
+        const clonedTransaction = cloneDeep(idxTransaction);
         const clonedPollingStep = getPollingStep(clonedTransaction);
         if (clonedPollingStep !== undefined) {
           clonedPollingStep.refresh = 60000;
         }
-        setPollTransaction(clonedTransaction);
+        setTransaction(clonedTransaction);
         return;
       }
 
-      // Continue or finish
-      if (getPollingStep(newTransaction)) {
-        setPollTransaction(newTransaction);
-      } else {
-        // Reached stable state
-        setPollTransaction(undefined);
-        setStableTransaction(newTransaction);
-      }
+      setTransaction(newTransaction);
     }, refresh);
 
-    // eslint-disable-next-line consistent-return
     return () => {
-      clearTimeout(timerRef.current);
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pollingStep]);
+  }, [setTransaction, pollingStep]);
 
-  // Only expose stable transaction (UI will not re-render intermediate poll states)
-  return [pollTransaction, stableTransaction];
+  return transaction;
 };

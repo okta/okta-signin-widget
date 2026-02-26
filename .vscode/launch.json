@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Debug with Jest",
       "program": "${workspaceFolder}/node_modules/jest/bin/jest",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v16.18.1/bin/node",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v14.18.3/bin/node",
       "args": [
         "--runInBand",
         "--no-cache",
@@ -26,7 +26,7 @@
       "request": "launch",
       "name": "Debug with TestCafe",
       "program": "${workspaceRoot}/node_modules/testcafe/bin/testcafe.js",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v16.18.1/bin/node",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v14.18.3/bin/node",
       "args": [
           "chrome",
           "${relativeFile}",
@@ -44,7 +44,7 @@
       "request": "launch",
       "name": "Debug v3 Parity with TestCafe",
       "program": "${workspaceRoot}/node_modules/testcafe/bin/testcafe.js",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v16.18.1/bin/node",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v14.18.3/bin/node",
       "env": {
         "OKTA_SIW_GEN3": "true"
       },
@@ -66,7 +66,7 @@
       "request": "launch",
       "name": "Debug with WebdriverIO",
       "program": "${workspaceRoot}/test/e2e/node_modules/@wdio/cli/bin/wdio.js",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v16.18.1/bin/node",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v14.18.3/bin/node",
       "args": [
           "${workspaceRoot}/test/e2e/wdio.conf.js",
           "--spec",
@@ -84,7 +84,7 @@
       "request": "launch",
       "name": "Cucumber Tests Debug with WebdriverIO",
       "program": "${workspaceRoot}/test/e2e/node_modules/@wdio/cli/bin/wdio.js",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v16.18.1/bin/node",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v14.18.3/bin/node",
       "args": [
           "${workspaceRoot}/test/e2e/cucumber.wdio.conf.ts",
           "--spec",
