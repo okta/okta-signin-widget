@@ -118,14 +118,18 @@ const getCantVerifyChallengeContent = (): UISchemaLayout => ({
   ],
 });
 
-const getCantVerifyEnrollContent = (): UISchemaLayout => ({
+const getCantVerifyEnrollContent = (displayName: string | undefined): UISchemaLayout => ({
   type: UISchemaLayoutType.VERTICAL,
   elements: [
     {
       type: 'List',
       options: {
         items: [
-          loc('oie.verify.webauthn.cant.verify.enrollment.step1', 'login'),
+          loc(getWebAuthnI18nKey({
+            DEFAULT: 'oie.verify.webauthn.cant.verify.enrollment.step1',
+            PASSKEYS: 'oie.verify.webauthn.passkeysRebrand.cant.verify.enrollment.step1',
+            CUSTOM: 'oie.verify.webauthn.passkeysRebrand.cant.verify.enrollment.step1',
+          }, displayName) || 'oie.verify.webauthn.cant.verify.enrollment.step1', 'login'),
           loc('oie.verify.webauthn.cant.verify.enrollment.step2', 'login'),
           loc('oie.verify.webauthn.cant.verify.enrollment.step3', 'login'),
           loc('oie.verify.webauthn.cant.verify.enrollment.step4', 'login'),
@@ -136,7 +140,7 @@ const getCantVerifyEnrollContent = (): UISchemaLayout => ({
   ],
 });
 
-const appendFooterAccordion = (uischema: UISchemaLayout, app: IdxContext['app']): void => {
+const appendFooterAccordion = (uischema: UISchemaLayout, app: IdxContext['app'], displayName: string | undefined): void => {
   const OKTA_AUTHENTICATOR = 'Okta_Authenticator';
   const cantVerifyAccordion: AccordionLayout = {
     type: UISchemaLayoutType.ACCORDION,
@@ -149,7 +153,7 @@ const appendFooterAccordion = (uischema: UISchemaLayout, app: IdxContext['app'])
           id: 'cant-verify',
           summary: loc('oie.verify.webauthn.cant.verify', 'login'),
           content: app?.value?.name === OKTA_AUTHENTICATOR
-            ? getCantVerifyEnrollContent()
+            ? getCantVerifyEnrollContent(displayName)
             : getCantVerifyChallengeContent(),
         },
       },
@@ -254,7 +258,7 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
 
   uischema.elements.unshift(titleElement);
   if (name === IDX_STEP.CHALLENGE_AUTHENTICATOR) {
-    appendFooterAccordion(uischema, app);
+    appendFooterAccordion(uischema, app, displayName);
   }
 
   return formBag;

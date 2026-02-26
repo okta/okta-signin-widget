@@ -12,6 +12,7 @@
 import { loc, View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import AuthenticatorFooter from './AuthenticatorFooter';
+import { getWebAuthnI18nKey } from 'util/webauthnDisplayNameUtils';
 
 const OKTA_AUTHENTICATOR = 'Okta_Authenticator';
 
@@ -32,12 +33,25 @@ const CantVerifyInfoOVEnrollmentFlowView = View.extend({
   className: 'help-description js-help-description',
   template: hbs`
       <ol class="ov-enrollment-info">
+      {{#if enrollmentStep1}}
+        <li>{{i18n code=enrollmentStep1 bundle="login"}}</li><br>
+      {{else}}
         <li>{{i18n code="oie.verify.webauthn.cant.verify.enrollment.step1" bundle="login"}}</li><br>
+      {{/if}}
         <li>{{i18n code="oie.verify.webauthn.cant.verify.enrollment.step2" bundle="login"}}</li><br>
         <li>{{i18n code="oie.verify.webauthn.cant.verify.enrollment.step3" bundle="login"}}</li><br>
         <li>{{i18n code="oie.verify.webauthn.cant.verify.enrollment.step4" bundle="login"}}</><br>
       </ol>
   `,
+  getTemplateData() {
+    return {
+      enrollmentStep1: getWebAuthnI18nKey({
+        DEFAULT: 'oie.verify.webauthn.cant.verify.enrollment.step1',
+        PASSKEYS: 'oie.verify.webauthn.passkeysRebrand.cant.verify.enrollment.step1',
+        CUSTOM: 'oie.verify.webauthn.passkeysRebrand.cant.verify.enrollment.step1'
+      }, this.options.currentViewState.relatesTo?.value?.displayName)
+    };
+  }
 });
 
 export default AuthenticatorFooter.extend({
