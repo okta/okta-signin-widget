@@ -10,6 +10,7 @@ import ChallengeWebauthnFooter from '../../components/ChallengeWebauthnFooter';
 import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
 import EnrollWebAuthnResidentKeyLinkView from './EnrollWebAuthnResidentkeyLinkView';
 import { getWebAuthnTitle } from '../../utils/AuthenticatorUtil';
+import { getWebAuthnI18nKey } from 'util/webauthnDisplayNameUtils';
 
 const Body = BaseForm.extend({
 
@@ -44,7 +45,12 @@ const Body = BaseForm.extend({
         View: createCallout({
           className: 'webauthn-not-supported',
           type: 'error',
-          subtitle: loc('oie.webauthn.error.not.supported', 'login'),
+          subtitle: loc(getWebAuthnI18nKey({
+            DEFAULT: 'oie.webauthn.error.not.supported',
+            PASSKEYS: 'oie.webauthn.passkeysRebrand.error.not.supported',
+            CUSTOM: 'oie.webauthn.passkeysRebrand.error.not.supported'
+          }, this.options.currentViewState.relatesTo?.value?.displayName)
+            || 'oie.webauthn.error.not.supported', 'login'),
         }),
       });
     }
@@ -106,7 +112,7 @@ const Body = BaseForm.extend({
           userHandle: CryptoUtil.binToStr(assertion.response.userHandle ?? '')
         });
       }
-      
+
       this.model.set({
         credentials
       });
