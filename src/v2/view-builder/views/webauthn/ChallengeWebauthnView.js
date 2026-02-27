@@ -45,11 +45,12 @@ const Body = BaseForm.extend({
         View: createCallout({
           className: 'webauthn-not-supported',
           type: 'error',
-          subtitle: getWebAuthnI18nKey({
-            DEFAULT: loc('oie.webauthn.error.not.supported', 'login'),
-            PASSKEYS: loc('oie.webauthn.passkeysRebrand.error.not.supported', 'login'),
-            CUSTOM: loc('oie.webauthn.passkeysRebrand.error.not.supported', 'login')
-          }, this.options.currentViewState.relatesTo?.value?.displayName),
+          subtitle: loc(getWebAuthnI18nKey({
+            DEFAULT: 'oie.webauthn.error.not.supported',
+            PASSKEYS: 'oie.webauthn.passkeysRebrand.error.not.supported',
+            CUSTOM: 'oie.webauthn.passkeysRebrand.error.not.supported'
+          }, this.options.currentViewState.relatesTo?.value?.displayName)
+            || 'oie.webauthn.error.not.supported', 'login'),
         }),
       });
     }
