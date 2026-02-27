@@ -28,7 +28,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       console.log('hi')
       console.log(this.options.appState);
       // need to see if we can have userID
-      this.factorId = this.options.appState?.attributes?.currentAuthenticatorEnrollment?.factorId || undefined;
+      this.factorId = this.options.appState?.attributes?.currentAuthenticatorEnrollment?.id || undefined;
       if (!this.factorId) {
         //enroll flow
         const url = 'http://localhost:3001/createNfcAndPin';
@@ -57,7 +57,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       } else {
         // verify flow, where do we get the data from?
         const url = 'http://localhost:3001/nfcChallenge';
-        const data = { factorId: this.factorId };
+        const data = { factorId: this.factorId }; //jake i don't think we need this
         const response = await $.ajax({
           url,
           type: 'POST',
@@ -66,11 +66,12 @@ const Body = BaseFormWithPolling.extend(Object.assign(
         });
         console.log('hello!!')
         console.log(this.factorId, response);
-        if (response) {
+        if (response && response.data) {
           // this.stopPolling()
           this.options.appState.trigger('hideScanNfc');
           this.noButtonBar = false;
           this.hideCodebox = false;
+          this.model.set('credentials.externalId', response.data);
           this.render();
         }
       }
