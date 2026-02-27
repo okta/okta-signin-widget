@@ -125,7 +125,7 @@ const AUTHENTICATOR_KEY = {
   CUSTOM_APP: 'custom_app',
   SMARTCARD: 'smart_card_idp',
   TAC: 'tac',
-  NFC: 'nfc'
+  NFC_PIN: 'nfc_pin'
 };
 
 const AUTHENTICATOR_METHODS = {

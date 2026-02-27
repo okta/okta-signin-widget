@@ -343,7 +343,7 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
 
   }
 
-  case AUTHENTICATOR_KEY.NFC: {
+  case AUTHENTICATOR_KEY.NFC_PIN: {
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
