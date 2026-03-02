@@ -2,10 +2,15 @@ import { loc, View, createCallout } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import { getWebAuthnAdditionalInstructions } from '../../utils/AuthenticatorUtil';
 import WebauthnCustomInstructionsView from './WebauthnCustomInstructionsView';
+import { getWebAuthnI18nKey } from 'util/webauthnDisplayNameUtils';
 
 export default View.extend({
-  // eslint-disable-next-line max-len
-  template: hbs`<p class="idx-webauthn-verify-text">{{i18n code="oie.verify.webauthn.instructions" bundle="login"}}</p>`,
+  template: hbs`
+  {{#if verifyI18nKey}}
+    <p class="idx-webauthn-verify-text">{{i18n code=verifyI18nKey bundle="login"}}</p>
+  {{else}}
+    <p class="idx-webauthn-verify-text">{{i18n code="oie.verify.webauthn.instructions" bundle="login"}}</p>
+  {{/if}}`,
   initialize() {
     const relatesToObject = this.options.currentViewState.relatesTo;
     const challengeData = relatesToObject?.value.contextualData.challengeData;
@@ -25,4 +30,13 @@ export default View.extend({
 
     this.add('<div data-se="webauthn-waiting" class="okta-waiting-spinner"></div>');
   },
+  getTemplateData() {
+    return {
+      verifyI18nKey: getWebAuthnI18nKey({
+        DEFAULT: 'oie.verify.webauthn.instructions',
+        PASSKEYS: 'oie.verify.webauthn.passkeysRebrand.instructions',
+        CUSTOM: 'oie.verify.webauthn.passkeysRebrand.instructions'
+      }, this.options.currentViewState.relatesTo?.value?.displayName)
+    };
+  }
 });

@@ -6,6 +6,7 @@ import CryptoUtil from 'util/CryptoUtil';
 import EnrollWebauthnInfoView from './EnrollWebauthnInfoView';
 import { getMessageFromBrowserError } from '../../../ion/i18nTransformer';
 import { getWebAuthnTitle } from '../../utils/AuthenticatorUtil';
+import { getWebAuthnI18nKey } from 'util/webauthnDisplayNameUtils';
 
 function getExcludeCredentials(authenticatorEnrollments = []) {
   const credentials = [];
@@ -49,7 +50,11 @@ const Body = BaseForm.extend({
         View: createCallout({
           className: 'webauthn-not-supported',
           type: 'error',
-          subtitle: loc('oie.webauthn.error.not.supported', 'login'),
+          subtitle: getWebAuthnI18nKey({
+            DEFAULT: loc('oie.webauthn.error.not.supported', 'login'),
+            PASSKEYS: loc('oie.webauthn.passkeysRebrand.error.not.supported', 'login'),
+            CUSTOM: loc('oie.webauthn.passkeysRebrand.error.not.supported', 'login')
+          }, this.options.currentViewState.relatesTo?.value?.displayName),
         }),
       });
     }
