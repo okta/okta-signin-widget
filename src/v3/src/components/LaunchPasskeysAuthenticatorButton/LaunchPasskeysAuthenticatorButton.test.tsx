@@ -123,4 +123,66 @@ describe('LaunchPasskeysAuthenticatorButton', () => {
       });
     });
   });
+
+  it('shows NotSupportedError message when getCredentials throws a NotSupportedError', async () => {
+    const setMessage = jest.fn();
+
+    (jest.requireMock('src/contexts') as any).useWidgetContext = () => ({
+      setLoading,
+      setMessage,
+      abortController: {
+        abort: jest.fn(),
+        signal: { aborted: false },
+      },
+      widgetProps: { eventEmitter: { emit } },
+      sharedHcaptchaRef: mockHcaptchaRef,
+    });
+
+    const notSupportedError = new DOMException('Not supported', 'NotSupportedError');
+    getCredentials.mockRejectedValue(notSupportedError);
+
+    renderWithContext();
+    fireEvent.click(screen.getByRole('button'));
+
+    await waitFor(() => {
+      expect(getCredentials).toHaveBeenCalled();
+      expect(mockOnSubmit).not.toHaveBeenCalled();
+      expect(setMessage).toHaveBeenCalledWith({
+        class: 'ERROR',
+        i18n: { key: 'signin.passkeys.error.NotSupportedError' },
+        message: 'signin.passkeys.error.NotSupportedError',
+      });
+    });
+  });
+
+  it('shows SecurityError message when getCredentials throws a SecurityError with code 18', async () => {
+    const setMessage = jest.fn();
+
+    (jest.requireMock('src/contexts') as any).useWidgetContext = () => ({
+      setLoading,
+      setMessage,
+      abortController: {
+        abort: jest.fn(),
+        signal: { aborted: false },
+      },
+      widgetProps: { eventEmitter: { emit } },
+      sharedHcaptchaRef: mockHcaptchaRef,
+    });
+
+    const securityError = new DOMException('Security error', 'SecurityError');
+    getCredentials.mockRejectedValue(securityError);
+
+    renderWithContext();
+    fireEvent.click(screen.getByRole('button'));
+
+    await waitFor(() => {
+      expect(getCredentials).toHaveBeenCalled();
+      expect(mockOnSubmit).not.toHaveBeenCalled();
+      expect(setMessage).toHaveBeenCalledWith({
+        class: 'ERROR',
+        i18n: { key: 'signin.passkeys.error.SecurityError' },
+        message: 'signin.passkeys.error.SecurityError',
+      });
+    });
+  });
 });
