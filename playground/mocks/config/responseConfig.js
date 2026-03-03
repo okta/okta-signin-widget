@@ -1193,6 +1193,10 @@ const temporaryAccessCode = {
 };
 
 module.exports = {
-  mocks: idx,
+  // mocks: idx,
+  // Path 1: Non-IDX error response → shows "unsupported response from server" (the reported issue)
+  mocks: Test.IdentifyNetworkFailure.identifyNonIdxErrorMock,
+  // Path 2: Socket failure → shows thrown error through transformUnhandledErrors
+  // mocks: Test.IdentifyNetworkFailure.identifyNetworkFailureMock,
   // mocks: Test.ChallengeAuthenticatorEmail.networkFailurePollingMock
 };
