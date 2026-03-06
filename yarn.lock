@@ -17975,7 +17975,7 @@ react-async-script@^1.2.0:
     hoist-non-react-statics "^3.3.0"
     prop-types "^15.5.0"
 
-"react-dom@npm:@preact/compat", "react@npm:@preact/compat":
+"react-dom@npm:@preact/compat":
   version "17.1.2"
   resolved "https://registry.yarnpkg.com/@preact/compat/-/compat-17.1.2.tgz#928756713b07af6faf7812f6a56840d8ce6fed37"
   integrity sha512-7pOZN9lMDDRQ+6aWvjwTp483KR8/zOpfS83wmOo3zfuLKdngS8/5RLbsFWzFZMGdYlotAhX980hJ75bjOHTwWg==
@@ -18045,6 +18045,11 @@ react-window@^1.8.10:
   dependencies:
     "@babel/runtime" "^7.0.0"
     memoize-one ">=3.1.1 <6"
+
+"react@npm:@preact/compat":
+  version "17.1.2"
+  resolved "https://registry.yarnpkg.com/@preact/compat/-/compat-17.1.2.tgz#928756713b07af6faf7812f6a56840d8ce6fed37"
+  integrity sha512-7pOZN9lMDDRQ+6aWvjwTp483KR8/zOpfS83wmOo3zfuLKdngS8/5RLbsFWzFZMGdYlotAhX980hJ75bjOHTwWg==
 
 read-file-relative@^1.2.0:
   version "1.2.0"

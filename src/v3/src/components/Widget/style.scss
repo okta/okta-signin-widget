@@ -301,3 +301,35 @@ span.strong {
 span.no-translate {
   white-space: nowrap;
 }
+
+/* iOS-specific fixes for scrolling issues */
+/* @supports (-webkit-touch-callout: none) targets iOS devices */
+@supports (-webkit-touch-callout: none) {
+  /* Fix footer position on iOS to prevent conflicts with virtual keyboard */
+  @media only screen and (max-width: 768px) and (max-height: 1024px) {
+    .auth .footer {
+      position: absolute;
+      /* Ensure footer stays at the document bottom, not viewport bottom */
+      position: -webkit-sticky;
+      position: sticky;
+    }
+  }
+
+  /* Fix login background image on iOS */
+  @media only screen and (max-width: 768px) {
+    .login-bg-image {
+      position: absolute;
+      min-block-size: 100vh;
+      /* Use visual viewport on iOS to handle keyboard */
+      min-block-size: -webkit-fill-available;
+    }
+  }
+
+  /* Additional iOS keyboard handling */
+  @media only screen and (max-width: 600px) {
+    .auth .content {
+      /* Prevent content from being hidden behind keyboard */
+      padding-block-end: env(safe-area-inset-bottom);
+    }
+  }
+}

@@ -901,6 +901,22 @@ var BaseForm = BaseView.extend(
       return;
     }
 
+    // iOS detection - check for iPad, iPhone, iPod, or iPad on iOS 13+
+    const isIOS = /iPad|iPhone|iPod/i.test(navigator.userAgent)
+      || (navigator.userAgent.includes('Mac') && 'ontouchend' in document);
+
+    // Check if user is actively typing in an input field
+    const activeElement = document.activeElement;
+    const isActivelyTyping = activeElement &&
+      (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') &&
+      !activeElement.readOnly;
+
+    // Skip scroll animation on iOS during active input to prevent scrolling issues
+    // Only allow scroll on form submission (when no element is focused)
+    if (isIOS && isActivelyTyping) {
+      return;
+    }
+
     const $el = oktaJQueryStatic('#' + this.id + ' .o-form-error-container');
 
     if ($el.length) {
