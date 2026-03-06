@@ -12,7 +12,7 @@
 
 import { Box } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
-import { useCallback, useEffect } from 'preact/hooks';
+import { useCallback, useEffect, useRef } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit, useOnSubmitValidation } from '../../hooks';
@@ -37,6 +37,9 @@ const Form: FunctionComponent<{
   } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
   const onValidationHandler = useOnSubmitValidation();
+  // Counter to force InfoSection (and its role="alert" Callout) to remount on each
+  // submission so screen readers re-announce error messages even when the text is unchanged.
+  const submitSeqRef = useRef(0);
 
   useEffect(() => {
     setWidgetRendered(true);
@@ -51,6 +54,7 @@ const Form: FunctionComponent<{
       return;
     }
 
+    submitSeqRef.current += 1;
     setMessage(undefined);
 
     const {
@@ -114,7 +118,7 @@ const Form: FunctionComponent<{
       }}
       aria-live="polite"
     >
-      <InfoSection message={message} />
+      <InfoSection key={submitSeqRef.current} message={message} />
       <Layout uischema={uischema} />
     </Box>
   );
