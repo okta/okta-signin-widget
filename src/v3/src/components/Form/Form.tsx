@@ -118,7 +118,10 @@ const Form: FunctionComponent<{
       }}
       aria-live="polite"
     >
-      <InfoSection key={submitSeqRef.current} message={message} />
+      <InfoSection
+        key={submitSeqRef.current}
+        message={message}
+      />
       <Layout uischema={uischema} />
     </Box>
   );
