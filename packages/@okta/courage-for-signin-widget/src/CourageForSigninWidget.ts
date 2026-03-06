@@ -88,6 +88,28 @@ const Form = BaseForm.extend({
     if (settings.get('features.scrollOnError') === false) {
       return false;
     }
+
+    // iOS detection - check for iPad, iPhone, iPod, or iPad on iOS 13+
+    const isIOS = /iPad|iPhone|iPod/i.test(navigator.userAgent)
+      || (navigator.userAgent.includes('Mac') && 'ontouchend' in document);
+
+    // Check if iOS scroll fix is enabled (default is true)
+    const iosScrollFixEnabled = settings.get('features.iosScrollFix') !== false;
+
+    // On iOS devices with scroll fix enabled, only allow scroll on form submission
+    // Track form submission state to determine when to allow scrolling
+    if (isIOS && iosScrollFixEnabled) {
+      const activeElement = document.activeElement;
+      const isActivelyTyping = activeElement &&
+        (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') &&
+        !activeElement.readOnly;
+
+      // Prevent scrolling during active typing
+      if (isActivelyTyping) {
+        return false;
+      }
+    }
+
     return true;
   }
 });

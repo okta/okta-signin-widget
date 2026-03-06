@@ -106,6 +106,7 @@ const local: Record<string, ModelProperty> = {
   'features.showPasswordRequirementsAsHtmlList': ['boolean', false, false],
   'features.mfaOnlyFlow': ['boolean', false, false],
   'features.scrollOnError': ['boolean', false, true],
+  'features.iosScrollFix': ['boolean', false, true], // Enable iOS scroll fix by default
   'features.showKeepMeSignedIn': ['boolean', false, true],
   'features.showIdentifier': ['boolean', false, true],
   'features.autoFocus': ['boolean', false, true],
