@@ -243,6 +243,25 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       if (!newTransaction.nextStep && newTransaction.availableSteps?.length) {
         [newTransaction.nextStep] = newTransaction.availableSteps;
       }
+
+      // When a WebAuthn autofill or launch passkeys step fails (e.g., unenrolled passkey
+      // returns 401), the server responds with an error + remediation data including the
+      // identify step. However nextStep still points to the passkeys step whose inputs
+      // have no visible fields.  Fall back to the identify step so the user can proceed
+      // with username/password authentication.
+      if (
+        !newTransaction.requestDidSucceed
+        && (step === IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR
+          || step === IDX_STEP.LAUNCH_PASSKEYS_AUTHENTICATOR)
+      ) {
+        const identifyStep = newTransaction.availableSteps?.find(
+          (s) => s.name === IDX_STEP.IDENTIFY,
+        );
+        if (identifyStep) {
+          newTransaction.nextStep = identifyStep;
+        }
+      }
+
       const transactionHasWarning = (newTransaction.messages || []).some(
         (message) => message.class === MessageType.WARNING.toString(),
       );
