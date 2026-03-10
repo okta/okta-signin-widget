@@ -263,7 +263,7 @@
     "parse-ms": "^2.0.0",
     "q": "1.4.1",
     "u2f-api-polyfill": "0.4.3",
-    "underscore": "1.13.1"
+    "underscore": "1.13.8"
   },
   "optionalDependencies": {
     "fsevents": "*"
@@ -286,7 +286,8 @@
     "**/testcafe-hammerhead/tough-cookie": "^4.1.4",
     "stylis": "^4.3.0",
     "**/debug": "^4.3.4",
-    "**/mout": "^1.2.4"
+    "**/mout": "^1.2.4",
+    "underscore": "1.13.8"
   },
   "workspaces": {
     "packages": [
