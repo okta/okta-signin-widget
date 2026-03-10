@@ -249,4 +249,86 @@ describe('useOnSubmit Hook Tests', () => {
     expect(mockSetMessage.mock.calls.length).toBe(1);
     expect(mockSetMessage.mock.calls[0]).toEqual([undefined]);
   });
+
+  it('should fall back to identify step when challenge-webauthn-autofillui-authenticator step fails', async () => {
+    const identifyStep = { name: 'identify', inputs: [{ name: 'identifier', label: 'Username' }] };
+    const webauthnStep = {
+      name: 'challenge-webauthn-autofillui-authenticator',
+      inputs: [{ name: 'credentials', type: 'object', visible: false }],
+    };
+    const failedTransaction = {
+      ...mockNewTransaction,
+      requestDidSucceed: false,
+      status: IdxStatus.PENDING,
+      nextStep: webauthnStep,
+      availableSteps: [identifyStep, webauthnStep],
+      messages: [{ message: 'Authentication failed', class: 'ERROR', i18n: { key: 'errors.E0000004' } }],
+    };
+
+    mockAuthClient.idx.proceed.mockResolvedValue(failedTransaction);
+
+    const { result } = renderHook(() => useOnSubmit());
+    const onSubmit = result.current;
+
+    await onSubmit!({ step: 'challenge-webauthn-autofillui-authenticator' });
+
+    // nextStep should have been overridden to the identify step
+    expect(mockSetIdxTransaction).toHaveBeenCalledWith(
+      expect.objectContaining({ nextStep: identifyStep }),
+    );
+  });
+
+  it('should fall back to identify step when launch-passkeys-authenticator step fails', async () => {
+    const identifyStep = { name: 'identify', inputs: [{ name: 'identifier', label: 'Username' }] };
+    const passkeysStep = {
+      name: 'launch-passkeys-authenticator',
+      inputs: [{ name: 'credentials', type: 'object', visible: false }],
+    };
+    const failedTransaction = {
+      ...mockNewTransaction,
+      requestDidSucceed: false,
+      status: IdxStatus.PENDING,
+      nextStep: passkeysStep,
+      availableSteps: [identifyStep, passkeysStep],
+      messages: [{ message: 'Authentication failed', class: 'ERROR', i18n: { key: 'errors.E0000004' } }],
+    };
+
+    mockAuthClient.idx.proceed.mockResolvedValue(failedTransaction);
+
+    const { result } = renderHook(() => useOnSubmit());
+    const onSubmit = result.current;
+
+    await onSubmit!({ step: 'launch-passkeys-authenticator' });
+
+    // nextStep should have been overridden to the identify step
+    expect(mockSetIdxTransaction).toHaveBeenCalledWith(
+      expect.objectContaining({ nextStep: identifyStep }),
+    );
+  });
+
+  it('should NOT fall back to identify step when webauthn autofill step succeeds', async () => {
+    const identifyStep = { name: 'identify', inputs: [{ name: 'identifier', label: 'Username' }] };
+    const webauthnStep = {
+      name: 'challenge-webauthn-autofillui-authenticator',
+      inputs: [{ name: 'credentials', type: 'object', visible: false }],
+    };
+    const successTransaction = {
+      ...mockNewTransaction,
+      requestDidSucceed: true,
+      nextStep: webauthnStep,
+      availableSteps: [identifyStep, webauthnStep],
+    };
+
+    mockAuthClient.idx.proceed.mockResolvedValue(successTransaction);
+
+    const { result } = renderHook(() => useOnSubmit());
+    const onSubmit = result.current;
+
+    await onSubmit!({ step: 'challenge-webauthn-autofillui-authenticator' });
+
+    // nextStep should NOT be changed — still the webauthn step
+    expect(mockSetIdxTransaction).toHaveBeenCalledWith(
+      expect.objectContaining({ nextStep: webauthnStep }),
+    );
+  });
 });
