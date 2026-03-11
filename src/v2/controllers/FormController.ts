@@ -24,6 +24,7 @@ import { HttpResponse, IdxStatus, ProceedOptions } from '@okta/okta-auth-js';
 import { EventErrorContext } from 'types/events';
 import { CONFIGURED_FLOW } from '../client/constants';
 import { ConfigError } from 'util/Errors';
+import { withNetworkRetry } from 'util/retryRequest';
 import { updateAppState } from 'v2/client';
 import CookieUtil from '../../util/CookieUtil';
 
@@ -225,10 +226,13 @@ export default Controller.extend({
 
   async invokeAction(invokeOptions) {
     const authClient = this.options.settings.getAuthClient();
+    const isPollingAction = invokeOptions.actions?.[0]?.name?.endsWith('-poll');
     let resp;
     let error;
     try {
-      resp = await authClient.idx.proceed(invokeOptions);
+      // Retry non-polling actions once on network error; polling has its own retry via startPolling()
+      const proceed = () => authClient.idx.proceed(invokeOptions);
+      resp = isPollingAction ? await proceed() : await withNetworkRetry(proceed);
       if (resp.requestDidSucceed === false) {
         error = resp;
       }
@@ -323,12 +327,12 @@ export default Controller.extend({
     try {
       const idx = this.options.appState.get('idx');
       const { stateHandle } = idx.context;
-      const resp = await authClient.idx.proceed({
+      const resp = await withNetworkRetry(() => authClient.idx.proceed({
         ...idxOptions,
         step: formName,
         stateHandle,
         ...values
-      });
+      }));
 
       if (resp.status === IdxStatus.FAILURE) {
         throw resp.error; // caught and handled in this function
