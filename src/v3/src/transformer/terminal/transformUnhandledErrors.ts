@@ -34,6 +34,33 @@ const getWidgetMessage = (
   widgetProps?: WidgetProps,
 ) : WidgetMessage => {
   const authApiErrorChecks: ErrorTester<AuthApiError>[] = [
+    // network error: fetch itself failed (no xhr object, no errorCode)
+    {
+      tester: (err?: AuthApiError) => !!(err && !err.xhr && !err.errorCode),
+      message: () => ({
+        class: 'ERROR',
+        message: loc('error.network.connection', 'login'),
+        i18n: { key: 'error.network.connection' },
+      }),
+    },
+    // server error: 5xx status codes
+    {
+      tester: (err?: AuthApiError) => !!(err?.xhr && typeof err.xhr.status === 'number' && err.xhr.status >= 500),
+      message: () => ({
+        class: 'ERROR',
+        message: loc('error.server.internal', 'login'),
+        i18n: { key: 'error.server.internal' },
+      }),
+    },
+    // parse error: malformed JSON response
+    {
+      tester: (err?: AuthApiError) => err?.errorSummary === 'Could not parse server response',
+      message: () => ({
+        class: 'ERROR',
+        message: loc('error.server.parse', 'login'),
+        i18n: { key: 'error.server.parse' },
+      }),
+    },
     // error message comes from server response
     {
       tester: (err?: AuthApiError) => !!(err && err.xhr && !err.errorSummary && err.xhr.responseText?.includes('messages')),
