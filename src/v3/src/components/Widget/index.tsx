@@ -35,6 +35,7 @@ import { mergeThemes } from 'src/util/mergeThemes';
 
 import Bundles from '../../../../util/Bundles';
 import Logger from '../../../../util/Logger';
+import { isLikelyStaleSession } from '../../../../util/errorClassifier';
 import { withNetworkRetry } from '../../../../util/retryRequest';
 import {
   ABORT_REASON_WEBAUTHN_AUTOFILLUI_STEP_NOT_FOUND,
@@ -219,6 +220,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         setIdxTransaction(await triggerEmailVerifyCallback(widgetProps));
         return;
       }
+      if (!usingStateHandleFromSession) {
+        SessionStorage.setSessionTimestamp();
+      }
       let transaction: IdxTransaction = await withNetworkRetry(() => authClient.idx.start({
         stateHandle,
         // Required to prevent auth-js from clearing sessionStorage and breaking interaction code flow
@@ -249,6 +253,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       if (usingStateHandleFromSession) {
         // Saved stateHandle is invalid. Remove it from session
         // Bootstrap will be restarted with stateToken from widgetProps
+        unsetStateHandle();
+      } else if (isLikelyStaleSession(error, SessionStorage.getSessionAge())) {
+        // OKTA-1116854: Stale session detected — clear and re-bootstrap
+        authClient?.transactionManager.clear();
         unsetStateHandle();
       } else {
         await handleError(error);
@@ -396,7 +404,13 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
       setIdxTransaction(transaction);
     } catch (error) {
-      await handleError(error);
+      if (isLikelyStaleSession(error, SessionStorage.getSessionAge())) {
+        // OKTA-1116854: Stale session detected — clear and re-bootstrap
+        authClient?.transactionManager.clear();
+        unsetStateHandle();
+      } else {
+        await handleError(error);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authClient, setIdxTransaction, setResponseError, initLanguage]);
