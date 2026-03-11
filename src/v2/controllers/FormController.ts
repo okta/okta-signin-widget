@@ -24,6 +24,7 @@ import { HttpResponse, IdxStatus, ProceedOptions } from '@okta/okta-auth-js';
 import { EventErrorContext } from 'types/events';
 import { CONFIGURED_FLOW } from '../client/constants';
 import { ConfigError } from 'util/Errors';
+import { isLikelyStaleSession } from 'util/errorClassifier';
 import { withNetworkRetry } from 'util/retryRequest';
 import { updateAppState } from 'v2/client';
 import CookieUtil from '../../util/CookieUtil';
@@ -260,6 +261,13 @@ export default Controller.extend({
         return;
       }
       
+      // OKTA-1116854: If the session is likely stale (old session + network/server error),
+      // restart the login flow instead of showing an error
+      if (isLikelyStaleSession(error, sessionStorageHelper.getSessionAge())) {
+        this.options.appState.trigger('restartLoginFlow');
+        return;
+      }
+
       await this.showFormErrors(this.formView.model, error, this.formView.form);
       return;
     }
@@ -368,6 +376,8 @@ export default Controller.extend({
     } catch(error) {
       if (error.is?.('terminal')) {
         this.options.appState.setNonIdxError(error);
+      } else if (isLikelyStaleSession(error, sessionStorageHelper.getSessionAge())) {
+        this.options.appState.trigger('restartLoginFlow');
       } else {
         await this.showFormErrors(model, error, this.formView.form);
       }

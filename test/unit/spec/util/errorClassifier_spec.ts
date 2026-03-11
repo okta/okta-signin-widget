@@ -1,4 +1,4 @@
-import { classifyError } from '../../../../src/util/errorClassifier';
+import { classifyError, isLikelyStaleSession } from '../../../../src/util/errorClassifier';
 
 describe('errorClassifier', () => {
   describe('classifyError', () => {
@@ -124,6 +124,54 @@ describe('errorClassifier', () => {
       };
       // Has xhr so not a network error, status 400 is not 5xx, message is not timeout/parse
       expect(classifyError(error)).toBe('error.unsupported.response');
+    });
+  });
+
+  describe('isLikelyStaleSession', () => {
+    const THIRTY_MINUTES = 30 * 60 * 1000;
+
+    const networkError = { errorSummary: 'Failed to fetch' };
+    const timeoutError = { name: 'AbortError', errorSummary: 'The operation was aborted' };
+    const serverError = { xhr: { status: 500 } };
+    const parseError = { errorSummary: 'Could not parse server response', xhr: { status: 200 } };
+    const unknownError = { someProperty: 'someValue' };
+
+    it('returns true for network error with session older than 30 minutes', () => {
+      expect(isLikelyStaleSession(networkError, THIRTY_MINUTES + 1)).toBe(true);
+    });
+
+    it('returns true for timeout error with session older than 30 minutes', () => {
+      expect(isLikelyStaleSession(timeoutError, THIRTY_MINUTES + 1)).toBe(true);
+    });
+
+    it('returns true for server error with session older than 30 minutes', () => {
+      expect(isLikelyStaleSession(serverError, THIRTY_MINUTES + 1)).toBe(true);
+    });
+
+    it('returns false for network error with session younger than 30 minutes', () => {
+      expect(isLikelyStaleSession(networkError, THIRTY_MINUTES - 1)).toBe(false);
+    });
+
+    it('returns false for parse error even with old session', () => {
+      // Parse errors are not network/server transient errors
+      expect(isLikelyStaleSession(parseError, THIRTY_MINUTES + 1)).toBe(false);
+    });
+
+    it('returns false for unknown error even with old session', () => {
+      expect(isLikelyStaleSession(unknownError, THIRTY_MINUTES + 1)).toBe(false);
+    });
+
+    it('returns true when session age is exactly at the threshold', () => {
+      // Threshold check uses strict less-than, so exactly 30 min is NOT less than threshold
+      expect(isLikelyStaleSession(networkError, THIRTY_MINUTES)).toBe(true);
+    });
+
+    it('returns true when session age is Infinity (no timestamp)', () => {
+      expect(isLikelyStaleSession(networkError, Infinity)).toBe(true);
+    });
+
+    it('returns false for null error with old session', () => {
+      expect(isLikelyStaleSession(null, THIRTY_MINUTES + 1)).toBe(false);
     });
   });
 });
