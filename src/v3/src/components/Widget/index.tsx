@@ -35,6 +35,7 @@ import { mergeThemes } from 'src/util/mergeThemes';
 
 import Bundles from '../../../../util/Bundles';
 import Logger from '../../../../util/Logger';
+import { withNetworkRetry } from '../../../../util/retryRequest';
 import {
   ABORT_REASON_WEBAUTHN_AUTOFILLUI_STEP_NOT_FOUND,
   IDX_STEP,
@@ -218,11 +219,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         setIdxTransaction(await triggerEmailVerifyCallback(widgetProps));
         return;
       }
-      let transaction: IdxTransaction = await authClient.idx.start({
+      let transaction: IdxTransaction = await withNetworkRetry(() => authClient.idx.start({
         stateHandle,
         // Required to prevent auth-js from clearing sessionStorage and breaking interaction code flow
         exchangeCodeForTokens: false,
-      });
+      }));
       const hasError = !transaction.requestDidSucceed || transaction.messages?.some(
         (msg) => msg.class === MessageType.ERROR.toString(),
       );
@@ -378,9 +379,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         setIdxTransaction(await triggerEmailVerifyCallback(widgetProps));
         return;
       }
-      let transaction = await authClient.idx.proceed({
+      let transaction = await withNetworkRetry(() => authClient.idx.proceed({
         stateHandle: idxTransaction?.context.stateHandle,
-      });
+      }));
 
       // TODO
       // OKTA-651781
