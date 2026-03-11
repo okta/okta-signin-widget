@@ -13,6 +13,7 @@
 import { HttpResponse, RawIdxResponse } from '@okta/okta-auth-js';
 
 import Util from '../../../util/Util';
+import { classifyError } from '../../../util/errorClassifier';
 import IonResponseHelper from '../../../v2/ion/IonResponseHelper';
 import { ErrorXHR, EventErrorContext } from '../types';
 import { loc } from './locUtil';
@@ -27,7 +28,8 @@ export const formatError = (
   }
 
   Util.logConsoleError(data);
-  return { responseJSON: { errorSummary: loc('error.unsupported.response', 'login') } };
+  const i18nKey = classifyError(data);
+  return { responseJSON: { errorSummary: loc(i18nKey, 'login') } };
 };
 
 export const getErrorEventContext = (

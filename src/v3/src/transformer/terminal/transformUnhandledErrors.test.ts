@@ -45,6 +45,59 @@ describe('Unhandled Error Transformer Tests', () => {
       expect(el.options?.class).toBe('ERROR');
     });
 
+    it('should add infobox with network error when AuthApiError has no xhr', () => {
+      apiError = {
+        ...apiError,
+        message: 'Failed to fetch',
+        errorSummary: 'Failed to fetch',
+      };
+      const formBag = transformUnhandledErrors(widgetProps, apiError);
+
+      expect(formBag.uischema.elements.length).toBe(1);
+      const el = formBag.uischema.elements[0] as InfoboxElement;
+      expect(el.type).toBe('InfoBox');
+      expect(el.options?.message).toEqual({
+        class: 'ERROR',
+        message: 'error.network.connection',
+        i18n: { key: 'error.network.connection' },
+      });
+    });
+
+    it('should add infobox with server error for 5xx status', () => {
+      apiError = {
+        ...apiError,
+        xhr: { status: 502, headers: {}, responseText: '' } as any,
+      };
+      const formBag = transformUnhandledErrors(widgetProps, apiError);
+
+      expect(formBag.uischema.elements.length).toBe(1);
+      const el = formBag.uischema.elements[0] as InfoboxElement;
+      expect(el.type).toBe('InfoBox');
+      expect(el.options?.message).toEqual({
+        class: 'ERROR',
+        message: 'error.server.internal',
+        i18n: { key: 'error.server.internal' },
+      });
+    });
+
+    it('should add infobox with parse error for malformed response', () => {
+      apiError = {
+        ...apiError,
+        errorSummary: 'Could not parse server response',
+        xhr: { status: 200, headers: {}, responseText: '<html>' } as any,
+      };
+      const formBag = transformUnhandledErrors(widgetProps, apiError);
+
+      expect(formBag.uischema.elements.length).toBe(1);
+      const el = formBag.uischema.elements[0] as InfoboxElement;
+      expect(el.type).toBe('InfoBox');
+      expect(el.options?.message).toEqual({
+        class: 'ERROR',
+        message: 'error.server.parse',
+        i18n: { key: 'error.server.parse' },
+      });
+    });
+
     it('should add infobox with custom message from server', () => {
       const mockErrorMessage = 'Custom error message';
       apiError = {

@@ -240,7 +240,7 @@ export default Controller.extend({
     if (error) {
       // OKTA-1083742: For transient network errors during polling, restart polling silently.
       const errorResp = error.rawIdxState || error;
-      const errorObj = errorUtils.buildErrorObject(errorResp);
+      const errorObj = errorUtils.buildErrorObject(errorResp, undefined, error);
       const isPollingAction = invokeOptions.actions?.[0]?.name?.endsWith('-poll');
 
       // Here we only want to restart polling for network errors (non Ion errors) during polling actions
@@ -411,7 +411,7 @@ export default Controller.extend({
 
     const errorObj = errorUtils.buildErrorObject(error, (unsupported) => {
       Util.logConsoleError(unsupported);
-    });
+    }, idxStateError);
 
     if(_.isFunction(form?.showCustomFormErrorCallout)) {
       showErrorBanner = !form.showCustomFormErrorCallout(errorObj, idxStateError?.messages);
