@@ -17,7 +17,7 @@ import {
   OAuthError,
   OktaAuthIdxInterface,
 } from '@okta/okta-auth-js';
-import { MutableRef, StateUpdater } from 'preact/hooks';
+import { Dispatch, MutableRef, StateUpdater } from 'preact/hooks';
 
 import { FormBag, LanguageDirection, UISchemaLayoutType } from './schema';
 import { WidgetProps } from './widget';
@@ -26,33 +26,33 @@ export type IWidgetContext = {
   authClient: OktaAuthIdxInterface;
   widgetProps: WidgetProps;
   message: IdxMessage | undefined;
-  setMessage: StateUpdater<IdxMessage | undefined>;
+  setMessage: Dispatch<StateUpdater<IdxMessage | undefined>>;
   onSuccessCallback?: WidgetProps['globalSuccessFn'];
   onErrorCallback?: WidgetProps['globalErrorFn'];
   idxTransaction: IdxTransaction | undefined;
-  setResponseError: StateUpdater<AuthApiError | OAuthError | null>;
-  setIdxTransaction: StateUpdater<IdxTransaction | undefined>;
-  setIsClientTransaction: StateUpdater<boolean>;
+  setResponseError: Dispatch<StateUpdater<AuthApiError | OAuthError | null>>;
+  setIdxTransaction: Dispatch<StateUpdater<IdxTransaction | undefined>>;
+  setIsClientTransaction: Dispatch<StateUpdater<boolean>>;
   stepToRender: string | undefined;
-  setStepToRender: StateUpdater<string | undefined>;
+  setStepToRender: Dispatch<StateUpdater<string | undefined>>;
   data: FormBag['data'];
-  setData: StateUpdater<FormBag['data']>;
+  setData: Dispatch<StateUpdater<FormBag['data']>>;
   dataSchemaRef: MutableRef<FormBag['dataSchema'] | undefined>;
   loading: boolean;
-  setLoading: StateUpdater<boolean>;
-  setWidgetRendered: StateUpdater<boolean>;
+  setLoading: Dispatch<StateUpdater<boolean>>;
+  setWidgetRendered: Dispatch<StateUpdater<boolean>>;
   loginHint?: string | null;
-  setloginHint: StateUpdater<string | null>;
+  setloginHint: Dispatch<StateUpdater<string | null>>;
   languageCode: string;
   languageDirection: LanguageDirection;
-  setAbortController: StateUpdater<AbortController | undefined>;
+  setAbortController: Dispatch<StateUpdater<AbortController | undefined>>;
   abortController: AbortController | undefined;
 };
 
 // Stepper context
 export type IStepperContext = {
   stepIndex: number;
-  setStepIndex: StateUpdater<number | undefined>;
+  setStepIndex: Dispatch<StateUpdater<number | undefined>>;
 };
 
 // Layout context

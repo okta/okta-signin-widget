@@ -40,6 +40,7 @@ import {
   AuthCoinProps,
   FormBag,
   IWidgetContext,
+  OktaWidgetFeatures,
   PhoneVerificationMethodType,
   RegistrationElementSchema,
   RequiredKeys,
@@ -526,7 +527,7 @@ export const getIDVDisplayInfo = (
 
 export const shouldAutoRedirect = (
   transaction?: IdxTransaction | null,
-  features?: IdxFeature,
+  features?: OktaWidgetFeatures,
 ): boolean => {
   if (!transaction) {
     return false;
