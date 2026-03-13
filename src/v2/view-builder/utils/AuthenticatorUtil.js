@@ -371,6 +371,11 @@ const getIDProofingData = function(idvName) {
       iconClassName: 'mfa-idv-standard',
     };
     break;
+  case ID_PROOFING_TYPE.IDV_OIN:
+    idProofingData = {
+      iconClassName: 'mfa-idv-oin',
+    };
+    break;
   }
   return idProofingData;
 };
