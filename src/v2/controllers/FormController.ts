@@ -24,6 +24,8 @@ import { HttpResponse, IdxStatus, ProceedOptions } from '@okta/okta-auth-js';
 import { EventErrorContext } from 'types/events';
 import { CONFIGURED_FLOW } from '../client/constants';
 import { ConfigError } from 'util/Errors';
+import { isLikelyStaleSession } from 'util/errorClassifier';
+import { withNetworkRetry } from 'util/retryRequest';
 import { updateAppState } from 'v2/client';
 import CookieUtil from '../../util/CookieUtil';
 
@@ -225,10 +227,13 @@ export default Controller.extend({
 
   async invokeAction(invokeOptions) {
     const authClient = this.options.settings.getAuthClient();
+    const isPollingAction = invokeOptions.actions?.[0]?.name?.endsWith('-poll');
     let resp;
     let error;
     try {
-      resp = await authClient.idx.proceed(invokeOptions);
+      // Retry non-polling actions once on network error; polling has its own retry via startPolling()
+      const proceed = () => authClient.idx.proceed(invokeOptions);
+      resp = isPollingAction ? await proceed() : await withNetworkRetry(proceed);
       if (resp.requestDidSucceed === false) {
         error = resp;
       }
@@ -240,7 +245,7 @@ export default Controller.extend({
     if (error) {
       // OKTA-1083742: For transient network errors during polling, restart polling silently.
       const errorResp = error.rawIdxState || error;
-      const errorObj = errorUtils.buildErrorObject(errorResp);
+      const errorObj = errorUtils.buildErrorObject(errorResp, undefined, error);
       const isPollingAction = invokeOptions.actions?.[0]?.name?.endsWith('-poll');
 
       // Here we only want to restart polling for network errors (non Ion errors) during polling actions
@@ -256,6 +261,13 @@ export default Controller.extend({
         return;
       }
       
+      // OKTA-1116854: If the session is likely stale (old session + network/server error),
+      // restart the login flow instead of showing an error
+      if (isLikelyStaleSession(error, sessionStorageHelper.getSessionAge())) {
+        this.options.appState.trigger('restartLoginFlow');
+        return;
+      }
+
       await this.showFormErrors(this.formView.model, error, this.formView.form);
       return;
     }
@@ -323,12 +335,12 @@ export default Controller.extend({
     try {
       const idx = this.options.appState.get('idx');
       const { stateHandle } = idx.context;
-      const resp = await authClient.idx.proceed({
+      const resp = await withNetworkRetry(() => authClient.idx.proceed({
         ...idxOptions,
         step: formName,
         stateHandle,
         ...values
-      });
+      }));
 
       if (resp.status === IdxStatus.FAILURE) {
         throw resp.error; // caught and handled in this function
@@ -364,6 +376,8 @@ export default Controller.extend({
     } catch(error) {
       if (error.is?.('terminal')) {
         this.options.appState.setNonIdxError(error);
+      } else if (isLikelyStaleSession(error, sessionStorageHelper.getSessionAge())) {
+        this.options.appState.trigger('restartLoginFlow');
       } else {
         await this.showFormErrors(model, error, this.formView.form);
       }
@@ -411,7 +425,7 @@ export default Controller.extend({
 
     const errorObj = errorUtils.buildErrorObject(error, (unsupported) => {
       Util.logConsoleError(unsupported);
-    });
+    }, idxStateError);
 
     if(_.isFunction(form?.showCustomFormErrorCallout)) {
       showErrorBanner = !form.showCustomFormErrorCallout(errorObj, idxStateError?.messages);

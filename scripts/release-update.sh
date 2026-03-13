@@ -19,6 +19,7 @@ if ! npm install -g yarn@1.22.19; then
 fi
 
 export PATH="$PATH:$(npm config get prefix)/bin"
+export PATH="$PATH:$(yarn global bin)"
 
 # get latest
 git fetch origin && \

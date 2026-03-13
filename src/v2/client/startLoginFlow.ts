@@ -11,6 +11,7 @@
  */
 
 import { ConfiguredFlowError, ConfigError } from 'util/Errors';
+import { withNetworkRetry } from 'util/retryRequest';
 import { emailVerifyCallback } from './emailVerifyCallback';
 import sessionStorageHelper from './sessionStorageHelper';
 import { CONFIGURED_FLOW } from './constants';
@@ -62,11 +63,12 @@ export async function startLoginFlow(settings) {
         );
       }
       // start new transaction
-      return authClient.idx.start(idxOptions); // calls interact
+      sessionStorageHelper.setSessionTimestamp();
+      return withNetworkRetry(() => authClient.idx.start(idxOptions)); // calls interact
     }
 
     // continue saved transaction
-    return authClient.idx.proceed(idxOptions); // calls introspect
+    return withNetworkRetry(() => authClient.idx.proceed(idxOptions)); // calls introspect
   }
 
   // Use stateToken from session storage if exists
@@ -74,10 +76,10 @@ export async function startLoginFlow(settings) {
   const stateHandleFromSession = sessionStorageHelper.getStateHandle();
   if (stateHandleFromSession) {
     try {
-      const idxResp = await authClient.idx.start({
+      const idxResp = await withNetworkRetry(() => authClient.idx.start({
         ...idxOptions,
         stateHandle: stateHandleFromSession
-      });
+      }));
       const hasError = idxResp.context?.messages?.value.length > 0;
       if (hasError) {
         throw new Error('saved stateToken is invalid'); // will be caught in this function
@@ -98,10 +100,10 @@ export async function startLoginFlow(settings) {
   // Use stateToken from options
   const stateHandle = settings.get('stateToken');
   if (stateHandle) {
-    return authClient.idx.start({
+    return withNetworkRetry(() => authClient.idx.start({
       ...idxOptions,
       stateHandle
-    });
+    }));
   }
 
   throw new ConfigError('Invalid OIDC configuration. Set "clientId" and "redirectUri" in the widget options.');

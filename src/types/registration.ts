@@ -1,4 +1,4 @@
-import { APIError } from '@okta/okta-auth-js';
+import { APIError, Input } from '@okta/okta-auth-js';
 import {
   SimpleCallback
 } from './results';
@@ -88,6 +88,24 @@ export type Field =
   FieldBoolean |
   FieldArray;
 
+/**
+ * Schema element used in OIE (Identity Engine) registration flows.
+ * In OIE mode, the parseSchema callback receives an array of these elements
+ * rather than a single RegistrationSchema object.
+ *
+ * This type extends the Input type from @okta/okta-auth-js, which represents
+ * an IDX remediation input field. At runtime, the widget converts Input[]
+ * into RegistrationElementSchema[] by spreading each Input and adding
+ * UI-specific properties ('label-top', 'data-se', 'wide', etc.).
+ */
+export interface RegistrationElementSchema extends Input {
+  'label-top'?: boolean;
+  placeholder?: string;
+  'data-se'?: string;
+  sublabel?: string;
+  wide?: boolean;
+}
+
 export interface RegistrationSchema {
   lastUpdate: number;
   policyId: string;
@@ -106,14 +124,14 @@ export interface RegistrationData {
   [key: string]: FieldValue;
 }
 
-export type RegistrationSchemaCallback = (schema: RegistrationSchema) => void;
+export type RegistrationSchemaCallback = (schema: RegistrationSchema | RegistrationElementSchema[]) => void;
 export type RegistrationDataCallback = (data: RegistrationData) => void;
 export type RegistrationPostSubmitCallback = (response: string) => void;
 export type RegistrationErrorCallback = (error: APIError) => void
 export interface RegistrationOptions {
   click?: SimpleCallback;
   parseSchema?: (
-    schema: RegistrationSchema,
+    schema: RegistrationSchema | RegistrationElementSchema[],
     onSuccess: RegistrationSchemaCallback,
     onFailure: RegistrationErrorCallback
   ) => void;

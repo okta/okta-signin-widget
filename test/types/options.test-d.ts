@@ -1,6 +1,5 @@
 import OktaSignIn, {
   FieldStringWithFormatAndEnum,
-  RegistrationSchema,
   RegistrationData,
   RegistrationSchemaCallback,
   RegistrationDataCallback,
@@ -113,25 +112,32 @@ const signIn2 = new OktaSignIn({
     click: () => {
       window.location.href = 'https://acme.com/sign-up';
     },
-    parseSchema: (schema: RegistrationSchema, onSuccess: RegistrationSchemaCallback, _onFailure: RegistrationErrorCallback) => {
-      schema.profileSchema.properties.address = {
-        type: 'string',
-        description: 'Street Address',
-        default: 'Enter your street address',
-        maxLength: 255
-      };
-      const countryCode: FieldStringWithFormatAndEnum = {
-        type: 'country_code',
-        enum: ['US', 'CA'],
-        oneOf: [
-          {title: 'Canada', const: 'CA'},
-          {title: 'United States', const: 'US'},
-        ]
-      };
-      schema.profileSchema.properties['country_code'] = countryCode;
-      schema.profileSchema.fieldOrder.push('address');
-      schema.profileSchema.required.push('country_code');
-      onSuccess(schema);
+    parseSchema: (schema, onSuccess: RegistrationSchemaCallback, _onFailure: RegistrationErrorCallback) => {
+      // Classic (V1) path: schema is RegistrationSchema object
+      if (!Array.isArray(schema)) {
+        schema.profileSchema.properties.address = {
+          type: 'string',
+          description: 'Street Address',
+          default: 'Enter your street address',
+          maxLength: 255
+        };
+        const countryCode: FieldStringWithFormatAndEnum = {
+          type: 'country_code',
+          enum: ['US', 'CA'],
+          oneOf: [
+            {title: 'Canada', const: 'CA'},
+            {title: 'United States', const: 'US'},
+          ]
+        };
+        schema.profileSchema.properties['country_code'] = countryCode;
+        schema.profileSchema.fieldOrder.push('address');
+        schema.profileSchema.required.push('country_code');
+        onSuccess(schema);
+      } else {
+        // OIE (V2/V3) path: schema is RegistrationElementSchema[]
+        schema.push({ name: 'address', label: 'Street Address' });
+        onSuccess(schema);
+      }
     },
     preSubmit: (postData: RegistrationData, onSuccess: RegistrationDataCallback, onFailure: RegistrationErrorCallback) => {
       const username = <string> postData.username;
