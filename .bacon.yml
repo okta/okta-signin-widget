@@ -5,56 +5,56 @@ test_suites:
     timeout: '15'
     script_name: publish
     criteria: MERGE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   - name: verify-package
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '2'
     timeout: '15'
     script_name: verify-package
     criteria: MERGE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   - name: lint
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '3'
     timeout: '10'
     script_name: lint
     criteria: MERGE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   - name: unit-jest
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '4'
     timeout: '20'
     script_name: unit-jest
     criteria: MERGE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   - name: testcafe
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '5'
     timeout: '30'
     script_name: testcafe
     criteria: MERGE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   - name: testcafe-mobile
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '6'
     timeout: '30'
     script_name: testcafe-mobile
     criteria: MERGE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   - name: lint-v3
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '7'
     timeout: '15'
     script_name: lint-v3
     criteria: MERGE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   - name: unit-v3
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '8'
     timeout: '15'
     script_name: unit-v3
     criteria: MERGE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
     # NOTE: runs the testcafe suite within v3
   - name: e2e-v3
     script_path: /root/okta/okta-signin-widget/scripts
@@ -62,7 +62,7 @@ test_suites:
     timeout: '15'
     script_name: e2e-v3
     criteria: MERGE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   # NOTE: runs the testcafe suite at the project root to ensure parity between
   # v2 and v3 for select flows
   - name: parity-v3
@@ -71,42 +71,42 @@ test_suites:
     timeout: '40'
     script_name: parity-v3
     criteria: MERGE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   - name: parity-v3-mobile
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '11'
     timeout: '40'
     script_name: parity-v3-mobile
     criteria: MERGE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   - name: e2e
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '12'
     timeout: '40'
     script_name: e2e
     criteria: OPTIONAL # OKTA-561398 - skipping due to SMS scenario failure
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   - name: e2e-lang
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '13'
     timeout: '30'
     script_name: e2e-lang
     criteria: MERGE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   - name: e2e-saucelabs
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '14'
     timeout: '30'
     script_name: e2e-saucelabs
     criteria: OPTIONAL
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   - name: e2e-saucelabs-v3
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '15'
     timeout: '30'
     script_name: e2e-saucelabs-v3
     criteria: OPTIONAL
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   # Optional test suite until Android is enabled
   - name: e2e-saucelabs-mobile
     script_path: /root/okta/okta-signin-widget/scripts
@@ -114,35 +114,35 @@ test_suites:
     timeout: '20'
     script_name: e2e-saucelabs-mobile
     criteria: OPTIONAL
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   - name: e2e-saucelabs-mobile-v3
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '17'
     timeout: '20'
     script_name: e2e-saucelabs-mobile-v3
     criteria: OPTIONAL
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   - name: tsd
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '18'
     timeout: '15'
     script_name: tsd
     criteria: MERGE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   - name: detect-english-leaks
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '19'
     timeout: '20'
     script_name: detect-english-leaks
     criteria: MERGE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   - name: detect-english-leaks-v3
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '20'
     timeout: '20'
     script_name: detect-english-leaks-v3
     criteria: MERGE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   # Re-enablement tracking jira: https://oktainc.atlassian.net/browse/OKTA-948779
   # - name: verify-registry-install
   #   prereq_test_suite_name: publish
@@ -151,14 +151,14 @@ test_suites:
   #   timeout: '20'
   #   script_name: verify-registry-install
   #   criteria: MERGE
-  #   queue_name: small
+  #   queue_name: ci-queue-productionJenga-AL2023
   - name: find-internal-packages
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '22'
     timeout: '20'
     script_name: find-internal-packages
     criteria: MERGE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   # E2E tests using dockerized monolith - optional (for now)
   - name: e2e-monolith
     script_path: ../okta-signin-widget/scripts
@@ -173,7 +173,7 @@ test_suites:
     sort_order: '24'
     timeout: '200'
     criteria: MAINLINE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
     trigger: AUTO
   # This suite runs the UI components demo VRT
   # Usage wiki: https://oktawiki.atlassian.net/wiki/spaces/eng/pages/2855600129/Odyssey+1.x+migration+testcafe+VRT+usage
@@ -183,7 +183,7 @@ test_suites:
     timeout: '15'
     script_name: vrt-v3
     criteria: MERGE
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
   # This bacon script can be used to get new base screenshots without having to run the VRT
   - name: vrt-v3-get-screenshots
     script_path: /root/okta/okta-signin-widget/scripts
@@ -191,4 +191,4 @@ test_suites:
     timeout: '15'
     script_name: vrt-v3-get-screenshots
     criteria: OPTIONAL
-    queue_name: small
+    queue_name: ci-queue-productionJenga-AL2023
