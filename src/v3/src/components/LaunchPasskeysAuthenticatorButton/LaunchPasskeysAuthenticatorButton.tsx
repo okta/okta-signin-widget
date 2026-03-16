@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useState } from 'preact/hooks';
 import { Button as OdyButton, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { useState } from 'preact/hooks';
 import { ABORT_REASON_CLEANUP, IDX_STEP } from 'src/constants';
 import { useWidgetContext } from 'src/contexts';
 import { useAutoFocus, useOnSubmit } from 'src/hooks';
