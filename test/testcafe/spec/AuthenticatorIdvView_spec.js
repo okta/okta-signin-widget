@@ -4,6 +4,7 @@ import PersonaIdvResponse from '../../../playground/mocks/data/idp/idx/authentic
 import ClearIdvResponse from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-clear.json';
 import IncodeIdvResponse from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-incode.json';
 import CustomIdvResponse from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-customIDV.json';
+import OinIdvResponse from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-oinIDV.json';
 
 const logger = RequestLogger(/introspect/,
   {
@@ -42,6 +43,14 @@ const customIdvMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
   .respond(CustomIdvResponse)
   .onRequestTo('http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj')
+  .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
+
+const oinIdvMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(OinIdvResponse)
+  .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
+  .respond(OinIdvResponse)
+  .onRequestTo('http://localhost:3000/idp/identity-verification?stateTokenExternalId=fakeStateTokenExternalId')
   .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
 
 async function setup(t) {
@@ -148,4 +157,27 @@ test
     const pageUrl = await pageObject.getPageUrl();
     await t.expect(pageUrl)
       .eql('http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj');
+  });
+
+test
+  .requestHooks(logger, oinIdvMock)('validate content on verify page for OIN IDV', async t => {
+    const pageObject = await setup(t);
+    await t.expect(pageObject.getFormTitle()).eql('Verify your identity with BYO Vendor Display Name');
+    await t.expect(pageObject.getPageSubtitle()).eql('Verify your identity with BYO Vendor Display Name to continue and share your verification results with Okta. You may need a valid government-issued ID.');
+    await t.expect(pageObject.getBeaconSelector()).contains('mfa-idv-oin');
+
+    const termsOfUseLink = pageObject.getLinkElement('Terms of Use');
+
+    await t.expect(termsOfUseLink.exists).eql(true);
+    await t.expect(termsOfUseLink.getAttribute('href')).eql('https://example.com/terms-of-service/');
+
+    const privacyPolicyLink = pageObject.getLinkElement('Privacy Policy');
+
+    await t.expect(privacyPolicyLink.exists).eql(true);
+    await t.expect(privacyPolicyLink.getAttribute('href')).eql('https://example.com/privacy-policy/');
+    
+    await pageObject.submit('Continue');
+    const pageUrl = await pageObject.getPageUrl();
+    await t.expect(pageUrl)
+      .eql('http://localhost:3000/idp/identity-verification?stateTokenExternalId=fakeStateTokenExternalId');
   });

@@ -484,6 +484,7 @@ type NextStepWithIdvMetadata = NextStep & {
   idvMetadata?: {
     privacyPolicy: string;
     termsOfUse: string;
+    logoLink?: string;
   }
 };
 

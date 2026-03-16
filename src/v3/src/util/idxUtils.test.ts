@@ -212,6 +212,55 @@ describe('IdxUtils Tests', () => {
     expect(buildAuthCoinProps(transaction)?.authenticatorKey).toBe(undefined);
   });
 
+  it('should build AuthCoin data with logoLink when Idx transaction denotes IDV OIN', () => {
+    transaction = {
+      ...transaction,
+      nextStep: {
+        name: 'redirect-idverify',
+        type: 'ID_PROOFING',
+        href:
+          'http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj',
+        method: 'GET',
+        idp: {
+          id: ID_PROOFING_TYPE.IDV_OIN,
+          name: 'BYO Vendor Display Name',
+        },
+        idvMetadata: {
+          privacyPolicy: 'https://example.com/privacy',
+          termsOfUse: 'https://example.com/terms',
+          logoLink: 'https://example.com/logo.png',
+        },
+      } as IdxTransaction['nextStep'],
+    };
+    const result = buildAuthCoinProps(transaction);
+    expect(result?.authenticatorKey).toBe(ID_PROOFING_TYPE.IDV_OIN);
+    expect(result?.url).toBe('https://example.com/logo.png');
+  });
+
+  it('should build AuthCoin data without url when IDV OIN has no logoLink', () => {
+    transaction = {
+      ...transaction,
+      nextStep: {
+        name: 'redirect-idverify',
+        type: 'ID_PROOFING',
+        href:
+          'http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj',
+        method: 'GET',
+        idp: {
+          id: ID_PROOFING_TYPE.IDV_OIN,
+          name: 'BYO Vendor Display Name',
+        },
+        idvMetadata: {
+          privacyPolicy: 'https://example.com/privacy',
+          termsOfUse: 'https://example.com/terms',
+        },
+      } as IdxTransaction['nextStep'],
+    };
+    const result = buildAuthCoinProps(transaction);
+    expect(result?.authenticatorKey).toBe(ID_PROOFING_TYPE.IDV_OIN);
+    expect(result?.url).toBeUndefined();
+  });
+
   it('should not perform conversion of Idx Inputs into Registration schema elements when input array is empty', () => {
     expect(convertIdxInputsToRegistrationSchema([])).toEqual([]);
   });
@@ -537,6 +586,7 @@ describe('IdxUtils Tests', () => {
         ${ID_PROOFING_TYPE.IDV_CLEAR}    | ${'Clear'}      | ${'https://www.clearme.com/member-terms'}       | ${'https://www.clearme.com/privacy-policy'}       | ${undefined}
         ${ID_PROOFING_TYPE.IDV_INCODE}   | ${'Incode'}     | ${'https://incode.id/terms'}                    | ${'https://incode.id/privacy'}                    | ${undefined}
         ${ID_PROOFING_TYPE.IDV_STANDARD} | ${'Custom IDV'} | ${undefined}                                    | ${undefined}                                      | ${{ termsOfUse: 'https://custom.idv/terms', privacyPolicy: 'https://custom.idv/privacy' }}
+        ${ID_PROOFING_TYPE.IDV_OIN}      | ${'OIN IDV'}    | ${undefined}                                    | ${undefined}                                      | ${{ termsOfUse: 'https://oin.idv/terms', privacyPolicy: 'https://oin.idv/privacy' }}
       `(
         'should return correct links for $name',
         ({
@@ -547,7 +597,7 @@ describe('IdxUtils Tests', () => {
               idp: { id, name },
             },
           };
-          if (id === ID_PROOFING_TYPE.IDV_STANDARD) {
+          if (id === ID_PROOFING_TYPE.IDV_STANDARD || id === ID_PROOFING_TYPE.IDV_OIN) {
             idvTransaction.nextStep.idvMetadata = idvMetadata;
           }
           const result = getIDVDisplayInfo(idvTransaction);
