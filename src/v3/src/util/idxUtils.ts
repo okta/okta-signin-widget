@@ -152,14 +152,13 @@ export const buildAuthCoinProps = (
 
   if (nextStep?.name === IDX_STEP.REDIRECT_IDVERIFY && nextStep?.idp?.id) {
     const idpId = nextStep.idp.id;
-    const metaData =
-      idpId === ID_PROOFING_TYPE.IDV_OIN
-        ? (nextStep as NextStepWithIdvMetadata)?.idvMetadata
-        : undefined;
+    const metaData = idpId === ID_PROOFING_TYPE.IDV_OIN
+      ? (nextStep as NextStepWithIdvMetadata)?.idvMetadata
+      : undefined;
 
     return {
       authenticatorKey: idpId,
-      ...(metaData?.logoLink && { url: metaData.logoLink })
+      ...(metaData?.logoLink && { url: metaData.logoLink }),
     };
   }
 
@@ -493,11 +492,10 @@ export const getIDVDisplayInfo = (
 ): IdvDisplayInfo => {
   const idpName = transaction.nextStep?.idp?.name;
   const idpId = transaction.nextStep?.idp?.id;
-  const metaData =
-    idpId === ID_PROOFING_TYPE.IDV_STANDARD ||
-    idpId === ID_PROOFING_TYPE.IDV_OIN
-      ? (transaction.nextStep as NextStepWithIdvMetadata)?.idvMetadata
-      : undefined;
+  const metaData = idpId === ID_PROOFING_TYPE.IDV_STANDARD
+    || idpId === ID_PROOFING_TYPE.IDV_OIN
+    ? (transaction.nextStep as NextStepWithIdvMetadata)?.idvMetadata
+    : undefined;
   let termsOfUse;
   let privacyPolicy;
   switch (idpName?.toUpperCase()) {

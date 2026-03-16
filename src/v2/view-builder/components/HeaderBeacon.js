@@ -45,8 +45,8 @@ export default View.extend({
     let logoUri = appState?.get('currentAuthenticator')?.logoUri || 
                   appState?.get('currentAuthenticatorEnrollment')?.logoUri;
     
-    // Fallback to idvMetadata.url if available
-    if (!logoUri) {
+    // Fallback to idvMetadata if available
+    if (!logoUri && remediations) {
       const idvMetadata = getMetaInfoLinksForCustomIDV(remediations);
       logoUri = idvMetadata?.logoLink;
     }
