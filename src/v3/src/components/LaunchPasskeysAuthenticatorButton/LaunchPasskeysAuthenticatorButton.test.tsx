@@ -123,4 +123,118 @@ describe('LaunchPasskeysAuthenticatorButton', () => {
       });
     });
   });
+
+  it('shows NotSupportedError message when getCredentials throws NotSupportedError', async () => {
+    const setMessage = jest.fn();
+
+    (jest.requireMock('src/contexts') as any).useWidgetContext = () => ({
+      setLoading,
+      setMessage,
+      abortController: {
+        abort: jest.fn(),
+        signal: { aborted: false },
+      },
+      widgetProps: {
+        eventEmitter: {
+          emit,
+        },
+      },
+      sharedHcaptchaRef: mockHcaptchaRef,
+    });
+
+    const error = new DOMException('The operation is not supported.', 'NotSupportedError');
+    getCredentials.mockRejectedValue(error);
+
+    renderWithContext();
+    fireEvent.click(screen.getByRole('button'));
+
+    await waitFor(() => {
+      expect(getCredentials).toHaveBeenCalled();
+      expect(mockOnSubmit).not.toHaveBeenCalled();
+      expect(setMessage).toHaveBeenCalledWith({
+        class: 'ERROR',
+        i18n: { key: 'signin.passkeys.error.NotSupportedError' },
+        message: 'signin.passkeys.error.NotSupportedError',
+      });
+    });
+  });
+
+  it('shows generic error message for NotAllowedError (e.g., user cancels passkey prompt)', async () => {
+    const setMessage = jest.fn();
+
+    (jest.requireMock('src/contexts') as any).useWidgetContext = () => ({
+      setLoading,
+      setMessage,
+      abortController: {
+        abort: jest.fn(),
+        signal: { aborted: false },
+      },
+      widgetProps: {
+        eventEmitter: {
+          emit,
+        },
+      },
+      sharedHcaptchaRef: mockHcaptchaRef,
+    });
+
+    const error = new DOMException('The request is not allowed.', 'NotAllowedError');
+    getCredentials.mockRejectedValue(error);
+
+    renderWithContext();
+    fireEvent.click(screen.getByRole('button'));
+
+    await waitFor(() => {
+      expect(getCredentials).toHaveBeenCalled();
+      expect(mockOnSubmit).not.toHaveBeenCalled();
+      expect(setMessage).toHaveBeenCalledWith({
+        class: 'ERROR',
+        i18n: { key: 'signin.passkeys.error' },
+        message: 'signin.passkeys.error',
+      });
+    });
+  });
+
+  it('should prevent concurrent modal passkey requests when button is pressed rapidly', async () => {
+    let resolveCredentials: (value: unknown) => void;
+    getCredentials.mockImplementation(() => new Promise((resolve) => {
+      resolveCredentials = resolve;
+    }));
+
+    renderWithContext();
+    const button = screen.getByRole('button');
+
+    // First click — should call getCredentials
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(getCredentials).toHaveBeenCalledTimes(1);
+    });
+
+    // Second click while first is still in-flight — should be blocked
+    fireEvent.click(button);
+
+    // getCredentials should still only have been called once
+    expect(getCredentials).toHaveBeenCalledTimes(1);
+
+    // Resolve the first call to clean up
+    resolveCredentials!(null);
+  });
+
+  it('should allow a new request after the previous one completes', async () => {
+    getCredentials.mockResolvedValue({ foo: 'bar' });
+
+    renderWithContext();
+    const button = screen.getByRole('button');
+
+    // First click — completes normally
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(getCredentials).toHaveBeenCalledTimes(1);
+    });
+
+    // Second click — should proceed since the first one finished
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(getCredentials).toHaveBeenCalledTimes(2);
+    });
+  });
 });

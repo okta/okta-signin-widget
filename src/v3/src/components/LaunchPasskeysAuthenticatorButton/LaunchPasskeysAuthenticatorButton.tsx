@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { useState } from 'preact/hooks';
 import { Button as OdyButton, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { ABORT_REASON_CLEANUP, IDX_STEP } from 'src/constants';
 import { useWidgetContext } from 'src/contexts';
@@ -36,10 +37,13 @@ const LaunchPasskeysAuthenticatorButton: UISchemaElementComponent<{
     abortController,
   } = useWidgetContext();
 
+  const [isModalPasskeyInFlight, setIsModalPasskeyInFlight] = useState(false);
+
   const handleClick: ClickHandler = async () => {
-    if (typeof AbortController === 'undefined') {
+    if (typeof AbortController === 'undefined' || isModalPasskeyInFlight) {
       return;
     }
+    setIsModalPasskeyInFlight(true);
 
     // Abort any existing in-flight autofill requests
     if (abortController && !abortController.signal.aborted) {
@@ -74,6 +78,8 @@ const LaunchPasskeysAuthenticatorButton: UISchemaElementComponent<{
         class: 'ERROR',
         i18n: { key },
       });
+    } finally {
+      setIsModalPasskeyInFlight(false);
     }
   };
 

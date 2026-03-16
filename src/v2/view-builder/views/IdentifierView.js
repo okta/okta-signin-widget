@@ -295,6 +295,38 @@ const Body = BaseForm.extend({
     });
   },
 
+  /**
+   * Shared error handler for navigator.credentials.get() rejections.
+   * @param {Error} error - The error thrown by navigator.credentials.get()
+   */
+  _handleWebAuthnError(error) {
+    // Abort error during cleanup, no need to show error to user
+    if (error === ABORT_REASON_CLEANUP) {
+      return;
+    }
+
+    // If one navigator.credentials call is canceled in order to invoke another one
+    // (eg. when we have both Autofill UI and Sign in with a passkey button,
+    // or the button is pressed rapidly on iOS)
+    // we want to suppress the error and let the user continue with authentication.
+    if (webauthn.isAbortError(error)) {
+      return;
+    }
+
+    if (webauthn.isNotAllowedError(error)) {
+      const errorSummary = loc('signin.passkeys.error', 'login');
+      this.model.trigger('error', this.model, this._generateErrorObject(errorSummary));
+      return;
+    }
+
+    // Do not display if it is abort error triggered by code when switching.
+    // this.webauthnAbortController would be null if abort was triggered by code.
+    if (this.webauthnAbortController) {
+      const errorSummary = getMessageFromBrowserError(error);
+      this.model.trigger('error', this.model, this._generateErrorObject(errorSummary));
+    }
+  },
+
   async getCredentialsAndInvokeAction() {
     // Ignore if autofill is not available in browser
     if (!await webauthn.isPasskeyAutofillAvailable()) {
@@ -304,18 +336,6 @@ const Body = BaseForm.extend({
       .then((assertion) => {
         this.remediateWithAssertion(assertion, RemediationForms.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR);
       }, (error) => {
-        // Abort error during cleanup, no need to show error to user
-        if (error === ABORT_REASON_CLEANUP) {
-          return;
-        }
-
-        // If one navigator.credentials call is canceled in order to invoke another one
-        // (eg. when we have both Autofill UI and Sign in with a passkey button)
-        // we want to suppress the error and let the user continue with authentication.
-        if (webauthn.isAbortError(error)) {
-          return;
-        }
-
         // Suppress the error shown to the enduser in case of the relying party id mismatch.
         // The error message shown was:
         // "The relying party ID is not a registrable domain suffix of, nor equal to the current domain.
@@ -325,22 +345,23 @@ const Body = BaseForm.extend({
         if (webauthn.isRelyingPartyIdMismatchError(error)) {
           return;
         }
-
-        // Do not display if it is abort error triggered by code when switching.
-        // this.webauthnAbortController would be null if abort was triggered by code.
-        if (this.webauthnAbortController) {
-          const errorSummary = getMessageFromBrowserError(error);
-          this.model.trigger('error', this.model, this._generateErrorObject(errorSummary));
-        }
+        this._handleWebAuthnError(error);
       });
   },
 
   async getCredentialsForModalAndInvokeAction() {
+    // Prevent multiple concurrent passkey prompts from rapid button presses
+    if (this._isModalPasskeyInFlight) {
+      return;
+    }
+    this._isModalPasskeyInFlight = true;
+
     // Clear error before starting
     this.model.trigger('errors:clear');
 
     // because its user action show that passkey is not available in browser
     if  (!webauthn.isPasskeyAvailable()) {
+      this._isModalPasskeyInFlight = false;
       const errorSummary = loc('signin.passkeys.error.NotSupportedError', 'login');
       this.model.trigger('error', this.model, this._generateErrorObject(errorSummary));
       return;
@@ -349,13 +370,10 @@ const Body = BaseForm.extend({
       .then((assertion) => {
         this.remediateWithAssertion(assertion, RemediationForms.LAUNCH_PASSKEYS_AUTHENTICATOR);
       }, (error) => {
-        if (webauthn.isNotAllowedError(error)) {
-          const errorSummary = loc('signin.passkeys.error', 'login');
-          this.model.trigger('error', this.model, this._generateErrorObject(errorSummary));
-        } else if (this.webauthnAbortController) {
-          const errorSummary = getMessageFromBrowserError(error);
-          this.model.trigger('error', this.model, this._generateErrorObject(errorSummary));
-        }
+        this._handleWebAuthnError(error);
+      })
+      .finally(() => {
+        this._isModalPasskeyInFlight = false;
       });
   },
 
