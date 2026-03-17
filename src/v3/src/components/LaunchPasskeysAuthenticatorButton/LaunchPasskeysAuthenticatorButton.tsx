@@ -65,6 +65,10 @@ const LaunchPasskeysAuthenticatorButton: UISchemaElementComponent<{
           case 'NotSupportedError':
             key = `signin.passkeys.error.${err.name}`;
             break;
+          case 'SecurityError':
+            if (err.code !== 18) { break; }
+            key = `signin.passkeys.error.${err.name}`;
+            break;
           default:
             break;
         }
