@@ -29,7 +29,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       console.log(this.options.appState);
       // need to see if we can have userID
       this.factorId = this.options.appState?.attributes?.currentAuthenticatorEnrollment?.id || undefined;
-      if (!this.factorId) {
+      if (this.options.appState?.attributes?.currentFormName === "enroll-authenticator") { //checkCurrentFormName?
         //enroll flow
         const url = 'http://localhost:3001/createNfcAndPin';
         const externalId = this.options.appState.attributes.currentAuthenticator.contextualData['data_to_write'];
@@ -57,11 +57,11 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       } else {
         // verify flow, where do we get the data from?
         const url = 'http://localhost:3001/nfcChallenge';
-        const data = { factorId: this.factorId }; //jake i don't think we need this
+        // const data = { factorId: this.factorId }; //jake i don't think we need this
         const response = await $.ajax({
           url,
           type: 'POST',
-          data: JSON.stringify(data),
+          data: {},
           contentType: 'application/json',
         });
         console.log('hello!!')

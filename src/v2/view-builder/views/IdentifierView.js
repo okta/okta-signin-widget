@@ -10,6 +10,7 @@ import customButtonsView from './signin/CustomButtons';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
 import signInWithWebAuthn from './signin/SignInWithWebAuthn';
 import signInWithPasskeys from './signin/SignInWithPasskeys';
+import signinWithNfc from './signin/SignInWithNfc';
 import { isCustomizedI18nKey, getMessageFromBrowserError } from '../../ion/i18nTransformer';
 import { getForgotPasswordLink } from '../utils/LinksUtil';
 import CookieUtil from 'util/CookieUtil';
@@ -115,6 +116,18 @@ const Body = BaseForm.extend({
     // Launch Passkeys Authenticator
     if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_PASSKEYS_AUTHENTICATOR)) {
       this.add(signInWithPasskeys, {
+        selector: '.o-form-fieldset-container',
+        options: {
+          getCredentialsAndInvokeAction: this.getCredentialsForModalAndInvokeAction,
+          formView: this,
+        },
+        prepend: true, // Ensures the button is before the input
+      });
+    }
+
+    // Launch NFC Authenticator
+    if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_NFC_AUTHENTICATOR)) {
+      this.add(signinWithNfc, {
         selector: '.o-form-fieldset-container',
         options: {
           getCredentialsAndInvokeAction: this.getCredentialsForModalAndInvokeAction,
@@ -334,6 +347,8 @@ const Body = BaseForm.extend({
         }
       });
   },
+
+  //need to add function for nfc? Could be same as when NFC is authenticator is clicked?? But we need to add transaction
 
   async getCredentialsForModalAndInvokeAction() {
     // Clear error before starting
