@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 
 import { AUTHENTICATOR_KEY } from '../../constants';
