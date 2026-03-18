@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { Box } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
+import { WEBAUTHN_DISPLAY_NAMES } from '../../../../util/webauthnDisplayNameUtils';
 import { AUTHENTICATOR_KEY } from '../../constants';
 import { AuthCoinProps } from '../../types';
-import { WEBAUTHN_DISPLAY_NAMES } from '../../../../util/webauthnDisplayNameUtils';
-import Image from '../Image';
 import { PasskeysIcon } from '../Icon';
+import Image from '../Image';
 import { getAuthCoinConfiguration } from './authCoinConfigUtil';
 
 const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
