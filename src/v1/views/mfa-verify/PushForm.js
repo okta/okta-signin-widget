@@ -15,7 +15,7 @@ import hbs from '@okta/handlebars-inline-precompile';
 import Util from 'util/Util';
 import NumberChallengeView from './NumberChallengeView';
 
-const titleTpl = hbs('{{factorName}} ({{{deviceName}}})');
+const titleTpl = hbs('{{factorName}}{{#if deviceName}} ({{{deviceName}}}){{/if}}');
 // deviceName is escaped on BaseForm (see BaseForm's template)
 
 const WARNING_TIMEOUT = 30000; // milliseconds
