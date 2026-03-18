@@ -125,6 +125,27 @@ describe('IdxUtils Tests', () => {
     expect(buildAuthCoinProps(transaction)?.authenticatorKey).toBe(AUTHENTICATOR_KEY.GOOGLE_OTP);
   });
 
+  it('should include displayName in AuthCoin props when authenticator has displayName', () => {
+    transaction = {
+      ...transaction,
+      nextStep: {
+        name: '',
+        relatesTo: {
+          value: {
+            displayName: 'Passkeys',
+            id: '',
+            key: AUTHENTICATOR_KEY.WEBAUTHN,
+            methods: [],
+            type: '',
+          },
+        },
+      },
+    };
+    const props = buildAuthCoinProps(transaction);
+    expect(props?.authenticatorKey).toBe(AUTHENTICATOR_KEY.WEBAUTHN);
+    expect(props?.displayName).toBe('Passkeys');
+  });
+
   it('should build AuthCoin data when Idx transaction denotes expired email link', () => {
     transaction = {
       ...transaction,

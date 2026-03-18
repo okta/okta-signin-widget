@@ -68,6 +68,7 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
         authenticatorKey={authCoinProps.authenticatorKey}
         url={authCoinProps.url}
         theme={authCoinProps.theme}
+        displayName={authCoinProps.displayName}
         sx={{
           margin: 'auto',
           insetBlockStart: '26px',

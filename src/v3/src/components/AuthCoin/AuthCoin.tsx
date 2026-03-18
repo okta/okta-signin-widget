@@ -14,8 +14,11 @@ import { Box } from '@mui/material';
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
+import { AUTHENTICATOR_KEY } from '../../constants';
 import { AuthCoinProps } from '../../types';
+import { WEBAUTHN_DISPLAY_NAMES } from '../../../../util/webauthnDisplayNameUtils';
 import Image from '../Image';
+import { PasskeysIcon } from '../Icon';
 import { getAuthCoinConfiguration } from './authCoinConfigUtil';
 
 const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
@@ -25,6 +28,7 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     customClasses,
     name: authcoinName,
     description: authcoinDescr,
+    displayName,
     sx,
   } = props;
 
@@ -51,7 +55,9 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     }
     const name = authcoinName || authCoinConfigByAuthKey?.name;
     const description = authcoinDescr || authCoinConfigByAuthKey?.description;
-    const AuthCoinIcon = authCoinConfigByAuthKey?.icon;
+    const isPasskeys = authenticatorKey === AUTHENTICATOR_KEY.WEBAUTHN
+      && displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS;
+    const AuthCoinIcon = isPasskeys ? PasskeysIcon : authCoinConfigByAuthKey?.icon;
     return AuthCoinIcon && (
       <AuthCoinIcon
         name={name}

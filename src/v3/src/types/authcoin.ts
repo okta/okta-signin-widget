@@ -27,6 +27,7 @@ export type AuthCoinProps = {
   theme?: AuthCoinTheme;
   name?: string;
   description?: string;
+  displayName?: string;
   sx?: SxProps;
 };
 
