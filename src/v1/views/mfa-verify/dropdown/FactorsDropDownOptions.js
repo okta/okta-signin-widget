@@ -14,8 +14,8 @@
 import { _, loc } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import RouterUtil from 'v1/util/RouterUtil';
+const pushTitleTpl = hbs('{{factorName}} ({{{deviceName}}})');
 
-const pushTitleTpl = hbs('{{factorName}}{{#if deviceName}} ({{{deviceName}}}){{/if}}');
 // deviceName is escaped on BaseForm (see BaseForm's template)
 
 const action = function(model) {
