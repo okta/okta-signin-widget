@@ -38,12 +38,18 @@ const IdpList: UISchemaElementComponent<{
     )
     : buttons;
 
+  const statusText = filterQuery.trim()
+    ? (filteredButtons.length === 0
+      ? loc('idps.search.no.results', 'login')
+      : loc('idps.search.results.count', 'login', [String(filteredButtons.length)]))
+    : '';
+
   return (
-    <Box>
+    <Box role="search" aria-label={loc('idps.search.label', 'login')}>
       <Box sx={{ marginBlockEnd: tokens.Spacing3 }}>
         <TextField
-          label=""
-          placeholder={loc('idps.search.placeholder', 'login')}
+          label={loc('idps.search.label', 'login')}
+          placeholder={loc('idps.search.typeahead.placeholder', 'login')}
           value={filterQuery}
           onChange={(e) => setFilterQuery(e.currentTarget.value)}
           isFullWidth
@@ -51,18 +57,31 @@ const IdpList: UISchemaElementComponent<{
           type="text"
         />
       </Box>
+      {/* Announce filter results to screen readers */}
       <Box
-        component="ul"
+        role="status"
+        sx={{
+          position: 'absolute',
+          width: '1px',
+          height: '1px',
+          padding: 0,
+          margin: '-1px',
+          overflow: 'hidden',
+          clipPath: 'inset(50%)',
+          whiteSpace: 'nowrap',
+          border: 0,
+        }}
+      >
+        {statusText}
+      </Box>
+      <Box
         data-se={dataSe}
         sx={{
-          listStyle: 'none',
-          padding: tokens.Spacing0,
-          paddingRight: tokens.Spacing2,
-          marginBlockStart: tokens.Spacing0,
           height: IDP_LIST_HEIGHT,
           overflowY: 'auto',
           overscrollBehavior: 'contain',
           touchAction: 'pan-y',
+          paddingRight: tokens.Spacing2,
           // Persistent scrollbar — do NOT add scrollbar-width or scrollbar-color,
           // Chrome 121+ ignores ::-webkit-scrollbar when those are present.
           '&::-webkit-scrollbar': {
@@ -79,9 +98,35 @@ const IdpList: UISchemaElementComponent<{
           },
         }}
       >
-        {filteredButtons.length === 0 ? (
+        {filteredButtons.length > 0 ? (
           <Box
-            component="li"
+            component="ul"
+            aria-label={loc('idps.search.label', 'login')}
+            sx={{
+              listStyle: 'none',
+              padding: tokens.Spacing0,
+              marginBlockStart: tokens.Spacing0,
+            }}
+          >
+            {filteredButtons.map((button: ButtonElement, index: number) => (
+              <Box
+                key={button.options.dataSe ?? index}
+                component="li"
+                sx={{ marginBlockEnd: tokens.Spacing4 }}
+              >
+                <Button
+                  uischema={{
+                    ...button,
+                    focus: index === 0 && !filterQuery ? uischema.focus : false,
+                    ariaDescribedBy: uischema.ariaDescribedBy,
+                  }}
+                />
+              </Box>
+            ))}
+          </Box>
+        ) : (
+          <Box
+            role="status"
             data-se="idp-no-results"
             sx={{
               textAlign: 'center',
@@ -90,22 +135,6 @@ const IdpList: UISchemaElementComponent<{
           >
             {loc('idps.search.no.results', 'login')}
           </Box>
-        ) : (
-          filteredButtons.map((button: ButtonElement, index: number) => (
-            <Box
-              key={button.options.dataSe ?? index}
-              component="li"
-              sx={{ marginBlockEnd: tokens.Spacing4 }}
-            >
-              <Button
-                uischema={{
-                  ...button,
-                  focus: index === 0 && !filterQuery ? uischema.focus : false,
-                  ariaDescribedBy: uischema.ariaDescribedBy,
-                }}
-              />
-            </Box>
-          ))
         )}
       </Box>
     </Box>

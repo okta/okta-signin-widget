@@ -12,11 +12,11 @@ export default View.extend({
     {{#if showSearchContainer}}
     <div class="okta-piv-container"></div>
     <div class="idp-discovery-container">
-      <label class="idp-discovery-search-label">{{i18n code="idps.search.placeholder" bundle="login"}}</label>
+      <label class="idp-discovery-search-label">{{i18n code="idps.search.label" bundle="login"}}</label>
       <div class="idp-discovery-search-wrapper">
         <input type="search" class="idp-discovery-search-input"
                data-se="idp-search-input"
-               aria-label="{{i18n code='idps.search.placeholder' bundle='login'}}"
+               aria-label="{{i18n code='idps.search.label' bundle='login'}}"
                placeholder="{{i18n code='idps.search.typeahead.placeholder' bundle='login'}}"
                autocomplete="off">
       </div>
