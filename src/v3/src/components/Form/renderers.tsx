@@ -23,7 +23,6 @@ import {
 } from '../../util';
 import ActionPending from '../ActionPending/ActionPending';
 import AuthenticatorButtonList from '../AuthenticatorButton';
-import IdpList from '../IdpList';
 import AutoSubmit from '../AutoSubmit';
 import Button from '../Button';
 import CaptchaContainer from '../CaptchaContainer';
@@ -34,6 +33,7 @@ import DuoWindow from '../DuoWindow';
 import Heading from '../Heading';
 import HiddenInput from '../HiddenInput';
 import IdentifierContainer from '../IdentifierContainer';
+import IdpList from '../IdpList';
 import ImageLink from '../ImageLink';
 import ImageWithText from '../ImageWithText';
 import InfoBox from '../InfoBox';

@@ -49,7 +49,7 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
   const customButtonElements = containsIdentifyStep ? getCustomButtonElements(widgetProps) : [];
   // Only identify step contains sign in with passkey button
   const signInWithPasskeyButtonElement = getSignInWithPasskeyButtonElement(transaction);
-  
+
   // When there are many IdPs (IdpList element), separate PIV buttons from the
   // IdP list so PIV sits with other special action buttons above the divider
   const hasIdpList = idpButtonElements.some((el) => el.type === 'IdpList');
