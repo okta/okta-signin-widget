@@ -18,6 +18,7 @@ import {
   DividerElement,
   FieldElement,
   FormBag,
+  IdpListElement,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
   LinkElement,
@@ -156,5 +157,80 @@ describe('IDP Button transformer tests', () => {
       .toBe('LaunchAuthenticatorButton');
     expect((updatedFormBag.uischema.elements[2] as DividerElement).options?.text)
       .toBe('socialauth.divider.text');
+  });
+
+  describe('IdpList wrapping for many IdPs', () => {
+    const createIdpRemediations = (count: number) => Array.from(
+      { length: count },
+      (_, i) => ({
+        name: IDX_STEP.REDIRECT_IDP,
+        type: 'SAML2',
+        idp: { id: `saml-idp-${i}`, name: `Custom IdP ${i}` },
+        href: `http://localhost:3000/sso/idps/saml-idp-${i}`,
+        method: 'GET',
+      }),
+    );
+
+    it('should wrap IdP buttons in IdpList element when more than 10 IdPs', () => {
+      transaction.neededToProceed = [
+        { name: IDX_STEP.IDENTIFY },
+        ...createIdpRemediations(11),
+      ];
+      const updatedFormBag = transformIDPButtons({
+        transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+      })(formBag);
+
+      const idpListElements = updatedFormBag.uischema.elements.filter(
+        (el) => el.type === 'IdpList',
+      );
+      expect(idpListElements.length).toBe(1);
+      expect((idpListElements[0] as IdpListElement).options.buttons.length).toBe(11);
+    });
+
+    it('should NOT wrap IdP buttons in IdpList when 10 or fewer IdPs', () => {
+      transaction.neededToProceed = [
+        { name: IDX_STEP.IDENTIFY },
+        ...createIdpRemediations(10),
+      ];
+      const updatedFormBag = transformIDPButtons({
+        transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+      })(formBag);
+
+      const idpListElements = updatedFormBag.uischema.elements.filter(
+        (el) => el.type === 'IdpList',
+      );
+      expect(idpListElements.length).toBe(0);
+
+      const buttonElements = updatedFormBag.uischema.elements.filter(
+        (el) => el.type === 'Button',
+      );
+      // 10 IdP buttons + 1 submit button = 11
+      expect(buttonElements.length).toBe(11);
+    });
+
+    it('should keep PIV button separate from IdpList when many IdPs', () => {
+      transaction.neededToProceed = [
+        { name: IDX_STEP.IDENTIFY },
+        { name: IDX_STEP.PIV_IDP, type: 'X509' },
+        ...createIdpRemediations(11),
+      ];
+      const updatedFormBag = transformIDPButtons({
+        transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+      })(formBag);
+
+      const idpListElements = updatedFormBag.uischema.elements.filter(
+        (el) => el.type === 'IdpList',
+      );
+      expect(idpListElements.length).toBe(1);
+      // IdpList should contain only the 11 social IdPs, not the PIV button
+      expect((idpListElements[0] as IdpListElement).options.buttons.length).toBe(11);
+
+      // PIV button should be a separate top-level element
+      const pivButton = updatedFormBag.uischema.elements.find(
+        (el) => el.type === 'Button' && (el as ButtonElement).options.step === IDX_STEP.PIV_IDP,
+      ) as ButtonElement;
+      expect(pivButton).toBeDefined();
+      expect(pivButton.label).toBe('piv.cac.card');
+    });
   });
 });

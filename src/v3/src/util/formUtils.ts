@@ -31,12 +31,14 @@ import {
   ButtonType,
   DescriptionElement,
   DeviceRemediation,
+  IdpListElement,
   IdxAuthenticatorWithChallengeData,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
   LaunchPasskeysAuthenticatorButtonElement,
   PhoneVerificationMethodType,
   RequiredKeys,
+  UISchemaElement,
   WebAuthNAutofillUICredentials,
   WidgetMessage,
   WidgetMessageLink,
@@ -255,7 +257,7 @@ const getConfigIdpButtonRemediations = (
 export const getIdpButtonElements = (
   transaction: IdxTransaction,
   widgetProps: WidgetProps,
-) : ButtonElement[] => {
+): UISchemaElement[] => {
   const { neededToProceed: remediations } = transaction;
   let redirectIdpRemediations = remediations.filter(
     (idp) => idp.name === IDX_STEP.REDIRECT_IDP,
@@ -301,6 +303,18 @@ export const getIdpButtonElements = (
 
   // create piv button element to be added
   const pivButtonElement = getPIVButtonElement(transaction, widgetProps);
+
+  // When more than 10 IdPs, wrap in a scrollable container with search
+  if (idpButtonElements.length > 10) {
+    const idpListElement: IdpListElement = {
+      type: 'IdpList',
+      options: {
+        buttons: idpButtonElements,
+        dataSe: 'idp-list-container',
+      },
+    };
+    return [...pivButtonElement, idpListElement];
+  }
 
   return [...pivButtonElement, ...idpButtonElements];
 };

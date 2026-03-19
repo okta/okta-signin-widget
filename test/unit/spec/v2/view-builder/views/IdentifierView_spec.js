@@ -4,6 +4,7 @@ import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
 import XHRIdentifyWithPassword from '../../../../../../playground/mocks/data/idp/idx/identify-with-password.json';
 import XHRIdentifyWithThirdPartyIdps from '../../../../../../playground/mocks/data/idp/idx/identify-with-third-party-idps.json';
+import XHRIdentifyWithManyIdps from '../../../../../../playground/mocks/data/idp/idx/identify-with-many-idps.json';
 import XHRIdentifyWithPasskeys from '../../../../../../playground/mocks/data/idp/idx/identify-with-passkeys-launch-authenticator.json';
 import XHRIdentifyWithWebAuthnAutofill from '../../../../../../playground/mocks/data/idp/idx/identify-with-webauthn-autofill.json';
 import Bundles from 'util/Bundles';
@@ -556,6 +557,69 @@ describe('v2/view-builder/views/IdentifierView', function() {
 
       view.form.focus();
       expect(passwordFocusSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('IdP search container for many IdPs', function() {
+    beforeEach(function() {
+      settings.unset('idpDisplay');
+      jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(false);
+      jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+      jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
+    });
+
+    it('should render search container when more than 10 IdPs', function() {
+      testContext.init(XHRIdentifyWithManyIdps.remediation.value);
+
+      expect(testContext.view.$el.find('.idp-discovery-container').length).toEqual(1);
+      expect(testContext.view.$el.find('.idp-discovery-search-input').length).toEqual(1);
+      expect(testContext.view.$el.find('.idp-discovery-search-label').length).toEqual(1);
+      expect(testContext.view.$el.find('.idp-no-results').length).toEqual(1);
+    });
+
+    it('should NOT render search container when 10 or fewer IdPs', function() {
+      testContext.init(XHRIdentifyWithThirdPartyIdps.remediation.value);
+
+      expect(testContext.view.$el.find('.idp-discovery-container').length).toEqual(0);
+      expect(testContext.view.$el.find('.idp-discovery-search-input').length).toEqual(0);
+    });
+
+    it('should render PIV button outside the scroll container when many IdPs', function() {
+      testContext.init(XHRIdentifyWithManyIdps.remediation.value);
+
+      // PIV button should be in the separate piv container, not inside the scrollable idps container
+      expect(testContext.view.$el.find('.okta-piv-container .piv-button').length).toEqual(1);
+      expect(testContext.view.$el.find('.okta-idps-container .piv-button').length).toEqual(0);
+    });
+
+    it('should filter IdP buttons when typing in search input', function() {
+      testContext.init(XHRIdentifyWithManyIdps.remediation.value);
+
+      const $searchInput = testContext.view.$el.find('.idp-discovery-search-input');
+      const $buttons = testContext.view.$el.find('.okta-idps-container .link-button');
+      const totalButtons = $buttons.length;
+      expect(totalButtons).toBeGreaterThan(10);
+
+      // Type a query that matches only some buttons
+      $searchInput.val('Google').trigger('input');
+
+      const visibleButtons = testContext.view.$el.find('.okta-idps-container .link-button').filter(function() {
+        return this.style.display !== 'none';
+      });
+      expect(visibleButtons.length).toBeLessThan(totalButtons);
+      expect(visibleButtons.length).toBeGreaterThan(0);
+    });
+
+    it('should show no results message when search matches nothing', function() {
+      testContext.init(XHRIdentifyWithManyIdps.remediation.value);
+
+      const $searchInput = testContext.view.$el.find('.idp-discovery-search-input');
+      $searchInput.val('zzz-no-match-zzz').trigger('input');
+
+      // The idps container should be hidden
+      expect(testContext.view.$el.find('.okta-idps-container').css('display')).toEqual('none');
+      // The no-results message should be visible
+      expect(testContext.view.$el.find('.idp-no-results').css('display')).not.toEqual('none');
     });
   });
 });

@@ -23,6 +23,7 @@ import {
 } from '../../util';
 import ActionPending from '../ActionPending/ActionPending';
 import AuthenticatorButtonList from '../AuthenticatorButton';
+import IdpList from '../IdpList';
 import AutoSubmit from '../AutoSubmit';
 import Button from '../Button';
 import CaptchaContainer from '../CaptchaContainer';
@@ -99,6 +100,10 @@ export default [
   {
     tester: ({ type }) => type === 'AuthenticatorButtonList',
     renderer: AuthenticatorButtonList,
+  },
+  {
+    tester: ({ type }) => type === 'IdpList',
+    renderer: IdpList,
   },
   {
     tester: ({ type }) => type === 'PasswordRequirements',

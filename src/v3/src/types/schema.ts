@@ -433,6 +433,14 @@ export interface AuthenticatorButtonListElement extends UISchemaElement {
   };
 }
 
+export interface IdpListElement extends UISchemaElement {
+  type: 'IdpList';
+  options: {
+    buttons: ButtonElement[];
+    dataSe: string;
+  };
+}
+
 export interface WebAuthNButtonElement extends UISchemaElement {
   type: 'WebAuthNSubmitButton';
   options: {

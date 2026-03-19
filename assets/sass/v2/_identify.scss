@@ -98,3 +98,97 @@
     }
   }
 }
+
+// IdP discovery container: search input + scrollable list (active when > 10 IdPs)
+.sign-in-with-idp {
+  .idp-discovery-container {
+    .idp-discovery-search-label {
+      display: block;
+      font-size: $body-font-size;
+      color: $text-color-dark;
+      text-align: left;
+      margin-bottom: 4px;
+    }
+
+    .idp-discovery-search-wrapper {
+      position: relative;
+      margin-bottom: 8px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        // inline SVG search icon
+        background-image: url("../img/icons/search.svg");
+        background-repeat: no-repeat;
+        background-size: contain;
+        pointer-events: none;
+      }
+
+      .idp-discovery-search-input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0 8px 0 34px; // left padding for search icon
+        height: 36px;
+        border: 1px solid $border-color-default;
+        border-radius: $border-radius-default;
+        font-size: $body-font-size;
+        outline: none;
+
+        &:focus {
+          border-color: $link-color;
+          box-shadow: 0 0 0 1px $link-color;
+        }
+
+        // remove webkit default clear button for type=search
+        &::-webkit-search-cancel-button {
+          -webkit-appearance: none;
+        }
+      }
+    }
+
+    .okta-idps-container {
+      height: 250px; // fixed height so layout doesn't jump when filtering
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      touch-action: pan-y;
+      padding-right: 8px;
+
+      // Persistent scrollbar for Chrome/Safari/Edge.
+      // IMPORTANT: Do NOT add scrollbar-width or scrollbar-color here.
+      // Chrome 121+ ignores ::-webkit-scrollbar when standard scrollbar-*
+      // properties are present, falling back to macOS overlay scrollbars.
+      &::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background-color: rgba(0, 0, 0, 0.05);
+        border-radius: 3px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 3px;
+      }
+
+      // retain bottom margin on last item so scroll doesn't look clipped
+      .social-auth-button.link-button:last-of-type {
+        margin-bottom: 16px;
+      }
+    }
+
+    .idp-no-results {
+      display: none; // hidden by default, shown by _filterIdps when no matches
+      text-align: center;
+      padding: 16px;
+      color: $medium-text-color;
+      font-size: $body-font-size;
+    }
+  }
+}
