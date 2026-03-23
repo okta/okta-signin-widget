@@ -1,0 +1,81 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "02.id.fakeStateHandle_OIN_IDV_test",
+    "expiresAt": "2026-03-13T14:47:04.000Z",
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "name": "redirect-idverify",
+                "type": "ID_PROOFING",
+                "idp": {
+                    "id": "IDV_OIN",
+                    "name": "BYO Vendor Display Name"
+                },
+                "idvMetadata": {
+                    "termsOfUse": "https://example.com/terms-of-service/",
+                    "privacyPolicy": "https://example.com/privacy-policy/",
+                    "logoLink": "https://cdn.example.com/bc/globalFileStoreRecord?id=gfswsyzjwlhQuE6Df0g4"
+                },
+                "href": "http://localhost:3000/idp/identity-verification?stateTokenExternalId=fakeStateTokenExternalId",
+                "method": "GET"
+            }
+        ]
+    },
+    "user": {
+        "type": "object",
+        "value": {
+            "identifier": "testuser@example.com"
+        }
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "http://localhost:3000/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "02.id.fakeStateHandle_OIN_IDV_test",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "okta_enduser",
+            "label": "Okta Dashboard",
+            "id": "0oa00000000000000000"
+        }
+    },
+    "authentication": {
+        "type": "object",
+        "value": {
+            "protocol": "OAUTH2.0",
+            "issuer": {
+                "name": "example",
+                "uri": "http://localhost:3000"
+            },
+            "request": {
+                "max_age": -1,
+                "scope": "openid profile email",
+                "display": "page",
+                "response_type": "code",
+                "redirect_uri": "http://localhost:3000/enduser/callback",
+                "state": "fakeStateValue",
+                "code_challenge_method": "S256",
+                "nonce": "fakeNonceValue",
+                "code_challenge": "fakeCodeChallenge",
+                "response_mode": "query"
+            }
+        }
+    }
+}
