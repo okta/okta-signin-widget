@@ -39,6 +39,38 @@ yarn test:tsd
 
 Unit tests live in `test/unit/spec/` and mirror the `src/` directory structure. Jest config is `jest.config.js`.
 
+### Gen3 / v3 (run from `src/v3/`)
+```bash
+# Build
+yarn build:dev                       # Dev build (webpack)
+yarn build:release                   # Production build (webpack)
+
+# Dev server
+yarn dev                             # Start webpack-dev-server with HMR
+
+# Lint
+yarn lint                            # ESLint on v3 source
+yarn lint:styles                     # StyleLint on v3 SCSS/CSS
+
+# Unit tests (Jest via ts-jest)
+yarn test                            # Run all v3 unit tests
+yarn test -- --testPathPattern="path/to/test"  # Run a specific test file
+yarn test -- --testNamePattern="pattern"       # Run tests matching a name pattern
+
+# E2E tests (TestCafe)
+yarn test:e2e                        # Run v3 e2e tests
+
+# Run a single parity fixture:
+yarn test:parity-setup               # Terminal 1
+OKTA_SIW_GEN3=true yarn testcafe --fixture "FixtureName"  # Terminal 2
+
+# Visual regression tests
+yarn test:vrt                        # Run VRT (headless Chrome)
+yarn test:vrt-update-screenshots     # Update VRT baseline screenshots
+```
+
+v3 unit tests live alongside source files as `*.test.ts(x)`. Jest config is `src/v3/jest.config.js`.
+
 ## Architecture
 
 The widget is a multi-engine authentication UI with three parallel implementations:
