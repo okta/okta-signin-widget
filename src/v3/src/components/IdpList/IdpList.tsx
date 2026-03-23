@@ -45,7 +45,10 @@ const IdpList: UISchemaElementComponent<{
     : '';
 
   return (
-    <Box role="search" aria-label={loc('idps.search.label', 'login')}>
+    <Box
+      role="search"
+      aria-label={loc('idps.search.label', 'login')}
+    >
       <Box sx={{ marginBlockEnd: tokens.Spacing3 }}>
         <TextField
           label={loc('idps.search.label', 'login')}
