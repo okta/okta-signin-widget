@@ -1,7 +1,11 @@
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { BaseForm } from '../../internals';
-import { loc, createCallout, _ } from '@okta/courage';
+import { loc, View, createCallout, _ } from '@okta/courage';
 import { getBiometricsErrorOptions } from '../../utils/ChallengeViewUtil';
+import {
+  OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
+  OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
+} from '../../utils/Constants';
 
 // for EA,
 // redirect is needed for Apple SSO Extension to intercept the request, because
@@ -28,6 +32,26 @@ const Body = BaseForm.extend({
     const isGetMethod = this.options.currentViewState?.method?.toLowerCase() === 'get';
     this.model.set('useRedirect', isGetMethod);
     this.trigger('save', this.model);
+  },
+
+  showMessages(options) {
+    if (options instanceof View) {
+      BaseForm.prototype.showMessages.call(this, options);
+      return;
+    }
+
+    if (this.options.appState.containsMessageWithI18nKey([
+      OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
+      OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
+    ])) {
+      const messages = this.options.appState.get('messages');
+      const biometricsOptions = getBiometricsErrorOptions(messages, true);
+      if (!_.isEmpty(biometricsOptions)) {
+        options = createCallout(biometricsOptions);
+      }
+    }
+
+    BaseForm.prototype.showMessages.call(this, options);
   },
 
   showCustomFormErrorCallout(error) {

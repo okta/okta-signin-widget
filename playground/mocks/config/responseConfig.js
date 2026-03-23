@@ -590,6 +590,18 @@ const userVerificationCustomUriBiometricsError = {
   ],
 };
 
+const userVerificationCustomUriWindowsUVKeyNotEnrolledBiometricsError = {
+  '/oauth2/default/v1/interact': [
+    'interact'
+  ],
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-signed-nonce-custom-uri',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'okta-verify-uv-verify-custom-uri-enable-biometrics-uv-key-not-enrolled-windows',
+  ],
+};
+
 // user verification: Android authenticator with app link
 const userVerificationAppLink = {
   '/idp/idx/introspect': [
@@ -637,6 +649,24 @@ const userVerificationCredentialSSOExtensionBiometricsError = {
   ],
 };
 
+const userVerificationCredentialSSOExtensionUVKeyNotEnrolledBiometricsError = {
+  '/oauth2/default/v1/interact': [
+    'interact'
+  ],
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-signed-nonce-credential-sso-extension'
+  ],
+  '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify': [
+    'authenticator-verification-okta-verify-signed-nonce-credential-sso-extension-biometrics-global-message',
+  ],
+  '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify/cancel': [
+    'okta-verify-uv-verify-universal-link-enable-biometrics-uv-key-not-enrolled-universal-link',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'okta-verify-uv-verify-universal-link-enable-biometrics-uv-key-not-enrolled-universal-link',
+  ],
+};
+
 // user verification: Apple authenticator with universal link
 const userVerificationUniversalLink = {
   '/idp/idx/introspect': [
@@ -660,6 +690,18 @@ const userVerificationUniversalLinkBiometricsError = {
   ],
   '/idp/idx/authenticators/poll': [
     'error-400-okta-verify-uv-fastpass-verify-enable-biometrics-mobile'
+  ],
+};
+
+const userVerificationUniversalLinkUVKeyNotEnrolledBiometricsError = {
+  '/oauth2/default/v1/interact': [
+    'interact'
+  ],
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-signed-nonce-universal-link',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'okta-verify-uv-verify-universal-link-enable-biometrics-uv-key-not-enrolled-universal-link'
   ],
 };
 

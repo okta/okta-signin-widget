@@ -18,8 +18,9 @@ import {
   FASTPASS_FALLBACK_SPINNER_TIMEOUT,
   IDENTIFIER_FLOW,
   LOOPBACK_RESPONSE_STATUS_CODE,
-  OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP, 
+  OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
+  OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
   REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON,
 } from '../utils/Constants';
 import BrowserFeatures from '../../../util/BrowserFeatures';
@@ -256,13 +257,31 @@ export function getBiometricsErrorOptions(error, isMessageObj) {
     errorSummaryKeys = error?.responseJSON?.errorSummaryKeys;
   }
 
-  const isBiometricsRequiredMobile = errorSummaryKeys 
+  const isBiometricsRequiredMobile = errorSummaryKeys
       && errorSummaryKeys.includes(OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE);
-  const isBiometricsRequiredDesktop = errorSummaryKeys 
+  const isBiometricsRequiredDesktop = errorSummaryKeys
       && errorSummaryKeys.includes(OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP);
+  const isBiometricsRequiredWindows = errorSummaryKeys
+      && errorSummaryKeys.includes(OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS);
   let options = [];
 
-  if (!isBiometricsRequiredMobile && !isBiometricsRequiredDesktop) {
+  if (!isBiometricsRequiredMobile && !isBiometricsRequiredDesktop && !isBiometricsRequiredWindows) {
+    return options;
+  }
+
+  if (isBiometricsRequiredWindows) {
+    options = {
+      type: 'error',
+      className: 'okta-verify-uv-callout-content',
+      title: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.title', 'login'),
+      subtitle: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.description',
+        'login'),
+      bullets: [
+        loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.point1', 'login'),
+        loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.point2', 'login'),
+      ],
+    };
+
     return options;
   }
 

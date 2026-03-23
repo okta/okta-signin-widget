@@ -14,6 +14,8 @@ import identifyWithUserVerificationCustomURI from '../../../playground/mocks/dat
 import identifyWithSSOExtensionFallback from '../../../playground/mocks/data/idp/idx/identify-with-apple-sso-extension-fallback';
 import identifyWithSSOExtensionFallbackWithoutLink from '../../../playground/mocks/data/idp/idx/identify-with-apple-sso-extension-fallback-no-link';
 import identifyWithUserVerificationLaunchUniversalLink from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-universal-link';
+import identifyWithUserVerificationBiometricsGlobalMessageMobile from '../../../playground/mocks/data/idp/idx/okta-verify-uv-verify-universal-link-enable-biometrics-uv-key-not-enrolled-universal-link.json';
+import identifyWithUserVerificationBiometricsGlobalMessageWindows from '../../../playground/mocks/data/idp/idx/okta-verify-uv-verify-custom-uri-enable-biometrics-uv-key-not-enrolled-windows.json';
 import mfaSelect from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
 import loopbackChallengeNotReceived from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received';
 import assureWithLaunchAppLink from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-app-link';
@@ -338,6 +340,18 @@ const universalLinkWithoutLaunchBiometricsErrorMock = RequestMock()
     res.headers['content-type'] = 'application/json';
     res.setBody(identifyWithUserVerificationBiometricsErrorMobile);
   });
+
+const customURIBiometricsGlobalMessageWindowsMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(identifyWithUserVerificationCustomURI)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identifyWithUserVerificationBiometricsGlobalMessageWindows);
+
+const universalLinkBiometricsGlobalMessageMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(identifyWithUserVerificationLaunchUniversalLink)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identifyWithUserVerificationBiometricsGlobalMessageMobile);
 
 const universalLinkLogger = RequestLogger(
   /introspect|probe|cancel|launch|poll/,
@@ -702,6 +716,19 @@ test
   });
 
 test
+  .requestHooks(customURIBiometricsGlobalMessageWindowsMock)('show biometrics error from global messages for windows platform in custom URI', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
+
+    const errorText = deviceChallengePollPageObject.getErrorBoxText();
+    await t.expect(errorText).contains('Enable Windows Hello confirmation in Okta Verify');
+    await t.expect(errorText).contains('To meet your organization\'s requirements, try the following, then return here and sign in again');
+    await t.expect(errorText).contains('Make sure Okta Verify is up-to-date');
+    await t.expect(errorText).contains('In Okta Verify, enable Windows Hello confirmation for your account');
+    await t.expect(errorText).notContains('Your device supports biometrics');
+  });
+
+test
   .requestHooks(universalLinkWithoutLaunchLogger, universalLinkWithoutLaunchMock)('SSO Extension fails and falls back to universal link', async t => {
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getFormTitle()).eql('Sign In');
@@ -729,6 +756,21 @@ test
 
 test
   .requestHooks(universalLinkWithoutLaunchBiometricsErrorMock)('show biometrics error for mobile platform in universal link', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
+
+    const errorText = deviceChallengePollPageObject.getErrorBoxText();
+    await t.expect(errorText).contains('Biometrics needed for Okta Verify');
+    await t.expect(errorText).contains('Your response was received, but your organization requires biometrics.');
+    await t.expect(errorText).contains('Make sure you meet the following requirements, then try again');
+    await t.expect(errorText).contains('Your device supports biometrics');
+    await t.expect(errorText).contains('Okta Verify is up-to-date');
+    await t.expect(errorText).contains('In Okta Verify, biometrics are enabled for your account');
+    await t.expect(errorText).notContains('Your device\'s biometric sensors are accessible');
+  });
+
+test
+  .requestHooks(universalLinkBiometricsGlobalMessageMock)('show biometrics error from global messages for mobile platform in universal link', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
 

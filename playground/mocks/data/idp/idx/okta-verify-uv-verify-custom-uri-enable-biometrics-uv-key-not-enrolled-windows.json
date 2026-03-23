@@ -1,0 +1,243 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "02ZKtFVdKvzW8tMRWh17SnFdrfMyUf7aWsA7SWbImZ",
+    "expiresAt": "2026-03-19T23:54:20.000Z",
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "challenge-poll",
+                "relatesTo": [
+                    "$.currentAuthenticator"
+                ],
+                "href": "http://localhost:3000/idp/idx/authenticators/poll",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "refresh": 4000,
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02ZKtFVdKvzW8tMRWh17SnFdrfMyUf7aWsA7SWbImZ",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "select-authenticator-authenticate",
+                "href": "http://localhost:3000/idp/idx/challenge",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "authenticator",
+                        "type": "object",
+                        "options": [
+                            {
+                                "label": "Okta Verify",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "autusy7CKwUmd0kfj0g4",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "type": "string",
+                                                "required": false,
+                                                "options": [
+                                                    {
+                                                        "label": "Use Okta FastPass",
+                                                        "value": "signed_nonce"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticators.value[0]"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02ZKtFVdKvzW8tMRWh17SnFdrfMyUf7aWsA7SWbImZ",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            }
+        ]
+    },
+    "messages": {
+        "type": "array",
+        "value": [
+            {
+                "message": "Your response was received, but your organization requires Windows Hello confirmation. Make sure Okta Verify is up-to-date and enable Windows Hello confirmation in Okta Verify, then try again.",
+                "i18n": {
+                    "key": "oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows",
+                    "params": []
+                },
+                "class": "ERROR"
+            }
+        ]
+    },
+    "currentAuthenticator": {
+        "type": "object",
+        "value": {
+            "cancel": {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "cancel-polling",
+                "href": "http://localhost:3000/idp/idx/authenticators/poll/cancel",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02ZKtFVdKvzW8tMRWh17SnFdrfMyUf7aWsA7SWbImZ",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            "contextualData": {
+                "challenge": {
+                    "type": "object",
+                    "value": {
+                        "challengeMethod": "CUSTOM_URI",
+                        "href": "okta-verify.html",
+                        "downloadHref": "https://apps.apple.com/us/app/okta-verify/id490179405"
+                    }
+                }
+            },
+            "type": "app",
+            "key": "okta_verify",
+            "id": "autusy7CKwUmd0kfj0g4",
+            "displayName": "Okta Verify",
+            "deviceKnown": true,
+            "methods": [
+                {
+                    "type": "signed_nonce"
+                }
+            ]
+        }
+    },
+    "authenticators": {
+        "type": "array",
+        "value": [
+            {
+                "type": "app",
+                "key": "okta_verify",
+                "id": "autusy7CKwUmd0kfj0g4",
+                "displayName": "Okta Verify",
+                "deviceKnown": true,
+                "methods": [
+                    {
+                        "type": "signed_nonce"
+                    }
+                ],
+                "allowedFor": "none"
+            }
+        ]
+    },
+    "authenticatorEnrollments": {
+        "type": "array",
+        "value": [
+            {
+                "profile": {
+                    "deviceName": "DXQRK9DMVP"
+                },
+                "type": "app",
+                "key": "okta_verify",
+                "id": "pfdutp7MWe9jkDJT90g4",
+                "displayName": "Okta Verify",
+                "methods": [
+                    {
+                        "type": "signed_nonce"
+                    }
+                ]
+            }
+        ]
+    },
+    "user": {
+        "type": "object",
+        "value": {
+            "id": "00uuswxoHK3g5jODA0g4",
+            "identifier": "admin@acme.com",
+            "profile": {
+                "firstName": "Admin",
+                "lastName": "McTester",
+                "timeZone": "America/Los_Angeles",
+                "locale": "en_US",
+                "email": "a***n@acme.com"
+            }
+        }
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "http://localhost:3000/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "02ZKtFVdKvzW8tMRWh17SnFdrfMyUf7aWsA7SWbImZ",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "okta_enduser",
+            "label": "Okta Dashboard",
+            "id": "0oaustjntjMnoN0IL0g4"
+        }
+    },
+    "authentication": {
+        "type": "object",
+        "value": {
+            "protocol": "OAUTH2.0",
+            "issuer": {
+                "name": "atko",
+                "uri": "http://localhost:3000"
+            },
+            "request": {
+                "max_age": -1,
+                "scope": "openid profile email okta.users.read.self okta.users.manage.self okta.internal.enduser.read okta.internal.enduser.manage okta.enduser.dashboard.read okta.enduser.dashboard.manage okta.myAccount.sessions.manage okta.internal.navigation.enduser.read",
+                "display": "page",
+                "response_type": "code",
+                "redirect_uri": "http://localhost:3000/enduser/callback",
+                "state": "hXErE0o2WEK8orZgI1Lrkze5nuSFOsQK66W7LJHb2Y39xyT85oH9sTWuw6wNjkO7",
+                "code_challenge_method": "S256",
+                "nonce": "rOg3EGexsv4p0vrMERv0iTfJkD9P3w74p16rENyRvdbo5Gh3xtOXlsBFVb7vtzzV",
+                "code_challenge": "iqWzA-6zXrXJBCrUe7nLa0a3IDP114pSRRhs7WcN5VQ",
+                "response_mode": "query"
+            }
+        }
+    }
+}

@@ -13,6 +13,7 @@
 import {
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
+  OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
   TERMINAL_KEY,
 } from '../../constants';
 import {
@@ -81,6 +82,28 @@ const appendBiometricsErrorBox = (
         class: 'ERROR',
         title: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.title', 'login'),
         description: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.description', 'login'),
+        message: listMessages,
+      },
+    },
+  } as InfoboxElement);
+};
+
+const appendWindowsBiometricsErrorBox = (uischema: UISchemaLayout) => {
+  const listMessages: WidgetMessage[] = [
+    loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.point1', 'login'),
+    loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.point2', 'login'),
+  ].map((msg: string) => ({ class: 'INFO', message: msg }));
+
+  uischema.elements.push({
+    type: 'InfoBox',
+    options: {
+      class: 'ERROR',
+      dataSe: 'callout',
+      message: {
+        type: 'list',
+        class: 'ERROR',
+        title: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.title', 'login'),
+        description: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.description', 'login'),
         message: listMessages,
       },
     },
@@ -179,14 +202,22 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
     displayedMessages.unshift(deviceNotActivatedAsErrorMessage);
   } else if (
     containsOneOfMessageKeys(
-      [OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE, OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP],
+      [
+        OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
+        OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
+        OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
+      ],
       displayedMessages,
     )
   ) {
-    appendBiometricsErrorBox(
-      uischema,
-      containsMessageKey(OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP, displayedMessages),
-    );
+    if (containsMessageKey(OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS, displayedMessages)) {
+      appendWindowsBiometricsErrorBox(uischema);
+    } else {
+      appendBiometricsErrorBox(
+        uischema,
+        containsMessageKey(OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP, displayedMessages),
+      );
+    }
     return formBag;
   }
 
