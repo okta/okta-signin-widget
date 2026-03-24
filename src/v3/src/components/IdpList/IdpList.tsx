@@ -38,11 +38,12 @@ const IdpList: UISchemaElementComponent<{
     )
     : buttons;
 
-  const statusText = filterQuery.trim()
-    ? (filteredButtons.length === 0
+  let statusText = '';
+  if (filterQuery.trim()) {
+    statusText = filteredButtons.length === 0
       ? loc('idps.search.no.results', 'login')
-      : loc('idps.search.results.count', 'login', [String(filteredButtons.length)]))
-    : '';
+      : loc('idps.search.results.count', 'login', [String(filteredButtons.length)]);
+  }
 
   return (
     <Box
