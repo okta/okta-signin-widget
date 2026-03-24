@@ -33,6 +33,7 @@ import DuoWindow from '../DuoWindow';
 import Heading from '../Heading';
 import HiddenInput from '../HiddenInput';
 import IdentifierContainer from '../IdentifierContainer';
+import IdpList from '../IdpList';
 import ImageLink from '../ImageLink';
 import ImageWithText from '../ImageWithText';
 import InfoBox from '../InfoBox';
@@ -99,6 +100,10 @@ export default [
   {
     tester: ({ type }) => type === 'AuthenticatorButtonList',
     renderer: AuthenticatorButtonList,
+  },
+  {
+    tester: ({ type }) => type === 'IdpList',
+    renderer: IdpList,
   },
   {
     tester: ({ type }) => type === 'PasswordRequirements',

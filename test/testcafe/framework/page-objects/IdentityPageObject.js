@@ -304,6 +304,42 @@ export default class IdentityPageObject extends BasePageObject {
     return this.getIdpsContainer().childElementCount;
   }
 
+  // --- IdP search/scroll helpers (shared selectors for v2 and v3) ---
+
+  getIdpSearchInput() {
+    return Selector('[data-se="idp-search-input"]');
+  }
+
+  idpSearchInputExists() {
+    return this.getIdpSearchInput().exists;
+  }
+
+  async fillIdpSearchInput(value) {
+    const input = this.getIdpSearchInput();
+    await this.t.selectText(input).pressKey('delete').typeText(input, value);
+  }
+
+  async clearIdpSearchInput() {
+    const input = this.getIdpSearchInput();
+    await this.t.selectText(input).pressKey('delete');
+  }
+
+  getIdpNoResultsMessage() {
+    return Selector('[data-se="idp-no-results"]');
+  }
+
+  getIdpScrollContainer() {
+    return Selector('[data-se="idp-list-container"]');
+  }
+
+  async getVisibleIdpButtonCount() {
+    if (userVariables.gen3) {
+      const container = Selector('[data-se="idp-list-container"]');
+      return within(container).queryAllByRole('button', { name: /Sign in with/}).count;
+    }
+    return Selector('[data-se="idp-list-container"] .link-button').filterVisible().count;
+  }
+
   async clickShowPasswordIcon() {
     if (userVariables.gen3) {
       const pwToggleBtn = within(this.form.el).getAllByRole('button', { name: 'Show password' }).nth(0);

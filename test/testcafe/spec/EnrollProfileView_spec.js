@@ -13,6 +13,7 @@ import EnrollProfileSignUpWithPassword from '../../../playground/mocks/data/idp/
 import EnrollProfileSignUpWithPasswordReturnsError from '../../../playground/mocks/data/idp/idx/enroll-profile-with-password-returns-error.json';
 import EnrollProfileSignUpWithPasswordReturnsMultipleErrors from '../../../playground/mocks/data/idp/idx/enroll-profile-with-password-returns-multiple-errors.json';
 import EnrollProfileSignUpWithIdps from '../../../playground/mocks/data/idp/idx/enroll-profile-with-idps.json';
+import EnrollProfileSignUpWithManyIdps from '../../../playground/mocks/data/idp/idx/enroll-profile-with-many-idps.json';
 
 
 const EnrollProfileSignUpMock = RequestMock()
@@ -72,6 +73,12 @@ const EnrollProfileSignUpWIthIdpsMock = RequestMock()
   .respond(Identify)
   .onRequestTo('http://localhost:3000/idp/idx/enroll')
   .respond(EnrollProfileSignUpWithIdps);
+
+const EnrollProfileSignUpWithManyIdpsMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(Identify)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll')
+  .respond(EnrollProfileSignUpWithManyIdps);
 
 const requestLogger = RequestLogger(
   /idx\/*/,
@@ -330,6 +337,9 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Should render
   await t.expect(enrollProfilePage.getIdpButton('Sign in with Google').exists).eql(true);
   await t.expect(enrollProfilePage.getIdpButton('Sign in with LinkedIn').exists).eql(true);
   await t.expect(enrollProfilePage.getIdpButton('Sign in with Microsoft').exists).eql(true);
+
+  // with <= 10 IdPs, search input should NOT be rendered
+  await t.expect(enrollProfilePage.idpSearchInputExists()).notOk();
 });
 
 test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Clicking IDP buttons does redirect', async t => {
@@ -362,4 +372,45 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('custom idps s
   await t.expect(enrollProfilePage.getIdpButtonCount()).eql(8);
   await t.expect(enrollProfilePage.getIdpButton('Sign in with My SAML IDP').exists).eql(true);
   await t.expect(enrollProfilePage.getIdpButton('Sign in with SAML IDP').exists).eql(true);
+});
+
+// --- Many IdPs (>10) on Enroll Profile ---
+
+test.requestHooks(requestLogger, EnrollProfileSignUpWithManyIdpsMock)('enroll profile with many IdPs should render search input', async t => {
+  const enrollProfilePage = await setup(t);
+  await enrollProfilePage.clickSignUpLink();
+  await checkA11y(t);
+
+  await t.expect(enrollProfilePage.idpSearchInputExists()).ok();
+  await t.expect(enrollProfilePage.getIdpScrollContainer().exists).ok();
+});
+
+test.requestHooks(requestLogger, EnrollProfileSignUpWithManyIdpsMock)('enroll profile with many IdPs should filter by search', async t => {
+  const enrollProfilePage = await setup(t);
+  await enrollProfilePage.clickSignUpLink();
+
+  // all IdP buttons should be visible initially
+  const totalCount = await enrollProfilePage.getVisibleIdpButtonCount();
+  await t.expect(totalCount).gte(10);
+
+  // filter to only one
+  await enrollProfilePage.fillIdpSearchInput('Google');
+  const filteredCount = await enrollProfilePage.getVisibleIdpButtonCount();
+  await t.expect(filteredCount).eql(1);
+
+  // clear restores full list
+  await enrollProfilePage.clearIdpSearchInput();
+  const restoredCount = await enrollProfilePage.getVisibleIdpButtonCount();
+  await t.expect(restoredCount).gte(10);
+});
+
+test.requestHooks(requestLogger, EnrollProfileSignUpWithManyIdpsMock)('enroll profile with many IdPs should show no results message', async t => {
+  const enrollProfilePage = await setup(t);
+  await enrollProfilePage.clickSignUpLink();
+
+  await enrollProfilePage.fillIdpSearchInput('nonexistent-idp');
+
+  const noResults = enrollProfilePage.getIdpNoResultsMessage();
+  await t.expect(noResults.visible).ok();
+  await t.expect(noResults.textContent).contains('No results found');
 });

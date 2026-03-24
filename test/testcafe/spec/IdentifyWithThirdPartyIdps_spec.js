@@ -105,6 +105,9 @@ test.requestHooks(mockWithIdentify) ('should render idp buttons with identifier 
   await t.expect(identityPage.getIdpButton('Sign in with Google').exists).eql(true);
   await t.expect(identityPage.getIdpButton('Sign in with LinkedIn').exists).eql(true);
   await t.expect(identityPage.getIdpButton('Sign in with Microsoft').exists).eql(true);
+
+  // with <= 10 IdPs, search input should NOT be rendered
+  await t.expect(identityPage.idpSearchInputExists()).notOk();
 });
 
 test

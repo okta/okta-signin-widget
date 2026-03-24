@@ -49,11 +49,35 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
   const customButtonElements = containsIdentifyStep ? getCustomButtonElements(widgetProps) : [];
   // Only identify step contains sign in with passkey button
   const signInWithPasskeyButtonElement = getSignInWithPasskeyButtonElement(transaction);
-  const buttonsToAdd = [
+
+  // When there are many IdPs (IdpList element), separate PIV buttons from the
+  // IdP list so PIV sits with other special action buttons above the divider
+  const hasIdpList = idpButtonElements.some((el) => el.type === 'IdpList');
+  const pivButtons = hasIdpList
+    ? idpButtonElements.filter((el) => el.type === 'Button' && (el as any).options?.dataSe?.includes('piv-card-button'))
+    : [];
+  const idpElements = hasIdpList
+    ? idpButtonElements.filter((el) => !pivButtons.includes(el))
+    : idpButtonElements;
+
+  // Special action buttons (FastPass, PIV, passkey) that sit above the IdP list
+  const specialButtons = [
     ...fastPassButtonElement,
-    ...idpButtonElements,
+    ...pivButtons,
     ...customButtonElements,
     ...signInWithPasskeyButtonElement,
+  ];
+
+  // When there are both special buttons and an IdpList (many IdPs),
+  // insert an "or" divider between the two groups
+  const idpDivider: DividerElement[] = (specialButtons.length > 0 && hasIdpList)
+    ? [{ type: 'Divider', options: { text: loc('socialauth.divider.text', 'login') } }]
+    : [];
+
+  const buttonsToAdd = [
+    ...specialButtons,
+    ...idpDivider,
+    ...idpElements,
   ];
 
   if (buttonsToAdd.length < 1) {
