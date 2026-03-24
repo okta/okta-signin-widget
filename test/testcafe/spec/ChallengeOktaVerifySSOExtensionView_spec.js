@@ -5,6 +5,7 @@ import identifyUserVerificationWithCredentialSSOExtension from '../../../playgro
 import identifyWithNoAppleCredentialSSOExtension from '../../../playground/mocks/data/idp/idx/identify-with-no-sso-extension';
 import identifyWithUserVerificationBiometricsErrorDesktop from '../../../playground/mocks/data/idp/idx/error-okta-verify-uv-fastpass-verify-enable-biometrics-desktop.json';
 import identifyWithUserVerificationBiometricsErrorMobile from '../../../playground/mocks/data/idp/idx/error-400-okta-verify-uv-fastpass-verify-enable-biometrics-mobile.json';
+import identifyWithUserVerificationBiometricsGlobalMessageMobile from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-credential-sso-extension-biometrics-global-message.json';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import { Constants } from '../framework/shared';
 import { getStateHandleFromSessionStorage } from '../framework/shared';
@@ -31,6 +32,12 @@ const credentialSSONotExistMock = RequestMock()
   .onRequestTo(/idp\/idx\/authenticators\/sso_extension\/transactions\/456\/verify\/cancel/)
   .respond(identify);
 
+
+const credentialSSOExtensionBiometricsGlobalMessageMobileMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(identifyUserVerificationWithCredentialSSOExtension)
+  .onRequestTo(verifyUrl)
+  .respond(identifyWithUserVerificationBiometricsGlobalMessageMobile);
 
 const credentialSSOExtensionBiometricsErrorDesktopMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
@@ -134,3 +141,20 @@ test
     await t.expect(errorText).contains('In Okta Verify, biometrics are enabled for your account');
     await t.expect(errorText).contains('Your device\'s biometric sensors are accessible');
   });
+
+test
+  .requestHooks(credentialSSOExtensionBiometricsGlobalMessageMobileMock)('show biometrics error from global messages for mobile platform in credential SSO Extension', async t => {
+    const ssoExtensionPage = new BasePageObject(t);
+    await ssoExtensionPage.navigateToPage();
+    await t.expect(ssoExtensionPage.formExists()).ok();
+
+    const errorText = ssoExtensionPage.getErrorBoxText();
+    await t.expect(errorText).contains('Biometrics needed for Okta Verify');
+    await t.expect(errorText).contains('Your response was received, but your organization requires biometrics.');
+    await t.expect(errorText).contains('Make sure you meet the following requirements, then try again');
+    await t.expect(errorText).contains('Your device supports biometrics');
+    await t.expect(errorText).contains('Okta Verify is up-to-date');
+    await t.expect(errorText).contains('In Okta Verify, biometrics are enabled for your account');
+    await t.expect(errorText).notContains('Your device\'s biometric sensors are accessible');
+  });
+

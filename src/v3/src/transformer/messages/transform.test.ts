@@ -10,7 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { OV_NMC_FORCE_UPGRADE_SERVER_KEY, OV_UV_ENABLE_BIOMETRIC_SERVER_KEY, OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY } from 'src/constants';
+import {
+  OV_NMC_FORCE_UPGRADE_SERVER_KEY,
+  OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
+  OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
+  OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
+  OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
+  OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY,
+} from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import { InfoboxElement, WidgetProps } from 'src/types';
 
@@ -178,6 +185,90 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         ],
         description: 'oie.authenticator.app.method.push.verify.enable.biometrics.description',
         title: 'oie.authenticator.app.method.push.verify.enable.biometrics.title',
+      });
+  });
+
+  it('should add message list with 3 bullets when FastPass mobile biometrics key exists', () => {
+    transaction.messages = [
+      {
+        message: 'FastPass mobile biometrics error.',
+        class: 'ERROR',
+        i18n: { key: OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE },
+      },
+    ];
+    const updatedFormBag = transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
+      .toBe('ERROR');
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
+      .toEqual({
+        class: 'ERROR',
+        message: [
+          { class: 'INFO', message: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point1' },
+          { class: 'INFO', message: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point2' },
+          { class: 'INFO', message: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point3' },
+        ],
+        description: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.description',
+        title: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.title',
+      });
+  });
+
+  it('should add message list with 4 bullets when FastPass desktop biometrics key exists', () => {
+    transaction.messages = [
+      {
+        message: 'FastPass desktop biometrics error.',
+        class: 'ERROR',
+        i18n: { key: OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP },
+      },
+    ];
+    const updatedFormBag = transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
+      .toBe('ERROR');
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
+      .toEqual({
+        class: 'ERROR',
+        message: [
+          { class: 'INFO', message: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point1' },
+          { class: 'INFO', message: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point2' },
+          { class: 'INFO', message: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point3' },
+          { class: 'INFO', message: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point4' },
+        ],
+        description: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.description',
+        title: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.title',
+      });
+  });
+
+  it('should add message list with 2 bullets when FastPass Windows biometrics key exists', () => {
+    transaction.messages = [
+      {
+        message: 'FastPass Windows biometrics error.',
+        class: 'ERROR',
+        i18n: { key: OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS },
+      },
+    ];
+    const updatedFormBag = transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
+      .toBe('ERROR');
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
+      .toEqual({
+        class: 'ERROR',
+        message: [
+          { class: 'INFO', message: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.point1' },
+          { class: 'INFO', message: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.point2' },
+        ],
+        description: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.description',
+        title: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.title',
       });
   });
 });

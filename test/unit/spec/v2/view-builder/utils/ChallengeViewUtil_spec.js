@@ -1,4 +1,4 @@
-import {doChallenge} from '../../../../../../src/v2/view-builder/utils/ChallengeViewUtil';
+import {doChallenge, getBiometricsErrorOptions} from '../../../../../../src/v2/view-builder/utils/ChallengeViewUtil';
 import { loc, View, createButton } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import BrowserFeatures from '../../../../../../src/util/BrowserFeatures';
@@ -297,6 +297,128 @@ describe('v2/utils/ChallengeViewUtil', function() {
             <div class="spinner"></div>
           `.call());
     expect(testView.doChromeDTC).toHaveBeenCalledWith(deviceChallenge);
+  });
+
+  describe('getBiometricsErrorOptions', function() {
+    describe('with HTTP 400 error response (isMessageObj=false)', function() {
+      it('returns empty array for non-biometrics error', function() {
+        const error = {
+          responseJSON: {
+            errorSummaryKeys: ['some.other.error.key']
+          }
+        };
+        const result = getBiometricsErrorOptions(error, false);
+        expect(result).toEqual([]);
+      });
+
+      it('returns formatted options for mobile biometrics error', function() {
+        const error = {
+          responseJSON: {
+            errorSummaryKeys: ['oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.mobile']
+          }
+        };
+        const result = getBiometricsErrorOptions(error, false);
+        expect(result.type).toBe('error');
+        expect(result.className).toBe('okta-verify-uv-callout-content');
+        expect(result.title).toBe(loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.title', 'login'));
+        expect(result.subtitle).toBe(loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.description', 'login'));
+        expect(result.bullets).toHaveLength(3);
+      });
+
+      it('returns formatted options for desktop biometrics error with 4 bullet points', function() {
+        const error = {
+          responseJSON: {
+            errorSummaryKeys: ['oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.desktop']
+          }
+        };
+        const result = getBiometricsErrorOptions(error, false);
+        expect(result.type).toBe('error');
+        expect(result.className).toBe('okta-verify-uv-callout-content');
+        expect(result.title).toBe(loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.title', 'login'));
+        expect(result.bullets).toHaveLength(4);
+      });
+
+      it('returns Windows-specific formatted options for windows biometrics error', function() {
+        const error = {
+          responseJSON: {
+            errorSummaryKeys: ['oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows']
+          }
+        };
+        const result = getBiometricsErrorOptions(error, false);
+        expect(result.type).toBe('error');
+        expect(result.className).toBe('okta-verify-uv-callout-content');
+        expect(result.title).toBe(loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.title', 'login'));
+        expect(result.subtitle).toBe(loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.description', 'login'));
+        expect(result.bullets).toHaveLength(2);
+      });
+    });
+
+    describe('with global message object (isMessageObj=true)', function() {
+      it('returns formatted options for mobile biometrics global message', function() {
+        const messages = {
+          value: [{
+            message: 'biometrics error',
+            i18n: {
+              key: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.mobile',
+            },
+            class: 'ERROR'
+          }]
+        };
+        const result = getBiometricsErrorOptions(messages, true);
+        expect(result.type).toBe('error');
+        expect(result.className).toBe('okta-verify-uv-callout-content');
+        expect(result.title).toBe(loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.title', 'login'));
+        expect(result.bullets).toHaveLength(3);
+      });
+
+      it('returns formatted options for desktop biometrics global message with 4 bullet points', function() {
+        const messages = {
+          value: [{
+            message: 'biometrics error',
+            i18n: {
+              key: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.desktop',
+            },
+            class: 'ERROR'
+          }]
+        };
+        const result = getBiometricsErrorOptions(messages, true);
+        expect(result.type).toBe('error');
+        expect(result.title).toBe(loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.title', 'login'));
+        expect(result.bullets).toHaveLength(4);
+      });
+
+      it('returns Windows-specific formatted options for windows biometrics global message', function() {
+        const messages = {
+          value: [{
+            message: 'windows hello error',
+            i18n: {
+              key: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows',
+            },
+            class: 'ERROR'
+          }]
+        };
+        const result = getBiometricsErrorOptions(messages, true);
+        expect(result.type).toBe('error');
+        expect(result.className).toBe('okta-verify-uv-callout-content');
+        expect(result.title).toBe(loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.title', 'login'));
+        expect(result.subtitle).toBe(loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.description', 'login'));
+        expect(result.bullets).toHaveLength(2);
+      });
+
+      it('returns empty array for non-biometrics global message', function() {
+        const messages = {
+          value: [{
+            message: 'some other error',
+            i18n: {
+              key: 'some.other.key',
+            },
+            class: 'ERROR'
+          }]
+        };
+        const result = getBiometricsErrorOptions(messages, true);
+        expect(result).toEqual([]);
+      });
+    });
   });
 
 });

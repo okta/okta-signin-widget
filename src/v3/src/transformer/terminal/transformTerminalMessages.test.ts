@@ -13,7 +13,12 @@
 import { IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
 import { DescriptionElement, InfoboxElement } from 'src/types';
 
-import { TERMINAL_KEY } from '../../constants';
+import {
+  OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
+  OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
+  OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
+  TERMINAL_KEY,
+} from '../../constants';
 import { getStubFormBag, getStubTransaction } from '../../mocks/utils/utils';
 import { transformTerminalMessages } from './transformTerminalMessages';
 
@@ -262,5 +267,74 @@ describe('Terminal Message Transformer Tests', () => {
     const updatedFormBag = transformTerminalMessages(transaction, formBag);
 
     expect(updatedFormBag).toEqual(customFormBag);
+  });
+
+  it('should add biometrics error InfoBox with mobile-specific content for mobile biometrics key', () => {
+    transaction.messages?.push(getMockMessage(
+      'Enable biometrics on mobile',
+      'ERROR',
+      OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
+    ));
+    const updatedFormBag = transformTerminalMessages(transaction, formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
+    const infoBox = updatedFormBag.uischema.elements[0] as InfoboxElement;
+    expect(infoBox.options?.class).toBe('ERROR');
+    expect(infoBox.options?.message).toEqual(expect.objectContaining({
+      type: 'list',
+      class: 'ERROR',
+      title: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.title',
+      description: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.description',
+    }));
+    // Mobile: 3 bullet points (no point4)
+    expect((infoBox.options?.message as any).message).toHaveLength(3);
+  });
+
+  it('should add biometrics error InfoBox with desktop-specific content for desktop biometrics key', () => {
+    transaction.messages?.push(getMockMessage(
+      'Enable biometrics on desktop',
+      'ERROR',
+      OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
+    ));
+    const updatedFormBag = transformTerminalMessages(transaction, formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
+    const infoBox = updatedFormBag.uischema.elements[0] as InfoboxElement;
+    expect(infoBox.options?.class).toBe('ERROR');
+    expect(infoBox.options?.message).toEqual(expect.objectContaining({
+      type: 'list',
+      class: 'ERROR',
+      title: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.title',
+      description: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.description',
+    }));
+    // Desktop: 4 bullet points (includes point4)
+    expect((infoBox.options?.message as any).message).toHaveLength(4);
+  });
+
+  it('should add biometrics error InfoBox with Windows-specific content for Windows biometrics key', () => {
+    transaction.messages?.push(getMockMessage(
+      'Enable Windows Hello',
+      'ERROR',
+      OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
+    ));
+    const updatedFormBag = transformTerminalMessages(transaction, formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
+    const infoBox = updatedFormBag.uischema.elements[0] as InfoboxElement;
+    expect(infoBox.options?.class).toBe('ERROR');
+    expect(infoBox.options?.message).toEqual(expect.objectContaining({
+      type: 'list',
+      class: 'ERROR',
+      title: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.title',
+      description: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.description',
+    }));
+    // Windows: 2 bullet points
+    const listMessages = (infoBox.options?.message as any).message;
+    expect(listMessages).toHaveLength(2);
+    expect(listMessages[0].message).toBe('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.point1');
+    expect(listMessages[1].message).toBe('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.point2');
   });
 });
