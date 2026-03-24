@@ -174,8 +174,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       if (Bundles.isLoaded(languageCode)) {
         Bundles.remove();
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
@@ -217,7 +217,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   };
 
   const bootstrap = useCallback(async () => {
-    const usingStateHandleFromSession = stateHandle && stateHandle === SessionStorage.getStateHandle();
+    const usingStateHandleFromSession = stateHandle
+      && stateHandle === SessionStorage.getStateHandle();
     await initLanguage();
     try {
       if (typeof proxyIdxResponse !== 'undefined') {
@@ -596,6 +597,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         // shadowRootElement is only used for Modal related component, pass a boolean value should have no impact on SIW rendering
         // Reference: https://github.com/okta/odyssey/blob/c9adec8f075d586aa9c8f627ba09677c14efc4ba/packages/core/odyssey-react-mui/src/OdysseyCacheProvider.tsx#L68
         // TODO: expose official prop from OdysseyProvider https://oktainc.atlassian.net/browse/OKTA-1024166
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         shadowRootElement={true as any}
       >
         <GlobalStyles />
