@@ -408,6 +408,24 @@ describe('v2/view-builder/views/IdentifierView', function() {
         expectErrorSuppressed: true
       },
       {
+        description: 'should suppress error when navigator.credentials.get rejects with ABORT_REASON_CLEANUP string',
+        errorMessage: null, // not a DOMException, just a string
+        errorName: null,
+        errorCode: null,
+        isAbortReasonCleanup: true,
+        isRelyingPartyIdMismatch: false,
+        expectErrorSuppressed: true
+      },
+      {
+        description: 'should show user-friendly error when navigator.credentials.get throws NotAllowedError',
+        errorMessage: 'The request is not allowed.',
+        errorName: 'NotAllowedError',
+        errorCode: 0,
+        isRelyingPartyIdMismatch: false,
+        expectErrorSuppressed: false,
+        expectFriendlyError: true
+      },
+      {
         description: 'should show error when navigator.credentials.get throws non-Relying Party ID mismatch error',
         errorMessage: 'Unsuppressed WebAuthn error',
         errorName: 'UnsuppressedError',
@@ -415,11 +433,16 @@ describe('v2/view-builder/views/IdentifierView', function() {
         isRelyingPartyIdMismatch: false,
         expectErrorSuppressed: false
       }
-    ])('$description', async function({ errorMessage, errorName, errorCode, expectErrorSuppressed }) {
-      const error = new Error(errorMessage);
-      error.name = errorName;
-      error.code = errorCode;
-      const credentialsGetMock = jest.fn().mockRejectedValue(error);
+    ])('$description', async function({ errorMessage, errorName, errorCode, isAbortReasonCleanup, expectErrorSuppressed, expectFriendlyError }) {
+      let rejection;
+      if (isAbortReasonCleanup) {
+        rejection = 'WebAuthNAutofill component cleanup';
+      } else {
+        rejection = new Error(errorMessage);
+        rejection.name = errorName;
+        rejection.code = errorCode;
+      }
+      const credentialsGetMock = jest.fn().mockRejectedValue(rejection);
 
       Object.defineProperty(global, 'navigator', {
         value: { credentials: { get: credentialsGetMock } },
@@ -431,12 +454,187 @@ describe('v2/view-builder/views/IdentifierView', function() {
       await testContext.view.form.getCredentialsAndInvokeAction();
 
       if (expectErrorSuppressed) {
-        // Check that NO error message is displayed in the UI (error was suppressed)
         expect(testContext.view.$el.find('.infobox-error p').length).toBe(0);
+      } else if (expectFriendlyError) {
+        // NotAllowedError should show the localized passkey error, not the raw browser message
+        expect(testContext.view.$el.find('.infobox-error p').length).toBe(1);
       } else {
-        // Check that an error message IS displayed in the UI (error was not suppressed)
         expect(testContext.view.$el.find('.infobox-error p').text()).toContain(errorMessage);
       }
+    });
+  });
+
+  describe('Modal passkey error handling', function() {
+    beforeEach(function() {
+      jest.spyOn(AppState.prototype, 'get').mockImplementation((key) => {
+        const mockData = {
+          'idx': { neededToProceed: [] },
+          'webauthnAutofillUIChallenge': { challengeData: { challenge: 'test-challenge' } },
+          'neededToProceed': [],
+          'remediations': [],
+          'currentAuthenticator': { profile: {} },
+          'currentAuthenticatorEnrollment': { profile: {} }
+        };
+        return mockData[key] || null;
+      });
+
+      jest.spyOn(AppState.prototype, 'hasRemediationObject').mockImplementation(remediation => {
+        return remediation === FORMS.LAUNCH_PASSKEYS_AUTHENTICATOR;
+      });
+      jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+      jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(true);
+      jest.spyOn(webauthn, 'isPasskeyAvailable').mockReturnValue(true);
+
+      global.AbortController = jest.fn().mockImplementation(() => ({
+        signal: {},
+        abort: jest.fn()
+      }));
+    });
+
+    it.each([
+      {
+        description: 'should suppress AbortError (e.g., rapid button presses on iOS)',
+        errorMessage: 'The operation was aborted.',
+        errorName: 'AbortError',
+        errorCode: 20,
+        expectErrorSuppressed: true
+      },
+      {
+        description: 'should suppress ABORT_REASON_CLEANUP string',
+        errorMessage: null,
+        errorName: null,
+        errorCode: null,
+        isAbortReasonCleanup: true,
+        expectErrorSuppressed: true
+      },
+      {
+        description: 'should show user-friendly error for NotAllowedError (e.g., user cancels passkey prompt)',
+        errorMessage: 'The request is not allowed.',
+        errorName: 'NotAllowedError',
+        errorCode: 0,
+        expectErrorSuppressed: false,
+        expectFriendlyError: true
+      },
+      {
+        description: 'should NOT suppress Relying Party ID mismatch error (unlike autofill UI, this is user-initiated)',
+        errorMessage: 'Relying Party ID mismatch',
+        errorName: 'SecurityError',
+        errorCode: 18,
+        expectErrorSuppressed: false
+      },
+      {
+        description: 'should show error for unknown errors',
+        errorMessage: 'Unknown WebAuthn error',
+        errorName: 'UnknownError',
+        errorCode: undefined,
+        expectErrorSuppressed: false
+      }
+    ])('$description', async function({ errorMessage, errorName, errorCode, isAbortReasonCleanup, expectErrorSuppressed, expectFriendlyError }) {
+      let rejection;
+      if (isAbortReasonCleanup) {
+        rejection = 'WebAuthNAutofill component cleanup';
+      } else {
+        rejection = new Error(errorMessage);
+        rejection.name = errorName;
+        rejection.code = errorCode;
+      }
+      const credentialsGetMock = jest.fn().mockRejectedValue(rejection);
+
+      Object.defineProperty(global, 'navigator', {
+        value: { credentials: { get: credentialsGetMock } },
+        writable: true
+      });
+
+      testContext.init(XHRIdentifyWithPasskeys.remediation.value);
+
+      await testContext.view.form.getCredentialsForModalAndInvokeAction();
+
+      if (expectErrorSuppressed) {
+        expect(testContext.view.$el.find('.infobox-error p').length).toBe(0);
+      } else if (expectFriendlyError) {
+        expect(testContext.view.$el.find('.infobox-error p').length).toBe(1);
+      } else {
+        expect(testContext.view.$el.find('.infobox-error p').text()).toContain(errorMessage);
+      }
+    });
+  });
+
+  describe('Modal passkey in-flight guard', function() {
+    beforeEach(function() {
+      jest.spyOn(AppState.prototype, 'get').mockImplementation((key) => {
+        const mockData = {
+          'idx': { neededToProceed: [] },
+          'webauthnAutofillUIChallenge': { challengeData: { challenge: 'test-challenge' } },
+          'neededToProceed': [],
+          'remediations': [],
+          'currentAuthenticator': { profile: {} },
+          'currentAuthenticatorEnrollment': { profile: {} }
+        };
+        return mockData[key] || null;
+      });
+
+      jest.spyOn(AppState.prototype, 'hasRemediationObject').mockImplementation(remediation => {
+        return remediation === FORMS.LAUNCH_PASSKEYS_AUTHENTICATOR;
+      });
+      jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+      jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(true);
+      jest.spyOn(webauthn, 'isPasskeyAvailable').mockReturnValue(true);
+
+      global.AbortController = jest.fn().mockImplementation(() => ({
+        signal: {},
+        abort: jest.fn()
+      }));
+    });
+
+    it('should prevent concurrent modal passkey requests when button is pressed rapidly', async function() {
+      // Simulate a long-running navigator.credentials.get that never resolves during the test
+      let resolveCredentials;
+      const credentialsGetMock = jest.fn().mockImplementation(() => {
+        return new Promise((resolve) => { resolveCredentials = resolve; });
+      });
+
+      Object.defineProperty(global, 'navigator', {
+        value: { credentials: { get: credentialsGetMock } },
+        writable: true
+      });
+
+      testContext.init(XHRIdentifyWithPasskeys.remediation.value);
+
+      // First call — should proceed and call navigator.credentials.get
+      const firstCall = testContext.view.form.getCredentialsForModalAndInvokeAction();
+      // Allow microtasks to process
+      await Promise.resolve();
+
+      // Second call — should be blocked by the in-flight guard
+      const secondCall = testContext.view.form.getCredentialsForModalAndInvokeAction();
+      await Promise.resolve();
+
+      // navigator.credentials.get should only have been called once
+      expect(credentialsGetMock).toHaveBeenCalledTimes(1);
+
+      // Resolve the first call to clean up
+      resolveCredentials(null);
+      await firstCall;
+      await secondCall;
+    });
+
+    it('should allow a new request after the previous one completes', async function() {
+      const credentialsGetMock = jest.fn().mockResolvedValue(null);
+
+      Object.defineProperty(global, 'navigator', {
+        value: { credentials: { get: credentialsGetMock } },
+        writable: true
+      });
+
+      testContext.init(XHRIdentifyWithPasskeys.remediation.value);
+
+      // First call — completes normally
+      await testContext.view.form.getCredentialsForModalAndInvokeAction();
+      expect(credentialsGetMock).toHaveBeenCalledTimes(1);
+
+      // Second call — should proceed since the first one finished
+      await testContext.view.form.getCredentialsForModalAndInvokeAction();
+      expect(credentialsGetMock).toHaveBeenCalledTimes(2);
     });
   });
 

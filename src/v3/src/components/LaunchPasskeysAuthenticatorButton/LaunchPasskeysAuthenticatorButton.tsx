@@ -11,6 +11,7 @@
  */
 
 import { Button as OdyButton, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { useRef } from 'preact/hooks';
 import { ABORT_REASON_CLEANUP, IDX_STEP } from 'src/constants';
 import { useWidgetContext } from 'src/contexts';
 import { useAutoFocus, useOnSubmit } from 'src/hooks';
@@ -36,10 +37,13 @@ const LaunchPasskeysAuthenticatorButton: UISchemaElementComponent<{
     abortController,
   } = useWidgetContext();
 
+  const isModalPasskeyInFlight = useRef(false);
+
   const handleClick: ClickHandler = async () => {
-    if (typeof AbortController === 'undefined') {
+    if (typeof AbortController === 'undefined' || isModalPasskeyInFlight.current) {
       return;
     }
+    isModalPasskeyInFlight.current = true;
 
     // Abort any existing in-flight autofill requests
     if (abortController && !abortController.signal.aborted) {
@@ -74,6 +78,8 @@ const LaunchPasskeysAuthenticatorButton: UISchemaElementComponent<{
         class: 'ERROR',
         i18n: { key },
       });
+    } finally {
+      isModalPasskeyInFlight.current = false;
     }
   };
 
