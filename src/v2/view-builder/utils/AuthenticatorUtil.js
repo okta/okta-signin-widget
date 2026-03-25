@@ -157,13 +157,18 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
     
     const description = getWebAuthnDescriptionConfig(authenticator, displayName, isVerifyAuthenticator);
     
+    // Use passkeys icon when displayName is "Passkeys"
+    const iconClassName = displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS
+      ? 'mfa-passkeys'
+      : 'mfa-webauthn';
+    
     const labelKey = isVerifyAuthenticator
       ? getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.SELECT_VERIFY_LABEL, displayName)
       : getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.SELECT_ENROLL_LABEL, displayName);
     
     Object.assign(authenticatorData, {
       description,
-      iconClassName: 'mfa-webauthn',
+      iconClassName,
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
       ariaLabel: loc(labelKey, 'login', params)
     });
@@ -416,7 +421,12 @@ export function getAuthenticatorDataForVerification(authenticator) {
   return getAuthenticatorData(authenticator, true);
 }
 
-export function getIconClassNameForBeacon(authenticatorKey, idvName) {
+export function getIconClassNameForBeacon(authenticatorKey, idvName, displayName) {
+  // Handle WebAuthn with Passkeys displayName
+  if (authenticatorKey === AUTHENTICATOR_KEY.WEBAUTHN &&
+      displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS) {
+    return 'mfa-passkeys';
+  }
   return getAuthenticatorData({ authenticatorKey }).iconClassName || getIDProofingData(idvName).iconClassName;
 }
 

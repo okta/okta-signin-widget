@@ -173,6 +173,7 @@ export const buildAuthCoinProps = (
       authenticatorKey,
       // @ts-ignore logoUri missing from interface
       url: nextStep?.relatesTo?.value.logoUri,
+      displayName: nextStep?.relatesTo?.value?.displayName,
     };
   }
 

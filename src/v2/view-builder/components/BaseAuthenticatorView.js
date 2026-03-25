@@ -19,10 +19,16 @@ export const BaseAuthenticatorBeacon = HeaderBeacon.extend({
     return redirectIDVerifyRemediation?.idp?.id;
   },
 
+  displayName() {
+    return this.options.appState.get('currentAuthenticator')?.displayName ||
+           this.options.appState.get('currentAuthenticatorEnrollment')?.displayName;
+  },
+
   getBeaconClassName: function() {
     const authenticatorKey = _.result(this, 'authenticatorKey');
     const idvName = _.result(this, 'idvName');
-    return getIconClassNameForBeacon(authenticatorKey, idvName);
+    const displayName = _.result(this, 'displayName');
+    return getIconClassNameForBeacon(authenticatorKey, idvName, displayName);
   },
 });
 

@@ -3,6 +3,7 @@ import {
   getAuthenticatorDisplayName,
   getAuthenticatorDataForVerification,
   getAuthenticatorDataForEnroll,
+  getIconClassNameForBeacon,
   getWebAuthnTitle,
   getWebAuthnAdditionalInstructions,
 } from 'v2/view-builder/utils/AuthenticatorUtil';
@@ -247,7 +248,7 @@ describe('v2/utils/AuthenticatorUtil', function() {
         };
         const data = getAuthenticatorDataForEnroll(authenticator);
         expect(data.description).toBe('Use a passkey to sign in with biometrics or a security key.');
-        expect(data.iconClassName).toBe('mfa-webauthn');
+        expect(data.iconClassName).toBe('mfa-passkeys');
         expect(data.ariaLabel).toBe('Set up a passkey.');
       });
 
@@ -323,6 +324,28 @@ describe('v2/utils/AuthenticatorUtil', function() {
         };
         const data = getAuthenticatorDataForVerification(authenticator);
         expect(data.ariaLabel).toBe('Select TouchID.');
+      });
+    });
+
+    describe('getIconClassNameForBeacon - WebAuthn displayName', function() {
+      it('returns mfa-passkeys when authenticator is webauthn and displayName is Passkeys', function() {
+        expect(getIconClassNameForBeacon('webauthn', undefined, WEBAUTHN_DISPLAY_NAMES.PASSKEYS)).toBe('mfa-passkeys');
+      });
+
+      it('returns mfa-webauthn when authenticator is webauthn and displayName is DEFAULT', function() {
+        expect(getIconClassNameForBeacon('webauthn', undefined, WEBAUTHN_DISPLAY_NAMES.DEFAULT)).toBe('mfa-webauthn');
+      });
+
+      it('returns mfa-webauthn when authenticator is webauthn and displayName is undefined', function() {
+        expect(getIconClassNameForBeacon('webauthn', undefined, undefined)).toBe('mfa-webauthn');
+      });
+
+      it('returns mfa-webauthn when authenticator is webauthn and displayName is custom', function() {
+        expect(getIconClassNameForBeacon('webauthn', undefined, 'YubiKey')).toBe('mfa-webauthn');
+      });
+
+      it('does not affect non-webauthn authenticators', function() {
+        expect(getIconClassNameForBeacon('okta_email', undefined, WEBAUTHN_DISPLAY_NAMES.PASSKEYS)).toBe('mfa-okta-email');
       });
     });
   });

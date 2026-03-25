@@ -87,4 +87,28 @@ describe('AuthCoin tests', () => {
     expect(queryByRole('img', { hidden: true })).not.toBeInTheDocument();
     expect(container).toMatchSnapshot();
   });
+
+  it('should display PasskeysIcon when authenticatorKey is webauthn and displayName is Passkeys', async () => {
+    props = {
+      authenticatorKey: 'webauthn',
+      displayName: 'Passkeys',
+    };
+
+    const { container, findByRole } = render(<AuthCoin {...props} />);
+
+    expect(await findByRole('img', { hidden: true })).toBeDefined();
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should display SecurityKeyOrBiometricsIcon when authenticatorKey is webauthn and displayName is default', async () => {
+    props = {
+      authenticatorKey: 'webauthn',
+      displayName: 'Security Key or Biometric',
+    };
+
+    const { container, findByRole } = render(<AuthCoin {...props} />);
+
+    expect(await findByRole('img', { hidden: true })).toBeDefined();
+    expect(container).toMatchSnapshot();
+  });
 });

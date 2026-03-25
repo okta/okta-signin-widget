@@ -252,6 +252,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
             url={logoUri}
             name={iconName}
             description={iconDescr}
+            displayName={uischema.options.authenticator?.displayName}
           />
         </Box>
       )}
