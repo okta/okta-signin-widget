@@ -165,17 +165,20 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
               id: CryptoUtil.strToBin(
                 'hpxQXbu5R5Y2JMqpvtE9Oo9FdwO6z2kMR-ZQkAb6p6GSguXQ57oVXKvpVHT2fyCR_m2EL1vIgszxi00kyFIX6w'
               ),
+              transports: ['usb', 'nfc'],
             },
             {
               type: 'public-key',
               id: CryptoUtil.strToBin(
                 '7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w'
               ),
+              transports: ['internal'],
             },
           ],
           extensions: {
             appid: 'https://localhost:3000',
           },
+          hints: ['security-key'],
           userVerification: 'required',
           challenge: CryptoUtil.strToBin(
             ChallengeWebauthnResponse.currentAuthenticator.value.contextualData.challengeData.challenge
@@ -190,6 +193,51 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
       });
       expect(testContext.view.form.saveForm).toHaveBeenCalledWith(testContext.view.form.model);
       expect(testContext.view.form.webauthnAbortController).toBe(null);
+      done();
+    })
+      .catch(done.fail);
+  });
+
+  it('does not include transports in allowCredentials when enrollments lack transports', function(done) {
+    const assertion = {
+      response: {
+        clientDataJSON: 123,
+        authenticatorData: 234,
+        signature: 'magizh',
+      },
+    };
+    jest.spyOn(BaseForm.prototype, 'saveForm');
+    jest.spyOn(navigator.credentials, 'get').mockReturnValue(Promise.resolve(assertion));
+
+    const enrollmentsWithoutTransports = {
+      value: [
+        {
+          displayName: 'yubikey',
+          type: 'security_key',
+          key: 'webauthn',
+          id: 'autwa6eD9o02iBbtv0g2',
+          authenticatorId: 'aidtheidkwh282hv8g3',
+          credentialId: 'hpxQXbu5R5Y2JMqpvtE9Oo9FdwO6z2kMR-ZQkAb6p6GSguXQ57oVXKvpVHT2fyCR_m2EL1vIgszxi00kyFIX6w',
+        },
+      ],
+    };
+
+    testContext.init(
+      ChallengeWebauthnResponse.currentAuthenticator.value,
+      enrollmentsWithoutTransports
+    );
+    Expect.wait(() => {
+      return BaseForm.prototype.saveForm.mock.calls.length > 0;
+    }).then(() => {
+      const calledWith = navigator.credentials.get.mock.calls[0][0];
+      expect(calledWith.publicKey.allowCredentials).toEqual([
+        {
+          type: 'public-key',
+          id: CryptoUtil.strToBin(
+            'hpxQXbu5R5Y2JMqpvtE9Oo9FdwO6z2kMR-ZQkAb6p6GSguXQ57oVXKvpVHT2fyCR_m2EL1vIgszxi00kyFIX6w'
+          ),
+        },
+      ]);
       done();
     })
       .catch(done.fail);
@@ -320,6 +368,7 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
           extensions: {
             appid: 'https://localhost:3000',
           },
+          hints: ['security-key'],
           userVerification: 'required',
           challenge: CryptoUtil.strToBin(
             ChallengeWebauthnResponse.currentAuthenticator.value.contextualData.challengeData.challenge
