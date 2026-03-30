@@ -201,7 +201,7 @@ describe('v2/view-builder/views/CaptchaView', function() {
     it('ALTCHA Captcha gets loaded with correct URL', function() {
       const spy = jest.spyOn(CaptchaView.prototype, '_loadCaptchaLib');
       testContext.init(captchaAltchaObject.captcha.value);
-      expect(spy).toHaveBeenCalledWith('https://cdn.jsdelivr.net/gh/altcha-org/altcha/dist/altcha.min.js');
+      expect(spy).toHaveBeenCalledWith('https://cdn.jsdelivr.net/gh/altcha-org/altcha@v1.1.0/dist/altcha.min.js');
     });
 
     it('ALTCHA uses altcha-captcha class in template', function() {
@@ -400,13 +400,27 @@ describe('v2/view-builder/views/CaptchaView', function() {
       jest.spyOn(window.document, 'getElementById').mockReturnValue({
         appendChild: appendChildSpy
       });
-      
+
       testContext.init(captchaAltchaObject.captcha.value);
-      
+
       expect(appendChildSpy).toHaveBeenCalled();
       const scriptTag = appendChildSpy.mock.calls[0][0];
       expect(scriptTag.type).toBe('module');
       expect(scriptTag.src).toContain('altcha');
+    });
+
+    it('ALTCHA script tag includes SRI integrity and crossorigin attributes', function() {
+      const appendChildSpy = jest.fn();
+      jest.spyOn(window.document, 'getElementById').mockReturnValue({
+        appendChild: appendChildSpy
+      });
+
+      testContext.init(captchaAltchaObject.captcha.value);
+
+      expect(appendChildSpy).toHaveBeenCalled();
+      const scriptTag = appendChildSpy.mock.calls[0][0];
+      expect(scriptTag.integrity).toBe('sha384-KA8A9kWzxfVcnQLVklhFPtz2ZIIxoffcWiOEXCsZlH/VGvTIRcLpoqEzKDQPC/9I');
+      expect(scriptTag.crossOrigin).toBe('anonymous');
     });
   });
 });
