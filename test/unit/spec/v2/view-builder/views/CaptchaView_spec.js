@@ -18,6 +18,19 @@ const captchaAltchaObject = {
   }
 };
 
+const captchaAltchaWithSri = {
+  captcha: {
+    type: 'object',
+    value: {
+      id: 'altcha',
+      name: 'altcha',
+      siteKey: 'altcha-site-key',
+      type: 'ALTCHA',
+      sriEnabled: true
+    }
+  }
+};
+
 const captchaAltchaWithChallengeUrl = {
   captcha: {
     type: 'object',
@@ -201,7 +214,7 @@ describe('v2/view-builder/views/CaptchaView', function() {
     it('ALTCHA Captcha gets loaded with correct URL', function() {
       const spy = jest.spyOn(CaptchaView.prototype, '_loadCaptchaLib');
       testContext.init(captchaAltchaObject.captcha.value);
-      expect(spy).toHaveBeenCalledWith('https://cdn.jsdelivr.net/gh/altcha-org/altcha/dist/altcha.min.js');
+      expect(spy).toHaveBeenCalledWith('https://cdn.jsdelivr.net/gh/altcha-org/altcha@2.3.0/dist/altcha.min.js');
     });
 
     it('ALTCHA uses altcha-captcha class in template', function() {
@@ -407,6 +420,34 @@ describe('v2/view-builder/views/CaptchaView', function() {
       const scriptTag = appendChildSpy.mock.calls[0][0];
       expect(scriptTag.type).toBe('module');
       expect(scriptTag.src).toContain('altcha');
+    });
+
+    it('ALTCHA script tag includes SRI integrity and crossorigin attributes when sriEnabled is true', function() {
+      const appendChildSpy = jest.fn();
+      jest.spyOn(window.document, 'getElementById').mockReturnValue({
+        appendChild: appendChildSpy
+      });
+
+      testContext.init(captchaAltchaWithSri.captcha.value);
+
+      expect(appendChildSpy).toHaveBeenCalled();
+      const scriptTag = appendChildSpy.mock.calls[0][0];
+      expect(scriptTag.integrity).toBe('sha384-lxB6k+TvdhSBKnLm6JqwAnW7QxKXj88yK1kq9g3MevDXlG9HdWtnShLgJzuYCUIw');
+      expect(scriptTag.crossOrigin).toBe('anonymous');
+    });
+
+    it('ALTCHA script tag does not include SRI attributes when sriEnabled is absent', function() {
+      const appendChildSpy = jest.fn();
+      jest.spyOn(window.document, 'getElementById').mockReturnValue({
+        appendChild: appendChildSpy
+      });
+
+      testContext.init(captchaAltchaObject.captcha.value);
+
+      expect(appendChildSpy).toHaveBeenCalled();
+      const scriptTag = appendChildSpy.mock.calls[0][0];
+      expect(scriptTag.integrity).toBe('');
+      expect(scriptTag.crossOrigin).toBe('');
     });
   });
 });
