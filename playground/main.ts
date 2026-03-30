@@ -93,19 +93,6 @@ const renderPlaygroundWidget = (
     window.OktaPluginA11y.init(signIn);
   }
 
-  window.addEventListener("online", () =>
-    console.log("network connection restored")
-  );
-  window.addEventListener("offline", () =>
-    console.log("network connection lost")
-  );
-  // Check current status
-  if (navigator.onLine) {
-    console.log("You are online");
-  } else {
-    console.log("You are offline");
-  }
-
   signIn
     .renderEl(
       { el: "#signin-container" },

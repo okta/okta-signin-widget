@@ -68,6 +68,7 @@ export async function startLoginFlow(settings) {
     }
 
     // continue saved transaction
+    sessionStorageHelper.setSessionTimestamp();
     return withNetworkRetry(() => authClient.idx.proceed(idxOptions)); // calls introspect
   }
 

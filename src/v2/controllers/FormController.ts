@@ -246,7 +246,6 @@ export default Controller.extend({
       // OKTA-1083742: For transient network errors during polling, restart polling silently.
       const errorResp = error.rawIdxState || error;
       const errorObj = errorUtils.buildErrorObject(errorResp, undefined, error);
-      const isPollingAction = invokeOptions.actions?.[0]?.name?.endsWith('-poll');
 
       // Here we only want to restart polling for network errors (non Ion errors) during polling actions
       // As rate limit error is handled in view layer, we skip it here and leave to showFormErrors to decide whether to restart polling or not based on the view logic.

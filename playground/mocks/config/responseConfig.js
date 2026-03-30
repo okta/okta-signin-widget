@@ -1238,25 +1238,6 @@ const temporaryAccessCode = {
 };
 
 module.exports = {
-  // mocks: idx,
-  mocks: {
-    '/idp/idx/introspect': [
-      // 'invalid',
-      // 'error-401-session-expired',
-      'identify',
-      // 'error-500-internal-server-error',
-    ],
-    '/idp/idx/identify': [
-      // 'authenticator-verification-select-authenticator',
-      'invalid',
-    ],
-    '/idp/idx/challenge': [
-      'authenticator-verification-password',
-    ],
-    '/idp/idx/challenge/answer': [
-      'authenticator-verification-select-authenticator',
-      // 'invalid',
-    ]
-  }
+  mocks: idx,
   // mocks: Test.ChallengeAuthenticatorEmail.networkFailurePollingMock
 };

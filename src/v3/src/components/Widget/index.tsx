@@ -45,6 +45,7 @@ import { WidgetContextProvider } from '../../contexts';
 import {
   useInteractionCodeFlow,
   useOnce,
+  useOnlineStatus,
   usePolling,
   useStateHandle,
 } from '../../hooks';
@@ -120,6 +121,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     elements: [],
   });
   const [message, setMessage] = useState<IdxMessage | undefined>();
+  useOnlineStatus(setMessage);
   const [idxTransaction, setIdxTransaction] = useState<
   IdxTransaction | undefined
   >();
@@ -237,9 +239,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         setIdxTransaction(await triggerEmailVerifyCallback(widgetProps));
         return;
       }
-      if (!usingStateHandleFromSession) {
-        SessionStorage.setSessionTimestamp();
-      }
+      SessionStorage.setSessionTimestamp();
       let transaction: IdxTransaction = await withNetworkRetry(() => authClient.idx.start({
         stateHandle,
         // Required to prevent auth-js from clearing sessionStorage and breaking interaction code flow
@@ -257,10 +257,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       // OKTA-651781
       // bootstrap into enroll flow when flow param is set to signup
       if (shouldRedirectToEnrollFlow(transaction)) {
-        transaction = await authClient.idx.proceed({
+        transaction = await withNetworkRetry(() => authClient.idx.proceed({
           stateHandle: transaction?.context.stateHandle,
           step: IDX_STEP.SELECT_ENROLL_PROFILE,
-        });
+        }));
       }
 
       await widgetHooks.callHooks('before', transaction);
@@ -276,6 +276,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         // OKTA-1116854: Stale session detected — clear and re-bootstrap
         authClient?.transactionManager.clear();
         unsetStateHandle();
+        // Show classified error — in OIDC flows stateHandle is always undefined,
+        // so unsetStateHandle() won't trigger re-bootstrap via useEffect.
+        await handleError(error);
       } else {
         await handleError(error);
       }
@@ -423,10 +426,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       // TODO
       // OKTA-651781
       if (shouldRedirectToEnrollFlow(transaction)) {
-        transaction = await authClient.idx.proceed({
+        transaction = await withNetworkRetry(() => authClient.idx.proceed({
           stateHandle: transaction?.context.stateHandle,
           step: IDX_STEP.SELECT_ENROLL_PROFILE,
-        });
+        }));
       }
 
       await widgetHooks.callHooks('before', transaction);
@@ -437,9 +440,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         // OKTA-1116854: Stale session detected — clear and re-bootstrap
         authClient?.transactionManager.clear();
         unsetStateHandle();
-      } else {
-        await handleError(error);
       }
+      // Always show error — in OIDC flows unsetStateHandle() won't trigger
+      // re-bootstrap, so the user needs to see the classified error message.
+      await handleError(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authClient, setIdxTransaction, setResponseError, initLanguage]);

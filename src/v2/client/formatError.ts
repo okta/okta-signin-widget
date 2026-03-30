@@ -172,8 +172,9 @@ export function isClassifiableError(error): boolean {
 
 export function formatClassifiedError(error) {
   // Create a simulated IDX error response with the classified error message
+  // Clone to avoid mutating the original error object (formatIDXError adds properties in-place)
   const i18nKey = classifyError(error);
-  const idxError = formatIDXError(error);
+  const idxError = formatIDXError(Object.assign({}, error));
   const { details } = idxError;
   const messages: IdxMessages = {
     type: 'array',
