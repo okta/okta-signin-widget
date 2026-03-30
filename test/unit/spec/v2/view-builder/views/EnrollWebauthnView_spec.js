@@ -157,6 +157,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
             u2fParams: {
               appid: 'http://idx.okta1.com:1802',
             },
+            hints: ['security-key'],
             excludeCredentials: [
               {
                 type: 'public-key',
@@ -234,6 +235,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
             u2fParams: {
               appid: 'http://idx.okta1.com:1802',
             },
+            hints: ['security-key'],
             excludeCredentials: [
               {
                 type: 'public-key',
@@ -318,6 +320,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
             u2fParams: {
               appid: 'http://idx.okta1.com:1802',
             },
+            hints: ['security-key'],
             excludeCredentials: [
               {
                 type: 'public-key',
@@ -445,6 +448,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
             u2fParams: {
               appid: 'http://idx.okta1.com:1802',
             },
+            hints: ['security-key'],
             excludeCredentials: [],
           },
           signal: jasmine.any(Object),

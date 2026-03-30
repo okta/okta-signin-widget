@@ -63,6 +63,7 @@
         "challengeData": {
           "challenge": "qjUCU0xoVe5QZ3-etDCD",
           "userVerification": "discouraged",
+          "hints": ["security-key"],
           "extensions": {
             "appid": "https://localhost:3000"
           }

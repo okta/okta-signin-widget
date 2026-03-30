@@ -84,10 +84,14 @@ const Body = BaseForm.extend({
     const authenticatorEnrollments = this.options.appState.get('authenticatorEnrollments')?.value || [];
     authenticatorEnrollments.forEach((enrollement) => {
       if (enrollement.key === 'webauthn') {
-        allowCredentials.push({
+        const credential = {
           type: 'public-key',
           id: CryptoUtil.strToBin(enrollement.credentialId),
-        });
+        };
+        if (Array.isArray(enrollement.transports)) {
+          credential.transports = enrollement.transports;
+        }
+        allowCredentials.push(credential);
       }
     });
     const challengeData = authenticatorData.contextualData.challengeData;
