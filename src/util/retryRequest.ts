@@ -15,6 +15,8 @@ import { classifyError } from './errorClassifier';
 const RETRYABLE_ERROR_KEYS = [
   'error.network.connection',
   'error.request.timeout',
+  // A proxy/VPN 403 is retryable — the VPN may connect within the retry delay
+  'error.network.policy',
 ];
 
 function isRetryableError(error: unknown): boolean {

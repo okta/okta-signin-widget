@@ -80,6 +80,40 @@ describe('Unhandled Error Transformer Tests', () => {
       });
     });
 
+    it('should add infobox with network policy error for non-Okta 403', () => {
+      apiError = {
+        ...apiError,
+        xhr: { status: 403, headers: {}, responseText: '' } as any,
+      };
+      const formBag = transformUnhandledErrors(widgetProps, apiError);
+
+      expect(formBag.uischema.elements.length).toBe(1);
+      const el = formBag.uischema.elements[0] as InfoboxElement;
+      expect(el.type).toBe('InfoBox');
+      expect(el.options?.message).toEqual({
+        class: 'ERROR',
+        message: 'error.network.policy',
+        i18n: { key: 'error.network.policy' },
+      });
+    });
+
+    it('should not classify Okta 403 as network policy error', () => {
+      apiError = {
+        ...apiError,
+        xhr: {
+          status: 403,
+          headers: { 'x-okta-request-id': 'abc123' },
+          responseText: '',
+        } as any,
+      };
+      const formBag = transformUnhandledErrors(widgetProps, apiError);
+
+      expect(formBag.uischema.elements.length).toBe(1);
+      const el = formBag.uischema.elements[0] as InfoboxElement;
+      // Should fall through to the generic error, not network policy
+      expect(el.options?.message?.i18n?.key).not.toBe('error.network.policy');
+    });
+
     it('should add infobox with parse error for malformed response', () => {
       apiError = {
         ...apiError,

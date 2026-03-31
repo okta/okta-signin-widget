@@ -82,6 +82,32 @@ describe('retryRequest', () => {
       expect(fn).toHaveBeenCalledTimes(2);
     });
 
+    it('retries on proxy 403 (network policy block)', async () => {
+      const policyError = {
+        name: 'AuthApiError',
+        xhr: { status: 403, headers: {} },
+      };
+      const fn = jest.fn()
+        .mockRejectedValueOnce(policyError)
+        .mockResolvedValueOnce('recovered');
+
+      const result = await withNetworkRetry(fn, { delayMs: 0 });
+
+      expect(result).toBe('recovered');
+      expect(fn).toHaveBeenCalledTimes(2);
+    });
+
+    it('does not retry Okta 403 (has x-okta-request-id)', async () => {
+      const okta403 = {
+        name: 'AuthApiError',
+        xhr: { status: 403, headers: { 'x-okta-request-id': 'abc123' } },
+      };
+      const fn = jest.fn().mockRejectedValue(okta403);
+
+      await expect(withNetworkRetry(fn, { delayMs: 0 })).rejects.toBe(okta403);
+      expect(fn).toHaveBeenCalledTimes(1);
+    });
+
     it('does not retry server errors (5xx)', async () => {
       const serverError = {
         name: 'AuthApiError',

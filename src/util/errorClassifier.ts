@@ -15,6 +15,28 @@ const TIMEOUT_ERROR_PATTERN = /aborted|timeout|timed out/i;
 const PARSE_ERROR_SUMMARY = 'Could not parse server response';
 
 /**
+ * Check whether a response originated from an Okta server rather than a
+ * network intermediary (corporate proxy, VPN gateway, WAF, CDN, etc.).
+ *
+ * auth-js's fetchRequest.js already converts all response headers into a
+ * plain object with lowercase keys on the xhr.headers property:
+ *
+ *   for (const pair of response.headers.entries()) {
+ *     headers[pair[0]] = pair[1];
+ *   }
+ *
+ * Okta always includes x-okta-request-id on every HTTP response (including
+ * error responses like 401/403). A response without this header almost
+ * certainly came from a non-Okta intermediary.
+ */
+function isOktaResponse(xhr: Record<string, unknown> | undefined): boolean {
+  if (!xhr) return false;
+  const headers = xhr.headers as Record<string, string> | undefined;
+  // Header keys are lowercase per fetchRequest.js formatResult()
+  return !!headers?.['x-okta-request-id'];
+}
+
+/**
  * Classify an unrecognized error and return the appropriate i18n key
  * for displaying a user-friendly message.
  *
@@ -49,6 +71,16 @@ export function classifyError(error: unknown): string {
     return 'error.request.timeout';
   }
 
+  // Network policy block: 403 from a non-Okta intermediary (VPN/proxy/WAF).
+  // When a laptop wakes from sleep and the VPN hasn't reconnected yet, a
+  // corporate proxy or network zone DENY rule may return 403 before the
+  // request reaches Okta. We distinguish this from a legitimate Okta 403
+  // by checking for the x-okta-request-id header, which is present on all
+  // Okta-originated responses but absent from proxy/gateway responses.
+  if (xhr && xhr.status === 403 && !isOktaResponse(xhr)) {
+    return 'error.network.policy';
+  }
+
   // Server error: 5xx status codes
   if (xhr && typeof xhr.status === 'number' && xhr.status >= 500) {
     return 'error.server.internal';
@@ -80,5 +112,6 @@ export function isLikelyStaleSession(error: unknown, sessionAgeMs: number): bool
   const i18nKey = classifyError(error);
   return i18nKey === 'error.network.connection'
     || i18nKey === 'error.request.timeout'
-    || i18nKey === 'error.server.internal';
+    || i18nKey === 'error.server.internal'
+    || i18nKey === 'error.network.policy';
 }
