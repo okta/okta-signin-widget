@@ -8,7 +8,7 @@ import {
   CHALLENGE_TIMEOUT,
 } from '../utils/Constants';
 import BrowserFeatures from 'util/BrowserFeatures';
-import { 
+import {
   doChallenge,
   cancelPollingWithParams,
   createInvisibleIFrame,
@@ -118,27 +118,20 @@ const Body = BaseFormWithPolling.extend({
           return onPortFound(getAuthenticatorUrl('challenge', domainUrl))
             .then(() => {
               foundPort = true;
-              if (deviceChallenge.enhancedPollingEnabled !== false) {
-                // this way we can gurantee that
-                // 1. the polling is triggered right away (1ms interval)
-                // 2. Only one polling queue
-                // 3. follwoing polling will continue with refresh interval from previous polling response
-                // NOTE: technically, there could still be concurrency issue where when we called stopPolling,
-                // there is already a polling triggered and hasn't completed yet
-                // but the possibility would be much smaller than previous concurrency issue
-                // this is a best effort change
-                this.stopPolling();
-                this.startPolling(1);
-                return;
-              }
-              // once the OV challenge succeeds,
-              // triggers another polling right away without waiting for the next ongoing polling to be triggered
-              // to make the authentication flow goes faster 
-              return this.trigger('save', this.model);
+              // this way we can gurantee that
+              // 1. the polling is triggered right away (1ms interval)
+              // 2. Only one polling queue
+              // 3. follwoing polling will continue with refresh interval from previous polling response
+              // NOTE: technically, there could still be concurrency issue where when we called stopPolling,
+              // there is already a polling triggered and hasn't completed yet
+              // but the possibility would be much smaller than previous concurrency issue
+              // this is a best effort change
+              this.stopPolling();
+              this.startPolling(1);
             })
             .catch((xhr) => {
               countFailedPorts++;
-              // Windows and MacOS return status code 503 when 
+              // Windows and MacOS return status code 503 when
               // there are multiple profiles on the device and
               // the wrong OS profile responds to the challenge request
               if (xhr.status !== 503) {
