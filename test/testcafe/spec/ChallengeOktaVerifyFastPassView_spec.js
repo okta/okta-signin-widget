@@ -721,10 +721,10 @@ test
     await checkA11y(t);
 
     const errorText = deviceChallengePollPageObject.getErrorBoxText();
-    await t.expect(errorText).contains('Enable Windows Hello confirmation in Okta Verify');
+    await t.expect(errorText).contains('Enable Windows Hello or passcode confirmation in Okta Verify');
     await t.expect(errorText).contains('To meet your organization\'s requirements, try the following, then return here and sign in again');
     await t.expect(errorText).contains('Make sure Okta Verify is up-to-date');
-    await t.expect(errorText).contains('In Okta Verify, enable Windows Hello confirmation for your account');
+    await t.expect(errorText).contains('In Okta Verify, enable Windows Hello or passcode confirmation for your account');
     await t.expect(errorText).notContains('Your device supports biometrics');
   });
 
