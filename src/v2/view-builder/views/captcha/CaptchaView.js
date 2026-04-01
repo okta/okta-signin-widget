@@ -272,8 +272,10 @@ export default View.extend({
 
     if (url.indexOf('altcha') !== -1) {
       scriptTag.type = 'module';
-      scriptTag.integrity = ALTCHA_SRI_HASH;
-      scriptTag.crossOrigin = 'anonymous';
+      if (this.captchaConfig?.sriEnabled) {
+        scriptTag.integrity = ALTCHA_SRI_HASH;
+        scriptTag.crossOrigin = 'anonymous';
+      }
       scriptTag.onload = window[OktaSignInWidgetOnCaptchaLoadedCallback];
     }
 
