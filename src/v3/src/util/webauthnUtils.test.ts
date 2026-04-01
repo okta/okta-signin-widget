@@ -53,7 +53,11 @@ describe('WebAuthN Util Tests', () => {
           signatureData: 'ghi',
         } as WebauthnVerificationValues),
       ),
-      getAttestation: jest.fn(),
+      getAttestation: jest.fn().mockReturnValue({
+        id: 'test-id',
+        clientData: 'mock-client-data',
+        attestation: 'mock-attestation',
+      }),
     };
     OktaAuth.webauthn = mockedWebauthn;
   });
@@ -77,10 +81,37 @@ describe('WebAuthN Util Tests', () => {
     } as RawIdxResponse;
     const { credentials } = await webAuthNEnrollmentHandler(transaction);
 
-    expect(credentials.clientData).not.toBeUndefined();
-    expect(credentials.attestation).not.toBeUndefined();
+    expect(credentials.clientData).toBe('mock-client-data');
+    expect(credentials.attestation).toBe('mock-attestation');
+    expect(credentials.transports).toBeUndefined();
     expect(mockedWebauthn.buildCredentialCreationOptions).toHaveBeenCalled();
+    expect(mockedWebauthn.getAttestation).toHaveBeenCalled();
     expect(mockCredentialsContainer.create).toHaveBeenCalled();
+  });
+
+  it('should return transports when getAttestation includes them', async () => {
+    mockedWebauthn.getAttestation = jest.fn().mockReturnValue({
+      id: 'test-id',
+      clientData: 'mock-client-data',
+      attestation: 'mock-attestation',
+      transports: '["usb","nfc"]',
+    });
+
+    transaction.nextStep = {
+      name: 'mock-step',
+      relatesTo: {
+        value: {
+          contextualData: { activationData: 'abc123' },
+        } as unknown as IdxAuthenticator,
+      },
+    };
+    transaction.rawIdxState = {
+      ...transaction.rawIdxState,
+      authenticatorEnrollments: { value: [{ credentialId: '123456' }] },
+    } as RawIdxResponse;
+    const { credentials } = await webAuthNEnrollmentHandler(transaction);
+
+    expect(credentials.transports).toEqual('["usb","nfc"]');
   });
 
   it('should throw an error when browser credentials prompt is interrupted while enrolling with webauthn', async () => {
