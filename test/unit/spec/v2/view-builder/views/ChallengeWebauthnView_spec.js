@@ -431,6 +431,53 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
       .catch(done.fail);
   });
 
+  it('includes transports from profile fallback in allowCredentials', function(done) {
+    const assertion = {
+      response: {
+        clientDataJSON: 123,
+        authenticatorData: 234,
+        signature: 'magizh',
+      },
+    };
+    jest.spyOn(BaseForm.prototype, 'saveForm');
+    jest.spyOn(navigator.credentials, 'get').mockReturnValue(Promise.resolve(assertion));
+
+    const enrollmentsWithProfileTransports = {
+      value: [
+        {
+          displayName: 'Touch ID',
+          type: 'security_key',
+          key: 'webauthn',
+          id: 'autwa6eD9o02iBbtv0g3',
+          authenticatorId: 'fwftheidkwh282hv8g3',
+          credentialId: '7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w',
+          profile: { transports: ['internal'] },
+        },
+      ],
+    };
+
+    testContext.init(
+      ChallengeWebauthnResponse.currentAuthenticator.value,
+      enrollmentsWithProfileTransports,
+    );
+    Expect.wait(() => {
+      return BaseForm.prototype.saveForm.mock.calls.length > 0;
+    }).then(() => {
+      const calledWith = navigator.credentials.get.mock.calls[0][0];
+      expect(calledWith.publicKey.allowCredentials).toEqual([
+        {
+          type: 'public-key',
+          id: CryptoUtil.strToBin(
+            '7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w'
+          ),
+          transports: ['internal'],
+        },
+      ]);
+      done();
+    })
+      .catch(done.fail);
+  });
+
   describe('WebAuthn displayName variations', function() {
     it('shows DEFAULT title', function() {
       testContext.init(ChallengeWebauthnResponse.currentAuthenticator.value);

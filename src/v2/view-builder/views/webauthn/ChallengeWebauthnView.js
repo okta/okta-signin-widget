@@ -88,8 +88,9 @@ const Body = BaseForm.extend({
           type: 'public-key',
           id: CryptoUtil.strToBin(enrollement.credentialId),
         };
-        if (Array.isArray(enrollement.transports)) {
-          credential.transports = enrollement.transports;
+        const transports = enrollement.transports ?? enrollement.profile?.transports;
+        if (Array.isArray(transports)) {
+          credential.transports = transports;
         }
         allowCredentials.push(credential);
       }

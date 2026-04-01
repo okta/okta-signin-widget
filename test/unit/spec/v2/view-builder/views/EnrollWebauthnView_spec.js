@@ -257,7 +257,6 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
         expect(testContext.view.form.model.get('credentials')).toEqual({
           clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
           attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
-          transports: null,
           clientExtensions: null
         });
         expect(testContext.view.form.saveForm).toHaveBeenCalledWith(testContext.view.form.model);
@@ -343,14 +342,13 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
           clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
           attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
           clientExtensions: null,
-          transports: null
         };
 
         if (mockGetClientExtensions) {
           responseData.clientExtensions = JSON.stringify(newCredential.getClientExtensionResults());
         }
 
-        if(mockGetTransports){
+        if (mockGetTransports) {
           responseData.transports = JSON.stringify(newCredential.response.getTransports());
         }
 
@@ -392,6 +390,100 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       .then(() => {
         expect(testContext.view.$('.infobox-error')[0].textContent.trim()).toBe('The operation either timed out or was not allowed.');
         expect(testContext.view.form.webauthnAbortController).toBe(null);
+        done();
+      })
+      .catch(done.fail);
+  });
+
+  it('excludeCredentials includes transports from authenticatorEnrollments when available', function(done) {
+    const newCredential = {
+      response: {
+        clientDataJSON: 123,
+        attestationObject: 234,
+        getTransports: function() { return ['usb', 'nfc']; },
+      },
+      getClientExtensionResults: function() { return {}; },
+    };
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(navigator.credentials, 'create').and.returnValue(Promise.resolve(newCredential));
+    spyOn(BaseForm.prototype, 'saveForm');
+
+    const enrollmentsWithTransports = {
+      value: [
+        {
+          displayName: 'yubikey',
+          type: 'security_key',
+          key: 'webauthn',
+          id: 'autwa6eD9o02iBbtv0g2',
+          authenticatorId: 'aidtheidkwh282hv8g3',
+          credentialId: 'hpxQXbu5R5Y2JMqpvtE9Oo9FdwO6z2kMR-ZQkAb6p6GSguXQ57oVXKvpVHT2fyCR_m2EL1vIgszxi00kyFIX6w',
+          transports: ['usb', 'nfc'],
+        },
+      ],
+    };
+
+    testContext.init(EnrollWebauthnResponse.currentAuthenticator.value, enrollmentsWithTransports);
+    testContext.view.$('.webauthn-setup').click();
+
+    Expect.waitForSpyCall(testContext.view.form.saveForm)
+      .then(() => {
+        const calledWith = navigator.credentials.create.calls.mostRecent().args[0];
+        expect(calledWith.publicKey.excludeCredentials).toEqual([
+          {
+            type: 'public-key',
+            id: CryptoUtil.strToBin(
+              'hpxQXbu5R5Y2JMqpvtE9Oo9FdwO6z2kMR-ZQkAb6p6GSguXQ57oVXKvpVHT2fyCR_m2EL1vIgszxi00kyFIX6w'
+            ),
+            transports: ['usb', 'nfc'],
+          },
+        ]);
+        done();
+      })
+      .catch(done.fail);
+  });
+
+  it('excludeCredentials includes transports from profile fallback in authenticatorEnrollments', function(done) {
+    const newCredential = {
+      response: {
+        clientDataJSON: 123,
+        attestationObject: 234,
+        getTransports: function() { return ['internal']; },
+      },
+      getClientExtensionResults: function() { return {}; },
+    };
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(navigator.credentials, 'create').and.returnValue(Promise.resolve(newCredential));
+    spyOn(BaseForm.prototype, 'saveForm');
+
+    const enrollmentsWithProfileTransports = {
+      value: [
+        {
+          displayName: 'Touch ID',
+          type: 'security_key',
+          key: 'webauthn',
+          id: 'autwa6eD9o02iBbtv0g3',
+          authenticatorId: 'fwftheidkwh282hv8g3',
+          credentialId: '7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w',
+          profile: { transports: ['internal'] },
+        },
+      ],
+    };
+
+    testContext.init(EnrollWebauthnResponse.currentAuthenticator.value, enrollmentsWithProfileTransports);
+    testContext.view.$('.webauthn-setup').click();
+
+    Expect.waitForSpyCall(testContext.view.form.saveForm)
+      .then(() => {
+        const calledWith = navigator.credentials.create.calls.mostRecent().args[0];
+        expect(calledWith.publicKey.excludeCredentials).toEqual([
+          {
+            type: 'public-key',
+            id: CryptoUtil.strToBin(
+              '7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w'
+            ),
+            transports: ['internal'],
+          },
+        ]);
         done();
       })
       .catch(done.fail);
