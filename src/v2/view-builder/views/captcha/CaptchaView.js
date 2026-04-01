@@ -20,7 +20,8 @@ const OktaSignInWidgetOnCaptchaLoadedCallback = 'OktaSignInWidgetOnCaptchaLoaded
 const OktaSignInWidgetOnCaptchaSolvedCallback = 'OktaSignInWidgetOnCaptchaSolved';
 
 const HCAPTCHA_URL = 'https://hcaptcha.com/1/api.js';
-const ALTCHA_URL = 'https://cdn.jsdelivr.net/gh/altcha-org/altcha/dist/altcha.min.js';
+const ALTCHA_URL = 'https://cdn.jsdelivr.net/gh/altcha-org/altcha@v1.1.0/dist/altcha.min.js';
+const ALTCHA_SRI_HASH = 'sha384-KA8A9kWzxfVcnQLVklhFPtz2ZIIxoffcWiOEXCsZlH/VGvTIRcLpoqEzKDQPC/9I';
 const RECAPTCHAV2_URL = 'https://www.google.com/recaptcha/api.js';
 
 const ALTCHA_CHALLENGE_PATH = '/api/v1/altcha';
@@ -271,6 +272,10 @@ export default View.extend({
 
     if (url.indexOf('altcha') !== -1) {
       scriptTag.type = 'module';
+      if (this.captchaConfig?.sriEnabled) {
+        scriptTag.integrity = ALTCHA_SRI_HASH;
+        scriptTag.crossOrigin = 'anonymous';
+      }
       scriptTag.onload = window[OktaSignInWidgetOnCaptchaLoadedCallback];
     }
 
