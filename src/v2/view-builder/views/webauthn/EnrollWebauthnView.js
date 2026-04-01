@@ -78,6 +78,11 @@ const Body = BaseForm.extend({
         },
         excludeCredentials
       });
+      // Default rp.id per WebAuthn spec §5.4.2 — some credential managers
+      // (e.g. LastPass) require rp.id to be explicitly set
+      if (options.rp && !options.rp.id) {
+        options.rp.id = window.location.hostname;
+      }
       // AbortController is not supported in IE11
       if (typeof AbortController !== 'undefined') {
         this.webauthnAbortController = new AbortController();
@@ -86,6 +91,12 @@ const Body = BaseForm.extend({
         publicKey: options,
         signal: this.webauthnAbortController && this.webauthnAbortController.signal
       }).then((newCredential) => {
+        if (!newCredential) {
+          throw new DOMException(
+            loc('oie.webauthn.error.nullcredential', 'login'),
+            'InvalidStateError'
+          );
+        }
         this.model.set({
           credentials : {
             clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),

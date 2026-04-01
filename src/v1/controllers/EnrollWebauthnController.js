@@ -84,6 +84,11 @@ export default FormController.extend({
             },
             excludeCredentials: getExcludeCredentials(activation.excludeCredentials),
           });
+          // Default rp.id per WebAuthn spec §5.4.2 — some credential managers
+          // (e.g. LastPass) require rp.id to be explicitly set
+          if (options.rp && !options.rp.id) {
+            options.rp.id = window.location.hostname;
+          }
 
           // AbortController is not supported in IE11
           if (typeof AbortController !== 'undefined') {
@@ -96,6 +101,11 @@ export default FormController.extend({
             })
           )
             .then(function(newCredential) {
+              if (!newCredential) {
+                throw new DOMException(
+                  loc('oie.webauthn.error.nullcredential', 'login'), 'InvalidStateError'
+                );
+              }
               return transaction.activate({
                 attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
                 clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),

@@ -91,6 +91,20 @@ describe('WebAuthN Util Tests', () => {
     await expect(webAuthNEnrollmentHandler(transaction)).rejects.toThrow('NotAllowed');
   });
 
+  it('should throw an error when credentials.create resolves with null (e.g. third-party credential manager)', async () => {
+    mockCredentialsContainer.create = jest.fn().mockImplementationOnce(
+      () => Promise.resolve(null),
+    );
+
+    await expect(webAuthNEnrollmentHandler(transaction)).rejects.toThrow(DOMException);
+    mockCredentialsContainer.create = jest.fn().mockImplementationOnce(
+      () => Promise.resolve(null),
+    );
+    await expect(webAuthNEnrollmentHandler(transaction)).rejects.toMatchObject({
+      name: 'InvalidStateError',
+    });
+  });
+
   it('should create clientData, authenticatorData, & signatureData parameters when authenticating with webauthn',
     async () => {
       transaction.nextStep = {

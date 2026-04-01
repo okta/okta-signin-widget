@@ -1,5 +1,5 @@
 /* eslint max-params: [2, 16] */
-import { _ } from '@okta/courage';
+import { _, loc } from '@okta/courage';
 import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
@@ -120,6 +120,17 @@ Expect.describe('EnrollWebauthn', function() {
       const deferred = Q.defer();
 
       deferred.reject({ message: 'something went wrong' });
+      return deferred.promise;
+    });
+  }
+
+  function mockWebauthnNullCredentialRegistration() {
+    Q.stopUnhandledRejectionTracking();
+    mockWebauthn();
+    spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
+    spyOn(navigator.credentials, 'create').and.callFake(function() {
+      const deferred = Q.defer();
+      deferred.resolve(null);
       return deferred.promise;
     });
   }
@@ -330,6 +341,7 @@ Expect.describe('EnrollWebauthn', function() {
           expect(navigator.credentials.create).toHaveBeenCalledWith({
             publicKey: {
               rp: {
+                id: 'localhost',
                 name: 'acme',
               },
               user: {
@@ -391,6 +403,7 @@ Expect.describe('EnrollWebauthn', function() {
           expect(navigator.credentials.create).toHaveBeenCalledWith({
             publicKey: {
               rp: {
+                id: 'localhost',
                 name: 'acme',
               },
               user: {
@@ -452,6 +465,7 @@ Expect.describe('EnrollWebauthn', function() {
           expect(navigator.credentials.create).toHaveBeenCalledWith({
             publicKey: {
               rp: {
+                id: 'localhost',
                 name: 'acme',
               },
               user: {
@@ -515,6 +529,7 @@ Expect.describe('EnrollWebauthn', function() {
           expect(navigator.credentials.create).toHaveBeenCalledWith({
             publicKey: {
               rp: {
+                id: 'localhost',
                 name: 'acme',
               },
               user: {
@@ -596,6 +611,25 @@ Expect.describe('EnrollWebauthn', function() {
               },
             },
           ]);
+          expect(test.router.controller.model.webauthnAbortController).toBe(null);
+        });
+    });
+    itp('shows error when navigator.credentials.create resolves with null (e.g. third-party credential manager)', function() {
+      mockWebauthnNullCredentialRegistration();
+      return setup()
+        .then(function(test) {
+          Util.resetAjaxRequests();
+          test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
+          test.form.submit();
+          return Expect.waitForSpyCall(navigator.credentials.create, test);
+        })
+        .then(function(test) {
+          expect(navigator.credentials.create).toHaveBeenCalled();
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorBox().length).toEqual(1);
+          expect(test.form.errorMessage()).toEqual(
+            loc('oie.webauthn.error.nullcredential', 'login')
+          );
           expect(test.router.controller.model.webauthnAbortController).toBe(null);
         });
     });
