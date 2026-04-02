@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const responseConfig = require('./responseConfig');
 const { isNetworkFailureConfig, createNetworkFailureRoute, resetAllCounters } = require('./networkFailureHelper');
@@ -43,7 +44,6 @@ const configMock = (option) => {
     const dataDir = getDataDir(apiPath);
     const fileName = chainedMockData[index];
     const filePath = `${dataDir}/${fileName}.json`;
-
     return (filePath);
   };
 
@@ -89,10 +89,18 @@ const configMock = (option) => {
         // move cursor to next response only after mock has been generated.
         updateIndex();
 
-        // overwrite URLs if using mock server behind the proxy
-        const json = require(mockFile);
-        const str = JSON.stringify(json).replace(/http:\/\/localhost:3000/g, process.env.BASE_URL);
-        return JSON.parse(str);
+        // Read raw file content so non-JSON mocks (e.g. invalid.json
+        // containing HTML) are returned as-is, simulating a proxy error page.
+        const raw = fs.readFileSync(mockFile, 'utf8');
+        try {
+          const json = JSON.parse(raw);
+          // overwrite URLs if using mock server behind the proxy
+          const str = JSON.stringify(json).replace(/http:\/\/localhost:3000/g, process.env.BASE_URL);
+          return JSON.parse(str);
+        } catch (_) {
+          // Not valid JSON — return the raw content (Express sends as text/html)
+          return raw;
+        }
       }
 
     }
