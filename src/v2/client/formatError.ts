@@ -17,7 +17,6 @@ import {
   RawIdxResponse
 } from '@okta/okta-auth-js';
 import { loc } from '@okta/courage';
-import { classifyError } from '../../util/errorClassifier';
 
 export interface LegacyIdxError {
   error: string;
@@ -163,34 +162,6 @@ export function formatIDXError(error: LegacyIdxError | StandardApiError | Error)
   return idxError;
 }
 
-export function isClassifiableError(error): boolean {
-  // Detect errors that can be classified into specific categories
-  // (network, server, parse, timeout) rather than falling through to a generic message
-  const i18nKey = classifyError(error);
-  return i18nKey !== 'error.unsupported.response';
-}
-
-export function formatClassifiedError(error) {
-  // Create a simulated IDX error response with the classified error message
-  // Clone to avoid mutating the original error object (formatIDXError adds properties in-place)
-  const i18nKey = classifyError(error);
-  const idxError = formatIDXError(Object.assign({}, error));
-  const { details } = idxError;
-  const messages: IdxMessages = {
-    type: 'array',
-    value: [
-      {
-        message: loc(i18nKey, 'login'),
-        i18n: { key: i18nKey },
-        class: 'ERROR'
-      }
-    ],
-  };
-  details.rawIdxState.messages = messages;
-  details.context.messages = messages;
-  return idxError;
-}
-
 export function formatError(error: string | Error | LegacyIdxError | StandardApiError) {
   // If the error is a string, wrap it in an Error object
   if (typeof error === 'string') {
@@ -217,11 +188,6 @@ export function formatError(error: string | Error | LegacyIdxError | StandardApi
   // Other errors from /interact in OAuth format
   if (isOIEConfigurationError(error)) {
     return formatOIEConfigurationError(error);
-  }
-
-  // Classifiable errors (network, server, parse, timeout)
-  if (isClassifiableError(error)) {
-    return formatClassifiedError(error);
   }
 
   error = formatIDXError(error);
