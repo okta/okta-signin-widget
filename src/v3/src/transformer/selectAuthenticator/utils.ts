@@ -160,7 +160,7 @@ const getAuthenticatorLabel = (
       // For Passkeys, return localized label; for custom, return displayName itself
       if (displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS) {
         return loc('oie.webauthn.passkeysRebrand.passkeys.label', 'login');
-      } else if (displayName && displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT) {
+      } if (displayName && displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT) {
         return displayName; // Custom display name
       }
       return loc('oie.webauthn.label', 'login'); // DEFAULT case

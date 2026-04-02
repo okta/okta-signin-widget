@@ -45,6 +45,112 @@ describe('Unhandled Error Transformer Tests', () => {
       expect(el.options?.class).toBe('ERROR');
     });
 
+    it('should add infobox with network error when AuthApiError has no xhr', () => {
+      apiError = {
+        ...apiError,
+        message: 'Failed to fetch',
+        errorSummary: 'Failed to fetch',
+      };
+      const formBag = transformUnhandledErrors(widgetProps, apiError);
+
+      expect(formBag.uischema.elements.length).toBe(1);
+      const el = formBag.uischema.elements[0] as InfoboxElement;
+      expect(el.type).toBe('InfoBox');
+      expect(el.options?.message).toEqual({
+        class: 'ERROR',
+        message: 'error.network.connection',
+        i18n: { key: 'error.network.connection' },
+      });
+    });
+
+    it('should add infobox with server error for 5xx status', () => {
+      apiError = {
+        ...apiError,
+        xhr: { status: 502, headers: {}, responseText: '' } as any,
+      };
+      const formBag = transformUnhandledErrors(widgetProps, apiError);
+
+      expect(formBag.uischema.elements.length).toBe(1);
+      const el = formBag.uischema.elements[0] as InfoboxElement;
+      expect(el.type).toBe('InfoBox');
+      expect(el.options?.message).toEqual({
+        class: 'ERROR',
+        message: 'error.server.internal',
+        i18n: { key: 'error.server.internal' },
+      });
+    });
+
+    it('should add infobox with network policy error for non-Okta 403', () => {
+      apiError = {
+        ...apiError,
+        xhr: { status: 403, headers: {}, responseText: '' } as any,
+      };
+      const formBag = transformUnhandledErrors(widgetProps, apiError);
+
+      expect(formBag.uischema.elements.length).toBe(1);
+      const el = formBag.uischema.elements[0] as InfoboxElement;
+      expect(el.type).toBe('InfoBox');
+      expect(el.options?.message).toEqual({
+        class: 'ERROR',
+        message: 'error.network.policy',
+        i18n: { key: 'error.network.policy' },
+      });
+    });
+
+    it('should not classify Okta 403 as network policy error', () => {
+      apiError = {
+        ...apiError,
+        xhr: {
+          status: 403,
+          headers: { 'x-okta-request-id': 'abc123' },
+          responseText: '',
+        } as any,
+      };
+      const formBag = transformUnhandledErrors(widgetProps, apiError);
+
+      expect(formBag.uischema.elements.length).toBe(1);
+      const el = formBag.uischema.elements[0] as InfoboxElement;
+      // Should fall through to the generic error, not network policy
+      expect(el.options?.message?.i18n?.key).not.toBe('error.network.policy');
+    });
+
+    it('should add infobox with parse error for malformed response', () => {
+      apiError = {
+        ...apiError,
+        errorSummary: 'Could not parse server response',
+        xhr: { status: 200, headers: {}, responseText: '<html>' } as any,
+      };
+      const formBag = transformUnhandledErrors(widgetProps, apiError);
+
+      expect(formBag.uischema.elements.length).toBe(1);
+      const el = formBag.uischema.elements[0] as InfoboxElement;
+      expect(el.type).toBe('InfoBox');
+      expect(el.options?.message).toEqual({
+        class: 'ERROR',
+        message: 'error.server.parse',
+        i18n: { key: 'error.server.parse' },
+      });
+    });
+
+    it('should add infobox with parse error when JSON.parse SyntaxError leaks through', () => {
+      // When auth-js loses the xhr during error re-wrapping, the widget
+      // receives an AuthApiError whose errorSummary is the raw SyntaxError message.
+      apiError = {
+        ...apiError,
+        errorSummary: 'Unexpected token \'<\', "<!DOCTYPE "... is not valid JSON',
+      };
+      const formBag = transformUnhandledErrors(widgetProps, apiError);
+
+      expect(formBag.uischema.elements.length).toBe(1);
+      const el = formBag.uischema.elements[0] as InfoboxElement;
+      expect(el.type).toBe('InfoBox');
+      expect(el.options?.message).toEqual({
+        class: 'ERROR',
+        message: 'error.server.parse',
+        i18n: { key: 'error.server.parse' },
+      });
+    });
+
     it('should add infobox with custom message from server', () => {
       const mockErrorMessage = 'Custom error message';
       apiError = {

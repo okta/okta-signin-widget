@@ -34,6 +34,52 @@ const getWidgetMessage = (
   widgetProps?: WidgetProps,
 ) : WidgetMessage => {
   const authApiErrorChecks: ErrorTester<AuthApiError>[] = [
+    // parse error: malformed JSON response.
+    // Must be checked before the network error test because auth-js may lose
+    // the xhr object when re-wrapping errors, leaving only errorSummary.
+    {
+      tester: (err?: AuthApiError) => {
+        const summary = err?.errorSummary ?? '';
+        return summary === 'Could not parse server response'
+          || /^Unexpected token .* is not valid JSON$/i.test(summary);
+      },
+      message: () => ({
+        class: 'ERROR',
+        message: loc('error.server.parse', 'login'),
+        i18n: { key: 'error.server.parse' },
+      }),
+    },
+    // network error: fetch itself failed (no xhr object, no errorCode)
+    {
+      tester: (err?: AuthApiError) => !!(err && !err.xhr && !err.errorCode),
+      message: () => ({
+        class: 'ERROR',
+        message: loc('error.network.connection', 'login'),
+        i18n: { key: 'error.network.connection' },
+      }),
+    },
+    // network policy block: 403 from a non-Okta intermediary (VPN/proxy/WAF).
+    // Okta always includes x-okta-request-id on responses; its absence means
+    // the response came from a network intermediary. auth-js stores response
+    // headers as a plain object with lowercase keys on xhr.headers.
+    {
+      tester: (err?: AuthApiError) => !!(err?.xhr && err.xhr.status === 403
+        && !((err.xhr.headers as Record<string, string> | undefined)?.['x-okta-request-id'])),
+      message: () => ({
+        class: 'ERROR',
+        message: loc('error.network.policy', 'login'),
+        i18n: { key: 'error.network.policy' },
+      }),
+    },
+    // server error: 5xx status codes
+    {
+      tester: (err?: AuthApiError) => !!(err?.xhr && typeof err.xhr.status === 'number' && err.xhr.status >= 500),
+      message: () => ({
+        class: 'ERROR',
+        message: loc('error.server.internal', 'login'),
+        i18n: { key: 'error.server.internal' },
+      }),
+    },
     // error message comes from server response
     {
       tester: (err?: AuthApiError) => !!(err && err.xhr && !err.errorSummary && err.xhr.responseText?.includes('messages')),

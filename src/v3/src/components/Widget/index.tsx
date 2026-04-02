@@ -34,7 +34,9 @@ import {
 import { mergeThemes } from 'src/util/mergeThemes';
 
 import Bundles from '../../../../util/Bundles';
+import { isLikelyStaleSession } from '../../../../util/errorClassifier';
 import Logger from '../../../../util/Logger';
+import { withNetworkRetry } from '../../../../util/retryRequest';
 import {
   ABORT_REASON_WEBAUTHN_AUTOFILLUI_STEP_NOT_FOUND,
   IDX_STEP,
@@ -43,6 +45,7 @@ import { WidgetContextProvider } from '../../contexts';
 import {
   useInteractionCodeFlow,
   useOnce,
+  useOnlineStatus,
   usePolling,
   useStateHandle,
 } from '../../hooks';
@@ -118,11 +121,20 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     elements: [],
   });
   const [message, setMessage] = useState<IdxMessage | undefined>();
-  const [idxTransaction, setIdxTransaction] = useState<IdxTransaction | undefined>();
-  const [isClientTransaction, setIsClientTransaction] = useState<boolean>(false);
-  const [stepToRender, setStepToRender] = useState<string | undefined>(undefined);
+  useOnlineStatus(setMessage);
+  const [idxTransaction, setIdxTransaction] = useState<
+  IdxTransaction | undefined
+  >();
+  const [isClientTransaction, setIsClientTransaction] = useState<boolean>(
+    false,
+  );
+  const [stepToRender, setStepToRender] = useState<string | undefined>(
+    undefined,
+  );
   const prevIdxTransactionRef = useRef<IdxTransaction>();
-  const [responseError, setResponseError] = useState<AuthApiError | OAuthError | null>(null);
+  const [responseError, setResponseError] = useState<
+  AuthApiError | OAuthError | null
+  >(null);
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data);
   const interactionCodeFlowFormBag = useInteractionCodeFlow(
     idxTransaction,
@@ -139,8 +151,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const languageDirection = getLanguageDirection(languageCode);
   const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
   const [odyTranslationOverrides, setOdyTranslationOverrides] = useState<
-  TranslationOverrides<string> | undefined>();
-  const [abortController, setAbortController] = useState<AbortController | undefined>();
+  TranslationOverrides<string> | undefined
+  >();
+  const [abortController, setAbortController] = useState<
+  AbortController | undefined
+  >();
   // Odyssey language codes use '_' instead of '-' (e.g. zh-CN -> zh_CN)
   const odyLanguageCode: string = languageCode.replace('-', '_');
 
@@ -156,12 +171,15 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [brandColors, customTheme, languageDirection]);
 
   // on unmount, remove the language
-  useEffect(() => () => {
-    if (Bundles.isLoaded(languageCode)) {
-      Bundles.remove();
-    }
+  useEffect(
+    () => () => {
+      if (Bundles.isLoaded(languageCode)) {
+        Bundles.remove();
+      }
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    [],
+  );
 
   const initLanguage = useCallback(async () => {
     if (!Bundles.isLoaded(languageCode)) {
@@ -178,7 +196,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     // TODO: handle error based on types
     // AuthApiError is one of the potential error that can be thrown here
     // We will want to expose development stage errors from auth-js and file jiras against it
-    setResponseError(error as (AuthApiError | OAuthError));
+    setResponseError(error as AuthApiError | OAuthError);
     Logger.error(error);
     return null;
   };
@@ -188,11 +206,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     if (!isConfigRegisterFlow(flow) || nextStep?.name !== IDX_STEP.IDENTIFY) {
       return false;
     }
-    const isRegistrationEnabled = neededToProceed
-      .find((remediation) => remediation.name === IDX_STEP.SELECT_ENROLL_PROFILE) !== undefined;
+    const isRegistrationEnabled = neededToProceed.find(
+      (remediation) => remediation.name === IDX_STEP.SELECT_ENROLL_PROFILE,
+    ) !== undefined;
 
     if (!isRegistrationEnabled) {
-      throw new Error('flow param error: No remediation can match current flow, check policy settings in your org.');
+      throw new Error(
+        'flow param error: No remediation can match current flow, check policy settings in your org.',
+      );
     }
     return true;
   };
@@ -218,14 +239,16 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         setIdxTransaction(await triggerEmailVerifyCallback(widgetProps));
         return;
       }
-      let transaction: IdxTransaction = await authClient.idx.start({
+      SessionStorage.setSessionTimestamp();
+      let transaction: IdxTransaction = await withNetworkRetry(() => authClient.idx.start({
         stateHandle,
         // Required to prevent auth-js from clearing sessionStorage and breaking interaction code flow
         exchangeCodeForTokens: false,
-      });
-      const hasError = !transaction.requestDidSucceed || transaction.messages?.some(
-        (msg) => msg.class === MessageType.ERROR.toString(),
-      );
+      }));
+      const hasError = !transaction.requestDidSucceed
+        || transaction.messages?.some(
+          (msg) => msg.class === MessageType.ERROR.toString(),
+        );
       if (hasError && usingStateHandleFromSession) {
         throw new Error('saved stateToken is invalid'); // will be caught in this function
       }
@@ -234,10 +257,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       // OKTA-651781
       // bootstrap into enroll flow when flow param is set to signup
       if (shouldRedirectToEnrollFlow(transaction)) {
-        transaction = await authClient.idx.proceed({
+        transaction = await withNetworkRetry(() => authClient.idx.proceed({
           stateHandle: transaction?.context.stateHandle,
           step: IDX_STEP.SELECT_ENROLL_PROFILE,
-        });
+        }));
       }
 
       await widgetHooks.callHooks('before', transaction);
@@ -249,12 +272,25 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         // Saved stateHandle is invalid. Remove it from session
         // Bootstrap will be restarted with stateToken from widgetProps
         unsetStateHandle();
+      } else if (isLikelyStaleSession(error, SessionStorage.getSessionAge())) {
+        // OKTA-1116854: Stale session detected — clear and re-bootstrap
+        authClient?.transactionManager.clear();
+        unsetStateHandle();
+        // Show classified error — in OIDC flows stateHandle is always undefined,
+        // so unsetStateHandle() won't trigger re-bootstrap via useEffect.
+        await handleError(error);
       } else {
         await handleError(error);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authClient, stateHandle, setIdxTransaction, setResponseError, initLanguage]);
+  }, [
+    authClient,
+    stateHandle,
+    setIdxTransaction,
+    setResponseError,
+    initLanguage,
+  ]);
 
   // Derived value from idxTransaction
   const formBag = useMemo<FormBag>(() => {
@@ -271,10 +307,16 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setloginHint(null);
     }
 
-    if ([IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(idxTransaction.status)
+    if (
+      [IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(idxTransaction.status)
       || idxTransaction.nextStep?.name === IDX_STEP.SKIP // force safe mode to be terminal
-      || !idxTransaction.nextStep) {
-      return transformTerminalTransaction(idxTransaction, widgetProps, bootstrap);
+      || !idxTransaction.nextStep
+    ) {
+      return transformTerminalTransaction(
+        idxTransaction,
+        widgetProps,
+        bootstrap,
+      );
     }
 
     if (!isOauth2Enabled(widgetProps) && prevIdxTransactionRef.current) {
@@ -290,8 +332,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       //    -> introspect using options.stateHandle
       const prevStep = prevIdxTransactionRef.current?.nextStep?.name;
       // Do not save state handle if just removed due to canceling
-      if (idxTransaction.status !== IdxStatus.CANCELED
-        && prevStep !== IDX_STEP.CANCEL_TRANSACTION) {
+      if (
+        idxTransaction.status !== IdxStatus.CANCELED
+        && prevStep !== IDX_STEP.CANCEL_TRANSACTION
+      ) {
         SessionStorage.setStateHandle(idxTransaction?.context?.stateHandle);
       }
     }
@@ -299,10 +343,13 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     let step = stepToRender || idxTransaction.nextStep.name;
     // Mobile devices cannot scan QR codes while navigating through flow
     // so we force them to select either email / sms for enrollment
-    if (idxTransaction.context.currentAuthenticator?.value.key === AuthenticatorKey.OKTA_VERIFY
+    if (
+      idxTransaction.context.currentAuthenticator?.value.key
+        === AuthenticatorKey.OKTA_VERIFY
       && idxTransaction.nextStep.name === 'enroll-poll'
       && isAndroidOrIOS()
-      && idxTransaction.context?.currentAuthenticator?.value?.contextualData?.selectedChannel === 'qrcode'
+      && idxTransaction.context?.currentAuthenticator?.value?.contextualData
+        ?.selectedChannel === 'qrcode'
     ) {
       step = 'select-enrollment-channel';
     }
@@ -315,13 +362,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       isClientTransaction,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    idxTransaction,
-    responseError,
-    stepToRender,
-    widgetProps,
-    bootstrap,
-  ]);
+  }, [idxTransaction, responseError, stepToRender, widgetProps, bootstrap]);
 
   // track previous idxTransaction
   useEffect(() => {
@@ -378,23 +419,30 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         setIdxTransaction(await triggerEmailVerifyCallback(widgetProps));
         return;
       }
-      let transaction = await authClient.idx.proceed({
+      let transaction = await withNetworkRetry(() => authClient.idx.proceed({
         stateHandle: idxTransaction?.context.stateHandle,
-      });
+      }));
 
       // TODO
       // OKTA-651781
       if (shouldRedirectToEnrollFlow(transaction)) {
-        transaction = await authClient.idx.proceed({
+        transaction = await withNetworkRetry(() => authClient.idx.proceed({
           stateHandle: transaction?.context.stateHandle,
           step: IDX_STEP.SELECT_ENROLL_PROFILE,
-        });
+        }));
       }
 
       await widgetHooks.callHooks('before', transaction);
 
       setIdxTransaction(transaction);
     } catch (error) {
+      if (isLikelyStaleSession(error, SessionStorage.getSessionAge())) {
+        // OKTA-1116854: Stale session detected — clear and re-bootstrap
+        authClient?.transactionManager.clear();
+        unsetStateHandle();
+      }
+      // Always show error — in OIDC flows unsetStateHandle() won't trigger
+      // re-bootstrap, so the user needs to see the classified error message.
       await handleError(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -402,9 +450,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // bootstrap / resume the widget
   useEffect(() => {
-    if (!canBootstrapWidget({
-      authClient, stateHandle, setIdxTransaction, setResponseError,
-    })) {
+    if (
+      !canBootstrapWidget({
+        authClient,
+        stateHandle,
+        setIdxTransaction,
+        setResponseError,
+      })
+    ) {
       return;
     }
     if (authClient.idx.canProceed()) {
@@ -427,7 +480,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
      * determine if they are the same (as you shouldn't be challenged with the same authenticator)
      * But if for some reason the keys are the same between them, we perform a last ditch check
      * against the current authenticator's ID, which should always be unique between challenges
-    */
+     */
     if (!areTransactionsEqual(idxTransaction, pollingTransaction)) {
       setIdxTransaction(pollingTransaction);
     }
@@ -451,7 +504,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         const executeAfterHooks = () => {
           if (uischema.elements.length > 0) {
             // Don't execute hooks in the end of authentication flow
-            widgetHooks.callHooks('after', responseError ? undefined : idxTransaction);
+            widgetHooks.callHooks(
+              'after',
+              responseError ? undefined : idxTransaction,
+            );
           }
         };
         const emitAfterRender = () => {
@@ -486,13 +542,17 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   useOnce(() => {
     eventEmitter.on('hide', toggleVisibility);
   });
-  useEffect(() => () => {
-    eventEmitter.off('hide', toggleVisibility);
-  }, [eventEmitter, toggleVisibility]);
+  useEffect(
+    () => () => {
+      eventEmitter.off('hide', toggleVisibility);
+    },
+    [eventEmitter, toggleVisibility],
+  );
 
-  const getDocumentTitle = useCallback(() => (
-    extractPageTitle(formBag.uischema, widgetProps, idxTransaction)
-  ), [idxTransaction, widgetProps, formBag.uischema]);
+  const getDocumentTitle = useCallback(
+    () => extractPageTitle(formBag.uischema, widgetProps, idxTransaction),
+    [idxTransaction, widgetProps, formBag.uischema],
+  );
 
   useEffect(() => {
     const title = getDocumentTitle();
@@ -502,32 +562,33 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [getDocumentTitle]);
 
   return (
-    <WidgetContextProvider value={{
-      authClient,
-      widgetProps,
-      onSuccessCallback: globalSuccessFn,
-      onErrorCallback: globalErrorFn,
-      idxTransaction,
-      setResponseError,
-      setIdxTransaction,
-      setIsClientTransaction,
-      stepToRender,
-      setStepToRender,
-      message,
-      setMessage,
-      data,
-      setData,
-      dataSchemaRef,
-      loading,
-      setLoading,
-      setWidgetRendered,
-      loginHint,
-      setloginHint,
-      languageCode,
-      languageDirection,
-      setAbortController,
-      abortController,
-    }}
+    <WidgetContextProvider
+      value={{
+        authClient,
+        widgetProps,
+        onSuccessCallback: globalSuccessFn,
+        onErrorCallback: globalErrorFn,
+        idxTransaction,
+        setResponseError,
+        setIdxTransaction,
+        setIsClientTransaction,
+        stepToRender,
+        setStepToRender,
+        message,
+        setMessage,
+        data,
+        setData,
+        dataSchemaRef,
+        loading,
+        setLoading,
+        setWidgetRendered,
+        loginHint,
+        setloginHint,
+        languageCode,
+        languageDirection,
+        setAbortController,
+        abortController,
+      }}
     >
       <OdysseyProvider
         themeOverride={theme}
@@ -540,6 +601,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         // shadowRootElement is only used for Modal related component, pass a boolean value should have no impact on SIW rendering
         // Reference: https://github.com/okta/odyssey/blob/c9adec8f075d586aa9c8f627ba09677c14efc4ba/packages/core/odyssey-react-mui/src/OdysseyCacheProvider.tsx#L68
         // TODO: expose official prop from OdysseyProvider https://oktainc.atlassian.net/browse/OKTA-1024166
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         shadowRootElement={true as any}
       >
         <GlobalStyles />
@@ -554,11 +616,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
           />
           <AuthContent>
             {isConsentStep(idxTransaction) && <ConsentHeader />}
-            {
-              uischema.elements.length > 0
-                ? <Form uischema={uischema as UISchemaLayout} />
-                : <Spinner />
-            }
+            {uischema.elements.length > 0 ? (
+              <Form uischema={uischema as UISchemaLayout} />
+            ) : (
+              <Spinner />
+            )}
           </AuthContent>
         </AuthContainer>
       </OdysseyProvider>
