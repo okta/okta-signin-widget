@@ -86,12 +86,8 @@ export function classifyError(error: unknown): string {
     return 'error.server.internal';
   }
 
-  // Parse error: server returned non-JSON response.
-  // Match both the auth-js error message and raw SyntaxError messages that may
-  // leak through when auth-js re-wraps errors and loses the original xhr.
-  if (typeof errorSummary === 'string'
-    && (errorSummary === PARSE_ERROR_SUMMARY
-      || /^Unexpected token .* is not valid JSON$/i.test(errorSummary))) {
+  // Parse error: server returned non-JSON response
+  if (typeof errorSummary === 'string' && errorSummary === PARSE_ERROR_SUMMARY) {
     return 'error.server.parse';
   }
 
