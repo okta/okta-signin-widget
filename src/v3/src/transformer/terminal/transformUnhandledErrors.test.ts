@@ -132,6 +132,25 @@ describe('Unhandled Error Transformer Tests', () => {
       });
     });
 
+    it('should add infobox with parse error when JSON.parse SyntaxError leaks through', () => {
+      // When auth-js loses the xhr during error re-wrapping, the widget
+      // receives an AuthApiError whose errorSummary is the raw SyntaxError message.
+      apiError = {
+        ...apiError,
+        errorSummary: 'Unexpected token \'<\', "<!DOCTYPE "... is not valid JSON',
+      };
+      const formBag = transformUnhandledErrors(widgetProps, apiError);
+
+      expect(formBag.uischema.elements.length).toBe(1);
+      const el = formBag.uischema.elements[0] as InfoboxElement;
+      expect(el.type).toBe('InfoBox');
+      expect(el.options?.message).toEqual({
+        class: 'ERROR',
+        message: 'error.server.parse',
+        i18n: { key: 'error.server.parse' },
+      });
+    });
+
     it('should add infobox with custom message from server', () => {
       const mockErrorMessage = 'Custom error message';
       apiError = {

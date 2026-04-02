@@ -127,6 +127,8 @@ function createNetworkFailureRoute(routePath, failureConfig, method = 'POST') {
         res.status(401);
       } else if (basenameMockFile.indexOf('error-429') === 0) {
         res.status(429);
+      } else if (basenameMockFile.indexOf('error-500') === 0) {
+        res.status(500);
       } else if (basenameMockFile.indexOf('error') === 0) {
         res.status(403);
       }

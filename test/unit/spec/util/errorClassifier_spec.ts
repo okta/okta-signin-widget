@@ -84,6 +84,16 @@ describe('errorClassifier', () => {
       expect(classifyError(error)).toBe('error.server.parse');
     });
 
+    it('returns parse error key for SyntaxError message from JSON.parse', () => {
+      // When auth-js re-wraps errors and loses the xhr, the raw SyntaxError
+      // message may leak through as errorSummary
+      const error = {
+        name: 'AuthApiError',
+        errorSummary: 'Unexpected token \'<\', "<!DOCTYPE "... is not valid JSON',
+      };
+      expect(classifyError(error)).toBe('error.server.parse');
+    });
+
     it('returns unsupported response key for unknown error shape', () => {
       const error = {
         someProperty: 'someValue',
