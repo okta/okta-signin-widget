@@ -19,9 +19,6 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    // 'error-400-bad-request',
-    // 'error-400-fake-error',
-    // 'error-500-internal-server-error',
     'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
@@ -1189,7 +1186,7 @@ const smartCardEnrollOrVerify = {
   ],
 };
 
-const redirectOnPoll = {
+const redirectOnPoll = {  
   '/idp/idx/introspect': [
     'authenticator-verification-email',
     // 'authenticator-verification-data-okta-verify-push-autoChallenge-off',
