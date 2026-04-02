@@ -64,17 +64,12 @@ const configMock = (option) => {
       const mockFile = getMockFile();
 
       const basenameMockFile = path.basename(mockFile, '.json');
-      // response as error when the file name starts with 'error'
-      if (basenameMockFile.indexOf('error-400') === 0) {
-        res.status(400);
-      } else if (basenameMockFile.indexOf('error-401') === 0) {
-        res.status(401);
-      } else if (basenameMockFile.indexOf('error-429') === 0) {
-        res.status(429);
-      } else if (basenameMockFile.indexOf('error-500') === 0) {
-        res.status(500);
-      } else if (basenameMockFile.indexOf('error') === 0) {
-        res.status(403);
+      // Derive HTTP status from the mock filename.
+      // Files named error-{NNN}-*.json use that status code;
+      // files named error-*.json (without a numeric code) default to 403.
+      if (basenameMockFile.indexOf('error') === 0) {
+        const match = basenameMockFile.match(/^error-(\d{3})/);
+        res.status(match ? Number(match[1]) : 403);
       }
       next();
     },
