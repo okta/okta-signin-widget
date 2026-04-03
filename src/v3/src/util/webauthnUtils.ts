@@ -19,6 +19,7 @@ import {
   WebAuthNChallengeDataWithUserVerification,
   WebAuthNEnrollmentHandler,
 } from '../types';
+import { loc } from './locUtil';
 
 export const binToStr = (bin: ArrayBuffer): string => btoa(
   new Uint8Array(bin).reduce((s, byte) => s + String.fromCharCode(byte), ''),
@@ -80,11 +81,22 @@ export const webAuthNEnrollmentHandler: WebAuthNEnrollmentHandler = async (trans
     activationData,
     authenticatorEnrollments.value,
   );
+  // Default rp.id per WebAuthn spec §5.4.2 — some credential managers
+  // (e.g. LastPass) require rp.id to be explicitly set
+  if (options?.publicKey?.rp && !options.publicKey.rp.id) {
+    options.publicKey.rp.id = window.location.hostname;
+  }
 
   // Causes a browser prompt enabling the user to select the desired device to
   // enroll in this flow. Generates a Object that contains ClientData (origin, challenge)
   // and attestation (arraybuffer containing authenticator data)
   const result = await navigator.credentials.create(options);
+  if (!result) {
+    throw new DOMException(
+      loc('oie.webauthn.error.nullcredential', 'login'),
+      'InvalidStateError'
+    );
+  }
   const attestationResponse = (
     (result as PublicKeyCredential).response as AuthenticatorAttestationResponse
   );

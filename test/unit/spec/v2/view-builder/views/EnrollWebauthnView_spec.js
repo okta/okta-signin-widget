@@ -132,6 +132,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
         expect(navigator.credentials.create).toHaveBeenCalledWith({
           publicKey: {
             rp: {
+              id: 'localhost',
               name: 'idx',
             },
             user: {
@@ -209,6 +210,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
         expect(navigator.credentials.create).toHaveBeenCalledWith({
           publicKey: {
             rp: {
+              id: 'localhost',
               name: 'idx',
             },
             user: {
@@ -293,6 +295,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
         expect(navigator.credentials.create).toHaveBeenCalledWith({
           publicKey: {
             rp: {
+              id: 'localhost',
               name: 'idx',
             },
             user: {
@@ -359,6 +362,23 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       .catch(done.fail);
   });
 
+  it('error is displayed when credentials.create resolves with null (e.g. third-party credential manager)', function(done) {
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(navigator.credentials, 'create').and.returnValue(Promise.resolve(null));
+
+    testContext.init();
+    testContext.view.$('.webauthn-setup').click();
+
+    Expect.waitForCss('.infobox-error')
+      .then(() => {
+        expect(testContext.view.$('.infobox-error')[0].textContent.trim())
+          .toBe('Authenticator enrollment could not be completed. If a password manager intercepted this request, dismiss it and try again.');
+        expect(testContext.view.form.webauthnAbortController).toBe(null);
+        done();
+      })
+      .catch(done.fail);
+  });
+
   it('error with a name that not supported on login bundle is displayed when credentials.create fails', function(done) {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     spyOn(navigator.credentials, 'create').and.returnValue(Promise.reject({ message: 'error from browser' }));
@@ -419,6 +439,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
         expect(navigator.credentials.create).toHaveBeenCalledWith({
           publicKey: {
             rp: {
+              id: 'localhost',
               name: 'idx',
             },
             user: {
