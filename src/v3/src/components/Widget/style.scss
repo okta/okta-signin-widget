@@ -101,6 +101,7 @@
   p {
     margin-block: map.get($ods-tokens, 'spacing', '3');
   }
+  z-index: 1;
 }
 .auth .footer .footer-container {
   padding-inline: map.get($ods-tokens, spacing, '8');
