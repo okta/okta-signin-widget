@@ -85,15 +85,13 @@ export const webAuthNEnrollmentHandler: WebAuthNEnrollmentHandler = async (trans
   // enroll in this flow. Generates a Object that contains ClientData (origin, challenge)
   // and attestation (arraybuffer containing authenticator data)
   const result = await navigator.credentials.create(options);
-  const attestationResponse = (
-    (result as PublicKeyCredential).response as AuthenticatorAttestationResponse
+
+  // Extracts clientData, attestation, and transports from the credential response
+  const { id, ...credentials } = OktaAuth.webauthn.getAttestation(
+    result as PublicKeyCredential,
   );
 
-  // converts they arrayBuffer into a string to pass to Idx
-  const clientData = binToStr(attestationResponse.clientDataJSON);
-  const attestation = binToStr(attestationResponse.attestationObject);
-
-  return { credentials: { clientData, attestation } };
+  return { credentials };
 };
 
 /**
