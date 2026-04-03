@@ -323,6 +323,7 @@ export default class AppState extends Model {
   }
 
   setNonIdxError(error: RecoverableError<any>) {
+    console.log('HERE')
     this.set('remediations', [{ name: FORMS.TERMINAL }]);
     this.set('messages', { value: [
       {

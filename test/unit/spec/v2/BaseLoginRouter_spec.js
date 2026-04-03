@@ -523,6 +523,7 @@ describe('v2/BaseLoginRouter', function() {
       expect(router.appState.getCurrentViewState().name).toBe('identify');
     });
   
+    // TODO: THIS
     it('should result with `enroll-profile` render (flow="signup")', async function() {
       setupOAuth({
         flow: 'signup'
@@ -541,6 +542,7 @@ describe('v2/BaseLoginRouter', function() {
       expect(router.appState.getCurrentViewState().name).toBe('enroll-profile');
     });
 
+    // TODO: THIS
     it('should result with `reset-authenticator` (password) render (flow="resetPassword")', async function() {
       setupOAuth({
         flow: 'resetPassword',
@@ -601,6 +603,7 @@ describe('v2/BaseLoginRouter', function() {
       expect(router.appState.getCurrentViewState().name).toBe('enroll-profile');
     });
 
+    // TODO: THIS
     it('should abandon meta flow if it does not match configured flow', async function() {
       setupOAuth({
         flow: 'signup'

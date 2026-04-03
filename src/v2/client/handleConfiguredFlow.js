@@ -57,10 +57,15 @@ async function stepIntoSpecificIdxFlow(idxState, flow='default') {
     // default IDX response from interact is "Login" page/flow. Do nothing
     return idxState;
 
-  // step logic is handled by auth-js
   case CONFIGURED_FLOW.REGISTRATION:
-  case CONFIGURED_FLOW.RESET_PASSWORD:
-    return idxState;
+    return await proceedIfAvailable(idxState, FORMS.SELECT_ENROLL_PROFILE, flow);
+
+  // case CONFIGURED_FLOW.RESET_PASSWORD:
+  //   return await proceedIfAvailable(idxState, FORMS.ENROLL_PROFILE, flow);
+  //   actions = [
+  //     'currentAuthenticator-recover',
+  //     'currentAuthenticatorEnrollment-recover'
+  //   ];
 
   case CONFIGURED_FLOW.UNLOCK_ACCOUNT:
     // requires: introspect -> identify-recovery -> select-authenticator-unlock-account

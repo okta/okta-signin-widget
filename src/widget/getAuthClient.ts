@@ -36,11 +36,11 @@ export default function getAuthClientInstance(
       transformErrorXHR: Util.transformErrorXHR,
       recoveryToken,
       pollDelay: 500,
-      idx: {
-        ...(authParams?.idx ?? {}),
-        // @ts-ignore
-        enableLegacyMode: true
-      },
+      // idx: {
+      //   ...(authParams?.idx ?? {}),
+      //   // @ts-ignore
+      //   enableLegacyMode: true
+      // },
       ...authParams
     };
 
