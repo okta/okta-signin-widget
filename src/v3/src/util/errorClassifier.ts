@@ -93,25 +93,3 @@ export function classifyError(error: unknown): string {
 
   return 'error.unsupported.response';
 }
-
-// 30 minutes in milliseconds
-const STALE_SESSION_THRESHOLD_MS = 30 * 60 * 1000;
-
-/**
- * Determine if a failed request is likely due to a stale/expired session.
- * Returns true when a network or server error occurs AND the session is
- * older than the staleness threshold (30 minutes).
- *
- * This heuristic catches the "laptop closed overnight" scenario where the
- * server-side session has expired but the client still has a stateHandle.
- */
-export function isLikelyStaleSession(error: unknown, sessionAgeMs: number): boolean {
-  if (sessionAgeMs < STALE_SESSION_THRESHOLD_MS) {
-    return false;
-  }
-  const i18nKey = classifyError(error);
-  return i18nKey === 'error.network.connection'
-    || i18nKey === 'error.request.timeout'
-    || i18nKey === 'error.server.internal'
-    || i18nKey === 'error.network.policy';
-}

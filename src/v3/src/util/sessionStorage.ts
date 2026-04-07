@@ -13,12 +13,9 @@
 const STATE_HANDLE_SESSION_STORAGE_KEY = 'osw-oie-state-handle';
 const LAST_INITIATED_LOGIN_URL_SESSION_STORAGE_KEY = 'osw-oie-last-initiated-login-url';
 const RESEND_TIMESTAMP_SESSION_STORAGE_KEY = 'osw-oie-resend-timestamp';
-const SESSION_TIMESTAMP_KEY = 'osw-oie-session-timestamp';
-
 const removeStateHandle = (): void => {
   sessionStorage.removeItem(STATE_HANDLE_SESSION_STORAGE_KEY);
   sessionStorage.removeItem(LAST_INITIATED_LOGIN_URL_SESSION_STORAGE_KEY);
-  sessionStorage.removeItem(SESSION_TIMESTAMP_KEY);
 };
 const setStateHandle = (stateHandle: string | undefined): void => {
   if (stateHandle) {
@@ -43,17 +40,6 @@ const getResendTimestamp = (): string | null => (
   sessionStorage.getItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY)
 );
 
-const setSessionTimestamp = (): void => {
-  sessionStorage.setItem(SESSION_TIMESTAMP_KEY, String(Date.now()));
-};
-const getSessionAge = (): number => {
-  const timestamp = sessionStorage.getItem(SESSION_TIMESTAMP_KEY);
-  if (!timestamp) {
-    return Infinity; // No timestamp means session age is unknown (treat as stale)
-  }
-  return Date.now() - Number(timestamp);
-};
-
 export const SessionStorage = {
   removeStateHandle,
   setStateHandle,
@@ -63,7 +49,4 @@ export const SessionStorage = {
   removeResendTimestamp,
   setResendTimestamp,
   getResendTimestamp,
-
-  setSessionTimestamp,
-  getSessionAge,
 };
