@@ -18,5 +18,15 @@
     "component": "DOMPurify",
     "version": "2.5.8",
     "justification": "CVE-2025-26791 has been patched locally within patches/dompurify+2.5.8.patch compared fix (https://github.com/cure53/DOMPurify/commit/d18ffcb554e0001748865da03ac75dd7829f0f02#diff-8e647ca2a1d9380f03114f7df5e6a70563c9cb40b03dca353a43ce84b974c2cdR6)"
+  },
+  {
+    "component": "handlebars",
+    "version": "4.7.7",
+    "justification": "CVE-2026-33937 (critical, NumberLiteral AST injection RCE): Not exploitable — the widget never passes user-supplied objects to Handlebars.compile(); templates are precompiled at build time via babel-plugin-handlebars-inline-precompile. CVE-2026-33916 (medium, prototype pollution via partial resolution XSS): Low risk — requires a separate prototype pollution vulnerability as prerequisite; the widget does not expose prototype pollution vectors. CVE-2026-33941 (medium, CLI precompiler argument injection): Not exploitable — the widget does not use the Handlebars CLI; precompilation is done via Babel plugin at build time. CVE-2026-33939 (medium, __lookupSetter__ blocklist omission): Not exploitable — the widget does not set allowProtoMethodsByDefault:true. Upgrade to handlebars 4.7.9 tracked in OKTA-1145322."
+  },
+  {
+    "component": "handlebars.js",
+    "version": "4.7.7",
+    "justification": "Same as handlebars 4.7.7 entry above. RetireJS may detect under alternate component name. Upgrade tracked in OKTA-1145322."
   }
 ]
