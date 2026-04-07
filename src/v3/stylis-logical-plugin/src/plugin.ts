@@ -62,9 +62,11 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
   /**
    * Check if a property is a spacing property (margin, padding, inset).
    */
-  const isSpacingProperty = (property: string): boolean => property.startsWith('margin')
-           || property.startsWith('padding')
-           || property.startsWith('inset');
+  const isSpacingProperty = (property: string): boolean => {
+    return property.startsWith('margin') || 
+           property.startsWith('padding') || 
+           property.startsWith('inset');
+  };
 
   /**
    * Check if a declaration actually needs logical transformation.
@@ -174,7 +176,7 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
         }
 
         // Skip transformation for selectors in the skip list (rtl not well supported scenarios)
-        if (SELECTOR_SKIP_LIST.some((item) => element.value.includes(item))) {
+        if (SELECTOR_SKIP_LIST.some(item => element.value.includes(item))) {
           break;
         }
 
