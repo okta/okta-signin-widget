@@ -34,9 +34,9 @@ import {
 import { mergeThemes } from 'src/util/mergeThemes';
 
 import Bundles from '../../../../util/Bundles';
-import { isLikelyStaleSession } from '../../../../util/errorClassifier';
 import Logger from '../../../../util/Logger';
-import { withNetworkRetry } from '../../../../util/retryRequest';
+import { isLikelyStaleSession } from '../../util/errorClassifier';
+import { withNetworkRetry } from '../../util/retryRequest';
 import {
   ABORT_REASON_WEBAUTHN_AUTOFILLUI_STEP_NOT_FOUND,
   IDX_STEP,

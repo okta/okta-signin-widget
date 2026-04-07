@@ -12,7 +12,7 @@
 
 import { HttpResponse, RawIdxResponse } from '@okta/okta-auth-js';
 
-import { classifyError } from '../../../util/errorClassifier';
+import { classifyError } from './errorClassifier';
 import Util from '../../../util/Util';
 import IonResponseHelper from '../../../v2/ion/IonResponseHelper';
 import { ErrorXHR, EventErrorContext } from '../types';

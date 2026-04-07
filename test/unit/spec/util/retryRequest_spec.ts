@@ -1,4 +1,4 @@
-import { withNetworkRetry } from '../../../../src/util/retryRequest';
+import { withNetworkRetry } from '../../../../src/v3/src/util/retryRequest';
 
 describe('retryRequest', () => {
   describe('withNetworkRetry', () => {

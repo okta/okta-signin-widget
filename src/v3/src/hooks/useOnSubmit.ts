@@ -23,7 +23,7 @@ import { useCallback } from 'preact/hooks';
 import { generateDeviceFingerprint } from 'src/util/deviceFingerprintingUtils';
 
 import Logger from '../../../util/Logger';
-import { withNetworkRetry } from '../../../util/retryRequest';
+import { withNetworkRetry } from '../util/retryRequest';
 import { getMessage } from '../../../v2/ion/i18nUtils';
 import { IDX_STEP, ON_PREM_TOKEN_CHANGE_ERROR_KEY } from '../constants';
 import { useWidgetContext } from '../contexts';

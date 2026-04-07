@@ -1,4 +1,4 @@
-import { classifyError, isLikelyStaleSession } from '../../../../src/util/errorClassifier';
+import { classifyError, isLikelyStaleSession } from '../../../../src/v3/src/util/errorClassifier';
 
 describe('errorClassifier', () => {
   describe('classifyError', () => {
