@@ -334,7 +334,7 @@ const sameDeviceOVEnrollmentWindowsLink = 'https://microsoft.com/app/ov';
 const deviceBootstrapSubtitle = 'To set up Okta Verify on additional devices, you can copy an existing Okta Verify account onto a new device.';
 const deviceBootstrapInstruction1 = 'Open Okta Verify on any of your other Okta Verify devices (Such as your testDevice1).';
 const deviceBootstrapInstruction2 = 'In the app, select your account.';
-const deviceBootstrapInstruction3 = 'Choose Add Account to Another Device.';
+const deviceBootstrapInstruction3 = 'Choose Export account.';
 const deviceBootstrapInstruction4 = 'Follow the rest of the instructions shown in Okta Verify.';
 const deviceBootstrapClosing = 'This screen can be closed at any time.';
 
