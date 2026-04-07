@@ -12,7 +12,7 @@
 
 import { useEffect } from 'preact/hooks';
 import { IdxMessage } from '@okta/okta-auth-js';
-import { loc } from '@okta/courage';
+import { loc } from '../util';
 import { Dispatch, StateUpdater } from 'preact/hooks';
 
 export const useOnlineStatus = (
