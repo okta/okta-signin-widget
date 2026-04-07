@@ -13,6 +13,7 @@
 const STATE_HANDLE_SESSION_STORAGE_KEY = 'osw-oie-state-handle';
 const LAST_INITIATED_LOGIN_URL_SESSION_STORAGE_KEY = 'osw-oie-last-initiated-login-url';
 const RESEND_TIMESTAMP_SESSION_STORAGE_KEY = 'osw-oie-resend-timestamp';
+
 const removeStateHandle = (): void => {
   sessionStorage.removeItem(STATE_HANDLE_SESSION_STORAGE_KEY);
   sessionStorage.removeItem(LAST_INITIATED_LOGIN_URL_SESSION_STORAGE_KEY);

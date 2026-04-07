@@ -11,7 +11,7 @@
  */
 
 import { IdxMessage, IdxTransaction } from '@okta/okta-auth-js';
-import { Dispatch, StateUpdater } from 'preact/hooks';
+import { StateUpdater } from 'preact/hooks';
 
 import { FormBag } from './schema';
 import { WidgetProps } from './widget';
@@ -31,7 +31,7 @@ export type TransformationOptions = {
   transaction: IdxTransaction;
   prevTransaction?: IdxTransaction;
   step: string;
-  setMessage: Dispatch<StateUpdater<IdxMessage | undefined>>;
+  setMessage: StateUpdater<IdxMessage | undefined>;
   isClientTransaction: boolean;
 };
 
