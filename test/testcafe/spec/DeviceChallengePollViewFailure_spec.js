@@ -124,5 +124,5 @@ test
     await t.addRequestHooks(nonIdxErrorPoll);
 
     await t.expect(deviceChallengePollPageObject.getErrorBoxText()).contains(
-      'There was an unexpected internal error. Please try again.');
+      'There was an unsupported response from server.');
   });

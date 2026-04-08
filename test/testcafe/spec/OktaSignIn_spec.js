@@ -649,10 +649,10 @@ test.requestHooks(identifyErrorUnsupportedResponse)('should send "afterError" ev
       formName: 'identify',
     },
     {
-      errorSummary: 'Access was blocked by a network policy. Please ensure your VPN is connected and try again.',
+      errorSummary: 'There was an unsupported response from server.',
       xhr: {
         responseJSON: {
-          errorSummary: 'Access was blocked by a network policy. Please ensure your VPN is connected and try again.',
+          errorSummary: 'There was an unsupported response from server.',
         }
       }
     }
