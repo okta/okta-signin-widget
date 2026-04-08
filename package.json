@@ -237,7 +237,7 @@
     "ts-node": "^10.9.1",
     "tsd": "^0.20.0",
     "ttypescript": "^1.5.15",
-    "typescript": "^4.9.5",
+    "typescript": "~4.5.5",
     "wait-for-expect": "^3.0.2",
     "wait-on": "^7.2.0",
     "webpack": "^5.91.0",
@@ -288,7 +288,6 @@
     "**/debug": "^4.3.4",
     "**/mout": "^1.2.4",
     "underscore": "1.13.8",
-    "typescript": "^4.9.5",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.27.5",
     "sass": "^1.69.5",
@@ -297,7 +296,10 @@
     "fs-extra": "^10.0.1",
     "webpack-merge": "^5.9.0",
     "regenerator-runtime": "^0.14.0",
-    "jest-junit": "^13.1.0"
+    "jest-junit": "^13.1.0",
+    "@babel/plugin-transform-runtime": "^7.18.6",
+    "@babel/runtime": "^7.18.6",
+    "@types/lodash": "^4.14.172"
   },
   "workspaces": {
     "packages": [
@@ -312,7 +314,10 @@
       "src/v3",
       "test/vrt"
     ],
-    "nohoist": []
+    "nohoist": [
+      "**/@types/jest",
+      "**/@types/testing-library__jest-dom"
+    ]
   },
   "packageManager": "yarn@1.22.19",
   "tsd": {
