@@ -27,11 +27,25 @@ test_suites:
     script_name: unit-jest
     criteria: MERGE
     queue_name: ci-queue-productionJenga-AL2023
-  - name: testcafe
+  - name: testcafe-shard-0
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '5'
-    timeout: '30'
-    script_name: testcafe
+    timeout: '15'
+    script_name: testcafe-shard-0
+    criteria: MERGE
+    queue_name: ci-queue-productionJenga-AL2023
+  - name: testcafe-shard-1
+    script_path: /root/okta/okta-signin-widget/scripts
+    sort_order: '5'
+    timeout: '15'
+    script_name: testcafe-shard-1
+    criteria: MERGE
+    queue_name: ci-queue-productionJenga-AL2023
+  - name: testcafe-shard-2
+    script_path: /root/okta/okta-signin-widget/scripts
+    sort_order: '5'
+    timeout: '15'
+    script_name: testcafe-shard-2
     criteria: MERGE
     queue_name: ci-queue-productionJenga-AL2023
   - name: testcafe-mobile
@@ -64,12 +78,26 @@ test_suites:
     criteria: MERGE
     queue_name: ci-queue-productionJenga-AL2023
   # NOTE: runs the testcafe suite at the project root to ensure parity between
-  # v2 and v3 for select flows
-  - name: parity-v3
+  # v2 and v3 for select flows — split into 3 shards for faster wall-clock time
+  - name: parity-v3-shard-0
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '10'
-    timeout: '40'
-    script_name: parity-v3
+    timeout: '20'
+    script_name: parity-v3-shard-0
+    criteria: MERGE
+    queue_name: ci-queue-productionJenga-AL2023
+  - name: parity-v3-shard-1
+    script_path: /root/okta/okta-signin-widget/scripts
+    sort_order: '10'
+    timeout: '20'
+    script_name: parity-v3-shard-1
+    criteria: MERGE
+    queue_name: ci-queue-productionJenga-AL2023
+  - name: parity-v3-shard-2
+    script_path: /root/okta/okta-signin-widget/scripts
+    sort_order: '10'
+    timeout: '20'
+    script_name: parity-v3-shard-2
     criteria: MERGE
     queue_name: ci-queue-productionJenga-AL2023
   - name: parity-v3-mobile
