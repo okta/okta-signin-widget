@@ -26,10 +26,7 @@ test.requestHooks(noMessagesErrorMock)('should be able generic error when reques
   const terminalPage = await setup(t);
   await checkA11y(t);
   await terminalPage.waitForErrorBox();
-  const expectedMessage = process.env.OKTA_SIW_GEN3 === 'true'
-    ? 'Access was blocked by a network policy. Please ensure your VPN is connected and try again.'
-    : 'There was an unexpected internal error. Please try again.';
-  await t.expect(terminalPage.getErrorBoxText()).contains(expectedMessage);
+  await t.expect(terminalPage.getErrorBoxText()).contains('There was an unexpected internal error. Please try again.');
 });
 
 test.requestHooks(securityAccessDeniedMock)('should be able display error when request failed ith 403 with no stateToken', async t => {

@@ -135,8 +135,8 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
         options: {
           message: {
             class: 'ERROR',
-            message: loc('error.server.internal', 'login'),
-            i18n: { key: 'error.server.internal' },
+            message: loc('error.unsupported.response', 'login'),
+            i18n: { key: 'error.unsupported.response' },
           },
           class: 'ERROR',
         },
