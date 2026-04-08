@@ -29,11 +29,9 @@
         "../../packages/@okta/i18n/src/json/*"
       ],
       "react": [
-        "./node_modules/preact/compat",
         "../../node_modules/preact/compat"
       ],
       "react-dom": [
-        "./node_modules/preact/compat",
         "../../node_modules/preact/compat"
       ],
       "src/*": [
