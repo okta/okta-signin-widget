@@ -15,7 +15,6 @@ export * from './useFormFieldValidation';
 export * from './useInteractionCodeFlow';
 export * from './useOnce';
 export * from './useOnChange';
-export * from './useOnlineStatus';
 export * from './useOnSubmit';
 export * from './useOnSubmitValidation';
 export * from './usePolling';

@@ -43,7 +43,6 @@ import { WidgetContextProvider } from '../../contexts';
 import {
   useInteractionCodeFlow,
   useOnce,
-  useOnlineStatus,
   usePolling,
   useStateHandle,
 } from '../../hooks';
@@ -119,7 +118,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     elements: [],
   });
   const [message, setMessage] = useState<IdxMessage | undefined>();
-  useOnlineStatus(setMessage);
   const [idxTransaction, setIdxTransaction] = useState<IdxTransaction | undefined>();
   const [isClientTransaction, setIsClientTransaction] = useState<boolean>(false);
   const [stepToRender, setStepToRender] = useState<string | undefined>(undefined);
