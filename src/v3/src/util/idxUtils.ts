@@ -13,7 +13,6 @@
 import {
   APIError,
   FieldError,
-  IdxFeature,
   IdxMessage,
   IdxMessages,
   IdxRemediation,

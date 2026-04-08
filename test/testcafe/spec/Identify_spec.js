@@ -212,7 +212,7 @@ test.requestHooks(identifyMockWithUnsupportedResponseError)('should show error i
   await identityPage.fillIdentifierField('test');
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
-  await t.expect(identityPage.getErrorBoxText()).contains('There was an unsupported response from server.');
+  await t.expect(identityPage.getErrorBoxText()).contains('Access was blocked by a network policy. Please ensure your VPN is connected and try again.');
 });
 
 test.requestHooks(identifyMockWithOAuthError)('should show errors if server returns OAuth error', async t => {

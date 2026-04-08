@@ -1,5 +1,5 @@
-/*!
- * Copyright (c) 2026, Okta, Inc. and/or its affiliates. All rights reserved.
+/*
+ * Copyright (c) 2026-present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -30,7 +30,7 @@ const PARSE_ERROR_SUMMARY = 'Could not parse server response';
  * certainly came from a non-Okta intermediary.
  */
 function isOktaResponse(xhr: Record<string, unknown> | undefined): boolean {
-  if (!xhr) return false;
+  if (!xhr) { return false; }
   const headers = xhr.headers as Record<string, string> | undefined;
   // Header keys are lowercase per fetchRequest.js formatResult()
   return !!headers?.['x-okta-request-id'];

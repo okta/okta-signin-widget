@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useEffect } from 'preact/hooks';
 import { IdxMessage } from '@okta/okta-auth-js';
+import { Dispatch, StateUpdater, useEffect } from 'preact/hooks';
+
 import { loc } from '../util';
-import { Dispatch, StateUpdater } from 'preact/hooks';
 
 export const useOnlineStatus = (
   setMessage: Dispatch<StateUpdater<IdxMessage | undefined>>,

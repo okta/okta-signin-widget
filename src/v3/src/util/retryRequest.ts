@@ -1,5 +1,5 @@
-/*!
- * Copyright (c) 2026, Okta, Inc. and/or its affiliates. All rights reserved.
+/*
+ * Copyright (c) 2026-present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -39,17 +39,22 @@ export async function withNetworkRetry<T = any>(
   { maxRetries = 1, delayMs = 1000 } = {},
 ): Promise<T> {
   let lastError: unknown;
-  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+  let attempt = 0;
+  while (attempt <= maxRetries) {
     try {
-      return await fn();
+      // eslint-disable-next-line no-await-in-loop
+      const result = await fn();
+      return result;
     } catch (error) {
       lastError = error;
       if (attempt < maxRetries && isRetryableError(error)) {
+        // eslint-disable-next-line no-await-in-loop
         await delay(delayMs);
       } else {
         throw error;
       }
     }
+    attempt += 1;
   }
   // Should not be reached, but satisfy TypeScript
   throw lastError;
