@@ -1,4 +1,5 @@
 const { readFileSync } = require('fs');
+const { execSync } = require('child_process');
 const { RequestMock } = require('testcafe');
 const waitOn = require('wait-on');
 
@@ -56,6 +57,8 @@ const {
   OKTA_SIW_MOBILE,
   CI,
   CHROME_HEADLESS,
+  SHARD_INDEX,
+  SHARD_TOTAL,
 } = process.env;
 
 // Normalize process.env to type 'boolean'
@@ -87,7 +90,11 @@ const config = {
     'test/testcafe/spec/EnrollAuthenticatorOktaVerify_spec.js',
   ] : env.OKTA_SIW_EN_LEAKS ? [
     'test/testcafe/spec-en-leaks/*_spec.js',
-  ] : [
+  ] : (SHARD_INDEX && SHARD_TOTAL) ? (() => {
+    // When sharding is enabled, use testcafe-shard.js to get the file list
+    const output = execSync(`node scripts/testcafe-shard.js`, { encoding: 'utf8' }).trim();
+    return output.split(' ');
+  })() : [
     'test/testcafe/spec/*_spec.js',
     'test/testcafe/spec/v1/*_spec.js'
   ],
