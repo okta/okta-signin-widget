@@ -121,14 +121,9 @@ function createNetworkFailureRoute(routePath, failureConfig, method = 'POST') {
       }
 
       const basenameMockFile = path.basename(filePath, '.json');
-      if (basenameMockFile.indexOf('error-400') === 0) {
-        res.status(400);
-      } else if (basenameMockFile.indexOf('error-401') === 0) {
-        res.status(401);
-      } else if (basenameMockFile.indexOf('error-429') === 0) {
-        res.status(429);
-      } else if (basenameMockFile.indexOf('error') === 0) {
-        res.status(403);
+      if (basenameMockFile.indexOf('error') === 0) {
+        const match = basenameMockFile.match(/^error-(\d{3})/);
+        res.status(match ? Number(match[1]) : 403);
       }
 
       res.json(json);
