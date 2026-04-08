@@ -212,7 +212,10 @@ test.requestHooks(identifyMockWithUnsupportedResponseError)('should show error i
   await identityPage.fillIdentifierField('test');
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
-  await t.expect(identityPage.getErrorBoxText()).contains('There was an unsupported response from server.');
+  const expectedMessage = process.env.OKTA_SIW_GEN3 === 'true'
+    ? 'The server encountered an error. Please refresh the page and try again.'
+    : 'There was an unsupported response from server.';
+  await t.expect(identityPage.getErrorBoxText()).contains(expectedMessage);
 });
 
 test.requestHooks(identifyMockWithOAuthError)('should show errors if server returns OAuth error', async t => {
