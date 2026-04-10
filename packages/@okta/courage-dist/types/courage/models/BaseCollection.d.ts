@@ -1,7 +1,10 @@
 import Collection from '../framework/Collection';
 import { _Result } from 'backbone';
+import { AuthParams } from '../util/OrchestratorProvider';
 export declare class BaseCollectionClass extends Collection {
     secureJSON: _Result<boolean>;
+    scopes?: string[];
+    authParams?: AuthParams;
 }
 declare const _default: typeof BaseCollectionClass;
 /**

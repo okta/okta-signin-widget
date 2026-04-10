@@ -12,6 +12,7 @@
     "checkJs": false,
     "skipLibCheck": true,
     "target": "ES6",
+    "lib": ["ES2022", "DOM"],
     "paths": {
       "vendor/*": ["./src/courage/vendor/*"],
       "@okta/handlebars-inline-precompile": ["./src/util/handlebars-inline-precompile"],

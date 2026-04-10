@@ -17,7 +17,7 @@ export { default as Handlebars } from '../lib/handlebars/dist/cjs/handlebars.run
 import './courage/util/handlebars/handle-url.js';
 import './courage/util/handlebars/helper-i18n.js';
 export { default as $ } from './courage/util/jquery-wrapper.js';
-export { default as _ } from './courage/util/underscore-wrapper.js';
+export { default as _, isTemplateAHandlebarsTemplate, logIfStringTemplate } from './courage/util/underscore-wrapper.js';
 export { default as ListView } from './courage/views/Backbone.ListView.js';
 import BaseView from './courage/views/BaseView.js';
 import BaseDropDown from './courage/views/components/BaseDropDown.js';
