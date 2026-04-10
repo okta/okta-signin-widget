@@ -62,6 +62,15 @@ export default {
       delimiters: ['', ''],
       preventAssignment: true
     }),
+    replace({
+      // chosen.jquery uses .call(this) but `this` is undefined in ESM strict mode
+      include: ['**/vendor/plugins/chosen.jquery.*'],
+      values: {
+        '}).call(this);': '}).call(window);'
+      },
+      delimiters: ['', ''],
+      preventAssignment: true
+    }),
     commonjs(),
     resolve({
       extensions,

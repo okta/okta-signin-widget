@@ -100,7 +100,7 @@ import $ from 'jquery';
     };
 
     this.SelectParser = SelectParser;
-  }).call(this);
+  }).call(window);
   (function () {
     var AbstractChosen, root;
     root = this;
@@ -369,7 +369,7 @@ import $ from 'jquery';
     }();
 
     root.AbstractChosen = AbstractChosen;
-  }).call(this);
+  }).call(window);
   (function () {
     var $,
         Chosen,
@@ -1247,5 +1247,5 @@ import $ from 'jquery';
     }(AbstractChosen);
 
     root.Chosen = Chosen;
-  }).call(this);
+  }).call(window);
 })();
