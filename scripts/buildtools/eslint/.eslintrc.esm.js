@@ -11,6 +11,10 @@ module.exports = {
   settings: {
     polyfills: [
       'Promise' // Assume Promise is polyfilled for IE11
+    ],
+    'import/core-modules': [
+      '@okta/ui-libraries-oidc-auth-headers',
+      '@okta/ui-libraries-monolith',
     ]
   },
   rules: {

@@ -16,6 +16,8 @@ const extensions = ['.js', '.ts'];
 const external = [
   '@okta/qtip',
   '@okta/okta-i18n-bundles',
+  '@okta/ui-libraries-oidc-auth-headers',
+  '@okta/ui-libraries-monolith',
   'clipboard'
 ];
 
@@ -79,6 +81,10 @@ export default {
         {
           src: `${COURAGE_DIST}/properties/translations/country*.properties`,
           dest: `${I18N_DIR}/dist/properties`,
+        },
+        {
+          src: path.resolve(__dirname, 'stubs'),
+          dest: './target/esm',
         }
       ]
     }),

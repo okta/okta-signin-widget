@@ -13,6 +13,8 @@ const extensions = ['.js', '.ts'];
 // Users of the ESM module will install their own copy
 const external = [
   '@okta/okta-auth-js',
+  '@okta/ui-libraries-oidc-auth-headers',
+  '@okta/ui-libraries-monolith',
   '@sindresorhus/to-milliseconds',
   'clipboard',
   'cross-fetch',

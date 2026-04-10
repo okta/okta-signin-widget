@@ -1,8 +1,7 @@
 import $ from 'jquery';
 import { getOidcRequestHeaders } from './OrchestratorProvider.js';
-import { AuthorizationHeaderTypes as Rn } from '../../../node_modules/@okta/ui-libraries-oidc-auth-headers/dist/index.js';
-import { OktaPageData } from '../../../node_modules/@okta/ui-libraries-monolith/dist/esm/OktaPageData.js';
-import '../../../node_modules/@okta/ui-libraries-monolith/dist/esm/ServerStatus.js';
+import { AuthorizationHeaderTypes } from '@okta/ui-libraries-oidc-auth-headers';
+import { OktaPageData } from '@okta/ui-libraries-monolith';
 import Logger from './Logger.js';
 
 /* eslint-disable @okta/okta-ui/enforce-requirejs-names, @okta/okta-ui/no-specific-modules */
@@ -113,7 +112,7 @@ $.ajax = function (url, options) {
     for (const key in authHeaders) {
       // The enum has the header names as lowercase. It doesn't matter what case we use for setting the header
       // (the next line), but we want to properly match against the enum, so use `key.toLowerCase()`.
-      if (Object.hasOwn(Rn, key.toLowerCase())) {
+      if (Object.hasOwn(AuthorizationHeaderTypes, key.toLowerCase())) {
         additionalHeaders[key] = authHeaders[key];
       }
     }

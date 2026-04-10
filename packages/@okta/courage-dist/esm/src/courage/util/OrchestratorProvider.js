@@ -1,7 +1,6 @@
-import { getOAuth2HeadersProvider as Gn } from '../../../node_modules/@okta/ui-libraries-oidc-auth-headers/dist/index.js';
-export { AuthorizationHeaderTypes } from '../../../node_modules/@okta/ui-libraries-oidc-auth-headers/dist/index.js';
-import { OktaPageData } from '../../../node_modules/@okta/ui-libraries-monolith/dist/esm/OktaPageData.js';
-import '../../../node_modules/@okta/ui-libraries-monolith/dist/esm/ServerStatus.js';
+import { getOAuth2HeadersProvider } from '@okta/ui-libraries-oidc-auth-headers';
+export { AuthorizationHeaderTypes } from '@okta/ui-libraries-oidc-auth-headers';
+import { OktaPageData } from '@okta/ui-libraries-monolith';
 
 var PageDataEnum;
 
@@ -25,7 +24,7 @@ let provider; // eslint-disable-next-line import/prefer-default-export
 
 const getOidcRequestHeaders = async (scopes, url, method, authParams) => {
   if (!provider) {
-    provider = Gn({
+    provider = getOAuth2HeadersProvider({
       appName: hostAppName,
       isEnabled: isEnabled
     });
