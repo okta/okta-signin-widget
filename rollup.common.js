@@ -1,3 +1,4 @@
+import alias from '@rollup/plugin-alias';
 import resolve from '@rollup/plugin-node-resolve';
 import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
@@ -13,8 +14,6 @@ const extensions = ['.js', '.ts'];
 // Users of the ESM module will install their own copy
 const external = [
   '@okta/okta-auth-js',
-  '@okta/ui-libraries-oidc-auth-headers',
-  '@okta/ui-libraries-monolith',
   '@sindresorhus/to-milliseconds',
   'clipboard',
   'cross-fetch',
@@ -50,8 +49,26 @@ const output = {
   preserveModules
 };
 
+const COURAGE_DIST_ESM = path.resolve(__dirname, 'packages/@okta/courage-dist/esm');
+
 const getPlugins = (entryName) => {
   let plugins = [
+    alias({
+      entries: [
+        {
+          find: '@okta/ui-libraries-oidc-auth-headers',
+          replacement: path.resolve(
+            COURAGE_DIST_ESM, 'stubs/ui-libraries-oidc-auth-headers.js'
+          )
+        },
+        {
+          find: '@okta/ui-libraries-monolith',
+          replacement: path.resolve(
+            COURAGE_DIST_ESM, 'stubs/ui-libraries-monolith.js'
+          )
+        },
+      ]
+    }),
     babel({
       babelHelpers: 'bundled',
       extensions
