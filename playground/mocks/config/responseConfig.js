@@ -1080,7 +1080,7 @@ const googleAuthenticatorVerify = {
 const pivAuth = {
   '/idp/idx/introspect': [
     'identify-with-third-party-idps',
-    //'error-identify-with-piv',
+    //'error-identify-with-piv', aDD TO COMMENT
     //'identify-with-piv-only',
   ],
 };
