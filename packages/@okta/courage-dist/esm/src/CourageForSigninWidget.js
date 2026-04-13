@@ -51,15 +51,48 @@ const Controller = BaseController.extend({
     BaseView.prototype.render.apply(this, args);
     return this;
   }
-});
+}); // Disable the Chosen jQuery plugin for the SIW — the SIW does not bundle Chosen CSS,
+// so applying Chosen produces an unstyled dropdown. Use native <select> instead.
+// Also restore placeholder localization for empty-key options removed in the upgrade.
 
-Select.prototype.remove = function () {
+const SelectForSigninWidget = Select.extend({
+  editMode: function () {
+    this.params = Object.assign({
+      chosen: false
+    }, this.params);
+    return Select.prototype.editMode.apply(this, arguments);
+  },
+  // Upstream appendOptions no longer localizes empty-key placeholder options.
+  // Restore old behavior: prepend localized "Select an option" for empty keys.
+  appendOptions: function () {
+    if (!this.getOptions()) {
+      return;
+    }
+
+    const options = this.getOptions();
+    const keys = Object.keys(options);
+    this.applySortByKey(keys);
+    keys.forEach(key => {
+      if (!key) {
+        this.$select.prepend(this.option({
+          key: '',
+          value: StringUtil.localize('select.default_value', 'login')
+        }));
+      } else {
+        this.$select.append(this.option({
+          key: key,
+          value: options[key]
+        }));
+      }
+    });
+  },
   // Patched to remove unneeded call to
   // this.$select.trigger('remove');
   // which causes error on IE11
-  return BaseInput.prototype.remove.apply(this, arguments);
-}; // The string will be returned unchanged. All templates should be precompiled.
-
+  remove: function () {
+    return BaseInput.prototype.remove.apply(this, arguments);
+  }
+}); // The string will be returned unchanged. All templates should be precompiled.
 
 FrameworkView.prototype.compileTemplate = function (str) {
   const compiledTmpl = function fakeTemplate() {
@@ -136,7 +169,7 @@ const internal = {
         PasswordBox: PasswordBoxForSigninWidget,
         CheckBox: CheckBox,
         Radio: Radio,
-        Select: Select,
+        Select: SelectForSigninWidget,
         InputGroup: InputGroup
       }
     }
@@ -150,7 +183,7 @@ registerInput('text', TextBoxForSigninWidget);
 registerInput('password', PasswordBoxForSigninWidget);
 registerInput('checkbox', CheckBox);
 registerInput('radio', Radio);
-registerInput('select', Select);
+registerInput('select', SelectForSigninWidget);
 registerInput('group', InputGroup);
 
 export { Collection, Controller, Form, Router, View, createButton, createCallout, internal, loc, registerInput };
