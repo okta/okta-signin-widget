@@ -59,8 +59,9 @@ const SelectForSigninWidget = Select.extend({
     this.params = Object.assign({ chosen: false }, this.params);
     return Select.prototype.editMode.apply(this, arguments);
   },
-  // Upstream appendOptions no longer localizes empty-key placeholder options.
-  // Restore old behavior: prepend localized "Select an option" for empty keys.
+  // Upstream appendOptions no longer localizes empty-key placeholder options
+  // and removed the deferred update() call that syncs the DOM value to the model.
+  // Restore both: localized placeholder for empty keys and deferred model sync.
   appendOptions: function () {
     if (!this.getOptions()) {
       return;
@@ -81,6 +82,8 @@ const SelectForSigninWidget = Select.extend({
         }));
       }
     });
+    // Sync the initial selected value to the model (removed in upstream upgrade)
+    _.defer(_.bind(this.update, this));
   },
   // Patched to remove unneeded call to
   // this.$select.trigger('remove');

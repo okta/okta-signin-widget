@@ -17,6 +17,7 @@ export { default as Handlebars } from '../lib/handlebars/dist/cjs/handlebars.run
 import './courage/util/handlebars/handle-url.js';
 import './courage/util/handlebars/helper-i18n.js';
 export { default as $ } from './courage/util/jquery-wrapper.js';
+import oktaUnderscore from './courage/util/underscore-wrapper.js';
 export { default as _, isTemplateAHandlebarsTemplate, logIfStringTemplate } from './courage/util/underscore-wrapper.js';
 export { default as ListView } from './courage/views/Backbone.ListView.js';
 import BaseView from './courage/views/BaseView.js';
@@ -62,8 +63,9 @@ const SelectForSigninWidget = Select.extend({
     }, this.params);
     return Select.prototype.editMode.apply(this, arguments);
   },
-  // Upstream appendOptions no longer localizes empty-key placeholder options.
-  // Restore old behavior: prepend localized "Select an option" for empty keys.
+  // Upstream appendOptions no longer localizes empty-key placeholder options
+  // and removed the deferred update() call that syncs the DOM value to the model.
+  // Restore both: localized placeholder for empty keys and deferred model sync.
   appendOptions: function () {
     if (!this.getOptions()) {
       return;
@@ -84,7 +86,9 @@ const SelectForSigninWidget = Select.extend({
           value: options[key]
         }));
       }
-    });
+    }); // Sync the initial selected value to the model (removed in upstream upgrade)
+
+    oktaUnderscore.defer(oktaUnderscore.bind(this.update, this));
   },
   // Patched to remove unneeded call to
   // this.$select.trigger('remove');
