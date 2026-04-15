@@ -170,7 +170,7 @@ export default View.extend({
       // Check if the state handle is one of the fields that should be passed in the body
       if (value?.find((field) => field?.name === 'stateHandle')) {
         newInit.body = JSON.stringify({ 
-          stateHandle: this.options.appState.settings.options.stateToken
+          stateHandle: this.options.appState.get('idx').context.stateHandle
         });
       }
 
