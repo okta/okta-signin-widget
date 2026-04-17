@@ -252,8 +252,6 @@ var FormUtil = {
         href: '#',
         'aria-label': ariaLabel
       },
-      // TODO: refactor to enforce precompiled templates OKTA-309852
-      // eslint-disable-next-line @okta/okta-ui/no-bare-templates
       template: function () {
         return oktaUnderscore.escape(text);
       },

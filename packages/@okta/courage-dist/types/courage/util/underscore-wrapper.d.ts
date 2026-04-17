@@ -4,5 +4,7 @@ export interface OktaUnderscore extends _.UnderscoreStatic {
     isInteger: (value: any) => boolean;
     template: (source: any, data: any) => _.CompiledTemplate;
 }
+export declare const logIfStringTemplate: (template: any) => void;
+export declare const isTemplateAHandlebarsTemplate: (template: any) => boolean;
 declare const oktaUnderscore: OktaUnderscore;
 export default oktaUnderscore;

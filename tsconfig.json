@@ -26,6 +26,8 @@
       "@okta/duo": ["./packages/vendor/duo_web_sdk/index.js"],
       "@okta/qtip": ["./packages/@okta/qtip2/dist/jquery.qtip.js"],
       "@okta/typingdna": ["./packages/vendor/TypingDnaRecorder-JavaScript/typingdna"],
+      "@okta/ui-libraries-oidc-auth-headers": ["./packages/@okta/courage-dist/esm/stubs/ui-libraries-oidc-auth-headers.js"],
+      "@okta/ui-libraries-monolith": ["./packages/@okta/courage-dist/esm/stubs/ui-libraries-monolith.js"],
       "util/*": ["./src/util/*"],
       "widget/*": ["./src/widget/*"],
       "models/*": ["./src/models/*"],
