@@ -153,7 +153,7 @@
     "@zerollup/ts-transform-paths": "^1.7.18",
     "autoprefixer": "^10.3.4",
     "axe-core": "^4.6.3",
-    "axios": "^0.28.0",
+    "axios": "^1.15.0",
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.5",
     "babel-plugin-add-module-exports": "^1.0.4",
@@ -287,7 +287,8 @@
     "stylis": "^4.3.0",
     "**/debug": "^4.3.4",
     "**/mout": "^1.2.4",
-    "underscore": "1.13.8"
+    "underscore": "1.13.8",
+    "**/axios": "^1.15.0"
   },
   "workspaces": {
     "packages": [
