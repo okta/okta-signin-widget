@@ -20,6 +20,11 @@ const OktaSignInWidgetOnCaptchaLoadedCallback = 'OktaSignInWidgetOnCaptchaLoaded
 const OktaSignInWidgetOnCaptchaSolvedCallback = 'OktaSignInWidgetOnCaptchaSolved';
 
 const HCAPTCHA_URL = 'https://hcaptcha.com/1/api.js';
+// ALTCHA_URL and ALTCHA_SRI_HASH must be updated together — changing one
+// without the other will silently break CAPTCHA.
+//
+// To regenerate the SRI hash after a version bump:
+//   echo "sha384-$(curl -s <new-url> | openssl dgst -sha384 -binary | openssl base64 -A)"
 const ALTCHA_URL = 'https://cdn.jsdelivr.net/gh/altcha-org/altcha@2.3.0/dist/altcha.min.js';
 const ALTCHA_SRI_HASH = 'sha384-lxB6k+TvdhSBKnLm6JqwAnW7QxKXj88yK1kq9g3MevDXlG9HdWtnShLgJzuYCUIw';
 const RECAPTCHAV2_URL = 'https://www.google.com/recaptcha/api.js';
