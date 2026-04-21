@@ -446,8 +446,8 @@ describe('v2/view-builder/views/CaptchaView', function() {
 
       expect(appendChildSpy).toHaveBeenCalled();
       const scriptTag = appendChildSpy.mock.calls[0][0];
-      expect(scriptTag.integrity).toBeUndefined();
-      expect(scriptTag.crossOrigin).toBeUndefined();
+      expect(scriptTag.getAttribute('integrity')).toBeNull();
+      expect(scriptTag.getAttribute('crossorigin')).toBeNull();
     });
   });
 });
