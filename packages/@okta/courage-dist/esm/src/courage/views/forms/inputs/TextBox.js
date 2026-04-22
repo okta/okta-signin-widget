@@ -26,10 +26,10 @@ function createQtipContent(options) {
 
 var TextBox = BaseInput.extend({
   template: _Handlebars2.template({
-    "0": function (container, depth0, helpers, partials, data) {
+    "1": function (container, depth0, helpers, partials, data) {
       return "<span class=\"input-tooltip icon form-help-16\"></span>";
     },
-    "1": function (container, depth0, helpers, partials, data) {
+    "3": function (container, depth0, helpers, partials, data) {
       var stack1,
           lookupProperty = container.lookupProperty || function (parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -41,7 +41,7 @@ var TextBox = BaseInput.extend({
 
       return "<span class=\"icon input-icon " + container.escapeExpression(container.lambda((stack1 = depth0 != null ? lookupProperty(depth0, "params") : depth0) != null ? lookupProperty(stack1, "icon") : stack1, depth0)) + "\"></span>";
     },
-    "2": function (container, depth0, helpers, partials, data) {
+    "5": function (container, depth0, helpers, partials, data) {
       var helper,
           lookupProperty = container.lookupProperty || function (parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -67,10 +67,10 @@ var TextBox = BaseInput.extend({
         }
       }) : helper));
     },
-    "3": function (container, depth0, helpers, partials, data) {
+    "7": function (container, depth0, helpers, partials, data) {
       return "off";
     },
-    "4": function (container, depth0, helpers, partials, data) {
+    "9": function (container, depth0, helpers, partials, data) {
       return "<span class=\"input-icon-divider\"></span>";
     },
     "compiler": [8, ">= 4.3.0"],
@@ -92,7 +92,7 @@ var TextBox = BaseInput.extend({
       return ((stack1 = lookupProperty(helpers, "if").call(alias1, (stack1 = depth0 != null ? lookupProperty(depth0, "params") : depth0) != null ? lookupProperty(stack1, "innerTooltip") : stack1, {
         "name": "if",
         "hash": {},
-        "fn": container.program(0, data, 0),
+        "fn": container.program(1, data, 0),
         "inverse": container.noop,
         "data": data,
         "loc": {
@@ -108,7 +108,7 @@ var TextBox = BaseInput.extend({
       })) != null ? stack1 : "") + ((stack1 = lookupProperty(helpers, "if").call(alias1, (stack1 = depth0 != null ? lookupProperty(depth0, "params") : depth0) != null ? lookupProperty(stack1, "icon") : stack1, {
         "name": "if",
         "hash": {},
-        "fn": container.program(1, data, 0),
+        "fn": container.program(3, data, 0),
         "inverse": container.noop,
         "data": data,
         "loc": {
@@ -208,8 +208,8 @@ var TextBox = BaseInput.extend({
       }) : helper)) + "\" autocomplete=\"" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "autoComplete") : depth0, {
         "name": "if",
         "hash": {},
-        "fn": container.program(2, data, 0),
-        "inverse": container.program(3, data, 0),
+        "fn": container.program(5, data, 0),
+        "inverse": container.program(7, data, 0),
         "data": data,
         "loc": {
           "start": {
@@ -224,7 +224,7 @@ var TextBox = BaseInput.extend({
       })) != null ? stack1 : "") + "\" />" + ((stack1 = lookupProperty(helpers, "if").call(alias1, (stack1 = depth0 != null ? lookupProperty(depth0, "params") : depth0) != null ? lookupProperty(stack1, "iconDivider") : stack1, {
         "name": "if",
         "hash": {},
-        "fn": container.program(4, data, 0),
+        "fn": container.program(9, data, 0),
         "inverse": container.noop,
         "data": data,
         "loc": {

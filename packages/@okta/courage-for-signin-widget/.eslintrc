@@ -6,12 +6,6 @@
     "plugin:import/recommended"
   ],
   "parser": "@babel/eslint-parser",
-  "parserOptions": {
-    "requireConfigFile": false,
-    "babelOptions": {
-      "configFile": false
-    }
-  },
   "plugins": [
     "import",
     "@typescript-eslint",
@@ -97,14 +91,6 @@
       ],
       "rules": {
         "@okta/okta/no-unlocalized-text-in-templates": "off"
-      }
-    },
-    {
-      "files": [
-        "target/esm/**/underscore-min.js"
-      ],
-      "rules": {
-        "no-constant-condition": "off"
       }
     }
   ]

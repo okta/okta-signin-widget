@@ -19,7 +19,6 @@ export declare class BaseFormConstructor extends BaseView {
     title: string | null;
     subtitle: string | null;
     autoSave: boolean;
-    autoFetchAndSave: boolean;
     scrollOnError: _Result<boolean>;
     showErrors: _Result<boolean>;
     resizeSelector: string;

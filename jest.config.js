@@ -64,9 +64,6 @@ module.exports = {
     '^@okta/qtip$': '@okta/qtip2/dist/jquery.qtip.js',
     '^@okta/duo$': `${LOCAL_PACKAGES}/vendor/duo_web_sdk/index.js`,
     '^@okta/typingdna$': `${LOCAL_PACKAGES}/vendor/TypingDnaRecorder-JavaScript/typingdna`,
-    '^@okta/ui-libraries-oidc-auth-headers$':
-        `${LOCAL_PACKAGES}/@okta/courage-dist/esm/stubs/ui-libraries-oidc-auth-headers.js`,
-    '^@okta/ui-libraries-monolith$': `${LOCAL_PACKAGES}/@okta/courage-dist/esm/stubs/ui-libraries-monolith.js`,
     '^LoginRouter$': `${ROOT}/src/LoginRouter`,
   },
   setupFiles: [

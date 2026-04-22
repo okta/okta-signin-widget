@@ -33,16 +33,6 @@ var Model = FrameworkModel.extend(
         }, options));
       });
     }
-  },
-  sync: function (method, model, options) {
-    options ??= {};
-    const {
-      scopes = [],
-      authParams = undefined
-    } = model;
-    options.scopes = scopes;
-    options.authParams = authParams;
-    return FrameworkModel.prototype.sync.apply(this, [method, model, options]);
   }
 });
 

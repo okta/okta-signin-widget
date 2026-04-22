@@ -46,7 +46,7 @@ const events = {
 };
 
 const template = _Handlebars2.template({
-  "0": function (container, depth0, helpers, partials, data) {
+  "1": function (container, depth0, helpers, partials, data) {
     var lookupProperty = container.lookupProperty || function (parent, propertyName) {
       if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
         return parent[propertyName];
@@ -74,7 +74,7 @@ const template = _Handlebars2.template({
       }
     })) + "\" href=\"#\"><span data-se=\"icon\" class=\"dismiss-icon\"></span></a>";
   },
-  "1": function (container, depth0, helpers, partials, data) {
+  "3": function (container, depth0, helpers, partials, data) {
     var helper,
         lookupProperty = container.lookupProperty || function (parent, propertyName) {
       if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -100,7 +100,7 @@ const template = _Handlebars2.template({
       }
     }) : helper)) + "</h3>";
   },
-  "2": function (container, depth0, helpers, partials, data) {
+  "5": function (container, depth0, helpers, partials, data) {
     var helper,
         lookupProperty = container.lookupProperty || function (parent, propertyName) {
       if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -126,7 +126,7 @@ const template = _Handlebars2.template({
       }
     }) : helper)) + "</p>";
   },
-  "3": function (container, depth0, helpers, partials, data) {
+  "7": function (container, depth0, helpers, partials, data) {
     var stack1,
         lookupProperty = container.lookupProperty || function (parent, propertyName) {
       if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -139,7 +139,7 @@ const template = _Handlebars2.template({
     return "<ul data-se=\"list\" class=\"bullets\">" + ((stack1 = lookupProperty(helpers, "each").call(depth0 != null ? depth0 : container.nullContext || {}, depth0 != null ? lookupProperty(depth0, "bullets") : depth0, {
       "name": "each",
       "hash": {},
-      "fn": container.program(4, data, 0),
+      "fn": container.program(8, data, 0),
       "inverse": container.noop,
       "data": data,
       "loc": {
@@ -154,7 +154,7 @@ const template = _Handlebars2.template({
       }
     })) != null ? stack1 : "") + "</ul>";
   },
-  "4": function (container, depth0, helpers, partials, data) {
+  "8": function (container, depth0, helpers, partials, data) {
     return "<li data-se=\"list-item\">" + container.escapeExpression(container.lambda(depth0, depth0)) + "</li>";
   },
   "compiler": [8, ">= 4.3.0"],
@@ -173,7 +173,7 @@ const template = _Handlebars2.template({
     return ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "dismissible") : depth0, {
       "name": "if",
       "hash": {},
-      "fn": container.program(0, data, 0),
+      "fn": container.program(1, data, 0),
       "inverse": container.noop,
       "data": data,
       "loc": {
@@ -203,7 +203,7 @@ const template = _Handlebars2.template({
     }) : helper)) + "\"></span>" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "title") : depth0, {
       "name": "if",
       "hash": {},
-      "fn": container.program(1, data, 0),
+      "fn": container.program(3, data, 0),
       "inverse": container.noop,
       "data": data,
       "loc": {
@@ -219,7 +219,7 @@ const template = _Handlebars2.template({
     })) != null ? stack1 : "") + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "subtitle") : depth0, {
       "name": "if",
       "hash": {},
-      "fn": container.program(2, data, 0),
+      "fn": container.program(5, data, 0),
       "inverse": container.noop,
       "data": data,
       "loc": {
@@ -235,7 +235,7 @@ const template = _Handlebars2.template({
     })) != null ? stack1 : "") + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "bullets") : depth0, {
       "name": "if",
       "hash": {},
-      "fn": container.program(3, data, 0),
+      "fn": container.program(7, data, 0),
       "inverse": container.noop,
       "data": data,
       "loc": {

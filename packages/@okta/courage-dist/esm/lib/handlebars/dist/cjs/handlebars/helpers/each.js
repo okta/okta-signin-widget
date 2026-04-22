@@ -1,3 +1,4 @@
+import { commonjsGlobal } from '../../../../../../_virtual/_commonjsHelpers.js';
 import { e as each } from '../../../../../../_virtual/each.js';
 import '../utils.js';
 import '../exception.js';
@@ -70,9 +71,9 @@ exports['default'] = function (instance) {
             execIteration(i, i, i === context.length - 1);
           }
         }
-      } else if (typeof Symbol === 'function' && context[Symbol.iterator]) {
+      } else if (commonjsGlobal.Symbol && context[commonjsGlobal.Symbol.iterator]) {
         var newContext = [];
-        var iterator = context[Symbol.iterator]();
+        var iterator = context[commonjsGlobal.Symbol.iterator]();
 
         for (var it = iterator.next(); !it.done; it = iterator.next()) {
           newContext.push(it.value);
