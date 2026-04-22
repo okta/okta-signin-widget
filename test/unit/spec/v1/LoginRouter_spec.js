@@ -53,7 +53,7 @@ jest.mock('cross-fetch', () => {
 import fetch from 'cross-fetch';
 fetch.dontMock();
 
-let { Util: SharedUtil } = internal.util;
+let { Util: SharedUtil, Logger: CourageLogger } = internal.util;
 const itp = Expect.itp;
 const OIDC_IFRAME_ID = 'okta-oauth-helper-frame';
 const OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
@@ -256,6 +256,12 @@ Expect.describe('v1/LoginRouter', function() {
       });
   }
 
+  function expectUnexpectedFieldLog(arg1) {
+    // These console warnings are called from Courage's Logger class, not
+    // the Widget's. We need to assert that the following is called in specific
+    // environments (window.okta && window.okta.debug are defined).
+    expect(CourageLogger.warn).toHaveBeenCalledWith('Field not defined in schema', arg1);
+  }
 
   Expect.describe('Loads json bundles', function() {
     config.supportedLanguages
@@ -312,20 +318,25 @@ Expect.describe('v1/LoginRouter', function() {
       });
   });
 
-  // Model.allows() no longer warns about unknown schema fields after courage upgrade
-  it('does not throw if unknown option is passed as a widget param', function() {
+  it('logs a ConfigError error if unknown option is passed as a widget param', function() {
+    spyOn(CourageLogger, 'warn');
+
     const fn = function() {
       setup({ foo: 'bla' });
     };
 
     expect(fn).not.toThrowError(ConfigError);
+    expectUnexpectedFieldLog('foo');
   });
-  it('does not throw for unknown widget params', function() {
+  it('has the correct error message if unknown option is passed as a widget param', function() {
+    spyOn(CourageLogger, 'warn');
+
     const fn = function() {
       setup({ foo: 'bla' });
     };
 
     expect(fn).not.toThrow();
+    expectUnexpectedFieldLog('foo');
   });
   it('logs a ConfigError error if el is not passed as a widget param', function() {
     spyOn(Logger, 'error');
@@ -683,13 +694,14 @@ Expect.describe('v1/LoginRouter', function() {
         });
     }
   );
-  // Model.allows() no longer warns about unknown schema fields after courage upgrade
-  it('does not throw on unknown options if no globalErrorFn is defined', function() {
+  it('logs an error on unrecoverable errors if no globalErrorFn is defined', function() {
     const fn = function() {
       setup({ foo: 'bar' });
     };
 
+    spyOn(CourageLogger, 'warn');
     expect(fn).not.toThrow('field not allowed: foo');
+    expectUnexpectedFieldLog('foo');
   });
   it('calls globalErrorFn on unrecoverable errors if it is defined', function() {
     const errorSpy = jasmine.createSpy('errorSpy');

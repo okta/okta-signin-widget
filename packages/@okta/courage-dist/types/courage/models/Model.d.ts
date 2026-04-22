@@ -1,10 +1,7 @@
 import FrameworkModel from '../framework/Model';
 import { _Result } from 'backbone';
-import { AuthParams } from '../util/OrchestratorProvider';
 export declare class ModelClass extends FrameworkModel {
     secureJSON: _Result<boolean>;
-    scopes?: string[];
-    authParams?: AuthParams;
 }
 declare const _default: typeof ModelClass;
 /**

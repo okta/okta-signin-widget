@@ -22,16 +22,6 @@ const baseCollectionProps =
         }, options));
       });
     }
-  },
-  sync: function (method, collection, options) {
-    const {
-      scopes = [],
-      authParams = undefined
-    } = collection;
-    options ??= {};
-    options.scopes = scopes;
-    options.authParams = authParams;
-    return Collection.prototype.sync.call(this, method, collection, options);
   }
 };
 /**

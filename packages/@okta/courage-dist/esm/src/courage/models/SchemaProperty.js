@@ -91,7 +91,10 @@ const SchemaPropertySchemaProperty = BaseModel.extend({
     unique: undefined,
     __metadata__: undefined,
     __isSensitive__: BaseModel.ComputedProperty(['settings'], function (settings) {
-      return !!(settings && settings.sensitive);
+      return !!(settings && settings.sensitive && settings.sensitive !== 'NOT_SENSITIVE');
+    }),
+    __isPendingSensitive__: BaseModel.ComputedProperty(['settings'], function (settings) {
+      return !!(settings && settings.sensitive && settings.sensitive === 'PENDING_SENSITIVE');
     }),
     __unique__: false,
     __isUniqueValidated__: BaseModel.ComputedProperty(['unique'], function (unique) {
@@ -219,12 +222,6 @@ const SchemaPropertySchemaProperty = BaseModel.extend({
     return resp;
   },
   validate: function () {
-    const loginFormatRestrictionError = this._validateLoginFormatRestriction();
-
-    if (loginFormatRestrictionError) {
-      return loginFormatRestrictionError;
-    }
-
     const enumValidationError = this._validateEnumOneOf();
 
     if (enumValidationError) {
@@ -464,20 +461,6 @@ const SchemaPropertySchemaProperty = BaseModel.extend({
     return oktaUnderscore.all(values, function (value) {
       return EnumTypeHelper.isConstraintValueMatchType(value.const, constraintType);
     });
-  },
-  _validateLoginFormatRestriction: function () {
-    if (!this.get('__isLoginOfBaseSchema__')) {
-      return;
-    }
-
-    const loginFormat = this.get('__loginFormatRestriction__');
-    const loginFormatCustom = this.get('__loginFormatRestrictionCustom__') || '';
-
-    if (loginFormat === SchemaUtils.LOGINPATTERNFORMAT.CUSTOM && loginFormatCustom.trim() === '') {
-      return {
-        __loginFormatRestrictionCustom__: loc('model.validation.field.blank', 'courage')
-      };
-    }
   },
   toJSON: function () {
     let json = BaseModel.prototype.toJSON.apply(this, arguments);

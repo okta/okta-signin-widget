@@ -106,13 +106,15 @@ function template(templateSpec, env) {
     }
 
     partial = env.VM.resolvePartial.call(this, partial, context, options);
-    options.hooks = this.hooks;
-    options.protoAccessControl = this.protoAccessControl;
-    var result = env.VM.invokePartial.call(this, partial, context, options);
+    var extendedOptions = Utils.extend({}, options, {
+      hooks: this.hooks,
+      protoAccessControl: this.protoAccessControl
+    });
+    var result = env.VM.invokePartial.call(this, partial, context, extendedOptions);
 
     if (result == null && env.compile) {
       options.partials[options.name] = env.compile(partial, templateSpec.compilerOptions, env);
-      result = options.partials[options.name](context, options);
+      result = options.partials[options.name](context, extendedOptions);
     }
 
     if (result != null) {
@@ -171,7 +173,7 @@ function template(templateSpec, env) {
         var result = depths[i] && container.lookupProperty(depths[i], name);
 
         if (result != null) {
-          return result;
+          return depths[i][name];
         }
       }
     },
@@ -255,9 +257,8 @@ function template(templateSpec, env) {
 
   ret._setup = function (options) {
     if (!options.partial) {
-      var mergedHelpers = {};
-      addHelpers(mergedHelpers, env.helpers, container);
-      addHelpers(mergedHelpers, options.helpers, container);
+      var mergedHelpers = Utils.extend({}, env.helpers, options.helpers);
+      wrapHelpersToPassLookupProperty(mergedHelpers, container);
       container.helpers = mergedHelpers;
 
       if (templateSpec.usePartial) {
@@ -327,14 +328,14 @@ function wrapProgram(container, i, fn, data, declaredBlockParams, blockParams, d
 function resolvePartial(partial, context, options) {
   if (!partial) {
     if (options.name === '@partial-block') {
-      partial = lookupOwnProperty(options.data, 'partial-block');
+      partial = options.data['partial-block'];
     } else {
-      partial = lookupOwnProperty(options.partials, options.name);
+      partial = options.partials[options.name];
     }
   } else if (!partial.call && !options.name) {
     // This is a dynamic partial that returned a string
     options.name = partial;
-    partial = lookupOwnProperty(options.partials, partial);
+    partial = options.partials[partial];
   }
 
   return partial;
@@ -342,7 +343,7 @@ function resolvePartial(partial, context, options) {
 
 function invokePartial(partial, context, options) {
   // Use the current closure context to save the partial-block if this partial
-  var currentPartialBlock = lookupOwnProperty(options.data, 'partial-block');
+  var currentPartialBlock = options.data && options.data['partial-block'];
   options.partial = true;
 
   if (options.ids) {
@@ -387,12 +388,6 @@ function noop() {
   return '';
 }
 
-function lookupOwnProperty(obj, name) {
-  if (obj && Object.prototype.hasOwnProperty.call(obj, name)) {
-    return obj[name];
-  }
-}
-
 function initData(context, data) {
   if (!data || !('root' in data)) {
     data = data ? _base.createFrame(data) : {};
@@ -412,10 +407,9 @@ function executeDecorators(fn, prog, container, depths, data, blockParams) {
   return prog;
 }
 
-function addHelpers(mergedHelpers, helpers, container) {
-  if (!helpers) return;
-  Object.keys(helpers).forEach(function (helperName) {
-    var helper = helpers[helperName];
+function wrapHelpersToPassLookupProperty(mergedHelpers, container) {
+  Object.keys(mergedHelpers).forEach(function (helperName) {
+    var helper = mergedHelpers[helperName];
     mergedHelpers[helperName] = passLookupPropertyOption(helper, container);
   });
 }
@@ -423,7 +417,8 @@ function addHelpers(mergedHelpers, helpers, container) {
 function passLookupPropertyOption(helper, container) {
   var lookupProperty = container.lookupProperty;
   return _internalWrapHelper.wrapHelper(helper, function (options) {
-    options.lookupProperty = lookupProperty;
-    return options;
+    return Utils.extend({
+      lookupProperty: lookupProperty
+    }, options);
   });
 }

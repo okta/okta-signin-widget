@@ -17,8 +17,7 @@ export { default as Handlebars } from '../lib/handlebars/dist/cjs/handlebars.run
 import './courage/util/handlebars/handle-url.js';
 import './courage/util/handlebars/helper-i18n.js';
 export { default as $ } from './courage/util/jquery-wrapper.js';
-import oktaUnderscore from './courage/util/underscore-wrapper.js';
-export { default as _, isTemplateAHandlebarsTemplate, logIfStringTemplate } from './courage/util/underscore-wrapper.js';
+export { default as _ } from './courage/util/underscore-wrapper.js';
 export { default as ListView } from './courage/views/Backbone.ListView.js';
 import BaseView from './courage/views/BaseView.js';
 import BaseDropDown from './courage/views/components/BaseDropDown.js';
@@ -52,51 +51,15 @@ const Controller = BaseController.extend({
     BaseView.prototype.render.apply(this, args);
     return this;
   }
-}); // Disable the Chosen jQuery plugin for the SIW — the SIW does not bundle Chosen CSS,
-// so applying Chosen produces an unstyled dropdown. Use native <select> instead.
-// Also restore placeholder localization for empty-key options removed in the upgrade.
+});
 
-const SelectForSigninWidget = Select.extend({
-  editMode: function () {
-    this.params = Object.assign({
-      chosen: false
-    }, this.params);
-    return Select.prototype.editMode.apply(this, arguments);
-  },
-  // Upstream appendOptions no longer localizes empty-key placeholder options
-  // and removed the deferred update() call that syncs the DOM value to the model.
-  // Restore both: localized placeholder for empty keys and deferred model sync.
-  appendOptions: function () {
-    if (!this.getOptions()) {
-      return;
-    }
-
-    const options = this.getOptions();
-    const keys = Object.keys(options);
-    this.applySortByKey(keys);
-    keys.forEach(key => {
-      if (!key) {
-        this.$select.prepend(this.option({
-          key: '',
-          value: StringUtil.localize('select.default_value', 'login')
-        }));
-      } else {
-        this.$select.append(this.option({
-          key: key,
-          value: options[key]
-        }));
-      }
-    }); // Sync the initial selected value to the model (removed in upstream upgrade)
-
-    oktaUnderscore.defer(oktaUnderscore.bind(this.update, this));
-  },
+Select.prototype.remove = function () {
   // Patched to remove unneeded call to
   // this.$select.trigger('remove');
   // which causes error on IE11
-  remove: function () {
-    return BaseInput.prototype.remove.apply(this, arguments);
-  }
-}); // The string will be returned unchanged. All templates should be precompiled.
+  return BaseInput.prototype.remove.apply(this, arguments);
+}; // The string will be returned unchanged. All templates should be precompiled.
+
 
 FrameworkView.prototype.compileTemplate = function (str) {
   const compiledTmpl = function fakeTemplate() {
@@ -173,7 +136,7 @@ const internal = {
         PasswordBox: PasswordBoxForSigninWidget,
         CheckBox: CheckBox,
         Radio: Radio,
-        Select: SelectForSigninWidget,
+        Select: Select,
         InputGroup: InputGroup
       }
     }
@@ -187,7 +150,7 @@ registerInput('text', TextBoxForSigninWidget);
 registerInput('password', PasswordBoxForSigninWidget);
 registerInput('checkbox', CheckBox);
 registerInput('radio', Radio);
-registerInput('select', SelectForSigninWidget);
+registerInput('select', Select);
 registerInput('group', InputGroup);
 
 export { Collection, Controller, Form, Router, View, createButton, createCallout, internal, loc, registerInput };

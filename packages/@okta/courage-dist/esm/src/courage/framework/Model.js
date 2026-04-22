@@ -1,5 +1,6 @@
 import oktaUnderscore from '../util/underscore-wrapper.js';
 import Backbone from '../vendor/lib/backbone.js';
+import Logger from '../util/Logger.js';
 
 function isModelPropertySchema(obj) {
   return obj && obj.type || obj.deps;
@@ -524,8 +525,18 @@ const props =
 
   /**
      * Check if the schema settings allow this field to exist in the model
-    */
-  allows: function () {
+     * @param  {String} key
+     * @return {Boolean}
+     */
+  allows: function (key) {
+    var schema = this['__schema__'];
+
+    var all = oktaUnderscore.extend({}, schema.props, schema.local);
+
+    if (!oktaUnderscore.has(all, key)) {
+      Logger.warn('Field not defined in schema', key);
+    }
+
     return true;
   },
 

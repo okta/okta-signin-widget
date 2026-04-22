@@ -15,7 +15,7 @@ import InputWrapper from './helpers/InputWrapper.js';
 import SettingsModel from '../../util/SettingsModel.js';
 
 const template = _Handlebars2.template({
-  "0": function (container, depth0, helpers, partials, data) {
+  "1": function (container, depth0, helpers, partials, data) {
     var helper,
         lookupProperty = container.lookupProperty || function (parent, propertyName) {
       if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -41,7 +41,7 @@ const template = _Handlebars2.template({
       }
     }) : helper)) + "</h2>";
   },
-  "1": function (container, depth0, helpers, partials, data) {
+  "3": function (container, depth0, helpers, partials, data) {
     var stack1,
         lookupProperty = container.lookupProperty || function (parent, propertyName) {
       if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -54,7 +54,7 @@ const template = _Handlebars2.template({
     return (stack1 = lookupProperty(helpers, "if").call(depth0 != null ? depth0 : container.nullContext || {}, depth0 != null ? lookupProperty(depth0, "title") : depth0, {
       "name": "if",
       "hash": {},
-      "fn": container.program(2, data, 0),
+      "fn": container.program(4, data, 0),
       "inverse": container.noop,
       "data": data,
       "loc": {
@@ -69,7 +69,7 @@ const template = _Handlebars2.template({
       }
     })) != null ? stack1 : "";
   },
-  "2": function (container, depth0, helpers, partials, data) {
+  "4": function (container, depth0, helpers, partials, data) {
     var helper,
         lookupProperty = container.lookupProperty || function (parent, propertyName) {
       if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -95,7 +95,7 @@ const template = _Handlebars2.template({
       }
     }) : helper)) + "</h2>";
   },
-  "3": function (container, depth0, helpers, partials, data) {
+  "6": function (container, depth0, helpers, partials, data) {
     var helper,
         lookupProperty = container.lookupProperty || function (parent, propertyName) {
       if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -137,7 +137,7 @@ const template = _Handlebars2.template({
     return ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "hasReadMode") : depth0, {
       "name": "if",
       "hash": {},
-      "fn": container.program(0, data, 0),
+      "fn": container.program(1, data, 0),
       "inverse": container.noop,
       "data": data,
       "loc": {
@@ -167,7 +167,7 @@ const template = _Handlebars2.template({
     }) : helper)) + " clearfix\">" + ((stack1 = lookupProperty(helpers, "unless").call(alias1, depth0 != null ? lookupProperty(depth0, "hasReadMode") : depth0, {
       "name": "unless",
       "hash": {},
-      "fn": container.program(1, data, 0),
+      "fn": container.program(3, data, 0),
       "inverse": container.noop,
       "data": data,
       "loc": {
@@ -183,7 +183,7 @@ const template = _Handlebars2.template({
     })) != null ? stack1 : "") + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "subtitle") : depth0, {
       "name": "if",
       "hash": {},
-      "fn": container.program(3, data, 0),
+      "fn": container.program(6, data, 0),
       "inverse": container.noop,
       "data": data,
       "loc": {
@@ -457,14 +457,6 @@ var BaseForm = BaseView.extend(
       if (oktaUnderscore.isUndefined(hasSavingState)) {
         hasSavingState = true;
       }
-    } else if (this.getAttribute('autoFetchAndSave')) {
-      this.listenTo(this, 'save', function (model) {
-        if (oktaUnderscore.isUndefined(hasSavingState)) {
-          hasSavingState = true;
-        }
-
-        this.fetchAndSave(model);
-      });
     }
     /*
     * Attach model event listeners
@@ -481,52 +473,6 @@ var BaseForm = BaseView.extend(
       this.listenTo(this.model, convertSavingState(customSavingState.start || '', ['request']), this.__setSavingState);
       this.listenTo(this.model, convertSavingState(customSavingState.stop || '', ['error', 'sync']), this.__clearSavingState);
     }
-  },
-
-  /*
-  * Does a model.save, but first fetches the model to ensure that we
-  * don't overwrite unrelated properties that have been changed
-  * since the form was rendered. This fixes a bug that occurs when multiple
-  * forms are rendered on the same page which hit the same endpoint.
-  * You can optionally pass in a different model for fetching to avoid
-  * flickering in the form as the fetch temporarily undos some attributes
-  */
-  fetchAndSave: async function (formModel = this.model, otherModel = this.model) {
-    // This is set when the form is first rendered, and may be stale
-    const attrsOnInitialRender = this.__originalModel;
-    const attrsFromCurrentFormState = { ...formModel.attributes
-    }; // Fetch the model on the server so we know if anything has changed
-    // since the form was rendered.
-
-    await otherModel.fetch(); // Figure out what the user has changed on the form, so we know
-    // what new changes to persist on the server
-
-    const attrsFreshlyFetchedFromServer = otherModel.attributes;
-
-    const possibleChangedKeys = oktaUnderscore.uniq([...Object.keys(attrsOnInitialRender), ...Object.keys(attrsFromCurrentFormState)]);
-
-    const attrsWhichHaveBeenChangedSinceFormRender = {};
-    possibleChangedKeys.forEach(key => {
-      if (!oktaUnderscore.isEqual(attrsOnInitialRender[key], attrsFromCurrentFormState[key])) {
-        attrsWhichHaveBeenChangedSinceFormRender[key] = attrsFromCurrentFormState[key];
-      }
-    }); // Get the fresh version of the model attributes from the fetch,
-    // only overwriting the ones the user modified on this form
-
-    const newAttrs = { ...attrsFreshlyFetchedFromServer,
-      ...attrsWhichHaveBeenChangedSinceFormRender
-    };
-    formModel.set(newAttrs); // this.model.set('__edit__', attrsFromCurrentFormState.__edit__);
-
-    const xhr = formModel.save();
-
-    if (xhr && xhr.done) {
-      xhr.done(() => {
-        this.trigger('saved', formModel);
-      });
-    }
-
-    return xhr;
   },
 
   /**
@@ -669,14 +615,6 @@ var BaseForm = BaseView.extend(
    * @default false
    */
   autoSave: false,
-
-  /**
-   * Like auto-save, but does a fetch first to avoid overwriting unrelated properties
-   * that have been changed since the form was rendered.
-   * @type {Boolean}
-   * @default false
-   */
-  autoFetchAndSave: false,
 
   /**
    * Scroll to the top of the form on error
