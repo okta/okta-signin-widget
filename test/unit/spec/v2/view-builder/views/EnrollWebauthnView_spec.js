@@ -395,6 +395,29 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       .catch(done.fail);
   });
 
+  it('RP ID mismatch SecurityError shows localized error when credentials.create fails', function(done) {
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(navigator.credentials, 'create').and.returnValue(Promise.reject({
+      message: 'RP ID mismatch',
+      name: 'SecurityError',
+      code: 18,
+    }));
+
+    testContext.init();
+    testContext.view.$('.webauthn-setup').click();
+
+    Expect.waitForCss('.infobox-error')
+      .then(() => {
+        expect(testContext.view.$('.infobox-error')[0].textContent.trim()).toBe(
+          'The relying party ID is not a registrable domain suffix of, nor equal to the current domain.'
+          + ' Subsequently, an attempt to fetch the .well-known/webauthn resource of the claimed RP ID failed.'
+        );
+        expect(testContext.view.form.webauthnAbortController).toBe(null);
+        done();
+      })
+      .catch(done.fail);
+  });
+
   it('excludeCredentials includes transports from authenticatorEnrollments when available', function(done) {
     const newCredential = {
       response: {

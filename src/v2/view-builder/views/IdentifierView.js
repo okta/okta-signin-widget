@@ -370,6 +370,12 @@ const Body = BaseForm.extend({
       .then((assertion) => {
         this.remediateWithAssertion(assertion, RemediationForms.LAUNCH_PASSKEYS_AUTHENTICATOR);
       }, (error) => {
+        if (webauthn.isRelyingPartyIdMismatchError(error)) {
+          const rpId = this.options.appState.get('webauthnAutofillUIChallenge')?.challengeData?.rpId;
+          const errorSummary = loc('signin.passkeys.error.rpIdMismatch', 'login', [rpId]);
+          this.model.trigger('error', this.model, this._generateErrorObject(errorSummary));
+          return;
+        }
         this._handleWebAuthnError(error);
       })
       .finally(() => {

@@ -274,6 +274,36 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
       .catch(done.fail);
   });
 
+  it('RP ID mismatch SecurityError shows localized rpIdMismatch error when credentials.get fails', function(done) {
+    jest.spyOn(navigator.credentials, 'get').mockReturnValue(Promise.reject({
+      message: 'RP ID mismatch',
+      name: 'SecurityError',
+      code: 18,
+    }));
+
+    const currentAuthenticatorWithRpId = {
+      ...ChallengeWebauthnResponse.currentAuthenticator.value,
+      contextualData: {
+        ...ChallengeWebauthnResponse.currentAuthenticator.value.contextualData,
+        challengeData: {
+          ...ChallengeWebauthnResponse.currentAuthenticator.value.contextualData.challengeData,
+          rpId: 'example.okta.com',
+        },
+      },
+    };
+
+    testContext.init(currentAuthenticatorWithRpId);
+
+    Expect.waitForCss('.infobox-error')
+      .then(() => {
+        expect(testContext.view.$('.infobox-error')[0].textContent.trim())
+          .toBe('Could not sign in with a passkey. The RP ID example.okta.com is invalid for this domain.');
+        expect(testContext.view.form.webauthnAbortController).toBe(null);
+        done();
+      })
+      .catch(done.fail);
+  });
+
   it('shows correct text when Can\'t verify? is clicked', function() {
     testContext.init();
     expect(testContext.view.$('.idx-webauthn-verify-text').text()).toMatchInlineSnapshot(

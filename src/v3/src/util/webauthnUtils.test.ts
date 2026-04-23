@@ -20,7 +20,38 @@ import {
 } from '@okta/okta-auth-js';
 import { getMockCreateCredentialsResponse, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
-import { webAuthNAuthenticationHandler, webAuthNEnrollmentHandler } from '.';
+import { isRelyingPartyIdMismatchError, webAuthNAuthenticationHandler, webAuthNEnrollmentHandler } from '.';
+
+jest.mock('./locUtil', () => ({
+  loc: jest.fn().mockImplementation((key: string, _bundle: string, params?: unknown[]) => {
+    if (params?.length) {
+      return `${key}:${params.join(',')}`;
+    }
+    return key;
+  }),
+}));
+
+describe('isRelyingPartyIdMismatchError', () => {
+  it('should return true for a DOMException with name SecurityError and code 18', () => {
+    const error = new DOMException('RP ID mismatch', 'SecurityError');
+    expect(isRelyingPartyIdMismatchError(error)).toBe(true);
+  });
+
+  it('should return false for a regular Error', () => {
+    expect(isRelyingPartyIdMismatchError(new Error('SecurityError'))).toBe(false);
+  });
+
+  it('should return false for a DOMException with a different name', () => {
+    const error = new DOMException('not allowed', 'NotAllowedError');
+    expect(isRelyingPartyIdMismatchError(error)).toBe(false);
+  });
+
+  it('should return false for non-error values', () => {
+    expect(isRelyingPartyIdMismatchError(null)).toBe(false);
+    expect(isRelyingPartyIdMismatchError(undefined)).toBe(false);
+    expect(isRelyingPartyIdMismatchError('string')).toBe(false);
+  });
+});
 
 describe('WebAuthN Util Tests', () => {
   const transaction = getStubTransactionWithNextStep();
@@ -122,6 +153,15 @@ describe('WebAuthN Util Tests', () => {
     await expect(webAuthNEnrollmentHandler(transaction)).rejects.toThrow('NotAllowed');
   });
 
+  it('should throw localized SecurityError when credentials.create rejects with RP ID mismatch', async () => {
+    mockCredentialsContainer.create = jest.fn().mockRejectedValueOnce(
+      new DOMException('RP ID mismatch', 'SecurityError'),
+    );
+
+    await expect(webAuthNEnrollmentHandler(transaction))
+      .rejects.toThrow('signin.passkeys.error.SecurityError');
+  });
+
   it('should create clientData, authenticatorData, & signatureData parameters when authenticating with webauthn',
     async () => {
       transaction.nextStep = {
@@ -154,5 +194,29 @@ describe('WebAuthN Util Tests', () => {
     );
 
     await expect(webAuthNAuthenticationHandler(transaction)).rejects.toThrow('NotAllowed');
+  });
+
+  it('should throw localized rpIdMismatch error with rpId when credentials.get rejects with RP ID mismatch', async () => {
+    mockCredentialsContainer.get = jest.fn().mockRejectedValueOnce(
+      new DOMException('RP ID mismatch', 'SecurityError'),
+    );
+
+    transaction.nextStep = {
+      name: 'mock-step',
+      relatesTo: {
+        value: {
+          contextualData: {
+            challengeData: { rpId: 'example.okta.com' } as ChallengeData,
+          },
+        } as IdxAuthenticator,
+      },
+    };
+    transaction.rawIdxState = {
+      ...transaction.rawIdxState,
+      authenticatorEnrollments: { value: [{ credentialId: '123456' }] },
+    } as RawIdxResponse;
+
+    await expect(webAuthNAuthenticationHandler(transaction))
+      .rejects.toThrow('signin.passkeys.error.rpIdMismatch:example.okta.com');
   });
 });

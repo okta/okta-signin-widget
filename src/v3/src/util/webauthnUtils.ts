@@ -19,6 +19,7 @@ import {
   WebAuthNChallengeDataWithUserVerification,
   WebAuthNEnrollmentHandler,
 } from '../types';
+import { loc } from './locUtil';
 
 export const binToStr = (bin: ArrayBuffer): string => btoa(
   new Uint8Array(bin).reduce((s, byte) => s + String.fromCharCode(byte), ''),
@@ -55,6 +56,13 @@ export const isPasskeyAutofillAvailable = async () => {
 };
 
 export const isGetPasskeyAvailable = () => isCredentialsGetApiAvailable() && typeof PublicKeyCredential !== 'undefined';
+
+export const isRelyingPartyIdMismatchError = (
+  error: unknown,
+): boolean => error instanceof DOMException
+  && error.name === 'SecurityError'
+  && error.code === 18;
+
 /**
  * Uses the Web Authentication API to generate credentials for enrolling
  * a user into the WebAuthN flow
@@ -81,10 +89,18 @@ export const webAuthNEnrollmentHandler: WebAuthNEnrollmentHandler = async (trans
     authenticatorEnrollments.value,
   );
 
-  // Causes a browser prompt enabling the user to select the desired device to
-  // enroll in this flow. Generates a Object that contains ClientData (origin, challenge)
-  // and attestation (arraybuffer containing authenticator data)
-  const result = await navigator.credentials.create(options);
+  let result: Credential | null;
+  try {
+    // Causes a browser prompt enabling the user to select the desired device to
+    // enroll in this flow. Generates a Object that contains ClientData (origin, challenge)
+    // and attestation (arraybuffer containing authenticator data)
+    result = await navigator.credentials.create(options);
+  } catch (error) {
+    if (isRelyingPartyIdMismatchError(error)) {
+      throw new Error(loc('signin.passkeys.error.SecurityError', 'login'));
+    }
+    throw error;
+  }
 
   // Extracts clientData, attestation, and transports from the credential response
   const { id, ...credentials } = OktaAuth.webauthn.getAttestation(
@@ -119,9 +135,17 @@ export const webAuthNAuthenticationHandler: WebAuthNAuthenticationHandler = asyn
     authenticatorEnrollments.value,
   );
 
-  // Triggers a browser prompt allowing the user to provide consent based on the options
-  // passed to this method to collect their credentials.
-  const credentials = await navigator.credentials.get(options) as PublicKeyCredential;
+  let credentials: PublicKeyCredential;
+  try {
+    // Triggers a browser prompt allowing the user to provide consent based on the options
+    // passed to this method to collect their credentials.
+    credentials = await navigator.credentials.get(options) as PublicKeyCredential;
+  } catch (error) {
+    if (isRelyingPartyIdMismatchError(error)) {
+      throw new Error(loc('signin.passkeys.error.rpIdMismatch', 'login', [challengeData?.rpId]));
+    }
+    throw error;
+  }
 
   // Extracts the key properties from the credentials object and returns.
   // for some reason generic remediator does not allow/expect id field and fails when passed

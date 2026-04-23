@@ -106,6 +106,16 @@ const Body = BaseForm.extend({
         this.saveForm(this.model);
       })
         .catch((error) => {
+          // Override the default browser RP ID mismatch error in order to provide
+          // a more user friendly error and have it localized
+          if (webauthn.isRelyingPartyIdMismatchError(error)) {
+            this.model.trigger('error', this.model, {
+              responseJSON: {
+                errorSummary: loc('signin.passkeys.error.SecurityError', 'login')
+              }
+            });
+            return;
+          }
           this.model.trigger('error', this.model, {responseJSON: {errorSummary: getMessageFromBrowserError(error)}});
         }).finally(() => {
           this.webauthnAbortController = null;
