@@ -320,12 +320,23 @@ export default Controller.extend({
     const idxOptions: ProceedOptions = {
       exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
     };
+
+    // OKTA-1152243: After password reset, the server may return post-auth remediations
+    // (e.g. keep-me-signed-in) that are not in PasswordRecoveryFlow. Reset to default flow
+    // so auth-js does not throw when it encounters these in the recursive remediate() call.
+    const shouldResetFlow = formName === FORMS.RESET_AUTHENTICATOR
+      && authClient.idx.getFlow?.() === 'resetPassword';
+    if (shouldResetFlow) {
+      authClient.idx.setFlow('default');
+    }
+
     try {
       const idx = this.options.appState.get('idx');
       const { stateHandle } = idx.context;
       const resp = await authClient.idx.proceed({
         ...idxOptions,
         step: formName,
+        ...(shouldResetFlow && { flow: 'default' }),
         stateHandle,
         ...values
       });
