@@ -67,6 +67,7 @@ describe('v2/view-builder/views/CaptchaView', function() {
       const appState = new AppState({
         captcha
       }, { settings });
+      appState.set('idx', { context: { stateHandle: 'test-state-handle' } });
       testContext.view = new CaptchaView({
         appState,
         settings,
@@ -336,7 +337,7 @@ describe('v2/view-builder/views/CaptchaView', function() {
       await altchaWidget.customfetch(testUrl, {});
       
       expect(window.fetch).toHaveBeenCalledWith(testUrl, expect.objectContaining({
-        body: JSON.stringify({ stateHandle: 'test-state-token' })
+        body: JSON.stringify({ stateHandle: 'test-state-handle' })
       }));
       window.fetch = originalFetch;
     });

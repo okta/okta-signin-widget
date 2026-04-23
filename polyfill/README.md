@@ -9,13 +9,13 @@ To embed the Sign-in Widget via CDN, include links to the JS and CSS files in yo
 
 ```html
 <!-- Polyfill for older browsers -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.44.2/js/okta-sign-in.polyfill.min.js" type="text/javascript" integrity="sha384-+DS0RljMM3tnmQzqdVElvuSupLm2eKfQU2Tb1n2kzvr/6ZWzlYzyRriGMoLtRTfx" crossorigin="anonymous"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.44.3/js/okta-sign-in.polyfill.min.js" type="text/javascript" integrity="sha384-+DS0RljMM3tnmQzqdVElvuSupLm2eKfQU2Tb1n2kzvr/6ZWzlYzyRriGMoLtRTfx" crossorigin="anonymous"></script>
 
 <!-- Widget bundle for Okta Identity Engine -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.44.2/js/okta-sign-in.oie.min.js" type="text/javascript" integrity="sha384-9bHfTOq0F37LTCIWfGOqdhXP7fnHq8X5lCzVhPriZIF6A0VAPFh+cQ0pQtuKa2zi" crossorigin="anonymous"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.44.3/js/okta-sign-in.oie.min.js" type="text/javascript" integrity="sha384-8oJhmXWxU9owBGq2fbGlqybtD9MFbCjZQPUV4hzgyvpka00cEgDQPH7ZyimBWCUW" crossorigin="anonymous"></script>
 
 <!-- CSS for widget -->
-<link href="https://global.oktacdn.com/okta-signin-widget/7.44.2/css/okta-sign-in.min.css" type="text/css" rel="stylesheet" integrity="sha384-Q8YNAEc6nfN33qNpPh3+oYA8H9UumofLRDCLUdO4mGqrwT+DbffCWNZhITd0sZ2V" crossorigin="anonymous" />
+<link href="https://global.oktacdn.com/okta-signin-widget/7.44.3/css/okta-sign-in.min.css" type="text/css" rel="stylesheet" integrity="sha384-Q8YNAEc6nfN33qNpPh3+oYA8H9UumofLRDCLUdO4mGqrwT+DbffCWNZhITd0sZ2V" crossorigin="anonymous" />
 ```
 
 **NOTE:** The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](https://github.com/okta/okta-signin-widget/releases). We recommend using the latest widget version.
