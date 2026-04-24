@@ -98,10 +98,10 @@ describe('webauthn-enroll', () => {
 
   it('should include transports in payload when getTransports is supported', async () => {
     const mockTransports = ['usb', 'nfc'];
-    const mockResponse_create = getMockCredentialsResponse();
-    (mockResponse_create.response as AuthenticatorAttestationResponse).getTransports =
-      () => mockTransports;
-    mockCredentialsContainer!.create = jest.fn().mockResolvedValueOnce(mockResponse_create);
+    const mockCreateResponse = getMockCredentialsResponse();
+    (mockCreateResponse.response as AuthenticatorAttestationResponse).getTransports
+      = () => mockTransports;
+    mockCredentialsContainer!.create = jest.fn().mockResolvedValueOnce(mockCreateResponse);
 
     const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
     navigatorCredentials.mockReturnValue(
