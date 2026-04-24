@@ -103,7 +103,8 @@ export const webAuthNEnrollmentHandler: WebAuthNEnrollmentHandler = async (trans
   }
 
   // Extracts clientData, attestation, and transports from the credential response
-  const { id: _id, ...credentials } = OktaAuth.webauthn.getAttestation(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { id, ...credentials } = OktaAuth.webauthn.getAttestation(
     result as PublicKeyCredential,
   );
 
