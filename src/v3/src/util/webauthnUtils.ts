@@ -57,9 +57,10 @@ export const isPasskeyAutofillAvailable = async () => {
 
 export const isGetPasskeyAvailable = () => isCredentialsGetApiAvailable() && typeof PublicKeyCredential !== 'undefined';
 
-export const isRelyingPartyIdMismatchError = (error: unknown): boolean =>
-  (error as DOMException)?.name === 'SecurityError' &&
-  (error as DOMException)?.code === 18;
+export const isRelyingPartyIdMismatchError = (error: unknown): boolean => (
+  (error as DOMException)?.name === 'SecurityError'
+  && (error as DOMException)?.code === 18
+);
 
 /**
  * Uses the Web Authentication API to generate credentials for enrolling
