@@ -97,6 +97,7 @@
           "authenticatorSelection": {
             "userVerification": "discouraged"
           },
+          "hints": ["security-key"],
           "u2fParams": {
             "appid": "http://idx.okta1.com:1802"
           }

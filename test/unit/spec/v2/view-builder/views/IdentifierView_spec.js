@@ -51,6 +51,9 @@ describe('v2/view-builder/views/IdentifierView', function() {
   });
   afterEach(function() {
     jest.resetAllMocks();
+    // Some tests overwrite Bundles['login_en'] with only custom keys, wiping out the real bundle.
+    // Restore it after each test so subsequent tests can resolve i18n keys from the actual properties file.
+    Bundles['login_en'] = originalLoginEnBundle;
   });
 
   it('view renders forgot password link correctly with mutiple IDPs', function() {
@@ -469,7 +472,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
       jest.spyOn(AppState.prototype, 'get').mockImplementation((key) => {
         const mockData = {
           'idx': { neededToProceed: [] },
-          'webauthnAutofillUIChallenge': { challengeData: { challenge: 'test-challenge' } },
+          'webauthnAutofillUIChallenge': { challengeData: { challenge: 'test-challenge', rpId: 'example.okta.com' } },
           'neededToProceed': [],
           'remediations': [],
           'currentAuthenticator': { profile: {} },
@@ -516,11 +519,12 @@ describe('v2/view-builder/views/IdentifierView', function() {
         expectFriendlyError: true
       },
       {
-        description: 'should NOT suppress Relying Party ID mismatch error (unlike autofill UI, this is user-initiated)',
+        description: 'should show localized RP ID mismatch error for SecurityError (unlike autofill UI, this is user-initiated)',
         errorMessage: 'Relying Party ID mismatch',
         errorName: 'SecurityError',
         errorCode: 18,
-        expectErrorSuppressed: false
+        expectErrorSuppressed: false,
+        expectRpIdMismatchError: true
       },
       {
         description: 'should show error for unknown errors',
@@ -529,7 +533,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
         errorCode: undefined,
         expectErrorSuppressed: false
       }
-    ])('$description', async function({ errorMessage, errorName, errorCode, isAbortReasonCleanup, expectErrorSuppressed, expectFriendlyError }) {
+    ])('$description', async function({ errorMessage, errorName, errorCode, isAbortReasonCleanup, expectErrorSuppressed, expectFriendlyError, expectRpIdMismatchError }) {
       let rejection;
       if (isAbortReasonCleanup) {
         rejection = 'WebAuthNAutofill component cleanup';
@@ -553,6 +557,9 @@ describe('v2/view-builder/views/IdentifierView', function() {
         expect(testContext.view.$el.find('.infobox-error p').length).toBe(0);
       } else if (expectFriendlyError) {
         expect(testContext.view.$el.find('.infobox-error p').length).toBe(1);
+      } else if (expectRpIdMismatchError) {
+        expect(testContext.view.$el.find('.infobox-error p').text())
+          .toContain('Could not sign in with a passkey. The RP ID example.okta.com is invalid for this domain.');
       } else {
         expect(testContext.view.$el.find('.infobox-error p').text()).toContain(errorMessage);
       }
