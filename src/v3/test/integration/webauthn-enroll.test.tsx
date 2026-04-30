@@ -95,4 +95,38 @@ describe('webauthn-enroll', () => {
       }),
     );
   });
+
+  it('should include transports in payload when getTransports is supported', async () => {
+    const mockTransports = ['usb', 'nfc'];
+    const mockCreateResponse = getMockCredentialsResponse();
+    (mockCreateResponse.response as AuthenticatorAttestationResponse)
+      .getTransports = () => mockTransports;
+    mockCredentialsContainer!.create = jest.fn().mockResolvedValueOnce(mockCreateResponse);
+
+    const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+    navigatorCredentials.mockReturnValue(
+      { credentials: mockCredentialsContainer, userAgent: '' } as unknown as Navigator,
+    );
+
+    const {
+      authClient,
+      user,
+      findByText,
+      findByTestId,
+    } = await setup({ mockResponse });
+
+    await findByText(/Set up security key or biometric authenticator/);
+    const submitButton = await findByTestId('button');
+
+    await user.click(submitButton);
+    expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+        credentials: {
+          clientData: 'AAAAAAAAAAAAAA==',
+          attestation: 'AAAAAAAAAAAAAA==',
+          transports: '["usb","nfc"]',
+        },
+      }),
+    );
+  });
 });

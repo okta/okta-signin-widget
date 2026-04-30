@@ -12,10 +12,15 @@ function getExcludeCredentials(authenticatorEnrollments = []) {
   const credentials = [];
   authenticatorEnrollments.forEach((enrollement) => {
     if (enrollement.key === 'webauthn') {
-      credentials.push({
+      const credential = {
         type: 'public-key',
         id: CryptoUtil.strToBin(enrollement.credentialId),
-      });
+      };
+      const transports = enrollement.transports ?? enrollement.profile?.transports;
+      if (Array.isArray(transports)) {
+        credential.transports = transports;
+      }
+      credentials.push(credential);
     }
   });
   return credentials;
@@ -86,12 +91,14 @@ const Body = BaseForm.extend({
         publicKey: options,
         signal: this.webauthnAbortController && this.webauthnAbortController.signal
       }).then((newCredential) => {
+        // example data: ["nfc", "usb"]
+        const transports =
+          webauthn.processWebAuthnResponse(newCredential.response.getTransports, newCredential.response);
         this.model.set({
           credentials : {
             clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
             attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
-            // example data: ["nfc", "usb"]
-            transports: webauthn.processWebAuthnResponse(newCredential.response.getTransports, newCredential.response),
+            ...(transports !== null && { transports }),
             // example data: {"credProps":{"rk":true}}
             clientExtensions: webauthn.processWebAuthnResponse(newCredential.getClientExtensionResults, newCredential)
           }
@@ -99,6 +106,16 @@ const Body = BaseForm.extend({
         this.saveForm(this.model);
       })
         .catch((error) => {
+          // Override the default browser RP ID mismatch error in order to provide
+          // a more user friendly error and have it localized
+          if (webauthn.isRelyingPartyIdMismatchError(error)) {
+            this.model.trigger('error', this.model, {
+              responseJSON: {
+                errorSummary: loc('signin.passkeys.error.SecurityError', 'login')
+              }
+            });
+            return;
+          }
           this.model.trigger('error', this.model, {responseJSON: {errorSummary: getMessageFromBrowserError(error)}});
         }).finally(() => {
           this.webauthnAbortController = null;
