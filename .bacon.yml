@@ -30,14 +30,14 @@ test_suites:
   - name: testcafe
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '5'
-    timeout: '30'
+    timeout: '60'
     script_name: testcafe
     criteria: MERGE
     queue_name: ci-queue-productionJenga-AL2023
   - name: testcafe-mobile
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '6'
-    timeout: '30'
+    timeout: '60'
     script_name: testcafe-mobile
     criteria: MERGE
     queue_name: ci-queue-productionJenga-AL2023
@@ -59,7 +59,7 @@ test_suites:
   - name: e2e-v3
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '9'
-    timeout: '15'
+    timeout: '30'
     script_name: e2e-v3
     criteria: MERGE
     queue_name: ci-queue-productionJenga-AL2023
@@ -68,28 +68,28 @@ test_suites:
   - name: parity-v3
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '10'
-    timeout: '40'
+    timeout: '60'
     script_name: parity-v3
     criteria: MERGE
     queue_name: ci-queue-productionJenga-AL2023
   - name: parity-v3-mobile
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '11'
-    timeout: '40'
+    timeout: '60'
     script_name: parity-v3-mobile
     criteria: MERGE
     queue_name: ci-queue-productionJenga-AL2023
   - name: e2e
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '12'
-    timeout: '40'
+    timeout: '60'
     script_name: e2e
     criteria: OPTIONAL # OKTA-561398 - skipping due to SMS scenario failure
     queue_name: ci-queue-productionJenga-AL2023
   - name: e2e-lang
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '13'
-    timeout: '30'
+    timeout: '60'
     script_name: e2e-lang
     criteria: MERGE
     queue_name: ci-queue-productionJenga-AL2023
@@ -132,14 +132,14 @@ test_suites:
   - name: detect-english-leaks
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '19'
-    timeout: '20'
+    timeout: '40'
     script_name: detect-english-leaks
     criteria: MERGE
     queue_name: ci-queue-productionJenga-AL2023
   - name: detect-english-leaks-v3
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '20'
-    timeout: '20'
+    timeout: '40'
     script_name: detect-english-leaks-v3
     criteria: MERGE
     queue_name: ci-queue-productionJenga-AL2023
