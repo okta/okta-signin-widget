@@ -20,6 +20,7 @@ declare namespace OktaCourage {
     theme?: string;
     enableIMESupport?: boolean;
     isEnableBcp47OktaUi?: boolean;
+    isLogCourageTemplateUtilUsage?: boolean;
   }
 
 }
@@ -27,6 +28,11 @@ declare namespace OktaCourage {
 
 declare const okta: OktaCourage.okta;
 declare const define: (fn: (...args:any[]) => any) => any;
+
+// $.trim() was removed in @types/jquery 4.x but is still used in courage source
+interface JQueryStatic {
+  trim(str: string): string;
+}
 
 interface Window {
   jQueryCourage?: JQueryStatic;

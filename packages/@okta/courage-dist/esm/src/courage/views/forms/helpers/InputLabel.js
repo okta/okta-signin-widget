@@ -36,10 +36,10 @@ var InputLabel = BaseView.extend({
   },
   // standardLabel: space added in the end of the label to avoid selecting label text with double click in read mode
   template: _Handlebars2.template({
-    "1": function (container, depth0, helpers, partials, data) {
+    "0": function (container, depth0, helpers, partials, data) {
       return "<legend>";
     },
-    "3": function (container, depth0, helpers, partials, data) {
+    "1": function (container, depth0, helpers, partials, data) {
       var helper,
           lookupProperty = container.lookupProperty || function (parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -65,7 +65,7 @@ var InputLabel = BaseView.extend({
         }
       }) : helper)) + "\"></label>";
     },
-    "5": function (container, depth0, helpers, partials, data) {
+    "2": function (container, depth0, helpers, partials, data) {
       var helper,
           lookupProperty = container.lookupProperty || function (parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -91,7 +91,7 @@ var InputLabel = BaseView.extend({
         }
       }) : helper));
     },
-    "7": function (container, depth0, helpers, partials, data) {
+    "3": function (container, depth0, helpers, partials, data) {
       var helper,
           alias1 = depth0 != null ? depth0 : container.nullContext || {},
           alias2 = container.hooks.helperMissing,
@@ -135,7 +135,7 @@ var InputLabel = BaseView.extend({
         }
       }) : helper)) + "&nbsp;</label>";
     },
-    "9": function (container, depth0, helpers, partials, data) {
+    "4": function (container, depth0, helpers, partials, data) {
       var helper,
           lookupProperty = container.lookupProperty || function (parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -161,7 +161,7 @@ var InputLabel = BaseView.extend({
         }
       }) : helper)) + "</span>";
     },
-    "11": function (container, depth0, helpers, partials, data) {
+    "5": function (container, depth0, helpers, partials, data) {
       var stack1,
           lookupProperty = container.lookupProperty || function (parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -173,7 +173,7 @@ var InputLabel = BaseView.extend({
 
       return "<span class=\"o-form-tooltip icon-16 icon-only form-help-16\" title=\"" + container.escapeExpression(container.lambda((stack1 = depth0 != null ? lookupProperty(depth0, "tooltip") : depth0) != null ? lookupProperty(stack1, "text") : stack1, depth0)) + "\"></span>";
     },
-    "13": function (container, depth0, helpers, partials, data) {
+    "6": function (container, depth0, helpers, partials, data) {
       return "</legend>";
     },
     "compiler": [8, ">= 4.3.0"],
@@ -191,7 +191,7 @@ var InputLabel = BaseView.extend({
       return ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "group") : depth0, {
         "name": "if",
         "hash": {},
-        "fn": container.program(1, data, 0),
+        "fn": container.program(0, data, 0),
         "inverse": container.noop,
         "data": data,
         "loc": {
@@ -207,7 +207,7 @@ var InputLabel = BaseView.extend({
       })) != null ? stack1 : "") + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "_isLabelView") : depth0, {
         "name": "if",
         "hash": {},
-        "fn": container.program(3, data, 0),
+        "fn": container.program(1, data, 0),
         "inverse": container.noop,
         "data": data,
         "loc": {
@@ -223,7 +223,7 @@ var InputLabel = BaseView.extend({
       })) != null ? stack1 : "") + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "_isRadioOrCheckbox") : depth0, {
         "name": "if",
         "hash": {},
-        "fn": container.program(5, data, 0),
+        "fn": container.program(2, data, 0),
         "inverse": container.noop,
         "data": data,
         "loc": {
@@ -239,7 +239,7 @@ var InputLabel = BaseView.extend({
       })) != null ? stack1 : "") + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "_standardLabel") : depth0, {
         "name": "if",
         "hash": {},
-        "fn": container.program(7, data, 0),
+        "fn": container.program(3, data, 0),
         "inverse": container.noop,
         "data": data,
         "loc": {
@@ -255,7 +255,7 @@ var InputLabel = BaseView.extend({
       })) != null ? stack1 : "") + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "sublabel") : depth0, {
         "name": "if",
         "hash": {},
-        "fn": container.program(9, data, 0),
+        "fn": container.program(4, data, 0),
         "inverse": container.noop,
         "data": data,
         "loc": {
@@ -271,7 +271,7 @@ var InputLabel = BaseView.extend({
       })) != null ? stack1 : "") + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "tooltip") : depth0, {
         "name": "if",
         "hash": {},
-        "fn": container.program(11, data, 0),
+        "fn": container.program(5, data, 0),
         "inverse": container.noop,
         "data": data,
         "loc": {
@@ -287,7 +287,7 @@ var InputLabel = BaseView.extend({
       })) != null ? stack1 : "") + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "group") : depth0, {
         "name": "if",
         "hash": {},
-        "fn": container.program(13, data, 0),
+        "fn": container.program(6, data, 0),
         "inverse": container.noop,
         "data": data,
         "loc": {

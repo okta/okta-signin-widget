@@ -20,7 +20,7 @@ var Notification = BaseView.extend({
     }
   },
   template: _Handlebars2.template({
-    "1": function (container, depth0, helpers, partials, data) {
+    "0": function (container, depth0, helpers, partials, data) {
       var lookupProperty = container.lookupProperty || function (parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
           return parent[propertyName];
@@ -48,7 +48,7 @@ var Notification = BaseView.extend({
         }
       })) + "\" href=\"#\"><span class=\"dismiss-icon\"></span></a>";
     },
-    "3": function (container, depth0, helpers, partials, data) {
+    "1": function (container, depth0, helpers, partials, data) {
       var helper,
           lookupProperty = container.lookupProperty || function (parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -93,7 +93,7 @@ var Notification = BaseView.extend({
       return ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "dismissable") : depth0, {
         "name": "if",
         "hash": {},
-        "fn": container.program(1, data, 0),
+        "fn": container.program(0, data, 0),
         "inverse": container.noop,
         "data": data,
         "loc": {
@@ -123,7 +123,7 @@ var Notification = BaseView.extend({
       }) : helper)) + "-16\"></span>" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "title") : depth0, {
         "name": "if",
         "hash": {},
-        "fn": container.program(3, data, 0),
+        "fn": container.program(1, data, 0),
         "inverse": container.noop,
         "data": data,
         "loc": {
@@ -154,6 +154,21 @@ var Notification = BaseView.extend({
     },
     "useData": true
   }),
+  getNotificationOffsetTop: function () {
+    const ADMIN_TOP_NAV_HEIGHT = 64;
+    const ADDITIONAL_TOP_OFFSET = 20;
+    const defaultOffset = ADDITIONAL_TOP_OFFSET + ADMIN_TOP_NAV_HEIGHT; // 20px margin + 64px top nav header height
+    // Check if there are any banners present that would push the notification down further
+
+    const bannersSlotEl = document.querySelector('div[slot="banners"]');
+
+    if (bannersSlotEl) {
+      // Add the total height of the banners slot to the default offset
+      return defaultOffset + bannersSlotEl.offsetHeight;
+    }
+
+    return defaultOffset;
+  },
   initialize: function () {
     this.options = oktaUnderscore.defaults({}, this.options, defaults);
 
@@ -173,7 +188,9 @@ var Notification = BaseView.extend({
       }
     }
 
-    this.$el.addClass('infobox-' + this.options.level);
+    this.$el.addClass('infobox-' + this.options.level); // Override the top position value set in CSS with one calculated at runtime
+
+    this.$el.css('top', this.getNotificationOffsetTop() + 'px');
 
     if (this.options.width) {
       this.$el.width(this.options.width);

@@ -106,6 +106,10 @@ module.exports = function({
 
         '@okta/duo': `${LOCAL_PACKAGES}/vendor/duo_web_sdk/index.js`,
         '@okta/typingdna': `${LOCAL_PACKAGES}/vendor/TypingDnaRecorder-JavaScript/typingdna`,
+
+        // Stubs for internal Okta packages not used by the sign-in widget
+        '@okta/ui-libraries-oidc-auth-headers': `${COURAGE_DIST}/stubs/ui-libraries-oidc-auth-headers.js`,
+        '@okta/ui-libraries-monolith': `${COURAGE_DIST}/stubs/ui-libraries-monolith.js`,
       }
     },
 
