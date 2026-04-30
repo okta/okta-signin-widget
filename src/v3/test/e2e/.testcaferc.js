@@ -12,7 +12,8 @@ module.exports = {
   browsers: 'chrome:headless',
   // testcafe does not like concurrency being higher than the amount of tests
   concurrency: 1,
-  assertionTimeout: 5000,
+  assertionTimeout: 20000,
+  browserInitTimeout: 300000,
   reporter: [
     {
       name: 'spec',

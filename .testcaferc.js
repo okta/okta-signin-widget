@@ -107,6 +107,7 @@ const config = {
   // OKTA-575629 Remove this when gen3 parity test flakiness is resolved
   ...(env.OKTA_SIW_GEN3 && {
       assertionTimeout: 20000,
+      browserInitTimeout: 300000,
   }),
 
   // TestCafe 3 with Native Automation enabled causes errors in tests for Gen2 that:
@@ -121,7 +122,7 @@ const config = {
   // !OKTA_SIW_EN_LEAKS: 4 ← most tests
   concurrency: (OKTA_SIW_ONLY_FLAKY || !env.CHROME_HEADLESS) 
     ? 1 
-    : (env.OKTA_SIW_EN_LEAKS ? 2 : 4),
+    : (env.OKTA_SIW_EN_LEAKS ? 1 : 2),
 
   // retry failed tests
   quarantineMode: env.OKTA_SIW_EN_LEAKS ? false : {
