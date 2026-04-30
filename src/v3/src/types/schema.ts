@@ -191,6 +191,11 @@ export type WebAuthNEnrollmentPayload = {
      * for a newly-created key pair.
      */
     attestation: string;
+    /**
+     * JSON-serialized array of transport types supported by the authenticator.
+     * Omitted if getTransports() is not supported by the browser.
+     */
+    transports?: string;
   }
 };
 

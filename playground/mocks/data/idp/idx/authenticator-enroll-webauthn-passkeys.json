@@ -96,6 +96,7 @@
           "authenticatorSelection": {
             "userVerification": "discouraged"
           },
+          "hints": ["client-device"],
           "u2fParams": {
             "appid": "http://idx.okta1.com:1802"
           }
