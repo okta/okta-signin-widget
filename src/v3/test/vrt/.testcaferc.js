@@ -45,6 +45,7 @@ const config = {
     vrtCi: env.VRT_CI,
   },
   assertionTimeout: 20000,
+  browserInitTimeout: 240000,
   // testcafe does not like concurrency being higher than the amount of tests
   concurrency: 1,
   screenshots: {
