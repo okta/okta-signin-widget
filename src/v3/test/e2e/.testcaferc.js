@@ -9,7 +9,7 @@ module.exports = {
     }
   },
   appCommand: 'test/e2e/start-app-e2e.sh',
-  browsers: 'chrome:headless',
+  browsers: 'chrome:headless --no-sandbox --disable-dev-shm-usage',
   // testcafe does not like concurrency being higher than the amount of tests
   concurrency: 1,
   assertionTimeout: 5000,
