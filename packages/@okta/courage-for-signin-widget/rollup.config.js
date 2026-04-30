@@ -4,7 +4,6 @@ import { babel } from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import copy from 'rollup-plugin-copy';
 import { visualizer } from 'rollup-plugin-visualizer';
-import amd from 'rollup-plugin-amd';
 import replace from '@rollup/plugin-replace';
 
 const NODE_MODULES = path.resolve(__dirname, 'node_modules');
@@ -17,6 +16,8 @@ const extensions = ['.js', '.ts'];
 const external = [
   '@okta/qtip',
   '@okta/okta-i18n-bundles',
+  '@okta/ui-libraries-oidc-auth-headers',
+  '@okta/ui-libraries-monolith',
   'clipboard'
 ];
 
@@ -29,7 +30,7 @@ export default {
     preserveModules: true
   },
   preserveSymlinks: true,
-  moduleContext: (id) => {
+  moduleContext: () => {
     // run yarn build:babel to see output pre-rollup
     return 'undefined';
   },
@@ -61,6 +62,15 @@ export default {
       delimiters: ['', ''],
       preventAssignment: true
     }),
+    replace({
+      // chosen.jquery uses .call(this) but `this` is undefined in ESM strict mode
+      include: ['**/vendor/plugins/chosen.jquery.*'],
+      values: {
+        '}).call(this);': '}).call(window);'
+      },
+      delimiters: ['', ''],
+      preventAssignment: true
+    }),
     commonjs(),
     resolve({
       extensions,
@@ -80,6 +90,10 @@ export default {
         {
           src: `${COURAGE_DIST}/properties/translations/country*.properties`,
           dest: `${I18N_DIR}/dist/properties`,
+        },
+        {
+          src: path.resolve(__dirname, 'stubs'),
+          dest: './target/esm',
         }
       ]
     }),

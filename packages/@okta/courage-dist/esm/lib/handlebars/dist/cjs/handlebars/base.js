@@ -38,7 +38,7 @@ var _logger2 = _interopRequireDefault(_logger);
 
 var _internalProtoAccess = protoAccess;
 
-var VERSION = '4.7.7';
+var VERSION = '4.7.9';
 base.VERSION = VERSION;
 var COMPILER_REVISION = 8;
 base.COMPILER_REVISION = COMPILER_REVISION;
