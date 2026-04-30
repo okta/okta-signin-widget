@@ -84,10 +84,15 @@ const Body = BaseForm.extend({
     const authenticatorEnrollments = this.options.appState.get('authenticatorEnrollments')?.value || [];
     authenticatorEnrollments.forEach((enrollement) => {
       if (enrollement.key === 'webauthn') {
-        allowCredentials.push({
+        const credential = {
           type: 'public-key',
           id: CryptoUtil.strToBin(enrollement.credentialId),
-        });
+        };
+        const transports = enrollement.transports ?? enrollement.profile?.transports;
+        if (Array.isArray(transports)) {
+          credential.transports = transports;
+        }
+        allowCredentials.push(credential);
       }
     });
     const challengeData = authenticatorData.contextualData.challengeData;
@@ -118,6 +123,21 @@ const Body = BaseForm.extend({
       });
       this.saveForm(this.model);
     }, (error) => {
+      // Override the default browser RP ID mismatch error in order to provide
+      // a more user friendly error and have it localized
+      if (webauthn.isRelyingPartyIdMismatchError(error)) {
+        this.model.trigger('error', this.model, {
+          responseJSON: {
+            errorSummary: loc(
+              'signin.passkeys.error.rpIdMismatch',
+              'login',
+              [authenticatorData.contextualData.challengeData.rpId]
+            )
+          }
+        });
+        return;
+      }
+
       // Do not display if it is abort error triggered by code when switching.
       // this.webauthnAbortController would be null if abort was triggered by code.
       if (this.webauthnAbortController) {
