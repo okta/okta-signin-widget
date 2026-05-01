@@ -4,7 +4,7 @@ import oktaUnderscore from '../../util/underscore-wrapper.js';
 import BaseView from '../BaseView.js';
 
 const optionsTemplate = _Handlebars2.template({
-  "1": function (container, depth0, helpers, partials, data) {
+  "0": function (container, depth0, helpers, partials, data) {
     var helper,
         lookupProperty = container.lookupProperty || function (parent, propertyName) {
       if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -30,7 +30,7 @@ const optionsTemplate = _Handlebars2.template({
       }
     }) : helper)) + "\"></span>";
   },
-  "3": function (container, depth0, helpers, partials, data) {
+  "1": function (container, depth0, helpers, partials, data) {
     var helper,
         lookupProperty = container.lookupProperty || function (parent, propertyName) {
       if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -56,7 +56,7 @@ const optionsTemplate = _Handlebars2.template({
       }
     }) : helper));
   },
-  "5": function (container, depth0, helpers, partials, data) {
+  "2": function (container, depth0, helpers, partials, data) {
     var helper,
         lookupProperty = container.lookupProperty || function (parent, propertyName) {
       if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -129,7 +129,7 @@ const optionsTemplate = _Handlebars2.template({
     }) : helper)) + "\">" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "icon") : depth0, {
       "name": "if",
       "hash": {},
-      "fn": container.program(1, data, 0),
+      "fn": container.program(0, data, 0),
       "inverse": container.noop,
       "data": data,
       "loc": {
@@ -145,7 +145,7 @@ const optionsTemplate = _Handlebars2.template({
     })) != null ? stack1 : "") + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "title") : depth0, {
       "name": "if",
       "hash": {},
-      "fn": container.program(3, data, 0),
+      "fn": container.program(1, data, 0),
       "inverse": container.noop,
       "data": data,
       "loc": {
@@ -161,7 +161,7 @@ const optionsTemplate = _Handlebars2.template({
     })) != null ? stack1 : "") + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "subtitle") : depth0, {
       "name": "if",
       "hash": {},
-      "fn": container.program(5, data, 0),
+      "fn": container.program(2, data, 0),
       "inverse": container.noop,
       "data": data,
       "loc": {
@@ -241,7 +241,7 @@ var BaseDropDown = BaseView.extend({
     }, this);
   },
   template: _Handlebars2.template({
-    "1": function (container, depth0, helpers, partials, data) {
+    "0": function (container, depth0, helpers, partials, data) {
       var helper,
           lookupProperty = container.lookupProperty || function (parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -267,7 +267,7 @@ var BaseDropDown = BaseView.extend({
         }
       }) : helper)) + "\"></span>";
     },
-    "3": function (container, depth0, helpers, partials, data) {
+    "1": function (container, depth0, helpers, partials, data) {
       var helper,
           lookupProperty = container.lookupProperty || function (parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -326,7 +326,7 @@ var BaseDropDown = BaseView.extend({
       }) : helper)) + " link-button-icon option-selected center\" aria-expanded=\"false\" aria-controls=\"okta-dropdown-options\">" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "icon") : depth0, {
         "name": "if",
         "hash": {},
-        "fn": container.program(1, data, 0),
+        "fn": container.program(0, data, 0),
         "inverse": container.noop,
         "data": data,
         "loc": {
@@ -342,7 +342,7 @@ var BaseDropDown = BaseView.extend({
       })) != null ? stack1 : "") + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "screenReaderText") : depth0, {
         "name": "if",
         "hash": {},
-        "fn": container.program(3, data, 0),
+        "fn": container.program(1, data, 0),
         "inverse": container.noop,
         "data": data,
         "loc": {

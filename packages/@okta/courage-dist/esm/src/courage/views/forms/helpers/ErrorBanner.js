@@ -3,7 +3,7 @@ import BaseView from '../../BaseView.js';
 
 var ErrorBanner = BaseView.extend({
   template: _Handlebars2.template({
-    "1": function (container, depth0, helpers, partials, data) {
+    "0": function (container, depth0, helpers, partials, data) {
       var helper,
           lookupProperty = container.lookupProperty || function (parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -29,7 +29,7 @@ var ErrorBanner = BaseView.extend({
         }
       }) : helper)) + "</p>";
     },
-    "3": function (container, depth0, helpers, partials, data) {
+    "1": function (container, depth0, helpers, partials, data) {
       var lookupProperty = container.lookupProperty || function (parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
           return parent[propertyName];
@@ -71,8 +71,8 @@ var ErrorBanner = BaseView.extend({
       return "<div class=\"okta-form-infobox-error infobox infobox-error\" role=\"alert\"><span class=\"icon error-16\"></span>" + ((stack1 = lookupProperty(helpers, "if").call(depth0 != null ? depth0 : container.nullContext || {}, depth0 != null ? lookupProperty(depth0, "errorSummary") : depth0, {
         "name": "if",
         "hash": {},
-        "fn": container.program(1, data, 0),
-        "inverse": container.program(3, data, 0),
+        "fn": container.program(0, data, 0),
+        "inverse": container.program(1, data, 0),
         "data": data,
         "loc": {
           "start": {

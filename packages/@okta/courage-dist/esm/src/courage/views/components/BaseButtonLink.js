@@ -66,7 +66,7 @@ var BaseButtonLink = BaseView.extend(
    */
   tagName: 'a',
   template: _Handlebars2.template({
-    "1": function (container, depth0, helpers, partials, data) {
+    "0": function (container, depth0, helpers, partials, data) {
       var helper,
           lookupProperty = container.lookupProperty || function (parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -92,7 +92,7 @@ var BaseButtonLink = BaseView.extend(
         }
       }) : helper)) + "\"></span>";
     },
-    "3": function (container, depth0, helpers, partials, data) {
+    "1": function (container, depth0, helpers, partials, data) {
       var helper,
           lookupProperty = container.lookupProperty || function (parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -133,7 +133,7 @@ var BaseButtonLink = BaseView.extend(
       return ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "icon") : depth0, {
         "name": "if",
         "hash": {},
-        "fn": container.program(1, data, 0),
+        "fn": container.program(0, data, 0),
         "inverse": container.noop,
         "data": data,
         "loc": {
@@ -149,7 +149,7 @@ var BaseButtonLink = BaseView.extend(
       })) != null ? stack1 : "") + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "title") : depth0, {
         "name": "if",
         "hash": {},
-        "fn": container.program(3, data, 0),
+        "fn": container.program(1, data, 0),
         "inverse": container.noop,
         "data": data,
         "loc": {

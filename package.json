@@ -2,7 +2,7 @@
   "private": true,
   "name": "@okta/okta-signin-widget",
   "description": "The Okta Sign-In Widget",
-  "version": "7.45.1",
+  "version": "7.46.0",
   "homepage": "https://github.com/okta/okta-signin-widget",
   "license": "Apache-2.0",
   "repository": {
@@ -258,7 +258,7 @@
     "chokidar": "^3.5.1",
     "clipboard": "^1.5.16",
     "cross-fetch": "^3.1.5",
-    "handlebars": "^4.7.7",
+    "handlebars": "^4.7.9",
     "jquery": "^3.6.0",
     "parse-ms": "^2.0.0",
     "q": "1.4.1",

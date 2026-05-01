@@ -74,7 +74,8 @@ function moveHelperToHooks(instance, helperName, keepHelper) {
     instance.hooks[helperName] = instance.helpers[helperName];
 
     if (!keepHelper) {
-      delete instance.helpers[helperName];
+      // Using delete is slow
+      instance.helpers[helperName] = undefined;
     }
   }
 }
