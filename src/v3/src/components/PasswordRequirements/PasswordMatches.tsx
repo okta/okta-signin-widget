@@ -68,7 +68,6 @@ const PasswordMatches: UISchemaElementComponent<{
           marginBlockStart: '0',
           marginBlockEnd: `-${tokens.Spacing3}`,
         }}
-        aria-hidden
       >
         <PasswordRequirementListItem
           status={isMatching ? 'complete' : 'incomplete'}
