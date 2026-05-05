@@ -110,7 +110,7 @@ const PasswordRequirements: UISchemaElementComponent<{
     if (unmetRequirements.length === 0) {
       return loc('password.complexity.status.allMet', 'login');
     }
-    return loc('password.complexity.status.notMetPrefix', 'login', [unmetRequirements.join(', ')]);
+    return loc('password.complexity.status.notMetPrefix', 'login', [unmetRequirements.length, unmetRequirements.join(', ')]);
   }, [passwordValidations, requirements]);
 
   return requirements?.length > 0 ? (
