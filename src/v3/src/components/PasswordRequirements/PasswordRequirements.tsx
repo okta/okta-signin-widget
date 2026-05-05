@@ -17,6 +17,7 @@ import { Fragment, h } from 'preact';
 import {
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from 'preact/hooks';
 
@@ -98,19 +99,19 @@ const PasswordRequirements: UISchemaElementComponent<{
     userProvidedUserInfo.profile?.lastName,
   ]);
 
-  const hasValidations = Object.keys(passwordValidations).length > 0;
-  const unmetRequirements = hasValidations
-    ? requirements
+  const liveText = useMemo(() => {
+    const hasValidations = Object.keys(passwordValidations).length > 0;
+    if (!hasValidations) {
+      return '';
+    }
+    const unmetRequirements = requirements
       .filter(({ ruleKey }) => getPasswordStatus(ruleKey, passwordValidations) === 'incomplete')
-      .map(({ label }) => label)
-    : [];
-
-  let liveText = '';
-  if (hasValidations && unmetRequirements.length === 0) {
-    liveText = loc('password.complexity.status.allMet', 'login');
-  } else if (hasValidations) {
-    liveText = loc('password.complexity.status.notMetPrefix', 'login', [unmetRequirements.join(', ')]);
-  }
+      .map(({ label }) => label);
+    if (unmetRequirements.length === 0) {
+      return loc('password.complexity.status.allMet', 'login');
+    }
+    return loc('password.complexity.status.notMetPrefix', 'login', [unmetRequirements.join(', ')]);
+  }, [passwordValidations, requirements]);
 
   return requirements?.length > 0 ? (
     // Fragment wraps the figure and the live region so aria-describedby
