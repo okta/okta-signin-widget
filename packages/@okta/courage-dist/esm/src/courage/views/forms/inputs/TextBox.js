@@ -1,5 +1,6 @@
 import _Handlebars2 from '../../../../../lib/handlebars/dist/cjs/handlebars.runtime.js';
 import oktaJQueryStatic from '../../../util/jquery-wrapper.js';
+import oktaUnderscore from '../../../util/underscore-wrapper.js';
 import '@okta/qtip';
 import Keys from '../../../util/Keys.js';
 import '../../../vendor/plugins/jquery.placeholder.js';
@@ -267,6 +268,17 @@ var TextBox = BaseInput.extend({
   constructor: function () {
     BaseInput.apply(this, arguments);
     this.$el.addClass('o-form-control');
+
+    // iOS detection - check for iPad, iPhone, iPod, or iPad on iOS 13+
+    const isIOS = /iPad|iPhone|iPod/i.test(navigator.userAgent)
+      || (navigator.userAgent.includes('Mac') && 'ontouchend' in document);
+
+    // Apply debouncing to the update method for iOS devices
+    // This reduces validation frequency during typing to prevent scrolling issues
+    if (isIOS) {
+      const originalUpdate = this.update;
+      this.update = oktaUnderscore.debounce(originalUpdate, 300);
+    }
   },
 
   /**
