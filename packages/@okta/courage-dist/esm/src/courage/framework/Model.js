@@ -90,8 +90,15 @@ function unflatten(data) {
     var parts = key.split('.');
 
     while ((part = parts.shift()) !== undefined) {
-      if (!ref[part]) {
-        ref[part] = parts.length ? {} : value;
+      if (parts.length) {
+        // Intermediate node — must be an object for traversal.
+        if (ref[part] != null && typeof ref[part] !== 'object') {
+          return;
+        } else if (!ref[part]) {
+          ref[part] = {};
+        }
+      } else if (!ref[part]) {
+        ref[part] = value;
       }
 
       ref = ref[part];
