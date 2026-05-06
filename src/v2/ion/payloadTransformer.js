@@ -34,11 +34,13 @@ const flattenObj = (obj) => {
  * property can include a singular value or n values delimited by a "."
  * When they are delimited, BackBone's toJSON function will create a nested object, however,
  * these should not be nested and the delimited key names should stay as is. So this function will
- * flatten those nested proeprties to format it how the backend expects it. 
+ * flatten those nested proeprties to format it how the backend expects it.
  * i.e. { optedScopes: { some: { scope: true }}} = { optedScopes: { 'some.scope': true }}
+ * Also handles the case where a dotted scope name shares a prefix with a plain scope name
+ * (e.g. 'card' and 'card.pan'), which unflatten leaves as unexpanded top-level keys.
  * Currently, this is only used when the Granular Consent view form is saved see:
  * src/v2/view-builder/views/consent/GranularConsentView.js
- * 
+ *
  * @param {JSON} modelJSON JSON Equivalent of the Backbone Model's attributes/fields
  * @returns If the JSON contains the optedScopes Property, we will flatten the fields from
  * a nested object into K/V pair with dot notation for nested key names. Otherwise, we will return
@@ -46,11 +48,24 @@ const flattenObj = (obj) => {
  */
 const transformOptedScopes = (modelJSON) => {
   if (modelJSON.optedScopes && typeof modelJSON.optedScopes !== 'string') {
-    const data = {
-      ...modelJSON,
-      optedScopes: flattenObj(modelJSON.optedScopes),
+    const OPTED_SCOPES_PREFIX = 'optedScopes.';
+    const remainingDottedScopes = {};
+    const cleanJSON = {};
+    Object.keys(modelJSON).forEach(key => {
+      if (key.startsWith(OPTED_SCOPES_PREFIX)) {
+        remainingDottedScopes[key.slice(OPTED_SCOPES_PREFIX.length)] = modelJSON[key];
+      } else {
+        cleanJSON[key] = modelJSON[key];
+      }
+    });
+
+    return {
+      ...cleanJSON,
+      optedScopes: {
+        ...flattenObj(cleanJSON.optedScopes),
+        ...remainingDottedScopes,
+      },
     };
-    return data;
   }
   return modelJSON;
 };
