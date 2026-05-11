@@ -89,6 +89,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                       class="MuiBox-root emotion-11"
                     >
                       <div
+                        aria-label="OR"
                         class="MuiDivider-root MuiDivider-fullWidth MuiDivider-withChildren emotion-19"
                         data-se="separation-line"
                         role="separator"
@@ -455,6 +456,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                       class="MuiBox-root emotion-11"
                     >
                       <div
+                        aria-label="OR"
                         class="MuiDivider-root MuiDivider-fullWidth MuiDivider-withChildren emotion-19"
                         data-se="separation-line"
                         role="separator"
@@ -957,6 +959,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                       class="MuiBox-root emotion-11"
                     >
                       <div
+                        aria-label="OR"
                         class="MuiDivider-root MuiDivider-fullWidth MuiDivider-withChildren emotion-39"
                         data-se="separation-line"
                         role="separator"
