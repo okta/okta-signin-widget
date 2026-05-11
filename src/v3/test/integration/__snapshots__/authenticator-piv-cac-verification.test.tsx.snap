@@ -286,6 +286,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                       class="MuiBox-root emotion-11"
                     >
                       <a
+                        aria-label="Help Opens in a new tab"
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-50"
                         data-se="help"
                         href="http://localhost:3000/help/login"
@@ -652,6 +653,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                       class="MuiBox-root emotion-11"
                     >
                       <a
+                        aria-label="Help Opens in a new tab"
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-50"
                         data-se="help"
                         href="http://localhost:3000/help/login"
@@ -1018,6 +1020,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                       class="MuiBox-root emotion-11"
                     >
                       <a
+                        aria-label="Help Opens in a new tab"
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-50"
                         data-se="help"
                         href="http://localhost:3000/help/login"

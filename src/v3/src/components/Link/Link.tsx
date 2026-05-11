@@ -17,6 +17,7 @@ import { h } from 'preact';
 import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useOnSubmit } from '../../hooks';
 import { ClickHandler, LinkElement, UISchemaElementComponent } from '../../types';
+import { loc } from '../../util';
 
 const Link: UISchemaElementComponent<{
   uischema: LinkElement
@@ -81,6 +82,9 @@ const Link: UISchemaElementComponent<{
           testId={dataSe}
           target={target}
           rel={(target === '_blank' && !rel) ? 'noopener noreferrer' : rel}
+          ariaLabel={target === '_blank'
+            ? `${label} ${loc('external.link.aria', 'login')}`
+            : undefined}
         >
           {label}
         </OdyLink>

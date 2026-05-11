@@ -605,6 +605,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                       class="MuiBox-root emotion-15"
                     >
                       <a
+                        aria-label="Terms of Service Opens in a new tab"
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-95"
                         data-se="terms-of-service"
                         href="https://example.com/tos"
@@ -638,6 +639,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                       class="MuiBox-root emotion-15"
                     >
                       <a
+                        aria-label="Privacy Policy Opens in a new tab"
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-95"
                         data-se="privacy-policy"
                         href="https://example.com/privacypolicy"
