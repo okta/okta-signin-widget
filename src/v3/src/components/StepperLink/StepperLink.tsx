@@ -11,6 +11,7 @@
  */
 
 import { Link as LinkMui } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useStepperContext, useWidgetContext } from '../../contexts';
@@ -33,6 +34,7 @@ const StepperLink: UISchemaElementComponent<{
 
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
   const widgetContext = useWidgetContext();
+  const tokens = useOdysseyDesignTokens();
 
   const handleClick = () => {
     if (typeof nextStepIndex === 'function') {
@@ -55,6 +57,12 @@ const StepperLink: UISchemaElementComponent<{
         '&:hover': {
           cursor: 'pointer',
           verticalAlign: 'baseline',
+        },
+        '&:focus-visible': {
+          outlineColor: tokens.PalettePrimaryMain,
+          outlineOffset: tokens.FocusOutlineOffsetMain,
+          outlineStyle: tokens.FocusOutlineStyle,
+          outlineWidth: tokens.FocusOutlineWidthMain,
         },
       }}
     >

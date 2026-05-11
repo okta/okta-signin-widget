@@ -11,7 +11,7 @@
  */
 
 import { Link as MuiLink } from '@mui/material';
-import { Link as OdyLink } from '@okta/odyssey-react-mui';
+import { Link as OdyLink, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -41,6 +41,7 @@ const Link: UISchemaElementComponent<{
   } = uischema;
   const onSubmitHandler = useOnSubmit();
   const focusRef = useAutoFocus<HTMLAnchorElement>(focus);
+  const tokens = useOdysseyDesignTokens();
 
   const onClick: ClickHandler = async (e) => {
     e.preventDefault();
@@ -70,6 +71,14 @@ const Link: UISchemaElementComponent<{
         onClick={onClick}
         ref={focusRef}
         data-se={dataSe}
+        sx={{
+          '&:focus-visible': {
+            outlineColor: tokens.PalettePrimaryMain,
+            outlineOffset: tokens.FocusOutlineOffsetMain,
+            outlineStyle: tokens.FocusOutlineStyle,
+            outlineWidth: tokens.FocusOutlineWidthMain,
+          },
+        }}
       >
         {label}
       </MuiLink>
