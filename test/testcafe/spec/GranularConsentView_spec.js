@@ -50,6 +50,7 @@ test.requestHooks(requestLogger, consentGranularMock)('should show scopes list',
   if (userVariables.gen3) {
     await t.expect(consentPage.getScopeCheckBoxLabels()).eql([
       'View your mobile phone data plan.',
+      'View your mobile phone data plan sensitive details.',
       'View your internet search history.',
       'View your mobile phone call history.',
       'View your email address.',
@@ -60,6 +61,8 @@ test.requestHooks(requestLogger, consentGranularMock)('should show scopes list',
     await t.expect(consentPage.getScopeCheckBoxLabels()).eql([
       'View your mobile phone data plan.\n\n' +
         'This allows the app to view your mobile phone data plan.',
+      'View your mobile phone data plan sensitive details.\n\n' +
+        'This allows the app to view your mobile phone data plan sensitive details.',
       'View your internet search history.',
       'View your mobile phone call history.\n\n' +
         'This allows the app to view your mobile phone call history.',
@@ -117,6 +120,7 @@ test.requestHooks(requestLogger, consentGranularMock)('should send correct paylo
   await checkA11y(t);
 
   await consentPage.setScopeCheckBox('optedScopes.custom1', false);
+  await consentPage.setScopeCheckBox('optedScopes.custom1.custom2', false);
   await consentPage.setScopeCheckBox('optedScopes.email', false);
 
   await consentPage.clickAllowButton();
@@ -126,6 +130,7 @@ test.requestHooks(requestLogger, consentGranularMock)('should send correct paylo
   await t.expect(jsonBody.consent).eql(true);
   await t.expect(jsonBody.optedScopes.openid).eql(true);
   await t.expect(jsonBody.optedScopes.custom1).eql(false);
+  await t.expect(jsonBody.optedScopes['custom1.custom2']).eql(false);
   await t.expect(jsonBody.optedScopes.custom2).eql(true);
   await t.expect(jsonBody.optedScopes['custom3.custom4.custom5']).eql(true);
   await t.expect(jsonBody.optedScopes.email).eql(false);

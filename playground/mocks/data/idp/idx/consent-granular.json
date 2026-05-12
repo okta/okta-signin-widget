@@ -44,6 +44,16 @@
                 "mutable": true
               },
               {
+                "name": "custom1.custom2",
+                "label": "View your mobile phone data plan sensitive details.",
+                "desc": "This allows the app to view your mobile phone data plan sensitive details.",
+                "type": "boolean",
+                "required": true,
+                "value": true,
+                "visible": true,
+                "mutable": true
+              },
+              {
                 "name": "custom2",
                 "label": "View your internet search history.",
                 "type": "boolean",
