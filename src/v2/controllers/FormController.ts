@@ -324,10 +324,18 @@ export default Controller.extend({
     // OKTA-1152243: After password reset, the server may return post-auth remediations
     // (e.g. keep-me-signed-in) that are not in PasswordRecoveryFlow. Reset to default flow
     // so auth-js does not throw when it encounters these in the recursive remediate() call.
+    // We also persist the change to the saved transaction meta — auth-js' proceed() falls
+    // back to meta.flow whenever a proceed call omits the flow option (e.g. the MFA
+    // step-up hop between reset-authenticator and post-auth keep-me-signed-in), and
+    // without this update it would re-read 'resetPassword' and throw on the KMSI step.
     const shouldResetFlow = formName === FORMS.RESET_AUTHENTICATOR
       && authClient.idx.getFlow?.() === 'resetPassword';
     if (shouldResetFlow) {
       authClient.idx.setFlow('default');
+      const savedMeta = authClient.idx.getSavedTransactionMeta?.();
+      if (savedMeta) {
+        authClient.idx.saveTransactionMeta?.({ ...savedMeta, flow: 'default' });
+      }
     }
 
     try {
