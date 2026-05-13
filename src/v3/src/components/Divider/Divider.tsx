@@ -19,7 +19,10 @@ const Divider: UISchemaElementComponent<{ uischema: DividerElement }> = ({ uisch
   const { options } = uischema;
 
   return typeof options?.text !== 'undefined' ? (
-    <MuiDivider data-se="separation-line" role="presentation">
+    <MuiDivider
+      data-se="separation-line"
+      role="presentation"
+    >
       {options.text}
     </MuiDivider>
   ) : <MuiDivider data-se="separation-line" />;
