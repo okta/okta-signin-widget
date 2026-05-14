@@ -13,10 +13,11 @@
 import { Box } from '@mui/material';
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import debounce from 'lodash/debounce';
-import { h } from 'preact';
+import { Fragment, h } from 'preact';
 import {
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from 'preact/hooks';
 
@@ -28,7 +29,7 @@ import {
   UISchemaElementComponent,
   UserInfo,
 } from '../../types';
-import { getUserProvidedUserInfo, validatePassword } from '../../util';
+import { getUserProvidedUserInfo, loc, validatePassword } from '../../util';
 import PasswordRequirementListItem from './PasswordRequirementListItem';
 
 const PasswordRequirements: UISchemaElementComponent<{
@@ -98,33 +99,67 @@ const PasswordRequirements: UISchemaElementComponent<{
     userProvidedUserInfo.profile?.lastName,
   ]);
 
+  const liveText = useMemo(() => {
+    const hasValidations = Object.keys(passwordValidations).length > 0;
+    if (!hasValidations) {
+      return '';
+    }
+    const unmetRequirements = requirements
+      .filter(({ ruleKey }) => getPasswordStatus(ruleKey, passwordValidations) === 'incomplete')
+      .map(({ label }) => label);
+    if (unmetRequirements.length === 0) {
+      return loc('password.complexity.status.allMet', 'login');
+    }
+    return loc('password.complexity.status.notMetPrefix', 'login', [unmetRequirements.length, unmetRequirements.join(', ')]);
+  }, [passwordValidations, requirements]);
+
   return requirements?.length > 0 ? (
-    <Box
-      component="figure"
-      sx={{ marginBlock: 0, marginInline: 0 }}
-      data-se="password-authenticator--rules"
-      id={uischema.id}
-    >
+    // Fragment wraps the figure and the live region so aria-describedby
+    // (which targets the figure by id) does not include the live region.
+    <Fragment>
       <Box
-        component="figcaption"
-        data-se="password-authenticator--heading"
+        component="figure"
+        sx={{ marginBlock: 0, marginInline: 0 }}
+        data-se="password-authenticator--rules"
+        id={uischema.id}
       >
-        {header}
+        <Box
+          component="figcaption"
+          data-se="password-authenticator--heading"
+        >
+          {header}
+        </Box>
+        <Box
+          component="ul"
+          id={listId}
+          sx={{ listStyle: 'none', padding: '0', marginBlockStart: tokens.Spacing3 }}
+        >
+          {requirements.map(({ ruleKey, label }) => (
+            <PasswordRequirementListItem
+              key={label}
+              status={getPasswordStatus(ruleKey, passwordValidations)}
+              label={label}
+            />
+          ))}
+        </Box>
       </Box>
       <Box
-        component="ul"
-        id={listId}
-        sx={{ listStyle: 'none', padding: '0', marginBlockStart: tokens.Spacing3 }}
+        role="status"
+        sx={{
+          position: 'absolute',
+          width: '1px',
+          height: '1px',
+          padding: 0,
+          margin: '-1px',
+          overflow: 'hidden',
+          clip: 'rect(0, 0, 0, 0)',
+          whiteSpace: 'nowrap',
+          borderWidth: 0,
+        }}
       >
-        {requirements.map(({ ruleKey, label }) => (
-          <PasswordRequirementListItem
-            key={label}
-            status={getPasswordStatus(ruleKey, passwordValidations)}
-            label={label}
-          />
-        ))}
+        {liveText}
       </Box>
-    </Box>
+    </Fragment>
   ) : null;
 };
 
