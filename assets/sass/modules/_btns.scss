@@ -43,6 +43,18 @@ $od-secondary-button-action-text-color: #124a94;
   text-align: center;
 }
 
+// Allow long localized strings (e.g. uk-UA "Надіслати повідомлення електронною
+// поштою") on the form's primary submit button to wrap onto multiple lines
+// instead of being clipped at the right edge of the fixed-width button.
+.o-form-button-bar .button.button-primary {
+  height: auto;
+  min-height: 50px;
+  line-height: 1.4;
+  padding-block: 14px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 .icon-button {
   display: block;
   width: 22px;
