@@ -106,28 +106,32 @@ exports[`enduser-consent should render form with logo 1`] = `
                 </div>
                 <div
                   class="MuiBox-root emotion-18"
-                  role="status"
                 >
-                  <span
-                    aria-label="Processing..."
-                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-19"
-                    role="progressbar"
-                    style="width: 1.71428571rem; height: 1.71428571rem;"
+                  <div
+                    class="MuiBox-root emotion-19"
+                    role="status"
                   >
-                    <svg
-                      class="MuiCircularProgress-svg emotion-20"
-                      viewBox="22 22 44 44"
+                    <span
+                      aria-label="Processing..."
+                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-20"
+                      role="progressbar"
+                      style="width: 1.71428571rem; height: 1.71428571rem;"
                     >
-                      <circle
-                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-21"
-                        cx="44"
-                        cy="44"
-                        fill="none"
-                        r="17"
-                        stroke-width="10"
-                      />
-                    </svg>
-                  </span>
+                      <svg
+                        class="MuiCircularProgress-svg emotion-21"
+                        viewBox="22 22 44 44"
+                      >
+                        <circle
+                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-22"
+                          cx="44"
+                          cy="44"
+                          fill="none"
+                          r="17"
+                          stroke-width="10"
+                        />
+                      </svg>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

@@ -85,7 +85,7 @@ import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
 import ConsentHeader from '../ConsentHeader';
 import Form from '../Form';
-import Spinner from '../Spinner';
+import InitialSpinner from '../Spinner/InitialSpinner';
 import GlobalStyles from './GlobalStyles';
 
 export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
@@ -558,7 +558,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
             {
               uischema.elements.length > 0
                 ? <Form uischema={uischema as UISchemaLayout} />
-                : <Spinner />
+                : <InitialSpinner />
             }
           </AuthContent>
         </AuthContainer>
