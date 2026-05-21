@@ -16,6 +16,7 @@
     "webpack-cli": "^4.8.0"
   },
   "resolutions": {
-    "js-cookie": "3.0.5"
+    "js-cookie": "3.0.5",
+    "node-releases": "2.0.18"
   }
 }

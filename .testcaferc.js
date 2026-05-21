@@ -73,7 +73,7 @@ const env = {
 const chromeName = env.CHROME_HEADLESS ? 'chrome:headless' : 'chrome';
 const chromeOptions = env.OKTA_SIW_MOBILE ? ':emulation:device=iphone X' : '';
 const chromeFlags = env.CHROME_HEADLESS ? '' : ' --disable-search-engine-choice-screen';
-const chromeFullName = `${chromeName}${chromeOptions}${chromeFlags}`;
+const chromeFullName = `${chromeName}${chromeOptions}${chromeFlags} --no-sandbox --disable-dev-shm-usage`;
 
 const config = {
   browsers: [chromeFullName],

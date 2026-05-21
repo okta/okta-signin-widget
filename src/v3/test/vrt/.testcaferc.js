@@ -33,7 +33,7 @@ const config = {
     },
   ],
   appCommand: 'test/e2e/start-app-e2e.sh',
-  browsers: [ 'chrome:headless' ],
+  browsers: [ 'chrome:headless --no-sandbox --disable-dev-shm-usage' ],
   clientScripts: [
     { module: 'axe-core/axe.min.js' },
     { module: '@testing-library/dom/dist/@testing-library/dom.umd.js' }
@@ -45,6 +45,7 @@ const config = {
     vrtCi: env.VRT_CI,
   },
   assertionTimeout: 20000,
+  browserInitTimeout: 240000,
   // testcafe does not like concurrency being higher than the amount of tests
   concurrency: 1,
   screenshots: {
