@@ -145,6 +145,7 @@ const PasswordRequirements: UISchemaElementComponent<{
       </Box>
       <Box
         role="status"
+        translate="no"
         sx={{
           position: 'absolute',
           width: '1px',
