@@ -82,6 +82,7 @@ const Link: UISchemaElementComponent<{
           testId={dataSe}
           target={target}
           rel={(target === '_blank' && !rel) ? 'noopener noreferrer' : rel}
+          // TODO: remove once Odyssey handles external-link aria natively (OKTA-1175986)
           ariaLabel={target === '_blank'
             ? `${label} ${loc('external.link.aria', 'login')}`
             : undefined}
