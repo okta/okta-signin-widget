@@ -13,6 +13,7 @@ import InputFactory from './helpers/InputFactory.js';
 import InputLabel from './helpers/InputLabel.js';
 import InputWrapper from './helpers/InputWrapper.js';
 import SettingsModel from '../../util/SettingsModel.js';
+import Logger from '../../util/Logger.js';
 
 const template = _Handlebars2.template({
   "0": function (container, depth0, helpers, partials, data) {
@@ -980,6 +981,36 @@ var BaseForm = BaseView.extend(
       } else {
         scrollTop = $scrollContext.scrollTop() + $el.offset().top - $scrollContext.offset().top;
       }
+
+      // OKTA-1104008 diagnostics: log every scroll animation so we can confirm
+      // whether the iPadOS auto-scroll is driven by this code path. iOS-only (covers
+      // iPadOS 13+ which reports as Mac). Wrapped in try/catch so a property-access
+      // failure (e.g. $el.offset() returning undefined in an unexpected DOM state)
+      // never breaks the form. Volume is bounded by the 100ms throttle on the
+      // underlying 'invalid error' listener. Remove together with PR #3974's fix.
+      try {
+        const ua = navigator.userAgent;
+        const isIOS = /iPad|iPhone|iPod/i.test(ua) || (ua.includes('Mac') && 'ontouchend' in document);
+        if (isIOS) {
+          const active = document.activeElement;
+          const offset = $el.offset();
+          // eslint-disable-next-line no-console
+          Logger.info({
+            tag: 'siw-scroll-diag:animate',
+            ts: Date.now(),
+            ua: ua,
+            targetScrollTop: scrollTop,
+            currentScrollTop: $scrollContext.scrollTop(),
+            errorContainerOffsetTop: offset && offset.top,
+            active: {
+              tag: active && active.tagName,
+              type: active && active.type,
+              readOnly: active && active.readOnly,
+            },
+            visualViewportH: window.visualViewport && window.visualViewport.height,
+          });
+        }
+      } catch (_e) { /* diagnostics must never break the form */ }
 
       $scrollContext.animate({
         scrollTop: scrollTop
