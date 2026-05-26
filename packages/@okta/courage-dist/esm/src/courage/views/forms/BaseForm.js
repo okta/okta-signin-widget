@@ -13,7 +13,6 @@ import InputFactory from './helpers/InputFactory.js';
 import InputLabel from './helpers/InputLabel.js';
 import InputWrapper from './helpers/InputWrapper.js';
 import SettingsModel from '../../util/SettingsModel.js';
-import Logger from '../../util/Logger.js';
 
 const template = _Handlebars2.template({
   "0": function (container, depth0, helpers, partials, data) {
@@ -995,7 +994,7 @@ var BaseForm = BaseView.extend(
           const active = document.activeElement;
           const offset = $el.offset();
           // eslint-disable-next-line no-console
-          Logger.info({
+          console.log({
             tag: 'siw-scroll-diag:animate',
             ts: Date.now(),
             ua: ua,

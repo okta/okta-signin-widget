@@ -142,7 +142,7 @@ const Form = BaseForm.extend({
       const isIOS = /iPad|iPhone|iPod/i.test(ua) || (ua.includes('Mac') && 'ontouchend' in document);
       if (isIOS) {
         const active = document.activeElement;
-        Logger.info({
+        console.log({
           tag: 'siw-scroll-diag:gate',
           ts: Date.now(),
           ua,
