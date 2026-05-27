@@ -132,6 +132,32 @@ const Form = BaseForm.extend({
       settings: settings
     } = this.options;
 
+    // OKTA-1104008 diagnostics: log every scroll-on-error gate evaluation so we can
+    // confirm whether iPadOS is firing this per keystroke. iOS-only (covers iPadOS 13+
+    // which reports as Mac). Wrapped in try/catch so a property-access failure never
+    // breaks the widget. Volume is bounded by the 100ms throttle on the underlying
+    // 'invalid error' listener. Remove together with PR #3974's behavioral fix.
+    try {
+      const ua = navigator.userAgent;
+      const isIOS = /iPad|iPhone|iPod/i.test(ua) || (ua.includes('Mac') && 'ontouchend' in document);
+      if (isIOS) {
+        const active = document.activeElement;
+        console.log({
+          tag: 'siw-scroll-diag:gate',
+          ts: Date.now(),
+          ua,
+          active: {
+            tag: active && active.tagName,
+            type: active && active.type,
+            readOnly: active && active.readOnly,
+          },
+          scrollY: window.scrollY,
+          visualViewportH: window.visualViewport && window.visualViewport.height,
+          scrollOnErrorSetting: settings.get('features.scrollOnError'),
+        });
+      }
+    } catch (_e) { /* diagnostics must never break the form */ }
+
     if (settings.get('features.scrollOnError') === false) {
       return false;
     }

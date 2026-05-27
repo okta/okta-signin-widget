@@ -118,8 +118,35 @@ const PasswordBoxForSigninWidget = PasswordBox.extend({ events });
 
 const Form = BaseForm.extend({
   scrollOnError() {
-    // scrollOnError is true by default. Override to false if `scrollOnError` has been set to false in widget settings.
     const { settings } = this.options;
+
+    // OKTA-1104008 diagnostics: log every scroll-on-error gate evaluation so we can
+    // confirm whether iPadOS is firing this per keystroke. iOS-only (covers iPadOS 13+
+    // which reports as Mac). Wrapped in try/catch so a property-access failure never
+    // breaks the widget. Volume is bounded by the 100ms throttle on the underlying
+    // 'invalid error' listener. Remove together with PR #3974's behavioral fix.
+    try {
+      const ua = navigator.userAgent;
+      const isIOS = /iPad|iPhone|iPod/i.test(ua) || (ua.includes('Mac') && 'ontouchend' in document);
+      if (isIOS) {
+        const active = document.activeElement as (HTMLInputElement & HTMLTextAreaElement) || null;
+        console.log({
+          tag: 'siw-scroll-diag:gate',
+          ts: Date.now(),
+          ua,
+          active: {
+            tag: active?.tagName,
+            type: active?.type,
+            readOnly: active?.readOnly,
+          },
+          scrollY: window.scrollY,
+          visualViewportH: window.visualViewport?.height,
+          scrollOnErrorSetting: settings.get('features.scrollOnError'),
+        });
+      }
+    } catch (_e) { /* diagnostics must never break the form */ }
+
+    // scrollOnError is true by default. Override to false if `scrollOnError` has been set to false in widget settings.
     if (settings.get('features.scrollOnError') === false) {
       return false;
     }
