@@ -102,15 +102,10 @@ export const usePolling = (
       // When FF is on and another poll-step `proceed` is in flight, suppress
       // this one. The recurring cycle resumes naturally after the in-flight
       // call resolves and updates `transaction`.
-      if (
-        features?.disableConcurrentPolling
-        && isPollingStep(name)
-        && pollInFlightRef?.current
-      ) {
+      const guarded = features?.disableConcurrentPolling && isPollingStep(name);
+      if (guarded && pollInFlightRef?.current) {
         return;
       }
-
-      const guarded = features?.disableConcurrentPolling && isPollingStep(name);
       if (guarded && pollInFlightRef) {
         // eslint-disable-next-line no-param-reassign
         pollInFlightRef.current = true;
