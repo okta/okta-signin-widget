@@ -13,7 +13,7 @@
 import { IdxActionParams, IdxTransaction, NextStep } from '@okta/okta-auth-js';
 import cloneDeep from 'lodash/cloneDeep';
 import {
-  useEffect, useMemo, useRef, useState,
+  MutableRef, useEffect, useMemo, useRef, useState,
 } from 'preact/hooks';
 
 import { TERMINAL_KEY } from '../constants';
@@ -58,8 +58,9 @@ export const usePolling = (
   idxTransaction: IdxTransaction | undefined,
   widgetProps: Partial<WidgetOptions>,
   data: Record<string, unknown>,
+  pollInFlightRef?: MutableRef<boolean>,
 ): IdxTransaction | undefined => {
-  const { stateToken, authClient } = widgetProps;
+  const { stateToken, authClient, features } = widgetProps;
   const [transaction, setTransaction] = useState<IdxTransaction | undefined>();
   const timerRef = useRef<NodeJS.Timeout>();
 
@@ -97,29 +98,48 @@ export const usePolling = (
       } else {
         payload = { actions: [{ name, params: payload }] };
       }
-      // TODO: Revert to use action once this fix is completed OKTA-512706
-      const newTransaction = await authClient?.idx.proceed({
-        stateHandle: stateToken && idxTransaction?.context?.stateHandle,
-        ...payload,
-      });
 
-      // error code E0000047 is from a standard API error (unhandled)
-      // TERMINAL_KEY.TOO_MANY_REQUESTS is error key from IDX API error message
-      // check that there is no errorIntent to make sure it is not a standard IDX message error
-      // @ts-expect-error OKTA-585869 errorCode & errorIntent properties missing from context type
-      if ((newTransaction?.context?.errorCode === 'E0000047' && !newTransaction?.context?.errorIntent)
-        || containsMessageKey(TERMINAL_KEY.TOO_MANY_REQUESTS, newTransaction?.messages)) {
-        // When polling encounter rate limit error, wait 60 sec for rate limit bucket to reset before polling again
-        const clonedTransaction = cloneDeep(idxTransaction);
-        const clonedPollingStep = getPollingStep(clonedTransaction);
-        if (clonedPollingStep !== undefined) {
-          clonedPollingStep.refresh = 60000;
-        }
-        setTransaction(clonedTransaction);
+      // When FF is on and another poll-step `proceed` is in flight, suppress
+      // this one. The recurring cycle resumes naturally after the in-flight
+      // call resolves and updates `transaction`.
+      const guarded = features?.disableConcurrentPolling && isPollingStep(name);
+      if (guarded && pollInFlightRef?.current) {
         return;
       }
+      if (guarded && pollInFlightRef) {
+        // eslint-disable-next-line no-param-reassign
+        pollInFlightRef.current = true;
+      }
+      try {
+        // TODO: Revert to use action once this fix is completed OKTA-512706
+        const newTransaction = await authClient?.idx.proceed({
+          stateHandle: stateToken && idxTransaction?.context?.stateHandle,
+          ...payload,
+        });
 
-      setTransaction(newTransaction);
+        // error code E0000047 is from a standard API error (unhandled)
+        // TERMINAL_KEY.TOO_MANY_REQUESTS is error key from IDX API error message
+        // check that there is no errorIntent to make sure it is not a standard IDX message error
+        // @ts-expect-error OKTA-585869 errorCode & errorIntent properties missing from context type
+        if ((newTransaction?.context?.errorCode === 'E0000047' && !newTransaction?.context?.errorIntent)
+          || containsMessageKey(TERMINAL_KEY.TOO_MANY_REQUESTS, newTransaction?.messages)) {
+          // When polling encounter rate limit error, wait 60 sec for rate limit bucket to reset before polling again
+          const clonedTransaction = cloneDeep(idxTransaction);
+          const clonedPollingStep = getPollingStep(clonedTransaction);
+          if (clonedPollingStep !== undefined) {
+            clonedPollingStep.refresh = 60000;
+          }
+          setTransaction(clonedTransaction);
+          return;
+        }
+
+        setTransaction(newTransaction);
+      } finally {
+        if (guarded && pollInFlightRef) {
+          // eslint-disable-next-line no-param-reassign
+          pollInFlightRef.current = false;
+        }
+      }
     }, refresh);
 
     return () => {
