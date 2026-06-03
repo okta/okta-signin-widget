@@ -536,7 +536,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
           id: 'autwa6eD9o02iBbtv0g3',
           authenticatorId: 'fwftheidkwh282hv8g3',
           credentialId: '7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w',
-          profile: { transports: "usb,nfc" },
+          profile: { transports: 'usb,nfc' },
         },
       ],
     };

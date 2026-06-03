@@ -20,11 +20,7 @@ function getExcludeCredentials(authenticatorEnrollments = []) {
       // profile serializes as Map<String,String>; tolerate both array and string shapes.
       let transports = enrollement.transports ?? enrollement.profile?.transports;
       if (typeof transports === 'string') {
-        try {
-          transports = transports.split(',');
-        } catch (e) {
-          transports = undefined;
-        }
+        transports = transports.split(',');
       }
       if (Array.isArray(transports)) {
         credential.transports = transports;
