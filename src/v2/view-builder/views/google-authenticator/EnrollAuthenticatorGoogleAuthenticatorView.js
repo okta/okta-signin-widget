@@ -75,11 +75,27 @@ const Body = BaseForm.extend({
           viewToDisplay: viewToDisplayState.MANUAL,
         }
       }, {
-        label: false,
-        className: 'shared-secret no-translate',
-        type: 'text',
-        placeholder: this.options.appState.get('currentAuthenticator').contextualData.sharedSecret,
-        disabled: true,
+        View: View.extend({
+          className: 'o-form-fieldset o-form-label-top',
+          template: hbs`
+            <div class="o-form-input">
+              <span class="o-form-input-name-sharedSecret o-form-control
+                okta-form-input-field input-fix shared-secret no-translate">
+                <input type="text"
+                  value="{{sharedSecret}}"
+                  readonly
+                  aria-label="{{sharedSecret}}"
+                  autocomplete="off" />
+              </span>
+            </div>
+          `,
+          getTemplateData() {
+            return {
+              sharedSecret: this.options.appState.get('currentAuthenticator').contextualData.sharedSecret,
+            };
+          },
+        }),
+        selector: '.o-form-fieldset-container',
         showWhen: {
           viewToDisplay: viewToDisplayState.MANUAL,
         }

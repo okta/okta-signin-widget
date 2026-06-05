@@ -49,7 +49,7 @@ export default class EnrollGoogleAuthenticatorPageObject extends BasePageObject 
     if (userVariables.gen3) {
       return this.form.getSubtitle();
     }
-    return this.form.getElement('.shared-secret input').getAttribute('placeholder');
+    return this.form.getElement('.shared-secret input').getAttribute('value');
   }
 
   async goTomanualSetup() {
