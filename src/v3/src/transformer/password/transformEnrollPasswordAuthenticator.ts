@@ -12,6 +12,7 @@
 
 import { PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from '../../constants';
 import {
+  ExtendedIdxContext,
   FieldElement,
   FormBag,
   HiddenInputElement,
@@ -42,10 +43,10 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   // `nextStep.relatesTo` ($.currentAuthenticator), while the new-password policy lives
   // on `recoveryAuthenticator` or `enrollmentAuthenticator`. Prefer those so requirements
   // like "Password can't be the same as your last 4 passwords" surface in the UI.
+  const extendedContext = context as ExtendedIdxContext | undefined;
   const passwordSettings = (
-    // @ts-expect-error OKTA-1142182 - recoveryAuthenticator missing from IdxContext type
-    context?.recoveryAuthenticator?.value?.settings
-    || context?.enrollmentAuthenticator?.value?.settings
+    extendedContext?.recoveryAuthenticator?.value?.settings
+    || extendedContext?.enrollmentAuthenticator?.value?.settings
     || relatesTo?.value?.settings
     || {}
   ) as PasswordSettings;
