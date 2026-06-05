@@ -36,8 +36,19 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   transaction,
   formBag,
 }) => {
-  const { nextStep: { relatesTo } = {} } = transaction;
-  const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordSettings;
+  const { context, nextStep: { relatesTo } = {} } = transaction;
+  // Mirror gen2 `ReEnrollAuthenticatorPasswordView.getPasswordPolicySettings`: for
+  // password-reset/expired flows IDX exposes the *current* password's policy via
+  // `nextStep.relatesTo` ($.currentAuthenticator), while the new-password policy lives
+  // on `recoveryAuthenticator` or `enrollmentAuthenticator`. Prefer those so requirements
+  // like "Password can't be the same as your last 4 passwords" surface in the UI.
+  const passwordSettings = (
+    // @ts-expect-error OKTA-1142182 - recoveryAuthenticator missing from IdxContext type
+    context?.recoveryAuthenticator?.value?.settings
+    || context?.enrollmentAuthenticator?.value?.settings
+    || relatesTo?.value?.settings
+    || {}
+  ) as PasswordSettings;
 
   const { uischema, dataSchema } = formBag;
   const userInfo = getUserInfo(transaction);

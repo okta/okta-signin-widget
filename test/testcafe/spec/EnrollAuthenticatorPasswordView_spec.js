@@ -150,17 +150,12 @@ test.requestHooks(errorMock)('should show a callout when server-side field error
     await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your first name');
     await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your last name');
     await t.expect(enrollPasswordPage.getRequirements()).contains('Maximum 3 consecutive repeating characters');
-    // In V3, UX made a conscious decision to not include server side requirements in the UI
-    // to not confuse users. They are considering additional UI changes OKTA-533383 for server side requirements
-    // but for now, it does not display in v3
-    if (!userVariables.gen3) {
-      await t.expect(enrollPasswordPage.getRequirements()).contains('At least 2 hour(s) must have elapsed since you last changed your password');
+    await t.expect(enrollPasswordPage.getRequirements()).contains('At least 2 hour(s) must have elapsed since you last changed your password');
 
-      const historyCountMessage = isHistoryCountOne ? 
-        'Password can\'t be the same as your last password'
-        : 'Password can\'t be the same as your last 4 passwords';
-      await t.expect(enrollPasswordPage.getRequirements()).contains(historyCountMessage);
-    }
+    const historyCountMessage = isHistoryCountOne ?
+      'Password can\'t be the same as your last password'
+      : 'Password can\'t be the same as your last 4 passwords';
+    await t.expect(enrollPasswordPage.getRequirements()).contains(historyCountMessage);
     await t.expect(enrollPasswordPage.getRequirements()).contains('No parts of your username');
     await t.expect(enrollPasswordPage.getRequirements()).contains('A lowercase letter');
   });
