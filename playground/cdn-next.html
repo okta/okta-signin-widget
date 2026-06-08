@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Okta Sign-in Widget Playground (gen3 CDN bundle)</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/css/okta-sign-in.next.css" type="text/css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div id="signin-container"></div>
+    <script src="/js/okta-sign-in.next.js"></script>
+    <script>
+      var config = {
+        el: '#signin-container',
+        baseUrl: 'http://localhost:3000',
+
+        // OIE config
+        stateToken: 'abc',
+
+        // Classic config
+        // stateToken: '00abc',
+        // useClassicEngine: true,
+        // features: {
+        //   router: false
+        // }
+      };
+      var signIn = new OktaSignIn(config);
+      signIn.renderEl();
+    </script>
+  </body>
+</html>
