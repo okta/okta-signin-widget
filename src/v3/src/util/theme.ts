@@ -305,6 +305,9 @@ export const createThemeAndTokens = (
               // Odyssey sets position: "initial" which is not supported in IE11
               // "initial" uses browser default which is "static"
               position: 'static',
+              // MUI's outlined variant defaults this to 1, which causes the
+              // shrunk/transformed label to clip over the page footer on scroll.
+              zIndex: 0,
             }),
           }),
         },
