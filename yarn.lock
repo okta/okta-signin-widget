@@ -4738,10 +4738,10 @@
     react-window "^1.8.10"
     word-wrap "^1.2.5"
 
-"@okta/okta-auth-js@7.14.2":
-  version "7.14.2"
-  resolved "https://registry.npmjs.org/@okta/okta-auth-js/-/okta-auth-js-7.14.2.tgz#1da3ecf1168259f843f7e6d04afae732deccd7bb"
-  integrity sha512-1RH+53jF7NvH6DrTxWFk+vD1yvb4tfQp5yX+Jp51nyTVePcGtG+Q3yzvgDty/EEEJt02cxWuQAlKwwg6mKwygg==
+"@okta/okta-auth-js@7.14.4":
+  version "7.14.4"
+  resolved "https://registry.npmjs.org/@okta/okta-auth-js/-/okta-auth-js-7.14.4.tgz#e600bdd7474d03535b9743b4806068dedade325b"
+  integrity sha512-FiZPGU2lZ5i61SdZaLgaY9rhie9r7KuenA5QcztlUs1GgTqsQvAUAQTkNaciKt0IeokrqquE9p0excH9prxmCQ==
   dependencies:
     "@babel/runtime" "^7.27.0"
     "@peculiar/webcrypto" "^1.4.0"
@@ -18079,7 +18079,7 @@ react-async-script@^1.2.0:
     hoist-non-react-statics "^3.3.0"
     prop-types "^15.5.0"
 
-"react-dom@npm:@preact/compat", "react@npm:@preact/compat":
+"react-dom@npm:@preact/compat":
   version "17.1.2"
   resolved "https://registry.yarnpkg.com/@preact/compat/-/compat-17.1.2.tgz#928756713b07af6faf7812f6a56840d8ce6fed37"
   integrity sha512-7pOZN9lMDDRQ+6aWvjwTp483KR8/zOpfS83wmOo3zfuLKdngS8/5RLbsFWzFZMGdYlotAhX980hJ75bjOHTwWg==
@@ -18149,6 +18149,11 @@ react-window@^1.8.10:
   dependencies:
     "@babel/runtime" "^7.0.0"
     memoize-one ">=3.1.1 <6"
+
+"react@npm:@preact/compat":
+  version "17.1.2"
+  resolved "https://registry.yarnpkg.com/@preact/compat/-/compat-17.1.2.tgz#928756713b07af6faf7812f6a56840d8ce6fed37"
+  integrity sha512-7pOZN9lMDDRQ+6aWvjwTp483KR8/zOpfS83wmOo3zfuLKdngS8/5RLbsFWzFZMGdYlotAhX980hJ75bjOHTwWg==
 
 read-file-relative@^1.2.0:
   version "1.2.0"
