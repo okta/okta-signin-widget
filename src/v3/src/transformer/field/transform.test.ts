@@ -283,4 +283,45 @@ describe('transformStepInputs', () => {
       expect(result.data.nullField).toBe('');
     });
   });
+
+  describe('fieldsToTrim', () => {
+    it('should add numeric passcode to fieldsToTrim', () => {
+      const step: NextStep = {
+        name: 'challenge-authenticator',
+        inputs: [
+          {
+            name: 'credentials.passcode',
+            type: 'string',
+            required: true,
+            visible: true,
+            mutable: true,
+          } as Input,
+        ],
+      };
+
+      const result = transformStepInputs(formBag, widgetProps, step);
+
+      expect(result.dataSchema.fieldsToTrim).toContain('credentials.passcode');
+    });
+
+    it('should add alphanumeric passcode to fieldsToTrim', () => {
+      const step: NextStep = {
+        name: 'challenge-authenticator',
+        inputs: [
+          {
+            name: 'credentials.passcode',
+            type: 'string',
+            format: 'alphanumeric',
+            required: true,
+            visible: true,
+            mutable: true,
+          } as Input,
+        ],
+      };
+
+      const result = transformStepInputs(formBag, widgetProps, step);
+
+      expect(result.dataSchema.fieldsToTrim).toContain('credentials.passcode');
+    });
+  });
 });

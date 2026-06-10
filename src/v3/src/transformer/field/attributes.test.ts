@@ -102,4 +102,28 @@ describe('Attributes transformer', () => {
 
     expect(transformer(formfield)).toEqual(result);
   });
+
+  it('should not set inputmode when passcode field has format === "alphanumeric"', () => {
+    const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+    navigatorCredentials.mockReturnValue(
+      { userAgent: 'iPhone' } as unknown as Navigator,
+    );
+    const formfield: Input = { name: 'credentials.passcode', format: 'alphanumeric' };
+
+    const result = { attributes: { autocomplete: 'one-time-code' } };
+
+    expect(transformer(formfield)).toEqual(result);
+  });
+
+  it('should still set inputmode === "numeric" when passcode field has no format', () => {
+    const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+    navigatorCredentials.mockReturnValue(
+      { userAgent: 'iPhone' } as unknown as Navigator,
+    );
+    const formfield: Input = { name: 'credentials.passcode' };
+
+    const result = { attributes: { autocomplete: 'one-time-code', inputmode: 'numeric' } };
+
+    expect(transformer(formfield)).toEqual(result);
+  });
 });

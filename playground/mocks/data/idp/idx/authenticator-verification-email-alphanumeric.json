@@ -1,0 +1,442 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "mockValue",
+    "expiresAt": "2026-06-10T21:50:02.000Z",
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "challenge-authenticator",
+                "relatesTo": [
+                    "$.currentAuthenticatorEnrollment"
+                ],
+                "href": "https://localhost/idp/idx/challenge/answer",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "credentials",
+                        "type": "object",
+                        "form": {
+                            "value": [
+                                {
+                                    "name": "passcode",
+                                    "label": "Enter code",
+                                    "minLength": 10,
+                                    "maxLength": 10,
+                                    "format": "alphanumeric"
+                                }
+                            ]
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "mockValue",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "select-authenticator-authenticate",
+                "href": "https://localhost/idp/idx/challenge",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "authenticator",
+                        "type": "object",
+                        "options": [
+                            {
+                                "label": "Email",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut154mqnlKDVnXeT0g4",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "email",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[0]"
+                            },
+                            {
+                                "label": "Passkeys",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut156w0bsaxREByP0g4",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "webauthn",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticators.value[1]"
+                            },
+                            {
+                                "label": "Password",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut154lmhj4WNnxoc0g4",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "password",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[4]"
+                            },
+                            {
+                                "label": "Phone",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut154nxZP7ityuIh0g4",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "type": "string",
+                                                "required": false,
+                                                "options": [
+                                                    {
+                                                        "label": "SMS",
+                                                        "value": "sms"
+                                                    },
+                                                    {
+                                                        "label": "Voice call",
+                                                        "value": "voice"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "enrollmentId",
+                                                "required": true,
+                                                "value": "sms15bsrcrvIo6NBT0g4",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[5]"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "mockValue",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            }
+        ]
+    },
+    "currentAuthenticatorEnrollment": {
+        "type": "object",
+        "value": {
+            "profile": {
+                "email": "a***n@okta.com"
+            },
+            "resend": {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "resend",
+                "href": "https://localhost/idp/idx/challenge/resend",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "mockValue",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            "poll": {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "poll",
+                "href": "https://localhost/idp/idx/challenge/poll",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "refresh": 4000,
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "mockValue",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            "contextualData": {
+                "useEmailMagicLink": true
+            },
+            "type": "email",
+            "key": "okta_email",
+            "id": "eae15442ouXZNyErq0g4",
+            "displayName": "Email",
+            "methods": [
+                {
+                    "type": "email"
+                }
+            ]
+        }
+    },
+    "authenticators": {
+        "type": "array",
+        "value": [
+            {
+                "type": "email",
+                "key": "okta_email",
+                "id": "aut154mqnlKDVnXeT0g4",
+                "displayName": "Email",
+                "methods": [
+                    {
+                        "type": "email"
+                    }
+                ],
+                "allowedFor": "none"
+            },
+            {
+                "type": "security_key",
+                "key": "webauthn",
+                "id": "aut156w0bsaxREByP0g4",
+                "displayName": "Passkeys",
+                "methods": [
+                    {
+                        "type": "webauthn"
+                    }
+                ],
+                "allowedFor": "none"
+            },
+            {
+                "type": "password",
+                "key": "okta_password",
+                "id": "aut154lmhj4WNnxoc0g4",
+                "displayName": "Password",
+                "methods": [
+                    {
+                        "type": "password"
+                    }
+                ],
+                "allowedFor": "none"
+            },
+            {
+                "type": "phone",
+                "key": "phone_number",
+                "id": "aut154nxZP7ityuIh0g4",
+                "displayName": "Phone",
+                "methods": [
+                    {
+                        "type": "sms"
+                    },
+                    {
+                        "type": "voice"
+                    }
+                ],
+                "allowedFor": "none"
+            }
+        ]
+    },
+    "authenticatorEnrollments": {
+        "type": "array",
+        "value": [
+            {
+                "profile": {
+                    "email": "a***n@okta.com"
+                },
+                "type": "email",
+                "key": "okta_email",
+                "id": "eae15442ouXZNyErq0g4",
+                "displayName": "Email",
+                "methods": [
+                    {
+                        "type": "email"
+                    }
+                ]
+            },
+            {
+                "profile": {
+                    "aaguid": "adce0002-35bc-c60a-648b-0b25f1f05503",
+                    "transports": "internal"
+                },
+                "type": "security_key",
+                "key": "webauthn",
+                "id": "fwf15deuuBHEojh4w0g4",
+                "displayName": "Chrome on Mac",
+                "credentialId": "pHIa-SDTZV4Ca7bHCCPeVlzBW2njo3s-jpO3wH8TFJ0",
+                "methods": [
+                    {
+                        "type": "webauthn"
+                    }
+                ]
+            },
+            {
+                "profile": {
+                    "aaguid": "73bb0cd4-e502-49b8-9c6f-b59445bf720b",
+                    "transports": "usb"
+                },
+                "type": "security_key",
+                "key": "webauthn",
+                "id": "fwf1bdscMDOMuu4jt0g5",
+                "displayName": "YubiKey 5 FIPS",
+                "credentialId": "Cc7l0Kzszj1UC0g-T7z0V1IHaqvRbtpDZYVQ87639Hrj9e15SXaHv21xoWMTPW9S",
+                "methods": [
+                    {
+                        "type": "webauthn"
+                    }
+                ]
+            },
+            {
+                "profile": {
+                    "aaguid": "fbfc3007-154e-4ecc-8c0b-6e020557d7bd",
+                    "transports": "internal,hybrid"
+                },
+                "type": "security_key",
+                "key": "webauthn",
+                "id": "fwfybhzSQ0EhkxCfT0g4",
+                "displayName": "iCloud Keychain",
+                "credentialId": "YB2r-AK-U3_hw9GUAC649V5cWcA",
+                "methods": [
+                    {
+                        "type": "webauthn"
+                    }
+                ]
+            },
+            {
+                "type": "password",
+                "key": "okta_password",
+                "id": "lae5ls3CYziJDyyzo0g3",
+                "displayName": "Password",
+                "methods": [
+                    {
+                        "type": "password"
+                    }
+                ]
+            },
+            {
+                "profile": {
+                    "phoneNumber": "+1 XXX-XXX-0209"
+                },
+                "type": "phone",
+                "key": "phone_number",
+                "id": "sms15bsrcrvIo6NBT0g4",
+                "displayName": "Phone",
+                "methods": [
+                    {
+                        "type": "sms"
+                    },
+                    {
+                        "type": "voice"
+                    }
+                ]
+            }
+        ]
+    },
+    "user": {
+        "type": "object",
+        "value": {
+            "identifier": "admin@okta.com"
+        }
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "https://localhost/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "mockValue",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "okta_enduser",
+            "label": "Okta Dashboard",
+            "id": "0oa150cwDt3UJgrBT0g4"
+        }
+    },
+    "authentication": {
+        "type": "object",
+        "value": {
+            "protocol": "OAUTH2.0",
+            "issuer": {
+                "name": "Passkeys Rebrand",
+                "uri": "https://localhost"
+            },
+            "request": {
+                "max_age": -1,
+                "scope": "openid profile email okta.users.read.self okta.users.manage.self okta.internal.enduser.read okta.internal.enduser.manage okta.enduser.dashboard.read okta.enduser.dashboard.manage okta.myAccount.sessions.manage okta.internal.navigation.enduser.read",
+                "display": "page",
+                "response_type": "code",
+                "redirect_uri": "https://localhost/enduser/callback",
+                "state": "Igc40BKbOX39CWNzq7oOhApsKlrXO8Zdn8bAwkKlRSFqH9tsfPhnh3pNo1chJz4N",
+                "code_challenge_method": "S256",
+                "nonce": "tyICnD3AdfI7H91sPFMqMFaz42SuWuYVBgjD849balh47t4R3Uvawj9CcZ46M6ep",
+                "code_challenge": "3GPUBD9muqvTqCGDw66RkJlN2XJN_IE1aX5V2XbKPtw",
+                "response_mode": "query"
+            }
+        }
+    }
+}
