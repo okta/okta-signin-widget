@@ -162,6 +162,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                       class="MuiBox-root emotion-11"
                     >
                       <a
+                        aria-label="Help Opens in a new tab"
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
                         data-se="help"
                         href="http://localhost:3000/help/login"
@@ -404,6 +405,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                       class="MuiBox-root emotion-11"
                     >
                       <a
+                        aria-label="Help Opens in a new tab"
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
                         data-se="help"
                         href="http://localhost:3000/help/login"
@@ -646,6 +648,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                       class="MuiBox-root emotion-11"
                     >
                       <a
+                        aria-label="Help Opens in a new tab"
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
                         data-se="help"
                         href="http://localhost:3000/help/login"

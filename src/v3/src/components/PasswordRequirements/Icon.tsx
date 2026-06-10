@@ -16,6 +16,7 @@ import { CheckCircleFilledIcon, CloseIcon, InformationCircleIcon } from '@okta/o
 import { FunctionComponent, h } from 'preact';
 
 import { PasswordRequirementStatus } from '../../types';
+import { loc } from '../../util';
 
 type PasswordRequirementIconProps = {
   status: PasswordRequirementStatus;
@@ -27,9 +28,21 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
   const { status } = props;
   const tokens = useOdysseyDesignTokens();
   const statusToIcon = {
-    incomplete: { component: CloseIcon, color: tokens.PaletteNeutralMain },
-    complete: { component: CheckCircleFilledIcon, color: tokens.PaletteSuccessMain },
-    info: { component: InformationCircleIcon, color: tokens.PalettePrimaryMain },
+    incomplete: {
+      component: CloseIcon,
+      color: tokens.PaletteNeutralMain,
+      ariaLabelKey: 'password.complexity.status.notMet',
+    },
+    complete: {
+      component: CheckCircleFilledIcon,
+      color: tokens.PaletteSuccessMain,
+      ariaLabelKey: 'password.complexity.status.met',
+    },
+    info: {
+      component: InformationCircleIcon,
+      color: tokens.PalettePrimaryMain,
+      ariaLabelKey: 'password.complexity.status.info',
+    },
   };
   const OdyIcon = statusToIcon[status].component;
 
@@ -41,7 +54,8 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
         // This is to force the icon align with the top of the text
         marginBlockStart: '2px',
       }}
-      aria-hidden
+      role="img"
+      aria-label={loc(statusToIcon[status].ariaLabelKey, 'login')}
     >
       <OdyIcon
         sx={{

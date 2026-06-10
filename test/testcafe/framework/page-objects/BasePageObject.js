@@ -124,7 +124,7 @@ export default class BasePageObject {
 
   getHelpLink() {
     if (userVariables.gen3) {
-      return this.form.getLink('Help');
+      return this.form.getLink(/^Help/);
     }
     return Selector(HELP_LINK_SELECTOR);
   }

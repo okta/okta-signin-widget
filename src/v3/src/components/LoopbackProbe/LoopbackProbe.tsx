@@ -17,7 +17,7 @@ import { useEffect } from 'preact/hooks';
 import Logger from '../../../../util/Logger';
 import { useWidgetContext } from '../../contexts';
 import { ActionParams, LoopbackProbeElement } from '../../types';
-import { isAndroid, makeRequest } from '../../util';
+import { isAndroid, isPollingStep, makeRequest } from '../../util';
 
 const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
   uischema: {
@@ -29,7 +29,10 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
   },
 }) => {
   const widgetContext = useWidgetContext();
-  const { authClient, idxTransaction, setIdxTransaction } = widgetContext;
+  const {
+    authClient, idxTransaction, setIdxTransaction, widgetProps, pollInFlightRef,
+  } = widgetContext;
+  const disableConcurrentPolling = widgetProps?.features?.disableConcurrentPolling;
 
   const probeTimeoutMillis: number = typeof deviceChallengePayload.probeTimeoutMillis === 'undefined'
     ? 100 : deviceChallengePayload.probeTimeoutMillis;
@@ -47,8 +50,26 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
     if (typeof idxTransaction?.context.stateHandle !== 'undefined') {
       payload.stateHandle = idxTransaction.context.stateHandle;
     }
-    const newTransaction = await authClient?.idx.proceed(payload);
-    setIdxTransaction(newTransaction);
+
+    // When FF is on and another poll-step `proceed` is in flight (e.g.
+    // usePolling's setTimeout already fired), suppress this one.
+    // cancelHandler is intentionally NOT guarded — user-initiated cancel
+    // must always go through.
+    const guarded = disableConcurrentPolling && isPollingStep(stepName);
+    if (guarded && pollInFlightRef?.current) {
+      return;
+    }
+    if (guarded && pollInFlightRef) {
+      pollInFlightRef.current = true;
+    }
+    try {
+      const newTransaction = await authClient?.idx.proceed(payload);
+      setIdxTransaction(newTransaction);
+    } finally {
+      if (guarded && pollInFlightRef) {
+        pollInFlightRef.current = false;
+      }
+    }
   };
 
   const cancelHandler = async (params?: ActionParams) => {

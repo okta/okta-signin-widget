@@ -47,6 +47,10 @@ export type IWidgetContext = {
   languageDirection: LanguageDirection;
   setAbortController: StateUpdater<AbortController | undefined>;
   abortController: AbortController | undefined;
+  // Shared in-flight tracker for poll-step `proceed` calls. Read/written by
+  // usePolling and LoopbackProbe.submitHandler when
+  // features.disableConcurrentPolling is enabled.
+  pollInFlightRef: MutableRef<boolean>;
 };
 
 // Stepper context

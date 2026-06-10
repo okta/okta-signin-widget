@@ -88,15 +88,11 @@ const Body = BaseForm.extend({
           type: 'public-key',
           id: CryptoUtil.strToBin(enrollement.credentialId),
         };
-        // okta-core may emit profile.transports as a JSON-encoded string so the entire
+        // okta-core may emit profile.transports as a comma separated string so the entire
         // profile serializes as Map<String,String>; tolerate both array and string shapes.
         let transports = enrollement.transports ?? enrollement.profile?.transports;
         if (typeof transports === 'string') {
-          try {
-            transports = JSON.parse(transports);
-          } catch (e) {
-            transports = undefined;
-          }
+          transports = transports.split(',');
         }
         if (Array.isArray(transports)) {
           credential.transports = transports;

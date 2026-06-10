@@ -67,7 +67,7 @@ export default class IdentityPageObject extends BasePageObject {
 
   getSeparationLineText() {
     if (userVariables.gen3) {
-      return this.form.getElement('[role="separator"]').textContent;
+      return this.form.getElement('[data-se="separation-line"]').textContent;
     }
     return this.form.getElement('.sign-in-with-device-option .separation-line').textContent;
   }
@@ -218,7 +218,7 @@ export default class IdentityPageObject extends BasePageObject {
 
   getCustomHelpLink(index, name) {
     if (userVariables.gen3) {
-      return this.form.getLink(name);
+      return this.form.getLink(new RegExp(name));
     }
     return Selector(CUSTOM_HELP_LINKS_SELECTOR).nth(index);
   }

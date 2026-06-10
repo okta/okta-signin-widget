@@ -123,7 +123,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [stepToRender, setStepToRender] = useState<string | undefined>(undefined);
   const prevIdxTransactionRef = useRef<IdxTransaction>();
   const [responseError, setResponseError] = useState<AuthApiError | OAuthError | null>(null);
-  const pollingTransaction = usePolling(idxTransaction, widgetProps, data);
+  // Shared poll-in-flight tracker (see IWidgetContext.pollInFlightRef)
+  const pollInFlightRef = useRef<boolean>(false);
+  const pollingTransaction = usePolling(idxTransaction, widgetProps, data, pollInFlightRef);
   const interactionCodeFlowFormBag = useInteractionCodeFlow(
     idxTransaction,
     widgetProps,
@@ -527,6 +529,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       languageDirection,
       setAbortController,
       abortController,
+      pollInFlightRef,
     }}
     >
       <OdysseyProvider

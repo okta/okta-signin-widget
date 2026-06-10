@@ -13,6 +13,7 @@
 import { IdxTransaction, NextStep, OktaAuth } from '@okta/okta-auth-js';
 import { waitFor } from '@testing-library/preact';
 import { renderHook } from '@testing-library/preact-hooks';
+import { MutableRef } from 'preact/hooks';
 import { WidgetProps } from 'src/types';
 
 import { usePolling } from './usePolling';
@@ -226,6 +227,86 @@ describe('usePolling', () => {
       // expect to setup timer
       expect(setTimeout).toHaveBeenCalledTimes(1);
       expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 4000);
+    });
+  });
+
+  // When an external prop update arrives while a /poll request is still
+  // pending (e.g. LoopbackProbe.submitHandler → setIdxTransaction during a
+  // slow /challenge), usePolling reschedules its timer and would fire a
+  // second /poll with the same stateHandle while the first is in flight.
+  // IDX rejects the second request as "bad request" in production. Guard is
+  // gated behind features.disableConcurrentPolling.
+  describe('concurrent /poll requests when idxTransaction prop updates while a poll is in flight', () => {
+    type SetupArgs = {
+      disableConcurrentPolling?: boolean;
+      pollInFlightRef?: MutableRef<boolean>;
+    };
+    const setup = ({ disableConcurrentPolling, pollInFlightRef }: SetupArgs = {}) => {
+      // proceed never resolves during this test, so the 1st poll stays in flight
+      const slowProceed = jest.fn().mockImplementation(
+        () => new Promise(() => { /* never resolves */ }),
+      );
+      const props: Partial<WidgetProps> = {
+        stateToken: 'fake-state-token',
+        authClient: {
+          idx: { proceed: slowProceed },
+        } as unknown as OktaAuth,
+        features: { disableConcurrentPolling },
+      };
+
+      const idxTransaction1 = {
+        nextStep: { name: 'challenge-poll', refresh: 4000 },
+        context: { stateHandle: 'state-handle-abc' },
+      } as unknown as IdxTransaction;
+
+      const { rerender } = renderHook(
+        ({ tx }: { tx: IdxTransaction }) => usePolling(tx, props, mockData, pollInFlightRef),
+        { initialProps: { tx: idxTransaction1 } },
+      );
+
+      // 1st scheduled poll fires
+      jest.advanceTimersByTime(4000);
+
+      // simulate an external setIdxTransaction(...) — same stateHandle, same
+      // polling step, fresh object reference (e.g. LoopbackProbe.submitHandler
+      // resolving and updating idxTransaction).
+      const idxTransaction2 = {
+        nextStep: { name: 'challenge-poll', refresh: 4000 },
+        context: { stateHandle: 'state-handle-abc' },
+      } as unknown as IdxTransaction;
+      rerender({ tx: idxTransaction2 });
+
+      // advance past the next refresh window — the 1st proceed() is still pending
+      jest.advanceTimersByTime(4000);
+
+      return { slowProceed };
+    };
+
+    it('FF off (baseline): fires a 2nd proceed() concurrent with the 1st (the bug)', () => {
+      const { slowProceed } = setup({ disableConcurrentPolling: false });
+      // documents existing buggy behavior preserved when FF is off
+      expect(slowProceed).toHaveBeenCalledTimes(2);
+      expect(slowProceed).toHaveBeenNthCalledWith(1, expect.objectContaining({
+        stateHandle: 'state-handle-abc',
+        step: 'challenge-poll',
+      }));
+      expect(slowProceed).toHaveBeenNthCalledWith(2, expect.objectContaining({
+        stateHandle: 'state-handle-abc',
+        step: 'challenge-poll',
+      }));
+    });
+
+    it('FF on: suppresses the 2nd proceed() while the 1st is still pending', () => {
+      const pollInFlightRef = { current: false } as MutableRef<boolean>;
+      const { slowProceed } = setup({ disableConcurrentPolling: true, pollInFlightRef });
+      // only the 1st proceed() is dispatched; 2nd is suppressed by the guard
+      expect(slowProceed).toHaveBeenCalledTimes(1);
+      expect(slowProceed).toHaveBeenNthCalledWith(1, expect.objectContaining({
+        stateHandle: 'state-handle-abc',
+        step: 'challenge-poll',
+      }));
+      // ref reflects that a poll is still in flight
+      expect(pollInFlightRef.current).toBe(true);
     });
   });
 });
