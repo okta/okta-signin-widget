@@ -91,7 +91,7 @@ const Body = BaseForm.extend({
         // okta-core may emit profile.transports as a comma separated string so the entire
         // profile serializes as Map<String,String>; tolerate both array and string shapes.
         let transports = enrollement.transports ?? enrollement.profile?.transports;
-        if (typeof transports === 'string') {
+        if (transports && typeof transports === 'string') {
           transports = transports.split(',');
         }
         if (Array.isArray(transports)) {
