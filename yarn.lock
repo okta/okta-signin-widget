@@ -4738,10 +4738,10 @@
     react-window "^1.8.10"
     word-wrap "^1.2.5"
 
-"@okta/okta-auth-js@7.14.2":
-  version "7.14.2"
-  resolved "https://registry.npmjs.org/@okta/okta-auth-js/-/okta-auth-js-7.14.2.tgz#1da3ecf1168259f843f7e6d04afae732deccd7bb"
-  integrity sha512-1RH+53jF7NvH6DrTxWFk+vD1yvb4tfQp5yX+Jp51nyTVePcGtG+Q3yzvgDty/EEEJt02cxWuQAlKwwg6mKwygg==
+"@okta/okta-auth-js@7.14.4":
+  version "7.14.4"
+  resolved "https://registry.npmjs.org/@okta/okta-auth-js/-/okta-auth-js-7.14.4.tgz#e600bdd7474d03535b9743b4806068dedade325b"
+  integrity sha512-FiZPGU2lZ5i61SdZaLgaY9rhie9r7KuenA5QcztlUs1GgTqsQvAUAQTkNaciKt0IeokrqquE9p0excH9prxmCQ==
   dependencies:
     "@babel/runtime" "^7.27.0"
     "@peculiar/webcrypto" "^1.4.0"
