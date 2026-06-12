@@ -281,6 +281,11 @@ export type OktaWidgetFeatures = {
   showPasswordRequirementsAsHtmlList?: boolean;
   disableAutocomplete?: boolean;
   setPageTitle?: boolean | string | PageTitleCallback;
+  // When true, suppress a poll-step `proceed` while another poll-step
+  // `proceed` is already in flight. Prevents IDX from rejecting the 2nd
+  // request as "bad request" when /poll is slow (e.g. DBSSO-elongated
+  // /challenge in FastPass loopback). FF delivered from monolith.
+  disableConcurrentPolling?: boolean;
 };
 
 interface ProxyIdxResponse {

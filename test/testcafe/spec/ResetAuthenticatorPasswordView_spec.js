@@ -67,14 +67,11 @@ async function setup(t) {
       await t.expect(resetPasswordPage.getRequirements()).contains('A symbol');
       await t.expect(resetPasswordPage.getRequirements()).contains('No parts of your username');
       await t.expect(resetPasswordPage.getRequirements()).contains('A lowercase letter');
-      // V3 does not display server side requirements
-      if (!userVariables.gen3) {
-        const historyCountMessage = isHistoryCountOne ? 
-          'Password can\'t be the same as your last password'
-          : 'Password can\'t be the same as your last 4 passwords';
-        await t.expect(resetPasswordPage.getRequirements()).contains(historyCountMessage);
-        await t.expect(resetPasswordPage.getRequirements()).contains('At least 10 minute(s) must have elapsed since you last changed your password');
-      }
+      const historyCountMessage = isHistoryCountOne ?
+        'Password can\'t be the same as your last password'
+        : 'Password can\'t be the same as your last 4 passwords';
+      await t.expect(resetPasswordPage.getRequirements()).contains(historyCountMessage);
+      await t.expect(resetPasswordPage.getRequirements()).contains('At least 10 minute(s) must have elapsed since you last changed your password');
     });
 });
 

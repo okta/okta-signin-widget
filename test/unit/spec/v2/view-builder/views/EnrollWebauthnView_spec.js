@@ -512,6 +512,148 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       .catch(done.fail);
   });
 
+  // OKTA-1184438: okta-core emits profile.transports as a comma separated string
+  // so the entire profile serializes as Map<String,String>; tolerate both shapes.
+  it('excludeCredentials parses comma separated string profile.transports', function(done) {
+    const newCredential = {
+      response: {
+        clientDataJSON: 123,
+        attestationObject: 234,
+        getTransports: function() { return ['internal']; },
+      },
+      getClientExtensionResults: function() { return {}; },
+    };
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(navigator.credentials, 'create').and.returnValue(Promise.resolve(newCredential));
+    spyOn(BaseForm.prototype, 'saveForm');
+
+    const enrollmentsWithStringTransports = {
+      value: [
+        {
+          displayName: 'Touch ID',
+          type: 'security_key',
+          key: 'webauthn',
+          id: 'autwa6eD9o02iBbtv0g3',
+          authenticatorId: 'fwftheidkwh282hv8g3',
+          credentialId: '7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w',
+          profile: { transports: 'usb,nfc' },
+        },
+      ],
+    };
+
+    testContext.init(EnrollWebauthnResponse.currentAuthenticator.value, enrollmentsWithStringTransports);
+    testContext.view.$('.webauthn-setup').click();
+
+    Expect.waitForSpyCall(testContext.view.form.saveForm)
+      .then(() => {
+        const calledWith = navigator.credentials.create.calls.mostRecent().args[0];
+        expect(calledWith.publicKey.excludeCredentials).toEqual([
+          {
+            type: 'public-key',
+            id: CryptoUtil.strToBin(
+              '7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w'
+            ),
+            transports: ['usb', 'nfc'],
+          },
+        ]);
+        done();
+      })
+      .catch(done.fail);
+  });
+
+  it('excludeCredentials parses single string profile.transports', function(done) {
+    const newCredential = {
+      response: {
+        clientDataJSON: 123,
+        attestationObject: 234,
+        getTransports: function() { return ['internal']; },
+      },
+      getClientExtensionResults: function() { return {}; },
+    };
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(navigator.credentials, 'create').and.returnValue(Promise.resolve(newCredential));
+    spyOn(BaseForm.prototype, 'saveForm');
+
+    const enrollmentsWithStringTransports = {
+      value: [
+        {
+          displayName: 'Touch ID',
+          type: 'security_key',
+          key: 'webauthn',
+          id: 'autwa6eD9o02iBbtv0g3',
+          authenticatorId: 'fwftheidkwh282hv8g3',
+          credentialId: '7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w',
+          profile: { transports: 'usb' },
+        },
+      ],
+    };
+
+    testContext.init(EnrollWebauthnResponse.currentAuthenticator.value, enrollmentsWithStringTransports);
+    testContext.view.$('.webauthn-setup').click();
+
+    Expect.waitForSpyCall(testContext.view.form.saveForm)
+      .then(() => {
+        const calledWith = navigator.credentials.create.calls.mostRecent().args[0];
+        expect(calledWith.publicKey.excludeCredentials).toEqual([
+          {
+            type: 'public-key',
+            id: CryptoUtil.strToBin(
+              '7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w'
+            ),
+            transports: ['usb'],
+          },
+        ]);
+        done();
+      })
+      .catch(done.fail);
+  });
+
+  it('excludeCredentials omits transports when profile.transports is not a valid string', function(done) {
+    const newCredential = {
+      response: {
+        clientDataJSON: 123,
+        attestationObject: 234,
+        getTransports: function() { return ['internal']; },
+      },
+      getClientExtensionResults: function() { return {}; },
+    };
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(navigator.credentials, 'create').and.returnValue(Promise.resolve(newCredential));
+    spyOn(BaseForm.prototype, 'saveForm');
+
+    const enrollmentsWithBadTransports = {
+      value: [
+        {
+          displayName: 'Touch ID',
+          type: 'security_key',
+          key: 'webauthn',
+          id: 'autwa6eD9o02iBbtv0g3',
+          authenticatorId: 'fwftheidkwh282hv8g3',
+          credentialId: '7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w',
+          profile: { transports: 123 },
+        },
+      ],
+    };
+
+    testContext.init(EnrollWebauthnResponse.currentAuthenticator.value, enrollmentsWithBadTransports);
+    testContext.view.$('.webauthn-setup').click();
+
+    Expect.waitForSpyCall(testContext.view.form.saveForm)
+      .then(() => {
+        const calledWith = navigator.credentials.create.calls.mostRecent().args[0];
+        expect(calledWith.publicKey.excludeCredentials).toEqual([
+          {
+            type: 'public-key',
+            id: CryptoUtil.strToBin(
+              '7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w'
+            ),
+          },
+        ]);
+        done();
+      })
+      .catch(done.fail);
+  });
+
   it('credentials.get should be called with empty excludeCredentials when requreResidentKey=true', function(done) {
     const newCredential = {
       response: {

@@ -12,6 +12,7 @@
 
 import { PASSWORD_REQUIREMENTS_KEYS } from '../../constants';
 import {
+  AgeRequirements,
   ComplexityKeys,
   ComplexityRequirements,
   GetAgeFromMinutes,
@@ -83,6 +84,38 @@ export const getComplexityItems = (complexity?: ComplexityRequirements): ListIte
   return items;
 };
 
+export const getAgeItems = (age?: AgeRequirements): ListItem[] => {
+  const items: ListItem[] = [];
+
+  if (!age) {
+    return items;
+  }
+
+  if (age.historyCount > 0) {
+    if (age.historyCount === 1) {
+      items.push({
+        ruleKey: 'historyCount',
+        label: loc(PASSWORD_REQUIREMENTS_KEYS.age.historyCountOne, 'login'),
+      });
+    } else {
+      items.push({
+        ruleKey: 'historyCount',
+        label: loc(PASSWORD_REQUIREMENTS_KEYS.age.historyCount, 'login', [age.historyCount]),
+      });
+    }
+  }
+
+  if (age.minAgeMinutes > 0) {
+    const { unitLabel, value } = getAgeFromMinutes(age.minAgeMinutes);
+    items.push({
+      ruleKey: 'minAgeMinutes',
+      label: loc(unitLabel, 'login', [value]),
+    });
+  }
+
+  return items;
+};
+
 export const buildPasswordRequirementListItems = (
   data: PasswordSettings,
-): ListItem[] => getComplexityItems(data.complexity);
+): ListItem[] => [...getComplexityItems(data.complexity), ...getAgeItems(data.age)];

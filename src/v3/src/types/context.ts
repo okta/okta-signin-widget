@@ -12,6 +12,8 @@
 
 import {
   AuthApiError,
+  IdxAuthenticator,
+  IdxContext,
   IdxMessage,
   IdxTransaction,
   OAuthError,
@@ -21,6 +23,16 @@ import { MutableRef, StateUpdater } from 'preact/hooks';
 
 import { FormBag, LanguageDirection, UISchemaLayoutType } from './schema';
 import { WidgetProps } from './widget';
+
+// `recoveryAuthenticator` is exposed by IDX on password reset/expired flows but is
+// missing from `IdxContext` in our pinned `@okta/okta-auth-js`. Extend locally to
+// avoid a wholesale auth-js bump just for this field.
+export interface ExtendedIdxContext extends IdxContext {
+  recoveryAuthenticator?: {
+    type: string;
+    value: IdxAuthenticator;
+  };
+}
 
 export type IWidgetContext = {
   authClient: OktaAuthIdxInterface;
@@ -47,6 +59,10 @@ export type IWidgetContext = {
   languageDirection: LanguageDirection;
   setAbortController: StateUpdater<AbortController | undefined>;
   abortController: AbortController | undefined;
+  // Shared in-flight tracker for poll-step `proceed` calls. Read/written by
+  // usePolling and LoopbackProbe.submitHandler when
+  // features.disableConcurrentPolling is enabled.
+  pollInFlightRef: MutableRef<boolean>;
 };
 
 // Stepper context

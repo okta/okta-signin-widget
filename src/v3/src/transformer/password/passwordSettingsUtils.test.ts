@@ -11,8 +11,12 @@
  */
 
 import { PASSWORD_REQUIREMENTS_KEYS } from '../../constants';
-import { ComplexityRequirements } from '../../types';
-import { getComplexityItems } from './passwordSettingsUtils';
+import { AgeRequirements, ComplexityRequirements, PasswordSettings } from '../../types';
+import {
+  buildPasswordRequirementListItems,
+  getAgeItems,
+  getComplexityItems,
+} from './passwordSettingsUtils';
 
 jest.mock('util/loc', () => ({
   loc: jest.fn().mockImplementation(
@@ -112,5 +116,92 @@ describe('getComplexityItems', () => {
 
     const result = getComplexityItems(complexity);
     expect(result).toEqual([{ ruleKey: 'maxConsecutiveRepeatingCharacters', label: PASSWORD_REQUIREMENTS_KEYS.complexity.maxConsecutiveRepeatingCharacters }]);
+  });
+});
+
+describe('getAgeItems', () => {
+  it('should return empty list when age is undefined', () => {
+    expect(getAgeItems(undefined)).toEqual([]);
+  });
+
+  it('should not return historyCount item when historyCount is 0', () => {
+    const age = { historyCount: 0 } as unknown as AgeRequirements;
+    expect(getAgeItems(age)).toEqual([]);
+  });
+
+  it('should return one-password historyCount item when historyCount is 1', () => {
+    const age = { historyCount: 1 } as unknown as AgeRequirements;
+    expect(getAgeItems(age)).toEqual([
+      { ruleKey: 'historyCount', label: PASSWORD_REQUIREMENTS_KEYS.age.historyCountOne },
+    ]);
+  });
+
+  it('should return many-password historyCount item when historyCount is greater than 1', () => {
+    const age = { historyCount: 4 } as unknown as AgeRequirements;
+    expect(getAgeItems(age)).toEqual([
+      { ruleKey: 'historyCount', label: PASSWORD_REQUIREMENTS_KEYS.age.historyCount },
+    ]);
+  });
+
+  it('should return minutes label for minAgeMinutes under one hour', () => {
+    const age = { minAgeMinutes: 30 } as unknown as AgeRequirements;
+    expect(getAgeItems(age)).toEqual([
+      { ruleKey: 'minAgeMinutes', label: PASSWORD_REQUIREMENTS_KEYS.age.minAgeMinutes },
+    ]);
+  });
+
+  it('should return hours label for minAgeMinutes between one hour and one day', () => {
+    const age = { minAgeMinutes: 90 } as unknown as AgeRequirements;
+    expect(getAgeItems(age)).toEqual([
+      { ruleKey: 'minAgeMinutes', label: PASSWORD_REQUIREMENTS_KEYS.age.minAgeHours },
+    ]);
+  });
+
+  it('should return days label for minAgeMinutes greater than one day', () => {
+    const age = { minAgeMinutes: 60 * 25 } as unknown as AgeRequirements;
+    expect(getAgeItems(age)).toEqual([
+      { ruleKey: 'minAgeMinutes', label: PASSWORD_REQUIREMENTS_KEYS.age.minAgeDays },
+    ]);
+  });
+
+  it('should not return minAgeMinutes item when minAgeMinutes is 0', () => {
+    const age = { historyCount: 4, minAgeMinutes: 0 } as unknown as AgeRequirements;
+    expect(getAgeItems(age)).toEqual([
+      { ruleKey: 'historyCount', label: PASSWORD_REQUIREMENTS_KEYS.age.historyCount },
+    ]);
+  });
+
+  it('should return both historyCount and minAgeMinutes items in order when both are set', () => {
+    const age = { historyCount: 4, minAgeMinutes: 10 } as unknown as AgeRequirements;
+    expect(getAgeItems(age)).toEqual([
+      { ruleKey: 'historyCount', label: PASSWORD_REQUIREMENTS_KEYS.age.historyCount },
+      { ruleKey: 'minAgeMinutes', label: PASSWORD_REQUIREMENTS_KEYS.age.minAgeMinutes },
+    ]);
+  });
+});
+
+describe('buildPasswordRequirementListItems', () => {
+  it('should concatenate complexity items followed by age items', () => {
+    const settings = {
+      complexity: { minLength: 8 },
+      age: { historyCount: 4, minAgeMinutes: 10 },
+    } as unknown as PasswordSettings;
+
+    expect(buildPasswordRequirementListItems(settings)).toEqual([
+      { ruleKey: 'minLength', label: PASSWORD_REQUIREMENTS_KEYS.complexity.minLength },
+      { ruleKey: 'historyCount', label: PASSWORD_REQUIREMENTS_KEYS.age.historyCount },
+      { ruleKey: 'minAgeMinutes', label: PASSWORD_REQUIREMENTS_KEYS.age.minAgeMinutes },
+    ]);
+  });
+
+  it('should return only complexity items when age has no positive values', () => {
+    const settings = {
+      complexity: { minLength: 8 },
+      age: { historyCount: 0, minAgeMinutes: 0 },
+    } as unknown as PasswordSettings;
+
+    expect(buildPasswordRequirementListItems(settings)).toEqual([
+      { ruleKey: 'minLength', label: PASSWORD_REQUIREMENTS_KEYS.complexity.minLength },
+    ]);
   });
 });

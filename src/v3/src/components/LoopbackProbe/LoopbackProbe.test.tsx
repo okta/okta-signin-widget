@@ -19,6 +19,7 @@ import { LoopbackProbeElement } from 'src/types';
 import LoopbackProbe from './LoopbackProbe';
 
 const proceedStub = jest.fn();
+let mockWidgetContextOverrides: Record<string, unknown> = {};
 jest.mock('../../contexts', () => ({
   useWidgetContext: () => ({
     authClient: {
@@ -32,6 +33,7 @@ jest.mock('../../contexts', () => ({
       },
     },
     setIdxTransaction: jest.fn(),
+    ...mockWidgetContextOverrides,
   }),
 }));
 jest.mock('../../../../util/Logger');
@@ -47,6 +49,7 @@ describe('LoopbackProbe', () => {
   afterEach(() => {
     jest.clearAllMocks();
     server.resetHandlers();
+    mockWidgetContextOverrides = {};
   });
   afterAll(() => {
     server.close();
@@ -446,6 +449,113 @@ describe('LoopbackProbe', () => {
         },
       }],
       stateHandle: 'fake-state-handle',
+    });
+  });
+
+  // When features.disableConcurrentPolling is on and a poll-step proceed is
+  // already in flight (pollInFlightRef.current === true), submitHandler must
+  // suppress its own proceed. cancelHandler is unaffected.
+  describe('disableConcurrentPolling guard', () => {
+    it('suppresses submitHandler proceed when FF on and a poll is already in flight', async () => {
+      const pollInFlightRef = { current: true };
+      mockWidgetContextOverrides = {
+        widgetProps: { features: { disableConcurrentPolling: true } },
+        pollInFlightRef,
+      };
+      server.use(
+        rest.get('http://localhost:6512/probe', async (_, res, ctx) => res(ctx.status(200))),
+        rest.post('http://localhost:6512/challenge', async (_, res, ctx) => res(ctx.status(200))),
+      );
+      const props: { uischema: LoopbackProbeElement } = {
+        uischema: {
+          type: 'LoopbackProbe',
+          options: {
+            deviceChallengePayload: {
+              ports: ['6512'],
+              domain: 'http://localhost',
+              challengeRequest: 'mockChallengeRequest',
+              probeTimeoutMillis: 100,
+            },
+            cancelStep: 'authenticatorChallenge-cancel',
+            step: 'device-challenge-poll',
+          },
+        },
+      };
+      render(<LoopbackProbe {...props} />);
+
+      // wait for probe + challenge to complete; submitHandler would normally
+      // call proceed at this point but the FF guard suppresses it
+      await new Promise((r) => { setTimeout(r, 250); });
+      expect(proceedStub).not.toHaveBeenCalled();
+      // ref untouched (we did not toggle it from false→true→false)
+      expect(pollInFlightRef.current).toBe(true);
+    });
+
+    it('FF off: submitHandler proceed runs even if pollInFlightRef.current is true', async () => {
+      const pollInFlightRef = { current: true };
+      mockWidgetContextOverrides = {
+        widgetProps: { features: { disableConcurrentPolling: false } },
+        pollInFlightRef,
+      };
+      server.use(
+        rest.get('http://localhost:6512/probe', async (_, res, ctx) => res(ctx.status(200))),
+        rest.post('http://localhost:6512/challenge', async (_, res, ctx) => res(ctx.status(200))),
+      );
+      const props: { uischema: LoopbackProbeElement } = {
+        uischema: {
+          type: 'LoopbackProbe',
+          options: {
+            deviceChallengePayload: {
+              ports: ['6512'],
+              domain: 'http://localhost',
+              challengeRequest: 'mockChallengeRequest',
+              probeTimeoutMillis: 100,
+            },
+            cancelStep: 'authenticatorChallenge-cancel',
+            step: 'device-challenge-poll',
+          },
+        },
+      };
+      render(<LoopbackProbe {...props} />);
+
+      await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+      expect(proceedStub).toHaveBeenCalledWith({
+        step: 'device-challenge-poll',
+        stateHandle: 'fake-state-handle',
+      });
+    });
+
+    it('FF on: cancelHandler is NOT guarded — user-initiated cancel still goes through', async () => {
+      const pollInFlightRef = { current: true };
+      mockWidgetContextOverrides = {
+        widgetProps: { features: { disableConcurrentPolling: true } },
+        pollInFlightRef,
+      };
+      // probe everywhere fails → cancelHandler fires with OV_UNREACHABLE_BY_LOOPBACK
+      server.use(
+        rest.get('http://localhost:6512/probe', async (_, res, ctx) => res(ctx.status(500))),
+      );
+      const props: { uischema: LoopbackProbeElement } = {
+        uischema: {
+          type: 'LoopbackProbe',
+          options: {
+            deviceChallengePayload: {
+              ports: ['6512'],
+              domain: 'http://localhost',
+              challengeRequest: 'mockChallengeRequest',
+              probeTimeoutMillis: 100,
+            },
+            cancelStep: 'authenticatorChallenge-cancel',
+            step: 'device-challenge-poll',
+          },
+        },
+      };
+      render(<LoopbackProbe {...props} />);
+
+      await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+      expect(proceedStub).toHaveBeenCalledWith(expect.objectContaining({
+        actions: [expect.objectContaining({ name: 'authenticatorChallenge-cancel' })],
+      }));
     });
   });
 });
