@@ -50,4 +50,44 @@ describe('toNestedObject', () => {
       },
     });
   });
+
+  // OKTA-1174752 / customer PR #4024 (Brex): gen2 Courage's `unflatten` mishandled
+  // a plain scope sharing its prefix with a dotted scope. Gen3 doesn't go through
+  // Courage at all (React form state -> useOnSubmit -> toNestedObject with
+  // keysWithoutNesting=['optedScopes']), so there is no render-time analog of
+  // the gen2 crash. The submit-time grouping below pins gen3's correct behavior
+  // for both customer scenarios.
+
+  // Customer scenario 1: plain scope is `true`. Gen2's unflatten threw
+  // "Cannot create property 'custom2' on boolean 'true'".
+  it('keeps a true plain key and a dotted key sharing its prefix as distinct siblings', () => {
+    expect(toNestedObject({
+      consent: true,
+      'optedScopes.custom1': true,
+      'optedScopes.custom1.custom2': false,
+    }, ['optedScopes'])).toEqual({
+      consent: true,
+      optedScopes: {
+        custom1: true,
+        'custom1.custom2': false,
+      },
+    });
+  });
+
+  // Customer scenario 2: plain scope is `false`. Gen2's unflatten check
+  // `if (!ref[part])` treated `false` as unset and silently overwrote it
+  // with an empty object, dropping the user's choice from the payload.
+  it('preserves a false plain key when a dotted key shares its prefix', () => {
+    expect(toNestedObject({
+      consent: true,
+      'optedScopes.custom1': false,
+      'optedScopes.custom1.custom2': true,
+    }, ['optedScopes'])).toEqual({
+      consent: true,
+      optedScopes: {
+        custom1: false,
+        'custom1.custom2': true,
+      },
+    });
+  });
 });
