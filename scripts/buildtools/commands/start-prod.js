@@ -51,6 +51,54 @@ const PROXY_PATHS = [
   '/.well-known/webfinger',
 ];
 
+function validate(argv, engine) {
+  const variant = engine.bundles[argv.bundle];
+  if (!variant) {
+    // eslint-disable-next-line no-console
+    console.error(
+      `✗ Unknown bundle variant for engine ${argv.engine}: ${argv.bundle}\n` +
+      `  Available variants for ${argv.engine}: ${Object.keys(engine.bundles).join(', ')}`
+    );
+    process.exit(1);
+  }
+
+  const bundlePath = path.join(TARGET, 'js', variant.file);
+  if (!fs.existsSync(bundlePath)) {
+    // eslint-disable-next-line no-console
+    console.error(`✗ Bundle not found: ${bundlePath}\n  Run \`yarn build:release\` first.`);
+    process.exit(1);
+  }
+
+  return { variant, bundlePath };
+}
+
+function setupMockProxy(app, argv) {
+  const { createProxyMiddleware } = require('http-proxy-middleware');
+  // Spawn the mock server via nodemon — same pattern webpack-dev-server uses.
+  // Watching playground/mocks lets responseConfig.js / JSON edits hot-reload.
+  const nodemon = require('nodemon');
+  const widgetRc = require(path.join(REPO, '.widgetrc.js'));
+  nodemon({
+    script: path.join(PLAYGROUND, 'mocks/server.js'),
+    watch: [path.join(PLAYGROUND, 'mocks')],
+    env: {
+      MOCK_SERVER_PORT: String(argv['mock-port']),
+      DEV_SERVER_PORT: String(argv.port),
+      BASE_URL: widgetRc.baseUrl,
+    },
+    delay: 50,
+  }).on('crash', (err) => {
+    // eslint-disable-next-line no-console
+    console.error('Mock server crashed:', err);
+  });
+
+  const proxy = createProxyMiddleware({
+    target: `http://localhost:${argv['mock-port']}`,
+    changeOrigin: true,
+  });
+  PROXY_PATHS.forEach((p) => app.use(p, proxy));
+}
+
 exports.command = 'start-prod';
 exports.desc = 'Serve the production-built bundle from target/ with mock-server proxy (run after yarn build:release)';
 
@@ -84,52 +132,13 @@ exports.builder = {
 
 exports.handler = (argv) => {
   const express = require('express');
-  const { createProxyMiddleware } = require('http-proxy-middleware');
 
   const engine = ENGINES[argv.engine];
-  const variant = engine.bundles[argv.bundle];
-  if (!variant) {
-    // eslint-disable-next-line no-console
-    console.error(
-      `✗ Unknown bundle variant for engine ${argv.engine}: ${argv.bundle}\n` +
-      `  Available variants for ${argv.engine}: ${Object.keys(engine.bundles).join(', ')}`
-    );
-    process.exit(1);
-  }
-
-  const bundlePath = path.join(TARGET, 'js', variant.file);
-  if (!fs.existsSync(bundlePath)) {
-    // eslint-disable-next-line no-console
-    console.error(`✗ Bundle not found: ${bundlePath}\n  Run \`yarn build:release\` first.`);
-    process.exit(1);
-  }
-
+  const { variant, bundlePath } = validate(argv, engine);
   const app = express();
 
   if (!argv['no-mock']) {
-    // Spawn the mock server via nodemon — same pattern webpack-dev-server uses.
-    // Watching playground/mocks lets responseConfig.js / JSON edits hot-reload.
-    const nodemon = require('nodemon');
-    const widgetRc = require(path.join(REPO, '.widgetrc.js'));
-    nodemon({
-      script: path.join(PLAYGROUND, 'mocks/server.js'),
-      watch: [path.join(PLAYGROUND, 'mocks')],
-      env: {
-        MOCK_SERVER_PORT: String(argv['mock-port']),
-        DEV_SERVER_PORT: String(argv.port),
-        BASE_URL: widgetRc.baseUrl,
-      },
-      delay: 50,
-    }).on('crash', (err) => {
-      // eslint-disable-next-line no-console
-      console.error('Mock server crashed:', err);
-    });
-
-    const proxy = createProxyMiddleware({
-      target: `http://localhost:${argv['mock-port']}`,
-      changeOrigin: true,
-    });
-    PROXY_PATHS.forEach((p) => app.use(p, proxy));
+    setupMockProxy(app, argv);
   }
 
   // Variant alias must be registered BEFORE the static middleware so it
@@ -156,7 +165,8 @@ exports.handler = (argv) => {
       `Bundle:                  ${variant.file}`,
       `Index HTML:              playground/${engine.indexHtml}`,
       `Mock server:             ${argv['no-mock'] ? 'disabled' : 'http://localhost:' + argv['mock-port']}`,
-      argv['no-mock'] ? '' : 'Mock config:             playground/mocks/config/responseConfig.js (auto-restarts on edit)',
+      argv['no-mock'] ? '' :
+        'Mock config:             playground/mocks/config/responseConfig.js (auto-restarts on edit)',
       '',
     ].filter(Boolean).join('\n'));
   });
