@@ -105,6 +105,8 @@
     "build:webpack-release": "webpack --config webpack.release.config.js",
     "start": "node scripts/buildtools start",
     "start:ie11": "IE11_COMPAT_MODE=true OKTA_SIW_HOST=0.0.0.0 DISABLE_CSP=1 ENTRY=default yarn start --watch",
+    "start:prod-bundle": "OKTA_SIW_HOST=0.0.0.0 node scripts/buildtools start-prod",
+    "start:prod-bundle:gen3": "OKTA_SIW_HOST=0.0.0.0 node scripts/buildtools start-prod --engine gen3",
     "start:test:app": "yarn workspace @okta/test.app start",
     "mock:device-authenticator": "MOCK_SPEC_DIR_NAME=spec-device-authenticator MOCK_SERVER_PORT=6512 node ./playground/mocks/server.js",
     "clean:types": "grunt clean:types",
