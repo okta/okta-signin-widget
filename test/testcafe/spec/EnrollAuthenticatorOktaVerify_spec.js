@@ -331,10 +331,10 @@ const sameDeviceOVEnrollmentDesktopInstructions4 = 'Didn’t get a prompt?';
 const sameDeviceOVEnrollmentAppleLink = 'https://apps.apple.com/us/app/okta-verify/id490179405';
 const sameDeviceOVEnrollmentAndroidLink = 'https://play.google.com/store/apps/details?id=com.okta.android.auth';
 const sameDeviceOVEnrollmentWindowsLink = 'https://microsoft.com/app/ov';
-const deviceBootstrapSubtitle = 'To set up Okta Verify on additional devices, you can copy an existing Okta Verify account onto a new device.';
+const deviceBootstrapSubtitle = 'To set up Okta Verify on additional devices, you can add an existing Okta Verify account to another device.';
 const deviceBootstrapInstruction1 = 'Open Okta Verify on any of your other Okta Verify devices (Such as your testDevice1).';
 const deviceBootstrapInstruction2 = 'In the app, select your account.';
-const deviceBootstrapInstruction3 = 'Choose Add Account to Another Device.';
+const deviceBootstrapInstruction3 = 'Choose Export account.';
 const deviceBootstrapInstruction4 = 'Follow the rest of the instructions shown in Okta Verify.';
 const deviceBootstrapClosing = 'This screen can be closed at any time.';
 
