@@ -1,0 +1,669 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "logo": {
+      "type": "string"
+    },
+    "logoText": {
+      "type": "string"
+    },
+    "helpSupportNumber": {
+      "type": "string"
+    },
+    "brandName": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string"
+    },
+    "brandColors": {
+      "type": "object",
+      "properties": {
+        "primaryColor": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "i18n": {
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "type": "object",
+          "patternProperties": {
+            ".*": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "assets": {
+      "type": "object",
+      "properties": {
+        "baseUrl": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "signOutLink": {
+      "type": "string"
+    },
+    "helpLinks": {
+      "type": "object",
+      "properties": {
+        "help": {
+          "type": "string"
+        },
+        "forgotPassword": {
+          "type": "string"
+        },
+        "factorPage": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "href": {
+              "type": "string"
+            },
+            "target": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "text",
+            "href"
+          ],
+          "additionalProperties": false
+        },
+        "unlock": {
+          "type": "string"
+        },
+        "custom": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "href": {
+                "type": "string"
+              },
+              "target": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "text",
+              "href"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "features": {
+      "type": "object",
+      "properties": {
+        "router": {
+          "type": "boolean"
+        },
+        "securityImage": {
+          "type": "boolean"
+        },
+        "rememberMe": {
+          "type": "boolean"
+        },
+        "autoPush": {
+          "type": "boolean"
+        },
+        "smsRecovery": {
+          "type": "boolean"
+        },
+        "callRecovery": {
+          "type": "boolean"
+        },
+        "emailRecovery": {
+          "type": "boolean"
+        },
+        "webauthn": {
+          "type": "boolean"
+        },
+        "selfServiceUnlock": {
+          "type": "boolean"
+        },
+        "multiOptionalFactorEnroll": {
+          "type": "boolean"
+        },
+        "deviceFingerprinting": {
+          "type": "boolean"
+        },
+        "hideSignOutLinkInMFA": {
+          "type": "boolean"
+        },
+        "hideBackToSignInForReset": {
+          "type": "boolean"
+        },
+        "customExpiredPassword": {
+          "type": "boolean"
+        },
+        "registration": {
+          "type": "boolean"
+        },
+        "idpDiscovery": {
+          "type": "boolean"
+        },
+        "passwordlessAuth": {
+          "type": "boolean"
+        },
+        "showPasswordToggleOnSignInPage": {
+          "type": "boolean"
+        },
+        "trackTypingPattern": {
+          "type": "boolean"
+        },
+        "redirectByFormSubmit": {
+          "type": "boolean"
+        },
+        "sameDeviceOVEnrollmentEnabled": {
+          "type": "boolean"
+        },
+        "useDeviceFingerprintForSecurityImage": {
+          "type": "boolean"
+        },
+        "showPasswordRequirementsAsHtmlList": {
+          "type": "boolean"
+        },
+        "mfaOnlyFlow": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "theme": {
+      "type": "object",
+      "properties": {
+        "tokens": {
+          "type": "object",
+          "properties": {
+            "BorderColorDisplay": {
+              "type": "string"
+            },
+            "BorderColorDisabled": {
+              "type": "string"
+            },
+            "BorderColorDangerLight": {
+              "type": "string"
+            },
+            "BorderColorDangerControl": {
+              "type": "string"
+            },
+            "BorderColorDangerDark": {
+              "type": "string"
+            },
+            "BorderColorPrimaryControl": {
+              "type": "string"
+            },
+            "BorderColorPrimaryDark": {
+              "type": "string"
+            },
+            "BorderRadiusTight": {
+              "type": "string"
+            },
+            "BorderRadiusMain": {
+              "type": "string"
+            },
+            "BorderStyleMain": {
+              "type": "string"
+            },
+            "BorderWidthMain": {
+              "type": "string"
+            },
+            "FocusOutlineColorPrimary": {
+              "type": "string"
+            },
+            "FocusOutlineOffsetMain": {
+              "type": "string"
+            },
+            "FocusOutlineOffsetTight": {
+              "type": "string"
+            },
+            "FocusOutlineStyle": {
+              "type": "string"
+            },
+            "FocusOutlineWidthMain": {
+              "type": "string"
+            },
+            "FocusOutlineWidthTight": {
+              "type": "string"
+            },
+            "HueNeutral50": {
+              "type": "string"
+            },
+            "HueNeutral100": {
+              "type": "string"
+            },
+            "HueNeutral200": {
+              "type": "string"
+            },
+            "HueNeutral300": {
+              "type": "string"
+            },
+            "HueNeutral400": {
+              "type": "string"
+            },
+            "HueNeutral500": {
+              "type": "string"
+            },
+            "HueNeutral600": {
+              "type": "string"
+            },
+            "HueNeutral700": {
+              "type": "string"
+            },
+            "HueNeutral800": {
+              "type": "string"
+            },
+            "HueNeutral900": {
+              "type": "string"
+            },
+            "HueNeutralWhite": {
+              "type": "string"
+            },
+            "HueBlue50": {
+              "type": "string"
+            },
+            "HueBlue100": {
+              "type": "string"
+            },
+            "HueBlue200": {
+              "type": "string"
+            },
+            "HueBlue300": {
+              "type": "string"
+            },
+            "HueBlue400": {
+              "type": "string"
+            },
+            "HueBlue500": {
+              "type": "string"
+            },
+            "HueBlue600": {
+              "type": "string"
+            },
+            "HueBlue700": {
+              "type": "string"
+            },
+            "HueBlue800": {
+              "type": "string"
+            },
+            "HueBlue900": {
+              "type": "string"
+            },
+            "HueGreen50": {
+              "type": "string"
+            },
+            "HueGreen100": {
+              "type": "string"
+            },
+            "HueGreen200": {
+              "type": "string"
+            },
+            "HueGreen300": {
+              "type": "string"
+            },
+            "HueGreen400": {
+              "type": "string"
+            },
+            "HueGreen500": {
+              "type": "string"
+            },
+            "HueGreen600": {
+              "type": "string"
+            },
+            "HueGreen700": {
+              "type": "string"
+            },
+            "HueGreen800": {
+              "type": "string"
+            },
+            "HueGreen900": {
+              "type": "string"
+            },
+            "HueRed50": {
+              "type": "string"
+            },
+            "HueRed100": {
+              "type": "string"
+            },
+            "HueRed200": {
+              "type": "string"
+            },
+            "HueRed300": {
+              "type": "string"
+            },
+            "HueRed400": {
+              "type": "string"
+            },
+            "HueRed500": {
+              "type": "string"
+            },
+            "HueRed600": {
+              "type": "string"
+            },
+            "HueRed700": {
+              "type": "string"
+            },
+            "HueRed800": {
+              "type": "string"
+            },
+            "HueRed900": {
+              "type": "string"
+            },
+            "HueYellow50": {
+              "type": "string"
+            },
+            "HueYellow100": {
+              "type": "string"
+            },
+            "HueYellow200": {
+              "type": "string"
+            },
+            "HueYellow300": {
+              "type": "string"
+            },
+            "HueYellow400": {
+              "type": "string"
+            },
+            "HueYellow500": {
+              "type": "string"
+            },
+            "HueYellow600": {
+              "type": "string"
+            },
+            "HueYellow700": {
+              "type": "string"
+            },
+            "HueYellow800": {
+              "type": "string"
+            },
+            "HueYellow900": {
+              "type": "string"
+            },
+            "PalettePrimaryLighter": {
+              "type": "string"
+            },
+            "PalettePrimaryLight": {
+              "type": "string"
+            },
+            "PalettePrimaryMain": {
+              "type": "string"
+            },
+            "PalettePrimaryDark": {
+              "type": "string"
+            },
+            "PalettePrimaryDarker": {
+              "type": "string"
+            },
+            "PalettePrimaryText": {
+              "type": "string"
+            },
+            "PalettePrimaryHeading": {
+              "type": "string"
+            },
+            "PalettePrimaryHighlight": {
+              "type": "string"
+            },
+            "PaletteDangerLighter": {
+              "type": "string"
+            },
+            "PaletteDangerLight": {
+              "type": "string"
+            },
+            "PaletteDangerMain": {
+              "type": "string"
+            },
+            "PaletteDangerDark": {
+              "type": "string"
+            },
+            "PaletteDangerDarker": {
+              "type": "string"
+            },
+            "PaletteDangerText": {
+              "type": "string"
+            },
+            "PaletteDangerHeading": {
+              "type": "string"
+            },
+            "PaletteDangerHighlight": {
+              "type": "string"
+            },
+            "PaletteWarningLighter": {
+              "type": "string"
+            },
+            "PaletteWarningLight": {
+              "type": "string"
+            },
+            "PaletteWarningMain": {
+              "type": "string"
+            },
+            "PaletteWarningDark": {
+              "type": "string"
+            },
+            "PaletteWarningDarker": {
+              "type": "string"
+            },
+            "PaletteWarningText": {
+              "type": "string"
+            },
+            "PaletteWarningHeading": {
+              "type": "string"
+            },
+            "PaletteWarningHighlight": {
+              "type": "string"
+            },
+            "PaletteSuccessLighter": {
+              "type": "string"
+            },
+            "PaletteSuccessLight": {
+              "type": "string"
+            },
+            "PaletteSuccessMain": {
+              "type": "string"
+            },
+            "PaletteSuccessDark": {
+              "type": "string"
+            },
+            "PaletteSuccessDarker": {
+              "type": "string"
+            },
+            "PaletteSuccessText": {
+              "type": "string"
+            },
+            "PaletteSuccessHeading": {
+              "type": "string"
+            },
+            "PaletteSuccessHighlight": {
+              "type": "string"
+            },
+            "Spacing0": {
+              "type": "string"
+            },
+            "Spacing1": {
+              "type": "string"
+            },
+            "Spacing2": {
+              "type": "string"
+            },
+            "Spacing3": {
+              "type": "string"
+            },
+            "Spacing4": {
+              "type": "string"
+            },
+            "Spacing5": {
+              "type": "string"
+            },
+            "Spacing6": {
+              "type": "string"
+            },
+            "Spacing7": {
+              "type": "string"
+            },
+            "Spacing8": {
+              "type": "string"
+            },
+            "Spacing9": {
+              "type": "string"
+            },
+            "TransitionDurationMain": {
+              "type": "string"
+            },
+            "TypographyColorBody": {
+              "type": "string"
+            },
+            "TypographyColorHeading": {
+              "type": "string"
+            },
+            "TypographyColorInverse": {
+              "type": "string"
+            },
+            "TypographyColorSupport": {
+              "type": "string"
+            },
+            "TypographyColorSubordinate": {
+              "type": "string"
+            },
+            "TypographyColorDisabled": {
+              "type": "string"
+            },
+            "TypographyColorAction": {
+              "type": "string"
+            },
+            "TypographyColorDanger": {
+              "type": "string"
+            },
+            "TypographyColorSuccess": {
+              "type": "string"
+            },
+            "TypographyColorWarning": {
+              "type": "string"
+            },
+            "TypographyFamilyBody": {
+              "type": "string"
+            },
+            "TypographyFamilyHeading": {
+              "type": "string"
+            },
+            "TypographyFamilyButton": {
+              "type": "string"
+            },
+            "TypographySizeSubordinate": {
+              "type": "string"
+            },
+            "TypographySizeBody": {
+              "type": "string"
+            },
+            "TypographySizeHeading6": {
+              "type": "string"
+            },
+            "TypographySizeHeading5": {
+              "type": "string"
+            },
+            "TypographySizeHeading4": {
+              "type": "string"
+            },
+            "TypographySizeHeading3": {
+              "type": "string"
+            },
+            "TypographySizeHeading2": {
+              "type": "string"
+            },
+            "TypographySizeHeading1": {
+              "type": "string"
+            },
+            "TypographyWeightBody": {
+              "type": "string"
+            },
+            "TypographyWeightBodyBold": {
+              "type": "string"
+            },
+            "TypographyWeightHeading": {
+              "type": "string"
+            },
+            "TypographyWeightHeadingBold": {
+              "type": "string"
+            },
+            "TypographyLineHeightBody": {
+              "type": "number"
+            },
+            "TypographyLineHeightUi": {
+              "type": "number"
+            },
+            "TypographyLineHeightOverline": {
+              "type": "number"
+            },
+            "TypographyLineHeightHeading6": {
+              "type": "number"
+            },
+            "TypographyLineHeightHeading5": {
+              "type": "number"
+            },
+            "TypographyLineHeightHeading4": {
+              "type": "number"
+            },
+            "TypographyLineHeightHeading3": {
+              "type": "number"
+            },
+            "TypographyLineHeightHeading2": {
+              "type": "number"
+            },
+            "TypographyLineHeightHeading1": {
+              "type": "number"
+            },
+            "TypographyLineLengthMax": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "hcaptcha": {
+      "type": "object",
+      "properties": {
+        "scriptSource": {
+          "type": "string"
+        },
+        "scriptParams": {
+          "type": "object",
+          "patternProperties": {
+            ".*": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "recaptcha": {
+      "type": "object",
+      "properties": {
+        "scriptSource": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
