@@ -226,6 +226,32 @@ As far as your app is concerned, the customized widget behaves the same as the d
 
 > **Note:** There will be a configuration object on the page which contains all required values and enabled features. You will most likely not need to modify this object. If you find that you do need to modify this configuration, take care not to overwrite or remove any required values.
 
+#### SIW JSON Customization
+
+> **Note:** This feature is currently in PRODUCT_DEV and is gated behind the `SIW_CONFIG_JSON_CUSTOMIZATION` feature flag.
+
+SIW JSON Customization allows admins to customize the Sign-In Widget configuration directly from the Admin UI without editing the page's HTML/CSS/JS template. The JSON configuration is deep-merged into the widget's runtime config, so only the properties you specify are overridden.
+
+To use this feature, go to **Admin UI → Customizations → Brands**, select a brand, open the **Pages** tab, click **Configure** next to Sign-in page, then switch to the **JSON Editor** dropdown option. Enter a valid JSON object using the allowed properties defined in the [SIW JSON configuration schema](docs/siwConfigJsonSchema.json). The editor provides live schema validation to help catch errors before saving. Any unknown properties will be rejected by server-side schema validation.
+
+**Example:**
+
+```json
+{
+  "brandName": "Acme Corp",
+  "logo": "https://cdn.example.com/logo.png",
+  "helpLinks": {
+    "help": "https://support.example.com",
+    "custom": [
+      { "text": "Privacy Policy", "href": "https://example.com/privacy" }
+    ]
+  },
+  "features": {
+    "rememberMe": false
+  }
+}
+```
+
 ### Embedded (self-hosted)
 
 For a completely seamless experience that allows for the highest level of customization, you can embed the Sign-In Widget directly into your application. This allows full use of the widget's [configuration](#configuration) and [API](#api-reference).
