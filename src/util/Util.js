@@ -247,6 +247,16 @@ Util.executeOnVisiblePage = function(cb) {
   }
 };
 
+// OKTA-1182955: backend may attach a priorVerification descriptor to the success-redirect remediation
+// indicating the prior step was a successful Android AppLink (FastPass) verification. In that case the
+// SIW must not auto-redirect — the page can be `visible` before the window has regained focus and the
+// redirect lands on login.okta.com. The view renders a button instead; the user click guarantees focus
+// before the redirect fires.
+Util.isPostAppLinkVerification = function(viewStateOrLink) {
+  const pv = viewStateOrLink && viewStateOrLink.priorVerification;
+  return !!pv && pv.method === 'APP_LINK' && pv.success === true;
+};
+
 /**
  * Why redirect via Form get rather using `window.location.href`?
  * At the time of writing, Chrome (<72) in Android would block window location change

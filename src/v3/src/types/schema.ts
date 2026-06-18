@@ -712,7 +712,12 @@ export interface StepperRadioElement extends UISchemaElement {
 
 export interface RedirectElement extends UISchemaElement {
   type: 'Redirect',
-  options: { url: string; },
+  options: {
+    url: string;
+    // OKTA-1182955: optional backend signal that the prior step was a successful Android AppLink
+    // verification. When present, the Redirect component renders a button instead of auto-redirecting.
+    priorVerification?: { method?: string; success?: boolean };
+  },
 }
 
 export interface AutoSubmitElement extends UISchemaElement {
