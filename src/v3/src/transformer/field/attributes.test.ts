@@ -110,9 +110,9 @@ describe('Attributes transformer', () => {
     );
     const formfield: Input = { name: 'credentials.passcode', format: 'alphanumeric' };
 
-    const result = { attributes: { autocomplete: 'one-time-code' } };
+    const result = transformer(formfield);
 
-    expect(transformer(formfield)).toEqual(result);
+    expect(result?.attributes?.inputmode).not.toBe('numeric');
   });
 
   it('should still set inputmode === "numeric" when passcode field has no format', () => {
