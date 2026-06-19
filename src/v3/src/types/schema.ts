@@ -11,6 +11,7 @@
  */
 
 import HCaptcha from '@hcaptcha/react-hcaptcha';
+import { TypographyVariantValue } from '@okta/odyssey-react-mui';
 import {
   IdxAuthenticator,
   IdxMessage,
@@ -631,6 +632,7 @@ export interface ImageWithTextElement extends UISchemaElement {
     SVGIcon: FunctionComponent;
     textContent?: string;
     alignment?: string;
+    textVariant?: TypographyVariantValue;
   };
 }
 

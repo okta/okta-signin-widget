@@ -15,13 +15,18 @@ import { Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { ImageWithTextElement, UISchemaElementComponent } from 'src/types';
 
+const HEADING_VARIANTS: ReadonlySet<string> = new Set(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']);
+
 const ImageWithText: UISchemaElementComponent<{
   uischema: ImageWithTextElement
 }> = ({ uischema }) => {
   const tokens = useOdysseyDesignTokens();
   const Icon = uischema.options.SVGIcon;
   const { noTranslate } = uischema;
-  const { textContent, alignment = 'flex-start' } = uischema.options;
+  const { textContent, alignment = 'flex-start', textVariant } = uischema.options;
+  const iconTextSpacing = textVariant && HEADING_VARIANTS.has(textVariant)
+    ? tokens.Spacing5
+    : tokens.Spacing2;
 
   return (
     <Box
@@ -32,7 +37,7 @@ const ImageWithText: UISchemaElementComponent<{
       flexWrap="wrap"
     >
       <Box
-        marginInlineEnd={textContent ? tokens.Spacing2 : tokens.Spacing0}
+        marginInlineEnd={textContent ? iconTextSpacing : tokens.Spacing0}
         data-se={`icon-${uischema.options.id}`}
         display="flex"
       >
@@ -44,6 +49,7 @@ const ImageWithText: UISchemaElementComponent<{
         <Box>
           <Typography
             component="span"
+            variant={textVariant}
             translate={noTranslate ? 'no' : undefined}
             testId={`text-${uischema.options.id}`}
           >
