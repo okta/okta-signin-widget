@@ -89,6 +89,7 @@ export const transformOktaVerifyCustomAppChallengePoll: IdxStepTransformer = (op
           SVGIcon: PhoneIcon,
           textContent: correctAnswer,
           alignment: 'center',
+          textVariant: 'h1',
         },
       };
 
