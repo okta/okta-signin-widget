@@ -5,6 +5,7 @@ import ConsentPageObject from '../framework/page-objects/ConsentPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 
 import xhrConsentGranular from '../../../playground/mocks/data/idp/idx/consent-granular';
+import xhrConsentGranularPrefixCollision from '../../../playground/mocks/data/idp/idx/consent-granular-prefix-collision';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import terminalResetPasswordNotAllowed from '../../../playground/mocks/data/idp/idx/error-reset-password-not-allowed';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
@@ -12,6 +13,14 @@ import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 const consentGranularMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrConsentGranular)
+  .onRequestTo('http://localhost:3000/idp/idx/consent')
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
+
+const consentGranularPrefixCollisionMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrConsentGranularPrefixCollision)
   .onRequestTo('http://localhost:3000/idp/idx/consent')
   .respond(xhrSuccess)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
@@ -135,6 +144,31 @@ test.requestHooks(requestLogger, consentGranularMock)('should send correct paylo
 
   await testRedirect(t);
 });
+
+test.requestHooks(requestLogger, consentGranularPrefixCollisionMock)(
+  'OKTA-1174752: preserves both scopes when scope names share a prefix (e.g. custom1 and custom1.custom2)',
+  async t => {
+    const consentPage = await setup(t);
+    await checkA11y(t);
+
+    // Initial mock state: custom1=true, custom1.custom2=true. Toggle only the
+    // dotted scope so we can verify both keys arrive in the payload distinctly
+    // (BaseFormObject.setCheckbox always clicks, so don't request a no-op).
+    await consentPage.setScopeCheckBox('optedScopes.custom1.custom2', false);
+
+    await consentPage.clickAllowButton();
+    const { request: { body } } = requestLogger.requests[requestLogger.requests.length - 1];
+    const jsonBody = JSON.parse(body);
+
+    await t.expect(jsonBody.consent).eql(true);
+    await t.expect(jsonBody.optedScopes.openid).eql(true);
+    await t.expect(jsonBody.optedScopes.custom1).eql(true);
+    await t.expect(jsonBody.optedScopes['custom1.custom2']).eql(false);
+    await t.expect(jsonBody.optedScopes.profile).eql(true);
+
+    await testRedirect(t);
+  }
+);
 
 test.requestHooks(requestLogger, consentGranularMock)('should send correct payload to /consent on "Cancel" click', async t => {
   const consentPage  = await setup(t);

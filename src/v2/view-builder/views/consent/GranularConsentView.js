@@ -66,6 +66,15 @@ export default BaseView.extend({
   Body: granularConsentViewForm,
   Footer: EnduserConsentViewFooter,
 
+  createModelClass() {
+    const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
+    // Disable Courage's flatten/unflatten round-trip for the granular-consent
+    // model. Scope names can collide on dotted prefixes (e.g. `custom1` and
+    // `custom1.custom2`) and would otherwise crash unflatten in
+    // Model.toJSON({verbose:true}) during BaseView.renderForm.
+    return ModelClass.extend({ flat: false });
+  },
+
   postRender() {
     const scopeList = this.$el.find('.o-form-fieldset-container');
 

@@ -12,47 +12,33 @@
 
 import { FORMS as RemediationForms } from './RemediationConstants';
 
-const flattenObj = (obj) => {
-  let result = {};
-
-  Object.keys(obj).forEach((key) => {
-    if (typeof obj[key] !== 'object') {
-      result[key] = obj[key];
-      return;
-    }
-
-    const tempObj = flattenObj(obj[key]);
-    Object.keys(tempObj).forEach((j) => {
-      result[key + '.' + j] = tempObj[j];
-    });
-  });
-  return result;
-};
+const OPTED_SCOPES_PREFIX = 'optedScopes.';
 
 /**
- * This function is for the Granular Consent remediation, scopes within the optedScopes
- * property can include a singular value or n values delimited by a "."
- * When they are delimited, BackBone's toJSON function will create a nested object, however,
- * these should not be nested and the delimited key names should stay as is. So this function will
- * flatten those nested proeprties to format it how the backend expects it. 
- * i.e. { optedScopes: { some: { scope: true }}} = { optedScopes: { 'some.scope': true }}
- * Currently, this is only used when the Granular Consent view form is saved see:
- * src/v2/view-builder/views/consent/GranularConsentView.js
- * 
+ * This function is for the Granular Consent remediation. The Granular Consent
+ * model uses `flat: false` (see GranularConsentView) so Courage's toJSON does
+ * not try to unflatten the optedScopes sub-form — that would crash when scope
+ * names share a dotted prefix (e.g. `custom1` and `custom1.custom2`). The
+ * flat `optedScopes.<scope>` keys are grouped here into the nested
+ * `optedScopes` object that the IDX backend expects, preserving dotted scope
+ * names verbatim.
+ * i.e. { 'optedScopes.custom1': true, 'optedScopes.custom1.custom2': false }
+ *      => { optedScopes: { 'custom1': true, 'custom1.custom2': false } }
+ *
  * @param {JSON} modelJSON JSON Equivalent of the Backbone Model's attributes/fields
- * @returns If the JSON contains the optedScopes Property, we will flatten the fields from
- * a nested object into K/V pair with dot notation for nested key names. Otherwise, we will return
- * the JSON as is.
+ * @returns A copy of modelJSON with `optedScopes.*` keys grouped into a single `optedScopes` object.
  */
 const transformOptedScopes = (modelJSON) => {
-  if (modelJSON.optedScopes && typeof modelJSON.optedScopes !== 'string') {
-    const data = {
-      ...modelJSON,
-      optedScopes: flattenObj(modelJSON.optedScopes),
-    };
-    return data;
-  }
-  return modelJSON;
+  const result = { ...modelJSON };
+  const optedScopes = {};
+  Object.keys(modelJSON).forEach((key) => {
+    if (key.indexOf(OPTED_SCOPES_PREFIX) === 0) {
+      optedScopes[key.slice(OPTED_SCOPES_PREFIX.length)] = modelJSON[key];
+      delete result[key];
+    }
+  });
+  result.optedScopes = optedScopes;
+  return result;
 };
 
 const FormNameToTransformerHandler = {
@@ -63,7 +49,7 @@ const FormNameToTransformerHandler = {
  * The purpose of this function is the transform the
  * Backbone Model's attributes/fields into a JSON equivalent before sending to IDX,
  * since the Model fields are all flattend when the UI Schema is transformed on consumption.
- * 
+ *
  * @param {string} formName Form name of the current remediation
  * @param {Model} model Backbone Model Class
  * @returns JSON equivalent of the Model
