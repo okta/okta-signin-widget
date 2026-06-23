@@ -32,6 +32,14 @@ const Body = BaseFormWithPolling.extend(Object.assign(
     className: 'mfa-verify-nfc',
 
     title() {
+      const appState = this.options.appState?.attributes;
+      const isEnroll = appState?.currentFormName === 'enroll-authenticator';
+      const isPinStep = isEnroll
+        ? !appState?.currentAuthenticator?.contextualData?.setupNfcUrl
+        : !this.options.currentViewState?.relatesTo?.value?.contextualData?.challenge;
+      if (isPinStep) {
+        return loc('oie.verify.nfc.pin.title', 'login');
+      }
       const vendorName = loc('oie.nfc.authenticator.default.vendorName', 'login');
       return loc('oie.verify.nfc.title', 'login', [vendorName]);
     },
@@ -87,26 +95,40 @@ const Body = BaseFormWithPolling.extend(Object.assign(
         }
 
       } else {
-        // Verify flow — find the challenge JWT and extract jti as transactionId.
-        // The JWT arrives in currentAuthenticatorEnrollment.contextualData as part of the
-        // device challenge href: com-okta-authenticator:///deviceChallenge?challengeRequest=<jwt>
-        const ctxData = appState?.currentAuthenticatorEnrollment?.contextualData || {};
+        // Verify flow — read contextualData first to determine which step we're on.
+        const ctxData = this.options.currentViewState?.relatesTo?.value?.contextualData
+          || appState?.currentAuthenticatorEnrollment?.contextualData
+          || {};
+
+        // PIN step: server has advanced past card scan (no challenge JWT in response).
+        if (!ctxData?.challenge) {
+          this.noButtonBar = false;
+          this.hideCodebox = false;
+          return;
+        }
+
+        // Card step: bridge already called on a prior render — wait for server to transition.
+        if (this.model.get('credentials.externalId')) {
+          return;
+        }
+
+        // Card step: extract the challenge JWT and call the bridge.
         console.log('[NFC verify] contextualData:', JSON.stringify(ctxData));
 
-        const challengeHref = ctxData?.authenticatorChallenge?.href
-          || ctxData?.href
-          || '';
+        const challengeHref = ctxData?.challenge?.value?.href || '';
         const challengeRequest = new URLSearchParams(
           challengeHref.split('?').slice(1).join('?')
         ).get('challengeRequest');
 
         let transactionId;
         let nonce;
+        let commandUri;
         if (challengeRequest) {
           try {
             const payload = decodeJwtPayload(challengeRequest);
             transactionId = payload.jti;
             nonce = payload.nonce;
+            commandUri = payload.commandUri;
             console.log('[NFC verify] decoded JWT payload:', payload);
           } catch (e) {
             console.error('[NFC verify] Failed to decode challengeRequest JWT', e);
@@ -117,21 +139,24 @@ const Body = BaseFormWithPolling.extend(Object.assign(
           console.error('[NFC verify] Could not determine transactionId. contextualData:', ctxData);
           return;
         }
-        console.log('[NFC verify] transactionId:', transactionId, 'nonce:', nonce);
+        console.log('[NFC verify] transactionId:', transactionId, 'nonce:', nonce, 'commandUri:', commandUri);
+
+        this.add(ScanNfcView, container);
+        this.hideCodebox = true;
 
         const verifyRes = await window.fetch(`${BRIDGE_URL}/verify`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ transactionId, nonce }),
+          body: JSON.stringify({ transactionId, nonce, commandUri }),
         });
         const response = await verifyRes.json();
 
         console.log('[NFC verify] bridge response:', response);
         if (response?.success) {
           this.options.appState.trigger('hideScanNfc');
+          this.model.set('credentials.externalId', transactionId);
           this.noButtonBar = false;
           this.hideCodebox = false;
-          this.model.set('credentials.externalId', transactionId);
           this.render();
         }
       }
@@ -170,6 +195,11 @@ const Body = BaseFormWithPolling.extend(Object.assign(
 
     getUISchema() {
       const uiSchemas = BaseFormWithPolling.prototype.getUISchema.apply(this, arguments);
+      const isEnroll = this.options.appState?.attributes?.currentFormName === 'enroll-authenticator';
+      if (!isEnroll) {
+        return uiSchemas;
+      }
+
       const confirmPin = {
         name: 'credentials.oldPasscode',
         label: loc('oie.nfc.pin.confirmPinLabel', 'login'),
@@ -201,7 +231,8 @@ export default BaseAuthenticatorView.extend({
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     return ModelClass.extend({
       validate() {
-        if (this.get('credentials.passcode') !== this.get('credentials.oldPasscode')) {
+        const oldPasscode = this.get('credentials.oldPasscode');
+        if (oldPasscode !== undefined && this.get('credentials.passcode') !== oldPasscode) {
           return {
             'credentials.oldPasscode': loc('oie.nfc.pin.match.error', 'login'),
           };
