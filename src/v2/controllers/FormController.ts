@@ -19,6 +19,7 @@ import {
 } from '../ion/RemediationConstants';
 import transformPayload from '../ion/payloadTransformer';
 import Util from 'util/Util';
+import { executeHooksBefore, executeHooksAfter } from 'util/Hooks';
 import sessionStorageHelper from '../client/sessionStorageHelper';
 import { HttpResponse, IdxStatus, ProceedOptions } from '@okta/okta-auth-js';
 import { EventErrorContext } from 'types/events';
@@ -141,7 +142,7 @@ export default Controller.extend({
     return eventData;
   },
 
-  handleSwitchForm(formName) {
+  async handleSwitchForm(formName) {
     // trigger formName change to change view
     if (this.options.appState.get('messages')) {
       // Clear messages before calling switch form.
@@ -150,7 +151,17 @@ export default Controller.extend({
       // those error will show up on another screen that gets rendered after switchForm
       this.options.appState.unset('messages');
     }
+    // Run customer-registered before/after hooks for the target form. Without this,
+    // hooks fire only on renders driven by an IDX response (see AppState.setIonResponse),
+    // and any client-side switchForm navigation (e.g. "Verify with something else")
+    // would silently skip them.
+    const hook = this.options.appState.hooks?.getHook(formName);
+    await executeHooksBefore(hook);
+    // Backbone fires `change:currentFormName` and re-renders synchronously inside
+    // set(), so the DOM is fully updated by the time set() returns — which means
+    // executeHooksAfter below runs against the new form, not the old one.
     this.options.appState.set('currentFormName', formName);
+    await executeHooksAfter(hook);
   },
 
   // eslint-disable-next-line max-statements
