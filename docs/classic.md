@@ -1509,6 +1509,15 @@ features: {
 }
 ```
 
+> **Note for Okta-hosted sign-in pages:** If you are customizing the Okta-hosted sign-in page, do **not** override the entire `features` object (for example, `config.features = { registration: true }`). The Okta-hosted page injects runtime defaults required for certain flows, such as the password-reset email link. Set individual flags instead on the config object returned by `OktaUtil.getSignInWidgetConfig()`:
+>
+> ```javascript
+> var config = OktaUtil.getSignInWidgetConfig();
+> config['features.registration'] = true;
+> // or: config.features.registration = true;
+> // Then pass config to OktaSignIn as usual
+> ```
+
 - **features.router** - Set to `true` if you want the widget to update the navigation bar when it transitions between pages. This is useful if you want the user to maintain their current state when refreshing the page, but requires that your server can handle the widget url paths. Defaults to `false`.
 
 - **features.rememberMe** - Display a checkbox to enable "Remember me" functionality at login. Defaults to `true`.
