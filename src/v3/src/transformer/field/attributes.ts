@@ -69,6 +69,10 @@ const inputModeValueTransformer = (input: Input): InputModeValue | null => {
   if (input.name === 'credentials.passcode' && input.secret) {
     return null;
   }
+  // Alphanumeric OTP must not restrict keyboard to numeric
+  if (input.name === 'credentials.passcode' && input.format === 'alphanumeric') {
+    return null;
+  }
   const key = getKeyFromMap(inputModeValueMap, input.name);
   return key ? inputModeValueMap.get(key) ?? null : null;
 };

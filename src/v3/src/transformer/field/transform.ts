@@ -187,8 +187,12 @@ export const transformStepInputs = (
           },
         };
         acc.dataSchema.fieldsToValidate.push(name);
-        // Of the required fields, trim appropriately
-        if (uischema.options.attributes?.inputmode === 'numeric') {
+        // Of the required fields, trim appropriately.
+        // Alphanumeric passcodes have no inputmode set but still need trimming since
+        // the allowed charset (uppercase letters + digits) contains no spaces.
+        const isNumericInputMode = uischema.options.attributes?.inputmode === 'numeric';
+        const isAlphanumericPasscode = name === 'credentials.passcode' && input.format === 'alphanumeric';
+        if (isNumericInputMode || isAlphanumericPasscode) {
           acc.dataSchema.fieldsToTrim.push(name);
         }
       }
