@@ -558,4 +558,91 @@ describe('LoopbackProbe', () => {
       }));
     });
   });
+
+  // When features.disablePollDuringCancel is on, LoopbackProbe.cancelHandler
+  // participates in the pollInFlightRef protocol as a writer using the
+  // "claim only if free, clear only what you claimed" pattern. Polls fired
+  // by usePolling during the /cancel proceed are then suppressed at the
+  // existing guard in usePolling.ts.
+  describe('disablePollDuringCancel guard', () => {
+    it('FF on, flag free: cancelHandler claims pollInFlightRef during /cancel proceed', async () => {
+      const pollInFlightRef = { current: false };
+      // proceedStub returns a pending Promise — cancel stays "in flight" so
+      // we can observe the flag while it's claimed
+      const cancelPending = new Promise(() => { /* never resolves */ });
+      const localProceedStub = jest.fn().mockReturnValue(cancelPending);
+      mockWidgetContextOverrides = {
+        widgetProps: { features: { disablePollDuringCancel: true } },
+        pollInFlightRef,
+        authClient: { idx: { proceed: localProceedStub } },
+      };
+      server.use(
+        rest.get('http://localhost:6512/probe', async (_, res, ctx) => res(ctx.status(500))),
+      );
+      const props: { uischema: LoopbackProbeElement } = {
+        uischema: {
+          type: 'LoopbackProbe',
+          options: {
+            deviceChallengePayload: {
+              ports: ['6512'],
+              domain: 'http://localhost',
+              challengeRequest: 'mockChallengeRequest',
+              probeTimeoutMillis: 100,
+            },
+            cancelStep: 'authenticatorChallenge-cancel',
+            step: 'device-challenge-poll',
+          },
+        },
+      };
+      render(<LoopbackProbe {...props} />);
+
+      await waitFor(() => expect(localProceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+      // /cancel is on the wire (proceed hasn't resolved) → flag is claimed
+      expect(pollInFlightRef.current).toBe(true);
+    });
+
+    it('FF on, flag already held: cancelHandler does NOT clobber an in-flight /poll claim', async () => {
+      // Race A scenario: a /poll is already in flight (flag truthy) when
+      // cancelHandler fires. cancelHandler must not touch the flag — clearing
+      // it in our finally would re-enable polling while the original /poll is
+      // still on the wire, breaking the 7.46.2 invariant.
+      const pollInFlightRef = { current: true };
+      let resolveCancel: (value: unknown) => void;
+      const cancelPromise = new Promise((resolve) => { resolveCancel = resolve; });
+      const localProceedStub = jest.fn().mockReturnValue(cancelPromise);
+      mockWidgetContextOverrides = {
+        widgetProps: { features: { disablePollDuringCancel: true } },
+        pollInFlightRef,
+        authClient: { idx: { proceed: localProceedStub } },
+      };
+      server.use(
+        rest.get('http://localhost:6512/probe', async (_, res, ctx) => res(ctx.status(500))),
+      );
+      const props: { uischema: LoopbackProbeElement } = {
+        uischema: {
+          type: 'LoopbackProbe',
+          options: {
+            deviceChallengePayload: {
+              ports: ['6512'],
+              domain: 'http://localhost',
+              challengeRequest: 'mockChallengeRequest',
+              probeTimeoutMillis: 100,
+            },
+            cancelStep: 'authenticatorChallenge-cancel',
+            step: 'device-challenge-poll',
+          },
+        },
+      };
+      render(<LoopbackProbe {...props} />);
+
+      await waitFor(() => expect(localProceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+      // Flag still held by the (mocked) in-flight /poll
+      expect(pollInFlightRef.current).toBe(true);
+      // Resolve /cancel and wait a microtask; cancelHandler's finally runs
+      resolveCancel!(undefined);
+      await new Promise((r) => { setTimeout(r, 50); });
+      // Flag STILL held — cancelHandler did not clear what it did not claim
+      expect(pollInFlightRef.current).toBe(true);
+    });
+  });
 });
