@@ -1,6 +1,7 @@
-import { _, loc, createCallout } from '@okta/courage';
+import { _, loc, createButton, createCallout } from '@okta/courage';
 import { BaseForm, BaseView } from '../internals';
 import { INTERSTITIAL_REDIRECT_VIEW } from '../../ion/RemediationConstants';
+import Util from '../../../util/Util';
 import CustomAccessDeniedErrorMessage from '../views/shared/CustomAccessDeniedErrorMessage';
 const CUSTOM_ACCESS_DENIED_KEY = 'security.access_denied_custom_message';
 const UNLOCK_USER_SUCCESS_MESSAGE = 'oie.selfservice.unlock_user.landing.to.app.success.message';
@@ -68,6 +69,21 @@ const Body = BaseForm.extend({
 
   render() {
     BaseForm.prototype.render.apply(this, arguments);
+    const currentViewState = this.options.appState.getCurrentViewState();
+    // OKTA-1182955: render a Continue button instead of the auto-redirect spinner when the
+    // backend signaled a successful prior Android AppLink (FastPass) verification. A user click
+    // guarantees window focus before the redirect fires.
+    if (Util.isPostAppLinkVerification(currentViewState)) {
+      this.add(createButton({
+        className: 'button button-wide button-primary',
+        title: loc('oie.optional.authenticator.button.title', 'login'),
+        id: 'applink-continue-redirect',
+        click: () => {
+          Util.redirectWithFormGet(currentViewState.href);
+        }
+      }));
+      return;
+    }
     if (this.redirectView === INTERSTITIAL_REDIRECT_VIEW.DEFAULT) {
       this.add('<div class="okta-waiting-spinner"></div>');
     }
