@@ -33,6 +33,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
     authClient, idxTransaction, setIdxTransaction, widgetProps, pollInFlightRef,
   } = widgetContext;
   const disableConcurrentPolling = widgetProps?.features?.disableConcurrentPolling;
+  const disablePollDuringCancel = widgetProps?.features?.disablePollDuringCancel;
 
   const probeTimeoutMillis: number = typeof deviceChallengePayload.probeTimeoutMillis === 'undefined'
     ? 100 : deviceChallengePayload.probeTimeoutMillis;
@@ -52,10 +53,11 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
     }
 
     // When FF is on and another poll-step `proceed` is in flight (e.g.
-    // usePolling's setTimeout already fired), suppress this one.
-    // cancelHandler is intentionally NOT guarded — user-initiated cancel
-    // must always go through.
-    const guarded = disableConcurrentPolling && isPollingStep(stepName);
+    // usePolling's setTimeout already fired), or a /cancel from
+    // cancelHandler is in flight, suppress this one. cancelHandler itself
+    // is intentionally NOT guarded — cancel must always go through.
+    const guarded = (disableConcurrentPolling || disablePollDuringCancel)
+      && isPollingStep(stepName);
     if (guarded && pollInFlightRef?.current) {
       return;
     }
@@ -82,8 +84,25 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
     if (typeof idxTransaction?.context.stateHandle !== 'undefined') {
       payload.stateHandle = idxTransaction.context.stateHandle;
     }
-    const newTransaction = await authClient?.idx.proceed(payload);
-    setIdxTransaction(newTransaction);
+    // When FF is on, claim the shared pollInFlightRef so any racing
+    // poll-step `proceed` (from usePolling's timer or submitHandler)
+    // is suppressed at the existing guard in usePolling.ts.
+    // "Claim only if free, clear only what you claimed" — if a /poll
+    // is already in flight, the flag is already true; we don't touch
+    // it, and its own `finally` will clear it.
+    const claimedPollFlag = !!(disablePollDuringCancel
+      && pollInFlightRef && !pollInFlightRef.current);
+    if (claimedPollFlag && pollInFlightRef) {
+      pollInFlightRef.current = true;
+    }
+    try {
+      const newTransaction = await authClient?.idx.proceed(payload);
+      setIdxTransaction(newTransaction);
+    } finally {
+      if (claimedPollFlag && pollInFlightRef) {
+        pollInFlightRef.current = false;
+      }
+    }
   };
 
   /* eslint-disable no-await-in-loop, no-continue */

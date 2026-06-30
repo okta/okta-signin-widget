@@ -286,6 +286,12 @@ export type OktaWidgetFeatures = {
   // request as "bad request" when /poll is slow (e.g. DBSSO-elongated
   // /challenge in FastPass loopback). FF delivered from monolith.
   disableConcurrentPolling?: boolean;
+  // When true, have LoopbackProbe.cancelHandler participate in the
+  // pollInFlightRef protocol so that a /poll fired during /cancel is
+  // suppressed by the existing guard in usePolling. Closes the
+  // gen3 cancel-vs-poll race (poll setTimeout firing while /cancel is
+  // on the wire). FF delivered from monolith.
+  disablePollDuringCancel?: boolean;
 };
 
 interface ProxyIdxResponse {
