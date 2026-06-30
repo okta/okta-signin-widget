@@ -37,6 +37,7 @@ export const AUTHENTICATOR_KEY: Record<string, string> = {
   CUSTOM_APP: 'custom_app',
   SMART_CARD_IDP: 'smart_card_idp',
   TAC: 'tac',
+  NFC_PIN: 'nfc_pin',
   DEFAULT: '__',
 };
 
@@ -240,6 +241,7 @@ export const AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP: Record<string, string> = {
   [AUTHENTICATOR_KEY.SMART_CARD_IDP]: 'oie.smartcard.authenticator.description',
   // TAC is not eligible for inline enrollment, so this should be unreachable
   [AUTHENTICATOR_KEY.TAC]: 'oie.tac.authenticator.description',
+  [AUTHENTICATOR_KEY.NFC_PIN]: 'oie.nfc_pin.authenticator.description',
 };
 
 export const CHALLENGE_INTENT_TO_I18KEY: Record<string, string> = {

@@ -36,6 +36,7 @@ import {
   SecurityKeyOrBiometricsIcon,
   SecurityQuestionIcon,
   SmartCardIcon,
+  NfcPinIcon,
   SymantecIcon,
   YubiKeyIcon,
 } from '../Icon';
@@ -175,6 +176,13 @@ export const getAuthCoinConfiguration = (): Record<string, AuthCoinConfig> => ({
     customizable: false,
     description: loc('factor.totpHard.yubikey', 'login'),
     iconClassName: 'mfa-yubikey',
+  },
+  [AUTHENTICATOR_KEY.NFC_PIN]: {
+    icon: NfcPinIcon,
+    name: 'mfa-nfc-pin',
+    customizable: false,
+    description: loc('oie.nfc_pin.authenticator.description', 'login'),
+    iconClassName: 'mfa-nfc-pin',
   },
   [CHALLENGE_METHOD.APP_LINK]: {
     icon: OktaVerifyIcon,
