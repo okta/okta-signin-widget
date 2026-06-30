@@ -33,5 +33,6 @@ export * from './SecurityKeyOrBiometricsIcon';
 export * from './SecurityQuestionIcon';
 export * from './SmartCardIcon';
 export * from './SymantecIcon';
+export * from './NfcPinIcon';
 export * from './WindowsStoreIcon';
 export * from './YubiKeyIcon';
