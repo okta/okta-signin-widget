@@ -90,6 +90,7 @@ import {
 } from './securityQuestion';
 import { transformSymantecVipAuthenticator } from './symantecVip';
 import { transformTacAuthenticator } from './tac';
+import { transformNfcPinChallenge, transformNfcPinDeviceChallenge, transformNfcPinEnroll } from '../nfcPin';
 import { transformUnlockAccount } from './unlockAccount';
 
 const IdentifyTransformerSettings = {
@@ -260,8 +261,24 @@ const TransformerMap: {
       transform: transformTacAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
     },
+    [AUTHENTICATOR_KEY.NFC_PIN]: {
+      transform: transformNfcPinChallenge,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showVerifyWithOtherLink: false,
+      },
+    },
   },
   [IDX_STEP.CHALLENGE_POLL]: {
+    [AUTHENTICATOR_KEY.NFC_PIN]: {
+      transform: transformNfcPinDeviceChallenge,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showVerifyWithOtherLink: false,
+      },
+    },
     [AUTHENTICATOR_KEY.OV]: {
       transform: transformOktaVerifyCustomAppChallengePoll,
       buttonConfig: {
@@ -392,6 +409,14 @@ const TransformerMap: {
     [AUTHENTICATOR_KEY.YUBIKEY]: {
       transform: transformYubikeyOtpAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.NFC_PIN]: {
+      transform: transformNfcPinEnroll,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showReturnToAuthListLink: false,
+      },
     },
   },
   [IDX_STEP.ENROLLMENT_CHANNEL_DATA]: {

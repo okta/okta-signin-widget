@@ -25,10 +25,13 @@ export const transformLaunchAuthenticatorButton: TransformStepFn = (
     layout: uischema,
     predicate: (element) => element.type === 'LaunchAuthenticatorButton',
     callback: (element) => {
+      const labelKey = (element as any).options?.authenticatorKey === 'nfc_pin'
+        ? 'oie.nfc_pin.launch.button'
+        : 'oktaVerify.button';
       addTranslation({
         element,
         name: 'label',
-        i18nKey: 'oktaVerify.button',
+        i18nKey: labelKey,
       });
 
       addTranslation({
