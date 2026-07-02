@@ -186,15 +186,19 @@ export const getFastPassButtonElement = (
     return [];
   }
 
+  const isNfc = context?.currentAuthenticator?.value?.key === 'nfc_pin';
   const launchAuthenticatorButton: LaunchAuthenticatorButtonElement = {
     type: 'LaunchAuthenticatorButton',
-    label: loc('oktaVerify.button', 'login'),
+    label: isNfc
+      ? loc('oie.nfc_pin.launch.button', 'login')
+      : loc('oktaVerify.button', 'login'),
     options: {
       step: IDX_STEP.LAUNCH_AUTHENTICATOR,
       // @ts-expect-error authenticatorChallenge missing from transaction context type
       deviceChallengeUrl: context?.authenticatorChallenge?.value?.href,
       // @ts-expect-error authenticatorChallenge missing from transaction context type
       challengeMethod: context?.authenticatorChallenge?.value?.challengeMethod,
+      ...(isNfc && { authenticatorKey: 'nfc_pin' }),
     },
   };
 

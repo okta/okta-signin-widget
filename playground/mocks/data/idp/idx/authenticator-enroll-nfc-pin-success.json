@@ -1,0 +1,51 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02.id.hyuZ5IuEr1jtsyYhiJpwwyTwbLKcokuMvY4N9M9c",
+  "expiresAt": "2026-06-30T18:40:47.000Z",
+  "intent": "CREDENTIAL_ENROLLMENT",
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u9x2zyOyNI2b5WY0g5",
+      "identifier": "nfctest@okta.com",
+      "profile": {
+        "firstName": "nfc",
+        "lastName": "test",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US",
+        "email": "n***t@okta.com"
+      }
+    }
+  },
+  "success": {
+    "name": "success-redirect",
+    "href": "http://localhost:3000/login/token/redirect?stateToken=02.id.hyuZ5IuEr1jtsyYhiJpwwyTwbLKcokuMvY4N9M9c"
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02.id.hyuZ5IuEr1jtsyYhiJpwwyTwbLKcokuMvY4N9M9c",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "DEFAULT_APP"
+    }
+  }
+}

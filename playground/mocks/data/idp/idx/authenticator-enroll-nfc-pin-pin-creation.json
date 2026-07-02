@@ -1,0 +1,222 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02.id.mock-nfc-pin-creation-statehandle",
+  "expiresAt": "2026-07-01T16:20:56.000Z",
+  "intent": "CREDENTIAL_ENROLLMENT",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "enroll-authenticator",
+        "relatesTo": [
+          "$.currentAuthenticator"
+        ],
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "credentials",
+            "type": "object",
+            "form": {
+              "value": [
+                {
+                  "name": "passcode",
+                  "label": "NFC",
+                  "secret": true
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.mock-nfc-pin-creation-statehandle",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "NFC",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut9rm692u6DV6WN60g5",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "nfc_pin",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.mock-nfc-pin-creation-statehandle",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "type": "proximity",
+      "key": "nfc_pin",
+      "id": "aut9rm692u6DV6WN60g5",
+      "displayName": "NFC",
+      "methods": [
+        {
+          "type": "nfc_pin"
+        }
+      ],
+      "settings": {
+        "minLength": 8,
+        "maxLength": 8
+      }
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "proximity",
+        "key": "nfc_pin",
+        "id": "aut9rm692u6DV6WN60g5",
+        "displayName": "NFC",
+        "methods": [
+          {
+            "type": "nfc_pin"
+          }
+        ],
+        "allowedFor": "none"
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "lae5mock00000000000",
+        "displayName": "Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ]
+      },
+      {
+        "type": "phone",
+        "key": "phone_number",
+        "id": "sms1mock00000000000",
+        "displayName": "Phone",
+        "methods": [
+          {
+            "type": "sms"
+          }
+        ]
+      }
+    ]
+  },
+  "enrollmentAuthenticator": {
+    "type": "object",
+    "value": {
+      "type": "proximity",
+      "key": "nfc_pin",
+      "id": "aut9rm692u6DV6WN60g5",
+      "displayName": "NFC",
+      "methods": [
+        {
+          "type": "nfc_pin"
+        }
+      ],
+      "settings": {
+        "minLength": 4,
+        "maxLength": 12
+      }
+    }
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00umock000000000000",
+      "identifier": "testuser@example.com",
+      "profile": {
+        "firstName": "Test",
+        "lastName": "User",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US",
+        "email": "t***r@example.com"
+      }
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02.id.mock-nfc-pin-creation-statehandle",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "0oa1mock00000000000"
+    }
+  },
+  "authentication": {
+    "type": "object",
+    "value": {
+      "protocol": "URL",
+      "request": {}
+    }
+  }
+}

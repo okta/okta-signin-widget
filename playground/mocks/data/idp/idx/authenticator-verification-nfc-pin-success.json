@@ -1,0 +1,73 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02.id.HGw6J_-ZtqcuStPbpPypHF5nOO8iK4FnN-sif44U~c.RRg-3eKSnZS0hxZrkk-Ver3sJnkIaCek4Cx8XJs0R9y1Cgi_ml1P9BsxIvSs4npTcwJ3NDmu_BxXvEYw5ORFMgp826fX5NXIBxKLGwTVa8bZ0i_Pyg5nLmKbOc7vEcStlG3GA_F5j_tcMeJLVaV0xaIzM7k0y4TO5hOrhUNL3JfJ7c5smRnZOT3m0lWcPPg6Qs0C6oYlwc63yvUAuDTgdwyhZ7ST3HPE8vVMkw6spogwHIxFtGbtJ5qsCUN2JycEe9FJ8BUHKJALGwd4lBqnNwhbFeR-RIYPipBkjklRD4kfADScj8I0br8Zqr6x29kSHKHAVACqzm1zAIs-7HZlSk9G7IUdr1lQq_HtCvhHmPBslWfn7ee9SYxXXBV7rnhqoU8vVdJZqYwJBHqKuUI4iQl0HrStYEibcsojdWfl-Gz_dV76kvd-mXXYZGi2a3n2a1h5ohhlmTHfdALg6daeg1VPvb1wb26FHEH-mSLtdNOvT-cbmrcM_yJWdbeuVLLQhVZx16YLvPrIVyRtosH2DVxpHN0B1_FVAtmYZ-UfpVqA5vUtwzRvhM27v6nxWEZvxS7tIK1Sy9doi1ZLfU-mLr2qmbP-4FcIedTkYpkl7F2fXI3njagSZN4Q7RiBJX2VWfN63YU6ccFKLs7CcE-wY4XRebCciOSXRZmXVB1g9rxbBobdQqajgvtnJp2LrYj55uv0eE524XVXBwghoDWYqsR4F82IVac_WjsxF0ebLuQJ8Nnta2IArrYFIxAX2QTVhCGJGyB7TReeQ7irZH8JVnN3hye1-NFrGA_Z-jUjo_TwNEJ1ScJdeMWSfUTeKR8Gno5tAcyEGftE6b3GXe1ohd1Di8f0EEjoVouwSztXGavQhQ934gbqYxLCKNBF1nhnZVk79dYqL9qso25FX-P5TqNdUvXMTGej2kYZU-S95ZVyF2bGh7EWinHmQvPnLfqAUUfac1ldDoz6SEqW0QgbhLpT3vXRn34jj_iIry7kFWKvqKX8TvwhSDPWK-IxgtieVYoZ02JbFhj8vu5clIwyeyYvLhbdR2O-4U1iDTJHpJhBoo4eDYAeVJ91LH_d0ntAlEM4oGRuyj3fnthC5iZbOiWelVF9Ay3fWXhTYupOroGvzoEemic86-MiM2r_5qedswNGnhQBN7VwKPbYwwS3Pu9jFNH3iV8aKNZUaGvzGObJvaA7it5zQYBPfMHqV1iQHb-xGya_I9zdVNX1kCUS8KoEdem09BSlZlIMCVtbNgyibp7Do6y7OeJf7Z3HLnN93u-_5mPfL_wcZ7HxEAalMg",
+  "expiresAt": "2026-06-30T18:39:26.000Z",
+  "intent": "LOGIN",
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u9x2zyOyNI2b5WY0g5",
+      "identifier": "nfctest@okta.com",
+      "profile": {
+        "firstName": "nfc",
+        "lastName": "test",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US",
+        "email": "n***t@okta.com"
+      }
+    }
+  },
+  "success": {
+    "name": "success-redirect",
+    "href": "http://localhost:3000/login/token/redirect?stateToken=02.id.HGw6J_-ZtqcuStPbpPypHF5nOO8iK4FnN-sif44U"
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02.id.HGw6J_-ZtqcuStPbpPypHF5nOO8iK4FnN-sif44U~c.RRg-3eKSnZS0hxZrkk-Ver3sJnkIaCek4Cx8XJs0R9y1Cgi_ml1P9BsxIvSs4npTcwJ3NDmu_BxXvEYw5ORFMgp826fX5NXIBxKLGwTVa8bZ0i_Pyg5nLmKbOc7vEcStlG3GA_F5j_tcMeJLVaV0xaIzM7k0y4TO5hOrhUNL3JfJ7c5smRnZOT3m0lWcPPg6Qs0C6oYlwc63yvUAuDTgdwyhZ7ST3HPE8vVMkw6spogwHIxFtGbtJ5qsCUN2JycEe9FJ8BUHKJALGwd4lBqnNwhbFeR-RIYPipBkjklRD4kfADScj8I0br8Zqr6x29kSHKHAVACqzm1zAIs-7HZlSk9G7IUdr1lQq_HtCvhHmPBslWfn7ee9SYxXXBV7rnhqoU8vVdJZqYwJBHqKuUI4iQl0HrStYEibcsojdWfl-Gz_dV76kvd-mXXYZGi2a3n2a1h5ohhlmTHfdALg6daeg1VPvb1wb26FHEH-mSLtdNOvT-cbmrcM_yJWdbeuVLLQhVZx16YLvPrIVyRtosH2DVxpHN0B1_FVAtmYZ-UfpVqA5vUtwzRvhM27v6nxWEZvxS7tIK1Sy9doi1ZLfU-mLr2qmbP-4FcIedTkYpkl7F2fXI3njagSZN4Q7RiBJX2VWfN63YU6ccFKLs7CcE-wY4XRebCciOSXRZmXVB1g9rxbBobdQqajgvtnJp2LrYj55uv0eE524XVXBwghoDWYqsR4F82IVac_WjsxF0ebLuQJ8Nnta2IArrYFIxAX2QTVhCGJGyB7TReeQ7irZH8JVnN3hye1-NFrGA_Z-jUjo_TwNEJ1ScJdeMWSfUTeKR8Gno5tAcyEGftE6b3GXe1ohd1Di8f0EEjoVouwSztXGavQhQ934gbqYxLCKNBF1nhnZVk79dYqL9qso25FX-P5TqNdUvXMTGej2kYZU-S95ZVyF2bGh7EWinHmQvPnLfqAUUfac1ldDoz6SEqW0QgbhLpT3vXRn34jj_iIry7kFWKvqKX8TvwhSDPWK-IxgtieVYoZ02JbFhj8vu5clIwyeyYvLhbdR2O-4U1iDTJHpJhBoo4eDYAeVJ91LH_d0ntAlEM4oGRuyj3fnthC5iZbOiWelVF9Ay3fWXhTYupOroGvzoEemic86-MiM2r_5qedswNGnhQBN7VwKPbYwwS3Pu9jFNH3iV8aKNZUaGvzGObJvaA7it5zQYBPfMHqV1iQHb-xGya_I9zdVNX1kCUS8KoEdem09BSlZlIMCVtbNgyibp7Do6y7OeJf7Z3HLnN93u-_5mPfL_wcZ7HxEAalMg",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "0oa17vpL2tDgTIa7s0g4"
+    }
+  },
+  "authentication": {
+    "type": "object",
+    "value": {
+      "protocol": "OAUTH2.0",
+      "issuer": {
+        "name": "devorg1",
+        "uri": "http://localhost:3000"
+      },
+      "request": {
+        "max_age": -1,
+        "scope": "openid profile email okta.users.read.self okta.users.manage.self okta.internal.enduser.read okta.internal.enduser.manage okta.enduser.dashboard.read okta.enduser.dashboard.manage okta.myAccount.sessions.manage okta.internal.navigation.enduser.read",
+        "display": "page",
+        "response_type": "code",
+        "redirect_uri": "http://localhost:3000/enduser/callback",
+        "state": "SpoqXJbKzF03jE1IUl90QC6RQJcopwU6OXAUuti4RWxcwtdSn0BkxEJG3EJ3zWSH",
+        "code_challenge_method": "S256",
+        "nonce": "0GIbpk9KfkyFjY6dKNK7uyqs6Mxj3Mzk5LlerGhc340RL5k1aHN8dfaPlYQeWIWe",
+        "code_challenge": "1nI4lm-PVwY3R-ivf4nLFNfAHkHcz3GVQHJpblh81Zs",
+        "response_mode": "query"
+      }
+    }
+  }
+}
