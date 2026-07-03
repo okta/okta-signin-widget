@@ -3,6 +3,14 @@
 @use 'sass:map';
 @import '@okta/odyssey-design-tokens/dist/index.scss';
 
+/*
+ * ALTCHA widget CSS. Resolved via sass-loader's `includePaths` (../../node_modules
+ * from src/v3), so no relative walk needed. The file is `altcha.css`; sass @import
+ * without extension inlines it at compile time (extension elided intentionally —
+ * writing `.css` would leave it as a runtime @import).
+ */
+@import 'altcha/dist_external/altcha';
+
 @font-face {
   font-family: 'Inter';
   src: url('../font/inter-latin-400-normal.woff2') format('woff2');

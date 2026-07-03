@@ -102,6 +102,12 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
+            cwd: 'node_modules/altcha/dist_external',
+            src: ['altcha.js', 'altcha.css', 'worker.js'],
+            dest: DIST + '/altcha'
+          },
+          {
+            expand: true,
             cwd: 'polyfill',
             src: ['*.js'],
             dest: 'dist/polyfill'

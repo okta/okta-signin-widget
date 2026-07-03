@@ -153,6 +153,7 @@
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
     "@zerollup/ts-transform-paths": "^1.7.18",
+    "altcha": "2.3.0",
     "autoprefixer": "^10.3.4",
     "axe-core": "^4.6.3",
     "axios": "^1.15.0",

@@ -16,6 +16,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { useMemo } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 
+import { loadAltcha } from '../../../../util/Altcha';
 import Logger from '../../../../util/Logger';
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
@@ -97,17 +98,14 @@ const CaptchaContainer: UISchemaElementComponent<{
   }
   // Effect to dynamically load ALTCHA script when needed
   useEffect(() => {
-    // If captchaType is ALTCHA and the script hasn't been loaded yet
-    if (captchaType === 'ALTCHA' && !isAltchaLoaded) {
-      import(/* webpackChunkName: "altcha" */ 'altcha')
-        .then(() => {
-          setIsAltchaLoaded(true);
-        })
-        .catch((err) => {
-          Logger.error('Failed to load ALTCHA script', err);
-        });
+    if (captchaType !== 'ALTCHA' || isAltchaLoaded) {
+      return;
     }
-  }, [captchaType, isAltchaLoaded]);
+    const altchaBase = `${(widgetProps as any)?.assets?.baseUrl}/altcha`;
+    loadAltcha(altchaBase)
+      .then(() => setIsAltchaLoaded(true))
+      .catch((e) => Logger.error('Failed to load ALTCHA script', e));
+  }, [captchaType, isAltchaLoaded, widgetProps]);
 
   useEffect(() => {
     // set the reference in dataSchema context to this captcha instance
