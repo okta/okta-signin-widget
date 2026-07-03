@@ -11,6 +11,7 @@
  */
 
 import { View , loc } from '@okta/courage';
+import { loadAltcha } from 'util/Altcha';
 import Enums from 'util/Enums';
 import Util from 'util/Util';
 import hbs from '@okta/handlebars-inline-precompile';
@@ -20,13 +21,6 @@ const OktaSignInWidgetOnCaptchaLoadedCallback = 'OktaSignInWidgetOnCaptchaLoaded
 const OktaSignInWidgetOnCaptchaSolvedCallback = 'OktaSignInWidgetOnCaptchaSolved';
 
 const HCAPTCHA_URL = 'https://hcaptcha.com/1/api.js';
-// ALTCHA_URL and ALTCHA_SRI_HASH must be updated together — changing one
-// without the other will silently break CAPTCHA.
-//
-// To regenerate the SRI hash after a version bump:
-//   echo "sha384-$(curl -s <new-url> | openssl dgst -sha384 -binary | openssl base64 -A)"
-const ALTCHA_URL = 'https://cdn.jsdelivr.net/gh/altcha-org/altcha@2.3.0/dist/altcha.min.js';
-const ALTCHA_SRI_HASH = 'sha384-lxB6k+TvdhSBKnLm6JqwAnW7QxKXj88yK1kq9g3MevDXlG9HdWtnShLgJzuYCUIw';
 const RECAPTCHAV2_URL = 'https://www.google.com/recaptcha/api.js';
 
 const ALTCHA_CHALLENGE_PATH = '/api/v1/altcha';
@@ -84,6 +78,10 @@ export default View.extend({
     } else if (this.captchaConfig.type === 'RECAPTCHA_V2') {
       window.grecaptcha = undefined;
     }
+  },
+
+  _getAltchaBase() {
+    return `${this.options.settings.get('assets.baseUrl')}/altcha`;
   },
 
   /**
@@ -199,7 +197,7 @@ export default View.extend({
         hidefooter: true,
         hidelogo: true,
         challengeurl: challengeUrlForm?.href ?? challengeUrlFallback,
-        strings: JSON.stringify(getAltchaWidgetStrings())
+        strings: JSON.stringify(getAltchaWidgetStrings()),
       }).forEach(([key, value]) => altEl.setAttribute(key, value));
 
       altEl.customfetch = altchaCustomFetch;
@@ -260,30 +258,25 @@ export default View.extend({
       this._loadCaptchaLib(this._getCaptchaUrl(HCAPTCHA_URL, 'hcaptcha'));
     } else if (this.captchaConfig.type === 'RECAPTCHA_V2') {
       this._loadCaptchaLib(this._getCaptchaUrl(RECAPTCHAV2_URL, 'recaptcha'));
-    } if (this.captchaConfig.type === 'ALTCHA') {
-      this._loadCaptchaLib(this._getCaptchaUrl(ALTCHA_URL, 'altcha'));
+    } else if (this.captchaConfig.type === 'ALTCHA') {
+      // Best-effort: on load failure the widget won't render, matching the
+      // legacy silent-fail behavior. .catch(noop) keeps the promise chain
+      // clean; no user-facing feedback is expected here.
+      loadAltcha(this._getAltchaBase())
+        .then(onAltchaCaptchaLoaded)
+        .catch(() => {});
     }
   },
-  
+
   /**
    *  We dynamically inject <script> tag into our login container because in case the customer is hosting
    *  the SIW, we need to ensure we don't go out of scope when injecting the script.
-  * */ 
+  * */
   _loadCaptchaLib(url) {
     let scriptTag = document.createElement('script');
     scriptTag.src = url;
     scriptTag.async = true;
     scriptTag.defer = true;
-
-    if (url.indexOf('altcha') !== -1) {
-      scriptTag.type = 'module';
-      if (this.captchaConfig?.sriEnabled) {
-        scriptTag.integrity = ALTCHA_SRI_HASH;
-        scriptTag.crossOrigin = 'anonymous';
-      }
-      scriptTag.onload = window[OktaSignInWidgetOnCaptchaLoadedCallback];
-    }
-
     document.getElementById(Enums.WIDGET_CONTAINER_ID).appendChild(scriptTag);
   },
 
