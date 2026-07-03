@@ -5,6 +5,17 @@ import Settings from 'models/Settings';
 import enrollProfileWithReCaptcha from '../../../../../../playground/mocks/data/idp/idx/enroll-profile-new-with-recaptcha-v2.json';
 import enrollProfileWithHCaptcha from '../../../../../../playground/mocks/data/idp/idx/enroll-profile-new-with-hcaptcha.json';
 import { WIDGET_FOOTER_CLASS } from 'v2/view-builder/utils/Constants';
+import { loadAltcha } from 'util/Altcha';
+
+// Mock the shared ALTCHA loader so tests don't do real network / script injection.
+// Script tag / worker blob / SRI-etc details are internal to loadAltcha and are
+// covered (or should be covered) by tests for the loader itself.
+// Relative path used here (rather than the `util/Altcha` alias) because jest.mock
+// arguments do not go through babel's tsconfig-paths-module-resolver, so the
+// alias only works for the import statement above, not this call.
+jest.mock('../../../../../../src/util/Altcha', () => ({
+  loadAltcha: jest.fn(() => Promise.resolve()),
+}));
 
 const captchaAltchaObject = {
   captcha: {
@@ -14,19 +25,6 @@ const captchaAltchaObject = {
       name: 'altcha',
       siteKey: 'altcha-site-key',
       type: 'ALTCHA'
-    }
-  }
-};
-
-const captchaAltchaWithSri = {
-  captcha: {
-    type: 'object',
-    value: {
-      id: 'altcha',
-      name: 'altcha',
-      siteKey: 'altcha-site-key',
-      type: 'ALTCHA',
-      sriEnabled: true
     }
   }
 };
@@ -78,6 +76,9 @@ describe('v2/view-builder/views/CaptchaView', function() {
       testContext.view.render();
     };
     jest.spyOn(window.document, 'getElementById').mockReturnValue(document.createElement('div'));
+    // afterEach → jest.resetAllMocks() clears the loadAltcha mock's implementation.
+    // Re-arm it here so every test starts with a fresh no-op resolved Promise.
+    loadAltcha.mockResolvedValue(undefined);
   });
   afterEach(function() {
     jest.resetAllMocks();
@@ -212,10 +213,14 @@ describe('v2/view-builder/views/CaptchaView', function() {
       expect(testContext.view.el).toMatchSnapshot('with ALTCHA configuration');
     });
 
-    it('ALTCHA Captcha gets loaded with correct URL', function() {
-      const spy = jest.spyOn(CaptchaView.prototype, '_loadCaptchaLib');
+    it('ALTCHA Captcha invokes the shared loadAltcha with the assets-base-derived URL', function() {
       testContext.init(captchaAltchaObject.captcha.value);
-      expect(spy).toHaveBeenCalledWith('https://cdn.jsdelivr.net/gh/altcha-org/altcha@2.3.0/dist/altcha.min.js');
+      // URL is `${settings.get('assets.baseUrl')}/altcha`. assets.baseUrl is
+      // not set in the test settings, so the suffix is what we assert on —
+      // confirms _getAltchaBase() appends /altcha and that ALTCHA type is
+      // routed through the shared loader (not _loadCaptchaLib).
+      expect(loadAltcha).toHaveBeenCalledTimes(1);
+      expect(loadAltcha).toHaveBeenCalledWith(expect.stringMatching(/\/altcha$/));
     });
 
     it('ALTCHA uses altcha-captcha class in template', function() {
@@ -409,46 +414,11 @@ describe('v2/view-builder/views/CaptchaView', function() {
       expect(captchaObj).toBe(window.altcha);
     });
 
-    it('ALTCHA script tag is loaded with type="module"', function() {
-      const appendChildSpy = jest.fn();
-      jest.spyOn(window.document, 'getElementById').mockReturnValue({
-        appendChild: appendChildSpy
-      });
-      
-      testContext.init(captchaAltchaObject.captcha.value);
-      
-      expect(appendChildSpy).toHaveBeenCalled();
-      const scriptTag = appendChildSpy.mock.calls[0][0];
-      expect(scriptTag.type).toBe('module');
-      expect(scriptTag.src).toContain('altcha');
-    });
-
-    it('ALTCHA script tag includes SRI integrity and crossorigin attributes when sriEnabled is true', function() {
-      const appendChildSpy = jest.fn();
-      jest.spyOn(window.document, 'getElementById').mockReturnValue({
-        appendChild: appendChildSpy
-      });
-
-      testContext.init(captchaAltchaWithSri.captcha.value);
-
-      expect(appendChildSpy).toHaveBeenCalled();
-      const scriptTag = appendChildSpy.mock.calls[0][0];
-      expect(scriptTag.integrity).toBe('sha384-lxB6k+TvdhSBKnLm6JqwAnW7QxKXj88yK1kq9g3MevDXlG9HdWtnShLgJzuYCUIw');
-      expect(scriptTag.crossOrigin).toBe('anonymous');
-    });
-
-    it('ALTCHA script tag does not include SRI attributes when sriEnabled is absent', function() {
-      const appendChildSpy = jest.fn();
-      jest.spyOn(window.document, 'getElementById').mockReturnValue({
-        appendChild: appendChildSpy
-      });
-
-      testContext.init(captchaAltchaObject.captcha.value);
-
-      expect(appendChildSpy).toHaveBeenCalled();
-      const scriptTag = appendChildSpy.mock.calls[0][0];
-      expect(scriptTag.getAttribute('integrity')).toBeNull();
-      expect(scriptTag.getAttribute('crossorigin')).toBeNull();
-    });
+    // Note: previous tests here covered `<script>` tag details (type=module, SRI
+    // integrity, crossorigin) — those checks belong to the shared loader
+    // (src/util/Altcha.ts) and to product SRI feature, respectively. The SRI
+    // feature (integrity hash on the altcha.js script) was removed in the same
+    // commit that swapped from jsdelivr to oktacdn. If SRI is restored, add
+    // coverage in the shared loader's own test file, not here.
   });
 });

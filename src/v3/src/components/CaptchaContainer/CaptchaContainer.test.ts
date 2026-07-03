@@ -13,11 +13,18 @@
 import { render, waitFor } from '@testing-library/preact';
 import { h } from 'preact';
 
+import { loadAltcha } from '../../../../util/Altcha';
 import Logger from '../../../../util/Logger';
 import CaptchaContainer from './CaptchaContainer';
 
 jest.mock('../../../../util/Logger', () => ({
   error: jest.fn(),
+}));
+
+// Mock the shared ALTCHA loader. Tests configure the mock's behavior per case
+// (resolve for success, reject for failure, never-settle for still-loading).
+jest.mock('../../../../util/Altcha', () => ({
+  loadAltcha: jest.fn(),
 }));
 
 const mockOnSubmit = jest.fn();
@@ -46,14 +53,16 @@ class MockAltchaWidget extends HTMLElement {
   }
 }
 
+/**
+ * Test helper: simulate a successful ALTCHA load. Registers the custom element
+ * (guarded — customElements.define throws if the tag is already registered) and
+ * configures the mocked loader to resolve.
+ */
 const mockLoadAltchaWidget = () => {
-  jest.mock(
-    'altcha',
-    () => {
-      window.customElements.define('altcha-widget', MockAltchaWidget);
-      return {};
-    },
-  );
+  if (!window.customElements.get('altcha-widget')) {
+    window.customElements.define('altcha-widget', MockAltchaWidget);
+  }
+  (loadAltcha as jest.Mock).mockResolvedValue(undefined);
 };
 
 jest.mock('../../contexts', () => ({
@@ -110,17 +119,12 @@ const recaptchaUischema = {
 describe('CaptchaContainer dynamic altcha import', () => {
   beforeEach(() => {
     (Logger.error as jest.Mock).mockClear();
+    (loadAltcha as jest.Mock).mockReset();
     mockOnSubmit.mockClear();
   });
 
   it('logs error when dynamic import of altcha fails', async () => {
-    jest.doMock(
-      'altcha',
-      () => {
-        throw new Error('dynamic import failed');
-      },
-      { virtual: true },
-    );
+    (loadAltcha as jest.Mock).mockRejectedValue(new Error('dynamic import failed'));
 
     render(h(CaptchaContainer, { uischema: altchaUischema }));
 
@@ -134,19 +138,12 @@ describe('CaptchaContainer dynamic altcha import', () => {
   });
 
   it('does not import altcha when captchaType is not ALTCHA', async () => {
-    jest.doMock(
-      'altcha',
-      () => {
-        throw new Error('should not load');
-      },
-      { virtual: true },
-    );
-
     const { container } = render(h(CaptchaContainer, { uischema: recaptchaUischema }));
 
     await waitFor(() => {
       expect(container.querySelector('altcha-widget')).toBeNull();
       expect(Logger.error).toHaveBeenCalledTimes(0);
+      expect(loadAltcha).not.toHaveBeenCalled();
     });
   });
 
@@ -242,11 +239,9 @@ describe('CaptchaContainer dynamic altcha import', () => {
   });
 
   it('does not render ALTCHA widget before script is loaded', () => {
-    // Delay the import to simulate loading state
-    jest.mock(
-      'altcha',
-      () => new Promise(() => {}),
-    );
+    // Never-settling Promise keeps loadAltcha "in flight" so setIsAltchaLoaded
+    // never fires and the widget stays unmounted.
+    (loadAltcha as jest.Mock).mockReturnValue(new Promise(() => {}));
 
     const { container } = render(h(CaptchaContainer, { uischema: altchaUischema }));
 
