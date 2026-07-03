@@ -193,7 +193,7 @@ Object {
               Object {
                 "options": Object {
                   "alignment": "center",
-                  "altText": "enroll.oda.step3",
+                  "altText": "enroll.oda.download.android",
                   "dataSe": "app-store-link",
                   "href": "https://apps.test.com/us/app/okta-verify/id490179405",
                   "marginBlockStart": "20px",

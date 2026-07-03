@@ -483,4 +483,38 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       expect((sameDeviceEnrollmentLayout.elements[4] as OpenOktaVerifyFPButtonElement).options.challengeMethod)
         .toBe(CHALLENGE_METHOD.APP_LINK);
     });
+
+  it.each([
+    ['ios', 'enroll.oda.download.ios'],
+    ['android', 'enroll.oda.download.android'],
+    ['windows', 'enroll.oda.download.windows'],
+    ['osx', 'enroll.oda.download.osx'],
+  ])('download badge for platform %s uses its own accessible label', (platform, expectedLabel) => {
+    transaction.context = {
+      // TODO: OKTA-503490 temporary sln access missing relatesTo obj
+      currentAuthenticator: {
+        value: {
+          contextualData: {
+            samedevice: {
+              orgUrl: 'okta.okta.com',
+              setupOVUrl: 'www.testSetupUrl.com',
+              downloadHref: 'https://apps.test.com/download/okta-verify',
+              platform,
+            },
+            selectedChannel: 'samedevice',
+          },
+        },
+      },
+    } as unknown as IdxContext;
+
+    const updatedFormBag = transformOktaVerifyEnrollPoll({ transaction, formBag, widgetProps });
+
+    const [stepperLayout] = updatedFormBag.uischema.elements;
+    const imageLink = (stepperLayout as StepperLayout).elements
+      .flatMap((layout) => layout.elements)
+      .find((element) => element.type === 'ImageLink') as ImageLinkElement;
+
+    expect(imageLink.options.dataSe).toBe('app-store-link');
+    expect(imageLink.options.altText).toBe(expectedLabel);
+  });
 });
