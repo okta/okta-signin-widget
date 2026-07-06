@@ -67,6 +67,7 @@ export const IDX_STEP: Record<string, string> = {
   IDENTIFY_RECOVERY: 'identify-recovery',
   KEEP_ME_SIGNED_IN: 'keep-me-signed-in',
   LAUNCH_AUTHENTICATOR: 'launch-authenticator',
+  LAUNCH_NFC_AUTHENTICATOR: 'launch-nfc-authenticator',
   LAUNCH_WEBAUTHN_AUTHENTICATOR: 'launch-webauthn-authenticator',
   LAUNCH_PASSKEYS_AUTHENTICATOR: 'launch-passkeys-authenticator',
   PIV_IDP: 'piv-idp',

@@ -186,23 +186,47 @@ export const getFastPassButtonElement = (
     return [];
   }
 
-  const isNfc = context?.currentAuthenticator?.value?.key === 'nfc_pin';
   const launchAuthenticatorButton: LaunchAuthenticatorButtonElement = {
     type: 'LaunchAuthenticatorButton',
-    label: isNfc
-      ? loc('oie.nfc_pin.launch.button', 'login')
-      : loc('oktaVerify.button', 'login'),
+    label: loc('oktaVerify.button', 'login'),
     options: {
       step: IDX_STEP.LAUNCH_AUTHENTICATOR,
       // @ts-expect-error authenticatorChallenge missing from transaction context type
       deviceChallengeUrl: context?.authenticatorChallenge?.value?.href,
       // @ts-expect-error authenticatorChallenge missing from transaction context type
       challengeMethod: context?.authenticatorChallenge?.value?.challengeMethod,
-      ...(isNfc && { authenticatorKey: 'nfc_pin' }),
     },
   };
 
   return [launchAuthenticatorButton];
+};
+
+export const getNfcLaunchButtonElement = (
+  transaction: IdxTransaction,
+) : LaunchAuthenticatorButtonElement[] => {
+  const { context, neededToProceed: remediations } = transaction;
+  const containsNfcLaunch = remediations.some(
+    (remediation) => remediation.name === 'launch-nfc-authenticator',
+  );
+
+  if (!containsNfcLaunch) {
+    return [];
+  }
+
+  const nfcLaunchButton: LaunchAuthenticatorButtonElement = {
+    type: 'LaunchAuthenticatorButton',
+    label: loc('oie.nfc_pin.launch.button', 'login'),
+    options: {
+      step: 'launch-nfc-authenticator',
+      i18nKey: 'oie.nfc_pin.launch.button',
+      // @ts-expect-error authenticatorChallenge missing from transaction context type
+      deviceChallengeUrl: context?.authenticatorChallenge?.value?.href,
+      // @ts-expect-error authenticatorChallenge missing from transaction context type
+      challengeMethod: context?.authenticatorChallenge?.value?.challengeMethod,
+    },
+  };
+
+  return [nfcLaunchButton];
 };
 
 /**

@@ -1,0 +1,107 @@
+import { loc } from '@okta/courage';
+import { BaseFooter, BaseForm, BaseOktaVerifyChallengeView } from '../../internals';
+import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
+import { getFactorPageCustomLink, getSwitchAuthenticatorLink } from '../../utils/LinksUtil';
+import { doChallenge, cancelPollingWithParams } from '../../utils/ChallengeViewUtil';
+import { CANCEL_POLLING_ACTION, AUTHENTICATION_CANCEL_REASONS } from '../../utils/Constants';
+import Link from '../../components/Link';
+
+/**
+ * Shown when NFC card scan is needed.
+ * Matches FastPass CUSTOM_URI behavior: auto-launches OV, shows "Click Open Okta Verify" screen.
+ */
+const DeviceChallengeBody = BaseOktaVerifyChallengeView.extend({
+  pollingCancelAction: CANCEL_POLLING_ACTION,
+
+  getDeviceChallengePayload: function() {
+    const authenticator = this.options.appState.get('currentAuthenticatorEnrollment')
+      || this.options.appState.get('currentAuthenticator');
+    return authenticator?.contextualData?.challenge?.value || {};
+  },
+
+  doChallenge: function() {
+    doChallenge(this);
+  },
+});
+
+/**
+ * Shown after NFC card is verified — user enters their PIN.
+ */
+const PinEntryBody = BaseForm.extend({
+  className: 'nfc-pin-challenge',
+
+  title: function() {
+    return loc('oie.nfc_pin.verify.title', 'login');
+  },
+
+  save: function() {
+    return loc('mfa.challenge.verify', 'login');
+  },
+
+  getUISchema: function() {
+    const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
+    return uiSchemas.map(function(field) {
+      if (field.name === 'credentials.passcode') {
+        return Object.assign({}, field, {
+          label: loc('oie.nfc_pin.verify.pinLabel', 'login'),
+        });
+      }
+      return field;
+    });
+  },
+});
+
+const DeviceChallengeFooter = BaseFooter.extend({
+  initialize: function() {
+    this.add(Link, {
+      options: {
+        name: 'cancel-authenticator-challenge',
+        label: loc('loopback.polling.cancel.link', 'login'),
+        clickHandler: () => {
+          cancelPollingWithParams(
+            this.options.appState,
+            CANCEL_POLLING_ACTION,
+            AUTHENTICATION_CANCEL_REASONS.USER_CANCELED,
+            null
+          );
+        },
+      }
+    });
+  },
+});
+
+const PinEntryFooter = BaseFooter.extend({
+  links: function() {
+    const links = [];
+    const recoverAction = this.options.appState.get('currentAuthenticatorEnrollment')?.recover;
+    if (recoverAction) {
+      links.push({
+        type: 'link',
+        label: loc('oie.nfc_pin.forgot.pin', 'login'),
+        name: 'forgot-pin',
+        actionPath: 'currentAuthenticatorEnrollment-recover',
+      });
+    }
+    return links
+      .concat(getFactorPageCustomLink(this.options.appState, this.options.settings))
+      .concat(getSwitchAuthenticatorLink(this.options.appState));
+  },
+});
+
+export default BaseAuthenticatorView.extend({
+  initialize: function() {
+    BaseAuthenticatorView.prototype.initialize.apply(this, arguments);
+
+    const appState = this.options.appState;
+    const authenticator = appState.get('currentAuthenticatorEnrollment')
+      || appState.get('currentAuthenticator');
+
+    if (authenticator?.contextualData?.challenge) {
+      this.Body = DeviceChallengeBody;
+      this.Footer = DeviceChallengeFooter;
+    } else {
+      this.Body = PinEntryBody;
+      this.Footer = PinEntryFooter;
+    }
+  },
+});

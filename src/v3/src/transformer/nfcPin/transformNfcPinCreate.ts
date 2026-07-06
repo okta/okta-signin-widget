@@ -258,13 +258,24 @@ export const transformNfcPinCreate: IdxStepTransformer = ({
         });
       }
       if (newPw) {
-        const validations = validatePassword(newPw, userInfo, passwordSettings);
-        const requirementNotMetMessages = buildPasswordRequirementNotMetErrorList(
-          requirements,
-          validations,
-          passwordFieldName,
-        );
-        errorMessages.push(...requirementNotMetMessages);
+        // Validate numeric only
+        if (!/^\d+$/.test(newPw)) {
+          errorMessages.push({
+            name: passwordFieldName,
+            class: 'ERROR',
+            message: loc('oie.enroll.nfc_pin.create.requirement.length', 'login', [String(pinLength)]),
+            i18n: { key: 'oie.enroll.nfc_pin.create.requirement.length' },
+          });
+        } else {
+          // Only validate length if numeric (avoids duplicate errors)
+          const validations = validatePassword(newPw, userInfo, passwordSettings);
+          const requirementNotMetMessages = buildPasswordRequirementNotMetErrorList(
+            requirements,
+            validations,
+            passwordFieldName,
+          );
+          errorMessages.push(...requirementNotMetMessages);
+        }
       }
       if (newPw && confirmPw && newPw !== confirmPw) {
         errorMessages.push({

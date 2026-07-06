@@ -25,7 +25,7 @@ import {
 import {
   getBaseUrl, getTranslation, isAndroid, setUrlQueryParams,
 } from '../../util';
-import { NfcPinIcon, OktaVerifyIcon } from '../Icon';
+import { OktaVerifyIcon } from '../Icon';
 
 const LaunchAuthenticatorButton: UISchemaElementComponent<{
   uischema: LaunchAuthenticatorButtonElement
@@ -41,8 +41,6 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
       challengeMethod,
     },
   } = uischema;
-  const authenticatorIcon = (uischema.options as any)?.authenticatorKey === 'nfc_pin'
-    ? 'nfc_pin' : 'okta_verify';
 
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
   const {
@@ -86,14 +84,7 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
       onClick={handleClick}
       buttonRef={focusRef}
       label={label || ''}
-      startIcon={authenticatorIcon === 'nfc_pin' ? (
-        <NfcPinIcon
-          name="mfa-nfc-pin"
-          description={iconDescription}
-          width={tokens.Spacing5}
-          height={tokens.Spacing5}
-        />
-      ) : (
+      startIcon={(
         <OktaVerifyIcon
           name="mfa-okta-verify"
           description={iconDescription}

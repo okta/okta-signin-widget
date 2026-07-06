@@ -21,9 +21,6 @@ import {
 } from '../../types';
 import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../util';
 
-/**
- * Gets the title based on challenge method (matches FastPass pattern).
- */
 const getTitle = (challengeMethod: string): string => {
   switch (challengeMethod) {
     case 'APP_LINK':
@@ -36,9 +33,6 @@ const getTitle = (challengeMethod: string): string => {
   }
 };
 
-/**
- * Gets the description/prompt based on challenge method (matches FastPass pattern).
- */
 const getDescription = (challengeMethod: string): string => {
   switch (challengeMethod) {
     case 'APP_LINK':
@@ -53,8 +47,8 @@ const getDescription = (challengeMethod: string): string => {
 
 /**
  * NFC PIN device challenge transformer.
- * Renders the "Click Open Okta Verify on the browser prompt" screen
- * while SIW polls for NFC card verification/enrollment completion.
+ * Matches FastPass CUSTOM_URI behavior: auto-launches OV on mount,
+ * shows "Click Open Okta Verify on the browser prompt" screen.
  */
 export const transformNfcPinDeviceChallenge: IdxStepTransformer = ({ transaction, formBag }) => {
   const { uischema } = formBag;
@@ -65,17 +59,13 @@ export const transformNfcPinDeviceChallenge: IdxStepTransformer = ({ transaction
 
   const titleElement: TitleElement = {
     type: 'Title',
-    options: {
-      content: getTitle(challengeMethod),
-    },
+    options: { content: getTitle(challengeMethod) },
   };
 
   const descriptionElement: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
-    options: {
-      content: getDescription(challengeMethod),
-    },
+    options: { content: getDescription(challengeMethod) },
   };
 
   const openOktaVerifyButton: OpenOktaVerifyFPButtonElement = {
@@ -90,9 +80,7 @@ export const transformNfcPinDeviceChallenge: IdxStepTransformer = ({ transaction
   const downloadTitle: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
-    options: {
-      content: loc('customUri.required.content.download.title', 'login'),
-    },
+    options: { content: loc('customUri.required.content.download.title', 'login') },
   };
 
   const downloadLink: LinkElement = {
@@ -104,7 +92,6 @@ export const transformNfcPinDeviceChallenge: IdxStepTransformer = ({ transaction
     },
   };
 
-  // "Verify with something else" link
   const hasMinAuthOptions = hasMinAuthenticatorOptions(
     transaction,
     IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
@@ -112,7 +99,7 @@ export const transformNfcPinDeviceChallenge: IdxStepTransformer = ({ transaction
   );
   const selectVerifyStep = transaction.availableSteps
     ?.find(({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE);
-  const selectLink: LinkElement = {
+  const selectLink: LinkElement | undefined = (selectVerifyStep && hasMinAuthOptions) ? {
     type: 'Link',
     contentType: 'footer',
     options: {
@@ -125,7 +112,7 @@ export const transformNfcPinDeviceChallenge: IdxStepTransformer = ({ transaction
         updateTransactionWithNextStep(transaction, selectVerifyStep, widgetContext);
       },
     },
-  };
+  } : undefined;
 
   const cancelLink: LinkElement = {
     type: 'Link',
@@ -137,14 +124,13 @@ export const transformNfcPinDeviceChallenge: IdxStepTransformer = ({ transaction
     },
   };
 
-  // Build UI matching FastPass custom URI pattern
   uischema.elements = [
     titleElement,
     descriptionElement,
     openOktaVerifyButton,
     downloadTitle,
     downloadLink,
-    ...(selectVerifyStep && hasMinAuthOptions ? [selectLink] : []),
+    ...(selectLink ? [selectLink] : []),
     cancelLink,
   ];
 

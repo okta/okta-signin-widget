@@ -14,4 +14,5 @@ export { transformNfcPinChallenge } from './transformNfcPinChallenge';
 export { transformNfcPinCreate } from './transformNfcPinCreate';
 export { transformNfcPinDeviceChallenge } from './transformNfcPinDeviceChallenge';
 export { transformNfcPinEnroll } from './transformNfcPinEnroll';
+export { transformNfcPinLaunchAuthenticator } from './transformNfcPinLaunchAuthenticator';
 export { transformNfcPinVerify } from './transformNfcPinVerify';

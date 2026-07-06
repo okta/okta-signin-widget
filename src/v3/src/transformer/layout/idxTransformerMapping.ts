@@ -90,7 +90,7 @@ import {
 } from './securityQuestion';
 import { transformSymantecVipAuthenticator } from './symantecVip';
 import { transformTacAuthenticator } from './tac';
-import { transformNfcPinChallenge, transformNfcPinDeviceChallenge, transformNfcPinEnroll } from '../nfcPin';
+import { transformNfcPinChallenge, transformNfcPinDeviceChallenge, transformNfcPinEnroll, transformNfcPinLaunchAuthenticator } from '../nfcPin';
 import { transformUnlockAccount } from './unlockAccount';
 
 const IdentifyTransformerSettings = {
@@ -474,6 +474,15 @@ const TransformerMap: {
   [IDX_STEP.LAUNCH_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformOktaVerifyFPLaunchAuthenticator,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+      },
+    },
+  },
+  [IDX_STEP.LAUNCH_NFC_AUTHENTICATOR]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformNfcPinLaunchAuthenticator,
       buttonConfig: {
         showDefaultSubmit: false,
         showDefaultCancel: false,

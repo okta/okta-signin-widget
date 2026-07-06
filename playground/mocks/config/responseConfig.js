@@ -1189,7 +1189,12 @@ const smartCardEnrollOrVerify = {
 
 const redirectOnPoll = {  
   '/idp/idx/introspect': [
-    'authenticator-verification-email',
+    // 'enroll-ov-with-error',
+    // 'enroll-ov-with-error1',
+    // 'enroll-ov-with-error2',
+    // 'enroll-ov-with-error3',
+    // 'authenticator-verification-idp-with-persona',
+    'authenticator-verification-idp-with-customIDV',
     // 'authenticator-verification-data-okta-verify-push-autoChallenge-off',
   ],
   '/idp/idx/challenge': [
@@ -1224,7 +1229,7 @@ const appleSSOE = {
 
 const temporaryAccessCode = {
   '/idp/idx/introspect': [
-    'authenticator-verification-select-authenticator',
+    'authenticator-verification-idp-with-OIN',
   ],
   '/idp/idx/challenge': [
     'authenticator-verification-tac',
@@ -1235,7 +1240,73 @@ const temporaryAccessCode = {
   ],
 };
 
+// NFC PIN authenticator enrollment flow
+const nfcPinEnroll = {
+  '/oauth2/default/.well-known/openid-configuration': [
+    'well-known-openid-configuration'
+  ],
+  '/oauth2/default/v1/interact': [
+    'interact'
+  ],
+  '/idp/idx/introspect': [
+    'identify-with-nfc-launch-authenticator',       // Identify page with "Sign in with NFC" button
+  ],
+  '/idp/idx/identify': [
+    'authenticator-enroll-nfc-pin-device-challenge',
+  ],
+  '/idp/idx/challenge/answer': [
+    'authenticator-enroll-nfc-pin-device-challenge',     // → Phase 2: launches OV, polls
+    'authenticator-enroll-nfc-pin-success',              // → PIN submitted, success
+  ],
+  '/idp/idx/authenticators/nfc/launch': [
+    'authenticator-verification-nfc-pin-device-challenge',  // NFC launch → device challenge poll
+  ],
+  '/idp/idx/credential/enroll': [
+    'authenticator-enroll-nfc-pin-device-challenge',     // select-authenticator-enroll → Phase 2
+  ],
+  '/idp/idx/authenticators/poll': [
+    'authenticator-enroll-nfc-pin-device-challenge',     // 1st poll: still waiting for NFC card
+    'authenticator-enroll-nfc-pin-device-challenge',     // 2nd poll: still waiting
+    'authenticator-enroll-nfc-pin-pin-creation',         // 3rd poll: card enrolled → PIN creation
+  ],
+  '/idp/idx/authenticators/poll/cancel': [
+    'identify',
+  ],
+  '/idp/idx/cancel': [
+    'identify',
+  ],
+};
+
+// NFC PIN authenticator verification flow
+const nfcPinVerify = {
+  '/oauth2/default/.well-known/openid-configuration': [
+    'well-known-openid-configuration'
+  ],
+  '/oauth2/default/v1/interact': [
+    'interact'
+  ],
+  '/idp/idx/introspect': [
+    'authenticator-verification-nfc-pin', // Go directly to card verified → PIN entry (challenge-authenticator)
+    // 'authenticator-verification-nfc-pin-device-challenge',  // Go directly to NFC device challenge (challenge-poll)
+  ],
+  '/idp/idx/identify': [
+    'authenticator-verification-nfc-pin-device-challenge',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'authenticator-verification-nfc-pin-polling',    // 1st poll: still waiting for NFC card
+    'authenticator-verification-nfc-pin',            // 2nd poll: card verified → PIN entry (challenge-authenticator)
+  ],
+  '/idp/idx/challenge/answer': [
+    'authenticator-verification-nfc-pin-success',
+  ],
+  '/idp/idx/cancel': [
+    'identify',
+  ],
+};
+
 module.exports = {
-  mocks: idx,
+  mocks: nfcPinVerify,
+  // mocks: nfcPinEnroll,
+  // mocks: temporaryAccessCode,
   // mocks: Test.ChallengeAuthenticatorEmail.networkFailurePollingMock
 };
