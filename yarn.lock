@@ -6778,10 +6778,10 @@ ajv@^8.0.0, ajv@^8.0.1, ajv@^8.8.0:
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-altcha@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/altcha/-/altcha-1.4.2.tgz#a7feb7a7e7eec35d1496e5980a57f304224f0c39"
-  integrity sha512-7UcWh4tHWqP5YHo+jC8vmm+sThYUi1R9qXsiiXtmdoOiimfA0LCLccSKqYSoDmYvqq+CBV79WpQVWafKQCKHmw==
+altcha@2.3.0:
+  version "2.3.0"
+  resolved "https://registry.npmjs.org/altcha/-/altcha-2.3.0.tgz#4433f0206ccc4207624821d1acad12292cecb016"
+  integrity sha512-vl8I0dQvSQB7/Mx09XuWZ1+LdSP7vEda6OLbg9kUQ2ZO2LT7MzgUyLK7Iips+GAV6c0ntVcS1XWOqhEPpwbDhQ==
   dependencies:
     "@altcha/crypto" "^0.0.1"
   optionalDependencies:
