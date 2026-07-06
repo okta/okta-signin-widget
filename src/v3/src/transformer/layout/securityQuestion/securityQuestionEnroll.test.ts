@@ -135,7 +135,7 @@ describe('SecurityQuestionEnroll Tests', () => {
     expect((layoutOne.elements[3] as FieldElement).noTranslate)
       .toBe(true);
     expect((layoutOne.elements[4] as ButtonElement).label)
-      .toBe('mfa.challenge.verify');
+      .toBe('oie.enroll.authenticator.button.text');
     expect((layoutOne.elements[4] as ButtonElement).options.includeImmutableData)
       .toBe(false);
     expect((layoutOne.elements[4] as ButtonElement).options.type)
@@ -162,7 +162,7 @@ describe('SecurityQuestionEnroll Tests', () => {
     expect((layoutOne.elements[3] as FieldElement).noTranslate)
       .toBe(true);
     expect((layoutTwo.elements[4] as ButtonElement).label)
-      .toBe('mfa.challenge.verify');
+      .toBe('oie.enroll.authenticator.button.text');
     expect((layoutTwo.elements[4] as ButtonElement).options.actionParams)
       .toEqual({ 'credentials.questionKey': 'custom' });
     expect((layoutTwo.elements[4] as ButtonElement).options.type)

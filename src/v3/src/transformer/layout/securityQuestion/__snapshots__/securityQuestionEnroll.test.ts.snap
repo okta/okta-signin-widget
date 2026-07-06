@@ -96,7 +96,7 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "label": "mfa.challenge.verify",
+                "label": "oie.enroll.authenticator.button.text",
                 "options": Object {
                   "includeImmutableData": false,
                   "step": "",
@@ -164,7 +164,7 @@ Object {
                 "viewIndex": 1,
               },
               Object {
-                "label": "mfa.challenge.verify",
+                "label": "oie.enroll.authenticator.button.text",
                 "options": Object {
                   "actionParams": Object {
                     "credentials.questionKey": "custom",

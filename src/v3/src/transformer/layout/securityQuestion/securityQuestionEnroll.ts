@@ -98,7 +98,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
 
   const predefinedSubmitButton: ButtonElement = {
     type: 'Button',
-    label: loc('mfa.challenge.verify', 'login'),
+    label: loc('oie.enroll.authenticator.button.text', 'login'),
     options: {
       type: ButtonType.SUBMIT,
       step: transaction.nextStep!.name,
@@ -108,7 +108,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
 
   const customQuestionSubmitButton: ButtonElement = {
     type: 'Button',
-    label: loc('mfa.challenge.verify', 'login'),
+    label: loc('oie.enroll.authenticator.button.text', 'login'),
     options: {
       type: ButtonType.SUBMIT,
       step: transaction.nextStep!.name,

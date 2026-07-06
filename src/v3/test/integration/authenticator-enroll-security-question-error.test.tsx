@@ -66,7 +66,7 @@ describe('authenticator-enroll-security-question-error', () => {
       } = await setup({ mockRequestClient: mockRequestClientWithError });
 
       expect(await findByText(/Set up security question/)).toBeInTheDocument();
-      const submitButton = await findByText('Verify', { selector: 'button' });
+      const submitButton = await findByText('Set up', { selector: 'button' });
       const answerEle = await findByLabelText('Answer') as HTMLInputElement;
 
       const answer = 'pi';
@@ -95,7 +95,7 @@ describe('authenticator-enroll-security-question-error', () => {
       } = await setup({ mockRequestClient: mockRequestClientWithError });
 
       expect(await findByText(/Set up security question/)).toBeInTheDocument();
-      const submitButton = await findByText('Verify', { selector: 'button' });
+      const submitButton = await findByText('Set up', { selector: 'button' });
       const answerEle = await findByLabelText('Answer') as HTMLInputElement;
 
       const answer = 'pi';
@@ -112,7 +112,7 @@ describe('authenticator-enroll-security-question-error', () => {
         }),
       );
       await waitFor(() => expect(answerEle).toHaveErrorMessage(/The security question answer must be at least 4 characters in length/));
-      await user.click(await findByText('Verify', { selector: 'button' }));
+      await user.click(await findByText('Set up', { selector: 'button' }));
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
         ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
           credentials: {
@@ -133,7 +133,7 @@ describe('authenticator-enroll-security-question-error', () => {
       } = await setup({ mockRequestClient: mockRequestClientWithError });
 
       expect(await findByText(/Set up security question/)).toBeInTheDocument();
-      const submitButton = await findByText('Verify', { selector: 'button' });
+      const submitButton = await findByText('Set up', { selector: 'button' });
       const answerEle = await findByLabelText('Answer') as HTMLInputElement;
 
       const answer = 'pi';
@@ -165,7 +165,7 @@ describe('authenticator-enroll-security-question-error', () => {
       expect(customQuestionEle.value).toBe(customQuestion);
       expect(customQuestionAnswerEle.value).toBe(answer);
 
-      await user.click(await findByText('Verify', { selector: 'button' }));
+      await user.click(await findByText('Set up', { selector: 'button' }));
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
         ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
           credentials: {
@@ -187,7 +187,7 @@ describe('authenticator-enroll-security-question-error', () => {
       await user.type(restoredAnswerEle, answer);
       expect(restoredAnswerEle.value).toEqual(answer);
 
-      await user.click(await findByText('Verify', { selector: 'button' }));
+      await user.click(await findByText('Set up', { selector: 'button' }));
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
         ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
           credentials: {
@@ -199,7 +199,7 @@ describe('authenticator-enroll-security-question-error', () => {
       expect((await findByLabelText('Answer') as HTMLInputElement).value).toBe(answer);
       await waitFor(() => expect(restoredAnswerEle).toHaveErrorMessage(/The security question answer must be at least 4 characters in length/));
       expect(container).toMatchSnapshot();
-      await user.click(await findByText('Verify', { selector: 'button' }));
+      await user.click(await findByText('Set up', { selector: 'button' }));
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
         ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
           credentials: {
@@ -222,7 +222,7 @@ describe('authenticator-enroll-security-question-error', () => {
       // switch to custom question form
       await user.click(await findByLabelText(/Create my own security question/));
 
-      const submitButton = await findByText('Verify', { selector: 'button' });
+      const submitButton = await findByText('Set up', { selector: 'button' });
       const answerEle = await findByLabelText('Answer') as HTMLInputElement;
       const customQuestionEle = await findByRole('textbox', { name: 'Create my own security question' }) as HTMLInputElement;
 
