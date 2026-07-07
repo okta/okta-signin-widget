@@ -30,10 +30,7 @@ import { transformNfcPinCreate } from './transformNfcPinCreate';
 const transformDeviceChallengePoll: IdxStepTransformer = ({ formBag, transaction }) => {
   const { uischema } = formBag;
 
-  // @ts-expect-error contextualData is not fully typed
-  const contextualData = transaction.nextStep?.relatesTo?.value?.contextualData
-    // @ts-expect-error rawIdxState is not fully typed — fallback when enroll-poll has no relatesTo
-    || transaction.rawIdxState?.currentAuthenticator?.value?.contextualData;
+  const contextualData = transaction.rawIdxState?.currentAuthenticator?.value?.contextualData;
   const setupNfcUrl = contextualData?.setupNfcUrl;
   const downloadHref = 'https://apps.apple.com/us/app/okta-verify/id490179405';
 

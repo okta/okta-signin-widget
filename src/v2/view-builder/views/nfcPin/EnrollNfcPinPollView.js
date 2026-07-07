@@ -9,16 +9,14 @@ const Body = BaseOktaVerifyChallengeView.extend({
   pollingCancelAction: CANCEL_POLLING_ACTION,
 
   getDeviceChallengePayload() {
-    // For enrollment, contextualData has setupNfcUrl — map to challengeMethod/href format
-    const contextualData = this.options.currentViewState.relatesTo?.value?.contextualData;
+    const contextualData = this.options.appState.get('currentAuthenticator')?.contextualData;
     if (contextualData?.setupNfcUrl) {
       return {
         challengeMethod: 'CUSTOM_URI',
         href: contextualData.setupNfcUrl,
       };
     }
-    return contextualData?.challenge?.value
-      || this.options.currentViewState.relatesTo?.value;
+    return contextualData?.challenge?.value || {};
   },
 
   doChallenge() {
