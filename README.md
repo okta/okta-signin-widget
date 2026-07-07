@@ -1228,6 +1228,8 @@ transformUsername: (username, operation) => {
 
 ### Registration
 
+> **Note for Okta-hosted sign-in pages:** To enable the registration feature, see [Feature flags](#feature-flags) for the correct method of setting individual feature flags without removing Okta's runtime defaults.
+
 Callback functions can be provided which will be called at specific moments in the registration process.
 
 ```javascript
@@ -1395,6 +1397,15 @@ features: {
   rememberMe: true
 }
 ```
+
+> **Note for Okta-hosted sign-in pages:** If you are customizing the Okta-hosted sign-in page, do **not** override the entire `features` object (for example, `config.features = { registration: true }`). The Okta-hosted page injects runtime defaults required for certain flows, such as the password-reset email link. Set individual flags instead on the config object returned by `OktaUtil.getSignInWidgetConfig()`:
+>
+> ```javascript
+> var config = OktaUtil.getSignInWidgetConfig();
+> config['features.registration'] = true;
+> // or: config.features.registration = true;
+> // Then pass config to OktaSignIn as usual
+> ```
 
 #### features.showPasswordToggleOnSignInPage
 
