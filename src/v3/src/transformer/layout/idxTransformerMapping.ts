@@ -430,6 +430,14 @@ const TransformerMap: {
       transform: transformOktaVerifyEnrollPoll,
       buttonConfig: { showDefaultSubmit: false },
     },
+    [AUTHENTICATOR_KEY.NFC_PIN]: {
+      transform: transformNfcPinEnroll,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showReturnToAuthListLink: false,
+      },
+    },
   },
   [IDX_STEP.ENROLL_PROFILE]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
