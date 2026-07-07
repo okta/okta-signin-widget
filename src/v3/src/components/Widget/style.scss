@@ -3,6 +3,8 @@
 @use 'sass:map';
 @import '@okta/odyssey-design-tokens/dist/index.scss';
 
+@import 'altcha/dist_external/altcha';
+
 @font-face {
   font-family: 'Inter';
   src: url('../font/inter-latin-400-normal.woff2') format('woff2');
