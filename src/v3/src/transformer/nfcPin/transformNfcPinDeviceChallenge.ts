@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IDX_STEP } from '../../constants';
+import { CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import {
   DescriptionElement,
   IdxStepTransformer,
@@ -20,6 +20,7 @@ import {
   TitleElement,
 } from '../../types';
 import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../util';
+import { transformOktaVerifyFPLoopbackPoll } from '../layout/oktaVerify';
 
 const getTitle = (challengeMethod: string): string => {
   switch (challengeMethod) {
@@ -50,12 +51,18 @@ const getDescription = (challengeMethod: string): string => {
  * Matches FastPass CUSTOM_URI behavior: auto-launches OV on mount,
  * shows "Click Open Okta Verify on the browser prompt" screen.
  */
-export const transformNfcPinDeviceChallenge: IdxStepTransformer = ({ transaction, formBag }) => {
+export const transformNfcPinDeviceChallenge: IdxStepTransformer = (params) => {
+  const { transaction, formBag } = params;
   const { uischema } = formBag;
 
   // @ts-expect-error contextualData is not fully typed
   const challengeData = transaction.nextStep?.relatesTo?.value?.contextualData?.challenge?.value;
   const { challengeMethod, href, downloadHref } = challengeData;
+
+  // Reuse FastPass loopback transformer for LOOPBACK challenge method
+  if (challengeMethod === CHALLENGE_METHOD.LOOPBACK) {
+    return transformOktaVerifyFPLoopbackPoll(params);
+  }
 
   const titleElement: TitleElement = {
     type: 'Title',

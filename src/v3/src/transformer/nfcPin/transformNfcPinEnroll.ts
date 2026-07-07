@@ -11,8 +11,6 @@
  */
 
 import {
-  ButtonElement,
-  ButtonType,
   DescriptionElement,
   FieldElement,
   IdxStepTransformer,
@@ -25,56 +23,7 @@ import { getUIElementWithName } from '../utils';
 import { transformNfcPinCreate } from './transformNfcPinCreate';
 
 /**
- * Determines if the enrollment response includes the OV launch URL (polling phase)
- * or is the initial setup screen.
- */
-const isDeviceChallengePhase = (transaction: Parameters<IdxStepTransformer>[0]['transaction']): boolean => {
-  // @ts-expect-error contextualData is not fully typed
-  const contextualData = transaction.nextStep?.relatesTo?.value?.contextualData;
-  return !!contextualData?.setupNfcUrl;
-};
-
-/**
- * Phase 1: Setup instructions — "Set up NFC" with button to proceed.
- */
-const transformSetupInstructions: IdxStepTransformer = ({ formBag, transaction }) => {
-  const { uischema } = formBag;
-
-  const titleElement: TitleElement = {
-    type: 'Title',
-    options: {
-      content: loc('oie.enroll.nfc_pin.title', 'login'),
-    },
-  };
-
-  const instructionsElement: DescriptionElement = {
-    type: 'Description',
-    contentType: 'subtitle',
-    options: {
-      content: loc('oie.enroll.nfc_pin.instructions', 'login'),
-    },
-  };
-
-  const openOktaVerifyButton: ButtonElement = {
-    type: 'Button',
-    label: loc('oie.enroll.nfc_pin.openOktaVerify', 'login'),
-    options: {
-      type: ButtonType.SUBMIT,
-      step: transaction.nextStep!.name,
-    },
-  };
-
-  uischema.elements = [
-    titleElement,
-    instructionsElement,
-    openOktaVerifyButton,
-  ];
-
-  return formBag;
-};
-
-/**
- * Phase 2: Device challenge polling — OV auto-launches via setupNfcUrl.
+ * Phase 1 (device challenge polling) — OV auto-launches via setupNfcUrl.
  * Shows the standard "Click Open Okta Verify on the browser prompt" screen
  * while SIW polls for card enrollment completion.
  */
@@ -150,15 +99,14 @@ const transformDeviceChallengePoll: IdxStepTransformer = ({ formBag, transaction
 
 /**
  * NFC PIN enrollment transformer.
- * Handles three phases:
- * - Phase 1 (no setupNfcUrl, no passcode): "Set up NFC" instructions + "Open Okta Verify" button
- * - Phase 2 (has setupNfcUrl): Device challenge polling — auto-launches OV, polls
- * - Phase 3 (has passcode field): PIN creation — "Choose a PIN" with requirements
+ * Handles two phases:
+ * - Phase 1 (has setupNfcUrl, no passcode): Device challenge — auto-launches OV via CUS, polls
+ * - Phase 2 (has passcode field): PIN creation — "Choose a PIN" with requirements
  */
 export const transformNfcPinEnroll: IdxStepTransformer = (params) => {
-  const { transaction, formBag } = params;
+  const { formBag } = params;
 
-  // Phase 3: PIN creation (credentials.passcode field exists)
+  // Phase 2: PIN creation (credentials.passcode field exists)
   const passcodeElement = getUIElementWithName(
     'credentials.passcode',
     formBag.uischema.elements as FieldElement[],
@@ -167,11 +115,6 @@ export const transformNfcPinEnroll: IdxStepTransformer = (params) => {
     return transformNfcPinCreate(params);
   }
 
-  // Phase 2: Device challenge (setupNfcUrl exists)
-  if (isDeviceChallengePhase(transaction)) {
-    return transformDeviceChallengePoll(params);
-  }
-
-  // Phase 1: Setup instructions
-  return transformSetupInstructions(params);
+  // Phase 1: Device challenge (go directly, no setup instructions screen)
+  return transformDeviceChallengePoll(params);
 };

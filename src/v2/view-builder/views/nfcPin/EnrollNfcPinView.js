@@ -8,26 +8,7 @@ import Link from '../../components/Link';
 import { generatePasswordPolicyHtml } from '../password/PasswordPolicyUtil';
 
 /**
- * Phase 1: Setup instructions — "Set up NFC" + "Open Okta Verify" button
- */
-const SetupBody = BaseForm.extend({
-  className: 'nfc-pin-enroll',
-
-  title: function() {
-    return loc('oie.enroll.nfc_pin.title', 'login');
-  },
-
-  subtitle: function() {
-    return loc('oie.enroll.nfc_pin.instructions', 'login');
-  },
-
-  save: function() {
-    return loc('oie.enroll.nfc_pin.openOktaVerify', 'login');
-  },
-});
-
-/**
- * Phase 2: Device challenge — launches OV via setupNfcUrl, polls
+ * Phase 1: Device challenge — launches OV via setupNfcUrl, polls
  */
 const DeviceChallengeBody = BaseOktaVerifyChallengeView.extend({
   pollingCancelAction: CANCEL_POLLING_ACTION,
@@ -192,22 +173,14 @@ export default BaseAuthenticatorView.extend({
       return field.name === 'credentials.passcode';
     });
 
-    const authenticator = appState.get('currentAuthenticator')
-      || appState.get('currentAuthenticatorEnrollment');
-    const hasSetupNfcUrl = !!(authenticator?.contextualData?.setupNfcUrl);
-
     if (hasPinField) {
-      // Phase 3: PIN creation
+      // Phase 2: PIN creation
       this.Body = PinCreateBody;
       this.Footer = DefaultFooter;
-    } else if (hasSetupNfcUrl) {
-      // Phase 2: Device challenge (same enroll-authenticator step, detected by setupNfcUrl)
+    } else {
+      // Phase 1: Device challenge — go directly, no setup instructions screen
       this.Body = DeviceChallengeBody;
       this.Footer = DeviceChallengeFooter;
-    } else {
-      // Phase 1: Setup instructions
-      this.Body = SetupBody;
-      this.Footer = DefaultFooter;
     }
   },
 });
