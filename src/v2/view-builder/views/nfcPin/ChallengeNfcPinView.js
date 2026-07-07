@@ -10,8 +10,6 @@ import Link from '../../components/Link';
  * Matches FastPass CUSTOM_URI behavior: auto-launches OV, shows "Click Open Okta Verify" screen.
  */
 const DeviceChallengeBody = BaseOktaVerifyChallengeView.extend({
-  pollingCancelAction: CANCEL_POLLING_ACTION,
-
   getDeviceChallengePayload: function() {
     const authenticator = this.options.appState.get('currentAuthenticatorEnrollment')
       || this.options.appState.get('currentAuthenticator');
