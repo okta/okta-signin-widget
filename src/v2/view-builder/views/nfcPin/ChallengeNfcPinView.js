@@ -2,8 +2,7 @@ import { loc } from '@okta/courage';
 import { BaseFooter, BaseForm, BaseOktaVerifyChallengeView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { getFactorPageCustomLink, getSwitchAuthenticatorLink } from '../../utils/LinksUtil';
-import { doChallenge, cancelPollingWithParams } from '../../utils/ChallengeViewUtil';
-import { CANCEL_POLLING_ACTION, AUTHENTICATION_CANCEL_REASONS } from '../../utils/Constants';
+import { doChallenge } from '../../utils/ChallengeViewUtil';
 import Link from '../../components/Link';
 
 /**
@@ -55,15 +54,10 @@ const DeviceChallengeFooter = BaseFooter.extend({
   initialize: function() {
     this.add(Link, {
       options: {
-        name: 'cancel-authenticator-challenge',
-        label: loc('loopback.polling.cancel.link', 'login'),
+        name: 'cancel',
+        label: loc('goback', 'login'),
         clickHandler: () => {
-          cancelPollingWithParams(
-            this.options.appState,
-            CANCEL_POLLING_ACTION,
-            AUTHENTICATION_CANCEL_REASONS.USER_CANCELED,
-            null
-          );
+          this.options.appState.trigger('invokeAction', 'cancel');
         },
       }
     });

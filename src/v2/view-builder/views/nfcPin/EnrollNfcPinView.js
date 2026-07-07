@@ -2,8 +2,8 @@ import { loc } from '@okta/courage';
 import { BaseForm, BaseFooter, BaseOktaVerifyChallengeView, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { getFactorPageCustomLink } from '../../utils/LinksUtil';
-import { doChallenge, cancelPollingWithParams } from '../../utils/ChallengeViewUtil';
-import { CANCEL_POLLING_ACTION, AUTHENTICATION_CANCEL_REASONS } from '../../utils/Constants';
+import { doChallenge } from '../../utils/ChallengeViewUtil';
+import { AUTHENTICATOR_CANCEL_ACTION } from '../../utils/Constants';  // used by DeviceChallengeBody.pollingCancelAction
 import Link from '../../components/Link';
 import { generatePasswordPolicyHtml } from '../password/PasswordPolicyUtil';
 
@@ -11,7 +11,7 @@ import { generatePasswordPolicyHtml } from '../password/PasswordPolicyUtil';
  * Phase 1: Device challenge — launches OV via setupNfcUrl, polls
  */
 const DeviceChallengeBody = BaseOktaVerifyChallengeView.extend({
-  pollingCancelAction: CANCEL_POLLING_ACTION,
+  pollingCancelAction: AUTHENTICATOR_CANCEL_ACTION,
 
   getDeviceChallengePayload: function() {
     const authenticator = this.options.appState.get('currentAuthenticator')
@@ -92,15 +92,10 @@ const DeviceChallengeFooter = BaseFooter.extend({
   initialize: function() {
     this.add(Link, {
       options: {
-        name: 'cancel-authenticator-challenge',
+        name: 'cancel',
         label: loc('goback', 'login'),
         clickHandler: () => {
-          cancelPollingWithParams(
-            this.options.appState,
-            CANCEL_POLLING_ACTION,
-            AUTHENTICATION_CANCEL_REASONS.USER_CANCELED,
-            null
-          );
+          this.options.appState.trigger('invokeAction', 'cancel');
         },
       }
     });
