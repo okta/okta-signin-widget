@@ -1260,7 +1260,7 @@ const nfcPinEnroll = {
     'authenticator-enroll-nfc-pin-pin-creation',      // 3rd poll: card enrolled → PIN creation
   ],
   '/idp/idx/challenge/answer': [
-    'authenticator-enroll-nfc-pin-success',            // PIN submitted → success (select-authenticator-enroll for remaining)
+    'authenticator-enroll-nfc-pin-success', // PIN submitted → success (select-authenticator-enroll for remaining)
   ],
   '/idp/idx/authenticators/poll/cancel': [
     'identify',
