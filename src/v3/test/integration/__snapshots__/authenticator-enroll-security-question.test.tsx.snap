@@ -378,7 +378,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                           tabindex="0"
                           type="submit"
                         >
-                          Verify
+                          Set up
                         </button>
                       </div>
                     </div>
@@ -736,7 +736,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                           tabindex="0"
                           type="submit"
                         >
-                          Verify
+                          Set up
                         </button>
                       </div>
                     </div>
@@ -1207,7 +1207,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                           tabindex="0"
                           type="submit"
                         >
-                          Verify
+                          Set up
                         </button>
                       </div>
                     </div>
@@ -1678,7 +1678,7 @@ exports[`authenticator-enroll-security-question predefined question should rende
                           tabindex="0"
                           type="submit"
                         >
-                          Verify
+                          Set up
                         </button>
                       </div>
                     </div>

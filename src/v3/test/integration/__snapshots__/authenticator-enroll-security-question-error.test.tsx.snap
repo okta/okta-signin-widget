@@ -378,7 +378,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                           tabindex="0"
                           type="submit"
                         >
-                          Verify
+                          Set up
                         </button>
                       </div>
                     </div>
@@ -909,7 +909,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           tabindex="0"
                           type="submit"
                         >
-                          Verify
+                          Set up
                         </button>
                       </div>
                     </div>
@@ -1440,7 +1440,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           tabindex="0"
                           type="submit"
                         >
-                          Verify
+                          Set up
                         </button>
                       </div>
                     </div>
@@ -1971,7 +1971,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           tabindex="0"
                           type="submit"
                         >
-                          Verify
+                          Set up
                         </button>
                       </div>
                     </div>

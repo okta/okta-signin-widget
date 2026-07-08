@@ -47,7 +47,7 @@ describe('authenticator-enroll-security-question', () => {
 
       await findByText(/Set up security question/);
 
-      const submitButton = await findByText('Verify', { selector: 'button' });
+      const submitButton = await findByText('Set up', { selector: 'button' });
       const answerEle = await findByLabelText('Answer') as HTMLInputElement;
 
       const answer = 'pizza';
@@ -73,7 +73,7 @@ describe('authenticator-enroll-security-question', () => {
       } = await setup({ mockResponse });
 
       await findByText(/Set up security question/);
-      await user.click(await findByText('Verify', { selector: 'button' }));
+      await user.click(await findByText('Set up', { selector: 'button' }));
 
       // assert no network request
       expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
@@ -91,7 +91,7 @@ describe('authenticator-enroll-security-question', () => {
       } = await setup({ mockResponse });
 
       await findByText(/Set up security question/);
-      await user.click(await findByText('Verify', { selector: 'button' }));
+      await user.click(await findByText('Set up', { selector: 'button' }));
 
       // switch to custom question form
       user.click(await findByLabelText(/Create my own security question/));
@@ -132,7 +132,7 @@ describe('authenticator-enroll-security-question', () => {
 
       const customQuestionEle = await findByRole('textbox', { name: 'Create my own security question' }) as HTMLInputElement;
       const answerEle = await findByLabelText('Answer') as HTMLInputElement;
-      const submitButton = await findByText('Verify', { selector: 'button' });
+      const submitButton = await findByText('Set up', { selector: 'button' });
 
       const question = 'What is the meaning of life?';
       const answer = '42';
@@ -174,7 +174,7 @@ describe('authenticator-enroll-security-question', () => {
       await user.type(answerEle, answer);
       expect(answerEle.value).toBe(answer);
       expect(questionEle.value).toBe('');
-      await user.click(await findByText('Verify', { selector: 'button' }));
+      await user.click(await findByText('Set up', { selector: 'button' }));
 
       // assert no network request
       expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
@@ -204,7 +204,7 @@ describe('authenticator-enroll-security-question', () => {
       const question = 'What is the meaning of life?';
       await user.type(customQuestionEle, question);
       expect(customQuestionEle.value).toEqual(question);
-      await user.click(await findByText('Verify', { selector: 'button' }));
+      await user.click(await findByText('Set up', { selector: 'button' }));
 
       // assert no network request
       expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
@@ -230,7 +230,7 @@ describe('authenticator-enroll-security-question', () => {
       // switch to custom question form
       user.click(await findByLabelText(/Create my own security question/));
 
-      await user.click(await findByText('Verify', { selector: 'button' }));
+      await user.click(await findByText('Set up', { selector: 'button' }));
       expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
       // assert global alert
       const [globalError] = await findAllByRole('alert');
@@ -249,7 +249,7 @@ describe('authenticator-enroll-security-question', () => {
 
       // switch to custom question form
       user.click(await findByLabelText(/Create my own security question/));
-      await user.click(await findByText('Verify', { selector: 'button' }));
+      await user.click(await findByText('Set up', { selector: 'button' }));
 
       // switch to predefined question form
       user.click(await findByLabelText(/Choose a security question/));

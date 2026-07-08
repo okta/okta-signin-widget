@@ -63,6 +63,9 @@ export default class EnrollSecurityQuestionPageObject extends BasePageObject {
   }
 
   clickVerifyButton() {
+    if (userVariables.gen3) {
+      return this.form.clickButton('Set up');
+    }
     return this.form.clickButton('Verify');
   }
 
