@@ -1,7 +1,7 @@
 import { loc } from '@okta/courage';
 import { BaseForm, BaseFooter, BaseOktaVerifyChallengeView, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import { getFactorPageCustomLink } from '../../utils/LinksUtil';
+import { getFactorPageCustomLink, getSwitchAuthenticatorLink } from '../../utils/LinksUtil';
 import { doChallenge } from '../../utils/ChallengeViewUtil';
 import { AUTHENTICATOR_CANCEL_ACTION } from '../../utils/Constants';  // used by DeviceChallengeBody.pollingCancelAction
 import Link from '../../components/Link';
@@ -104,7 +104,8 @@ const DeviceChallengeFooter = BaseFooter.extend({
 
 const DefaultFooter = BaseFooter.extend({
   links: function() {
-    return getFactorPageCustomLink(this.options.appState, this.options.settings);
+    return getFactorPageCustomLink(this.options.appState, this.options.settings)
+      .concat(getSwitchAuthenticatorLink(this.options.appState));
   },
 });
 
