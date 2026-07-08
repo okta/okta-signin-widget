@@ -156,7 +156,7 @@
     "altcha": "2.3.0",
     "autoprefixer": "^10.3.4",
     "axe-core": "^4.6.3",
-    "axios": "^1.15.0",
+    "axios": "^1.16.0",
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.5",
     "babel-plugin-add-module-exports": "^1.0.4",
