@@ -170,7 +170,7 @@ module.exports = function({
               loader: 'sass-loader',
               options: {
                 sassOptions: {
-                  includePaths: ['target/sass'],
+                  includePaths: ['target/sass', './node_modules'],
                   outputStyle: 'expanded',
                 }
               }

@@ -309,4 +309,64 @@ describe('usePolling', () => {
       expect(pollInFlightRef.current).toBe(true);
     });
   });
+
+  // features.disablePollDuringCancel extends the same shared-ref protocol:
+  // when ON, the reader OR's it into the guard so that a /cancel-claimed
+  // pollInFlightRef also suppresses a racing /poll. Production source of
+  // the truthy ref is LoopbackProbe.cancelHandler claiming the flag before
+  // its /cancel proceed; here we simulate that by pre-seeding the ref.
+  describe('concurrent /poll requests when /cancel has claimed the shared ref', () => {
+    type SetupArgs = {
+      disablePollDuringCancel?: boolean;
+      pollInFlightRef?: MutableRef<boolean>;
+    };
+    const setup = ({ disablePollDuringCancel, pollInFlightRef }: SetupArgs = {}) => {
+      const slowProceed = jest.fn().mockImplementation(
+        () => new Promise(() => { /* never resolves */ }),
+      );
+      const props: Partial<WidgetProps> = {
+        stateToken: 'fake-state-token',
+        authClient: {
+          idx: { proceed: slowProceed },
+        } as unknown as OktaAuth,
+        features: { disablePollDuringCancel },
+      };
+
+      const idxTransaction1 = {
+        nextStep: { name: 'challenge-poll', refresh: 4000 },
+        context: { stateHandle: 'state-handle-abc' },
+      } as unknown as IdxTransaction;
+
+      renderHook(
+        ({ tx }: { tx: IdxTransaction }) => usePolling(tx, props, mockData, pollInFlightRef),
+        { initialProps: { tx: idxTransaction1 } },
+      );
+
+      // advance past the next refresh window — the ref state determines
+      // whether the scheduled proceed() actually fires
+      jest.advanceTimersByTime(4000);
+
+      return { slowProceed };
+    };
+
+    it('FF on, ref pre-claimed (simulates /cancel in flight): suppresses /poll', () => {
+      const pollInFlightRef = { current: true } as MutableRef<boolean>;
+      const { slowProceed } = setup({ disablePollDuringCancel: true, pollInFlightRef });
+      // guard skips because pollInFlightRef.current is true and FF is on
+      expect(slowProceed).not.toHaveBeenCalled();
+      // ref untouched (we did not toggle it from true→true→true)
+      expect(pollInFlightRef.current).toBe(true);
+    });
+
+    it('FF off, ref pre-claimed: regression baseline — /poll still fires', () => {
+      const pollInFlightRef = { current: true } as MutableRef<boolean>;
+      const { slowProceed } = setup({ disablePollDuringCancel: false, pollInFlightRef });
+      // guard does not engage; /poll races with the in-flight /cancel
+      expect(slowProceed).toHaveBeenCalledTimes(1);
+      expect(slowProceed).toHaveBeenNthCalledWith(1, expect.objectContaining({
+        stateHandle: 'state-handle-abc',
+        step: 'challenge-poll',
+      }));
+    });
+  });
 });

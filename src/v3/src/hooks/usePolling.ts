@@ -99,10 +99,12 @@ export const usePolling = (
         payload = { actions: [{ name, params: payload }] };
       }
 
-      // When FF is on and another poll-step `proceed` is in flight, suppress
-      // this one. The recurring cycle resumes naturally after the in-flight
-      // call resolves and updates `transaction`.
-      const guarded = features?.disableConcurrentPolling && isPollingStep(name);
+      // When FF is on and another poll-step `proceed` (or a /cancel from
+      // LoopbackProbe.cancelHandler) is in flight, suppress this one. The
+      // recurring cycle resumes naturally after the in-flight call resolves
+      // and updates `transaction`.
+      const guarded = (features?.disableConcurrentPolling
+        || features?.disablePollDuringCancel) && isPollingStep(name);
       if (guarded && pollInFlightRef?.current) {
         return;
       }
