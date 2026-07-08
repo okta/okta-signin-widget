@@ -350,7 +350,7 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
 
   case AUTHENTICATOR_KEY.NFC_PIN: {Object.assign(authenticatorData, {
     description: isVerifyAuthenticator
-      ? ''
+      ? loc('oie.nfc_pin.verify.description', 'login')
       : loc('oie.nfc_pin.authenticator.description', 'login'),
     iconClassName: 'mfa-nfc-pin',
     buttonDataSeAttr: getButtonDataSeAttr(authenticator),
