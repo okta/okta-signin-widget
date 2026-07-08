@@ -1,8 +1,6 @@
 import { View, createButton, loc } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
-import Util from '../../../../util/Util';
 import { FORMS } from '../../../ion/RemediationConstants';
-import { appendLoginHint } from '../../utils/ChallengeViewUtil';
 import { BaseForm, BaseView } from '../../internals';
 import IdentifierFooter from '../../components/IdentifierFooter';
 
@@ -16,8 +14,6 @@ const SignInWithNfcOption = View.extend({
 
   initialize() {
     const appState = this.options.appState;
-    const nfcRemediation = appState.hasRemediationObject(FORMS.LAUNCH_NFC_AUTHENTICATOR);
-    const deviceChallenge = nfcRemediation?.relatesTo?.value;
 
     this.add(createButton({
       className: 'button',
@@ -27,11 +23,9 @@ const SignInWithNfcOption = View.extend({
           this.options.settings.set('identifier', encodeURIComponent(this.model.get('identifier')));
         }
 
-        Util.callAfterTimeout(() => {
-          appState.trigger('invokeAction', FORMS.LAUNCH_NFC_AUTHENTICATOR, {
-            'rememberMe': this.model.get('rememberMe'),
-          });
-        }, 0);
+        appState.trigger('invokeAction', FORMS.LAUNCH_NFC_AUTHENTICATOR, {
+          'rememberMe': this.model.get('rememberMe'),
+        });
       }
     }), '.nfc-container');
   },

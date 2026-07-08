@@ -11,9 +11,6 @@
           "create-form"
         ],
         "name": "enroll-poll",
-        "relatesTo": [
-          "$.currentAuthenticator"
-        ],
         "href": "http://localhost:3000/idp/idx/challenge/answer",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",

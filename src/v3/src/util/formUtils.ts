@@ -206,7 +206,7 @@ export const getNfcLaunchButtonElement = (
 ) : LaunchAuthenticatorButtonElement[] => {
   const { context, neededToProceed: remediations } = transaction;
   const containsNfcLaunch = remediations.some(
-    (remediation) => remediation.name === 'launch-nfc-authenticator',
+    (remediation) => remediation.name === IDX_STEP.LAUNCH_NFC_AUTHENTICATOR,
   );
 
   if (!containsNfcLaunch) {
@@ -217,7 +217,7 @@ export const getNfcLaunchButtonElement = (
     type: 'LaunchAuthenticatorButton',
     label: loc('oie.nfc_pin.launch.button', 'login'),
     options: {
-      step: 'launch-nfc-authenticator',
+      step: IDX_STEP.LAUNCH_NFC_AUTHENTICATOR,
       i18nKey: 'oie.nfc_pin.launch.button',
       // @ts-expect-error authenticatorChallenge missing from transaction context type
       deviceChallengeUrl: context?.authenticatorChallenge?.value?.href,

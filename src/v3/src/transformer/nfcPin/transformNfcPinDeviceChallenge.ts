@@ -56,7 +56,7 @@ export const transformNfcPinDeviceChallenge: IdxStepTransformer = (params) => {
   const { uischema } = formBag;
 
   // @ts-expect-error contextualData is not fully typed
-  const challengeData = transaction.nextStep?.relatesTo?.value?.contextualData?.challenge?.value;
+  const challengeData = transaction.nextStep?.relatesTo?.value?.contextualData?.challenge?.value ?? {};
   const { challengeMethod, href, downloadHref } = challengeData;
 
   // Reuse FastPass loopback transformer for LOOPBACK challenge method

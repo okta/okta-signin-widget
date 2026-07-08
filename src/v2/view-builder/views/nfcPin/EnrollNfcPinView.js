@@ -144,7 +144,7 @@ export default BaseAuthenticatorView.extend({
 
         // Validate numeric only
         if (pin && !/^\d+$/.test(pin)) {
-          errors['credentials.passcode'] = loc('oie.enroll.nfc_pin.create.requirement.length', 'login', [pinLength]);
+          errors['credentials.passcode'] = loc('oie.enroll.nfc_pin.create.error.numeric', 'login');
         }
 
         // Validate PINs match

@@ -166,8 +166,8 @@
         }
       ],
       "settings": {
-        "minLength": 4,
-        "maxLength": 12
+        "minLength": 8,
+        "maxLength": 8
       }
     }
   },

@@ -29,7 +29,6 @@ import {
 import {
   buildPasswordRequirementNotMetErrorList,
   getUserInfo,
-  hasMinAuthenticatorOptions,
   loc,
   updateTransactionWithNextStep,
   validatePassword,
