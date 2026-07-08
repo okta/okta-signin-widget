@@ -16,6 +16,12 @@ import { isDevelopmentEnvironment, isTestEnvironment } from 'src/util';
 import { AUTHENTICATOR_KEY, CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import { transformIdentify } from '../identify';
 import {
+  transformNfcPinChallenge,
+  transformNfcPinDeviceChallenge,
+  transformNfcPinEnroll,
+  transformNfcPinLaunchAuthenticator,
+} from '../nfcPin';
+import {
   transformAppleSsoExtension,
   transformOktaVerifyChannelSelection,
   transformOktaVerifyCustomAppChallengePoll,
@@ -90,7 +96,6 @@ import {
 } from './securityQuestion';
 import { transformSymantecVipAuthenticator } from './symantecVip';
 import { transformTacAuthenticator } from './tac';
-import { transformNfcPinChallenge, transformNfcPinDeviceChallenge, transformNfcPinEnroll, transformNfcPinLaunchAuthenticator } from '../nfcPin';
 import { transformUnlockAccount } from './unlockAccount';
 
 const IdentifyTransformerSettings = {

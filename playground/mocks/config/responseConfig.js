@@ -1249,25 +1249,18 @@ const nfcPinEnroll = {
     'interact'
   ],
   '/idp/idx/introspect': [
-    'identify-with-nfc-launch-authenticator',       // Identify page with "Sign in with NFC" button
-  ],
-  '/idp/idx/identify': [
-    'authenticator-enroll-nfc-pin-device-challenge',
-  ],
-  '/idp/idx/challenge/answer': [
-    'authenticator-enroll-nfc-pin-device-challenge',     // → Phase 2: launches OV, polls
-    'authenticator-enroll-nfc-pin-success',              // → PIN submitted, success
-  ],
-  '/idp/idx/authenticators/nfc/launch': [
-    'authenticator-verification-nfc-pin-device-challenge',  // NFC launch → device challenge poll
+    'authenticator-enroll-nfc-pin-device-challenge',  // Start directly at enroll-poll (OV launched)
   ],
   '/idp/idx/credential/enroll': [
-    'authenticator-enroll-nfc-pin-device-challenge',     // select-authenticator-enroll → Phase 2
+    'authenticator-enroll-nfc-pin-device-challenge',  // select-authenticator-enroll → NFC selected → enroll-poll
   ],
   '/idp/idx/authenticators/poll': [
-    'authenticator-enroll-nfc-pin-device-challenge',     // 1st poll: still waiting for NFC card
-    'authenticator-enroll-nfc-pin-device-challenge',     // 2nd poll: still waiting
-    'authenticator-enroll-nfc-pin-pin-creation',         // 3rd poll: card enrolled → PIN creation
+    'authenticator-enroll-nfc-pin-device-challenge',  // 1st poll: still waiting for NFC card
+    'authenticator-enroll-nfc-pin-device-challenge',  // 2nd poll: still waiting
+    'authenticator-enroll-nfc-pin-pin-creation',      // 3rd poll: card enrolled → PIN creation
+  ],
+  '/idp/idx/challenge/answer': [
+    'authenticator-enroll-nfc-pin-success',            // PIN submitted → success (select-authenticator-enroll for remaining)
   ],
   '/idp/idx/authenticators/poll/cancel': [
     'identify',

@@ -33,8 +33,8 @@ import {
   updateTransactionWithNextStep,
   validatePassword,
 } from '../../util';
-import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { buildPasswordRequirementListItems } from '../password/passwordSettingsUtils';
+import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 /**
  * NFC PIN creation transformer.

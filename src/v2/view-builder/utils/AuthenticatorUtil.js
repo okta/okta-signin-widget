@@ -89,7 +89,7 @@ const getButtonDataSeAttr = function(authenticator) {
   return '';
 };
 
-/* eslint complexity: [0, 0], max-statements: [2, 32] */
+/* eslint complexity: [0, 0], max-statements: [2, 34] */
 const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   const authenticatorKey = authenticator.authenticatorKey;
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';

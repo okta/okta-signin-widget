@@ -27,6 +27,7 @@ import {
   GoogleOTPIcon,
   IDPIcon,
   IncodeIcon,
+  NfcPinIcon,
   OktaVerifyIcon,
   OnPremMFAIcon,
   PasswordIcon,
@@ -36,7 +37,6 @@ import {
   SecurityKeyOrBiometricsIcon,
   SecurityQuestionIcon,
   SmartCardIcon,
-  NfcPinIcon,
   SymantecIcon,
   YubiKeyIcon,
 } from '../Icon';

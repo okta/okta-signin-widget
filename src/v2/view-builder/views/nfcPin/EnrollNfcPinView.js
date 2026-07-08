@@ -160,7 +160,6 @@ export default BaseAuthenticatorView.extend({
   initialize: function() {
     BaseAuthenticatorView.prototype.initialize.apply(this, arguments);
 
-    const appState = this.options.appState;
     const currentViewState = this.options.currentViewState;
 
     const uiSchema = currentViewState?.uiSchema || [];
