@@ -1287,7 +1287,7 @@ const nfcPinVerify = {
   ],
   '/idp/idx/authenticators/poll': [
     'authenticator-verification-nfc-pin-device-challenge',  // 1st poll: still waiting for NFC card
-    'authenticator-verification-nfc-pin',                   // 2nd poll: card verified → PIN entry (challenge-authenticator)
+    'authenticator-verification-nfc-pin',                   // 2nd poll: card verified → PIN entry
   ],
   '/idp/idx/challenge/answer': [
     'authenticator-verification-nfc-pin-success',

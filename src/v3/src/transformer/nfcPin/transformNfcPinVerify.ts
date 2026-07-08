@@ -94,13 +94,20 @@ export const transformNfcPinVerify: IdxStepTransformer = ({ transaction, formBag
     },
   };
 
-  // Override the passcode field label from "NFC" to "Enter PIN"
+  // Override the passcode field label
   const passcodeElement = getUIElementWithName(
     'credentials.passcode',
     uischema.elements as FieldElement[],
   ) as FieldElement;
   if (passcodeElement) {
     passcodeElement.label = loc('oie.nfc_pin.verify.pinLabel', 'login');
+    passcodeElement.options = {
+      ...passcodeElement.options,
+      attributes: {
+        ...passcodeElement.options?.attributes,
+        inputmode: 'numeric',
+      },
+    };
   }
 
   uischema.elements.unshift(titleElement);

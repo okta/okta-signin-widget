@@ -577,6 +577,10 @@ const TransformerMap: {
       transform: transformGoogleAuthenticatorEnroll,
       buttonConfig: { showDefaultSubmit: false },
     },
+    [AUTHENTICATOR_KEY.NFC_PIN]: {
+      transform: transformNfcPinEnroll,
+      buttonConfig: { showDefaultSubmit: false, showDefaultCancel: false },
+    },
   },
   [IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {

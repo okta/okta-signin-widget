@@ -258,6 +258,7 @@ const VIEWS_MAPPING = {
     // Admin driven password reset..
     [AUTHENTICATOR_KEY.PASSWORD]: ResetAuthenticatorPasswordView,
     [AUTHENTICATOR_KEY.GOOGLE_OTP]: EnrollAuthenticatorGoogleAuthenticatorView,
+    [AUTHENTICATOR_KEY.NFC_PIN]: EnrollNfcPinView,
   },
   [RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE]: {
     [DEFAULT]: SelectAuthenticatorVerifyView,
