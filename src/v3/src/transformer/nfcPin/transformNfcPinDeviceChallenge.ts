@@ -22,34 +22,10 @@ import {
 import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../util';
 import { transformOktaVerifyFPLoopbackPoll } from '../layout/oktaVerify';
 
-const getTitle = (challengeMethod: string): string => {
-  switch (challengeMethod) {
-    case 'APP_LINK':
-      return loc('appLink.title', 'login');
-    case 'UNIVERSAL_LINK':
-      return loc('universalLink.title', 'login');
-    case 'CUSTOM_URI':
-    default:
-      return loc('customUri.title', 'login');
-  }
-};
-
-const getDescription = (challengeMethod: string): string => {
-  switch (challengeMethod) {
-    case 'APP_LINK':
-      return loc('appLink.content', 'login');
-    case 'UNIVERSAL_LINK':
-      return loc('universalLink.content', 'login');
-    case 'CUSTOM_URI':
-    default:
-      return loc('customUri.required.content.prompt', 'login');
-  }
-};
-
 /**
  * NFC PIN device challenge transformer.
- * Matches FastPass CUSTOM_URI behavior: auto-launches OV on mount,
- * shows "Click Open Okta Verify on the browser prompt" screen.
+ * Shows NFC-specific intermediate screen with "Open Okta Verify" button
+ * as fallback, auto-launches CUS on mount, and polls for card scan.
  */
 export const transformNfcPinDeviceChallenge: IdxStepTransformer = (params) => {
   const { transaction, formBag } = params;
@@ -58,45 +34,34 @@ export const transformNfcPinDeviceChallenge: IdxStepTransformer = (params) => {
   // @ts-expect-error contextualData is not fully typed
   const challengeData = transaction.nextStep
     ?.relatesTo?.value?.contextualData?.challenge?.value ?? {};
-  const { challengeMethod, href, downloadHref } = challengeData;
+  const { challengeMethod, href } = challengeData;
 
   // Reuse FastPass loopback transformer for LOOPBACK challenge method
   if (challengeMethod === CHALLENGE_METHOD.LOOPBACK) {
     return transformOktaVerifyFPLoopbackPoll(params);
   }
 
+  // NFC-specific intermediate screen
   const titleElement: TitleElement = {
     type: 'Title',
-    options: { content: getTitle(challengeMethod) },
+    options: { content: loc('oie.nfc_pin.challenge.verify.title', 'login') },
   };
 
   const descriptionElement: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
-    options: { content: getDescription(challengeMethod) },
+    options: {
+      content: loc('oie.nfc_pin.challenge.verify.description', 'login'),
+    },
   };
 
+  // "Open Okta Verify" button as manual fallback
   const openOktaVerifyButton: OpenOktaVerifyFPButtonElement = {
     type: 'OpenOktaVerifyFPButton',
     options: {
       step: transaction.nextStep!.name,
       href,
       challengeMethod,
-    },
-  };
-
-  const downloadTitle: DescriptionElement = {
-    type: 'Description',
-    contentType: 'subtitle',
-    options: { content: loc('customUri.required.content.download.title', 'login') },
-  };
-
-  const downloadLink: LinkElement = {
-    type: 'Link',
-    options: {
-      label: loc('customUri.required.content.download.linkText', 'login'),
-      href: downloadHref,
-      step: '',
     },
   };
 
@@ -107,20 +72,24 @@ export const transformNfcPinDeviceChallenge: IdxStepTransformer = (params) => {
   );
   const selectVerifyStep = transaction.availableSteps
     ?.find(({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE);
-  const selectLink: LinkElement | undefined = (selectVerifyStep && hasMinAuthOptions) ? {
-    type: 'Link',
-    contentType: 'footer',
-    options: {
-      label: loc('oie.verification.switch.authenticator', 'login'),
-      step: selectVerifyStep?.name || '',
-      onClick: (widgetContext?: IWidgetContext): unknown => {
-        if (typeof widgetContext === 'undefined' || typeof selectVerifyStep === 'undefined') {
-          return;
-        }
-        updateTransactionWithNextStep(transaction, selectVerifyStep, widgetContext);
+  const selectLink: LinkElement | undefined = (selectVerifyStep && hasMinAuthOptions)
+    ? {
+      type: 'Link',
+      contentType: 'footer',
+      options: {
+        label: loc('oie.verification.switch.authenticator', 'login'),
+        step: selectVerifyStep?.name || '',
+        onClick: (widgetContext?: IWidgetContext): unknown => {
+          if (typeof widgetContext === 'undefined'
+          || typeof selectVerifyStep === 'undefined') {
+            return;
+          }
+          updateTransactionWithNextStep(
+            transaction, selectVerifyStep, widgetContext,
+          );
+        },
       },
-    },
-  } : undefined;
+    } : undefined;
 
   const cancelLink: LinkElement = {
     type: 'Link',
@@ -136,8 +105,6 @@ export const transformNfcPinDeviceChallenge: IdxStepTransformer = (params) => {
     titleElement,
     descriptionElement,
     openOktaVerifyButton,
-    downloadTitle,
-    downloadLink,
     ...(selectLink ? [selectLink] : []),
     cancelLink,
   ];

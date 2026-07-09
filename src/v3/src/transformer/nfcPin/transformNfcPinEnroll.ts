@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IDX_STEP } from '../../constants';
 import {
   DescriptionElement,
   FieldElement,
@@ -18,7 +19,7 @@ import {
   OpenOktaVerifyFPButtonElement,
   TitleElement,
 } from '../../types';
-import { loc } from '../../util';
+import { hasMinAuthenticatorOptions, loc } from '../../util';
 import { getUIElementWithName } from '../utils';
 import { transformNfcPinCreate } from './transformNfcPinCreate';
 
@@ -32,23 +33,24 @@ const transformDeviceChallengePoll: IdxStepTransformer = ({ formBag, transaction
 
   const contextualData = transaction.rawIdxState?.currentAuthenticator?.value?.contextualData;
   const setupNfcUrl = contextualData?.setupNfcUrl;
-  const downloadHref = 'https://apps.apple.com/us/app/okta-verify/id490179405';
 
+  // NFC-specific intermediate screen for enrollment
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: loc('customUri.title', 'login'),
+      content: loc('oie.enroll.nfc_pin.title', 'login'),
     },
   };
 
-  const promptElement: DescriptionElement = {
+  const descriptionElement: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
     options: {
-      content: loc('customUri.required.content.prompt', 'login'),
+      content: loc('oie.enroll.nfc_pin.instructions', 'login'),
     },
   };
 
+  // "Open Okta Verify" button as manual fallback
   const openOktaVerifyButton: OpenOktaVerifyFPButtonElement = {
     type: 'OpenOktaVerifyFPButton',
     options: {
@@ -58,22 +60,23 @@ const transformDeviceChallengePoll: IdxStepTransformer = ({ formBag, transaction
     },
   };
 
-  const downloadTitle: DescriptionElement = {
-    type: 'Description',
-    contentType: 'subtitle',
-    options: {
-      content: loc('customUri.required.content.download.title', 'login'),
-    },
-  };
-
-  const downloadLink: LinkElement = {
-    type: 'Link',
-    options: {
-      label: loc('customUri.required.content.download.linkText', 'login'),
-      href: downloadHref,
-      step: '',
-    },
-  };
+  // "Return to authenticator list" link (conditional)
+  const hasEnrollOptions = hasMinAuthenticatorOptions(
+    transaction,
+    IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
+    1,
+  );
+  const selectEnrollStep = transaction.availableSteps
+    ?.find(({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_ENROLL);
+  const returnToListLink: LinkElement | undefined = (selectEnrollStep && hasEnrollOptions)
+    ? {
+      type: 'Link',
+      contentType: 'footer',
+      options: {
+        label: loc('oie.enroll.switch.authenticator', 'login'),
+        step: selectEnrollStep.name,
+      },
+    } : undefined;
 
   const cancelLink: LinkElement = {
     type: 'Link',
@@ -87,10 +90,9 @@ const transformDeviceChallengePoll: IdxStepTransformer = ({ formBag, transaction
 
   uischema.elements = [
     titleElement,
-    promptElement,
+    descriptionElement,
     openOktaVerifyButton,
-    downloadTitle,
-    downloadLink,
+    ...(returnToListLink ? [returnToListLink] : []),
     cancelLink,
   ];
 

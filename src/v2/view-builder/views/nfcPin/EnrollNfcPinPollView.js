@@ -1,8 +1,8 @@
-import { loc } from '@okta/courage';
+import { View, loc, createButton } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
 import { BaseFooter, BaseOktaVerifyChallengeView } from '../../internals';
 import { AUTHENTICATOR_CANCEL_ACTION } from '../../utils/Constants';
-import Link from '../../components/Link';
-import { doChallenge } from '../../utils/ChallengeViewUtil';
+import { getSwitchAuthenticatorLink } from '../../utils/LinksUtil';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
 const Body = BaseOktaVerifyChallengeView.extend({
@@ -20,21 +20,42 @@ const Body = BaseOktaVerifyChallengeView.extend({
   },
 
   doChallenge() {
-    doChallenge(this);
+    const deviceChallenge = this.getDeviceChallengePayload();
+
+    // NFC-specific intermediate screen for enrollment
+    this.title = loc('oie.enroll.nfc_pin.title', 'login');
+
+    this.add(View.extend({
+      className: 'skinny-content',
+      template: hbs`
+        <p>{{description}}</p>
+      `,
+      getTemplateData: () => ({
+        description: loc('oie.enroll.nfc_pin.instructions', 'login'),
+      }),
+    }));
+
+    // "Open Okta Verify" button as manual fallback
+    this.add(createButton({
+      className: 'ul-button button button-wide button-primary',
+      title: loc('oie.enroll.nfc_pin.openOktaVerify', 'login'),
+      id: 'launch-ov',
+      click: () => {
+        this.doCustomURI();
+      }
+    }));
+
+    // Launch CUS silently
+    if (deviceChallenge.href) {
+      this.customURI = deviceChallenge.href;
+      this.doCustomURI();
+    }
   },
 });
 
 const Footer = BaseFooter.extend({
-  initialize() {
-    this.add(Link, {
-      options: {
-        name: 'cancel',
-        label: loc('goback', 'login'),
-        clickHandler: () => {
-          this.options.appState.trigger('invokeAction', 'cancel');
-        },
-      }
-    });
+  links: function() {
+    return getSwitchAuthenticatorLink(this.options.appState);
   },
 });
 
