@@ -3,7 +3,6 @@ import { BaseFooter, BaseForm, BaseOktaVerifyChallengeView } from '../../interna
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { getFactorPageCustomLink, getSwitchAuthenticatorLink } from '../../utils/LinksUtil';
 import { doChallenge } from '../../utils/ChallengeViewUtil';
-import Link from '../../components/Link';
 
 /**
  * Shown when NFC card scan is needed.
@@ -49,16 +48,8 @@ const PinEntryBody = BaseForm.extend({
 });
 
 const DeviceChallengeFooter = BaseFooter.extend({
-  initialize: function() {
-    this.add(Link, {
-      options: {
-        name: 'cancel',
-        label: loc('goback', 'login'),
-        clickHandler: () => {
-          this.options.appState.trigger('invokeAction', 'cancel');
-        },
-      }
-    });
+  links: function() {
+    return getSwitchAuthenticatorLink(this.options.appState);
   },
 });
 

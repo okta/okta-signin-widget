@@ -262,8 +262,8 @@ export const transformNfcPinCreate: IdxStepTransformer = ({
           errorMessages.push({
             name: passwordFieldName,
             class: 'ERROR',
-            message: loc('oie.enroll.nfc_pin.create.requirement.length', 'login', [String(pinLength)]),
-            i18n: { key: 'oie.enroll.nfc_pin.create.requirement.length' },
+            message: loc('oie.enroll.nfc_pin.create.error.numeric', 'login'),
+            i18n: { key: 'oie.enroll.nfc_pin.create.error.numeric' },
           });
         } else {
           // Only validate length if numeric (avoids duplicate errors)

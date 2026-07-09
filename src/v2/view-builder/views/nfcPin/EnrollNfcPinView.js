@@ -4,7 +4,6 @@ import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { getFactorPageCustomLink, getSwitchAuthenticatorLink } from '../../utils/LinksUtil';
 import { doChallenge } from '../../utils/ChallengeViewUtil';
 import { AUTHENTICATOR_CANCEL_ACTION } from '../../utils/Constants';  // used by DeviceChallengeBody.pollingCancelAction
-import Link from '../../components/Link';
 import { generatePasswordPolicyHtml } from '../password/PasswordPolicyUtil';
 
 /**
@@ -89,16 +88,8 @@ const PinCreateBody = BaseForm.extend({
 });
 
 const DeviceChallengeFooter = BaseFooter.extend({
-  initialize: function() {
-    this.add(Link, {
-      options: {
-        name: 'cancel',
-        label: loc('goback', 'login'),
-        clickHandler: () => {
-          this.options.appState.trigger('invokeAction', 'cancel');
-        },
-      }
-    });
+  links: function() {
+    return getSwitchAuthenticatorLink(this.options.appState);
   },
 });
 
