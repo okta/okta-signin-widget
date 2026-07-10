@@ -129,7 +129,7 @@ export default BaseAuthenticatorView.extend({
         const confirmPin = this.get('confirmPassword');
         const errors = {};
 
-        // Validate length
+        // Validate exact PIN length
         if (pin && pinLength > 0 && pin.length !== pinLength) {
           errors['credentials.passcode'] = loc('oie.enroll.nfc_pin.create.requirement.length', 'login', [pinLength]);
         }

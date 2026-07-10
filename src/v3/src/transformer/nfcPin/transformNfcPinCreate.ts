@@ -27,13 +27,10 @@ import {
   WidgetMessage,
 } from '../../types';
 import {
-  buildPasswordRequirementNotMetErrorList,
   getUserInfo,
   loc,
   updateTransactionWithNextStep,
-  validatePassword,
 } from '../../util';
-import { buildPasswordRequirementListItems } from '../password/passwordSettingsUtils';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 /**
@@ -55,13 +52,14 @@ export const transformNfcPinCreate: IdxStepTransformer = ({
   ) as { minLength?: number; maxLength?: number };
 
   const pinLength = rawSettings.minLength || rawSettings.maxLength || 0;
-  const passwordSettings: PasswordSettings = {
-    complexity: { minLength: pinLength },
-  };
 
   const { uischema, dataSchema } = formBag;
   const userInfo = getUserInfo(transaction);
-  const requirements = buildPasswordRequirementListItems(passwordSettings);
+
+  // Still need passwordSettings for the PasswordRequirements component's internal validation
+  const passwordSettings: PasswordSettings = {
+    complexity: { minLength: pinLength },
+  };
 
   // Find passcode field (same as password transformer)
   let passwordFieldName = 'credentials.passcode';
@@ -151,6 +149,12 @@ export const transformNfcPinCreate: IdxStepTransformer = ({
     options: { content: loc('oie.enroll.nfc_pin.create.description', 'login') },
   };
 
+  // Custom requirements for exact PIN length (not "at least X" like passwords)
+  const requirements = pinLength > 0 ? [{
+    ruleKey: 'minLength',
+    label: loc('oie.enroll.nfc_pin.create.requirement.length', 'login', [pinLength]),
+  }] : [];
+
   // Requirements (live validation)
   const passwordRequirementsElement: PasswordRequirementsElement = {
     type: 'PasswordRequirements',
@@ -164,13 +168,18 @@ export const transformNfcPinCreate: IdxStepTransformer = ({
     },
   };
 
-  // Match validation
+  // Match validation (pre-populate translations so it says "PINs must match" instead of "Passwords must match")
   const passwordMatchesElement: PasswordMatchesElement = {
     type: 'PasswordMatches',
     key: 'passwordMatchesValidation',
     options: {
       validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
     },
+    translations: [{
+      name: 'label',
+      i18nKey: 'oie.enroll.nfc_pin.create.error.match',
+      value: loc('oie.enroll.nfc_pin.create.error.match', 'login'),
+    }],
   };
 
   // Submit button
@@ -265,15 +274,14 @@ export const transformNfcPinCreate: IdxStepTransformer = ({
             message: loc('oie.enroll.nfc_pin.create.error.numeric', 'login'),
             i18n: { key: 'oie.enroll.nfc_pin.create.error.numeric' },
           });
-        } else {
-          // Only validate length if numeric (avoids duplicate errors)
-          const validations = validatePassword(newPw, userInfo, passwordSettings);
-          const requirementNotMetMessages = buildPasswordRequirementNotMetErrorList(
-            requirements,
-            validations,
-            passwordFieldName,
-          );
-          errorMessages.push(...requirementNotMetMessages);
+        } else if (pinLength > 0 && newPw.length !== pinLength) {
+          // Validate exact PIN length
+          errorMessages.push({
+            name: passwordFieldName,
+            class: 'ERROR',
+            message: loc('oie.enroll.nfc_pin.create.requirement.length', 'login', [pinLength]),
+            i18n: { key: 'oie.enroll.nfc_pin.create.requirement.length', params: [pinLength] },
+          });
         }
       }
       if (newPw && confirmPw && newPw !== confirmPw) {
