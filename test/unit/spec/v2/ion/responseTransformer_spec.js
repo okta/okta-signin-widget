@@ -249,6 +249,25 @@ describe('v2/ion/responseTransformer', function() {
     });
   });
 
+  it('propagates priorVerification on success ion response', done => {
+    // OKTA-1182955: when the backend attaches a priorVerification descriptor to the
+    // success-redirect link (e.g. Android AppLink FastPass), it must be forwarded onto
+    // the transformed remediation value so views can render a Continue button.
+    const withPriorVerification = JSON.parse(JSON.stringify(XHRSuccess));
+    withPriorVerification.success.priorVerification = { method: 'APP_LINK', success: true };
+    MockUtil.mockIntrospect(done, withPriorVerification, idxResp => {
+      const result = transformResponse(testContext.settings, idxResp);
+      expect(result.remediations).toEqual([
+        {
+          name: 'success-redirect',
+          href: 'http://localhost:3000/app/UserHome?stateToken=mockedStateToken123',
+          priorVerification: { method: 'APP_LINK', success: true },
+          value: [],
+        },
+      ]);
+    });
+  });
+
   it('converts success ion response with app and user', done => {
     MockUtil.mockIntrospect(done, XHRSuccessWithAppUser, idxResp => {
       const result = transformResponse(testContext.settings, idxResp);

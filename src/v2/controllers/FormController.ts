@@ -290,6 +290,13 @@ export default Controller.extend({
       sessionStorageHelper.removeStateHandle();
 
       const currentViewState = this.options.appState.getCurrentViewState();
+      // OKTA-1182955: when the backend signals a successful prior Android AppLink (FastPass)
+      // verification, do NOT auto-redirect. AutoRedirectView renders a button instead; the
+      // user click guarantees window focus before the redirect, avoiding the visible-but-not-
+      // focused race that lands on login.okta.com.
+      if (Util.isPostAppLinkVerification(currentViewState)) {
+        return;
+      }
       // OKTA-702402: redirect only if/when the page is visible
       Util.executeOnVisiblePage(() => {
         Util.redirectWithFormGet(currentViewState.href);
