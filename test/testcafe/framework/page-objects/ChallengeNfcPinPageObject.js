@@ -38,7 +38,7 @@ export default class ChallengeNfcPinPageObject extends ChallengeFactorPageObject
 
   openOktaVerifyButtonExists() {
     if (userVariables.gen3) {
-      return this.form.elementExist('[data-se="open-okta-verify-btn"]');
+      return this.form.getButton('Open Okta Verify').exists;
     }
     return this.form.elementExist('#launch-ov');
   }
@@ -50,14 +50,14 @@ export default class ChallengeNfcPinPageObject extends ChallengeFactorPageObject
   // Forgot PIN link
   forgotPinLinkExists() {
     if (userVariables.gen3) {
-      return this.form.elementExist('[data-se="forgot-pin"]');
+      return this.form.elementExist('[data-se="forgot-password"]');
     }
     return this.form.elementExist('.js-forgot-pin');
   }
 
   getForgotPinLinkText() {
     if (userVariables.gen3) {
-      return this.form.getElement('[data-se="forgot-pin"]').textContent;
+      return this.form.getElement('[data-se="forgot-password"]').textContent;
     }
     return this.form.getElement('.js-forgot-pin').textContent;
   }
