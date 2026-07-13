@@ -1187,14 +1187,9 @@ const smartCardEnrollOrVerify = {
   ],
 };
 
-const redirectOnPoll = {  
+const redirectOnPoll = {
   '/idp/idx/introspect': [
-    // 'enroll-ov-with-error',
-    // 'enroll-ov-with-error1',
-    // 'enroll-ov-with-error2',
-    // 'enroll-ov-with-error3',
-    // 'authenticator-verification-idp-with-persona',
-    'authenticator-verification-idp-with-customIDV',
+    'authenticator-verification-email',
     // 'authenticator-verification-data-okta-verify-push-autoChallenge-off',
   ],
   '/idp/idx/challenge': [
@@ -1229,7 +1224,7 @@ const appleSSOE = {
 
 const temporaryAccessCode = {
   '/idp/idx/introspect': [
-    'authenticator-verification-idp-with-OIN',
+    'authenticator-verification-select-authenticator',
   ],
   '/idp/idx/challenge': [
     'authenticator-verification-tac',
@@ -1249,7 +1244,9 @@ const nfcPinEnroll = {
     'interact'
   ],
   '/idp/idx/introspect': [
-    'authenticator-enroll-nfc-pin-device-challenge',  // Start directly at enroll-poll (OV launched)
+    'authenticator-enroll-password',
+    // 'authenticator-enroll-nfc-pin-device-challenge',  // Start directly at enroll-poll (OV launched)
+    // 'authenticator-enroll-nfc-pin-pin-creation',  // Start directly at PIN creation
   ],
   '/idp/idx/credential/enroll': [
     'authenticator-enroll-nfc-pin-device-challenge',  // select-authenticator-enroll → NFC selected → enroll-poll
@@ -1298,7 +1295,7 @@ const nfcPinVerify = {
 };
 
 module.exports = {
-  mocks: nfcPinVerify,
+  mocks: idx,
   // mocks: nfcPinEnroll,
   // mocks: temporaryAccessCode,
   // mocks: Test.ChallengeAuthenticatorEmail.networkFailurePollingMock

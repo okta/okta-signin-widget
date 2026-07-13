@@ -33,7 +33,7 @@
         "rel": [
           "create-form"
         ],
-        "name": "launch-authenticator",
+        "name": "launch-nfc-authenticator",
         "href": "http://localhost:3000/idp/idx/authenticators/nfc/launch",
         "method": "POST",
         "accepts": "application/vnd.okta.v1+json",

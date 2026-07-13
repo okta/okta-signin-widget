@@ -31,12 +31,8 @@ const SignInWithNfcOption = View.extend({
   },
 
   postRender() {
-    const appLabel = this.options.appState.attributes?.app?.label;
-    const resourceLabel = appLabel
-      ? loc('oktaVerify.appDescription', 'login', [appLabel])
-      : loc('oktaVerify.description', 'login');
     const descContainer = this.$el.find('.signin-with-nfc-description');
-    descContainer.text(resourceLabel);
+    descContainer.text(loc('oie.nfc_pin.authenticator.description', 'login'));
   }
 });
 
