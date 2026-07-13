@@ -77,18 +77,12 @@ export default class ChallengeNfcPinPageObject extends ChallengeFactorPageObject
 
   // Requirements section
   requirementsExist() {
-    if (userVariables.gen3) {
-      return this.form.elementExist('[data-se="password-authenticator--rules"]');
-    }
-    return this.form.elementExist('.password-authenticator--rules');
+    return this.form.elementExist('[data-se="password-authenticator--rules"]');
   }
 
   // Submit
   clickVerifyButton() {
-    if (userVariables.gen3) {
-      return this.form.clickSaveButton('Verify');
-    }
-    return this.form.clickButton('Verify');
+    return this.form.clickSaveButton('Verify');
   }
 
   clickNextButton() {

@@ -19,7 +19,7 @@
   },
   "success": {
     "name": "success-redirect",
-    "href": "http://localhost:3000/login/token/redirect?stateToken=02.id.RnZmaz2QsT5NyGYJ1HylbZYlz3Lpo03ckQkAbUvg"
+    "href": "http://localhost:3000/app/UserHome?stateToken=mockedStateToken123"
   },
   "cancel": {
     "rel": [
