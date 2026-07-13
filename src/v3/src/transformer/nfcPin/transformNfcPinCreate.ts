@@ -200,6 +200,7 @@ export const transformNfcPinCreate: IdxStepTransformer = ({
     contentType: 'footer',
     options: {
       label: loc('oie.enroll.switch.authenticator', 'login'),
+      dataSe: 'switchAuthenticator',
       step: selectEnrollStep.name || '',
       onClick: (widgetContext?: IWidgetContext): unknown => {
         if (typeof widgetContext === 'undefined' || typeof selectEnrollStep === 'undefined') {

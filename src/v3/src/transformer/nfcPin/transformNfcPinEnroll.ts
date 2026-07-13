@@ -74,6 +74,7 @@ const transformDeviceChallengePoll: IdxStepTransformer = ({ formBag, transaction
       contentType: 'footer',
       options: {
         label: loc('oie.enroll.switch.authenticator', 'login'),
+        dataSe: 'switchAuthenticator',
         step: selectEnrollStep.name,
       },
     } : undefined;

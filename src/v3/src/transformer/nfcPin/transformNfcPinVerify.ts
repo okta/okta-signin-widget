@@ -55,6 +55,7 @@ export const transformNfcPinVerify: IdxStepTransformer = ({ transaction, formBag
     contentType: 'footer',
     options: {
       label: loc('oie.nfc_pin.forgot.pin', 'login'),
+      dataSe: 'forgot-pin',
       isActionStep: true,
       step: recoverStep.name,
     },
@@ -73,6 +74,7 @@ export const transformNfcPinVerify: IdxStepTransformer = ({ transaction, formBag
     contentType: 'footer',
     options: {
       label: loc('oie.verification.switch.authenticator', 'login'),
+      dataSe: 'switchAuthenticator',
       step: selectVerifyStep.name || '',
       onClick: (widgetContext?: IWidgetContext): unknown => {
         if (typeof widgetContext === 'undefined' || typeof selectVerifyStep === 'undefined') {

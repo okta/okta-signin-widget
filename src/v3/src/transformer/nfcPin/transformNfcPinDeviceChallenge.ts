@@ -78,6 +78,7 @@ export const transformNfcPinDeviceChallenge: IdxStepTransformer = (params) => {
       contentType: 'footer',
       options: {
         label: loc('oie.verification.switch.authenticator', 'login'),
+        dataSe: 'switchAuthenticator',
         step: selectVerifyStep?.name || '',
         onClick: (widgetContext?: IWidgetContext): unknown => {
           if (typeof widgetContext === 'undefined'

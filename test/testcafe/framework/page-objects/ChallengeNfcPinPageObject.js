@@ -78,7 +78,7 @@ export default class ChallengeNfcPinPageObject extends ChallengeFactorPageObject
   // Requirements section
   requirementsExist() {
     if (userVariables.gen3) {
-      return this.form.elementExist('[data-se="password-authenticator--list"]');
+      return this.form.elementExist('[data-se="password-authenticator--rules"]');
     }
     return this.form.elementExist('.password-authenticator--rules');
   }

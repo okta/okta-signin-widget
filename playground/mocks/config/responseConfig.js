@@ -1296,7 +1296,5 @@ const nfcPinVerify = {
 
 module.exports = {
   mocks: idx,
-  // mocks: nfcPinEnroll,
-  // mocks: temporaryAccessCode,
   // mocks: Test.ChallengeAuthenticatorEmail.networkFailurePollingMock
 };
