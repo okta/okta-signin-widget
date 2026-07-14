@@ -49,7 +49,8 @@ export const transformNfcPinVerify: IdxStepTransformer = ({ transaction, formBag
 
   // "Forgot PIN?" link (uses recover action)
   const recoverStep = transaction.availableSteps
-    ?.find(({ name }) => name === 'currentAuthenticatorEnrollment-recover');
+    ?.find(({ name }) => name === 'currentAuthenticator-recover')
+    ?? transaction.availableSteps?.find(({ name }) => name === 'currentAuthenticatorEnrollment-recover');
   const forgotPinLink: LinkElement | undefined = recoverStep ? {
     type: 'Link',
     contentType: 'footer',

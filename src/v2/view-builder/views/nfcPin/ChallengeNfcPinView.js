@@ -56,13 +56,16 @@ const DeviceChallengeFooter = BaseFooter.extend({
 const PinEntryFooter = BaseFooter.extend({
   links: function() {
     const links = [];
-    const recoverAction = this.options.appState.get('currentAuthenticatorEnrollment')?.recover;
-    if (recoverAction) {
+    const hasEnrollmentRecover = !!this.options.appState.get('currentAuthenticatorEnrollment')?.recover;
+    const hasAuthenticatorRecover = !!this.options.appState.get('currentAuthenticator')?.recover;
+    if (hasEnrollmentRecover || hasAuthenticatorRecover) {
       links.push({
         type: 'link',
         label: loc('oie.nfc_pin.forgot.pin', 'login'),
         name: 'forgot-pin',
-        actionPath: 'currentAuthenticatorEnrollment-recover',
+        actionPath: hasEnrollmentRecover
+          ? 'currentAuthenticatorEnrollment-recover'
+          : 'currentAuthenticator-recover',
       });
     }
     return links

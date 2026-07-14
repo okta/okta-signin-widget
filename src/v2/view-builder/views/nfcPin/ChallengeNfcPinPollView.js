@@ -14,6 +14,11 @@ const Body = BaseOktaVerifyChallengeView.extend({
     const deviceChallenge = this.getDeviceChallengePayload();
     const loginHint = this.options.settings?.get('username');
 
+    if (deviceChallenge.challengeMethod === 'LOOPBACK') {
+      this.doLoopback(deviceChallenge);
+      return;
+    }
+
     // NFC-specific intermediate screen
     this.title = loc('oie.nfc_pin.challenge.verify.title', 'login');
 
