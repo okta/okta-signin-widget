@@ -47,24 +47,22 @@ export default class ChallengeNfcPinPageObject extends ChallengeFactorPageObject
     return this.form.clickButton('Open Okta Verify');
   }
 
-  // Forgot PIN link
+  // Forgot PIN link (getLink uses screen.queryByRole which works for both v2 and v3)
   forgotPinLinkExists() {
-    if (userVariables.gen3) {
-      return this.form.elementExist('[data-se="forgot-password"]');
-    }
-    return this.form.elementExist('.js-forgot-pin');
+    return this.form.getLink('Forgot PIN?').exists;
   }
 
   getForgotPinLinkText() {
-    if (userVariables.gen3) {
-      return this.form.getElement('[data-se="forgot-password"]').textContent;
-    }
-    return this.form.getElement('.js-forgot-pin').textContent;
+    return this.form.getLink('Forgot PIN?').textContent;
   }
 
   // Switch authenticator link
+  switchAuthenticatorExists() {
+    return this.form.getLink('Verify with something else').exists;
+  }
+
   getSwitchAuthenticatorText() {
-    return this.getSwitchAuthenticatorButtonText();
+    return this.form.getLink('Verify with something else').textContent;
   }
 
   // Return to authenticator list link
