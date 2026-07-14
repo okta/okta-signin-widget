@@ -33,6 +33,18 @@ const IdentifierContainer: UISchemaElementComponent<{
       maxWidth={1}
       title={identifier}
       data-se="identifier-container"
+      sx={{
+        '& .MuiChip-root': {
+          height: 'auto',
+        },
+        '& .MuiChip-label': {
+          whiteSpace: 'normal',
+          overflow: 'visible',
+          textOverflow: 'clip',
+          overflowWrap: 'anywhere',
+          paddingBlock: tokens.Spacing1,
+        },
+      }}
     >
       <Tag
         icon={(
