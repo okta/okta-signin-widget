@@ -282,7 +282,6 @@ const TransformerMap: {
         showDefaultSubmit: false,
         showDefaultCancel: false,
         showVerifyWithOtherLink: false,
-        showForgotPassword: true,
       },
     },
     [AUTHENTICATOR_KEY.OV]: {

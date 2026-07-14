@@ -11,6 +11,7 @@
  */
 
 import {
+  LaunchAuthenticatorButtonElement,
   TransformStepFn,
 } from '../../types';
 import { traverseLayout } from '../util';
@@ -25,7 +26,8 @@ export const transformLaunchAuthenticatorButton: TransformStepFn = (
     layout: uischema,
     predicate: (element) => element.type === 'LaunchAuthenticatorButton',
     callback: (element) => {
-      const labelKey = (element as any).options?.i18nKey || 'oktaVerify.button';
+      const { options } = element as LaunchAuthenticatorButtonElement;
+      const labelKey = options?.i18nKey || 'oktaVerify.button';
       addTranslation({
         element,
         name: 'label',

@@ -51,7 +51,7 @@ export const transformNfcPinCreate: IdxStepTransformer = ({
     || {}
   ) as { minLength?: number; maxLength?: number };
 
-  const pinLength = rawSettings.minLength || rawSettings.maxLength || 0;
+  const pinLength = rawSettings.minLength ?? rawSettings.maxLength ?? 0;
 
   const { uischema, dataSchema } = formBag;
   const userInfo = getUserInfo(transaction);
