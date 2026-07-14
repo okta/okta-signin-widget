@@ -79,3 +79,23 @@ test
     await t.expect(await page.signoutLinkExists()).ok();
     await t.expect(page.getSignoutLinkText()).eql('Back to sign in');
   });
+
+test
+  .requestHooks(mockNfcPinEnrollPinCreation)('shows error when PIN field is blank on submit', async t => {
+    const page = await setup(t);
+
+    await page.clickNextButton();
+    await t.expect(page.form.getErrorBoxCount()).eql(1);
+  });
+
+test
+  .requestHooks(mockNfcPinEnrollPinCreation)('shows error when PINs do not match', async t => {
+    const page = await setup(t);
+
+    await page.fillPin('1234');
+    await page.fillConfirmPin('5678');
+    await page.clickNextButton();
+
+    const confirmError = await page.getConfirmPinError();
+    await t.expect(confirmError).contains('PINs must match');
+  });

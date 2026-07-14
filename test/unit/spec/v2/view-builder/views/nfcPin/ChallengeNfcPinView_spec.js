@@ -11,10 +11,11 @@ describe('v2/view-builder/views/nfcPin/ChallengeNfcPinView', function() {
   beforeEach(function() {
     testContext = {};
     testContext.init = (mockResponse = NfcPinVerifyResponse) => {
-      const currentAuthenticatorEnrollment = mockResponse.currentAuthenticatorEnrollment.value;
+      const currentAuthenticator = mockResponse.currentAuthenticator?.value
+        || mockResponse.currentAuthenticatorEnrollment?.value;
       const appState = new AppState({
-        currentAuthenticatorEnrollment,
-        currentAuthenticator: undefined,
+        currentAuthenticatorEnrollment: undefined,
+        currentAuthenticator,
         authenticatorEnrollments: mockResponse.authenticatorEnrollments?.value || [],
         app: mockResponse.app?.value || {},
       }, {});
@@ -38,7 +39,7 @@ describe('v2/view-builder/views/nfcPin/ChallengeNfcPinView', function() {
 
       const currentViewState = {
         name: mockResponse.remediation.value[0].name,
-        relatesTo: { value: currentAuthenticatorEnrollment },
+        relatesTo: { value: currentAuthenticator },
         uiSchema,
       };
 

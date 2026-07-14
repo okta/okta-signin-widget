@@ -6,6 +6,8 @@ import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrNfcPinDeviceChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-nfc-pin-device-challenge';
 import xhrNfcPinVerify from '../../../playground/mocks/data/idp/idx/authenticator-verification-nfc-pin';
 import xhrNfcPinSuccess from '../../../playground/mocks/data/idp/idx/authenticator-verification-nfc-pin-success';
+import xhrNfcPinInvalidPasscode from '../../../playground/mocks/data/idp/idx/error-nfc-pin-invalid-passcode';
+import xhrForgotPasswordError from '../../../playground/mocks/data/idp/idx/error-forgot-password';
 
 const mockNfcPinVerifyFlow = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -14,6 +16,18 @@ const mockNfcPinVerifyFlow = RequestMock()
   .respond(xhrNfcPinSuccess)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
+
+const mockNfcPinInvalidPin = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrNfcPinVerify)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrNfcPinInvalidPasscode, 403);
+
+const mockNfcPinForgotPinError = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrNfcPinVerify)
+  .onRequestTo('http://localhost:3000/idp/idx/recover')
+  .respond(xhrForgotPasswordError, 403);
 
 // Mock that keeps polling (stays on device challenge screen)
 const mockNfcPinDeviceChallengeStays = RequestMock()
@@ -66,6 +80,28 @@ test
     const successPage = new SuccessPageObject(t);
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl).contains('/app/UserHome');
+  });
+
+test
+  .requestHooks(mockNfcPinInvalidPin)('shows error when PIN is invalid', async t => {
+    const challengeNfcPinPage = await setup(t);
+
+    await challengeNfcPinPage.fillPin('0000');
+    await challengeNfcPinPage.clickVerifyButton();
+
+    await t.expect(challengeNfcPinPage.form.getErrorBoxText()).contains('Incorrect PIN. Please try again.');
+  });
+
+test
+  .requestHooks(mockNfcPinForgotPinError)('shows error when Forgot PIN recovery is not allowed', async t => {
+    const challengeNfcPinPage = await setup(t);
+
+    await t.expect(await challengeNfcPinPage.forgotPinLinkExists()).ok();
+    const forgotPinLink = challengeNfcPinPage.form.getLink('Forgot PIN?');
+    await t.click(forgotPinLink);
+
+    await t.expect(challengeNfcPinPage.form.getErrorBoxText())
+      .contains('Reset password is not allowed at this time');
   });
 
 test
