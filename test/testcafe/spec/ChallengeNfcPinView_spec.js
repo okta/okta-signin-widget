@@ -89,7 +89,7 @@ test
     await challengeNfcPinPage.fillPin('0000');
     await challengeNfcPinPage.clickVerifyButton();
 
-    await t.expect(challengeNfcPinPage.form.getErrorBoxText()).contains('Incorrect PIN. Please try again.');
+    await t.expect(challengeNfcPinPage.getPinError()).contains('Incorrect PIN. Please try again.');
   });
 
 test
