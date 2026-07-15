@@ -400,4 +400,34 @@ describe('util/Util', () => {
       expect(Util.searchParamsToString(params)).toEqual(expected);
     });
   });
+
+  describe('isPostAppLinkVerification', () => {
+    it('returns false for undefined input', () => {
+      expect(Util.isPostAppLinkVerification(undefined)).toBe(false);
+    });
+
+    it('returns false for null input', () => {
+      expect(Util.isPostAppLinkVerification(null)).toBe(false);
+    });
+
+    it('returns false when priorVerification is missing', () => {
+      expect(Util.isPostAppLinkVerification({ href: 'http://example.com' })).toBe(false);
+    });
+
+    it('returns false when method is not APP_LINK', () => {
+      const viewState = { priorVerification: { method: 'LOOPBACK', success: true } };
+      expect(Util.isPostAppLinkVerification(viewState)).toBe(false);
+    });
+
+    it('returns false when success is not strictly true', () => {
+      expect(Util.isPostAppLinkVerification({ priorVerification: { method: 'APP_LINK', success: false } })).toBe(false);
+      expect(Util.isPostAppLinkVerification({ priorVerification: { method: 'APP_LINK' } })).toBe(false);
+      expect(Util.isPostAppLinkVerification({ priorVerification: { method: 'APP_LINK', success: 'true' } })).toBe(false);
+    });
+
+    it('returns true for method APP_LINK and success true', () => {
+      const viewState = { priorVerification: { method: 'APP_LINK', success: true } };
+      expect(Util.isPostAppLinkVerification(viewState)).toBe(true);
+    });
+  });
 });

@@ -107,6 +107,43 @@ describe('Success Redirect Transform Tests', () => {
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
   });
 
+  it('should forward priorVerification to Redirect element when success.href matches url', () => {
+    // OKTA-1182955: when the backend attaches priorVerification (Android AppLink FastPass)
+    // to the success link, forward it to the Redirect component so it renders a Continue button.
+    // @ts-expect-error success is an additive field not in the okta-auth-js typing.
+    transaction.context.success = {
+      href: REDIRECT_URL,
+      priorVerification: { method: 'APP_LINK', success: true },
+    };
+    const formBag = redirectTransformer(transaction, REDIRECT_URL, widgetProps);
+
+    expect(formBag.uischema.elements[1].type).toBe('Redirect');
+    expect((formBag.uischema.elements[1] as RedirectElement).options?.priorVerification)
+      .toEqual({ method: 'APP_LINK', success: true });
+  });
+
+  it('should not forward priorVerification when success.href does not match url', () => {
+    // Guards against forwarding the AppLink signal on non-success-redirect paths.
+    // @ts-expect-error success is an additive field not in the okta-auth-js typing.
+    transaction.context.success = {
+      href: 'https://different-url.example.com',
+      priorVerification: { method: 'APP_LINK', success: true },
+    };
+    const formBag = redirectTransformer(transaction, REDIRECT_URL, widgetProps);
+
+    expect(formBag.uischema.elements[1].type).toBe('Redirect');
+    expect((formBag.uischema.elements[1] as RedirectElement).options?.priorVerification)
+      .toBeUndefined();
+  });
+
+  it('should leave priorVerification undefined when success is absent', () => {
+    const formBag = redirectTransformer(transaction, REDIRECT_URL, widgetProps);
+
+    expect(formBag.uischema.elements[1].type).toBe('Redirect');
+    expect((formBag.uischema.elements[1] as RedirectElement).options?.priorVerification)
+      .toBeUndefined();
+  });
+
   it('should add app name to description element for DEFAULT Interstitial view '
     + 'when identifier is missing from transaction', () => {
     const appInfo = { name: 'Okta Dashboard' };

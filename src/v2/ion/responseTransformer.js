@@ -69,6 +69,7 @@ const getRemediationValues = (idx) => {
       remediationValues.push({
         name: idx.context.success.name,
         href: idx.context.success.href,
+        priorVerification: idx.context.success.priorVerification,
         value: [],
       });
     } else if (idx.context.messages) {

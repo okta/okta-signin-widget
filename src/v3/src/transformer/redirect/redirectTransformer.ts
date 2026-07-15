@@ -32,9 +32,17 @@ export const redirectTransformer = (
 
   const { uischema } = formBag;
 
+  // OKTA-1182955: forward the optional priorVerification descriptor (e.g. successful Android AppLink)
+  // from the IDX success link so the Redirect component can render a button instead of auto-redirecting.
+  // Only meaningful when this redirect IS the success-redirect path; for other paths the field is absent.
+  // @ts-expect-error priorVerification is an additive field not in the okta-auth-js IonLink typing.
+  const priorVerification = transaction.context?.success?.href === url
+    ? transaction.context?.success?.priorVerification
+    : undefined;
+
   uischema.elements.push({
     type: 'Redirect',
-    options: { url },
+    options: { url, priorVerification },
   } as RedirectElement);
 
   const appInfo = getAppInfo(transaction);
