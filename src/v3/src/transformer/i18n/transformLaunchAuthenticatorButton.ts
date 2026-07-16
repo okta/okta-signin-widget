@@ -27,6 +27,8 @@ export const transformLaunchAuthenticatorButton: TransformStepFn = (
     predicate: (element) => element.type === 'LaunchAuthenticatorButton',
     callback: (element) => {
       const { options } = element as LaunchAuthenticatorButtonElement;
+      // Supports authenticator-specific labels (e.g. NFC PIN uses 'oie.nfc_pin.launch.button')
+      // Falls back to OktaVerify label for backward compatibility
       const labelKey = options?.i18nKey || 'oktaVerify.button';
       addTranslation({
         element,

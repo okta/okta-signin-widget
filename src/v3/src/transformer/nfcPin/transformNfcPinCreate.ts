@@ -46,7 +46,7 @@ export const transformNfcPinCreate: IdxStepTransformer = ({
   // PIN settings — map to PasswordSettings format
   const rawSettings = (
     relatesTo?.value?.settings
-    // @ts-ignore enrollmentAuthenticator may not be typed
+    // @ts-expect-error enrollmentAuthenticator may not be typed
     || context?.enrollmentAuthenticator?.value?.settings
     || {}
   ) as { minLength?: number; maxLength?: number };

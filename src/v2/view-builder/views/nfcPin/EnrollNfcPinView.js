@@ -31,7 +31,7 @@ const DeviceChallengeBody = BaseOktaVerifyChallengeView.extend({
 });
 
 /**
- * Phase 3: PIN creation — same pattern as EnrollAuthenticatorPasswordView
+ * Phase 2: PIN creation — same pattern as EnrollAuthenticatorPasswordView
  */
 const PinCreateBody = BaseForm.extend({
   className: 'nfc-pin-create',
