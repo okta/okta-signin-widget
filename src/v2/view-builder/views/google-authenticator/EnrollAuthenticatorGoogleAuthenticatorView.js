@@ -77,21 +77,28 @@ const Body = BaseForm.extend({
       }, {
         View: View.extend({
           className: 'o-form-fieldset o-form-label-top',
+          // Render the secret as plain, selectable text (not a readonly input, which
+          // looked disabled and let a double-click selection spill into the Next
+          // button). Keeping it a single contiguous string lets a double-click select
+          // the whole value; letter-spacing (see SCSS) provides the visual spacing.
+          // tabindex="0" keeps the secret in the tab order (as the previous readonly
+          // input was), and the aria-label spells out each character so screen readers
+          // announce the code one letter at a time on focus.
+          // https://oktainc.atlassian.net/browse/OKTA-1185578
           template: hbs`
             <div class="o-form-input">
-              <span class="o-form-input-name-sharedSecret o-form-control
-                okta-form-input-field input-fix shared-secret no-translate">
-                <input type="text"
-                  value="{{sharedSecret}}"
-                  readonly
-                  aria-label="{{sharedSecret}}"
-                  autocomplete="off" />
-              </span>
+              <span
+                class="shared-secret no-translate"
+                tabindex="0"
+                aria-label="{{sharedSecretSpaced}}"
+              >{{sharedSecret}}</span>
             </div>
           `,
           getTemplateData() {
+            const sharedSecret = this.options.appState.get('currentAuthenticator').contextualData.sharedSecret || '';
             return {
-              sharedSecret: this.options.appState.get('currentAuthenticator').contextualData.sharedSecret,
+              sharedSecret,
+              sharedSecretSpaced: sharedSecret.split('').join(' '),
             };
           },
         }),
