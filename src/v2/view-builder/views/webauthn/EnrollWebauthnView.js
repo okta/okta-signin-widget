@@ -1,6 +1,7 @@
 import { _, loc, createCallout, createButton, View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
-import { BaseForm, BaseFooter } from '../../internals';
+import { BaseForm } from '../../internals';
+import AuthenticatorFooter from '../../components/AuthenticatorFooter';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import webauthn from 'util/webauthn';
 import CryptoUtil from 'util/CryptoUtil';
@@ -202,15 +203,18 @@ const Body = BaseForm.extend({
   },
 });
 
-// Skip link appears when the response carries a sibling `skip` remediation. The
-// enroll-authenticator-promotion remediation ships with one; standard
-// enroll-authenticator does not, so the footer is invisible there.
-const Footer = BaseFooter.extend({
-  className: 'auth-footer',
+// Extend AuthenticatorFooter (rather than BaseFooter) so the switch-authenticator
+// link ("Return to authenticator list") and any factor-page custom link keep
+// rendering. Append the "Maybe later" skip link on top when the response ships
+// a sibling `skip` remediation — enroll-authenticator-promotion does, standard
+// enroll-authenticator does not.
+const Footer = AuthenticatorFooter.extend({
   links() {
-    return getSkipSetupLink(
-      this.options.appState,
-      loc('oie.enroll.authenticator.promotion.skip', 'login')
+    return AuthenticatorFooter.prototype.links.call(this).concat(
+      getSkipSetupLink(
+        this.options.appState,
+        loc('oie.enroll.authenticator.promotion.skip', 'login')
+      )
     );
   },
 });

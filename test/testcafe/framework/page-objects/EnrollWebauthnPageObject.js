@@ -28,7 +28,9 @@ export default class EnrollWebauthnPageObject extends BasePageObject {
   }
 
   setupButtonExists() {
-    return this.form.getButton('Set up').exists;
+    // queryButton (not getButton) so we can safely assert both presence and absence —
+    // getButton uses testing-library's getByRole which throws when the button is missing.
+    return this.form.queryButton('Set up').exists;
   }
 
   // Passkey promotion splash helpers ------------------------------------
@@ -51,7 +53,7 @@ export default class EnrollWebauthnPageObject extends BasePageObject {
   }
 
   createPasskeyButtonExists() {
-    return this.form.getButton('Create a passkey').exists;
+    return this.form.queryButton('Create a passkey').exists;
   }
 
   maybeLaterLinkExists() {
