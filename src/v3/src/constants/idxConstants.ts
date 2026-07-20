@@ -57,6 +57,7 @@ export const IDX_STEP: Record<string, string> = {
   DEVICE_ENROLLMENT_TERMINAL: 'device-enrollment-terminal',
   ENROLLMENT_CHANNEL_DATA: 'enrollment-channel-data',
   ENROLL_AUTHENTICATOR: 'enroll-authenticator',
+  ENROLL_AUTHENTICATOR_PROMOTION: 'enroll-authenticator-promotion',
   ENROLL_POLL: 'enroll-poll',
   ENROLL_PROFILE: 'enroll-profile',
   ENROLL_PROFILE_UPDATE: 'profile-update',

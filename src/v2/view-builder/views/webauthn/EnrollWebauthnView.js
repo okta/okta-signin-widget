@@ -1,12 +1,60 @@
-import { _, loc, createCallout, createButton } from '@okta/courage';
-import { BaseForm } from '../../internals';
+import { _, loc, createCallout, createButton, View } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
+import { BaseForm, BaseFooter } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import webauthn from 'util/webauthn';
 import CryptoUtil from 'util/CryptoUtil';
 import EnrollWebauthnInfoView from './EnrollWebauthnInfoView';
 import { getMessageFromBrowserError } from '../../../ion/i18nTransformer';
+import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
 import { getWebAuthnTitle } from '../../utils/AuthenticatorUtil';
-import { getWebAuthnI18nKey } from 'util/webauthnDisplayNameUtils';
+import { getSkipSetupLink } from '../../utils/LinksUtil';
+import {
+  getWebAuthnI18nKey,
+  isCustomDisplayName,
+  WEBAUTHN_DISPLAY_NAMES,
+} from 'util/webauthnDisplayNameUtils';
+import { passkeyPromotionIllustration } from './passkeyPromotionIllustration';
+
+// True when the response is the enroll-authenticator-promotion remediation AND the
+// authenticator displayName is "Passkeys". Only in this case do we swap in the
+// promotion-specific title/CTA copy — Security Key or Biometric (DEFAULT) and
+// Custom variants keep their standard titles/CTAs even when served via promotion.
+const isPromotionPasskeys = (currentViewState) => (
+  currentViewState?.name === RemediationForms.ENROLL_AUTHENTICATOR_PROMOTION
+  && currentViewState?.relatesTo?.value?.displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS
+);
+
+// True when the response's `currentAuthenticator.displayName` is "Passkeys" or a custom
+// value. In that mode the enrollment page shows the rich splash (illustration + FAQ).
+// "Security Key or Biometric" (DEFAULT) keeps the classic instruction line.
+const shouldShowPasskeySplash = (displayName) =>
+  displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS || isCustomDisplayName(displayName);
+
+// Splash content (illustration + FAQ) shown when the passkey displayName applies.
+// Illustration SVG uses `fill="currentColor"` so it inherits from the enclosing
+// element's CSS `color`, which ColorsUtil overrides with `colors.brand` when configured.
+/* eslint-disable max-len */
+const PasskeySplashInfoView = View.extend({
+  className: 'oie-passkey-splash-content',
+  template: hbs`
+    <div class="passkey-promotion-illustration">{{{illustrationSvg}}}</div>
+    <div class="passkey-promotion-faq">
+      <h3 class="passkey-promotion-faq-title">{{i18n code="oie.enroll.authenticator.promotion.faq.benefit.title" bundle="login"}}</h3>
+      <p class="passkey-promotion-faq-description">{{i18n code="oie.enroll.authenticator.promotion.faq.benefit.description" bundle="login"}}</p>
+      <h3 class="passkey-promotion-faq-title">{{i18n code="oie.enroll.authenticator.promotion.faq.definition.title" bundle="login"}}</h3>
+      <p class="passkey-promotion-faq-description">{{i18n code="oie.enroll.authenticator.promotion.faq.definition.description" bundle="login"}}</p>
+      <h3 class="passkey-promotion-faq-title">{{i18n code="oie.enroll.authenticator.promotion.faq.storage.title" bundle="login"}}</h3>
+      <p class="passkey-promotion-faq-description">{{i18n code="oie.enroll.authenticator.promotion.faq.storage.description" bundle="login"}}</p>
+    </div>
+  `,
+  getTemplateData() {
+    return {
+      illustrationSvg: passkeyPromotionIllustration,
+    };
+  },
+});
+/* eslint-enable max-len */
 
 function getExcludeCredentials(authenticatorEnrollments = []) {
   const credentials = [];
@@ -33,6 +81,9 @@ function getExcludeCredentials(authenticatorEnrollments = []) {
 
 const Body = BaseForm.extend({
   title() {
+    if (isPromotionPasskeys(this.options.currentViewState)) {
+      return loc('oie.enroll.authenticator.promotion.title', 'login');
+    }
     return getWebAuthnTitle(this.options.currentViewState, false);
   },
   className: 'oie-enroll-webauthn',
@@ -43,13 +94,26 @@ const Body = BaseForm.extend({
     const schema = [];
     // Returning custom array so no input fields are displayed for webauthn
     if (webauthn.isNewApiAvailable()) {
+      const displayName = this.options.currentViewState?.relatesTo?.value?.displayName;
+      // The passkey splash (illustration + FAQ) is additive — when the displayName
+      // qualifies, it prepends above the existing EnrollWebauthnInfoView, which
+      // continues to render the instructions line, Edge/UV callouts, custom
+      // additional-instructions callout, and spinner.
+      if (shouldShowPasskeySplash(displayName)) {
+        schema.push({
+          View: PasskeySplashInfoView,
+        });
+      }
       schema.push({
         View: EnrollWebauthnInfoView,
       });
+      const ctaLabel = isPromotionPasskeys(this.options.currentViewState)
+        ? loc('oie.enroll.authenticator.promotion.cta.createPasskey', 'login')
+        : loc('oie.enroll.webauthn.save', 'login');
       schema.push({
         View: createButton({
           className: 'webauthn-setup button button-primary button-wide',
-          title: loc('oie.enroll.webauthn.save', 'login'),
+          title: ctaLabel,
           click: () => {
             this.triggerWebauthnPrompt();
           },
@@ -138,8 +202,22 @@ const Body = BaseForm.extend({
   },
 });
 
+// Skip link appears when the response carries a sibling `skip` remediation. The
+// enroll-authenticator-promotion remediation ships with one; standard
+// enroll-authenticator does not, so the footer is invisible there.
+const Footer = BaseFooter.extend({
+  className: 'auth-footer',
+  links() {
+    return getSkipSetupLink(
+      this.options.appState,
+      loc('oie.enroll.authenticator.promotion.skip', 'login')
+    );
+  },
+});
+
 export default BaseAuthenticatorView.extend({
   Body,
+  Footer,
   postRender() {
     BaseAuthenticatorView.prototype.postRender.apply(this, arguments);
     this.$el.find('.o-form-button-bar [type="submit"]').remove();

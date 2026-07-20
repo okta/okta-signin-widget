@@ -38,4 +38,54 @@
       margin-bottom: 24px;
     }
   }
+
+  // Passkey enrollment splash: illustration + FAQ. Shown by EnrollWebauthnView
+  // when currentAuthenticator.displayName is "Passkeys" or a custom value, on
+  // both the standard enroll and enroll-authenticator-promotion remediations.
+  .oie-enroll-webauthn {
+    .oie-passkey-splash-content {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    // Illustration: inline SVG picks up brand color via `currentColor`.
+    // Default color is the widget's primary color; ColorsUtil overrides via
+    // `#okta-sign-in.auth-container ... { color: ${colors.brand}; }` when
+    // the customer sets `colors.brand`.
+    .passkey-promotion-illustration {
+      display: flex;
+      justify-content: center;
+      margin: 4px 0 24px;
+      color: $primary-color;
+
+      svg {
+        width: 100%;
+        // Natural viewBox width — caps upscaling beyond the design's intrinsic size.
+        max-width: 350px;
+        height: auto;
+      }
+    }
+
+    .passkey-promotion-faq {
+      margin-bottom: 16px;
+    }
+
+    .passkey-promotion-faq-title {
+      margin: 16px 0 4px;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    .passkey-promotion-faq-description {
+      margin: 0 0 4px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+  }
 }

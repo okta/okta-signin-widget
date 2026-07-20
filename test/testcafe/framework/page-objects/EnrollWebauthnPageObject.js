@@ -30,4 +30,35 @@ export default class EnrollWebauthnPageObject extends BasePageObject {
   setupButtonExists() {
     return this.form.getButton('Set up').exists;
   }
+
+  // Passkey promotion splash helpers ------------------------------------
+
+  hasPasskeyPromotionSplash() {
+    if (userVariables.gen3) {
+      // v3 renders the illustration via the PasskeyPromotionIllustration renderer,
+      // producing an aria-hidden SVG inside the form body.
+      return this.form.el.find('svg[viewBox="0 0 350 126"]').exists;
+    }
+    return this.form.elementExist('.oie-passkey-splash-content');
+  }
+
+  getPromoFaqTitleCount() {
+    if (userVariables.gen3) {
+      // v3 renders FAQ titles as HeadingElements; assert by count of the known copy.
+      return this.form.el.find('h2, h3').withText(/passkey/i).count;
+    }
+    return this.form.el.find('.passkey-promotion-faq-title').count;
+  }
+
+  createPasskeyButtonExists() {
+    return this.form.getButton('Create a passkey').exists;
+  }
+
+  maybeLaterLinkExists() {
+    return this.form.getLink('Maybe later').exists;
+  }
+
+  async clickMaybeLater() {
+    await this.t.click(this.form.getLink('Maybe later'));
+  }
 }

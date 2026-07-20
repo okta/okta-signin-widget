@@ -23,6 +23,7 @@ import {
   AccordionLayout,
   DescriptionElement,
   FormBag,
+  HeadingElement,
   InfoboxElement,
   TitleElement,
   WebAuthNButtonElement,
@@ -480,36 +481,33 @@ describe('WebAuthN Transformer Tests', () => {
 
       const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
 
-      // Should have: Title, Description (instructions), Description (additional instructions heading with <strong>), InfoBox (custom description), Button
-      expect(updatedFormBag.uischema.elements.length).toBe(5);
-      expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+      // Custom displayName triggers the passkey splash on enrollment, so the schema is:
+      // Title, PasskeyPromotionIllustration, 3 x (Heading + Description) for FAQ,
+      // Description (additional instructions <strong>), InfoBox (custom description), WebAuthNSubmitButton
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('oie.enroll.webauthn.passkeysRebrand.custom.title');
 
-      // Main instructions
-      expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
-      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).contentType).toBe('subtitle');
-      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
-        .toBe('oie.enroll.webauthn.passkeysRebrand.instructions');
-
-      // Additional instructions heading (as Description with <strong>)
-      expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
-      expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
-        .toContain('<strong>');
-      expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+      // Additional instructions heading (Description containing <strong>)
+      const additionalInstructions = updatedFormBag.uischema.elements.find(
+        (el: any) => el.type === 'Description' && String(el.options?.content ?? '').includes('<strong>'),
+      ) as DescriptionElement | undefined;
+      expect(additionalInstructions).toBeDefined();
+      expect(additionalInstructions?.options.content)
         .toContain('oie.verify.webauthn.instructions.additional');
 
       // InfoBox with custom description
-      expect(updatedFormBag.uischema.elements[3].type).toBe('InfoBox');
-      expect((updatedFormBag.uischema.elements[3] as InfoboxElement).options.class).toBe('INFO');
-      expect((updatedFormBag.uischema.elements[3] as InfoboxElement).options.message)
-        .toEqual({
-          class: 'INFO',
-          message: 'Insert your YubiKey and tap to authenticate.',
-        });
+      const infoBox = updatedFormBag.uischema.elements.find(
+        (el) => el.type === 'InfoBox',
+      ) as InfoboxElement | undefined;
+      expect(infoBox?.options.class).toBe('INFO');
+      expect(infoBox?.options.message).toEqual({
+        class: 'INFO',
+        message: 'Insert your YubiKey and tap to authenticate.',
+      });
 
-      // Submit button
-      expect(updatedFormBag.uischema.elements[4].type).toBe('WebAuthNSubmitButton');
+      // Submit button is still present
+      expect(updatedFormBag.uischema.elements.some((el) => el.type === 'WebAuthNSubmitButton'))
+        .toBe(true);
     });
 
     it('should render additional instructions heading and InfoBox for custom displayName with description during VERIFY', () => {
@@ -784,6 +782,193 @@ describe('WebAuthN Transformer Tests', () => {
       expect(infoBox2.options.message).toEqual({
         class: 'INFO',
         message: 'Use your fingerprint or face to authenticate.',
+      });
+    });
+  });
+
+  describe('Promotion remediation', () => {
+    beforeEach(() => {
+      mockCredentialsContainer = {
+        create: jest.fn().mockResolvedValue({}),
+        get: jest.fn().mockResolvedValue({}),
+        preventSilentAccess: jest.fn(),
+        store: jest.fn(),
+      };
+      const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+      navigatorCredentials.mockReturnValue(
+        { credentials: mockCredentialsContainer } as unknown as Navigator,
+      );
+    });
+
+    const buildTransaction = (
+      stepName: string,
+      displayName: string,
+      opts: { includeSkip?: boolean } = {},
+    ): IdxTransaction => {
+      const t = getStubTransactionWithNextStep();
+      t.nextStep = {
+        name: stepName,
+        action: jest.fn(),
+        relatesTo: { value: { displayName } as unknown as IdxAuthenticator },
+      };
+      t.availableSteps = opts.includeSkip
+        ? [{ name: 'skip', action: jest.fn() }]
+        : [];
+      return t;
+    };
+
+    const findFirst = (bag: FormBag, elType: string) => (
+      bag.uischema.elements.find((el) => el.type === elType)
+    );
+
+    const countByType = (bag: FormBag, elType: string) => (
+      bag.uischema.elements.filter((el) => el.type === elType).length
+    );
+
+    describe('splash presence', () => {
+      it('renders the illustration and FAQ blocks alongside the classic instructions subtitle', () => {
+        const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION, 'Passkeys');
+        const bag = transformWebAuthNAuthenticator({
+          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION), widgetProps,
+        });
+
+        expect(findFirst(bag, 'PasskeyPromotionIllustration')).toBeDefined();
+        // 3 FAQ heading/description pairs
+        const headings = bag.uischema.elements.filter((el) => el.type === 'Heading');
+        expect(headings.length).toBe(3);
+        expect(headings.map((h: HeadingElement) => h.options.content)).toEqual([
+          'oie.enroll.authenticator.promotion.faq.benefit.title',
+          'oie.enroll.authenticator.promotion.faq.definition.title',
+          'oie.enroll.authenticator.promotion.faq.storage.title',
+        ]);
+        // Splash is additive — the classic instructions subtitle is preserved
+        const instructions = bag.uischema.elements.find(
+          (el) => el.type === 'Description' && (el as DescriptionElement).contentType === 'subtitle',
+        ) as DescriptionElement | undefined;
+        expect(instructions).toBeDefined();
+        expect(instructions?.options.content).toBe('oie.enroll.webauthn.passkeysRebrand.instructions');
+      });
+
+      it('renders the illustration and FAQ on promotion with a custom displayName', () => {
+        const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION, 'YubiKey');
+        const bag = transformWebAuthNAuthenticator({
+          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION), widgetProps,
+        });
+
+        expect(findFirst(bag, 'PasskeyPromotionIllustration')).toBeDefined();
+        expect(countByType(bag, 'Heading')).toBe(3);
+      });
+
+      it('does not render the illustration on promotion with Security Key or Biometric displayName', () => {
+        const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION, 'Security Key or Biometric');
+        const bag = transformWebAuthNAuthenticator({
+          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION), widgetProps,
+        });
+
+        expect(findFirst(bag, 'PasskeyPromotionIllustration')).toBeUndefined();
+        expect(countByType(bag, 'Heading')).toBe(0);
+        // Classic instructions subtitle is present instead
+        const instructions = bag.uischema.elements.find(
+          (el: any) => el.type === 'Description' && el.contentType === 'subtitle',
+        ) as DescriptionElement | undefined;
+        expect(instructions?.options.content).toBe('oie.enroll.webauthn.instructions');
+      });
+
+      it('renders the illustration on standard enroll with Passkeys displayName (existing product decision)', () => {
+        const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR, 'Passkeys');
+        const bag = transformWebAuthNAuthenticator({
+          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR), widgetProps,
+        });
+
+        expect(findFirst(bag, 'PasskeyPromotionIllustration')).toBeDefined();
+        expect(countByType(bag, 'Heading')).toBe(3);
+      });
+
+      it('does not render the illustration on standard enroll with Security Key or Biometric displayName', () => {
+        const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR, 'Security Key or Biometric');
+        const bag = transformWebAuthNAuthenticator({
+          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR), widgetProps,
+        });
+
+        expect(findFirst(bag, 'PasskeyPromotionIllustration')).toBeUndefined();
+      });
+    });
+
+    describe('title copy', () => {
+      it('uses the promo title on promotion with Passkeys displayName', () => {
+        const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION, 'Passkeys');
+        const bag = transformWebAuthNAuthenticator({
+          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION), widgetProps,
+        });
+
+        expect((bag.uischema.elements[0] as TitleElement).options.content)
+          .toBe('oie.enroll.authenticator.promotion.title');
+      });
+
+      it('keeps the default title on promotion with Security Key or Biometric displayName', () => {
+        const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION, 'Security Key or Biometric');
+        const bag = transformWebAuthNAuthenticator({
+          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION), widgetProps,
+        });
+
+        expect((bag.uischema.elements[0] as TitleElement).options.content)
+          .toBe('oie.enroll.webauthn.title');
+      });
+
+      it('keeps the custom title on promotion with a custom displayName', () => {
+        const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION, 'YubiKey');
+        const bag = transformWebAuthNAuthenticator({
+          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION), widgetProps,
+        });
+
+        expect((bag.uischema.elements[0] as TitleElement).options.content)
+          .toBe('oie.enroll.webauthn.passkeysRebrand.custom.title');
+      });
+
+      it('keeps the passkeysRebrand title on standard enroll with Passkeys displayName (regression guard)', () => {
+        const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR, 'Passkeys');
+        const bag = transformWebAuthNAuthenticator({
+          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR), widgetProps,
+        });
+
+        expect((bag.uischema.elements[0] as TitleElement).options.content)
+          .toBe('oie.enroll.webauthn.passkeysRebrand.passkeys.title');
+      });
+    });
+
+    describe('skip link', () => {
+      it('appends a "Maybe later" skip link when the response has a skip step', () => {
+        const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION, 'Passkeys', { includeSkip: true });
+        const bag = transformWebAuthNAuthenticator({
+          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION), widgetProps,
+        });
+
+        const links = bag.uischema.elements.filter((el) => el.type === 'Link');
+        expect(links.length).toBe(1);
+        const link = links[0] as any;
+        expect(link.options.label).toBe('oie.enroll.authenticator.promotion.skip');
+        expect(link.options.step).toBe('skip');
+        expect(link.options.isActionStep).toBe(false);
+        // Skip link is the last element in the schema
+        expect(bag.uischema.elements[bag.uischema.elements.length - 1]).toBe(link);
+      });
+
+      it('does not append a skip link when the response has no skip step', () => {
+        const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION, 'Passkeys');
+        const bag = transformWebAuthNAuthenticator({
+          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION), widgetProps,
+        });
+
+        expect(countByType(bag, 'Link')).toBe(0);
+      });
+
+      it('does not append a skip link on standard enroll (regression guard)', () => {
+        const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR, 'Passkeys');
+        const bag = transformWebAuthNAuthenticator({
+          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR), widgetProps,
+        });
+
+        expect(countByType(bag, 'Link')).toBe(0);
       });
     });
   });

@@ -196,6 +196,11 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.WEBAUTHN]: EnrollWebauthnView,
     [AUTHENTICATOR_KEY.YUBIKEY]: AuthenticatorYubiKeyView,
   },
+  // enroll-authenticator-promotion reuses EnrollWebauthnView — same UI/behavior,
+  // plus a Skip footer when the response includes a sibling `skip` remediation.
+  [RemediationForms.ENROLL_AUTHENTICATOR_PROMOTION]: {
+    [AUTHENTICATOR_KEY.WEBAUTHN]: EnrollWebauthnView,
+  },
   [RemediationForms.CHALLENGE_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.CUSTOM_OTP]: ChallengeCustomOTPAuthenticatorView,
     [AUTHENTICATOR_KEY.DUO]: ChallengeDuoAuthenticatorView,

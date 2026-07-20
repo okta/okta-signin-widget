@@ -23,6 +23,7 @@ const template = function(colors) {
   background: ${colors.brand};
   opacity: 0.5;
 }
+#okta-sign-in.auth-container .oie-enroll-webauthn .passkey-promotion-illustration { color: ${colors.brand}; }
     `;
 };
 

@@ -36,6 +36,42 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
         return [];
       });
       spyOn(appState, 'shouldShowSignOutLinkInCurrentForm').and.returnValue(false);
+      // EnrollWebauthnView's Footer calls appState.hasRemediationObject('skip').
+      // Default to no sibling remediations for the standard-enroll tests.
+      spyOn(appState, 'hasRemediationObject').and.returnValue(false);
+      const settings = new Settings({ baseUrl: 'http://localhost:3000' });
+      testContext.view = new EnrollWebauthnView({
+        el: $sandbox,
+        appState,
+        settings,
+        currentViewState,
+      });
+      testContext.view.render();
+    };
+
+    // Renders the view under the `enroll-authenticator-promotion` remediation.
+    // `hasSkipRemediation` controls whether `appState.hasRemediationObject('skip')`
+    // returns true — the response ships with a sibling `skip` remediation, but tests
+    // toggle it off to verify the skip link is absent.
+    testContext.initPromotion = (
+      currentAuthenticator = EnrollWebauthnPasskeysResponse.currentAuthenticator.value,
+      { hasSkipRemediation = true, authenticatorEnrollments = [] } = {},
+    ) => {
+      const currentViewState = {
+        name: 'enroll-authenticator-promotion',
+        relatesTo: {
+          value: currentAuthenticator,
+        },
+      };
+      const appState = new AppState({
+        currentAuthenticator,
+        authenticatorEnrollments,
+      }, {});
+      spyOn(appState, 'getRemediationAuthenticationOptions').and.returnValue([]);
+      spyOn(appState, 'shouldShowSignOutLinkInCurrentForm').and.returnValue(false);
+      spyOn(appState, 'hasRemediationObject').and.callFake(
+        (formName) => formName === 'skip' && hasSkipRemediation
+      );
       const settings = new Settings({ baseUrl: 'http://localhost:3000' });
       testContext.view = new EnrollWebauthnView({
         el: $sandbox,
@@ -730,15 +766,18 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       expect(testContext.view.$('.okta-form-title').text()).toBe('Set up a passkey');
     });
 
-    it('shows additional instructions when description is present', function() {
+    it('shows additional instructions callout alongside the splash for custom displayName', function() {
       testContext.init(EnrollWebauthnCustomResponse.currentAuthenticator.value);
       expect(testContext.view.$('.okta-form-title').text()).toBe('Set up YubiKey');
+      // Splash renders above the classic view
+      expect(testContext.view.$('.oie-passkey-splash-content').length).toBe(1);
+      // Additional-instructions callout is preserved under the splash
       expect(testContext.view.$('.additional-instructions-title').length).toBe(1);
-      expect(testContext.view.$('.additional-instructions-title').text().trim()).toBe('Additional instructions from your administrator:');
+      expect(testContext.view.$('.additional-instructions-title').text().trim())
+        .toBe('Additional instructions from your administrator:');
       expect(testContext.view.$('.additional-instructions-callout').length).toBe(1);
-      expect(testContext.view.$('.additional-instructions-callout').text().trim()).toBe(
-        'Insert your YubiKey and tap to authenticate.'
-      );
+      expect(testContext.view.$('.additional-instructions-callout').text().trim())
+        .toBe('Insert your YubiKey and tap to authenticate.');
     });
 
     it('hides custom instructions when description is missing', function() {
@@ -748,6 +787,104 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       expect(testContext.view.$('.okta-form-title').text()).toBe('Set up YubiKey');
       expect(testContext.view.$('.additional-instructions-title').length).toBe(0);
       expect(testContext.view.$('.additional-instructions-callout').length).toBe(0);
+    });
+  });
+
+  describe('promotion remediation', function() {
+    beforeEach(function() {
+      spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    });
+
+    describe('with Passkeys displayName', function() {
+      it('shows the promo title and "Create a passkey" CTA', function() {
+        testContext.initPromotion();
+        expect(testContext.view.$('.okta-form-title').text())
+          .toBe('Set up a passkey: more secure, easier to use.');
+        expect(testContext.view.$('.webauthn-setup').text()).toBe('Create a passkey');
+      });
+
+      it('renders the splash (illustration + FAQ) alongside the classic instructions line', function() {
+        testContext.initPromotion();
+        expect(testContext.view.$('.oie-passkey-splash-content').length).toBe(1);
+        expect(testContext.view.$('.passkey-promotion-illustration svg').length).toBe(1);
+        expect(testContext.view.$('.passkey-promotion-faq-title').length).toBe(3);
+        // Splash is additive — classic instructions line is still rendered below
+        expect(testContext.view.$('.idx-webauthn-enroll-text').length).toBe(1);
+      });
+
+      it('renders the "Maybe later" skip link when the response has a skip remediation', function() {
+        testContext.initPromotion();
+        const $skipLink = testContext.view.$('[data-se="skip-setup"]');
+        expect($skipLink.length).toBe(1);
+        expect($skipLink.text()).toBe('Maybe later');
+      });
+
+      it('does not render the skip link when the response lacks a skip remediation', function() {
+        testContext.initPromotion(
+          EnrollWebauthnPasskeysResponse.currentAuthenticator.value,
+          { hasSkipRemediation: false },
+        );
+        expect(testContext.view.$('[data-se="skip-setup"]').length).toBe(0);
+      });
+    });
+
+    describe('with Security Key or Biometric displayName', function() {
+      it('keeps the default title and "Set up" CTA', function() {
+        testContext.initPromotion(EnrollWebauthnResponse.currentAuthenticator.value);
+        expect(testContext.view.$('.okta-form-title').text())
+          .toBe('Set up security key or biometric authenticator');
+        expect(testContext.view.$('.webauthn-setup').text()).toBe('Set up');
+      });
+
+      it('does not render the passkey splash', function() {
+        testContext.initPromotion(EnrollWebauthnResponse.currentAuthenticator.value);
+        expect(testContext.view.$('.oie-passkey-splash-content').length).toBe(0);
+        // Classic instructions ARE present
+        expect(testContext.view.$('.idx-webauthn-enroll-text').length).toBe(1);
+      });
+
+      it('still renders the skip link when present in the response', function() {
+        testContext.initPromotion(EnrollWebauthnResponse.currentAuthenticator.value);
+        expect(testContext.view.$('[data-se="skip-setup"]').length).toBe(1);
+      });
+    });
+
+    describe('with a custom displayName', function() {
+      it('keeps the custom title and default "Set up" CTA', function() {
+        testContext.initPromotion(EnrollWebauthnCustomResponse.currentAuthenticator.value);
+        expect(testContext.view.$('.okta-form-title').text()).toBe('Set up YubiKey');
+        expect(testContext.view.$('.webauthn-setup').text()).toBe('Set up');
+      });
+
+      it('still renders the splash (illustration + FAQ)', function() {
+        testContext.initPromotion(EnrollWebauthnCustomResponse.currentAuthenticator.value);
+        expect(testContext.view.$('.oie-passkey-splash-content').length).toBe(1);
+        expect(testContext.view.$('.passkey-promotion-faq-title').length).toBe(3);
+      });
+    });
+  });
+
+  describe('standard enroll (regression guards)', function() {
+    beforeEach(function() {
+      spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    });
+
+    it('keeps the passkeys-rebrand title and "Set up" CTA when displayName is "Passkeys"', function() {
+      testContext.init(EnrollWebauthnPasskeysResponse.currentAuthenticator.value);
+      expect(testContext.view.$('.okta-form-title').text()).toBe('Set up a passkey');
+      expect(testContext.view.$('.webauthn-setup').text()).toBe('Set up');
+    });
+
+    it('renders the splash on standard enroll with Passkeys displayName (existing product decision)', function() {
+      testContext.init(EnrollWebauthnPasskeysResponse.currentAuthenticator.value);
+      expect(testContext.view.$('.oie-passkey-splash-content').length).toBe(1);
+      expect(testContext.view.$('.passkey-promotion-faq-title').length).toBe(3);
+    });
+
+    it('does not render the splash on standard enroll with Security Key or Biometric displayName', function() {
+      testContext.init(EnrollWebauthnResponse.currentAuthenticator.value);
+      expect(testContext.view.$('.oie-passkey-splash-content').length).toBe(0);
+      expect(testContext.view.$('.idx-webauthn-enroll-text').length).toBe(1);
     });
   });
 });
