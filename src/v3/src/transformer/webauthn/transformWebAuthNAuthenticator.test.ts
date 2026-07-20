@@ -829,7 +829,9 @@ describe('WebAuthN Transformer Tests', () => {
       it('renders the illustration and FAQ blocks alongside the classic instructions subtitle', () => {
         const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION, 'Passkeys');
         const bag = transformWebAuthNAuthenticator({
-          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION), widgetProps,
+          transaction: tx,
+          formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION),
+          widgetProps,
         });
 
         expect(findFirst(bag, 'PasskeyPromotionIllustration')).toBeDefined();
@@ -852,7 +854,9 @@ describe('WebAuthN Transformer Tests', () => {
       it('renders the illustration and FAQ on promotion with a custom displayName', () => {
         const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION, 'YubiKey');
         const bag = transformWebAuthNAuthenticator({
-          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION), widgetProps,
+          transaction: tx,
+          formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION),
+          widgetProps,
         });
 
         expect(findFirst(bag, 'PasskeyPromotionIllustration')).toBeDefined();
@@ -862,7 +866,9 @@ describe('WebAuthN Transformer Tests', () => {
       it('does not render the illustration on promotion with Security Key or Biometric displayName', () => {
         const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION, 'Security Key or Biometric');
         const bag = transformWebAuthNAuthenticator({
-          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION), widgetProps,
+          transaction: tx,
+          formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION),
+          widgetProps,
         });
 
         expect(findFirst(bag, 'PasskeyPromotionIllustration')).toBeUndefined();
@@ -898,7 +904,9 @@ describe('WebAuthN Transformer Tests', () => {
       it('uses the promo title on promotion with Passkeys displayName', () => {
         const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION, 'Passkeys');
         const bag = transformWebAuthNAuthenticator({
-          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION), widgetProps,
+          transaction: tx,
+          formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION),
+          widgetProps,
         });
 
         expect((bag.uischema.elements[0] as TitleElement).options.content)
@@ -908,7 +916,9 @@ describe('WebAuthN Transformer Tests', () => {
       it('keeps the default title on promotion with Security Key or Biometric displayName', () => {
         const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION, 'Security Key or Biometric');
         const bag = transformWebAuthNAuthenticator({
-          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION), widgetProps,
+          transaction: tx,
+          formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION),
+          widgetProps,
         });
 
         expect((bag.uischema.elements[0] as TitleElement).options.content)
@@ -918,7 +928,9 @@ describe('WebAuthN Transformer Tests', () => {
       it('keeps the custom title on promotion with a custom displayName', () => {
         const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION, 'YubiKey');
         const bag = transformWebAuthNAuthenticator({
-          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION), widgetProps,
+          transaction: tx,
+          formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION),
+          widgetProps,
         });
 
         expect((bag.uischema.elements[0] as TitleElement).options.content)
@@ -940,7 +952,9 @@ describe('WebAuthN Transformer Tests', () => {
       it('appends a "Maybe later" skip link when the response has a skip step', () => {
         const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION, 'Passkeys', { includeSkip: true });
         const bag = transformWebAuthNAuthenticator({
-          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION), widgetProps,
+          transaction: tx,
+          formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION),
+          widgetProps,
         });
 
         const links = bag.uischema.elements.filter((el) => el.type === 'Link');
@@ -956,7 +970,9 @@ describe('WebAuthN Transformer Tests', () => {
       it('does not append a skip link when the response has no skip step', () => {
         const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION, 'Passkeys');
         const bag = transformWebAuthNAuthenticator({
-          transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION), widgetProps,
+          transaction: tx,
+          formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION),
+          widgetProps,
         });
 
         expect(countByType(bag, 'Link')).toBe(0);
