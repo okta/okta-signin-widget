@@ -17,7 +17,11 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
     testContext = {};
     testContext.init = (
       currentAuthenticator = EnrollWebauthnResponse.currentAuthenticator.value,
-      authenticatorEnrollments = []
+      authenticatorEnrollments = [],
+      // `hasSkipRemediation` lets a regression guard simulate a standard enroll
+      // response that unexpectedly ships a sibling `skip` — we still don't want
+      // to render the promotion-specific "Maybe later" link there.
+      { hasSkipRemediation = false } = {},
     ) => {
       const currentViewState = {
         name: 'enroll-authenticator',
@@ -36,9 +40,12 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
         return [];
       });
       spyOn(appState, 'shouldShowSignOutLinkInCurrentForm').and.returnValue(false);
-      // EnrollWebauthnView's Footer calls appState.hasRemediationObject('skip').
-      // Default to no sibling remediations for the standard-enroll tests.
-      spyOn(appState, 'hasRemediationObject').and.returnValue(false);
+      // EnrollWebauthnView's Footer gates the skip link on the presence of the
+      // `enroll-authenticator-promotion` remediation. Standard enroll never
+      // reports that remediation, so the skip link is always suppressed here.
+      spyOn(appState, 'hasRemediationObject').and.callFake(
+        (formName) => formName === 'skip' && hasSkipRemediation
+      );
       const settings = new Settings({ baseUrl: 'http://localhost:3000' });
       testContext.view = new EnrollWebauthnView({
         el: $sandbox,
@@ -52,7 +59,8 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
     // Renders the view under the `enroll-authenticator-promotion` remediation.
     // `hasSkipRemediation` controls whether `appState.hasRemediationObject('skip')`
     // returns true — the response ships with a sibling `skip` remediation, but tests
-    // toggle it off to verify the skip link is absent.
+    // toggle it off to verify the skip link is absent. The footer separately checks
+    // for `enroll-authenticator-promotion` to gate the promotion-labelled skip link.
     testContext.initPromotion = (
       currentAuthenticator = EnrollWebauthnPasskeysResponse.currentAuthenticator.value,
       { hasSkipRemediation = true, authenticatorEnrollments = [] } = {},
@@ -70,7 +78,10 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       spyOn(appState, 'getRemediationAuthenticationOptions').and.returnValue([]);
       spyOn(appState, 'shouldShowSignOutLinkInCurrentForm').and.returnValue(false);
       spyOn(appState, 'hasRemediationObject').and.callFake(
-        (formName) => formName === 'skip' && hasSkipRemediation
+        (formName) => (
+          formName === 'enroll-authenticator-promotion'
+          || (formName === 'skip' && hasSkipRemediation)
+        )
       );
       const settings = new Settings({ baseUrl: 'http://localhost:3000' });
       testContext.view = new EnrollWebauthnView({
@@ -885,6 +896,15 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       testContext.init(EnrollWebauthnResponse.currentAuthenticator.value);
       expect(testContext.view.$('.oie-passkey-splash-content').length).toBe(0);
       expect(testContext.view.$('.idx-webauthn-enroll-text').length).toBe(1);
+    });
+
+    it('does not render the promotion "Maybe later" skip link on standard enroll — even when the response includes a skip remediation (regression guard for scope of the skip link)', function() {
+      testContext.init(
+        EnrollWebauthnPasskeysResponse.currentAuthenticator.value,
+        [],
+        { hasSkipRemediation: true },
+      );
+      expect(testContext.view.$('[data-se="skip-setup"]').length).toBe(0);
     });
   });
 });

@@ -803,13 +803,26 @@ describe('WebAuthN Transformer Tests', () => {
     const buildTransaction = (
       stepName: string,
       displayName: string,
-      opts: { includeSkip?: boolean } = {},
+      opts: { includeSkip?: boolean; enrollUserVerification?: string } = {},
     ): IdxTransaction => {
       const t = getStubTransactionWithNextStep();
       t.nextStep = {
         name: stepName,
         action: jest.fn(),
-        relatesTo: { value: { displayName } as unknown as IdxAuthenticator },
+        relatesTo: {
+          value: {
+            displayName,
+            ...(opts.enrollUserVerification ? {
+              contextualData: {
+                activationData: {
+                  authenticatorSelection: {
+                    userVerification: opts.enrollUserVerification,
+                  },
+                } as unknown as ActivationData,
+              },
+            } : {}),
+          } as unknown as IdxAuthenticator,
+        },
       };
       t.availableSteps = opts.includeSkip
         ? [{ name: 'skip', action: jest.fn() }]
@@ -978,13 +991,59 @@ describe('WebAuthN Transformer Tests', () => {
         expect(countByType(bag, 'Link')).toBe(0);
       });
 
-      it('does not append a skip link on standard enroll (regression guard)', () => {
-        const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR, 'Passkeys');
+      it('does not append the promotion-labelled skip link on standard enroll — even if the response ships a skip step (regression guard for scope of the skip link)', () => {
+        const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR, 'Passkeys', { includeSkip: true });
         const bag = transformWebAuthNAuthenticator({
           transaction: tx, formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR), widgetProps,
         });
 
         expect(countByType(bag, 'Link')).toBe(0);
+      });
+
+      it('does not append a skip link on the challenge remediation even if the response ships a skip step', () => {
+        const tx = buildTransaction(IDX_STEP.CHALLENGE_AUTHENTICATOR, 'Passkeys', { includeSkip: true });
+        const bag = transformWebAuthNAuthenticator({
+          transaction: tx, formBag: getStubFormBag(IDX_STEP.CHALLENGE_AUTHENTICATOR), widgetProps,
+        });
+
+        expect(countByType(bag, 'Link')).toBe(0);
+      });
+    });
+
+    describe('UV / Edge callouts', () => {
+      it('renders the UV-required callout on the promotion remediation when authenticatorSelection.userVerification is "required"', () => {
+        const tx = buildTransaction(
+          IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION,
+          'Passkeys',
+          { enrollUserVerification: 'required' },
+        );
+        const bag = transformWebAuthNAuthenticator({
+          transaction: tx,
+          formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION),
+          widgetProps,
+        });
+
+        const uvCallout = bag.uischema.elements.find(
+          (el) => el.type === 'Description'
+            && (el as DescriptionElement).options.content === 'oie.enroll.webauthn.uv.required.instructions',
+        );
+        expect(uvCallout).toBeDefined();
+      });
+
+      it('renders the Edge callout on the promotion remediation when the browser is Edge', () => {
+        mockIsEdgeBrowser.mockReturnValue(true);
+        const tx = buildTransaction(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION, 'Passkeys');
+        const bag = transformWebAuthNAuthenticator({
+          transaction: tx,
+          formBag: getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION),
+          widgetProps,
+        });
+
+        const edgeCallout = bag.uischema.elements.find(
+          (el) => el.type === 'Description'
+            && (el as DescriptionElement).options.content === 'oie.enroll.webauthn.instructions.edge',
+        );
+        expect(edgeCallout).toBeDefined();
       });
     });
   });

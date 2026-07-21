@@ -16,8 +16,8 @@ import BrowserFeatures from '../../../../util/BrowserFeatures';
 import {
   getWebAuthnI18nKey,
   getWebAuthnI18nParams,
-  isCustomDisplayName,
-  WEBAUTHN_DISPLAY_NAMES,
+  isPromotionPasskeys,
+  shouldShowPasskeySplash,
   WEBAUTHN_I18N_KEYS,
 } from '../../../../util/webauthnDisplayNameUtils';
 import { IDX_STEP } from '../../constants';
@@ -42,8 +42,9 @@ import {
   webAuthNEnrollmentHandler,
 } from '../../util';
 
-const shouldShowPasskeySplash = (displayName?: string): boolean => (
-  displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS || isCustomDisplayName(displayName)
+const isEnrollStep = (name?: string): boolean => (
+  name === IDX_STEP.ENROLL_AUTHENTICATOR
+  || name === IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION
 );
 
 const appendViewCallouts = (
@@ -68,7 +69,10 @@ const appendViewCallouts = (
     contentType: 'subtitle',
     options: { content: '' },
   };
-  if (name === IDX_STEP.ENROLL_AUTHENTICATOR) {
+  // UV-required and Edge callouts apply to both the standard enroll remediation
+  // and the promotion variant — they're driven by browser/authenticator state,
+  // not by which remediation the server chose to serve.
+  if (isEnrollStep(name)) {
     if (enrollUserVerification === 'required') {
       calloutEle.options.content = loc('oie.enroll.webauthn.uv.required.instructions', 'login');
       uischema.elements.unshift(calloutEle);
@@ -176,19 +180,17 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
 
   const displayName = relatesTo?.value?.displayName;
   const description = (relatesTo?.value as any)?.description;
-  const isEnroll = name === IDX_STEP.ENROLL_AUTHENTICATOR
-    || name === IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION;
+  const isEnroll = isEnrollStep(name);
   const isPasskeySplash = isEnroll && shouldShowPasskeySplash(displayName);
-  // Promotion-specific title/CTA copy only applies to the "Passkeys" displayName —
+  // Promotion-specific title/CTA/skip copy only applies to the "Passkeys" displayName —
   // Security Key or Biometric (DEFAULT) and Custom variants keep their standard
   // titles/CTAs even when served via enroll-authenticator-promotion.
-  const isPromotionPasskeys = name === IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION
-    && displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS;
+  const isPromoPasskeys = isPromotionPasskeys(name, displayName);
 
   // Dynamic title based on displayName (with promotion-Passkeys override)
   let titleKey: string | null;
   let titleParams: string[];
-  if (isPromotionPasskeys) {
+  if (isPromoPasskeys) {
     titleKey = 'oie.enroll.authenticator.promotion.title';
     titleParams = [];
   } else {
@@ -333,19 +335,22 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
     appendFooterAccordion(uischema, app, displayName);
   }
 
-  // Surface a skip link when the response carries a sibling `skip` remediation.
-  // enroll-authenticator-promotion ships with one; standard enroll-authenticator
-  // does not, so the link stays invisible there.
-  const skipStep = availableSteps?.find(({ name: stepName }) => stepName === 'skip');
-  if (skipStep) {
-    uischema.elements.push({
-      type: 'Link',
-      options: {
-        label: loc('oie.enroll.authenticator.promotion.skip', 'login'),
-        step: skipStep.name,
-        isActionStep: false,
-      },
-    } as LinkElement);
+  // Surface the "Maybe later" skip link ONLY on the promotion remediation. The API
+  // is expected to always ship a sibling `skip` on that remediation; scoping by
+  // step name (not just presence of `skip`) keeps the promotion-specific label
+  // from leaking into other WebAuthN flows (standard enroll, challenge).
+  if (name === IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION) {
+    const skipStep = availableSteps?.find(({ name: stepName }) => stepName === 'skip');
+    if (skipStep) {
+      uischema.elements.push({
+        type: 'Link',
+        options: {
+          label: loc('oie.enroll.authenticator.promotion.skip', 'login'),
+          step: skipStep.name,
+          isActionStep: false,
+        },
+      } as LinkElement);
+    }
   }
 
   return formBag;

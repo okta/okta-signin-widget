@@ -28,7 +28,7 @@ describe('ColorsUtil', function() {
             background: #008000;
             opacity: 0.5;
           }
-          #okta-sign-in.auth-container .oie-enroll-webauthn .passkey-promotion-illustration { color: #008000; }
+          #okta-sign-in.auth-container .passkey-promotion-illustration { color: #008000; }
         `;
 
       ColorsUtil.addStyle(colors);
@@ -51,7 +51,7 @@ describe('ColorsUtil', function() {
             background: #008000;
             opacity: 0.5;
           }
-          #okta-sign-in.auth-container .oie-enroll-webauthn .passkey-promotion-illustration { color: #008000; }
+          #okta-sign-in.auth-container .passkey-promotion-illustration { color: #008000; }
         `;
 
       ColorsUtil.addStyle(colors, cspNonce);

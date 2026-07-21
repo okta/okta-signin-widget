@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { WEBAUTHN_DISPLAY_NAMES } from '../../../../util/webauthnDisplayNameUtils';
+import { isPromotionPasskeys } from '../../../../util/webauthnDisplayNameUtils';
 import { IDX_STEP } from '../../constants';
 import {
   TransformStepFnWithOptions,
@@ -36,12 +36,10 @@ export const transformWebAuthNSubmitButton: TransformStepFnWithOptions = ({
         // everything else (Security Key/Biometric, Custom, or standard enroll)
         // keeps the default "Set up" label.
         const displayName = relatesTo?.value?.displayName;
-        const isPromotionPasskeys = name === IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION
-          && displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS;
         addTranslation({
           element,
           name: 'label',
-          i18nKey: isPromotionPasskeys
+          i18nKey: isPromotionPasskeys(name, displayName)
             ? 'oie.enroll.authenticator.promotion.cta.createPasskey'
             : 'oie.enroll.webauthn.save',
         });

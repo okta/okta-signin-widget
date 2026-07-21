@@ -12,41 +12,46 @@ import { getWebAuthnTitle } from '../../utils/AuthenticatorUtil';
 import { getSkipSetupLink } from '../../utils/LinksUtil';
 import {
   getWebAuthnI18nKey,
-  isCustomDisplayName,
-  WEBAUTHN_DISPLAY_NAMES,
+  isPromotionPasskeys as isPromotionPasskeysShared,
+  shouldShowPasskeySplash,
 } from 'util/webauthnDisplayNameUtils';
 import { passkeyPromotionIllustration } from './passkeyPromotionIllustration';
 
-// True when the response is the enroll-authenticator-promotion remediation AND the
-// authenticator displayName is "Passkeys". Only in this case do we swap in the
-// promotion-specific title/CTA copy — Security Key or Biometric (DEFAULT) and
-// Custom variants keep their standard titles/CTAs even when served via promotion.
-const isPromotionPasskeys = (currentViewState) => (
-  currentViewState?.name === RemediationForms.ENROLL_AUTHENTICATOR_PROMOTION
-  && currentViewState?.relatesTo?.value?.displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS
+const isPromotionPasskeys = (currentViewState) => isPromotionPasskeysShared(
+  currentViewState?.name,
+  currentViewState?.relatesTo?.value?.displayName,
 );
-
-// True when the response's `currentAuthenticator.displayName` is "Passkeys" or a custom
-// value. In that mode the enrollment page shows the rich splash (illustration + FAQ).
-// "Security Key or Biometric" (DEFAULT) keeps the classic instruction line.
-const shouldShowPasskeySplash = (displayName) =>
-  displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS || isCustomDisplayName(displayName);
 
 // Splash content (illustration + FAQ) shown when the passkey displayName applies.
 // Illustration SVG uses `fill="currentColor"` so it inherits from the enclosing
 // element's CSS `color`, which ColorsUtil overrides with `colors.brand` when configured.
-/* eslint-disable max-len */
+//
+// {{{illustrationSvg}}} renders unescaped. Safe here because `passkeyPromotionIllustration`
+// is a compile-time constant defined in this repo — do NOT wire user-controlled input
+// through this field or the SVG becomes an XSS vector.
 const PasskeySplashInfoView = View.extend({
   className: 'oie-passkey-splash-content',
   template: hbs`
     <div class="passkey-promotion-illustration">{{{illustrationSvg}}}</div>
     <div class="passkey-promotion-faq">
-      <h3 class="passkey-promotion-faq-title">{{i18n code="oie.enroll.authenticator.promotion.faq.benefit.title" bundle="login"}}</h3>
-      <p class="passkey-promotion-faq-description">{{i18n code="oie.enroll.authenticator.promotion.faq.benefit.description" bundle="login"}}</p>
-      <h3 class="passkey-promotion-faq-title">{{i18n code="oie.enroll.authenticator.promotion.faq.definition.title" bundle="login"}}</h3>
-      <p class="passkey-promotion-faq-description">{{i18n code="oie.enroll.authenticator.promotion.faq.definition.description" bundle="login"}}</p>
-      <h3 class="passkey-promotion-faq-title">{{i18n code="oie.enroll.authenticator.promotion.faq.storage.title" bundle="login"}}</h3>
-      <p class="passkey-promotion-faq-description">{{i18n code="oie.enroll.authenticator.promotion.faq.storage.description" bundle="login"}}</p>
+      <h3 class="passkey-promotion-faq-title">
+        {{i18n code="oie.enroll.authenticator.promotion.faq.benefit.title" bundle="login"}}
+      </h3>
+      <p class="passkey-promotion-faq-description">
+        {{i18n code="oie.enroll.authenticator.promotion.faq.benefit.description" bundle="login"}}
+      </p>
+      <h3 class="passkey-promotion-faq-title">
+        {{i18n code="oie.enroll.authenticator.promotion.faq.definition.title" bundle="login"}}
+      </h3>
+      <p class="passkey-promotion-faq-description">
+        {{i18n code="oie.enroll.authenticator.promotion.faq.definition.description" bundle="login"}}
+      </p>
+      <h3 class="passkey-promotion-faq-title">
+        {{i18n code="oie.enroll.authenticator.promotion.faq.storage.title" bundle="login"}}
+      </h3>
+      <p class="passkey-promotion-faq-description">
+        {{i18n code="oie.enroll.authenticator.promotion.faq.storage.description" bundle="login"}}
+      </p>
     </div>
   `,
   getTemplateData() {
@@ -55,7 +60,6 @@ const PasskeySplashInfoView = View.extend({
     };
   },
 });
-/* eslint-enable max-len */
 
 function getExcludeCredentials(authenticatorEnrollments = []) {
   const credentials = [];
@@ -205,16 +209,23 @@ const Body = BaseForm.extend({
 
 // Extend AuthenticatorFooter (rather than BaseFooter) so the switch-authenticator
 // link ("Return to authenticator list") and any factor-page custom link keep
-// rendering. Append the "Maybe later" skip link on top when the response ships
-// a sibling `skip` remediation — enroll-authenticator-promotion does, standard
-// enroll-authenticator does not.
+// rendering. Append the "Maybe later" skip link on top ONLY when this view is
+// serving the `enroll-authenticator-promotion` remediation — the API always
+// ships a sibling `skip` on that remediation. Scoping by form name (rather than
+// just presence of `skip`) prevents the promotion-specific "Maybe later" label
+// from leaking into any standard `enroll-authenticator` response that happens
+// to include a skip step.
 const Footer = AuthenticatorFooter.extend({
   links() {
-    return AuthenticatorFooter.prototype.links.call(this).concat(
+    const baseLinks = AuthenticatorFooter.prototype.links.call(this);
+    if (!this.options.appState.hasRemediationObject(RemediationForms.ENROLL_AUTHENTICATOR_PROMOTION)) {
+      return baseLinks;
+    }
+    return baseLinks.concat(
       getSkipSetupLink(
         this.options.appState,
-        loc('oie.enroll.authenticator.promotion.skip', 'login')
-      )
+        loc('oie.enroll.authenticator.promotion.skip', 'login'),
+      ),
     );
   },
 });
