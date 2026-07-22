@@ -62,7 +62,7 @@ export const transformNfcPinCreate: IdxStepTransformer = ({
 
   // Find passcode field
   const passwordFieldName = 'credentials.passcode';
-  let passwordElement = getUIElementWithName(
+  const passwordElement = getUIElementWithName(
     passwordFieldName,
     uischema.elements as FieldElement[],
   ) as FieldElement;
