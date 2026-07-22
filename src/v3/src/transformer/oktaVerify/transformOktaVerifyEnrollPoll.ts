@@ -234,21 +234,26 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
     if (deviceMap.platformLC) {
       let platformSupported = true;
       let svgIcon;
+      let altText = loc('enroll.oda.step3', 'login');
       switch (deviceMap.platformLC) {
         case 'android':
           svgIcon = GoogleStoreIcon;
+          altText = loc('enroll.oda.download.android', 'login');
           break;
 
         case 'ios':
           svgIcon = AppleStoreIcon;
+          altText = loc('enroll.oda.download.ios', 'login');
           break;
 
         case 'windows':
           svgIcon = WindowsStoreIcon;
+          altText = loc('enroll.oda.download.windows', 'login');
           break;
 
         case 'osx':
           svgIcon = OSXStoreIcon;
+          altText = loc('enroll.oda.download.osx', 'login');
           break;
 
         default:
@@ -260,7 +265,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
             type: 'ImageLink',
             options: {
               href: deviceMap.downloadHref,
-              altText: loc('enroll.oda.step3', 'login'),
+              altText,
               alignment: 'center',
               svgIcon,
               dataSe: 'app-store-link',
