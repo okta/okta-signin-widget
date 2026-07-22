@@ -1,9 +1,10 @@
 import { loc } from '@okta/courage';
+import Enums from 'util/Enums';
 import { BaseForm, BaseFooter, BaseOktaVerifyChallengeView, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { getFactorPageCustomLink, getSwitchAuthenticatorLink } from '../../utils/LinksUtil';
 import { doChallenge } from '../../utils/ChallengeViewUtil';
-import { AUTHENTICATOR_CANCEL_ACTION } from '../../utils/Constants';  // used by DeviceChallengeBody.pollingCancelAction
+import { AUTHENTICATOR_CANCEL_ACTION } from '../../utils/Constants';
 import { generatePasswordPolicyHtml } from '../password/PasswordPolicyUtil';
 
 /**
@@ -18,7 +19,7 @@ const DeviceChallengeBody = BaseOktaVerifyChallengeView.extend({
     const setupNfcUrl = authenticator?.contextualData?.setupNfcUrl;
     if (setupNfcUrl) {
       return {
-        challengeMethod: 'CUSTOM_URI',
+        challengeMethod: Enums.CUSTOM_URI_CHALLENGE,
         href: setupNfcUrl,
       };
     }

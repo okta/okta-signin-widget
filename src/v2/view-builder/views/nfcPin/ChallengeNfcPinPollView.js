@@ -1,5 +1,6 @@
 import { View, loc, createButton } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
+import Enums from 'util/Enums';
 import { BaseFooter, BaseOktaVerifyChallengeView } from '../../internals';
 import { appendLoginHint } from '../../utils/ChallengeViewUtil';
 import { getSwitchAuthenticatorLink } from '../../utils/LinksUtil';
@@ -12,9 +13,9 @@ const Body = BaseOktaVerifyChallengeView.extend({
 
   doChallenge() {
     const deviceChallenge = this.getDeviceChallengePayload();
-    const loginHint = this.options.settings?.get('username');
+    const loginHint = this.options.settings?.get('identifier');
 
-    if (deviceChallenge.challengeMethod === 'LOOPBACK') {
+    if (deviceChallenge.challengeMethod === Enums.LOOPBACK_CHALLENGE) {
       this.doLoopback(deviceChallenge);
       return;
     }

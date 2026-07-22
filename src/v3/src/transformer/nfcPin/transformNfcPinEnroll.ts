@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IDX_STEP } from '../../constants';
+import { CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import {
   DescriptionElement,
   FieldElement,
@@ -56,7 +56,7 @@ const transformDeviceChallengePoll: IdxStepTransformer = ({ formBag, transaction
     options: {
       step: transaction.nextStep!.name,
       href: setupNfcUrl,
-      challengeMethod: 'CUSTOM_URI',
+      challengeMethod: CHALLENGE_METHOD.CUSTOM_URI,
     },
   };
 

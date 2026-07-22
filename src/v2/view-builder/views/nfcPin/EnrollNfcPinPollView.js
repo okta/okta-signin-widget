@@ -1,5 +1,6 @@
 import { View, loc, createButton } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
+import Enums from 'util/Enums';
 import { BaseFooter, BaseOktaVerifyChallengeView } from '../../internals';
 import { AUTHENTICATOR_CANCEL_ACTION } from '../../utils/Constants';
 import { getSwitchAuthenticatorLink } from '../../utils/LinksUtil';
@@ -12,7 +13,7 @@ const Body = BaseOktaVerifyChallengeView.extend({
     const contextualData = this.options.appState.get('currentAuthenticator')?.contextualData;
     if (contextualData?.setupNfcUrl) {
       return {
-        challengeMethod: 'CUSTOM_URI',
+        challengeMethod: Enums.CUSTOM_URI_CHALLENGE,
         href: contextualData.setupNfcUrl,
       };
     }

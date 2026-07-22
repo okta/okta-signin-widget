@@ -46,7 +46,6 @@ export const transformNfcPinCreate: IdxStepTransformer = ({
   // PIN settings — map to PasswordSettings format
   const rawSettings = (
     relatesTo?.value?.settings
-    // @ts-expect-error enrollmentAuthenticator may not be typed
     || context?.enrollmentAuthenticator?.value?.settings
     || {}
   ) as { minLength?: number; maxLength?: number };
@@ -61,26 +60,19 @@ export const transformNfcPinCreate: IdxStepTransformer = ({
     complexity: { minLength: pinLength },
   };
 
-  // Find passcode field (same as password transformer)
-  let passwordFieldName = 'credentials.passcode';
+  // Find passcode field
+  const passwordFieldName = 'credentials.passcode';
   let passwordElement = getUIElementWithName(
     passwordFieldName,
     uischema.elements as FieldElement[],
   ) as FieldElement;
-  if (!passwordElement) {
-    passwordFieldName = 'credentials.newPassword';
-    passwordElement = getUIElementWithName(
-      passwordFieldName,
-      uischema.elements as FieldElement[],
-    ) as FieldElement;
-  }
   if (passwordElement) {
     passwordElement.label = loc('oie.enroll.nfc_pin.create.pinLabel', 'login');
     passwordElement.options = {
       ...passwordElement.options,
       attributes: {
         ...passwordElement.options?.attributes,
-        autocomplete: 'new-password',
+        autocomplete: 'one-time-code',
         inputmode: 'numeric',
       },
     };
@@ -103,7 +95,7 @@ export const transformNfcPinCreate: IdxStepTransformer = ({
         messages: { value: undefined },
       },
       attributes: {
-        autocomplete: 'new-password',
+        autocomplete: 'one-time-code',
         inputmode: 'numeric',
       },
     },
