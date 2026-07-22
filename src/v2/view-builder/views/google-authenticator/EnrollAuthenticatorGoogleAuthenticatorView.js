@@ -90,7 +90,7 @@ const Body = BaseForm.extend({
               <span
                 class="shared-secret no-translate"
                 tabindex="0"
-                aria-label="{{sharedSecretSpaced}}"
+                aria-label="{{sharedSecretAriaLabel}}"
               >{{sharedSecret}}</span>
             </div>
           `,
@@ -98,7 +98,11 @@ const Body = BaseForm.extend({
             const sharedSecret = this.options.appState.get('currentAuthenticator').contextualData.sharedSecret || '';
             return {
               sharedSecret,
-              sharedSecretSpaced: sharedSecret.split('').join(' '),
+              sharedSecretAriaLabel: loc(
+                'oie.enroll.google_authenticator.sharedSecret.ariaLabel',
+                'login',
+                [sharedSecret.split('').join(' ')]
+              ),
             };
           },
         }),
