@@ -733,8 +733,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                             translate="no"
                           >
                             <span
-                              aria-label="K A G W B I X A K O L P E F M Y"
-                              style="letter-spacing: 0.3em;"
+                              aria-label="Secret key: K A G W B I X A K O L P E F M Y"
+                              class="shared-secret"
                               tabindex="0"
                             >
                               KAGWBIXAKOLPEFMY

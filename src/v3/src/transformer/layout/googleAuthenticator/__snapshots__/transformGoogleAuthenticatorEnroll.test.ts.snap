@@ -102,7 +102,7 @@ Object {
                 "contentType": "subtitle",
                 "noTranslate": true,
                 "options": Object {
-                  "content": "<span tabindex=\\"0\\" aria-label=\\"A B C 1 2 3 D E F 4 5 6\\" style=\\"letter-spacing: 0.3em;\\">ABC123DEF456</span>",
+                  "content": "<span class=\\"shared-secret\\" tabindex=\\"0\\" aria-label=\\"oie.enroll.google_authenticator.sharedSecret.ariaLabel\\">ABC123DEF456</span>",
                 },
                 "type": "Description",
                 "viewIndex": 1,
@@ -263,7 +263,7 @@ Object {
                 "contentType": "subtitle",
                 "noTranslate": true,
                 "options": Object {
-                  "content": "<span tabindex=\\"0\\" aria-label=\\"A B C 1 2 3 D E F 4 5 6\\" style=\\"letter-spacing: 0.3em;\\">ABC123DEF456</span>",
+                  "content": "<span class=\\"shared-secret\\" tabindex=\\"0\\" aria-label=\\"oie.enroll.google_authenticator.sharedSecret.ariaLabel\\">ABC123DEF456</span>",
                 },
                 "type": "Description",
                 "viewIndex": 1,
