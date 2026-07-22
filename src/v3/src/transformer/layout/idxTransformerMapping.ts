@@ -16,6 +16,12 @@ import { isDevelopmentEnvironment, isTestEnvironment } from 'src/util';
 import { AUTHENTICATOR_KEY, CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import { transformIdentify } from '../identify';
 import {
+  transformNfcPinChallenge,
+  transformNfcPinDeviceChallenge,
+  transformNfcPinEnroll,
+  transformNfcPinLaunchAuthenticator,
+} from '../nfcPin';
+import {
   transformAppleSsoExtension,
   transformOktaVerifyChannelSelection,
   transformOktaVerifyCustomAppChallengePoll,
@@ -260,8 +266,24 @@ const TransformerMap: {
       transform: transformTacAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
     },
+    [AUTHENTICATOR_KEY.NFC_PIN]: {
+      transform: transformNfcPinChallenge,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showVerifyWithOtherLink: false,
+      },
+    },
   },
   [IDX_STEP.CHALLENGE_POLL]: {
+    [AUTHENTICATOR_KEY.NFC_PIN]: {
+      transform: transformNfcPinDeviceChallenge,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showVerifyWithOtherLink: false,
+      },
+    },
     [AUTHENTICATOR_KEY.OV]: {
       transform: transformOktaVerifyCustomAppChallengePoll,
       buttonConfig: {
@@ -393,6 +415,14 @@ const TransformerMap: {
       transform: transformYubikeyOtpAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
     },
+    [AUTHENTICATOR_KEY.NFC_PIN]: {
+      transform: transformNfcPinEnroll,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showReturnToAuthListLink: false,
+      },
+    },
   },
   [IDX_STEP.ENROLLMENT_CHANNEL_DATA]: {
     [AUTHENTICATOR_KEY.OV]: {
@@ -404,6 +434,14 @@ const TransformerMap: {
     [AUTHENTICATOR_KEY.OV]: {
       transform: transformOktaVerifyEnrollPoll,
       buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.NFC_PIN]: {
+      transform: transformNfcPinEnroll,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showReturnToAuthListLink: false,
+      },
     },
   },
   [IDX_STEP.ENROLL_PROFILE]: {
@@ -449,6 +487,15 @@ const TransformerMap: {
   [IDX_STEP.LAUNCH_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformOktaVerifyFPLaunchAuthenticator,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+      },
+    },
+  },
+  [IDX_STEP.LAUNCH_NFC_AUTHENTICATOR]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformNfcPinLaunchAuthenticator,
       buttonConfig: {
         showDefaultSubmit: false,
         showDefaultCancel: false,
@@ -529,6 +576,10 @@ const TransformerMap: {
     [AUTHENTICATOR_KEY.GOOGLE_OTP]: {
       transform: transformGoogleAuthenticatorEnroll,
       buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.NFC_PIN]: {
+      transform: transformNfcPinEnroll,
+      buttonConfig: { showDefaultSubmit: false, showDefaultCancel: false },
     },
   },
   [IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE]: {

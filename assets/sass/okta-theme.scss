@@ -208,6 +208,14 @@
     background-size: contain;
   }
 
+  .mfa-nfc-pin,
+  .mfa-nfc-pin-30,
+  .enroll-factor-row .mfa-nfc-pin {
+    /* -- NFC PIN Icon (SVG) -- */
+    background-image: url('../img/icons/mfa/nfcPin_authenticator.svg');
+    background-size: contain;
+  }
+
   .okta-verify-authenticator {
     /* -- Okta Verify Authenticator (small) -- */
     background-image: url('../img/icons/mfa/oktaVerify_authenticator.png');
@@ -218,6 +226,11 @@
       /* -- Okta Verify Authenticator Icons (high DPI) -- */
       background-image: url('../img/icons/mfa/oktaVerify_authenticator@2x.png');
     }
+  }
+
+  .okta-nfc-authenticator {
+    /* -- NFC PIN Authenticator (small) -- */
+    background-image: url('../img/icons/mfa/nfcPin_authenticator.svg');
   }
 
   .factor-icon,

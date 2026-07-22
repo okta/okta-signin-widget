@@ -1,0 +1,73 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02.id.RnZmaz2QsT5NyGYJ1HylbZYlz3Lpo03ckQkAbUvg",
+  "expiresAt": "2026-07-08T15:24:31.000Z",
+  "intent": "LOGIN",
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u23e1yHPF95Gz4b0g5",
+      "identifier": "testuser@example.com",
+      "profile": {
+        "firstName": "Test",
+        "lastName": "User",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US",
+        "email": "t***r@example.com"
+      }
+    }
+  },
+  "success": {
+    "name": "success-redirect",
+    "href": "http://localhost:3000/app/UserHome?stateToken=mockedStateToken123"
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02.id.RnZmaz2QsT5NyGYJ1HylbZYlz3Lpo03ckQkAbUvg",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "0oa1vg42HZCWu7jdT0g5"
+    }
+  },
+  "authentication": {
+    "type": "object",
+    "value": {
+      "protocol": "OAUTH2.0",
+      "issuer": {
+        "name": "default",
+        "uri": "http://localhost:3000"
+      },
+      "request": {
+        "max_age": -1,
+        "scope": "openid profile email okta.users.read.self okta.users.manage.self okta.internal.enduser.read okta.internal.enduser.manage okta.enduser.dashboard.read okta.enduser.dashboard.manage okta.myAccount.sessions.manage okta.internal.navigation.enduser.read",
+        "display": "page",
+        "response_type": "code",
+        "redirect_uri": "http://localhost:3000/enduser/callback",
+        "state": "mock-state-value",
+        "code_challenge_method": "S256",
+        "nonce": "mock-nonce-value",
+        "code_challenge": "mock-code-challenge",
+        "response_mode": "query"
+      }
+    }
+  }
+}

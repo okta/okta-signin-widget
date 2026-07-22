@@ -120,6 +120,13 @@ import ReEnrollCustomPasswordExpiryWarningView from './views/custom-password/ReE
 // tac
 import ChallengeAuthenticatorTacView from './views/tac/ChallengeAuthenticatorTacView';
 
+// NFC PIN
+import ChallengeNfcPinView from './views/nfcPin/ChallengeNfcPinView';
+import ChallengeNfcPinPollView from './views/nfcPin/ChallengeNfcPinPollView';
+import EnrollNfcPinView from './views/nfcPin/EnrollNfcPinView';
+import EnrollNfcPinPollView from './views/nfcPin/EnrollNfcPinPollView';
+import SignInWithNfcView from './views/nfcPin/SignInWithNfcView';
+
 // keep me signed in
 import PostAuthKeepMeSignedInView from './views/keep-me-signed-in/PostAuthKeepMeSignedInView';
 
@@ -143,6 +150,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.LAUNCH_AUTHENTICATOR]: {
     [DEFAULT]: SignInDeviceView,
+  },
+  [RemediationForms.LAUNCH_NFC_AUTHENTICATOR]: {
+    [DEFAULT]: SignInWithNfcView,
   },
   [RemediationForms.DEVICE_APPLE_SSO_EXTENSION]: {
     [DEFAULT]: SSOExtensionView,
@@ -195,6 +205,7 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.SYMANTEC_VIP]: AuthenticatorSymantecView,
     [AUTHENTICATOR_KEY.WEBAUTHN]: EnrollWebauthnView,
     [AUTHENTICATOR_KEY.YUBIKEY]: AuthenticatorYubiKeyView,
+    [AUTHENTICATOR_KEY.NFC_PIN]: EnrollNfcPinView,
   },
   [RemediationForms.CHALLENGE_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.CUSTOM_OTP]: ChallengeCustomOTPAuthenticatorView,
@@ -210,11 +221,13 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: ChallengeAuthenticatorSecurityQuestion,
     [AUTHENTICATOR_KEY.SYMANTEC_VIP]: AuthenticatorSymantecView,
     [AUTHENTICATOR_KEY.TAC]: ChallengeAuthenticatorTacView,
+    [AUTHENTICATOR_KEY.NFC_PIN]: ChallengeNfcPinView,
     [AUTHENTICATOR_KEY.WEBAUTHN]: ChallengeWebauthnView,
     [AUTHENTICATOR_KEY.YUBIKEY]: AuthenticatorYubiKeyView,
   },
   [RemediationForms.ENROLL_POLL]: {
     [AUTHENTICATOR_KEY.OV]: EnrollPollOktaVerifyView,
+    [AUTHENTICATOR_KEY.NFC_PIN]: EnrollNfcPinPollView,
   },
   [RemediationForms.SELECT_ENROLLMENT_CHANNEL]: {
     [AUTHENTICATOR_KEY.OV]: SelectEnrollmentChannelOktaVerifyView,
@@ -245,6 +258,7 @@ const VIEWS_MAPPING = {
     // Admin driven password reset..
     [AUTHENTICATOR_KEY.PASSWORD]: ResetAuthenticatorPasswordView,
     [AUTHENTICATOR_KEY.GOOGLE_OTP]: EnrollAuthenticatorGoogleAuthenticatorView,
+    [AUTHENTICATOR_KEY.NFC_PIN]: EnrollNfcPinView,
   },
   [RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE]: {
     [DEFAULT]: SelectAuthenticatorVerifyView,
@@ -258,6 +272,7 @@ const VIEWS_MAPPING = {
   [RemediationForms.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyView,
     [AUTHENTICATOR_KEY.CUSTOM_APP]: ChallengePushView,
+    [AUTHENTICATOR_KEY.NFC_PIN]: ChallengeNfcPinPollView,
   },
   [RemediationForms.RESEND]: {
     [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyResendPushView,

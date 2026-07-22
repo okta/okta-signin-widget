@@ -477,6 +477,7 @@ export interface LaunchAuthenticatorButtonElement extends UISchemaElement {
     step: string;
     deviceChallengeUrl?: string;
     challengeMethod?: string;
+    i18nKey?: string;
   };
 }
 

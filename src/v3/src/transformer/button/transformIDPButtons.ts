@@ -19,6 +19,7 @@ import {
   getCustomButtonElements,
   getFastPassButtonElement,
   getIdpButtonElements,
+  getNfcLaunchButtonElement,
   getSignInWithPasskeyButtonElement,
   loc,
 } from '../../util';
@@ -44,6 +45,8 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
 
   // only include fastpass button in identify flow
   const fastPassButtonElement = containsIdentifyStep ? getFastPassButtonElement(transaction) : [];
+  // only include NFC button in identify flow
+  const nfcLaunchButtonElement = containsIdentifyStep ? getNfcLaunchButtonElement(transaction) : [];
   const idpButtonElements = getIdpButtonElements(transaction, widgetProps);
   // Only identify step contains custom buttons
   const customButtonElements = containsIdentifyStep ? getCustomButtonElements(widgetProps) : [];
@@ -60,9 +63,10 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
     ? idpButtonElements.filter((el) => !pivButtons.includes(el))
     : idpButtonElements;
 
-  // Special action buttons (FastPass, PIV, passkey) that sit above the IdP list
+  // Special action buttons (FastPass, NFC, PIV, passkey) that sit above the IdP list
   const specialButtons = [
     ...fastPassButtonElement,
+    ...nfcLaunchButtonElement,
     ...pivButtons,
     ...customButtonElements,
     ...signInWithPasskeyButtonElement,
