@@ -1,0 +1,236 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "02.id.giWXPDpiYM0D3WtvpbioAV6RDOzn2tgoGMDOjRTQ",
+    "expiresAt": "2026-07-13T22:10:32.000Z",
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "enroll-authenticator-promotion",
+                "relatesTo": [
+                    "$.currentAuthenticator"
+                ],
+                "href": "http://localhost:3000/idp/idx/credential/enroll",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "credentials",
+                        "form": {
+                            "value": [
+                                {
+                                    "name": "clientData",
+                                    "label": "Client Data",
+                                    "visible": false,
+                                    "required": true,
+                                    "hint": "webauthn"
+                                },
+                                {
+                                    "name": "attestation",
+                                    "label": "Attestation",
+                                    "visible": false,
+                                    "required": true,
+                                    "hint": "webauthn"
+                                },
+                                {
+                                    "name": "transports",
+                                    "label": "Transports",
+                                    "visible": false,
+                                    "required": true,
+                                    "hint": "webauthn"
+                                },
+                                {
+                                    "name": "clientExtensions",
+                                    "label": "clientExtensions",
+                                    "visible": false,
+                                    "required": true,
+                                    "hint": "webauthn"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.giWXPDpiYM0D3WtvpbioAV6RDOzn2tgoGMDOjRTQ",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "skip",
+                "href": "http://localhost:3000/idp/idx/skip",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.giWXPDpiYM0D3WtvpbioAV6RDOzn2tgoGMDOjRTQ",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            }
+        ]
+    },
+    "currentAuthenticator": {
+        "type": "object",
+        "value": {
+            "displayName": "Passkeys",
+            "catalogKey": "webauthn",
+            "type": "security_key",
+            "key": "webauthn",
+            "id": "aut156w0bsaxREByP0g4",
+            "settings": {},
+            "contextualData": {
+                "activationData": {
+                    "rp": {
+                        "name": "Localhost"
+                    },
+                    "user": {
+                        "displayName": "Enroll Test",
+                        "name": "enroll.test@okta.com",
+                        "id": "00u3odk7tZ2q0qnUN0g5"
+                    },
+                    "pubKeyCredParams": [
+                        {
+                            "type": "public-key",
+                            "alg": -7
+                        },
+                        {
+                            "type": "public-key",
+                            "alg": -257
+                        }
+                    ],
+                    "challenge": "zrTo0mMXyCt90mweh2HL",
+                    "attestation": "direct",
+                    "authenticatorSelection": {
+                        "userVerification": "discouraged"
+                    },
+                    "hints": [
+                        "client-device"
+                    ],
+                    "u2fParams": {
+                        "appid": "https://localhost:3000"
+                    }
+                }
+            }
+        }
+    },
+    "authenticators": {
+        "type": "array",
+        "value": [
+            {
+                "displayName": "Passkeys",
+                "type": "security_key",
+                "key": "webauthn",
+                "authenticatorid": "aut156w0bsaxREByP0g4",
+                "id": "webauthn-enroll-id-123"
+            }
+        ]
+    },
+    "user": {
+        "type": "object",
+        "value": {
+            "id": "00u3odk7tZ2q0qnUN0g5",
+            "identifier": "enroll.test@okta.com",
+            "profile": {
+                "firstName": "Enroll",
+                "lastName": "Test",
+                "timeZone": "America/Los_Angeles",
+                "locale": "en_US",
+                "email": "e***t@okta.com"
+            }
+        }
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "http://localhost:3000/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "02.id.giWXPDpiYM0D3WtvpbioAV6RDOzn2tgoGMDOjRTQ",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "okta_enduser",
+            "label": "Okta Dashboard",
+            "id": "0oa150cwDt3UJgrBT0g4"
+        }
+    },
+    "authentication": {
+        "type": "object",
+        "value": {
+            "protocol": "OAUTH2.0",
+            "issuer": {
+                "name": "Localhost",
+                "uri": "https://localhost:3000"
+            },
+            "request": {
+                "max_age": -1,
+                "scope": "openid profile email okta.users.read.self okta.users.manage.self okta.internal.enduser.read okta.internal.enduser.manage okta.enduser.dashboard.read okta.enduser.dashboard.manage okta.myAccount.sessions.manage okta.internal.navigation.enduser.read",
+                "display": "page",
+                "response_type": "code",
+                "redirect_uri": "http://localhost:3000/enduser/callback",
+                "state": "0yuahXkTvE8zAlbeJ8UST2vOEliz7hWtRU0C5ggGeHwnladYO5XWBuuLV93lGK4N",
+                "code_challenge_method": "S256",
+                "nonce": "bg3FsH5vUUI0C4TZsfnunRj6ggYUJwSULdYs1nA3oLi2ixlAs2qYFXHKZjCGyTwc",
+                "code_challenge": "T5rXHcvtKo5CAChyILaE3AfGqg_7M7vMcjrWHg66WEQ",
+                "response_mode": "query"
+            }
+        }
+    },
+    "authenticatorEnrollments": {
+        "type": "array",
+        "value": [
+            {
+                "type": "password",
+                "key": "okta_password",
+                "id": "laeq0lLCgfujEjvoI0g3",
+                "displayName": "Password",
+                "methods": [
+                    {
+                        "type": "password"
+                    }
+                ]
+            }
+        ]
+    },
+    "enrollmentAuthenticator": {
+        "type": "object",
+        "value": {
+            "type": "security_key",
+            "key": "webauthn",
+            "id": "aut156w0bsaxREByP0g4",
+            "displayName": "Passkeys",
+            "methods": [
+                {
+                    "type": "webauthn"
+                }
+            ]
+        }
+    }
+}

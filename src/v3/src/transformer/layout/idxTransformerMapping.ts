@@ -394,6 +394,14 @@ const TransformerMap: {
       buttonConfig: { showDefaultSubmit: false },
     },
   },
+  // enroll-authenticator-promotion reuses transformWebAuthNAuthenticator — same UI
+  // (with splash + skip link when a `skip` remediation is present in the response).
+  [IDX_STEP.ENROLL_AUTHENTICATOR_PROMOTION]: {
+    [AUTHENTICATOR_KEY.WEBAUTHN]: {
+      transform: transformWebAuthNAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+  },
   [IDX_STEP.ENROLLMENT_CHANNEL_DATA]: {
     [AUTHENTICATOR_KEY.OV]: {
       transform: transformOktaVerifyEnrollChannel,

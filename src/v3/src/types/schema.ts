@@ -660,6 +660,11 @@ export interface QRCodeElement extends UISchemaElement {
   };
 }
 
+export interface PasskeyPromotionIllustrationElement extends UISchemaElement {
+  type: 'PasskeyPromotionIllustration';
+  options: Record<string, never>;
+}
+
 export interface SpinnerElement extends UISchemaElement {
   type: 'Spinner';
 }
