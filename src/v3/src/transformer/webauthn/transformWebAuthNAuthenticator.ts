@@ -246,21 +246,24 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
       } as DescriptionElement);
     }
 
-    // Dynamic instructions subtitle — always shown on enroll/verify. This preserves
-    // the existing UV-required / Edge / additional-instructions callouts that are
-    // unshifted below it, and is prepended above them.
-    const instructionsKey = isEnroll
-      ? getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.ENROLL_INSTRUCTIONS, displayName)
-      : getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.VERIFY_INSTRUCTIONS, displayName);
-    // Note: Instructions don't need params since they're generic regardless of displayName
-    const instructionsParams: string[] = [];
-    uischema.elements.unshift({
-      type: 'Description',
-      contentType: 'subtitle',
-      options: {
-        content: loc(instructionsKey, 'login', instructionsParams),
-      },
-    } as DescriptionElement);
+    // Dynamic instructions subtitle — shown on enroll/verify EXCEPT when the
+    // passkey splash is rendered. In that case the splash's FAQ replaces this
+    // generic line. The UV-required / Edge / additional-instructions callouts
+    // (unshifted below) are unaffected either way.
+    if (!isPasskeySplash) {
+      const instructionsKey = isEnroll
+        ? getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.ENROLL_INSTRUCTIONS, displayName)
+        : getWebAuthnI18nKey(WEBAUTHN_I18N_KEYS.VERIFY_INSTRUCTIONS, displayName);
+      // Note: Instructions don't need params since they're generic regardless of displayName
+      const instructionsParams: string[] = [];
+      uischema.elements.unshift({
+        type: 'Description',
+        contentType: 'subtitle',
+        options: {
+          content: loc(instructionsKey, 'login', instructionsParams),
+        },
+      } as DescriptionElement);
+    }
 
     if (isPasskeySplash) {
       // For Passkeys / custom displayName on enrollment: prepend the rich splash

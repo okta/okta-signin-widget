@@ -100,17 +100,20 @@ const Body = BaseForm.extend({
     // Returning custom array so no input fields are displayed for webauthn
     if (webauthn.isNewApiAvailable()) {
       const displayName = this.options.currentViewState?.relatesTo?.value?.displayName;
-      // The passkey splash (illustration + FAQ) is additive — when the displayName
-      // qualifies, it prepends above the existing EnrollWebauthnInfoView, which
-      // continues to render the instructions line, Edge/UV callouts, custom
-      // additional-instructions callout, and spinner.
-      if (shouldShowPasskeySplash(displayName)) {
+      // The passkey splash (illustration + FAQ) is prepended when the displayName
+      // qualifies. When the splash is shown the base instructions paragraph inside
+      // EnrollWebauthnInfoView is suppressed via `hideInstructions` — the splash's
+      // FAQ replaces it. The conditional pieces (Edge/UV callouts, custom
+      // additional-instructions callout, spinner) still render.
+      const showSplash = shouldShowPasskeySplash(displayName);
+      if (showSplash) {
         schema.push({
           View: PasskeySplashInfoView,
         });
       }
       schema.push({
         View: EnrollWebauthnInfoView,
+        options: { hideInstructions: showSplash },
       });
       const ctaLabel = isPromotionPasskeys(this.options.currentViewState)
         ? loc('oie.enroll.authenticator.promotion.cta.createPasskey', 'login')

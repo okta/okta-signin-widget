@@ -782,6 +782,8 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       expect(testContext.view.$('.okta-form-title').text()).toBe('Set up YubiKey');
       // Splash renders above the classic view
       expect(testContext.view.$('.oie-passkey-splash-content').length).toBe(1);
+      // Base instructions paragraph is suppressed under the splash — the FAQ replaces it
+      expect(testContext.view.$('.idx-webauthn-enroll-text').length).toBe(0);
       // Additional-instructions callout is preserved under the splash
       expect(testContext.view.$('.additional-instructions-title').length).toBe(1);
       expect(testContext.view.$('.additional-instructions-title').text().trim())
@@ -814,13 +816,24 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
         expect(testContext.view.$('.webauthn-setup').text()).toBe('Create a passkey');
       });
 
-      it('renders the splash (illustration + FAQ) alongside the classic instructions line', function() {
+      it('renders the splash (illustration + FAQ) and suppresses the base instructions line', function() {
         testContext.initPromotion();
         expect(testContext.view.$('.oie-passkey-splash-content').length).toBe(1);
         expect(testContext.view.$('.passkey-promotion-illustration svg').length).toBe(1);
         expect(testContext.view.$('.passkey-promotion-faq-title').length).toBe(3);
-        // Splash is additive — classic instructions line is still rendered below
-        expect(testContext.view.$('.idx-webauthn-enroll-text').length).toBe(1);
+        // Base instructions paragraph is suppressed when the splash is shown — its FAQ replaces it
+        expect(testContext.view.$('.idx-webauthn-enroll-text').length).toBe(0);
+      });
+
+      it('keeps conditional Edge/UV callouts under the splash even though the base instructions are suppressed', function() {
+        spyOn(BrowserFeatures, 'isEdge').and.callFake(() => true);
+        const currentAuthenticator = JSON.parse(JSON.stringify(EnrollWebauthnPasskeysResponse.currentAuthenticator.value));
+        currentAuthenticator.contextualData.activationData.authenticatorSelection.userVerification = 'required';
+        testContext.initPromotion(currentAuthenticator);
+        expect(testContext.view.$('.oie-passkey-splash-content').length).toBe(1);
+        expect(testContext.view.$('.idx-webauthn-enroll-text').length).toBe(0);
+        expect(testContext.view.$('.idx-webauthn-enroll-text-edge').length).toBe(1);
+        expect(testContext.view.$('.uv-required-callout').length).toBe(1);
       });
 
       it('renders the "Maybe later" skip link when the response has a skip remediation', function() {
@@ -867,10 +880,13 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
         expect(testContext.view.$('.webauthn-setup').text()).toBe('Set up');
       });
 
-      it('still renders the splash (illustration + FAQ)', function() {
+      it('still renders the splash (illustration + FAQ) and suppresses the base instructions line', function() {
         testContext.initPromotion(EnrollWebauthnCustomResponse.currentAuthenticator.value);
         expect(testContext.view.$('.oie-passkey-splash-content').length).toBe(1);
         expect(testContext.view.$('.passkey-promotion-faq-title').length).toBe(3);
+        expect(testContext.view.$('.idx-webauthn-enroll-text').length).toBe(0);
+        // Custom-description callout still renders alongside the splash
+        expect(testContext.view.$('.additional-instructions-callout').length).toBe(1);
       });
     });
   });
@@ -886,10 +902,11 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       expect(testContext.view.$('.webauthn-setup').text()).toBe('Set up');
     });
 
-    it('renders the splash on standard enroll with Passkeys displayName (existing product decision)', function() {
+    it('renders the splash on standard enroll with Passkeys displayName (existing product decision) and suppresses the base instructions line', function() {
       testContext.init(EnrollWebauthnPasskeysResponse.currentAuthenticator.value);
       expect(testContext.view.$('.oie-passkey-splash-content').length).toBe(1);
       expect(testContext.view.$('.passkey-promotion-faq-title').length).toBe(3);
+      expect(testContext.view.$('.idx-webauthn-enroll-text').length).toBe(0);
     });
 
     it('does not render the splash on standard enroll with Security Key or Biometric displayName', function() {

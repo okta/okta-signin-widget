@@ -7,11 +7,13 @@ import { getWebAuthnI18nKey } from 'util/webauthnDisplayNameUtils';
 
 export default View.extend({
   template: hbs`
-  {{#if enrollI18nKey}}
-    <p class="idx-webauthn-enroll-text">{{i18n code=enrollI18nKey bundle="login"}}</p>
-  {{else}}
-    <p class="idx-webauthn-enroll-text">{{i18n code="oie.enroll.webauthn.instructions" bundle="login"}}</p>
-  {{/if}}`,
+  {{#unless hideInstructions}}
+    {{#if enrollI18nKey}}
+      <p class="idx-webauthn-enroll-text">{{i18n code=enrollI18nKey bundle="login"}}</p>
+    {{else}}
+      <p class="idx-webauthn-enroll-text">{{i18n code="oie.enroll.webauthn.instructions" bundle="login"}}</p>
+    {{/if}}
+  {{/unless}}`,
   initialize() {
     const relatesToObject = this.options.currentViewState.relatesTo;
     const activationData = relatesToObject?.value.contextualData.activationData;
@@ -40,6 +42,7 @@ export default View.extend({
   },
   getTemplateData() {
     return {
+      hideInstructions: this.options.hideInstructions,
       enrollI18nKey: getWebAuthnI18nKey({
         DEFAULT: 'oie.enroll.webauthn.instructions',
         PASSKEYS: 'oie.enroll.webauthn.passkeysRebrand.instructions',
