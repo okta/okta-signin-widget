@@ -53,13 +53,20 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
     },
   };
 
+  const sharedSecret = relatesTo.value.contextualData.sharedSecret || '';
   const manualKeyElement: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
     noTranslate: true,
     options: {
-      // spacing out the code so Screen reader can speak each letter individually
-      content: relatesTo.value.contextualData.sharedSecret?.split('').join(' ') || '',
+      // Render the secret as a single contiguous string so that double-clicking
+      // selects the entire value (OKTA-1185578). The .shared-secret class adds the
+      // letter-spacing that keeps it legible, tabindex="0" puts it in the tab order,
+      // and the aria-label spells out each character so screen readers can speak the
+      // code one letter at a time on focus.
+      content: sharedSecret
+        ? `<span class="shared-secret" tabindex="0" aria-label="${loc('oie.enroll.google_authenticator.sharedSecret.ariaLabel', 'login', [sharedSecret.split('').join(' ')])}">${sharedSecret}</span>`
+        : '',
     },
   };
 
