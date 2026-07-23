@@ -33,7 +33,7 @@ export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) 
   transformField(options),
   transformGranularConsentFields(options),
   transformAuthenticatorButton(options),
-  transformInputPassword,
+  transformInputPassword(options),
   transformPhoneAuthenticator,
   transformQRCode,
   transformIdentifierHint(options),
