@@ -343,7 +343,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                             >
                               <button
                                 aria-controls="credentials.answer"
-                                aria-label="Show password"
+                                aria-label="Show answer"
                                 aria-pressed="false"
                                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-57"
                                 tabindex="0"
@@ -701,7 +701,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                             >
                               <button
                                 aria-controls="credentials.answer"
-                                aria-label="Show password"
+                                aria-label="Show answer"
                                 aria-pressed="false"
                                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-47"
                                 tabindex="0"
@@ -1172,7 +1172,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                             >
                               <button
                                 aria-controls="credentials.answer"
-                                aria-label="Show password"
+                                aria-label="Show answer"
                                 aria-pressed="false"
                                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-48"
                                 tabindex="0"
@@ -1643,7 +1643,7 @@ exports[`authenticator-enroll-security-question predefined question should rende
                             >
                               <button
                                 aria-controls="credentials.answer"
-                                aria-label="Show password"
+                                aria-label="Show answer"
                                 aria-pressed="false"
                                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-48"
                                 tabindex="0"

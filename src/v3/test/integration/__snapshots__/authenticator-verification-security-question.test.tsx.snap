@@ -176,7 +176,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                           >
                             <button
                               aria-controls="credentials.answer"
-                              aria-label="Show password"
+                              aria-label="Show answer"
                               aria-pressed="false"
                               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-27"
                               tabindex="0"
@@ -414,7 +414,7 @@ exports[`authenticator-verification-security-question renders form when idx resp
                           >
                             <button
                               aria-controls="credentials.answer"
-                              aria-label="Show password"
+                              aria-label="Show answer"
                               aria-pressed="false"
                               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-27"
                               tabindex="0"
