@@ -21,6 +21,7 @@ export * from './GoogleOTPIcon';
 export * from './GoogleStoreIcon';
 export * from './IDPIcon';
 export * from './IncodeIcon';
+export * from './NfcPinIcon';
 export * from './OktaVerifyIcon';
 export * from './OnPremMFAIcon';
 export * from './OSXStoreIcon';

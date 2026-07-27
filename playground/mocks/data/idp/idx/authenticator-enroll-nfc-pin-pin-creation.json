@@ -1,0 +1,320 @@
+{
+  "stateHandle": "02.id.GbemJn1lKWO5u5vQm-kTRR4rAOJBH2dy0wJLCdmj",
+  "version": "1.0.0",
+  "expiresAt": "2024-12-20T21:42:53.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "enroll-authenticator",
+        "relatesTo": [
+          "$.currentAuthenticator"
+        ],
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "credentials",
+            "type": "object",
+            "form": {
+              "value": [
+                {
+                  "name": "passcode",
+                  "label": "NFC",
+                  "secret": true
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.GbemJn1lKWO5u5vQm-kTRR4rAOJBH2dy0wJLCdmj",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "NFC",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut1x087Op592Np950g5",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "nfc",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              },
+              {
+                "label": "Passkeys",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut1vgasF6AxLGUla0g5",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[1]"
+              },
+              {
+                "label": "Phone",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut1vg8x7j8eMRZJU0g5",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "options": [
+                          {
+                            "label": "SMS",
+                            "value": "sms"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "phoneNumber",
+                        "required": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[2]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.GbemJn1lKWO5u5vQm-kTRR4rAOJBH2dy0wJLCdmj",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "recover": {
+        "rel": [
+          "create-form"
+        ],
+        "name": "recover",
+        "href": "http://localhost:3000/idp/idx/recover",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.GbemJn1lKWO5u5vQm-kTRR4rAOJBH2dy0wJLCdmj",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      "type": "proximity",
+      "key": "nfc_pin",
+      "id": "aut1x087Op592Np950g5",
+      "displayName": "NFC",
+      "settings": {
+        "minLength": 4,
+        "maxLength": 4
+      },
+      "methods": [
+        {
+          "type": "nfc"
+        }
+      ]
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "proximity",
+        "key": "nfc_pin",
+        "id": "aut1x087Op592Np950g5",
+        "displayName": "NFC",
+        "methods": [
+          {
+            "type": "nfc"
+          }
+        ]
+      },
+      {
+        "type": "security_key",
+        "key": "webauthn",
+        "id": "aut1vgasF6AxLGUla0g5",
+        "displayName": "Passkeys",
+        "methods": [
+          {
+            "type": "webauthn"
+          }
+        ]
+      },
+      {
+        "type": "phone",
+        "key": "phone_number",
+        "id": "aut1vg8x7j8eMRZJU0g5",
+        "displayName": "Phone",
+        "methods": [
+          {
+            "type": "sms"
+          }
+        ]
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "type": "email",
+        "key": "okta_email",
+        "id": "eae23e200Mnag5rej0g5",
+        "displayName": "Email",
+        "methods": [
+          {
+            "type": "email"
+          }
+        ]
+      },
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "laemk99p7eSkcTWlu0g3",
+        "displayName": "Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ]
+      }
+    ]
+  },
+  "enrollmentAuthenticator": {
+    "type": "object",
+    "value": {
+      "type": "proximity",
+      "key": "nfc_pin",
+      "id": "aut1x087Op592Np950g5",
+      "displayName": "NFC",
+      "settings": {
+        "minLength": 4,
+        "maxLength": 4
+      },
+      "methods": [
+        {
+          "type": "nfc"
+        }
+      ]
+    }
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u23e1yHPF95Gz4b0g5",
+      "identifier": "testuser@example.com",
+      "profile": {
+        "firstName": "Test",
+        "lastName": "User",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US"
+      }
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02.id.GbemJn1lKWO5u5vQm-kTRR4rAOJBH2dy0wJLCdmj",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "0oa1vg42HZCWu7jdT0g5"
+    }
+  },
+  "authentication": {
+    "type": "object",
+    "value": {
+      "protocol": "OAUTH2.0",
+      "issuer": {
+        "id": "default",
+        "name": "default",
+        "uri": "http://localhost:3000/oauth2/default"
+      },
+      "request": {
+        "scope": "openid profile email",
+        "response_type": "code",
+        "redirect_uri": "http://localhost:3000",
+        "state": "mock-state-value",
+        "code_challenge": "mock-code-challenge",
+        "code_challenge_method": "S256",
+        "nonce": "mock-nonce-value"
+      }
+    }
+  }
+}

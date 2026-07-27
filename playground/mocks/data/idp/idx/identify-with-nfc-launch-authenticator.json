@@ -1,0 +1,102 @@
+{
+  "stateHandle": "02.id.mock-nfc-identify-statehandle",
+  "version": "1.0.0",
+  "expiresAt": "2026-07-01T20:00:00.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "identify",
+        "href": "http://localhost:3000/idp/idx/identify",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "identifier",
+            "label": "Username",
+            "required": true
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.mock-nfc-identify-statehandle",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "launch-nfc-authenticator",
+        "href": "http://localhost:3000/idp/idx/authenticators/nfc/launch",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.mock-nfc-identify-statehandle",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "relatesTo": [
+          "$.currentAuthenticator"
+        ]
+      }
+    ]
+  },
+  "authenticatorChallenge": {
+    "type": "object",
+    "value": {
+      "challengeMethod": "CUSTOM_URI",
+      "href": "com-okta-authenticator:/deviceChallenge?challengeRequest=mock-nfc-challenge-jwt"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02.id.mock-nfc-identify-statehandle",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "0oa1mock00000000000"
+    }
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "type": "proximity",
+      "key": "nfc_pin",
+      "id": "aut9rm692u6DV6WN60g5",
+      "displayName": "NFC",
+      "methods": [
+        {
+          "type": "nfc_pin"
+        }
+      ]
+    }
+  }
+}

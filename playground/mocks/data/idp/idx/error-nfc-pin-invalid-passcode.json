@@ -1,0 +1,251 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02.id.RnZmaz2QsT5NyGYJ1HylbZYlz3Lpo03ckQkAbUvg",
+  "expiresAt": "2026-07-08T15:22:18.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "challenge-authenticator",
+        "relatesTo": [
+          "$.currentAuthenticator"
+        ],
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "credentials",
+            "type": "object",
+            "form": {
+              "value": [
+                {
+                  "name": "passcode",
+                  "label": "NFC",
+                  "secret": true,
+                  "messages": {
+                    "type": "array",
+                    "value": [
+                      {
+                        "message": "Incorrect PIN. Please try again.",
+                        "i18n": {
+                          "key": "api.authenticator.error.nfc.pin_incorrect",
+                          "params": []
+                        },
+                        "class": "ERROR"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.RnZmaz2QsT5NyGYJ1HylbZYlz3Lpo03ckQkAbUvg",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-authenticate",
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "NFC",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut1x087Op592Np950g5",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "nfc_pin",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              },
+              {
+                "label": "Password",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut1vg8vRucntrsHT0g5",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "password",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[1]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.RnZmaz2QsT5NyGYJ1HylbZYlz3Lpo03ckQkAbUvg",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "recover": {
+        "rel": [
+          "create-form"
+        ],
+        "name": "recover",
+        "href": "http://localhost:3000/idp/idx/recover",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.RnZmaz2QsT5NyGYJ1HylbZYlz3Lpo03ckQkAbUvg",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      "type": "proximity",
+      "key": "nfc_pin",
+      "id": "aut1x087Op592Np950g5",
+      "displayName": "NFC",
+      "methods": [
+        {
+          "type": "nfc_pin"
+        }
+      ]
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "proximity",
+        "key": "nfc_pin",
+        "id": "aut1x087Op592Np950g5",
+        "displayName": "NFC",
+        "methods": [
+          {
+            "type": "nfc_pin"
+          }
+        ],
+        "allowedFor": "none"
+      },
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "aut1vg8vRucntrsHT0g5",
+        "displayName": "Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ],
+        "allowedFor": "none"
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "type": "proximity",
+        "key": "nfc_pin",
+        "id": "npc25ydixNVTHeaHB0g5",
+        "displayName": "NFC",
+        "methods": [
+          {
+            "type": "nfc_pin"
+          }
+        ]
+      },
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "laemk99p7eSkcTWlu0g3",
+        "displayName": "Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "identifier": "testuser@example.com"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02.id.RnZmaz2QsT5NyGYJ1HylbZYlz3Lpo03ckQkAbUvg",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "0oa1vg42HZCWu7jdT0g5"
+    }
+  }
+}

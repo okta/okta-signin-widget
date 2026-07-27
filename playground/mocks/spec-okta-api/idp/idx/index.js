@@ -7,6 +7,7 @@ const idx = [
   '/idp/idx',
   '/idp/idx/device/activate',
   '/idp/idx/authenticators/okta-verify/launch',
+  '/idp/idx/authenticators/nfc/launch',
   '/idp/idx/authenticators/poll',
   '/idp/idx/authenticators/poll/cancel',
   '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify/cancel',

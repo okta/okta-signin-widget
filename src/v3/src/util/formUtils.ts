@@ -201,6 +201,34 @@ export const getFastPassButtonElement = (
   return [launchAuthenticatorButton];
 };
 
+export const getNfcLaunchButtonElement = (
+  transaction: IdxTransaction,
+) : LaunchAuthenticatorButtonElement[] => {
+  const { context, neededToProceed: remediations } = transaction;
+  const containsNfcLaunch = remediations.some(
+    (remediation) => remediation.name === IDX_STEP.LAUNCH_NFC_AUTHENTICATOR,
+  );
+
+  if (!containsNfcLaunch) {
+    return [];
+  }
+
+  const nfcLaunchButton: LaunchAuthenticatorButtonElement = {
+    type: 'LaunchAuthenticatorButton',
+    label: loc('oie.nfc_pin.launch.button', 'login'),
+    options: {
+      step: IDX_STEP.LAUNCH_NFC_AUTHENTICATOR,
+      i18nKey: 'oie.nfc_pin.launch.button',
+      // @ts-expect-error authenticatorChallenge missing from transaction context type
+      deviceChallengeUrl: context?.authenticatorChallenge?.value?.href,
+      // @ts-expect-error authenticatorChallenge missing from transaction context type
+      challengeMethod: context?.authenticatorChallenge?.value?.challengeMethod,
+    },
+  };
+
+  return [nfcLaunchButton];
+};
+
 /**
  * To support `idps` configuration in OIE.
  * Gets IDP buttons from widget config that are not already present in transaction remediations.

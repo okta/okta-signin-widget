@@ -269,6 +269,8 @@ const getAuthenticatorDescription = (
       return option.relatesTo?.profile?.email as string || undefined;
     case AUTHENTICATOR_KEY.OV:
       return option.label;
+    case AUTHENTICATOR_KEY.NFC_PIN:
+      return loc('oie.nfc_pin.verify.description', 'login');
     default:
       return undefined;
   }
