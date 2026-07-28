@@ -55,6 +55,8 @@ const idx = {
     // 'authenticator-enroll-select-authenticator',
     // 'authenticator-enroll-select-authenticator-with-skip',
     // 'authenticator-enroll-webauthn',
+    // 'authenticator-enroll-passkey-promotion',
+    // 'authenticator-enroll-passkey-promotion-security-key',
     // 'authenticator-enroll-grace-period-with-skip',
     // 'authenticator-enroll-grace-period',
     // 'authenticator-enroll-grace-period-login-count-with-skip',

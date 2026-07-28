@@ -47,6 +47,7 @@ import Link from '../Link';
 import List from '../List';
 import LoopbackProbe from '../LoopbackProbe';
 import OpenOktaVerifyFPButton from '../OpenOktaVerifyFPButton';
+import PasskeyPromotionIllustration from '../PasskeyPromotionIllustration';
 import PasswordRequirements from '../PasswordRequirements';
 import PasswordMatches from '../PasswordRequirements/PasswordMatches';
 import PhoneAuthenticator from '../PhoneAuthenticator';
@@ -229,6 +230,10 @@ export default [
   {
     tester: ({ type }) => type === 'ImageWithText',
     renderer: ImageWithText,
+  },
+  {
+    tester: ({ type }) => type === 'PasskeyPromotionIllustration',
+    renderer: PasskeyPromotionIllustration,
   },
   {
     tester: ({ type }) => type === 'AutoSubmit',
