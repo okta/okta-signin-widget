@@ -25,7 +25,7 @@ jest.mock('./transformAuthenticatorButton', () => ({
   transformAuthenticatorButton: () => () => ({}),
 }));
 jest.mock('./transformInputPassword', () => ({
-  transformInputPassword: () => ({}),
+  transformInputPassword: () => () => ({}),
 }));
 jest.mock('./transformPhoneAuthenticator', () => ({
   transformPhoneAuthenticator: () => ({}),

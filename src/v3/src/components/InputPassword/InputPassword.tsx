@@ -12,6 +12,7 @@
 
 import { PasswordField } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
+import { useLayoutEffect } from 'preact/hooks';
 import { buildFieldLevelErrorMessages } from 'src/util/buildFieldLevelErrorMessages';
 
 import { useWidgetContext } from '../../contexts';
@@ -59,6 +60,22 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const parsedExplainContent = parseHtmlContent(explain, parserOptions);
   const { errorMessage, errorMessageList } = buildFieldLevelErrorMessages(errors);
+  const toggleAriaLabel = getTranslation(translations, 'visibilityToggleLabel');
+
+  // Until SIW adopts Odyssey >= 1.65.0's `showPasswordToggleAriaLabel` prop
+  // (tracked in OKTA-1217904), override the rendered toggle's aria-label with the per-field
+  // label. Odyssey uses our `name` as the field id, so the toggle is `button[aria-controls=name]`.
+  // The name stays stable across show/hide (state is conveyed via aria-pressed), so React never
+  // rewrites the attribute on toggle and this override persists.
+  useLayoutEffect(() => {
+    if (!toggleAriaLabel || !showPasswordToggleOnSignInPage) {
+      return;
+    }
+    const toggleButton = document.querySelector<HTMLButtonElement>(
+      `button[aria-controls="${name}"]`,
+    );
+    toggleButton?.setAttribute('aria-label', toggleAriaLabel);
+  }, [toggleAriaLabel, name, showPasswordToggleOnSignInPage, loading]);
 
   return (
     <PasswordField

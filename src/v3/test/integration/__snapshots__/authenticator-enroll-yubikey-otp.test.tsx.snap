@@ -233,7 +233,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                           >
                             <button
                               aria-controls="credentials.passcode"
-                              aria-label="Show password"
+                              aria-label="Show YubiKey verification code"
                               aria-pressed="false"
                               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-33"
                               tabindex="0"

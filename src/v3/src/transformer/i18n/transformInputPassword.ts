@@ -10,16 +10,20 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
 import {
   FieldElement,
-  FormBag,
-  TransformStepFn,
+  TransformStepFnWithOptions,
 } from '../../types';
+import { getAuthenticatorKey } from '../../util';
 import { traverseLayout } from '../util';
 import { addTranslation } from './util';
 
-export const transformInputPassword: TransformStepFn = (formBag: FormBag) => {
+export const transformInputPassword: TransformStepFnWithOptions = ({
+  transaction,
+}) => (formBag) => {
   const { uischema } = formBag;
+  const authenticatorKey = getAuthenticatorKey(transaction);
 
   traverseLayout({
     layout: uischema,
@@ -36,12 +40,22 @@ export const transformInputPassword: TransformStepFn = (formBag: FormBag) => {
         i18nKey: 'sensitive.input.hide',
       });
 
+      // Odyssey's PasswordField hardcodes the show/hide toggle's accessible name to a single
+      // string for every field. Resolve a distinct, context-specific label per field so the
+      // toggles are distinguishable to screen readers (WCAG 2.4.6). See OKTA-1164538/-1164535/
+      // -1164537/-1164549. Applied to the rendered button in InputPassword.tsx.
       const { options: { inputMeta: { name: fieldName } } } = (element as FieldElement);
       let showLabelKey = 'oie.password.showPassword';
       if (fieldName === 'confirmPassword') {
         showLabelKey = 'oie.password.showConfirmPassword';
       } else if (fieldName === 'credentials.answer') {
         showLabelKey = 'oie.challenge.answer.showAnswer';
+      } else if (fieldName === 'credentials.passcode') {
+        if (authenticatorKey === AUTHENTICATOR_KEY.YUBIKEY) {
+          showLabelKey = 'oie.yubikey.passcode.show';
+        } else if (transaction.nextStep?.name === IDX_STEP.RESET_AUTHENTICATOR) {
+          showLabelKey = 'oie.password.showNewPassword';
+        }
       }
       addTranslation({
         element,
