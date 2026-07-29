@@ -176,7 +176,7 @@
 }
 .okta-container .applogin-banner .applogin-container p {
   /* TODO: OKTA-586564 replace hardcoded value */
-  color: #6e6e78;
+  color: map.get($ods-tokens, 'typography', 'color', 'body');
   margin-block: 0;
 }
 
