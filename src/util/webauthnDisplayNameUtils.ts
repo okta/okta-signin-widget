@@ -18,6 +18,11 @@ export const WEBAUTHN_DISPLAY_NAMES = {
   PASSKEYS: 'Passkeys',
 } as const;
 
+// IDX form/step name for the passkey promotion remediation. Defined here (rather
+// than only in the engine-specific RemediationConstants / IDX_STEP) so v1, v2, and
+// v3 can share promotion checks without cross-engine imports.
+export const WEBAUTHN_ENROLL_AUTHENTICATOR_PROMOTION_STEP = 'enroll-authenticator-promotion';
+
 /**
  * Variant key mapping for i18n keys with DEFAULT/PASSKEYS/CUSTOM variants
  */
@@ -140,5 +145,28 @@ export const getWebAuthnI18nParams = (displayName?: string): string[] => {
   }
   return [];
 };
+
+/**
+ * True when the current remediation is `enroll-authenticator-promotion` AND the
+ * authenticator displayName is `Passkeys`. Only in this case do the promotion
+ * title/CTA/skip overrides apply — Security Key or Biometric (DEFAULT) and
+ * Custom displayNames keep their standard copy even when served via promotion.
+ */
+export const isPromotionPasskeys = (
+  stepName?: string,
+  displayName?: string,
+): boolean => (
+  stepName === WEBAUTHN_ENROLL_AUTHENTICATOR_PROMOTION_STEP
+  && displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS
+);
+
+/**
+ * True when the enroll UI should render the passkey splash (illustration + FAQ) —
+ * for `Passkeys` or any custom displayName on either enroll remediation. The
+ * DEFAULT displayName keeps the classic instruction line only.
+ */
+export const shouldShowPasskeySplash = (displayName?: string): boolean => (
+  displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS || isCustomDisplayName(displayName)
+);
 
 
