@@ -164,6 +164,10 @@ export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE = 'oie.authenticator.oktave
 export const OV_NMC_FORCE_UPGRADE_SERVER_KEY = 'oie.authenticator.app.method.push.force.upgrade.number_challenge';
 export const ON_PREM_TOKEN_CHANGE_ERROR_KEY = 'errors.E0000113';
 
+export const NFC_SIGN_IN_TO_ENROLL_SERVER_KEY = 'api.authenticator.error.nfc.sign_in_to_use';
+export const NFC_UNAVAILABLE_SERVER_KEY = 'api.authenticator.error.nfc.unavailable';
+export const FASTPASS_BLOCKED_SHARED_DEVICE_SERVER_KEY = 'api.authenticator.error.fastpass.blocked_shared_device';
+
 export const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   TERMINAL_KEY.EMAIL_LINK_CANT_BE_PROCESSED,
   TERMINAL_KEY.EMAIL_LINK_OUT_OF_DATE,
