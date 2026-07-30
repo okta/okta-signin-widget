@@ -21,7 +21,7 @@ exports.builder = {
 
 exports.handler = async (argv) => {
   const buildDevCmd = 'grunt build:dev';
-  let startDevServer = 'webpack-dev-server --config webpack.playground.config.js';
+  let startDevServer = 'webpack serve --config webpack.playground.config.js';
   if (argv.open) {
     startDevServer += ' --open';
   }

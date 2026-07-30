@@ -1048,10 +1048,6 @@ anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-aproba@^1.1.1:
-  version "1.2.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
-
 argparse@^1.0.7:
   version "1.0.10"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/argparse/-/argparse-1.0.10.tgz#bcd6791ea5ae09725e17e5ad988134cd40b3d911"
@@ -1059,20 +1055,10 @@ argparse@^1.0.7:
   dependencies:
     sprintf-js "~1.0.2"
 
-array-union@^1.0.1:
-  version "1.0.2"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/array-union/-/array-union-1.0.2.tgz#9a34410e4f4e3da23dea375be5be70f24778ec39"
-  dependencies:
-    array-uniq "^1.0.1"
-
 array-union@^2.1.0:
   version "2.1.0"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/array-union/-/array-union-2.1.0.tgz#b798420adbeb1de828d84acd8a2e23d3efe85e8d"
   integrity sha1-t5hCCtvrHego2ErNii4j0+/oXo0=
-
-array-uniq@^1.0.1:
-  version "1.0.3"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/array-uniq/-/array-uniq-1.0.3.tgz#af6ac877a25cc7f74e058894753858dfdb24fdb6"
 
 asn1@~0.2.3:
   version "0.2.4"
@@ -1149,18 +1135,10 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-big.js@^5.2.2:
-  version "5.2.2"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/big.js/-/big.js-5.2.2.tgz#65f0af382f578bcdc742bd9c281e9cb2d7768328"
-
 binary-extensions@^2.0.0:
   version "2.2.0"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
-
-bluebird@^3.5.1:
-  version "3.5.5"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -1168,6 +1146,13 @@ brace-expansion@^1.1.7:
   dependencies:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
+
+brace-expansion@^2.0.1:
+  version "2.1.4"
+  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-master/brace-expansion/-/brace-expansion-2.1.4.tgz#589dab11c0018d0366be64cd8bf12c8dbecc8326"
+  integrity sha512-hGfVzPxthbf3+2yjg/RBs60cB0FhqBS/zvdV/4wn4/BmN0bNMMHPc4V/BbFieqf1TKAGGAHnY4eSjajCl0f2Xg==
+  dependencies:
+    balanced-match "^1.0.0"
 
 braces@^3.0.2, braces@~3.0.2:
   version "3.0.2"
@@ -1210,24 +1195,6 @@ builtin-modules@^3.1.0:
   version "3.2.0"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/builtin-modules/-/builtin-modules-3.2.0.tgz#45d5db99e7ee5e6bc4f362e008bf917ab5049887"
   integrity sha1-RdXbmefuXmvE82LgCL+RerUEmIc=
-
-cacache@^10.0.4:
-  version "10.0.4"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/cacache/-/cacache-10.0.4.tgz#6452367999eff9d4188aefd9a14e9d7c6a263460"
-  dependencies:
-    bluebird "^3.5.1"
-    chownr "^1.0.1"
-    glob "^7.1.2"
-    graceful-fs "^4.1.11"
-    lru-cache "^4.1.1"
-    mississippi "^2.0.0"
-    mkdirp "^0.5.1"
-    move-concurrently "^1.0.1"
-    promise-inflight "^1.0.1"
-    rimraf "^2.6.2"
-    ssri "^5.2.4"
-    unique-filename "^1.1.0"
-    y18n "^4.0.0"
 
 callsites@^3.0.0:
   version "3.1.0"
@@ -1299,11 +1266,6 @@ chokidar@^3.4.0:
     readdirp "~3.6.0"
   optionalDependencies:
     fsevents "~2.3.2"
-
-chownr@^1.0.1:
-  version "1.1.4"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/chownr/-/chownr-1.1.4.tgz#6fc9d7b42d32a583596337666e7d08084da2cc6b"
-  integrity sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==
 
 chrome-trace-event@^1.0.2:
   version "1.0.3"
@@ -1387,15 +1349,6 @@ concat-map@0.0.1:
   version "0.0.1"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
 
-concat-stream@^1.5.0:
-  version "1.6.2"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/concat-stream/-/concat-stream-1.6.2.tgz#904bdf194cd3122fc675c77fc4ac3d4ff0fd1a34"
-  dependencies:
-    buffer-from "^1.0.0"
-    inherits "^2.0.3"
-    readable-stream "^2.2.2"
-    typedarray "^0.0.6"
-
 convert-source-map@^1.1.0, convert-source-map@^1.7.0:
   version "1.8.0"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/convert-source-map/-/convert-source-map-1.8.0.tgz#f3373c32d21b4d780dd8004514684fb791ca4369"
@@ -1403,31 +1356,7 @@ convert-source-map@^1.1.0, convert-source-map@^1.7.0:
   dependencies:
     safe-buffer "~5.1.1"
 
-copy-concurrently@^1.0.0:
-  version "1.0.5"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/copy-concurrently/-/copy-concurrently-1.0.5.tgz#92297398cae34937fcafd6ec8139c18051f0b5e0"
-  dependencies:
-    aproba "^1.1.1"
-    fs-write-stream-atomic "^1.0.8"
-    iferr "^0.1.5"
-    mkdirp "^0.5.1"
-    rimraf "^2.5.4"
-    run-queue "^1.0.0"
-
-copy-webpack-plugin@4.6.0:
-  version "4.6.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/copy-webpack-plugin/-/copy-webpack-plugin-4.6.0.tgz#e7f40dd8a68477d405dd1b7a854aae324b158bae"
-  dependencies:
-    cacache "^10.0.4"
-    find-cache-dir "^1.0.0"
-    globby "^7.1.1"
-    is-glob "^4.0.0"
-    loader-utils "^1.1.0"
-    minimatch "^3.0.4"
-    p-limit "^1.0.0"
-    serialize-javascript "^1.4.0"
-
-core-util-is@1.0.2, core-util-is@~1.0.0:
+core-util-is@1.0.2:
   version "1.0.2"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
@@ -1462,10 +1391,6 @@ csv-parse@^4.6.5:
   version "4.16.3"
   resolved "https://registry.npmjs.org/csv-parse/-/csv-parse-4.16.3.tgz#7ca624d517212ebc520a36873c3478fa66efbaf7"
   integrity sha512-cO1I/zmz4w2dcKHVvpCr7JVRu8/FymG5OEpmvsZYlccYolPBLoVGKUHgNoc4ZGkFeFlWGEDmMyBM+TTqRdW/wg==
-
-cyclist@~0.2.2:
-  version "0.2.2"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
 
 dashdash@^1.12.0:
   version "1.14.1"
@@ -1555,12 +1480,6 @@ detect-import-require@^2.0.0:
     escodegen "^1.7.0"
     is-buffer "^1.1.3"
 
-dir-glob@^2.0.0:
-  version "2.2.2"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/dir-glob/-/dir-glob-2.2.2.tgz#fa09f0694153c8918b18ba0deafae94769fc50c4"
-  dependencies:
-    path-type "^3.0.0"
-
 dir-glob@^3.0.1:
   version "3.0.1"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/dir-glob/-/dir-glob-3.0.1.tgz#56dbf73d992a4a93ba1584f4534063fd2e41717f"
@@ -1620,15 +1539,6 @@ duplexer@^0.1.2:
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/duplexer/-/duplexer-0.1.2.tgz#3abe43aef3835f8ae077d136ddce0f276b0400e6"
   integrity sha1-Or5DrvODX4rgd9E23c4PJ2sEAOY=
 
-duplexify@^3.4.2, duplexify@^3.6.0:
-  version "3.7.1"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/duplexify/-/duplexify-3.7.1.tgz#2a4df5317f6ccfd91f86d6fd25d8d8a103b88309"
-  dependencies:
-    end-of-stream "^1.0.0"
-    inherits "^2.0.1"
-    readable-stream "^2.0.0"
-    stream-shift "^1.0.0"
-
 ecc-jsbn@~0.1.1:
   version "0.1.2"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/ecc-jsbn/-/ecc-jsbn-0.1.2.tgz#3a83a904e54353287874c564b7549386849a98c9"
@@ -1651,16 +1561,6 @@ emoji-regex@^8.0.0:
   version "8.0.0"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/emoji-regex/-/emoji-regex-8.0.0.tgz#e818fd69ce5ccfcb404594f842963bf53164cc37"
   integrity sha1-6Bj9ac5cz8tARZT4QpY79TFkzDc=
-
-emojis-list@^2.0.0:
-  version "2.1.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/emojis-list/-/emojis-list-2.1.0.tgz#4daa4d9db00f9819880c79fa457ae5b09a1fd389"
-
-end-of-stream@^1.0.0, end-of-stream@^1.1.0:
-  version "1.4.1"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/end-of-stream/-/end-of-stream-1.4.1.tgz#ed29634d19baba463b6ce6b80a37213eab71ec43"
-  dependencies:
-    once "^1.4.0"
 
 enhanced-resolve@^5.17.0:
   version "5.17.1"
@@ -1931,20 +1831,6 @@ fill-range@^7.0.1:
   dependencies:
     to-regex-range "^5.0.1"
 
-find-cache-dir@^1.0.0:
-  version "1.0.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/find-cache-dir/-/find-cache-dir-1.0.0.tgz#9288e3e9e3cc3748717d39eade17cf71fc30ee6f"
-  dependencies:
-    commondir "^1.0.1"
-    make-dir "^1.0.0"
-    pkg-dir "^2.0.0"
-
-find-up@^2.1.0:
-  version "2.1.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/find-up/-/find-up-2.1.0.tgz#45d1b7e506c717ddd482775a2b77920a3c0c57a7"
-  dependencies:
-    locate-path "^2.0.0"
-
 find-up@^3.0.0:
   version "3.0.0"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/find-up/-/find-up-3.0.0.tgz#49169f1d7993430646da61ecc5ae355c21c97b73"
@@ -1965,13 +1851,6 @@ flatted@^3.1.0:
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/flatted/-/flatted-3.2.5.tgz#76c8584f4fc843db64702a6bd04ab7a8bd666da3"
   integrity sha1-dshYT0/IQ9tkcCpr0Eq3qL1mbaM=
 
-flush-write-stream@^1.0.0:
-  version "1.1.1"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/flush-write-stream/-/flush-write-stream-1.1.1.tgz#8dd7d873a1babc207d94ead0c2e0e44276ebf2e8"
-  dependencies:
-    inherits "^2.0.3"
-    readable-stream "^2.3.6"
-
 forever-agent@~0.6.1:
   version "0.6.1"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/forever-agent/-/forever-agent-0.6.1.tgz#fbc71f0c41adeb37f96c577ad1ed42d8fdacca91"
@@ -1986,13 +1865,6 @@ form-data@~2.3.2:
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
 
-from2@^2.1.0:
-  version "2.3.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/from2/-/from2-2.3.0.tgz#8bfb5502bde4a4d36cfdeea007fcca21d7e382af"
-  dependencies:
-    inherits "^2.0.1"
-    readable-stream "^2.0.0"
-
 fs-extra@^8.1.0:
   version "8.1.0"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/fs-extra/-/fs-extra-8.1.0.tgz#49d43c45a88cd9677668cb7be1b46efdb8d2e1c0"
@@ -2006,15 +1878,6 @@ fs-readdir-recursive@^1.1.0:
   version "1.1.0"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/fs-readdir-recursive/-/fs-readdir-recursive-1.1.0.tgz#e32fc030a2ccee44a6b5371308da54be0b397d27"
   integrity sha512-GNanXlVr2pf02+sPN40XN8HG+ePaNcvM0q5mZBd668Obwb0yD5GiUbZOFgwn8kGMY6I3mdyDJzieUy3PTYyTRA==
-
-fs-write-stream-atomic@^1.0.8:
-  version "1.0.10"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/fs-write-stream-atomic/-/fs-write-stream-atomic-1.0.10.tgz#b47df53493ef911df75731e70a9ded0189db40c9"
-  dependencies:
-    graceful-fs "^4.1.2"
-    iferr "^0.1.5"
-    imurmurhash "^0.1.4"
-    readable-stream "1 || 2"
 
 fs.realpath@^1.0.0:
   version "1.0.0"
@@ -2087,7 +1950,7 @@ glob@^7.0.0, glob@^7.1.6:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-glob@^7.1.2, glob@^7.1.3:
+glob@^7.1.3:
   version "7.1.4"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/glob/-/glob-7.1.4.tgz#aa608a2f6c577ad357e1ae5a5c26d9a8d1969255"
   dependencies:
@@ -2097,6 +1960,16 @@ glob@^7.1.2, glob@^7.1.3:
     minimatch "^3.0.4"
     once "^1.3.0"
     path-is-absolute "^1.0.0"
+
+glob@^9.2.0:
+  version "9.3.5"
+  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-master/glob/-/glob-9.3.5.tgz#ca2ed8ca452781a3009685607fdf025a899dfe21"
+  integrity sha512-e1LleDykUz2Iu+MTYdkSsuWX8lvAjAcs0Xef0lNIu0S2wOAzuTxCJtcd9S3cijlwYF18EsU3rzb8jPVobxDh9Q==
+  dependencies:
+    fs.realpath "^1.0.0"
+    minimatch "^8.0.2"
+    minipass "^4.2.4"
+    path-scurry "^1.6.1"
 
 globals@^11.1.0:
   version "11.12.0"
@@ -2124,17 +1997,6 @@ globby@10.0.1:
     merge2 "^1.2.3"
     slash "^3.0.0"
 
-globby@^7.1.1:
-  version "7.1.1"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/globby/-/globby-7.1.1.tgz#fb2ccff9401f8600945dfada97440cca972b8680"
-  dependencies:
-    array-union "^1.0.1"
-    dir-glob "^2.0.0"
-    glob "^7.1.2"
-    ignore "^3.3.5"
-    pify "^3.0.0"
-    slash "^1.0.0"
-
 good-listener@^1.2.2:
   version "1.2.2"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/good-listener/-/good-listener-1.2.2.tgz#d53b30cdf9313dffb7dc9a0d477096aa6d145c50"
@@ -2142,7 +2004,7 @@ good-listener@^1.2.2:
   dependencies:
     delegate "^3.1.2"
 
-graceful-fs@^4.1.11, graceful-fs@^4.1.2:
+graceful-fs@^4.1.2:
   version "4.2.0"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/graceful-fs/-/graceful-fs-4.2.0.tgz#8d8fdc73977cb04104721cb53666c1ca64cd328b"
 
@@ -2267,14 +2129,6 @@ iconv-lite@0.4.24:
   dependencies:
     safer-buffer ">= 2.1.2 < 3"
 
-iferr@^0.1.5:
-  version "0.1.5"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/iferr/-/iferr-0.1.5.tgz#c60eed69e6d8fdb6b3104a1fcbca1c192dc5b501"
-
-ignore@^3.3.5:
-  version "3.3.10"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/ignore/-/ignore-3.3.10.tgz#0a97fb876986e8081c631160f8f9f389157f0043"
-
 ignore@^4.0.6:
   version "4.0.6"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/ignore/-/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
@@ -2304,7 +2158,7 @@ inflight@^1.0.4:
     once "^1.3.0"
     wrappy "1"
 
-inherits@2, inherits@^2.0.1, inherits@^2.0.3, inherits@~2.0.3:
+inherits@2, inherits@^2.0.1, inherits@^2.0.3:
   version "2.0.4"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
 
@@ -2402,10 +2256,6 @@ is@^3.2.1:
   version "3.3.0"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/is/-/is-3.3.0.tgz#61cff6dd3c4193db94a3d62582072b44e5645d79"
   integrity sha1-Yc/23TxBk9uUo9YlggcrROVkXXk=
-
-isarray@~1.0.0:
-  version "1.0.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
 
 isexe@^2.0.0:
   version "2.0.0"
@@ -2559,21 +2409,6 @@ loader-runner@^4.2.0:
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/loader-runner/-/loader-runner-4.2.0.tgz#d7022380d66d14c5fb1d496b89864ebcfd478384"
   integrity sha1-1wIjgNZtFMX7HUlriYZOvP1Hg4Q=
 
-loader-utils@^1.1.0:
-  version "1.2.3"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/loader-utils/-/loader-utils-1.2.3.tgz#1ff5dc6911c9f0a062531a4c04b609406108c2c7"
-  dependencies:
-    big.js "^5.2.2"
-    emojis-list "^2.0.0"
-    json5 "^1.0.1"
-
-locate-path@^2.0.0:
-  version "2.0.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/locate-path/-/locate-path-2.0.0.tgz#2b568b265eec944c6d9c0de9c3dbbbca0354cd8e"
-  dependencies:
-    p-locate "^2.0.0"
-    path-exists "^3.0.0"
-
 locate-path@^3.0.0:
   version "3.0.0"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/locate-path/-/locate-path-3.0.0.tgz#dbec3b3ab759758071b58fe59fc41871af21400e"
@@ -2607,12 +2442,10 @@ lodash@^4.17.14:
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.18.1.tgz#ff2b66c1f6326d59513de2407bf881439812771c"
   integrity sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==
 
-lru-cache@^4.1.1:
-  version "4.1.5"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/lru-cache/-/lru-cache-4.1.5.tgz#8bbe50ea85bed59bc9e33dcab8235ee9bcf443cd"
-  dependencies:
-    pseudomap "^1.0.2"
-    yallist "^2.1.2"
+lru-cache@^10.2.0:
+  version "10.4.3"
+  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-master/lru-cache/-/lru-cache-10.4.3.tgz#410fc8a17b70e598013df257c2446b7f3383f119"
+  integrity sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==
 
 lru-cache@^6.0.0:
   version "6.0.0"
@@ -2627,12 +2460,6 @@ magic-string@^0.25.7:
   integrity sha1-3n+fr5HvihyR0CwuUxTIJ3283Rw=
   dependencies:
     sourcemap-codec "^1.4.8"
-
-make-dir@^1.0.0:
-  version "1.3.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/make-dir/-/make-dir-1.3.0.tgz#79c1033b80515bd6d24ec9933e860ca75ee27f0c"
-  dependencies:
-    pify "^3.0.0"
 
 make-dir@^2.1.0:
   version "2.1.0"
@@ -2701,6 +2528,13 @@ mime@^2.3.1:
   dependencies:
     brace-expansion "^1.1.7"
 
+minimatch@^8.0.2:
+  version "8.0.7"
+  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-master/minimatch/-/minimatch-8.0.7.tgz#954766e22da88a3e0a17ad93b58c15c9d8a579de"
+  integrity sha512-V+1uQNdzybxa14e/p00HZnQNNcTjnRJjDxg2V8wtkjFctq4M7hXFws4oekyTP0Jebeq7QYtpFyOeBAjc88zvYg==
+  dependencies:
+    brace-expansion "^2.0.1"
+
 minimist@^1.2.0:
   version "1.2.0"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
@@ -2715,38 +2549,15 @@ minimist@~0.0.1:
   resolved "https://registry.npmjs.org/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
   integrity sha512-iotkTvxc+TwOm5Ieim8VnSNvCDjCK9S8G3scJ50ZthspSxa7jx50jkhYduuAtAjvfDUwSgOwf8+If99AlOEhyw==
 
-mississippi@^2.0.0:
-  version "2.0.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/mississippi/-/mississippi-2.0.0.tgz#3442a508fafc28500486feea99409676e4ee5a6f"
-  dependencies:
-    concat-stream "^1.5.0"
-    duplexify "^3.4.2"
-    end-of-stream "^1.1.0"
-    flush-write-stream "^1.0.0"
-    from2 "^2.1.0"
-    parallel-transform "^1.1.0"
-    pump "^2.0.1"
-    pumpify "^1.3.3"
-    stream-each "^1.1.0"
-    through2 "^2.0.0"
+minipass@^4.2.4:
+  version "4.2.8"
+  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-master/minipass/-/minipass-4.2.8.tgz#f0010f64393ecfc1d1ccb5f582bcaf45f48e1a3a"
+  integrity sha512-fNzuVyifolSLFL4NzpF+wEF4qrgqaaKX0haXPQEdQ7NKAN+WecoKMHV09YcuL/DHxrUsYQOK3MiuDf7Ip2OXfQ==
 
-mkdirp@^0.5.1:
-  version "0.5.5"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/mkdirp/-/mkdirp-0.5.5.tgz#d91cefd62d1436ca0f41620e251288d420099def"
-  integrity sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==
-  dependencies:
-    minimist "^1.2.5"
-
-move-concurrently@^1.0.1:
-  version "1.0.1"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
-  dependencies:
-    aproba "^1.1.1"
-    copy-concurrently "^1.0.0"
-    fs-write-stream-atomic "^1.0.8"
-    mkdirp "^0.5.1"
-    rimraf "^2.5.4"
-    run-queue "^1.0.3"
+"minipass@^5.0.0 || ^6.0.2 || ^7.0.0":
+  version "7.1.3"
+  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-master/minipass/-/minipass-7.1.3.tgz#79389b4eb1bb2d003a9bba87d492f2bd37bdc65b"
+  integrity sha512-tEBHqDnIoM/1rXME1zgka9g6Q2lcoCkxHLuc7ODJ5BxbP5d4c2Z5cGgtXAku59200Cx7diuHTOYfSBD8n6mm8A==
 
 ms@2.1.2:
   version "2.1.2"
@@ -2806,7 +2617,7 @@ oauth-sign@~0.9.0:
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/oauth-sign/-/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
   integrity sha1-R6ewFrqmi1+g7PPe4IqFxnmsZFU=
 
-once@^1.3.0, once@^1.3.1, once@^1.4.0:
+once@^1.3.0:
   version "1.4.0"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"
   dependencies:
@@ -2858,24 +2669,12 @@ optionator@^0.9.1:
     type-check "^0.4.0"
     word-wrap "^1.2.3"
 
-p-limit@^1.0.0, p-limit@^1.1.0:
-  version "1.3.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/p-limit/-/p-limit-1.3.0.tgz#b86bd5f0c25690911c7590fcbfc2010d54b3ccb8"
-  dependencies:
-    p-try "^1.0.0"
-
 p-limit@^2.0.0:
   version "2.3.0"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/p-limit/-/p-limit-2.3.0.tgz#3dd33c647a214fdfffd835933eb086da0dc21db1"
   integrity sha1-PdM8ZHohT9//2DWTPrCG2g3CHbE=
   dependencies:
     p-try "^2.0.0"
-
-p-locate@^2.0.0:
-  version "2.0.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/p-locate/-/p-locate-2.0.0.tgz#20a0103b222a70c8fd39cc2e580680f3dde5ec43"
-  dependencies:
-    p-limit "^1.1.0"
 
 p-locate@^3.0.0:
   version "3.0.0"
@@ -2884,22 +2683,10 @@ p-locate@^3.0.0:
   dependencies:
     p-limit "^2.0.0"
 
-p-try@^1.0.0:
-  version "1.0.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/p-try/-/p-try-1.0.0.tgz#cbc79cdbaf8fd4228e13f621f2b1a237c1b207b3"
-
 p-try@^2.0.0:
   version "2.2.0"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/p-try/-/p-try-2.2.0.tgz#cb2868540e313d61de58fafbe35ce9004d5540e6"
   integrity sha1-yyhoVA4xPWHeWPr741zpAE1VQOY=
-
-parallel-transform@^1.1.0:
-  version "1.1.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/parallel-transform/-/parallel-transform-1.1.0.tgz#d410f065b05da23081fcd10f28854c29bda33b06"
-  dependencies:
-    cyclist "~0.2.2"
-    inherits "^2.0.3"
-    readable-stream "^2.1.5"
 
 parent-module@^1.0.0:
   version "1.0.1"
@@ -2931,11 +2718,13 @@ path-parse@^1.0.7:
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/path-parse/-/path-parse-1.0.7.tgz#fbc114b60ca42b30d9daf5858e4bd68bbedb6735"
   integrity sha1-+8EUtgykKzDZ2vWFjkvWi77bZzU=
 
-path-type@^3.0.0:
-  version "3.0.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/path-type/-/path-type-3.0.0.tgz#cef31dc8e0a1a3bb0d105c0cd97cf3bf47f4e36f"
+path-scurry@^1.6.1:
+  version "1.11.1"
+  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-master/path-scurry/-/path-scurry-1.11.1.tgz#7960a668888594a0720b12a911d1a742ab9f11d2"
+  integrity sha512-Xa4Nw17FS9ApQFJ9umLiJS4orGjm7ZzwUrwamcGQuHSzDyth9boKDaycYdDcZDuqYATXw4HFXgaqWTctW/v1HA==
   dependencies:
-    pify "^3.0.0"
+    lru-cache "^10.2.0"
+    minipass "^5.0.0 || ^6.0.2 || ^7.0.0"
 
 path-type@^4.0.0:
   version "4.0.0"
@@ -2962,20 +2751,10 @@ picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.2, picomatch@^2.3.1:
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/picomatch/-/picomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
 
-pify@^3.0.0:
-  version "3.0.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/pify/-/pify-3.0.0.tgz#e5a4acd2c101fdf3d9a4d07f0dbc4db49dd28176"
-
 pify@^4.0.1:
   version "4.0.1"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/pify/-/pify-4.0.1.tgz#4b2cd25c50d598735c50292224fd8c6df41e3231"
   integrity sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==
-
-pkg-dir@^2.0.0:
-  version "2.0.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/pkg-dir/-/pkg-dir-2.0.0.tgz#f6d5d1109e19d63edf428e0bd57e12777615334b"
-  dependencies:
-    find-up "^2.1.0"
 
 pkg-up@^3.1.0:
   version "3.1.0"
@@ -2994,42 +2773,15 @@ prelude-ls@~1.1.2:
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
   integrity sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=
 
-process-nextick-args@~2.0.0:
-  version "2.0.1"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
-
 progress@^2.0.0:
   version "2.0.3"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha1-foz42PW48jnBvGi+tOt4Vn1XLvg=
 
-promise-inflight@^1.0.1:
-  version "1.0.1"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/promise-inflight/-/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
-
-pseudomap@^1.0.2:
-  version "1.0.2"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/pseudomap/-/pseudomap-1.0.2.tgz#f052a28da70e618917ef0a8ac34c1ae5a68286b3"
-
 psl@^1.1.28:
   version "1.8.0"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/psl/-/psl-1.8.0.tgz#9326f8bcfb013adcc005fdff056acce020e51c24"
   integrity sha1-kyb4vPsBOtzABf3/BWrM4CDlHCQ=
-
-pump@^2.0.0, pump@^2.0.1:
-  version "2.0.1"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/pump/-/pump-2.0.1.tgz#12399add6e4cf7526d973cbc8b5ce2e2908b3909"
-  dependencies:
-    end-of-stream "^1.1.0"
-    once "^1.3.1"
-
-pumpify@^1.3.3:
-  version "1.5.1"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/pumpify/-/pumpify-1.5.1.tgz#36513be246ab27570b1a374a5ce278bfd74370ce"
-  dependencies:
-    duplexify "^3.6.0"
-    inherits "^2.0.3"
-    pump "^2.0.0"
 
 punycode@^2.1.0, punycode@^2.1.1:
   version "2.1.1"
@@ -3052,18 +2804,6 @@ randombytes@^2.1.0:
   integrity sha1-32+ENy8CcNxlzfYpE0mrekc9Tyo=
   dependencies:
     safe-buffer "^5.1.0"
-
-"readable-stream@1 || 2", readable-stream@^2.0.0, readable-stream@^2.1.5, readable-stream@^2.2.2, readable-stream@^2.3.6, readable-stream@~2.3.6:
-  version "2.3.6"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/readable-stream/-/readable-stream-2.3.6.tgz#b11c27d88b8ff1fbe070643cf94b0c79ae1b0aaf"
-  dependencies:
-    core-util-is "~1.0.0"
-    inherits "~2.0.3"
-    isarray "~1.0.0"
-    process-nextick-args "~2.0.0"
-    safe-buffer "~5.1.1"
-    string_decoder "~1.1.1"
-    util-deprecate "~1.0.1"
 
 readable-stream@^3.1.1:
   version "3.6.0"
@@ -3164,18 +2904,12 @@ reusify@^1.0.4:
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/reusify/-/reusify-1.0.4.tgz#90da382b1e126efc02146e90845a88db12925d76"
   integrity sha1-kNo4Kx4SbvwCFG6QhFqI2xKSXXY=
 
-rimraf@^2.5.4, rimraf@^2.6.2:
-  version "2.6.3"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"
+rimraf@^3.0.2, rimraf@^4.4.1:
+  version "4.4.1"
+  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-master/rimraf/-/rimraf-4.4.1.tgz#bd33364f67021c5b79e93d7f4fa0568c7c21b755"
+  integrity sha512-Gk8NlF062+T9CqNGn6h4tls3k6T1+/nXdOcSZVikNVtlRdYpA7wRJJMoXmuvOnLW844rPjdQ7JgXCYM6PPC/og==
   dependencies:
-    glob "^7.1.3"
-
-rimraf@^3.0.2:
-  version "3.0.2"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/rimraf/-/rimraf-3.0.2.tgz#f1a5402ba6220ad52cc1282bac1ae3aa49fd061a"
-  integrity sha1-8aVAK6YiCtUswSgrrBrjqkn9Bho=
-  dependencies:
-    glob "^7.1.3"
+    glob "^9.2.0"
 
 rollup-plugin-copy@^3.4.0:
   version "3.4.0"
@@ -3212,18 +2946,12 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
-run-queue@^1.0.0, run-queue@^1.0.3:
-  version "1.0.3"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/run-queue/-/run-queue-1.0.3.tgz#e848396f057d223f24386924618e25694161ec47"
-  dependencies:
-    aproba "^1.1.1"
-
-safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, safe-buffer@~5.2.0:
+safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.2, safe-buffer@~5.2.0:
   version "5.2.1"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
   integrity sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==
 
-safe-buffer@~5.1.0, safe-buffer@~5.1.1:
+safe-buffer@~5.1.1:
   version "5.1.2"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
 
@@ -3286,10 +3014,6 @@ semver@^7.2.1:
   dependencies:
     lru-cache "^6.0.0"
 
-serialize-javascript@^1.4.0:
-  version "1.7.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/serialize-javascript/-/serialize-javascript-1.7.0.tgz#d6e0dfb2a3832a8c94468e6eb1db97e55a192a65"
-
 serialize-javascript@^6.0.1:
   version "6.0.2"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/serialize-javascript/-/serialize-javascript-6.0.2.tgz#defa1e055c83bf6d59ea805d8da862254eb6a6c2"
@@ -3328,10 +3052,6 @@ sirv@^1.0.7:
     "@polka/url" "^1.0.0-next.20"
     mime "^2.3.1"
     totalist "^1.0.0"
-
-slash@^1.0.0:
-  version "1.0.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/slash/-/slash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"
 
 slash@^2.0.0:
   version "2.0.0"
@@ -3400,27 +3120,10 @@ sshpk@^1.7.0:
     safer-buffer "^2.0.2"
     tweetnacl "~0.14.0"
 
-ssri@^5.2.4:
-  version "5.3.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/ssri/-/ssri-5.3.0.tgz#ba3872c9c6d33a0704a7d71ff045e5ec48999d06"
-  dependencies:
-    safe-buffer "^5.1.1"
-
 stealthy-require@^1.1.1:
   version "1.1.1"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
-
-stream-each@^1.1.0:
-  version "1.2.3"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/stream-each/-/stream-each-1.2.3.tgz#ebe27a0c389b04fbcc233642952e10731afa9bae"
-  dependencies:
-    end-of-stream "^1.1.0"
-    stream-shift "^1.0.0"
-
-stream-shift@^1.0.0:
-  version "1.0.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/stream-shift/-/stream-shift-1.0.0.tgz#d5c752825e5367e786f78e18e445ea223a155952"
 
 string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
@@ -3437,12 +3140,6 @@ string_decoder@^1.1.1:
   integrity sha1-QvEUWUpGzxqOMLCoT1bHjD7awh4=
   dependencies:
     safe-buffer "~5.2.0"
-
-string_decoder@~1.1.1:
-  version "1.1.1"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/string_decoder/-/string_decoder-1.1.1.tgz#9cf1611ba62685d7030ae9e4ba34149c3af03fc8"
-  dependencies:
-    safe-buffer "~5.1.0"
 
 strip-ansi@^3.0.0:
   version "3.0.1"
@@ -3545,13 +3242,6 @@ text-table@^0.2.0:
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-through2@^2.0.0:
-  version "2.0.5"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/through2/-/through2-2.0.5.tgz#01c1e39eb31d07cb7d03a96a70823260b23132cd"
-  dependencies:
-    readable-stream "~2.3.6"
-    xtend "~4.0.1"
-
 tiny-emitter@^2.0.0:
   version "2.1.0"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
@@ -3648,10 +3338,6 @@ type-fest@^0.20.2:
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/type-fest/-/type-fest-0.20.2.tgz#1bf207f4b28f91583666cb5fbd327887301cd5f4"
   integrity sha1-G/IH9LKPkVg2ZstfvTJ4hzAc1fQ=
 
-typedarray@^0.0.6:
-  version "0.0.6"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
-
 typescript@^4.6.2:
   version "4.6.2"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/typescript/-/typescript-4.6.2.tgz#fe12d2727b708f4eef40f51598b3398baa9611d4"
@@ -3666,18 +3352,6 @@ underscore@1.13.8, underscore@>=1.8.3:
   version "1.13.8"
   resolved "https://registry.npmjs.org/underscore/-/underscore-1.13.8.tgz#a93a21186c049dbf0e847496dba72b7bd8c1e92b"
   integrity sha512-DXtD3ZtEQzc7M8m4cXotyHR+FAS18C64asBYY5vqZexfYryNNnDc02W4hKg3rdQuqOYas1jkseX0+nZXjTXnvQ==
-
-unique-filename@^1.1.0:
-  version "1.1.1"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/unique-filename/-/unique-filename-1.1.1.tgz#1d69769369ada0583103a1e6ae87681b56573230"
-  dependencies:
-    unique-slug "^2.0.0"
-
-unique-slug@^2.0.0:
-  version "2.0.2"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/unique-slug/-/unique-slug-2.0.2.tgz#baabce91083fc64e945b0f3ad613e264f7cd4e6c"
-  dependencies:
-    imurmurhash "^0.1.4"
 
 universalify@^0.1.0:
   version "0.1.2"
@@ -3698,7 +3372,7 @@ uri-js@^4.2.2:
   dependencies:
     punycode "^2.1.0"
 
-util-deprecate@^1.0.1, util-deprecate@~1.0.1:
+util-deprecate@^1.0.1:
   version "1.0.2"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
@@ -3880,22 +3554,10 @@ xmlchars@^2.2.0:
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/xmlchars/-/xmlchars-2.2.0.tgz#060fe1bcb7f9c76fe2a17db86a9bc3ab894210cb"
   integrity sha1-Bg/hvLf5x2/ioX24apvDq4lCEMs=
 
-xtend@~4.0.1:
-  version "4.0.2"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/xtend/-/xtend-4.0.2.tgz#bb72779f5fa465186b1f438f674fa347fdb5db54"
-
-y18n@^4.0.0:
-  version "4.0.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/y18n/-/y18n-4.0.0.tgz#95ef94f85ecc81d007c264e190a120f0a3c8566b"
-
 y18n@^5.0.5:
   version "5.0.8"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/y18n/-/y18n-5.0.8.tgz#7f4934d0f7ca8c56f95314939ddcd2dd91ce1d55"
   integrity sha1-f0k00PfKjFb5UxSTndzS3ZHOHVU=
-
-yallist@^2.1.2:
-  version "2.1.2"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/yallist/-/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
 
 yallist@^4.0.0:
   version "4.0.0"

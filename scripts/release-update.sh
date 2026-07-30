@@ -3,7 +3,7 @@
 INTERNAL_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-okta-release"
 REPO_PATH=$OKTA_HOME/$REPO
 
-if ! setup_service node v16.19.1; then
+if ! setup_service node v22.22.3; then
   echo "Failed to install node"
   exit ${FAILED_SETUP}
 fi
