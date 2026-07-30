@@ -1,4 +1,4 @@
-import { Model, $, loc } from '@okta/courage';
+import { Model, $, loc, View } from '@okta/courage';
 import IdentifierView from 'v2/view-builder/views/IdentifierView';
 import { BaseForm } from 'v2/view-builder/internals';
 import AppState from 'v2/models/AppState';
@@ -892,6 +892,20 @@ describe('v2/view-builder/views/IdentifierView', function() {
       initWithMessages(null, XHRIdentifyWithPassword.remediation.value);
 
       expect(showMessagesSpy).toHaveBeenCalledWith({});
+    });
+
+    it('passes a pre-built View through unchanged (showCustomFormErrorCallout path)', function() {
+      // showCustomFormErrorCallout renders a custom callout via showMessages(<View>);
+      // the override must forward it rather than replacing it with the default rendering.
+      const showMessagesSpy = jest.spyOn(BaseForm.prototype, 'showMessages').mockImplementation(() => {});
+      initWithMessages(null, XHRIdentifyWithPassword.remediation.value);
+      showMessagesSpy.mockClear();
+
+      const customCallout = new View();
+      testContext.view.form.showMessages(customCallout);
+
+      expect(showMessagesSpy).toHaveBeenCalledTimes(1);
+      expect(showMessagesSpy).toHaveBeenCalledWith(customCallout);
     });
   });
 });

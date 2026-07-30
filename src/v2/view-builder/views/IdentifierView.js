@@ -1,4 +1,4 @@
-import { _, loc, createCallout } from '@okta/courage';
+import { _, loc, createCallout, View } from '@okta/courage';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { BaseForm, BaseView, createIdpButtons, createCustomButtons } from '../internals';
 import CryptoUtil from '../../../util/CryptoUtil';
@@ -81,7 +81,13 @@ const Body = BaseForm.extend({
     }
   },
 
-  showMessages() {
+  showMessages(options) {
+    // When called with a pre-built View (e.g. from showCustomFormErrorCallout),
+    // pass it through unchanged so the custom callout renders as-is.
+    if (options instanceof View) {
+      BaseForm.prototype.showMessages.call(this, options);
+      return;
+    }
     // Render error messages as a 2-part callout (bold title + body)
     // when returned alongside the identify remediation.
     const calloutOptions = {};
