@@ -11,6 +11,9 @@
  */
 
 import {
+  FASTPASS_BLOCKED_SHARED_DEVICE_SERVER_KEY,
+  NFC_SIGN_IN_TO_ENROLL_SERVER_KEY,
+  NFC_UNAVAILABLE_SERVER_KEY,
   OV_NMC_FORCE_UPGRADE_SERVER_KEY,
   OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
@@ -129,6 +132,78 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         i18n: { key: OV_NMC_FORCE_UPGRADE_SERVER_KEY },
         message: OV_NMC_FORCE_UPGRADE_SERVER_KEY,
         title: 'oie.numberchallenge.force.upgrade.title',
+      });
+  });
+
+  it('should add title when NFC sign in to enroll warning key exists in transaction', () => {
+    transaction.messages = [
+      {
+        message: 'Sign in with another method to finish enrolling your NFC device.',
+        class: 'WARNING',
+        i18n: { key: NFC_SIGN_IN_TO_ENROLL_SERVER_KEY },
+      },
+    ];
+    const updatedFormBag = transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
+      .toBe('WARNING');
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
+      .toEqual({
+        class: 'WARNING',
+        i18n: { key: NFC_SIGN_IN_TO_ENROLL_SERVER_KEY },
+        message: NFC_SIGN_IN_TO_ENROLL_SERVER_KEY,
+        title: 'oie.nfc_pin.sign_in_to_enroll.title',
+      });
+  });
+
+  it('should add title when NFC unavailable error key exists in transaction', () => {
+    transaction.messages = [
+      {
+        message: 'Try a different sign-in method or contact your administrator for help.',
+        class: 'ERROR',
+        i18n: { key: NFC_UNAVAILABLE_SERVER_KEY },
+      },
+    ];
+    const updatedFormBag = transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
+      .toBe('ERROR');
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
+      .toEqual({
+        class: 'ERROR',
+        i18n: { key: NFC_UNAVAILABLE_SERVER_KEY },
+        message: NFC_UNAVAILABLE_SERVER_KEY,
+        title: 'oie.nfc_pin.unavailable.title',
+      });
+  });
+
+  it('should add title when FastPass blocked shared device error key exists in transaction', () => {
+    transaction.messages = [
+      {
+        message: 'Try a different sign-in method or contact your administrator for help.',
+        class: 'ERROR',
+        i18n: { key: FASTPASS_BLOCKED_SHARED_DEVICE_SERVER_KEY },
+      },
+    ];
+    const updatedFormBag = transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
+      .toBe('ERROR');
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
+      .toEqual({
+        class: 'ERROR',
+        i18n: { key: FASTPASS_BLOCKED_SHARED_DEVICE_SERVER_KEY },
+        message: FASTPASS_BLOCKED_SHARED_DEVICE_SERVER_KEY,
+        title: 'oie.okta_verify.fastpass.blocked.title',
       });
   });
 

@@ -14,7 +14,7 @@ import { Button as OdyButton, useOdysseyDesignTokens } from '@okta/odyssey-react
 import { h } from 'preact';
 
 import Util from '../../../../util/Util';
-import { CHALLENGE_METHOD } from '../../constants';
+import { CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useOnSubmit } from '../../hooks';
 import {
@@ -25,7 +25,7 @@ import {
 import {
   getBaseUrl, getTranslation, isAndroid, setUrlQueryParams,
 } from '../../util';
-import { OktaVerifyIcon } from '../Icon';
+import { NfcPinIcon, OktaVerifyIcon } from '../Icon';
 
 const LaunchAuthenticatorButton: UISchemaElementComponent<{
   uischema: LaunchAuthenticatorButtonElement
@@ -77,6 +77,12 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
   const label = getTranslation(translations, 'label');
   const iconDescription = getTranslation(translations, 'icon-description') || '';
 
+  // The NFC launch button reuses this component, so pick the matching icon by step
+  // instead of always showing the Okta Verify icon.
+  const isNfc = step === IDX_STEP.LAUNCH_NFC_AUTHENTICATOR;
+  const StartIcon = isNfc ? NfcPinIcon : OktaVerifyIcon;
+  const startIconName = isNfc ? 'mfa-nfc-pin' : 'mfa-okta-verify';
+
   return (
     <OdyButton
       variant="secondary"
@@ -85,8 +91,8 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
       buttonRef={focusRef}
       label={label || ''}
       startIcon={(
-        <OktaVerifyIcon
-          name="mfa-okta-verify"
+        <StartIcon
+          name={startIconName}
           description={iconDescription}
           width={tokens.Spacing5}
           height={tokens.Spacing5}

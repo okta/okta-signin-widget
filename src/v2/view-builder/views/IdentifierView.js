@@ -1,4 +1,4 @@
-import { _, loc, createCallout } from '@okta/courage';
+import { _, loc, createCallout, View } from '@okta/courage';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { BaseForm, BaseView, createIdpButtons, createCustomButtons } from '../internals';
 import CryptoUtil from '../../../util/CryptoUtil';
@@ -20,6 +20,12 @@ import webauthn from '../../../util/webauthn';
 
 const CUSTOM_ACCESS_DENIED_KEY = 'security.access_denied_custom_message';
 const ABORT_REASON_CLEANUP = 'WebAuthNAutofill component cleanup';
+
+// NFC / FastPass error message keys returned alongside the identify remediation.
+// These render as a 2-part callout (bold title + body) at the top of the sign-in form.
+const NFC_SIGN_IN_TO_ENROLL_KEY = 'api.authenticator.error.nfc.sign_in_to_use';
+const NFC_UNAVAILABLE_KEY = 'api.authenticator.error.nfc.unavailable';
+const FASTPASS_BLOCKED_SHARED_DEVICE_KEY = 'api.authenticator.error.fastpass.blocked_shared_device';
 
 
 const Body = BaseForm.extend({
@@ -73,6 +79,27 @@ const Body = BaseForm.extend({
       // Use value from cookie if the remediation did not return identifier value.
       this._applyRememberMyUsername();
     }
+  },
+
+  showMessages(options) {
+    // When called with a pre-built View (e.g. from showCustomFormErrorCallout),
+    // pass it through unchanged so the custom callout renders as-is.
+    if (options instanceof View) {
+      BaseForm.prototype.showMessages.call(this, options);
+      return;
+    }
+    // Render error messages as a 2-part callout (bold title + body)
+    // when returned alongside the identify remediation.
+    const calloutOptions = {};
+    const { appState } = this.options;
+    if (appState.containsMessageWithI18nKey(NFC_SIGN_IN_TO_ENROLL_KEY)) {
+      calloutOptions.title = loc('oie.nfc_pin.sign_in_to_enroll.title', 'login');
+    } else if (appState.containsMessageWithI18nKey(NFC_UNAVAILABLE_KEY)) {
+      calloutOptions.title = loc('oie.nfc_pin.unavailable.title', 'login');
+    } else if (appState.containsMessageWithI18nKey(FASTPASS_BLOCKED_SHARED_DEVICE_KEY)) {
+      calloutOptions.title = loc('oie.okta_verify.fastpass.blocked.title', 'login');
+    }
+    BaseForm.prototype.showMessages.call(this, calloutOptions);
   },
 
   saveForm() {

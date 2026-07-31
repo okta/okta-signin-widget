@@ -1,8 +1,10 @@
-import { Model, $ } from '@okta/courage';
+import { Model, $, loc, View } from '@okta/courage';
 import IdentifierView from 'v2/view-builder/views/IdentifierView';
+import { BaseForm } from 'v2/view-builder/internals';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
 import XHRIdentifyWithPassword from '../../../../../../playground/mocks/data/idp/idx/identify-with-password.json';
+import XHRIdentifyWithNfcWarning from '../../../../../../playground/mocks/data/idp/idx/identify-with-nfc-sign-in-to-enroll-warning.json';
 import XHRIdentifyWithThirdPartyIdps from '../../../../../../playground/mocks/data/idp/idx/identify-with-third-party-idps.json';
 import XHRIdentifyWithManyIdps from '../../../../../../playground/mocks/data/idp/idx/identify-with-many-idps.json';
 import XHRIdentifyWithPasskeys from '../../../../../../playground/mocks/data/idp/idx/identify-with-passkeys-launch-authenticator.json';
@@ -825,6 +827,85 @@ describe('v2/view-builder/views/IdentifierView', function() {
       expect(testContext.view.$el.find('.okta-idps-container').css('display')).toEqual('none');
       // The no-results message should be visible
       expect(testContext.view.$el.find('.idp-no-results').css('display')).not.toEqual('none');
+    });
+  });
+
+  describe('NFC / FastPass error message callouts', function() {
+    const initWithMessages = (messages, remediations = XHRIdentifyWithNfcWarning.remediation.value) => {
+      jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(false);
+      jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(false);
+      jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
+      const appState = new AppState({}, {});
+      appState.set('remediations', remediations);
+      if (messages) {
+        appState.set('messages', messages);
+      }
+      testContext.view = new IdentifierView({
+        appState,
+        settings,
+        model: new Model(),
+        currentViewState,
+      });
+      testContext.view.render();
+    };
+
+    const buildMessages = (key, messageClass) => ({
+      type: 'array',
+      value: [{
+        message: 'server provided message',
+        i18n: { key },
+        class: messageClass,
+      }],
+    });
+
+    it('renders the "sign in to enroll" title for the NFC sign_in_to_use warning', function() {
+      const showMessagesSpy = jest.spyOn(BaseForm.prototype, 'showMessages');
+      initWithMessages(buildMessages('api.authenticator.error.nfc.sign_in_to_use', 'WARNING'));
+
+      expect(showMessagesSpy).toHaveBeenCalledWith({
+        title: loc('oie.nfc_pin.sign_in_to_enroll.title', 'login'),
+      });
+      // A 2-part callout (bold header + body) is rendered at the top of the form
+      expect(testContext.view.$el.find('.o-form-error-container [data-se="header"]').length).toBe(1);
+    });
+
+    it('renders the "NFC unavailable" title for the NFC unavailable error', function() {
+      const showMessagesSpy = jest.spyOn(BaseForm.prototype, 'showMessages');
+      initWithMessages(buildMessages('api.authenticator.error.nfc.unavailable', 'ERROR'));
+
+      expect(showMessagesSpy).toHaveBeenCalledWith({
+        title: loc('oie.nfc_pin.unavailable.title', 'login'),
+      });
+    });
+
+    it('renders the "FastPass blocked" title for the fastpass blocked_shared_device error', function() {
+      const showMessagesSpy = jest.spyOn(BaseForm.prototype, 'showMessages');
+      initWithMessages(buildMessages('api.authenticator.error.fastpass.blocked_shared_device', 'ERROR'));
+
+      expect(showMessagesSpy).toHaveBeenCalledWith({
+        title: loc('oie.okta_verify.fastpass.blocked.title', 'login'),
+      });
+    });
+
+    it('does not add a title when no NFC / FastPass message is present', function() {
+      const showMessagesSpy = jest.spyOn(BaseForm.prototype, 'showMessages');
+      initWithMessages(null, XHRIdentifyWithPassword.remediation.value);
+
+      expect(showMessagesSpy).toHaveBeenCalledWith({});
+    });
+
+    it('passes a pre-built View through unchanged (showCustomFormErrorCallout path)', function() {
+      // showCustomFormErrorCallout renders a custom callout via showMessages(<View>);
+      // the override must forward it rather than replacing it with the default rendering.
+      const showMessagesSpy = jest.spyOn(BaseForm.prototype, 'showMessages').mockImplementation(() => {});
+      initWithMessages(null, XHRIdentifyWithPassword.remediation.value);
+      showMessagesSpy.mockClear();
+
+      const customCallout = new View();
+      testContext.view.form.showMessages(customCallout);
+
+      expect(showMessagesSpy).toHaveBeenCalledTimes(1);
+      expect(showMessagesSpy).toHaveBeenCalledWith(customCallout);
     });
   });
 });

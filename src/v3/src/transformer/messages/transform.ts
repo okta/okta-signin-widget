@@ -14,7 +14,10 @@ import flow from 'lodash/flow';
 
 import {
   CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY,
+  FASTPASS_BLOCKED_SHARED_DEVICE_SERVER_KEY,
   IDX_STEP,
+  NFC_SIGN_IN_TO_ENROLL_SERVER_KEY,
+  NFC_UNAVAILABLE_SERVER_KEY,
   OV_NMC_FORCE_UPGRADE_SERVER_KEY,
   OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
@@ -52,6 +55,9 @@ const MESSAGE_KEYS_WITH_TITLE = [
   ...fipsComplianceKeys,
   OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY,
   OV_NMC_FORCE_UPGRADE_SERVER_KEY,
+  NFC_SIGN_IN_TO_ENROLL_SERVER_KEY,
+  NFC_UNAVAILABLE_SERVER_KEY,
+  FASTPASS_BLOCKED_SHARED_DEVICE_SERVER_KEY,
 ];
 
 export const CUSTOM_MESSAGE_KEYS = [
@@ -64,6 +70,9 @@ export const CUSTOM_MESSAGE_KEYS = [
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
+  NFC_SIGN_IN_TO_ENROLL_SERVER_KEY,
+  NFC_UNAVAILABLE_SERVER_KEY,
+  FASTPASS_BLOCKED_SHARED_DEVICE_SERVER_KEY,
 ];
 
 const EXCLUDE_MESSAGE_STEPS = [
@@ -119,6 +128,12 @@ const transformMessagesWithTitle: TransformStepFnWithOptions = ({
     widgetMessage.title = loc('oie.authenticator.app.method.push.enroll.enable.biometrics.title', 'login');
   } else if (containsMessageKey(OV_NMC_FORCE_UPGRADE_SERVER_KEY, messagesWithTitle)) {
     widgetMessage.title = loc('oie.numberchallenge.force.upgrade.title', 'login');
+  } else if (containsMessageKey(NFC_SIGN_IN_TO_ENROLL_SERVER_KEY, messagesWithTitle)) {
+    widgetMessage.title = loc('oie.nfc_pin.sign_in_to_enroll.title', 'login');
+  } else if (containsMessageKey(NFC_UNAVAILABLE_SERVER_KEY, messagesWithTitle)) {
+    widgetMessage.title = loc('oie.nfc_pin.unavailable.title', 'login');
+  } else if (containsMessageKey(FASTPASS_BLOCKED_SHARED_DEVICE_SERVER_KEY, messagesWithTitle)) {
+    widgetMessage.title = loc('oie.okta_verify.fastpass.blocked.title', 'login');
   }
 
   const messageElements: UISchemaElement[] = [];
