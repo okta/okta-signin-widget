@@ -497,6 +497,11 @@ export interface LoopbackProbeElement extends UISchemaElement {
     deviceChallengePayload: DeviceChallengePayload;
     step: string;
     cancelStep: string;
+    // When true, a loopback failure should surface the Local Network Access (LNA)
+    // remediation view if the browser reports the LNA permission as blocked, rather
+    // than immediately cancelling. Only set for interactive challenges where the
+    // server flagged LNA as relevant (chromeLocalNetworkAccessDetails present).
+    showLNARemediationOnFailure?: boolean;
   };
 }
 

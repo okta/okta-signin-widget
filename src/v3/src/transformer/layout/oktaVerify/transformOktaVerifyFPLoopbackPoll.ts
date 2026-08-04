@@ -12,7 +12,6 @@
 
 import { NextStep } from '@okta/okta-auth-js';
 
-import { ChromeLNADeniedError } from '../../../../../util/Errors';
 import { IDX_STEP } from '../../../constants';
 import {
   ActionPendingElement,
@@ -26,11 +25,11 @@ import {
   UISchemaLayout,
 } from '../../../types';
 import {
-  getChromeLNAPermissionState,
   hasMinAuthenticatorOptions,
   loc,
   updateTransactionWithNextStep,
 } from '../../../util';
+import { isChromeLNADeniedTransaction } from '../../../util/browserUtils';
 
 export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
   prevTransaction,
@@ -158,12 +157,22 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
     cancelLink,
   ];
 
+  // The LNA permission is no longer used as an upfront gate: an iframe within WebView2
+  // (e.g. the Teams thick client) reports the LNA permission as 'denied' by default even
+  // though loopback is not actually enforced, which previously failed auth before the
+  // connection was ever attempted. Instead we always probe and let LoopbackProbe surface
+  // LNA remediation only if the probe genuinely fails and the permission is blocked.
+  // Silent probes never show the terminal error.
+  const showLNARemediationOnFailure = Boolean(chromeLocalNetworkAccessDetails)
+    && !isRegisteredConditionSilentProbe;
+
   const loopbackProbeElement : LoopbackProbeElement = {
     type: 'LoopbackProbe',
     options: {
       deviceChallengePayload,
       cancelStep,
       step: transaction.nextStep?.name,
+      showLNARemediationOnFailure,
     },
   } as LoopbackProbeElement;
 
@@ -179,29 +188,11 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
     ...linkElements,
   ];
 
-  if (chromeLocalNetworkAccessDetails) {
-    getChromeLNAPermissionState((currPermissionState) => {
-      switch (currPermissionState) {
-        case 'prompt':
-          uischema.elements = loopbackProbeElements;
-          break;
-        case 'granted':
-          uischema.elements = loopbackProbeElements;
-          break;
-        case 'denied':
-          if (isRegisteredConditionSilentProbe) {
-            uischema.elements = loopbackProbeElements;
-          } else {
-            uischema.elements = chromeLNAErrorCalloutElements;
-            // Log error for Sentry monitoring
-            throw new ChromeLNADeniedError('Chrome Local Network Access permission was denied for FastPass.');
-          }
-          break;
-        default:
-          uischema.elements = loopbackProbeElements;
-          break;
-      }
-    });
+  // LoopbackProbe marks the (client-side) transaction once a loopback failure is
+  // confirmed to be caused by a blocked LNA permission. On that render we show the
+  // remediation view instead of re-mounting the probe.
+  if (chromeLocalNetworkAccessDetails && isChromeLNADeniedTransaction(transaction)) {
+    uischema.elements = chromeLNAErrorCalloutElements;
   } else {
     uischema.elements = loopbackProbeElements;
   }

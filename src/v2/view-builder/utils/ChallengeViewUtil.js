@@ -12,7 +12,6 @@
 import { loc, View, createButton, createCallout, _ } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import Enums from 'util/Enums';
-import { ChromeLNADeniedError } from 'util/Errors';
 import Util from 'util/Util';
 import {
   FASTPASS_FALLBACK_SPINNER_TIMEOUT,
@@ -23,7 +22,6 @@ import {
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
   REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON,
 } from '../utils/Constants';
-import BrowserFeatures from '../../../util/BrowserFeatures';
 
 export function appendLoginHint(deviceChallengeUrl, loginHint) {
   if (deviceChallengeUrl && loginHint) {
@@ -78,50 +76,30 @@ function updateChromeLNATitle(view, newTitle) {
   }
 }
 
-function handlePermissionState(view, currPermissionState, deviceChallenge) {
+// Replaces the loopback spinner with the Local Network Access (LNA) remediation
+// error view. Called only after a loopback probe has actually failed and the
+// browser reports the LNA permission as blocked (see handleLoopbackFailure in
+// BaseOktaVerifyChallengeView).
+export function renderLNAError(view, chromeLNAHelpLink) {
   view.removeChildren();
-  switch(currPermissionState) {
-  case 'prompt':
-  case 'granted':
-    updateChromeLNATitle(view, loc('deviceTrust.sso.redirectText', 'login'));
-    addLoopbackView(view, deviceChallenge);
-    break;
-  case 'denied': {
-    // If there is no previous form name, it is a silent probe triggered by the registered condition
-    const isRegisteredConditionSilentProbe = view.options?.appState?.get('previousFormName') === undefined;
-    if (isRegisteredConditionSilentProbe) {
-      updateChromeLNATitle(view, loc('deviceTrust.sso.redirectText', 'login'));
-      addLoopbackView(view, deviceChallenge);
-    } else {
-      updateChromeLNATitle(view, loc('chrome.lna.fastpass.requires.permission.title', 'login'));
-      addLNAErrorView(view, deviceChallenge.chromeLocalNetworkAccessDetails?.chromeLNAHelpLink);
-      // Log error for Sentry monitoring
-      throw new ChromeLNADeniedError('Chrome Local Network Access permission was denied for FastPass.');
-    }
-    break;
-  }
-  default:
-    updateChromeLNATitle(view, loc('deviceTrust.sso.redirectText', 'login'));
-    addLoopbackView(view, deviceChallenge);
-    break;
-  }
+  updateChromeLNATitle(view, loc('chrome.lna.fastpass.requires.permission.title', 'login'));
+  addLNAErrorView(view, chromeLNAHelpLink);
 }
 
 export function doChallenge(view, fromView) {
   const deviceChallenge = view.getDeviceChallengePayload();
-  const { chromeLocalNetworkAccessDetails } = deviceChallenge || {};
   const loginHint = view.options?.settings?.get('identifier');
   const HIDE_CLASS = 'hide';
   switch (deviceChallenge.challengeMethod) {
   case Enums.LOOPBACK_CHALLENGE: {
+    // Always attempt the loopback first. The LNA permission state is no longer
+    // used as an upfront gate: an iframe within WebView2 (e.g. the Teams thick
+    // client) reports the LNA permission as 'denied' by default even though
+    // loopback is not actually enforced, which previously failed auth before
+    // the connection was ever attempted. LNA remediation is now surfaced only
+    // if the loopback genuinely fails (see handleLoopbackFailure).
     view.title = loc('deviceTrust.sso.redirectText', 'login');
-    if (chromeLocalNetworkAccessDetails) {
-      BrowserFeatures.getChromeLNAPermissionState(
-        (currPermissionState) => handlePermissionState(view, currPermissionState, deviceChallenge)
-      );
-    } else {
-      addLoopbackView(view, deviceChallenge);
-    }
+    addLoopbackView(view, deviceChallenge);
     break;
   }
   case Enums.CUSTOM_URI_CHALLENGE:

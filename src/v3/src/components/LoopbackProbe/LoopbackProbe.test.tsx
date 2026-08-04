@@ -16,9 +16,12 @@ import { SetupServer, setupServer } from 'msw/node';
 import { h } from 'preact';
 import { LoopbackProbeElement } from 'src/types';
 
+import * as browserUtils from '../../util/browserUtils';
 import LoopbackProbe from './LoopbackProbe';
 
 const proceedStub = jest.fn();
+const setIdxTransactionStub = jest.fn();
+const setIsClientTransactionStub = jest.fn();
 let mockWidgetContextOverrides: Record<string, unknown> = {};
 jest.mock('../../contexts', () => ({
   useWidgetContext: () => ({
@@ -32,7 +35,8 @@ jest.mock('../../contexts', () => ({
         stateHandle: 'fake-state-handle',
       },
     },
-    setIdxTransaction: jest.fn(),
+    setIdxTransaction: setIdxTransactionStub,
+    setIsClientTransaction: setIsClientTransactionStub,
     ...mockWidgetContextOverrides,
   }),
 }));
@@ -643,6 +647,103 @@ describe('LoopbackProbe', () => {
       await new Promise((r) => { setTimeout(r, 50); });
       // Flag STILL held — cancelHandler did not clear what it did not claim
       expect(pollInFlightRef.current).toBe(true);
+    });
+  });
+
+  describe('Local Network Access (LNA) remediation on loopback failure', () => {
+    const buildProps = (
+      showLNARemediationOnFailure?: boolean,
+    ): { uischema: LoopbackProbeElement } => ({
+      uischema: {
+        type: 'LoopbackProbe',
+        options: {
+          deviceChallengePayload: {
+            ports: ['2000', '6511', '6512', '6513'],
+            domain: 'http://localhost',
+            challengeRequest: 'mockChallengeRequest',
+            probeTimeoutMillis: 100,
+            chromeLocalNetworkAccessDetails: {
+              chromeLNAHelpLink: 'https://okta.com',
+            },
+          },
+          cancelStep: 'authenticatorChallenge-cancel',
+          step: 'device-challenge-poll',
+          showLNARemediationOnFailure,
+        },
+      },
+    });
+
+    beforeEach(() => {
+      // All ports fail to probe so the loopback attempt fails.
+      server.use(
+        rest.get(/http:\/\/localhost:\d{4}\/probe/, async (_, res, ctx) => res(ctx.status(500))),
+      );
+    });
+
+    it('renders the LNA remediation view (client-side) and stops polling when the permission is denied', async () => {
+      // getChromeLNAPermissionState resolves to 'denied'. The ChromeLNADeniedError thrown for
+      // Sentry monitoring is swallowed here so it does not surface as an unhandled rejection.
+      jest.spyOn(browserUtils, 'getChromeLNAPermissionState').mockImplementation(async (cb) => {
+        try {
+          cb('denied');
+        } catch {
+          /* ChromeLNADeniedError is monitoring-only */
+        }
+      });
+
+      render(<LoopbackProbe {...buildProps(true)} />);
+
+      await waitFor(
+        () => expect(setIsClientTransactionStub).toHaveBeenCalledWith(true),
+        { timeout: 300 },
+      );
+      // Transaction is marked so the transformer renders the error layout and usePolling stops
+      expect(setIdxTransactionStub).toHaveBeenCalledWith(
+        expect.objectContaining({ chromeLNADenied: true }),
+      );
+      // No cancel/proceed round-trip is made
+      expect(proceedStub).not.toHaveBeenCalled();
+    });
+
+    it.each(['granted', 'prompt'])('cancels for "%s" permission (no remediation)', async (permissionState) => {
+      jest.spyOn(browserUtils, 'getChromeLNAPermissionState').mockImplementation(async (cb) => {
+        cb(permissionState as PermissionState);
+      });
+
+      render(<LoopbackProbe {...buildProps(true)} />);
+
+      await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+      expect(proceedStub).toHaveBeenCalledWith({
+        actions: [{
+          name: 'authenticatorChallenge-cancel',
+          params: {
+            reason: 'OV_UNREACHABLE_BY_LOOPBACK',
+            statusCode: null,
+          },
+        }],
+        stateHandle: 'fake-state-handle',
+      });
+      expect(setIsClientTransactionStub).not.toHaveBeenCalled();
+    });
+
+    it('cancels without checking the permission when showLNARemediationOnFailure is false (silent probe)', async () => {
+      const lnaSpy = jest.spyOn(browserUtils, 'getChromeLNAPermissionState');
+
+      render(<LoopbackProbe {...buildProps(false)} />);
+
+      await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+      expect(proceedStub).toHaveBeenCalledWith({
+        actions: [{
+          name: 'authenticatorChallenge-cancel',
+          params: {
+            reason: 'OV_UNREACHABLE_BY_LOOPBACK',
+            statusCode: null,
+          },
+        }],
+        stateHandle: 'fake-state-handle',
+      });
+      expect(lnaSpy).not.toHaveBeenCalled();
+      expect(setIsClientTransactionStub).not.toHaveBeenCalled();
     });
   });
 });

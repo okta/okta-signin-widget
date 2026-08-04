@@ -2,6 +2,7 @@
 import { $ } from '@okta/courage';
 import BaseFormWithPolling from '../internals/BaseFormWithPolling';
 import Logger from 'util/Logger';
+import { ChromeLNADeniedError } from 'util/Errors';
 import {
   AUTHENTICATOR_CANCEL_ACTION,
   AUTHENTICATION_CANCEL_REASONS,
@@ -12,6 +13,7 @@ import {
   doChallenge,
   cancelPollingWithParams,
   createInvisibleIFrame,
+  renderLNAError,
 } from '../utils/ChallengeViewUtil';
 
 const request = (opts) => {
@@ -64,6 +66,48 @@ const Body = BaseFormWithPolling.extend({
 
   getDeviceChallengePayload() {
     throw new Error('getDeviceChallengePayload needs to be implemented');
+  },
+
+  cancelLoopbackPolling() {
+    cancelPollingWithParams(
+      this.options.appState,
+      this.pollingCancelAction,
+      AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE,
+      null,
+      !this.removed,
+    );
+  },
+
+  // Called when the loopback probe has failed to reach Okta Verify on any port.
+  // Rather than gating on the LNA permission upfront, we attempt the loopback
+  // first and only surface Local Network Access remediation here, when the
+  // connection has genuinely failed AND the browser reports the LNA permission
+  // as blocked. This avoids falsely failing auth in environments (e.g. an
+  // iframe within WebView2) that report 'denied' but do not actually enforce
+  // LNA, where the loopback would otherwise have succeeded.
+  handleLoopbackFailure(deviceChallenge) {
+    const chromeLocalNetworkAccessDetails = deviceChallenge?.chromeLocalNetworkAccessDetails;
+    // If there is no previous form name, it is a silent probe triggered by the
+    // registered condition; never show a terminal LNA error for a silent probe.
+    const isRegisteredConditionSilentProbe = this.options?.appState?.get('previousFormName') === undefined;
+
+    // LNA remediation only applies to interactive challenges where the server
+    // flagged LNA as relevant. Otherwise treat this as a normal loopback failure.
+    if (!chromeLocalNetworkAccessDetails || isRegisteredConditionSilentProbe) {
+      this.cancelLoopbackPolling();
+      return;
+    }
+
+    BrowserFeatures.getChromeLNAPermissionState((currPermissionState) => {
+      if (currPermissionState === 'denied') {
+        this.stopPolling();
+        renderLNAError(this, chromeLocalNetworkAccessDetails?.chromeLNAHelpLink);
+        // Log error for Sentry monitoring
+        throw new ChromeLNADeniedError('Chrome Local Network Access permission was denied for FastPass.');
+      }
+      // Loopback genuinely failed for another reason; proceed with normal cancel.
+      this.cancelLoopbackPolling();
+    });
   },
 
   doLoopback(deviceChallenge) {
@@ -150,13 +194,7 @@ const Body = BaseFormWithPolling.extend({
                 // when challenge is responded by the wrong OS profile and
                 // all the ports are exhausted,
                 // cancel the polling like the probing has failed
-                cancelPollingWithParams(
-                  this.options.appState,
-                  this.pollingCancelAction,
-                  AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE,
-                  null,
-                  !this.removed,
-                );
+                this.handleLoopbackFailure(deviceChallenge);
               }
             });
         })
@@ -182,13 +220,7 @@ const Body = BaseFormWithPolling.extend({
             // This is to avoid concurrency issue where /poll/cancel takes long time to complete
             // and SIW will receive 400 error if the polling continues
             this.stopPolling();
-            cancelPollingWithParams(
-              this.options.appState,
-              this.pollingCancelAction,
-              AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE,
-              null,
-              !this.removed,
-            );
+            this.handleLoopbackFailure(deviceChallenge);
           }
         });
     };
