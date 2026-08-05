@@ -14,10 +14,12 @@ import { IdxActionParams } from '@okta/okta-auth-js';
 import { FunctionComponent } from 'preact';
 import { useEffect } from 'preact/hooks';
 
+import { ChromeLNADeniedError } from '../../../../util/Errors';
 import Logger from '../../../../util/Logger';
 import { useWidgetContext } from '../../contexts';
 import { ActionParams, LoopbackProbeElement } from '../../types';
 import { isAndroid, isPollingStep, makeRequest } from '../../util';
+import { getChromeLNAPermissionState, markChromeLNADeniedTransaction } from '../../util/browserUtils';
 
 const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
   uischema: {
@@ -25,12 +27,18 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
       deviceChallengePayload,
       cancelStep,
       step,
+      showLNARemediationOnFailure,
     },
   },
 }) => {
   const widgetContext = useWidgetContext();
   const {
-    authClient, idxTransaction, setIdxTransaction, widgetProps, pollInFlightRef,
+    authClient,
+    idxTransaction,
+    setIdxTransaction,
+    setIsClientTransaction,
+    widgetProps,
+    pollInFlightRef,
   } = widgetContext;
   const disableConcurrentPolling = widgetProps?.features?.disableConcurrentPolling;
   const disablePollDuringCancel = widgetProps?.features?.disablePollDuringCancel;
@@ -103,6 +111,33 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
         pollInFlightRef.current = false;
       }
     }
+  };
+
+  // Called when the loopback probe fails to reach Okta Verify on any port. The loopback
+  // is always attempted first (see doLoopback below); Local Network Access remediation is
+  // surfaced only here, when the failure coincides with a blocked LNA permission on an
+  // interactive challenge. This avoids falsely failing auth in environments (e.g. an
+  // iframe within WebView2) that report the LNA permission as 'denied' but do not actually
+  // enforce it, where the loopback would otherwise have succeeded.
+  const handleLoopbackFailure = () => {
+    if (!showLNARemediationOnFailure || !idxTransaction) {
+      cancelHandler({ reason: 'OV_UNREACHABLE_BY_LOOPBACK', statusCode: null });
+      return;
+    }
+    getChromeLNAPermissionState((currPermissionState) => {
+      if (currPermissionState !== 'denied') {
+        // Loopback genuinely failed for another reason; cancel polling as usual.
+        cancelHandler({ reason: 'OV_UNREACHABLE_BY_LOOPBACK', statusCode: null });
+        return;
+      }
+      // Render the LNA remediation view client-side with no server round-trip: marking the
+      // transaction makes the loopback transformer emit the error layout on re-render and
+      // makes usePolling stop polling (so the probe is not re-mounted / re-run).
+      setIsClientTransaction(true);
+      setIdxTransaction(markChromeLNADeniedTransaction(idxTransaction));
+      // Log error for Sentry monitoring
+      throw new ChromeLNADeniedError('Chrome Local Network Access permission was denied for FastPass.');
+    });
   };
 
   /* eslint-disable no-await-in-loop, no-continue */
@@ -183,13 +218,11 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
         // for the next ongoing polling to be triggered to make the authentication flow go faster
         submitHandler(step);
       } else {
-        // no more ports to probe: cancel polling and return
+        // no more ports to probe: surface LNA remediation if the failure is due to a
+        // blocked LNA permission, otherwise cancel polling and return
         Logger.error('No available ports. Loopback server failed and polling is cancelled.');
 
-        cancelHandler({
-          reason: 'OV_UNREACHABLE_BY_LOOPBACK',
-          statusCode: null,
-        });
+        handleLoopbackFailure();
       }
     };
 

@@ -12,7 +12,6 @@
 
 import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { ChromeLNADeniedError } from 'util/Errors';
 
 import {
   ActionPendingElement,
@@ -22,7 +21,7 @@ import {
   TitleElement,
   WidgetProps,
 } from '../../../types';
-import * as browserUtils from '../../../util/browserUtils';
+import { markChromeLNADeniedTransaction } from '../../../util/browserUtils';
 import * as idxUtils from '../../../util/idxUtils';
 import { transformOktaVerifyFPLoopbackPoll } from './transformOktaVerifyFPLoopbackPoll';
 
@@ -72,6 +71,7 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
           },
           cancelStep: 'authenticatorChallenge-cancel',
           step: 'device-challenge-poll',
+          showLNARemediationOnFailure: false,
         });
       expect((updatedFormBag.uischema.elements[2] as LinkElement).options.label)
         .toBe('oie.verification.switch.authenticator');
@@ -129,6 +129,7 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
           },
           cancelStep: 'currentAuthenticator-cancel',
           step: 'challenge-poll',
+          showLNARemediationOnFailure: false,
         });
       expect((updatedFormBag.uischema.elements[2] as LinkElement).options.label)
         .toBe('oie.verification.switch.authenticator');
@@ -141,13 +142,6 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
 
   describe('where chromeLocalNetworkAccessDetails are defined', () => {
     const prevTransaction = getStubTransactionWithNextStep();
-
-    const mockChromeLNAPermissionState = (permissionState: PermissionState) => {
-      jest.spyOn(browserUtils, 'getChromeLNAPermissionState').mockImplementation((handlePermissionState) => {
-        handlePermissionState(permissionState);
-        return Promise.resolve();
-      });
-    };
 
     beforeEach(() => {
       transaction.nextStep = {
@@ -167,10 +161,18 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
       transaction.availableSteps = [{ name: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE }];
     });
 
-    it.each(['prompt', 'granted'])('should create Loopback Poll elements for display when permission state is "%s"', (permissionState) => {
-      mockChromeLNAPermissionState(permissionState as PermissionState);
+    // The LNA permission is no longer checked upfront in the transformer. The loopback is
+    // always attempted; the LoopbackProbe surfaces LNA remediation only after a genuine
+    // failure with a blocked permission, then marks the transaction so this transformer
+    // renders the error layout (see the marked-transaction test below).
+    it('creates Loopback Poll elements with showLNARemediationOnFailure=true for an interactive challenge', () => {
+      // A defined prevTransaction.nextStep.name means this is not a registered-condition silent probe
+      prevTransaction.nextStep = {
+        name: IDX_STEP.IDENTIFY,
+      };
 
       const updatedFormBag = transformOktaVerifyFPLoopbackPoll({
+        prevTransaction,
         transaction,
         formBag,
         widgetProps,
@@ -195,19 +197,19 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
           },
           cancelStep: 'authenticatorChallenge-cancel',
           step: 'device-challenge-poll',
+          showLNARemediationOnFailure: true,
         });
       expect(updatedFormBag.uischema.elements[2].type).toBe('Link');
       expect((updatedFormBag.uischema.elements[2] as LinkElement).options.label)
         .toBe('goback');
     });
 
-    it('should create Loopback Poll elements for display when permission state is "denied" and loopback is triggered by registered condition silent probe', () => {
-      // Explicitly mock no previous transaction through an undefined prevTransaction.nextStep.name, which happens when
-      // a silent loopback probe is triggered by the registered condition
+    it('creates Loopback Poll elements with showLNARemediationOnFailure=false for a registered condition silent probe', () => {
+      // An undefined prevTransaction.nextStep.name means this is a silent probe triggered by
+      // the registered condition; a silent probe must never show the terminal LNA error
       prevTransaction.nextStep = {
         name: undefined as unknown as string,
       };
-      mockChromeLNAPermissionState('denied');
 
       const updatedFormBag = transformOktaVerifyFPLoopbackPoll({
         prevTransaction,
@@ -234,36 +236,31 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
           },
           cancelStep: 'authenticatorChallenge-cancel',
           step: 'device-challenge-poll',
+          showLNARemediationOnFailure: false,
         });
       expect(updatedFormBag.uischema.elements[2].type).toBe('Link');
       expect((updatedFormBag.uischema.elements[2] as LinkElement).options.label)
         .toBe('goback');
     });
 
-    it('should create error remediation elements when permission state is "denied" and loopback is not triggered by registered condition silent probe', () => {
-      // Explicitly mock a previous transaction with a defined prevTransaction.nextStep.name, which happens when
-      // a loopback probe is not triggered by the registered condition
-      prevTransaction.nextStep = {
-        name: IDX_STEP.IDENTIFY,
-      };
-      mockChromeLNAPermissionState('denied');
+    it('creates error remediation elements when the transaction is marked as LNA-denied', () => {
+      // LoopbackProbe marks the transaction once a loopback failure is attributed to a
+      // blocked LNA permission; the transformer then renders the remediation view.
+      const deniedTransaction = markChromeLNADeniedTransaction(transaction);
 
-      expect(() => {
-        transformOktaVerifyFPLoopbackPoll({
-          prevTransaction,
-          transaction,
-          formBag,
-          widgetProps,
-        });
-      }).toThrowError(ChromeLNADeniedError);
+      const updatedFormBag = transformOktaVerifyFPLoopbackPoll({
+        transaction: deniedTransaction,
+        formBag,
+        widgetProps,
+      });
 
-      expect(formBag).toMatchSnapshot();
-      expect(formBag.uischema.elements.length).toBe(3);
-      expect(formBag.uischema.elements[0].type).toBe('Title');
-      expect((formBag.uischema.elements[0] as TitleElement).options.content).toBe('chrome.lna.fastpass.requires.permission.title');
-      expect(formBag.uischema.elements[1].type).toBe('InfoBox');
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(3);
+      expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content).toBe('chrome.lna.fastpass.requires.permission.title');
+      expect(updatedFormBag.uischema.elements[1].type).toBe('InfoBox');
       expect((
-        formBag.uischema.elements[1] as InfoboxElement
+        updatedFormBag.uischema.elements[1] as InfoboxElement
       ).options?.message).toEqual(
         [
           {
@@ -294,10 +291,10 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
         ],
       );
       expect((
-        formBag.uischema.elements[1] as InfoboxElement
+        updatedFormBag.uischema.elements[1] as InfoboxElement
       ).options?.class).toBe('ERROR');
-      expect(formBag.uischema.elements[2].type).toBe('Link');
-      expect((formBag.uischema.elements[2] as LinkElement).options.label).toBe('goback');
+      expect(updatedFormBag.uischema.elements[2].type).toBe('Link');
+      expect((updatedFormBag.uischema.elements[2] as LinkElement).options.label).toBe('goback');
     });
   });
 });

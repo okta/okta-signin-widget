@@ -19,6 +19,7 @@ import {
 import { TERMINAL_KEY } from '../constants';
 import { FormBag, WidgetOptions } from '../types';
 import { containsMessageKey, isPollingStep } from '../util';
+import { isChromeLNADeniedTransaction } from '../util/browserUtils';
 
 const DEFAULT_TIMEOUT = 4000;
 
@@ -28,6 +29,14 @@ const getPollingStep = (
   // auth-js preserves polling object (cache) in transaction when back to authenticators list
   // stop polling in this scenario
   if (!transaction || transaction.nextStep?.name.startsWith('select-authenticator')) {
+    return undefined;
+  }
+
+  // Stop polling once a FastPass loopback failure has been attributed to a blocked
+  // Local Network Access permission — the widget renders a terminal LNA remediation
+  // view client-side (no server round-trip), so continuing to poll would re-mount the
+  // probe and flicker. See LoopbackProbe.tsx / transformOktaVerifyFPLoopbackPoll.
+  if (isChromeLNADeniedTransaction(transaction)) {
     return undefined;
   }
 
