@@ -146,6 +146,9 @@
     "webpack-merge": "^5.9.0",
     "whatwg-fetch": "^3.6.2"
   },
+  "resolutions": {
+    "rimraf": "^4.4.1"
+  },
   "engines": {
     "node": ">=16"
   }
