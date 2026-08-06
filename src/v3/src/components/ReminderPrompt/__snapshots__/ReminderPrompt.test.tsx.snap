@@ -1,53 +1,67 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ReminderPrompt should show prompt after custom timeout passes 1`] = `<div />`;
+exports[`ReminderPrompt should show prompt after custom timeout passes 1`] = `
+<div>
+  <div
+    aria-atomic="true"
+    aria-live="polite"
+    class="MuiBox-root emotion-0"
+  />
+</div>
+`;
 
 exports[`ReminderPrompt should show prompt with working link after default timeout passes 1`] = `
 <div>
   <div
+    aria-atomic="true"
+    aria-live="polite"
     class="MuiBox-root emotion-0"
   >
     <div
-      aria-label="warning"
-      aria-labelledby="82mvyq"
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-1"
-      role="alert"
+      class="MuiBox-root emotion-1"
     >
       <div
-        class="MuiAlert-icon emotion-2"
-      >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-3"
-          data-testid="ReportProblemOutlinedIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"
-          />
-        </svg>
-      </div>
-      <div
-        class="MuiAlert-message emotion-4"
+        aria-label="warning"
+        aria-labelledby="82mvyq"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-2"
+        role="presentation"
       >
         <div
-          class="emotion-5"
+          class="MuiAlert-icon emotion-3"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-4"
+            data-testid="ReportProblemOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="MuiAlert-message emotion-5"
         >
           <div
-            class="MuiBox-root emotion-6"
+            class="emotion-6"
           >
             <div
-              class="MuiBox-root emotion-7"
+              class="MuiBox-root emotion-0"
             >
-              Didnt receive the email?
+              <div
+                class="MuiBox-root emotion-8"
+              >
+                Didnt receive the email?
+              </div>
+              <a
+                class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways emotion-9"
+                href="#"
+              >
+                Send again?
+              </a>
             </div>
-            <a
-              class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways emotion-8"
-              href="#"
-            >
-              Send again?
-            </a>
           </div>
         </div>
       </div>
@@ -59,48 +73,54 @@ exports[`ReminderPrompt should show prompt with working link after default timeo
 exports[`ReminderPrompt should show prompt with working link after default timeout passes where ctaText contains HTML 1`] = `
 <div>
   <div
+    aria-atomic="true"
+    aria-live="polite"
     class="MuiBox-root emotion-0"
   >
     <div
-      aria-label="warning"
-      aria-labelledby="82mvyq"
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-1"
-      role="alert"
+      class="MuiBox-root emotion-1"
     >
       <div
-        class="MuiAlert-icon emotion-2"
-      >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-3"
-          data-testid="ReportProblemOutlinedIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"
-          />
-        </svg>
-      </div>
-      <div
-        class="MuiAlert-message emotion-4"
+        aria-label="warning"
+        aria-labelledby="82mvyq"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-2"
+        role="presentation"
       >
         <div
-          class="emotion-5"
+          class="MuiAlert-icon emotion-3"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-4"
+            data-testid="ReportProblemOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"
+            />
+          </svg>
+        </div>
+        <div
+          class="MuiAlert-message emotion-5"
         >
           <div
-            class="MuiBox-root emotion-6"
+            class="emotion-6"
           >
             <div
-              class="MuiBox-root emotion-6"
+              class="MuiBox-root emotion-0"
             >
-              Didn't receive the email? Click 
-              <a
-                class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways send-again emotion-8"
-                href="#"
+              <div
+                class="MuiBox-root emotion-0"
               >
-                send again
-              </a>
+                Didn't receive the email? Click 
+                <a
+                  class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways send-again emotion-9"
+                  href="#"
+                >
+                  send again
+                </a>
+              </div>
             </div>
           </div>
         </div>
