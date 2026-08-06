@@ -732,7 +732,13 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                             tabindex="-1"
                             translate="no"
                           >
-                            K A G W B I X A K O L P E F M Y
+                            <span
+                              aria-label="Secret key: K A G W B I X A K O L P E F M Y"
+                              class="shared-secret"
+                              tabindex="0"
+                            >
+                              KAGWBIXAKOLPEFMY
+                            </span>
                           </p>
                         </div>
                       </div>

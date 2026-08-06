@@ -69,7 +69,7 @@ describe('Google Authenticator Enroll Transformer Tests', () => {
     expect((layoutTwo.elements[1] as DescriptionElement).options.content)
       .toBe('oie.enroll.google_authenticator.manualSetupInstructions');
     expect((layoutTwo.elements[2] as DescriptionElement).options.content)
-      .toBe('A B C 1 2 3 D E F 4 5 6');
+      .toBe('<span class="shared-secret" tabindex="0" aria-label="oie.enroll.google_authenticator.sharedSecret.ariaLabel">ABC123DEF456</span>');
     expect((layoutTwo.elements[3] as StepperButtonElement).label)
       .toBe('oform.next');
     expect((layoutTwo.elements[3] as StepperButtonElement).options.nextStepIndex)

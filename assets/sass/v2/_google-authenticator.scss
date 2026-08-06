@@ -35,8 +35,14 @@
   }
 
   .shared-secret {
-    input {
-      text-align: center;
-    }
+    display: block;
+    text-align: center;
+    // Open up the gap between the setup instructions and the secret (per Figma).
+    margin-top: 20px;
+    // Visual spacing only — the secret stays a single string (no literal spaces)
+    // so it copies cleanly and a double-click selects the whole value.
+    letter-spacing: 0.3em;
+    // Compensate for the trailing letter-spacing so the text stays centered.
+    text-indent: 0.3em;
   }
 }
