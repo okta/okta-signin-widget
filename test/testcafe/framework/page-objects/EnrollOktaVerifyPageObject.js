@@ -184,14 +184,14 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
 
   resendView() {
     if (userVariables.gen3) {
-      return this.form.getAlertBox();
+      return this.form.getElement('[data-se="reminder-prompt"]');
     }
     return this.form.getElement('.resend-ov-link-view');
   }
 
   resendViewExists() {
     if (userVariables.gen3) {
-      return this.form.hasAlertBox();
+      return this.form.elementExist('[data-se="reminder-prompt"]');
     }
     return this.form.getElement('.resend-ov-link-view').visible;
   }
