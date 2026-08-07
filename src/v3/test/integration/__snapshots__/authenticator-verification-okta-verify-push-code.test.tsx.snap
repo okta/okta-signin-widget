@@ -138,53 +138,60 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                       class="MuiBox-root emotion-2"
                     >
                       <div
-                        class="MuiBox-root emotion-12"
+                        aria-atomic="true"
+                        aria-live="polite"
+                        class="MuiBox-root emotion-2"
                       >
                         <div
-                          aria-label="warning"
-                          aria-labelledby="82mvyq"
-                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-23"
-                          role="alert"
+                          class="MuiBox-root emotion-12"
+                          data-se="reminder-prompt"
                         >
                           <div
-                            class="MuiAlert-icon emotion-24"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-25"
-                              fill="none"
-                              focusable="false"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                clip-rule="evenodd"
-                                d="M9.342 2.918c1.123-2.144 4.192-2.144 5.315 0l7.695 14.69C23.398 19.605 21.95 22 19.695 22H4.305c-2.255 0-3.703-2.395-2.657-4.392l7.694-14.69ZM12 14a1 1 0 0 1-1-1V8h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
-                                fill="currentColor"
-                                fill-rule="evenodd"
-                              />
-                            </svg>
-                          </div>
-                          <div
-                            class="MuiAlert-message emotion-26"
+                            aria-label="warning"
+                            aria-labelledby="82mvyq"
+                            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-24"
+                            role="presentation"
                           >
                             <div
-                              class="emotion-27"
+                              class="MuiAlert-icon emotion-25"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-26"
+                                fill="none"
+                                focusable="false"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  clip-rule="evenodd"
+                                  d="M9.342 2.918c1.123-2.144 4.192-2.144 5.315 0l7.695 14.69C23.398 19.605 21.95 22 19.695 22H4.305c-2.255 0-3.703-2.395-2.657-4.392l7.694-14.69ZM12 14a1 1 0 0 1-1-1V8h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
+                                  fill="currentColor"
+                                  fill-rule="evenodd"
+                                />
+                              </svg>
+                            </div>
+                            <div
+                              class="MuiAlert-message emotion-27"
                             >
                               <div
-                                class="MuiBox-root emotion-2"
+                                class="emotion-28"
                               >
                                 <div
                                   class="MuiBox-root emotion-2"
                                 >
-                                  Haven't received a push notification yet? Try opening the Okta Verify app on your device, or 
-                                  <a
-                                    class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways resend-number-challenge emotion-30"
-                                    href="#"
+                                  <div
+                                    class="MuiBox-root emotion-2"
                                   >
-                                    resend the push notification
-                                  </a>
-                                  .
+                                    Haven't received a push notification yet? Try opening the Okta Verify app on your device, or 
+                                    <a
+                                      class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways resend-number-challenge emotion-31"
+                                      href="#"
+                                    >
+                                      resend the push notification
+                                    </a>
+                                    .
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -196,10 +203,10 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                       class="MuiBox-root emotion-12"
                     >
                       <fieldset
-                        class="MuiFormControl-root MuiFormControl-marginNormal emotion-32"
+                        class="MuiFormControl-root MuiFormControl-marginNormal emotion-33"
                       >
                         <legend
-                          class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-33"
+                          class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-34"
                           id="autoChallenge-label"
                         >
                           
@@ -208,19 +215,19 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                         </legend>
                         <div
                           aria-labelledby="autoChallenge-label"
-                          class="MuiFormGroup-root emotion-34"
+                          class="MuiFormGroup-root emotion-35"
                           id="autoChallenge"
                         >
                           <label
-                            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-35"
+                            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-36"
                             id="autoChallenge-checkbox"
                           >
                             <span
-                              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-36"
+                              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-37"
                             >
                               <input
                                 aria-readonly="false"
-                                class="PrivateSwitchBase-input emotion-37"
+                                class="PrivateSwitchBase-input emotion-38"
                                 data-indeterminate="false"
                                 data-se="autoChallenge"
                                 name="autoChallenge"
@@ -228,10 +235,10 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                               />
                             </span>
                             <span
-                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-38"
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-39"
                             >
                               <span
-                                class="MuiTypography-root MuiTypography-body1 emotion-38"
+                                class="MuiTypography-root MuiTypography-body1 emotion-39"
                                 tabindex="-1"
                               >
                                 Send push automatically
@@ -248,7 +255,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                         class="MuiBox-root emotion-19"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-38"
+                          class="MuiTypography-root MuiTypography-body1 emotion-39"
                           data-se="numberchallenge-instr-value"
                           tabindex="-1"
                         >
@@ -266,11 +273,11 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                       class="MuiBox-root emotion-12"
                     >
                       <div
-                        class="MuiBox-root emotion-44"
+                        class="MuiBox-root emotion-45"
                         id="code"
                       >
                         <div
-                          class="MuiBox-root emotion-45"
+                          class="MuiBox-root emotion-46"
                           data-se="icon-code"
                         >
                           <svg
@@ -319,7 +326,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-49"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-50"
                         data-se="switchAuthenticator"
                         role="link"
                         type="button"
@@ -331,7 +338,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-49"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-50"
                         data-se="cancel"
                         role="link"
                         type="button"
@@ -487,15 +494,21 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     </div>
                     <div
                       class="MuiBox-root emotion-2"
-                    />
+                    >
+                      <div
+                        aria-atomic="true"
+                        aria-live="polite"
+                        class="MuiBox-root emotion-2"
+                      />
+                    </div>
                     <div
                       class="MuiBox-root emotion-12"
                     >
                       <fieldset
-                        class="MuiFormControl-root MuiFormControl-marginNormal emotion-23"
+                        class="MuiFormControl-root MuiFormControl-marginNormal emotion-24"
                       >
                         <legend
-                          class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-24"
+                          class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-25"
                           id="autoChallenge-label"
                         >
                           
@@ -504,19 +517,19 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                         </legend>
                         <div
                           aria-labelledby="autoChallenge-label"
-                          class="MuiFormGroup-root emotion-25"
+                          class="MuiFormGroup-root emotion-26"
                           id="autoChallenge"
                         >
                           <label
-                            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-26"
+                            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-27"
                             id="autoChallenge-checkbox"
                           >
                             <span
-                              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-27"
+                              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-28"
                             >
                               <input
                                 aria-readonly="false"
-                                class="PrivateSwitchBase-input emotion-28"
+                                class="PrivateSwitchBase-input emotion-29"
                                 data-indeterminate="false"
                                 data-se="autoChallenge"
                                 name="autoChallenge"
@@ -524,10 +537,10 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                               />
                             </span>
                             <span
-                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-29"
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-30"
                             >
                               <span
-                                class="MuiTypography-root MuiTypography-body1 emotion-29"
+                                class="MuiTypography-root MuiTypography-body1 emotion-30"
                                 tabindex="-1"
                               >
                                 Send push automatically
@@ -544,7 +557,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                         class="MuiBox-root emotion-19"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-29"
+                          class="MuiTypography-root MuiTypography-body1 emotion-30"
                           data-se="numberchallenge-instr-value"
                           tabindex="-1"
                         >
@@ -562,11 +575,11 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                       class="MuiBox-root emotion-12"
                     >
                       <div
-                        class="MuiBox-root emotion-35"
+                        class="MuiBox-root emotion-36"
                         id="code"
                       >
                         <div
-                          class="MuiBox-root emotion-36"
+                          class="MuiBox-root emotion-37"
                           data-se="icon-code"
                         >
                           <svg
@@ -615,7 +628,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-41"
                         data-se="switchAuthenticator"
                         role="link"
                         type="button"
@@ -627,7 +640,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-41"
                         data-se="cancel"
                         role="link"
                         type="button"
