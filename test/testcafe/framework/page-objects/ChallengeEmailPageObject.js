@@ -10,12 +10,12 @@ export default class ChallengeEmailPageObject extends ChallengeFactorPageObject 
 
   resendEmailViewText() {
     if (userVariables.gen3) {
-      return this.form.getErrorBoxText();
+      return this.form.getElement('[data-se="reminder-prompt"]').innerText;
     }
     return this.form.getElement(RESEND_EMAIL_VIEW_SELECTOR).innerText;
   }
 
-  async resendEmailExists(index = 0) {
+  async resendEmailExists() {
     if (userVariables.gen3) {
       return this.form.elementExist('[data-se="reminder-prompt"]');
     }

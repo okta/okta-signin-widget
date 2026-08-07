@@ -77,7 +77,7 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
   }
 
   getWarningBox() {
-    return this.form.getAlertBox();
+    return this.form.getElement('[data-se="reminder-prompt"]');
   }
 
   async autoChallengeInputExists() {
