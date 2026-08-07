@@ -137,10 +137,13 @@ const ReminderPrompt: UISchemaElementComponent<{
       aria-atomic="true"
     >
       {show && (
-        <Box marginBlockEnd={tokens.Spacing4}>
+        <Box
+          marginBlockEnd={tokens.Spacing4}
+          data-se="reminder-prompt"
+        >
           <Callout
             severity="warning"
-            role={"presentation" as unknown as "status"}
+            role={'presentation' as unknown as 'status'}
             // visually-hidden severity text is not translated
             translate="no"
           >
