@@ -6,7 +6,6 @@ import FormView from 'helpers/dom/Form';
 import Util from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';
 import resEnroll from 'helpers/xhr/MFA_ENROLL_allFactors';
-import Q from 'q';
 import $sandbox from 'sandbox';
 const itp = Expect.itp;
 
@@ -35,7 +34,7 @@ function setup(settings) {
   Util.registerRouter(router);
   Util.mockRouterNavigate(router);
   Util.mockJqueryCss();
-  return Q({
+  return Promise.resolve({
     router: router,
     beacon: beacon,
     form: form,

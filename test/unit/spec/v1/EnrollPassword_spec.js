@@ -8,7 +8,6 @@ import Expect from 'helpers/util/Expect';
 import resAllFactors from 'helpers/xhr/FACTOR_ENROLL_allFactors';
 import resError from 'helpers/xhr/FACTOR_ENROLL_password_error';
 import resSuccess from 'helpers/xhr/SUCCESS';
-import Q from 'q';
 import $sandbox from 'sandbox';
 import RouterUtil from 'v1/util/RouterUtil';
 import LoginUtil from 'util/Util';
@@ -172,7 +171,7 @@ Expect.describe('EnrollPassword', function() {
   itp('shows error if error response on enrollment', function() {
     return setup()
       .then(function(test) {
-        Q.stopUnhandledRejectionTracking();
+        Expect.stopUnhandledRejectionTracking();
         test.setNextResponse(resError);
         test.form.setPassword('somepassword');
         test.form.setConfirmPassword('somepassword');

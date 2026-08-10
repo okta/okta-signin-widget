@@ -11,7 +11,6 @@
  */
 
 import { _, Model } from '@okta/courage';
-import Q from 'q';
 import Enums from 'util/Enums';
 const KNOWN_ERRORS = ['OAuthError', 'AuthSdkError', 'AuthPollStopError', 'AuthApiError'];
 export default Model.extend({
@@ -26,7 +25,7 @@ export default Model.extend({
         return trans;
       })
       .catch(function(err) {
-        // Q may still consider AuthPollStopError to be unhandled
+        // These are expected control-flow errors - swallow them instead of surfacing as failures
         if (
           err.name === 'AuthPollStopError' ||
           err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR ||
@@ -47,7 +46,7 @@ export default Model.extend({
     const res = fn.call(this, this.appState.get('transaction'), _.bind(this.setTransaction, this));
 
     // If it's a promise, listen for failures
-    if (Q.isPromiseAlike(res)) {
+    if (res && typeof res.then === 'function') {
       return res.catch(function(err) {
         if (
           err.name === 'AuthPollStopError' ||
@@ -61,7 +60,7 @@ export default Model.extend({
       });
     }
 
-    return Q.resolve(res);
+    return Promise.resolve(res);
   },
 
   startTransaction: function(fn) {
@@ -69,7 +68,7 @@ export default Model.extend({
     const res = fn.call(this, this.settings.getAuthClient());
 
     // If it's a promise, then chain to it
-    if (Q.isPromiseAlike(res)) {
+    if (res && typeof res.then === 'function') {
       return res
         .then(function(trans) {
           self.trigger('setTransaction', trans);
@@ -82,7 +81,7 @@ export default Model.extend({
         });
     }
 
-    return Q.resolve(res);
+    return Promise.resolve(res);
   },
 
   setTransaction: function(trans) {

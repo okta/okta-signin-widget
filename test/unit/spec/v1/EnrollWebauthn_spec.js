@@ -10,7 +10,7 @@ import resEnrollActivateWebauthn from 'helpers/xhr/MFA_ENROLL_ACTIVATE_webauthn'
 import resAllFactors from 'helpers/xhr/MFA_ENROLL_allFactors';
 import resWebauthn from 'helpers/xhr/MFA_ENROLL_webauthn';
 import resSuccess from 'helpers/xhr/SUCCESS';
-import Q from 'q';
+import { createDeferred } from 'util/createDeferred';
 import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
 import CryptoUtil from 'util/CryptoUtil';
@@ -88,7 +88,7 @@ Expect.describe('EnrollWebauthn', function() {
     mockWebauthn();
     spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
     spyOn(navigator.credentials, 'create').and.callFake(function() {
-      const deferred = Q.defer();
+      const deferred = createDeferred();
       var localTransports;
       var localClientExtensions;
       if (!isNullable) {
@@ -114,10 +114,10 @@ Expect.describe('EnrollWebauthn', function() {
   }
 
   function mockWebauthnFailureRegistration() {
-    Q.stopUnhandledRejectionTracking();
+    Expect.stopUnhandledRejectionTracking();
     mockWebauthn();
     spyOn(navigator.credentials, 'create').and.callFake(function() {
-      const deferred = Q.defer();
+      const deferred = createDeferred();
 
       deferred.reject({ message: 'something went wrong' });
       return deferred.promise;
@@ -128,7 +128,7 @@ Expect.describe('EnrollWebauthn', function() {
     mockWebauthn();
     spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
     spyOn(navigator.credentials, 'create').and.callFake(function() {
-      const deferred = Q.defer();
+      const deferred = createDeferred();
       const localTransports = transports;
       const localClientExtensions = clientExtensions;
 

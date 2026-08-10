@@ -2,20 +2,62 @@ import { $, _ } from '@okta/courage';
 import config from 'config/config.json';
 import Util from 'helpers/mocks/Util';
 import 'jasmine-ajax';
-import Q from 'q';
 import $sandbox from 'sandbox';
 import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
+import { createDeferred } from 'util/createDeferred';
 import Dom from '../dom/Dom';
 
 const fn = {};
 const WAIT_MAX_TIME = 2000;
 const WAIT_INTERVAL = 20;
 
-const unhandledRejectionListener = function(event) {
-  // We've thrown an unexpected error in the test - setup a fake
-  // expectation to expose it to the developer
-  expect('Unhandled promise rejection').toEqual(event.reason);
+// Native replacement for Q's global unhandled-rejection tracking. jsdom
+// dispatches 'unhandledrejection' / 'rejectionhandled' on window; we collect
+// the reasons here so runTest() can assert a test left no rejection unhandled.
+let trackUnhandledRejections = true;
+let unhandledReasons = [];
+
+const onUnhandledRejection = function(event) {
+  // Always suppress the default handling so a stray rejection is never
+  // reported by the test runner itself (matching Q, which tracked rejections
+  // internally rather than letting them surface). Failures are surfaced via
+  // the assertion in runTest() - but only when tracking is enabled, so tests
+  // that intentionally leave a rejection (via stopUnhandledRejectionTracking)
+  // stay green.
+  if (event.preventDefault) {
+    event.preventDefault();
+  }
+  if (trackUnhandledRejections) {
+    unhandledReasons.push(event.reason);
+  }
+};
+
+const onRejectionHandled = function(event) {
+  // A previously-unhandled rejection that later gained a handler is no longer
+  // a failure - drop it from the collected reasons.
+  const idx = unhandledReasons.indexOf(event.reason);
+  if (idx !== -1) {
+    unhandledReasons.splice(idx, 1);
+  }
+};
+
+window.addEventListener('unhandledrejection', onUnhandledRejection);
+window.addEventListener('rejectionhandled', onRejectionHandled);
+
+// Clear collected reasons and (re)enable tracking. Called after every test;
+// also restores tracking for a test that turned it off (necessary in the case
+// of returning an api error response).
+fn.resetUnhandledRejections = function() {
+  unhandledReasons = [];
+  trackUnhandledRejections = true;
+};
+
+// Turn off unhandled-rejection tracking for tests that intentionally leave a
+// rejected promise (e.g. asserting an API error response).
+fn.stopUnhandledRejectionTracking = function() {
+  trackUnhandledRejections = false;
+  unhandledReasons = [];
 };
 
 function runTest(jasmineFn, desc, testFn) {
@@ -27,24 +69,15 @@ function runTest(jasmineFn, desc, testFn) {
     };
 
     window.addEventListener('error', errListener);
-    window.addEventListener('unhandledrejection', unhandledRejectionListener);
 
     return testFn.call(this).then(function() {
-      const unhandledFailures = Q.getUnhandledReasons();
-      if (unhandledFailures.length) {
+      if (unhandledReasons.length) {
         // eslint-disable-next-line no-console
-        console.error('Unhandled Q failures: ', unhandledFailures);
+        console.error('Unhandled promise rejections: ', unhandledReasons);
       }
-      expect(unhandledFailures).toEqual([]);
-      // Reset unhandled exceptions (which in the normal case come from the
-      // error tests we're running) so that this array does not get
-      // unreasonably large (and subsequently slow down our tests)
-      // Also, if a test turns off unhandled exceptions (necessary in the
-      // case of returning an api error response), this method will turn it
-      // back on.
-      Q.resetUnhandledRejections();
+      expect(unhandledReasons).toEqual([]);
+      fn.resetUnhandledRejections();
       window.removeEventListener('error', errListener);
-      window.removeEventListener('unhandledrejection', unhandledRejectionListener);
     });
   });
 }
@@ -107,7 +140,7 @@ fn.fitp = runTest.bind({}, fit);
  *             Instead use any of the Expect.wait* functions.
  */
 fn.tick = function(returnVal) {
-  const deferred = Q.defer();
+  const deferred = createDeferred();
 
   // Using four setTimeouts to remove flakiness (some tests need an extra
   // cycle when transitioning/setting up, and the new tick in OktaAuth makes
@@ -227,14 +260,22 @@ fn.waitForSecurityImageTooltip = function(expectToBeVisible, resolveValue) {
 fn.wait = function(condition, resolveValue, timeout) {
   function check(success, fail, triesLeft) {
     if (condition()) {
-      success(resolveValue);
+      // Resolve on a macrotask (not the immediate microtask) so any work the
+      // caller kicked off just before waiting - e.g. async XHRs - has a tick to
+      // run first. This matches the previous Q.Promise-based scheduling and
+      // keeps timing-sensitive tests stable.
+      setTimeout(function() {
+        success(resolveValue);
+      }, 0);
     } else if (triesLeft <= 0) {
-      fail(new Error('Wait condition not met'));
+      setTimeout(function() {
+        fail(new Error('Wait condition not met'));
+      }, 0);
     } else {
       setTimeout(check.bind(null, success, fail, triesLeft - 1), WAIT_INTERVAL);
     }
   }
-  return Q.Promise(function(resolve, reject) {
+  return new Promise(function(resolve, reject) {
     const numTries = (timeout || WAIT_MAX_TIME) / WAIT_INTERVAL;
 
     check(resolve, reject, numTries);

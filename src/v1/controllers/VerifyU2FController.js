@@ -13,7 +13,7 @@
 /* global u2f */
 import { _, loc, View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
-import Q from 'q';
+import { createDeferred } from 'util/createDeferred';
 import 'u2f-api-polyfill';
 import { U2FError } from 'util/Errors';
 import FactorUtil from 'util/FactorUtil';
@@ -88,7 +88,7 @@ export default FormController.extend({
           }
           self.trigger('request');
 
-          const deferred = Q.defer();
+          const deferred = createDeferred();
 
           u2f.sign(appId, nonce, registeredKeys, function(data) {
             self.trigger('errors:clear');

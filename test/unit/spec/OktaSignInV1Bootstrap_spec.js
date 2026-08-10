@@ -4,7 +4,6 @@ import Expect from 'helpers/util/Expect';
 import errorResponse from 'helpers/xhr/ERROR_invalid_token';
 import introspectResponse from 'helpers/xhr/UNAUTHENTICATED';
 import 'jasmine-ajax';
-import Q from 'q';
 import $sandbox from 'sandbox';
 import Logger from 'util/Logger';
 import Widget from 'exports/default';
@@ -34,9 +33,9 @@ describe('OktaSignIn v1 pipeline bootstrap ', function() {
     jest.spyOn(window.history, 'pushState').mockImplementation(() => { });
     jest.spyOn(signIn.authClient.tx, 'introspect').mockImplementation(function() {
       if (responseData.status !== 200) {
-        return Q.reject(responseData.response);
+        return Promise.reject(responseData.response);
       } else {
-        return Q({
+        return Promise.resolve({
           data: responseData.response,
         });
       }
@@ -91,7 +90,7 @@ describe('OktaSignIn v1 pipeline bootstrap ', function() {
         expect(signInButton.length).toBe(1);
         expect(signInButton.attr('type')).toEqual('submit');
         expect(signInButton.attr('id')).toEqual('okta-signin-submit');
-        Q.resetUnhandledRejections();
+        Expect.resetUnhandledRejections();
       });
     });
   });
