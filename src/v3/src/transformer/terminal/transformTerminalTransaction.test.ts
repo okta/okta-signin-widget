@@ -14,6 +14,7 @@ import { IdxContext, IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
 import { act } from '@testing-library/preact';
 import {
   FormBag,
+  IWidgetContext,
   LinkElement,
   TitleElement,
   WidgetProps,
@@ -410,5 +411,38 @@ describe('Terminal Transaction Transformer Tests', () => {
     transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(redirectTransformer).toHaveBeenCalled();
+  });
+
+  // OKTA-1227830: the OAuth2 "Back to sign in" re-bootstraps in place (no reload) and does not
+  // go through useOnSubmit, so it must clear any prior banner itself to avoid a stale message
+  // being re-announced by screen readers on the sign-in view.
+  it('should clear the banner message when Back to sign in is clicked in the OAuth2 bootstrap flow', async () => {
+    mockBootstrapFn.mockClear();
+    mockAuthClient = {
+      transactionManager: { clear: jest.fn() },
+      options: { recoveryToken: 'some-recovery-token' },
+    };
+    widgetProps = {
+      clientId: 'abcd1234',
+      authScheme: 'oauth2',
+      authClient: mockAuthClient,
+    } as WidgetProps;
+    transaction.messages?.push(getMockMessage('Some error', 'ERROR', 'some.generic.error'));
+
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+
+    const cancelLink = formBag.uischema.elements.find(
+      (el) => el.type === 'Link' && (el as LinkElement).options?.dataSe === 'cancel',
+    ) as LinkElement;
+    // Uses an in-place onClick (bootstrap), not an href navigation
+    expect(typeof cancelLink.options?.onClick).toBe('function');
+    expect(cancelLink.options?.href).toBeUndefined();
+
+    const setMessage = jest.fn();
+    await cancelLink.options?.onClick?.({ setMessage } as unknown as IWidgetContext);
+
+    expect(setMessage).toHaveBeenCalledWith(undefined);
+    expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(1);
+    expect(mockBootstrapFn).toHaveBeenCalledTimes(1);
   });
 });

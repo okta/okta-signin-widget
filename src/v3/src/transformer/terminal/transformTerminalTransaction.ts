@@ -24,6 +24,7 @@ import {
 } from '../../constants';
 import {
   FormBag,
+  IWidgetContext,
   LinkElement,
   TitleElement,
   UISchemaLayout,
@@ -138,7 +139,12 @@ const appendViewLinks = (
         window.location.assign(window.location.href);
       };
     } else if (isOauth2Enabled(widgetProps)) {
-      cancelLink.options.onClick = async () => {
+      cancelLink.options.onClick = async (widgetContext?: IWidgetContext) => {
+        // OKTA-1227830: This is the only "Back to sign in" path that re-bootstraps in place
+        // (no page reload) without going through useOnSubmit, so clear any prior banner here.
+        // Otherwise a stale message (e.g. a "Forgot password" error) can linger in the form's
+        // aria-live region and be re-announced by screen readers on the sign-in view.
+        widgetContext?.setMessage(undefined);
         authClient?.transactionManager.clear();
         // We have to directly delete the recoveryToken since it is set once upon authClient instantiation
         delete authClient?.options.recoveryToken;
