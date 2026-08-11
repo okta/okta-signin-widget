@@ -140,7 +140,13 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                     </div>
                     <div
                       class="MuiBox-root emotion-12"
-                    />
+                    >
+                      <div
+                        aria-atomic="true"
+                        aria-live="polite"
+                        class="MuiBox-root emotion-2"
+                      />
+                    </div>
                     <div
                       class="MuiBox-root emotion-12"
                     >
@@ -148,7 +154,7 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                         class="MuiBox-root emotion-19"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-24"
+                          class="MuiTypography-root MuiTypography-body1 emotion-25"
                           data-se="o-form-explain"
                           tabindex="-1"
                         >
@@ -166,10 +172,10 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                       class="MuiBox-root emotion-12"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-26"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-27"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-27"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-28"
                           data-shrink="false"
                           for="credentials.passcode"
                           id="credentials.passcode-label"
@@ -179,14 +185,14 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-28"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-29"
                           required="true"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="credentials.passcode-label"
                             autocomplete="off"
-                            class="MuiInputBase-input emotion-29"
+                            class="MuiInputBase-input emotion-30"
                             data-se="credentials.passcode"
                             id="credentials.passcode"
                             inputmode="numeric"
@@ -201,7 +207,7 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-31"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-32"
                         data-se="save"
                         tabindex="0"
                         type="submit"
@@ -213,7 +219,7 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-34"
                         data-se="switchAuthenticator"
                         role="link"
                         type="button"
@@ -225,7 +231,7 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-34"
                         data-se="cancel"
                         role="link"
                         type="button"

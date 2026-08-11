@@ -42,7 +42,7 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
 
   async resendEmailExists() {
     if (userVariables.gen3) {
-      return this.form.hasErrorBox();
+      return this.form.elementExist('[data-se="reminder-prompt"]');
     }
 
     const isHidden = await Selector(RESEND_EMAIL).hasClass('hide');
@@ -51,7 +51,7 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
 
   resendEmailText() {
     if (userVariables.gen3) {
-      return this.form.el.find('[role="alert"]').textContent;
+      return this.form.getElement('[data-se="reminder-prompt"]').textContent;
     }
     return this.form.el.find(RESEND_EMAIL).textContent;
   }

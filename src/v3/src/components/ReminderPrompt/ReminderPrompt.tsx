@@ -131,18 +131,29 @@ const ReminderPrompt: UISchemaElementComponent<{
     );
   };
 
-  return show ? (
-    <Box marginBlockEnd={tokens.Spacing4}>
-      <Callout
-        severity="warning"
-        // visually-hidden severity text is not translated
-        translate="no"
-      >
-        {renderAlertContent()}
-        {renderActionLink()}
-      </Callout>
+  return (
+    <Box
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      {show && (
+        <Box
+          marginBlockEnd={tokens.Spacing4}
+          data-se="reminder-prompt"
+        >
+          <Callout
+            severity="warning"
+            role={'presentation' as unknown as 'status'}
+            // visually-hidden severity text is not translated
+            translate="no"
+          >
+            {renderAlertContent()}
+            {renderActionLink()}
+          </Callout>
+        </Box>
+      )}
     </Box>
-  ) : null;
+  );
 };
 
 export default ReminderPrompt;
