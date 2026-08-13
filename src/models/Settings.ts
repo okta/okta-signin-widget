@@ -249,7 +249,7 @@ const derived: Record<string, ModelProperty>  = {
      * TODO: Consider renaming to `getTranslationLanguageCode` and/or moving to LanguageUtil
      */
     fn: function(language, supportedLanguages) {
-      const userLanguages = BrowserFeatures.getUserLanguages();
+      let userLanguages = BrowserFeatures.getUserLanguages();
 
       // TODO: revisit this fix - OKTA-491150
       userLanguages.forEach((val, idx) => {
