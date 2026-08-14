@@ -25,6 +25,8 @@ import {
 import {
   getBaseUrl, getTranslation, isAndroid, setUrlQueryParams,
 } from '../../util';
+// TEMPORARY DEBUG — OKTA-1250822. Remove with util/nfcDebug.ts.
+import { nfcDebugLog } from '../../util/nfcDebug';
 import { OktaVerifyIcon } from '../Icon';
 
 const LaunchAuthenticatorButton: UISchemaElementComponent<{
@@ -58,11 +60,27 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
     if (deviceChallengeUrl) {
       const loginHintQueryParam = loginHint ? { login_hint: loginHint } : undefined;
       const urlObj = new URL(deviceChallengeUrl, getBaseUrl(widgetProps));
+      // TEMPORARY DEBUG — OKTA-1250822.
+      // This is the challenge fired straight into Okta Verify on button click ("challenge A"
+      // in the HAR analysis). If its jti differs from the challenge the poll screen later
+      // waits on ("challenge B"), OV answers the wrong (stale) challenge and the flow hangs.
+      const firedUrl = setUrlQueryParams(urlObj, loginHintQueryParam);
+      nfcDebugLog('LaunchAuthenticatorButton fires deep link to OV', {
+        step,
+        challengeMethod,
+        url: firedUrl,
+      });
       if (isAndroid() && challengeMethod !== CHALLENGE_METHOD.APP_LINK) {
         Util.redirectWithFormGet(setUrlQueryParams(urlObj, loginHintQueryParam));
       } else {
         window.location.assign(setUrlQueryParams(urlObj, loginHintQueryParam));
       }
+    } else {
+      // TEMPORARY DEBUG — OKTA-1250822.
+      nfcDebugLog('LaunchAuthenticatorButton click (no deviceChallengeUrl to fire)', {
+        step,
+        challengeMethod,
+      });
     }
     onSubmitHandler({
       step,

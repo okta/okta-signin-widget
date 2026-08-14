@@ -18,6 +18,8 @@ import {
   TitleElement,
 } from '../../types';
 import { loc } from '../../util';
+// TEMPORARY DEBUG — OKTA-1250822. Remove with util/nfcDebug.ts.
+import { nfcDebugLog } from '../../util/nfcDebug';
 
 /**
  * NFC PIN launch authenticator transformer.
@@ -48,15 +50,26 @@ export const transformNfcPinLaunchAuthenticator: IdxStepTransformer = ({
     },
   };
 
+  // @ts-expect-error authenticatorChallenge missing from transaction context type
+  const launchChallengeHref = context?.authenticatorChallenge?.value?.href;
+  // @ts-expect-error authenticatorChallenge missing from transaction context type
+  const launchChallengeMethod = context?.authenticatorChallenge?.value?.challengeMethod;
+
+  // TEMPORARY DEBUG — OKTA-1250822.
+  // The challenge placed on the "Sign in with NFC" button ("challenge A"). Compare its jti
+  // to the poll screen's challenge ("challenge B") logged by transformNfcPinDeviceChallenge.
+  nfcDebugLog('transformNfcPinLaunchAuthenticator sets launch challenge', {
+    challengeMethod: launchChallengeMethod,
+    href: launchChallengeHref,
+  });
+
   const launchAuthenticatorButton: LaunchAuthenticatorButtonElement = {
     type: 'LaunchAuthenticatorButton',
     label: loc('oie.nfc_pin.launch.button', 'login'),
     options: {
       step: IDX_STEP.LAUNCH_NFC_AUTHENTICATOR,
-      // @ts-expect-error authenticatorChallenge missing from transaction context type
-      deviceChallengeUrl: context?.authenticatorChallenge?.value?.href,
-      // @ts-expect-error authenticatorChallenge missing from transaction context type
-      challengeMethod: context?.authenticatorChallenge?.value?.challengeMethod,
+      deviceChallengeUrl: launchChallengeHref,
+      challengeMethod: launchChallengeMethod,
       i18nKey: 'oie.nfc_pin.launch.button',
     },
   };

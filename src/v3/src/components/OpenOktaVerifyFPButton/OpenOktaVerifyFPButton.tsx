@@ -26,6 +26,8 @@ import {
 import {
   getBaseUrl, getTranslation, isAndroid, setUrlQueryParams,
 } from '../../util';
+// TEMPORARY DEBUG — OKTA-1250822. Remove with util/nfcDebug.ts.
+import { nfcDebugLog } from '../../util/nfcDebug';
 import Button from '../Button';
 import HiddenIFrame from '../HiddenIFrame';
 
@@ -49,6 +51,16 @@ const OpenOktaVerifyFPButton: UISchemaElementComponent<{
   const loginHintQueryParam = loginHint ? { login_hint: loginHint } : undefined;
   const deviceChallengeUrl = setUrlQueryParams(urlObj, loginHintQueryParam);
 
+  // TEMPORARY DEBUG — OKTA-1250822.
+  // Logs the challenge this component renders (challenge "B" in the HAR analysis) and the
+  // current iframe `key`. If `challengeJti` changes across renders while `iframeKey` stays
+  // the same, the iframe node is reused instead of remounted => deeplink never re-fires.
+  nfcDebugLog('OpenOktaVerifyFPButton render', {
+    challengeMethod,
+    iframeKey: key,
+    deviceChallengeUrl,
+  });
+
   const buttonUiSchema: ButtonElement = {
     type: 'Button',
     label,
@@ -70,6 +82,13 @@ const OpenOktaVerifyFPButton: UISchemaElementComponent<{
             window.location.assign(deviceChallengeUrl);
           }
         }
+
+        // TEMPORARY DEBUG — OKTA-1250822.
+        nfcDebugLog('OpenOktaVerifyFPButton button CLICK', {
+          challengeMethod,
+          iframeKeyBefore: key,
+          deviceChallengeUrl,
+        });
 
         // on button click in CUSTOM_URI method, this forces iframe to re-render and trigger the URL to load again
         if (isCustomUriMethod) {

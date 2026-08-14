@@ -20,6 +20,8 @@ import {
   TitleElement,
 } from '../../types';
 import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../util';
+// TEMPORARY DEBUG — OKTA-1250822. Remove with util/nfcDebug.ts.
+import { nfcDebugLog } from '../../util/nfcDebug';
 import { transformOktaVerifyFPLoopbackPoll } from '../layout/oktaVerify';
 
 /**
@@ -35,6 +37,14 @@ export const transformNfcPinDeviceChallenge: IdxStepTransformer = (params) => {
   const challengeData = transaction.nextStep
     ?.relatesTo?.value?.contextualData?.challenge?.value ?? {};
   const { challengeMethod, href } = challengeData;
+
+  // TEMPORARY DEBUG — OKTA-1250822.
+  // The challenge the poll screen renders + fires via the hidden iframe ("challenge B", the
+  // one the server actually waits on). Compare its jti to the launch button's "challenge A".
+  nfcDebugLog('transformNfcPinDeviceChallenge reads poll challenge', {
+    challengeMethod,
+    href,
+  });
 
   // Reuse FastPass loopback transformer for LOOPBACK challenge method
   if (challengeMethod === CHALLENGE_METHOD.LOOPBACK) {

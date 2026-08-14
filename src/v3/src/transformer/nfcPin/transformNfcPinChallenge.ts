@@ -11,6 +11,8 @@
  */
 
 import { IdxStepTransformer } from '../../types';
+// TEMPORARY DEBUG — OKTA-1250822. Remove with util/nfcDebug.ts.
+import { nfcDebugLog } from '../../util/nfcDebug';
 import { transformNfcPinDeviceChallenge } from './transformNfcPinDeviceChallenge';
 import { transformNfcPinVerify } from './transformNfcPinVerify';
 
@@ -34,7 +36,15 @@ const isDeviceChallengePhase = (transaction: Parameters<IdxStepTransformer>[0]['
  * - PIN entry: show "Enter PIN" screen after NFC card verified
  */
 export const transformNfcPinChallenge: IdxStepTransformer = (params) => {
-  if (isDeviceChallengePhase(params.transaction)) {
+  const isDeviceChallenge = isDeviceChallengePhase(params.transaction);
+  // TEMPORARY DEBUG — OKTA-1250822.
+  // Shows which phase each challenge-poll response routes to. "device-challenge" =
+  // launch/scan screen (renders the iframe); "verify" = PIN-entry screen (flow advanced).
+  nfcDebugLog('transformNfcPinChallenge route', {
+    phase: isDeviceChallenge ? 'device-challenge' : 'verify(PIN-entry)',
+    remediation: params.transaction.nextStep?.name,
+  });
+  if (isDeviceChallenge) {
     return transformNfcPinDeviceChallenge(params);
   }
   return transformNfcPinVerify(params);
