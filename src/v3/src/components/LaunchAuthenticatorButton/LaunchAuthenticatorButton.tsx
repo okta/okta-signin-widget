@@ -14,7 +14,7 @@ import { Button as OdyButton, useOdysseyDesignTokens } from '@okta/odyssey-react
 import { h } from 'preact';
 
 import Util from '../../../../util/Util';
-import { CHALLENGE_METHOD } from '../../constants';
+import { CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useOnSubmit } from '../../hooks';
 import {
@@ -57,29 +57,37 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
       // set loginHint in widget context to the current Username input field data
       setloginHint(data.identifier as string);
     }
-    if (deviceChallengeUrl) {
+    // OKTA-1250822: For the NFC launch step, do NOT fire the launch-screen context challenge
+    // here. That challenge (from context.authenticatorChallenge) is a *different*, soon-to-be
+    // stale challenge than the one the server mints at /authenticators/nfc/launch and then
+    // polls for. Firing it opens Okta Verify on the wrong challenge; when the poll screen
+    // later fires the correct challenge, OV is already committed to the stale one and the
+    // flow hangs. The challenge-poll screen (OpenOktaVerifyFPButton / loopback probe) is
+    // responsible for launching OV with the correct challenge — matching v2, whose
+    // SignInWithNfcView only invokes the launch action and fires no deep link on click.
+    const isNfcLaunch = step === IDX_STEP.LAUNCH_NFC_AUTHENTICATOR;
+    if (deviceChallengeUrl && !isNfcLaunch) {
       const loginHintQueryParam = loginHint ? { login_hint: loginHint } : undefined;
       const urlObj = new URL(deviceChallengeUrl, getBaseUrl(widgetProps));
-      // TEMPORARY DEBUG — OKTA-1250822.
-      // This is the challenge fired straight into Okta Verify on button click ("challenge A"
-      // in the HAR analysis). If its jti differs from the challenge the poll screen later
-      // waits on ("challenge B"), OV answers the wrong (stale) challenge and the flow hangs.
       const firedUrl = setUrlQueryParams(urlObj, loginHintQueryParam);
+      // TEMPORARY DEBUG — OKTA-1250822.
       nfcDebugLog('LaunchAuthenticatorButton fires deep link to OV', {
         step,
         challengeMethod,
         url: firedUrl,
       });
       if (isAndroid() && challengeMethod !== CHALLENGE_METHOD.APP_LINK) {
-        Util.redirectWithFormGet(setUrlQueryParams(urlObj, loginHintQueryParam));
+        Util.redirectWithFormGet(firedUrl);
       } else {
-        window.location.assign(setUrlQueryParams(urlObj, loginHintQueryParam));
+        window.location.assign(firedUrl);
       }
     } else {
       // TEMPORARY DEBUG — OKTA-1250822.
-      nfcDebugLog('LaunchAuthenticatorButton click (no deviceChallengeUrl to fire)', {
+      nfcDebugLog('LaunchAuthenticatorButton NOT firing deep link on click (poll screen will fire correct challenge)', {
         step,
         challengeMethod,
+        deviceChallengeUrl,
+        isNfcLaunch,
       });
     }
     onSubmitHandler({
