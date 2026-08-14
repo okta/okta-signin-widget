@@ -90,7 +90,11 @@ module.exports = {
       },
     },
     {
+      // IE11 compat coverage — scoped to v1/v2 only. v3 (React) does not require IE11 in practice
+      // even though its own browserslist mentions it, and running compat rules there produces
+      // noise. See /Users/vijet.mahabaleshwar/.claude/plans/can-you-create-a-woolly-ember.md.
       'files': ['src/**/*'],
+      'excludedFiles': ['src/v3/**/*'],
       'extends': [
         'plugin:compat/recommended',
         'plugin:import/recommended'
@@ -101,8 +105,31 @@ module.exports = {
             'project': './'
           }
         },
+        // Keep this list in sync with polyfill/index.js. eslint-plugin-compat treats these
+        // as available in IE11 and suppresses warnings for them. Instance methods (Array.prototype.*,
+        // String.prototype.*) are NOT checked by compat plugin — that gap is covered separately by
+        // scripts/check-polyfill-coverage.js (Layer 1.5). This list is globals + static methods only.
         'polyfills': [
-          'Promise' // Assume Promise is polyfilled for IE11
+          'Promise',
+          'globalThis',
+          'Symbol',
+          'Symbol.iterator',
+          'Set',
+          'WeakMap',
+          'URL',
+          'Uint8Array',
+          'Object.assign',
+          'Object.entries',
+          'Object.values',
+          'Object.fromEntries',
+          'Object.setPrototypeOf',
+          'Array.from',
+          // fast-text-encoding
+          'TextEncoder',
+          // webcrypto-shim
+          'crypto.subtle',
+          // Runtime-checked via `typeof AbortController !== 'undefined'` in WebAuthn controllers
+          'AbortController'
         ]
       },
       'rules': {
