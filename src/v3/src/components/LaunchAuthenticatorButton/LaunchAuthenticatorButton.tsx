@@ -50,12 +50,17 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
     widgetProps,
   } = useWidgetContext();
 
+  const isNfc = step === IDX_STEP.LAUNCH_NFC_AUTHENTICATOR;
+
   const handleClick: ClickHandler = async () => {
     if (data.identifier) {
       // set loginHint in widget context to the current Username input field data
       setloginHint(data.identifier as string);
     }
-    if (deviceChallengeUrl) {
+    // OKTA-1250822: NFC must not fire the launch-screen challenge here — it's a stale challenge
+    // vs. the one the server mints at nfc/launch and polls for. The challenge-poll screen fires
+    // the correct one (matches v2's SignInWithNfcView, which fires no deep link on click).
+    if (deviceChallengeUrl && !isNfc) {
       const loginHintQueryParam = loginHint ? { login_hint: loginHint } : undefined;
       const urlObj = new URL(deviceChallengeUrl, getBaseUrl(widgetProps));
       if (isAndroid() && challengeMethod !== CHALLENGE_METHOD.APP_LINK) {
@@ -79,7 +84,6 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
 
   // The NFC launch button reuses this component, so pick the matching icon by step
   // instead of always showing the Okta Verify icon.
-  const isNfc = step === IDX_STEP.LAUNCH_NFC_AUTHENTICATOR;
   const StartIcon = isNfc ? NfcPinIcon : OktaVerifyIcon;
   const startIconName = isNfc ? 'mfa-nfc-pin' : 'mfa-okta-verify';
 
