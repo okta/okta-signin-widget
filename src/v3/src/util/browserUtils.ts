@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxTransaction } from '@okta/okta-auth-js';
+
 import { ChromeLNADeniedError } from '../../../util/Errors';
 
 export const isAndroid = (): boolean => (
@@ -54,3 +56,25 @@ export const getChromeLNAPermissionState = async (
 };
 
 export const isAndroidOrIOS = (): boolean => isAndroid() || isIOS();
+
+// Marker property set on a client-side (cloned) transaction to signal that a FastPass
+// loopback attempt failed while the browser reported the Local Network Access (LNA)
+// permission as blocked. When present:
+//  - transformOktaVerifyFPLoopbackPoll renders the LNA remediation view instead of the
+//    LoopbackProbe (so it does not re-probe), and
+//  - usePolling stops polling (getPollingStep returns undefined),
+// giving a stable terminal error with no server round-trip. See LoopbackProbe.tsx.
+const CHROME_LNA_DENIED_MARKER = 'chromeLNADenied';
+
+type ChromeLNADeniedMarked = { [CHROME_LNA_DENIED_MARKER]?: boolean };
+
+export const markChromeLNADeniedTransaction = (
+  transaction: IdxTransaction,
+): IdxTransaction => ({
+  ...transaction,
+  [CHROME_LNA_DENIED_MARKER]: true,
+} as IdxTransaction);
+
+export const isChromeLNADeniedTransaction = (transaction?: unknown): boolean => (
+  !!transaction && (transaction as ChromeLNADeniedMarked)[CHROME_LNA_DENIED_MARKER] === true
+);

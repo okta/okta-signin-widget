@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined should create Loopback Poll elements for display when permission state is "denied" and loopback is triggered by registered condition silent probe 1`] = `
+exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined creates Loopback Poll elements with showLNARemediationOnFailure=false for a registered condition silent probe 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -36,6 +36,7 @@ Object {
               "6513",
             ],
           },
+          "showLNARemediationOnFailure": false,
           "step": "device-challenge-poll",
         },
         "type": "LoopbackProbe",
@@ -59,7 +60,7 @@ Object {
 }
 `;
 
-exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined should create Loopback Poll elements for display when permission state is "granted" 1`] = `
+exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined creates Loopback Poll elements with showLNARemediationOnFailure=true for an interactive challenge 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -95,6 +96,7 @@ Object {
               "6513",
             ],
           },
+          "showLNARemediationOnFailure": true,
           "step": "device-challenge-poll",
         },
         "type": "LoopbackProbe",
@@ -118,66 +120,7 @@ Object {
 }
 `;
 
-exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined should create Loopback Poll elements for display when permission state is "prompt" 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
-      "step": "challenge-authenticator",
-    },
-  },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "options": Object {
-          "content": "deviceTrust.sso.redirectText",
-        },
-        "type": "ActionPending",
-      },
-      Object {
-        "options": Object {
-          "cancelStep": "authenticatorChallenge-cancel",
-          "deviceChallengePayload": Object {
-            "challengeRequest": "mockChallengeRequest",
-            "chromeLocalNetworkAccessDetails": Object {
-              "chromeLNAHelpLink": "https://okta.com",
-            },
-            "domain": "http://localhost",
-            "ports": Array [
-              "2000",
-              "6511",
-              "6512",
-              "6513",
-            ],
-          },
-          "step": "device-challenge-poll",
-        },
-        "type": "LoopbackProbe",
-      },
-      Object {
-        "contentType": "footer",
-        "options": Object {
-          "actionParams": Object {
-            "reason": "USER_CANCELED",
-            "statusCode": null,
-          },
-          "isActionStep": true,
-          "label": "goback",
-          "step": "authenticatorChallenge-cancel",
-        },
-        "type": "Link",
-      },
-    ],
-    "type": "VerticalLayout",
-  },
-}
-`;
-
-exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined should create error remediation elements when permission state is "denied" and loopback is not triggered by registered condition silent probe 1`] = `
+exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined creates error remediation elements when the transaction is marked as LNA-denied 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -281,6 +224,7 @@ Object {
               "6513",
             ],
           },
+          "showLNARemediationOnFailure": false,
           "step": "challenge-poll",
         },
         "type": "LoopbackProbe",
@@ -346,6 +290,7 @@ Object {
               "6513",
             ],
           },
+          "showLNARemediationOnFailure": false,
           "step": "device-challenge-poll",
         },
         "type": "LoopbackProbe",
