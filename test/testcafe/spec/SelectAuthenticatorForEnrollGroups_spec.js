@@ -15,7 +15,7 @@ import xhrGroupsOptionalPhase from '../../../playground/mocks/data/idp/idx/authe
 // SelectAuthenticatorPageObject; group-specific selectors are declared inline
 // here since only this spec cares about them.
 const groupCardSelector = userVariables.gen3
-  ? '[data-se^="authenticator-enroll-group-"]'
+  ? '[data-se^="authenticator-enroll-group-"][role="group"]'
   : '.authenticator-enroll-group-card';
 const chooseNOfLabelSelector = '[data-se="authenticator-enroll-group-card-label"]';
 const gracePeriodRequiredDescriptionSelector = userVariables.gen3
