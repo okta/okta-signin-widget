@@ -41,7 +41,8 @@ const local: Record<string, ModelProperty> = {
   remediations: 'array',
   dynamicRefreshInterval: 'number',
   deviceFingerprint: 'string',
-  hooks: 'object' // instance of models/Hooks
+  hooks: 'object', // instance of models/Hooks
+  authenticatorGroups: 'array', // N-of-M enrollment groups (optional, present only when policy has groups)
 };
 
 const derived: Record<string, ModelProperty> = {
