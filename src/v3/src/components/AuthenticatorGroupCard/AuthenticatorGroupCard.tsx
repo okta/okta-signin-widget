@@ -112,6 +112,7 @@ const AuthenticatorGroupCard: UISchemaElementComponent<{
                 <Typography
                   paragraph
                   data-se="authenticator-grace-period-expiry-date"
+                  translate="no"
                   sx={{
                     fontSize: tokens.TypographySizeSubordinate,
                     fontWeight: tokens.TypographyWeightBody,
