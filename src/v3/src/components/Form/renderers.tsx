@@ -23,6 +23,7 @@ import {
 } from '../../util';
 import ActionPending from '../ActionPending/ActionPending';
 import AuthenticatorButtonList from '../AuthenticatorButton';
+import AuthenticatorGroupCard from '../AuthenticatorGroupCard';
 import AutoSubmit from '../AutoSubmit';
 import Button from '../Button';
 import CaptchaContainer from '../CaptchaContainer';
@@ -101,6 +102,13 @@ export default [
   {
     tester: ({ type }) => type === 'AuthenticatorButtonList',
     renderer: AuthenticatorButtonList,
+  },
+  {
+    // N-of-M authenticator group card (renders a bordered card around a group's
+    // member buttons with a "Choose {N} of:" chip). Individual member buttons
+    // are rendered by AuthenticatorButtonList inside the card.
+    tester: ({ type }) => type === 'AuthenticatorGroupCard',
+    renderer: AuthenticatorGroupCard,
   },
   {
     tester: ({ type }) => type === 'IdpList',

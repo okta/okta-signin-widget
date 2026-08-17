@@ -15,6 +15,7 @@ import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { getLanguageTags } from 'util/LanguageUtil';
 
 import {
+  AuthenticatorButtonElement,
   AuthenticatorButtonListElement,
   ButtonElement,
   ButtonType,
@@ -26,7 +27,13 @@ import {
   UISchemaElement,
 } from '../../types';
 import { getGracePeriodRequiredSoonCustomLink, getSupportedLanguages, loc } from '../../util';
-import { getAuthenticatorEnrollButtonElements } from './utils';
+import {
+  AuthenticatorGroup,
+  getAuthenticatorEnrollButtonElements,
+  GroupedSectionItem,
+  isAuthenticatorButtonInGracePeriod,
+  partitionGroupedEnrollButtons,
+} from './utils';
 
 const getContentDescrAndParams = (brandName?: string): TitleElement['options'] => {
   if (brandName) {
@@ -45,6 +52,75 @@ const isGracePeriodExpiryStillActive = (expiry: string): boolean => {
   return !isNaN(gracePeriodTimestampMs) && currentTimestampMs < gracePeriodTimestampMs;
 };
 
+const buildRequiredSoonHeading = (): HeadingElement => ({
+  type: 'Heading',
+  options: {
+    content: loc('oie.setup.required.soon', 'login'),
+    level: 2,
+    visualLevel: 6,
+    dataSe: 'authenticator-list-title',
+  },
+});
+
+const buildRequiredNowHeading = (): HeadingElement => ({
+  type: 'Heading',
+  options: {
+    content: loc('oie.setup.required.now', 'login'),
+    level: 2,
+    visualLevel: 6,
+    dataSe: 'authenticator-list-title',
+  },
+});
+
+const buildRequiredSoonDescription = (): DescriptionElement => ({
+  type: 'Description',
+  contentType: 'subtitle',
+  options: {
+    content: loc('oie.setup.required.soon.description', 'login'),
+  },
+});
+
+type GracePeriodCustomLinkWidgetProps = Parameters<typeof getGracePeriodRequiredSoonCustomLink>[0];
+
+const buildCustomLink = (
+  widgetProps: GracePeriodCustomLinkWidgetProps,
+): LinkElement | undefined => {
+  const customLink = getGracePeriodRequiredSoonCustomLink(widgetProps);
+  if (customLink?.href && customLink?.text) {
+    return {
+      type: 'Link',
+      options: {
+        href: customLink.href,
+        target: '_blank',
+        step: '',
+        label: customLink.text,
+        dataSe: 'gracePeriodRequiredSoonCustomLink',
+      },
+    };
+  }
+  return undefined;
+};
+
+// Expand a grouped-section bucket into UI elements. Bare buttons collapse into
+// a single AuthenticatorButtonList; each card is a standalone element.
+const sectionElements = (
+  items: GroupedSectionItem[],
+  dataSe: string,
+): UISchemaElement[] => {
+  const out: UISchemaElement[] = [];
+  const bareButtons = items.filter((i): i is Extract<GroupedSectionItem, { kind: 'bare' }> => i.kind === 'bare').map((i) => i.button);
+  const cards = items.filter((i): i is Extract<GroupedSectionItem, { kind: 'card' }> => i.kind === 'card').map((i) => i.card);
+  if (bareButtons.length > 0) {
+    const list: AuthenticatorButtonListElement = {
+      type: 'AuthenticatorButtonList',
+      options: { buttons: bareButtons, dataSe },
+    };
+    out.push(list);
+  }
+  cards.forEach((card) => out.push(card));
+  return out;
+};
+
 export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
   transaction,
   formBag,
@@ -56,7 +132,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     nextStep: { inputs, name: stepName } = {} as NextStep,
     availableSteps,
     // @ts-ignore OKTA-499928 authenticatorEnrollments missing from rawIdxState
-    rawIdxState: { authenticatorEnrollments },
+    rawIdxState: { authenticatorEnrollments, authenticatorGroups },
   } = transaction;
 
   const authenticator = inputs?.find(({ name }) => name === 'authenticator');
@@ -66,8 +142,88 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
 
   const supportedLanguages = getSupportedLanguages(widgetProps);
   const languageTags = getLanguageTags(widgetProps.language, supportedLanguages);
-  const authenticatorsWithGracePeriod : IdxOption[] = [];
-  const authenticatorsDueNow : IdxOption[] = [];
+
+  // Trigger the N-of-M path only when at least one REQUIRED group has
+  // remaining > 0. Otherwise take the legacy per-authenticator gracePeriod path
+  // — this guarantees legacy responses render byte-identically to today.
+  const groups = authenticatorGroups as AuthenticatorGroup[] | undefined;
+  const hasActiveGroup = Array.isArray(groups) && groups.some((g) => g && g.remaining > 0);
+
+  const title: TitleElement = {
+    type: 'Title',
+    options: {
+      content: loc('oie.select.authenticators.enroll.title', 'login'),
+    },
+  };
+  const description: DescriptionElement = {
+    type: 'Description',
+    contentType: 'subtitle',
+    options: getContentDescrAndParams(brandName),
+  };
+
+  const skipStep = availableSteps?.find(({ name }) => name === 'skip');
+
+  if (hasActiveGroup) {
+    // ---- N-of-M grouped path -----------------------------------------------
+    const allButtons: AuthenticatorButtonElement[] = getAuthenticatorEnrollButtonElements(
+      authenticator.options as IdxOption[],
+      stepName as string,
+      languageTags,
+      authenticatorEnrollments?.value,
+    );
+
+    const {
+      requiredNow: requiredNowItems,
+      requiredSoon: requiredSoonItems,
+      ungrouped,
+    } = partitionGroupedEnrollButtons(allButtons, groups as AuthenticatorGroup[], languageTags);
+
+    // Route ungrouped buttons through the legacy per-button gracePeriod split.
+    // isAuthenticatorButtonInGracePeriod reads the post-processed description
+    // fields on options (which are only populated when the GP is active) rather
+    // than trying to re-parse the locale-formatted gracePeriodExpiry string.
+    ungrouped.forEach((btn) => {
+      const soon = isAuthenticatorButtonInGracePeriod(btn);
+      (soon ? requiredSoonItems : requiredNowItems).push({ kind: 'bare', button: btn });
+    });
+
+    const elements: UISchemaElement[] = [title, description];
+
+    if (requiredNowItems.length > 0) {
+      elements.push(buildRequiredNowHeading());
+      elements.push(...sectionElements(requiredNowItems, 'authenticator-enroll-list'));
+    }
+    if (requiredSoonItems.length > 0) {
+      elements.push(buildRequiredSoonHeading());
+      elements.push(buildRequiredSoonDescription());
+      const customLink = buildCustomLink(widgetProps);
+      if (customLink) { elements.push(customLink); }
+      elements.push(...sectionElements(requiredSoonItems, 'authenticator-enroll-list-grace-period'));
+    }
+
+    if (skipStep) {
+      // In the required-phase group path, the backend only emits `skip` when
+      // some group's grace period has budget. Always surface RemindMeLater to
+      // match the legacy grace-period skip labelling and stay consistent with
+      // the v2 container.
+      const remindMeLater: ButtonElement = {
+        type: 'Button',
+        label: loc('oie.setup.remind.me.later', 'login'),
+        options: {
+          type: ButtonType.SUBMIT,
+          step: 'skip',
+        },
+      };
+      elements.push(remindMeLater);
+    }
+
+    uischema.elements = elements;
+    return formBag;
+  }
+
+  // ---- Legacy path (unchanged) --------------------------------------------
+  const authenticatorsWithGracePeriod: IdxOption[] = [];
+  const authenticatorsDueNow: IdxOption[] = [];
   authenticator.options.forEach((option) => {
     // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
     const hasActiveGracePeriodExpiry = option.relatesTo?.gracePeriod?.expiry
@@ -86,51 +242,20 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
 
   const authenticatorButtonsWithGracePeriod = getAuthenticatorEnrollButtonElements(
     authenticatorsWithGracePeriod,
-    stepName,
+    stepName as string,
     languageTags,
     authenticatorEnrollments?.value,
   );
 
   const authenticatorButtonsDueNow = getAuthenticatorEnrollButtonElements(
     authenticatorsDueNow,
-    stepName,
+    stepName as string,
     languageTags,
     authenticatorEnrollments?.value,
   );
-  const skipStep = availableSteps?.find(({ name }) => name === 'skip');
 
-  const title: TitleElement = {
-    type: 'Title',
-    options: {
-      content: loc('oie.select.authenticators.enroll.title', 'login'),
-    },
-  };
-  const description: DescriptionElement = {
-    type: 'Description',
-    contentType: 'subtitle',
-    options: getContentDescrAndParams(brandName),
-  };
-
-  const headingRequiredNow: HeadingElement = {
-    type: 'Heading',
-    options: {
-      content: loc('oie.setup.required.now', 'login'),
-      level: 2,
-      visualLevel: 6,
-      dataSe: 'authenticator-list-title',
-    },
-  };
-
-  const headingRequiredSoon: HeadingElement = {
-    type: 'Heading',
-    options: {
-      content: loc('oie.setup.required.soon', 'login'),
-      level: 2,
-      visualLevel: 6,
-      dataSe: 'authenticator-list-title',
-    },
-  };
-
+  const headingRequiredNow = buildRequiredNowHeading();
+  const headingRequiredSoon = buildRequiredSoonHeading();
   const headingNoGracePeriod: HeadingElement = {
     type: 'Heading',
     options: {
@@ -139,29 +264,8 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
       visualLevel: 6,
     },
   };
-
-  const descriptionGracePeriod: DescriptionElement = {
-    type: 'Description',
-    contentType: 'subtitle',
-    options: {
-      content: loc('oie.setup.required.soon.description', 'login'),
-    },
-  };
-
-  const customLink = getGracePeriodRequiredSoonCustomLink(widgetProps);
-  let gracePeriodRequiredSoonCustomLink: LinkElement | undefined;
-  if (customLink?.href && customLink?.text) {
-    gracePeriodRequiredSoonCustomLink = {
-      type: 'Link',
-      options: {
-        href: customLink.href,
-        target: '_blank',
-        step: '',
-        label: customLink.text,
-        dataSe: 'gracePeriodRequiredSoonCustomLink',
-      },
-    };
-  }
+  const descriptionGracePeriod = buildRequiredSoonDescription();
+  const gracePeriodRequiredSoonCustomLink = buildCustomLink(widgetProps);
 
   const authenticatorListElementWithGracePeriod: AuthenticatorButtonListElement[] = [];
   if (authenticatorButtonsWithGracePeriod.length) {
@@ -190,8 +294,6 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     },
   };
 
-  // 3 situations - required soon + required now, all required soon, all required now
-  // when grace periods are past required and should be treated as normal required
   const elements: UISchemaElement[] = [title, description];
   if (authenticatorListElementDueNow.length && authenticatorListElementWithGracePeriod.length) {
     elements.push(

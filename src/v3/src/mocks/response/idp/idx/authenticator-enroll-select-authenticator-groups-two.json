@@ -1,0 +1,172 @@
+{
+  "stateHandle": "02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt",
+  "version": "1.0.0",
+  "expiresAt": "2026-12-31T21:05:31.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": ["create-form"],
+        "name": "select-authenticator-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "accepts": "application/json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "required": true,
+            "type": "object",
+            "options": [
+              {
+                "label": "Email",
+                "value": {
+                  "form": {
+                    "value": [
+                      { "name": "id", "required": true, "value": "aut-email-arg-recovery", "mutable": false },
+                      { "name": "methodType", "required": false, "value": "email", "mutable": false }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              },
+              {
+                "label": "Phone",
+                "value": {
+                  "form": {
+                    "value": [
+                      { "name": "id", "required": true, "value": "aut-phone-arg-recovery", "mutable": false },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "options": [
+                          { "label": "SMS", "value": "sms" },
+                          { "label": "VOICE", "value": "voice" }
+                        ]
+                      },
+                      { "name": "phoneNumber", "required": false, "type": "string" }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[1]"
+              },
+              {
+                "label": "Okta Verify",
+                "value": {
+                  "form": {
+                    "value": [
+                      { "name": "id", "required": true, "value": "aut-okta-verify-shared", "mutable": false }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[2]"
+              },
+              {
+                "label": "Security Key or Biometric Authenticator (FIDO2)",
+                "value": {
+                  "form": {
+                    "value": [
+                      { "name": "id", "required": true, "value": "aut-webauthn-arg-strong", "mutable": false, "visible": false },
+                      { "name": "methodType", "required": false, "value": "webauthn", "mutable": false, "visible": false }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[3]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "displayName": "Email",
+        "type": "email",
+        "key": "okta_email",
+        "id": "email-enroll-id",
+        "authenticatorId": "aut-email-arg-recovery",
+        "groupIds": ["arg-recovery"]
+      },
+      {
+        "displayName": "Phone",
+        "type": "phone",
+        "key": "phone_number",
+        "id": "phone-enroll-id",
+        "authenticatorId": "aut-phone-arg-recovery",
+        "groupIds": ["arg-recovery"]
+      },
+      {
+        "displayName": "Okta Verify",
+        "type": "app",
+        "key": "okta_verify",
+        "id": "okta-verify-enroll-id",
+        "authenticatorId": "aut-okta-verify-shared",
+        "groupIds": ["arg-recovery", "arg-strong"],
+        "methods": [
+          { "type": "signed_nonce" },
+          { "type": "push" },
+          { "type": "totp" }
+        ]
+      },
+      {
+        "displayName": "Security Key or Biometric",
+        "type": "security_key",
+        "key": "webauthn",
+        "id": "webauthn-enroll-id",
+        "authenticatorId": "aut-webauthn-arg-strong",
+        "groupIds": ["arg-strong"]
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": []
+  },
+  "authenticatorGroups": [
+    {
+      "groupId": "arg-recovery",
+      "status": "REQUIRED",
+      "criteria": [{ "type": "authenticatorCount", "count": 1 }],
+      "remaining": 1
+    },
+    {
+      "groupId": "arg-strong",
+      "status": "REQUIRED",
+      "criteria": [{ "type": "authenticatorCount", "count": 1 }],
+      "remaining": 1
+    }
+  ],
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00utjm1GstPjCF9Ad0g3",
+      "identifier": "eva@example.com"
+    }
+  },
+  "cancel": {
+    "rel": ["create-form"],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  }
+}

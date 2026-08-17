@@ -1,0 +1,239 @@
+{
+  "stateHandle": "02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt",
+  "version": "1.0.0",
+  "expiresAt": "2026-12-31T21:05:31.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": ["create-form"],
+        "name": "select-authenticator-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "accepts": "application/json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "required": true,
+            "type": "object",
+            "options": [
+              {
+                "label": "Password",
+                "value": {
+                  "form": {
+                    "value": [
+                      { "name": "id", "required": true, "value": "aut-password-standalone", "mutable": false }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              },
+              {
+                "label": "Okta Verify",
+                "value": {
+                  "form": {
+                    "value": [
+                      { "name": "id", "required": true, "value": "aut-okta-verify-arg-strong", "mutable": false }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[1]"
+              },
+              {
+                "label": "Security Key or Biometric Authenticator (FIDO2)",
+                "value": {
+                  "form": {
+                    "value": [
+                      { "name": "id", "required": true, "value": "aut-webauthn-arg-strong", "mutable": false, "visible": false },
+                      { "name": "methodType", "required": false, "value": "webauthn", "mutable": false, "visible": false }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[2]"
+              },
+              {
+                "label": "NFC",
+                "value": {
+                  "form": {
+                    "value": [
+                      { "name": "id", "required": true, "value": "aut-nfc-standalone", "mutable": false }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[3]"
+              },
+              {
+                "label": "Security Key or Biometric Authenticator (FIDO2)",
+                "value": {
+                  "form": {
+                    "value": [
+                      { "name": "id", "required": true, "value": "aut-webauthn-standalone", "mutable": false, "visible": false },
+                      { "name": "methodType", "required": false, "value": "webauthn", "mutable": false, "visible": false }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[4]"
+              },
+              {
+                "label": "Google Authenticator",
+                "value": {
+                  "form": {
+                    "value": [
+                      { "name": "id", "required": true, "value": "aut-google-auth-arg-deadline", "mutable": false }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[5]"
+              },
+              {
+                "label": "Phone",
+                "value": {
+                  "form": {
+                    "value": [
+                      { "name": "id", "required": true, "value": "aut-phone-arg-deadline", "mutable": false },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "options": [
+                          { "label": "SMS", "value": "sms" },
+                          { "label": "VOICE", "value": "voice" }
+                        ]
+                      },
+                      { "name": "phoneNumber", "required": false, "type": "string" }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[6]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "displayName": "Password",
+        "type": "password",
+        "key": "okta_password",
+        "id": "password-enroll-id",
+        "authenticatorId": "aut-password-standalone"
+      },
+      {
+        "displayName": "Okta Verify",
+        "type": "app",
+        "key": "okta_verify",
+        "id": "okta-verify-enroll-id",
+        "authenticatorId": "aut-okta-verify-arg-strong",
+        "groupIds": ["arg-strong"],
+        "methods": [
+          { "type": "signed_nonce" },
+          { "type": "push" },
+          { "type": "totp" }
+        ]
+      },
+      {
+        "displayName": "Security Key or Biometric",
+        "type": "security_key",
+        "key": "webauthn",
+        "id": "webauthn-arg-strong-enroll-id",
+        "authenticatorId": "aut-webauthn-arg-strong",
+        "groupIds": ["arg-strong"]
+      },
+      {
+        "displayName": "NFC",
+        "type": "security_key",
+        "key": "smart_card_idp",
+        "id": "nfc-enroll-id",
+        "authenticatorId": "aut-nfc-standalone",
+        "gracePeriod": {
+          "type": "BY_SKIP_COUNT",
+          "skipCount": 3,
+          "remainingSkips": 3
+        }
+      },
+      {
+        "displayName": "Security Key or Biometric",
+        "type": "security_key",
+        "key": "webauthn",
+        "id": "webauthn-standalone-enroll-id",
+        "authenticatorId": "aut-webauthn-standalone",
+        "gracePeriod": {
+          "type": "BY_DATE_TIME",
+          "expiry": "2026-11-30T19:00:00.000Z"
+        }
+      },
+      {
+        "displayName": "Google Authenticator",
+        "type": "app",
+        "key": "google_otp",
+        "id": "google-auth-enroll-id",
+        "authenticatorId": "aut-google-auth-arg-deadline",
+        "groupIds": ["arg-deadline"]
+      },
+      {
+        "displayName": "Phone",
+        "type": "phone",
+        "key": "phone_number",
+        "id": "phone-deadline-enroll-id",
+        "authenticatorId": "aut-phone-arg-deadline",
+        "groupIds": ["arg-deadline"]
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": []
+  },
+  "authenticatorGroups": [
+    {
+      "groupId": "arg-strong",
+      "status": "REQUIRED",
+      "criteria": [{ "type": "authenticatorCount", "count": 1 }],
+      "remaining": 1
+    },
+    {
+      "groupId": "arg-deadline",
+      "status": "REQUIRED",
+      "criteria": [{ "type": "authenticatorCount", "count": 1 }],
+      "remaining": 1,
+      "gracePeriod": {
+        "type": "BY_DATE_TIME",
+        "expiry": "2026-11-30T19:00:00.000Z"
+      }
+    }
+  ],
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00utjm1GstPjCF9Ad0g3",
+      "identifier": "eva@example.com"
+    }
+  },
+  "cancel": {
+    "rel": ["create-form"],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  }
+}

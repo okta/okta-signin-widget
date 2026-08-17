@@ -65,7 +65,7 @@ export function createOVOptions(options = []) {
   }
 }
 
-function createAuthenticatorOptions(options = []) {
+function createAuthenticatorOptions(options = [], { isEnroll = false } = {}) {
   createOVOptions(options);
   return options.map(option => {
     const value = option.value?.form?.value || [];
@@ -83,19 +83,30 @@ function createAuthenticatorOptions(options = []) {
       .reduce((init, v) => {
         return Object.assign(init, { [v.name]: v.value });
       }, {});
-    return {
+    const surfaced = {
       label: option.label,
       value: valueObject,
       relatesTo: option.relatesTo,
       authenticatorKey: option.relatesTo?.key,
     };
+    // N-of-M authenticator groups: the group affiliation lives on the referenced
+    // authenticator entry (option.relatesTo.groupIds). Only surface it for
+    // enrollment — the verify flow does not use group partitioning, and the
+    // contract states verify responses will not carry groupIds. Restricting the
+    // surfacing here keeps the verify option shape untouched.
+    if (isEnroll
+      && Array.isArray(option.relatesTo?.groupIds)
+      && option.relatesTo.groupIds.length > 0) {
+      surfaced.groupIds = option.relatesTo.groupIds;
+    }
+    return surfaced;
   });
 }
 
 function getAuthenticatorsEnrollUiSchema({ options }) {
   return {
     type: 'authenticatorEnrollSelect',
-    options: createAuthenticatorOptions(options),
+    options: createAuthenticatorOptions(options, { isEnroll: true }),
   };
 }
 

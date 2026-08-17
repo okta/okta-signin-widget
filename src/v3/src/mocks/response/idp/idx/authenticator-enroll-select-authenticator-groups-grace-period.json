@@ -1,0 +1,161 @@
+{
+  "stateHandle": "02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt",
+  "version": "1.0.0",
+  "expiresAt": "2026-12-31T21:05:31.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": ["create-form"],
+        "name": "select-authenticator-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "accepts": "application/json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "required": true,
+            "type": "object",
+            "options": [
+              {
+                "label": "Email",
+                "value": {
+                  "form": {
+                    "value": [
+                      { "name": "id", "required": true, "value": "aut-email-arg-recovery", "mutable": false },
+                      { "name": "methodType", "required": false, "value": "email", "mutable": false }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              },
+              {
+                "label": "Phone",
+                "value": {
+                  "form": {
+                    "value": [
+                      { "name": "id", "required": true, "value": "aut-phone-arg-recovery", "mutable": false },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "options": [
+                          { "label": "SMS", "value": "sms" },
+                          { "label": "VOICE", "value": "voice" }
+                        ]
+                      },
+                      { "name": "phoneNumber", "required": false, "type": "string" }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[1]"
+              },
+              {
+                "label": "Security Question",
+                "value": {
+                  "form": {
+                    "value": [
+                      { "name": "id", "required": true, "value": "aut-sq-arg-recovery", "mutable": false, "visible": false }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[2]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      },
+      {
+        "rel": ["create-form"],
+        "name": "skip",
+        "href": "http://localhost:3000/idp/idx/skip",
+        "method": "POST",
+        "accepts": "application/json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "displayName": "Email",
+        "type": "email",
+        "key": "okta_email",
+        "id": "email-enroll-id",
+        "authenticatorId": "aut-email-arg-recovery",
+        "groupIds": ["arg-recovery"]
+      },
+      {
+        "displayName": "Phone",
+        "type": "phone",
+        "key": "phone_number",
+        "id": "phone-enroll-id",
+        "authenticatorId": "aut-phone-arg-recovery",
+        "groupIds": ["arg-recovery"]
+      },
+      {
+        "displayName": "Security Question",
+        "type": "security_question",
+        "key": "security_question",
+        "id": "sq-enroll-id",
+        "authenticatorId": "aut-sq-arg-recovery",
+        "groupIds": ["arg-recovery"]
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": []
+  },
+  "authenticatorGroups": [
+    {
+      "groupId": "arg-recovery",
+      "status": "REQUIRED",
+      "criteria": [{ "type": "authenticatorCount", "count": 1 }],
+      "remaining": 1,
+      "gracePeriod": {
+        "type": "BY_DATE_TIME",
+        "expiry": "2026-11-30T19:00:00.000Z"
+      }
+    }
+  ],
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00utjm1GstPjCF9Ad0g3",
+      "identifier": "eva@example.com"
+    }
+  },
+  "cancel": {
+    "rel": ["create-form"],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  }
+}
