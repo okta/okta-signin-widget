@@ -435,6 +435,9 @@ export interface AuthenticatorButtonElement extends UISchemaElement {
     gracePeriodExpiry?: string;
     gracePeriodRequiredDescription?: string;
     gracePeriodRemainingSkipsDescription?: string;
+    // N-of-M: opaque group affiliation surfaced from the wire so the transformer
+    // can partition options into cards. Never rendered to end users.
+    groupIds?: string[];
   };
 }
 
@@ -443,6 +446,27 @@ export interface AuthenticatorButtonListElement extends UISchemaElement {
   options: {
     buttons: AuthenticatorButtonElement[];
     dataSe: string;
+  };
+}
+
+// N-of-M authenticator groups: a bordered card wrapping a group's unenrolled
+// members with an optional group-level grace-period block and a "Choose {N} of:"
+// label. Individual member buttons keep the AuthenticatorButton markup so
+// per-button test IDs and DOM stay unchanged; the card wraps the list.
+export interface AuthenticatorGroupCardElement extends UISchemaElement {
+  type: 'AuthenticatorGroupCard';
+  options: {
+    // Positional index used to build data-se="authenticator-enroll-group-{index}".
+    // Never leaks the opaque groupId (per contract).
+    groupIndex: number;
+    // The transaction-remaining count ("Choose {remaining} of:").
+    remaining: number;
+    // Group-level grace-period display (same shape as per-authenticator grace
+    // period on AuthenticatorButtonElement so the renderer can share markup).
+    gracePeriodExpiry?: string;
+    gracePeriodRequiredDescription?: string;
+    gracePeriodRemainingSkipsDescription?: string;
+    buttons: AuthenticatorButtonElement[];
   };
 }
 
