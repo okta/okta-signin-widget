@@ -19,7 +19,17 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    // identify
+    // N-of-M authenticator groups demo: single REQUIRED group (1-of-3, nothing
+    // enrolled). Comment this line and uncomment one of the other variants
+    // below to preview the two-groups / optional-phase / grace-period screens.
+    'authenticator-enroll-select-authenticator-groups',
+    // 'authenticator-enroll-select-authenticator-groups-two',
+    // 'authenticator-enroll-select-authenticator-groups-optional-phase',
+    // 'authenticator-enroll-select-authenticator-groups-grace-period',
+    // 'authenticator-enroll-select-authenticator-groups-grace-period-skip',
+    // 'authenticator-enroll-select-authenticator-groups-mixed',
+    // 'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
