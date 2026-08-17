@@ -41,7 +41,7 @@ export default View.extend({
             {{gracePeriodRequiredDescription}}
           </p>
           {{#if gracePeriodExpiry}}
-            <p class="authenticator-grace-period-expiry-date">{{gracePeriodExpiry}}</p>
+            <p class="authenticator-grace-period-expiry-date" translate="no">{{gracePeriodExpiry}}</p>
           {{/if}}
         </div>
       </div>
