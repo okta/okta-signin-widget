@@ -122,7 +122,7 @@ export default View.extend({
   // grace period's expiry is present and still in the future; otherwise null
   // (caller falls through to BY_SKIP_COUNT).
   _byDateTimeGracePeriodData(gracePeriod) {
-    if (gracePeriod.type !== 'BY_DATE_TIME' && !gracePeriod.expiry) {
+    if (!gracePeriod.expiry) {
       return null;
     }
     const currentTimestampMs = Date.now();
