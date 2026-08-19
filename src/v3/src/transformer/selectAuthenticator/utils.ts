@@ -532,9 +532,9 @@ const formatAuthenticatorOptions = (
           // rendered to end users. Only set when present so legacy responses
           // produce byte-identical option shapes.
           ...(
-            // @ts-ignore OKTA-1249727 groupIds not yet in IdxAuthenticator; remove when auth-js SDK adds it
+            // @ts-ignore TODO: Add groupIds field to IdxAuthenticator in auth-js SDK
             Array.isArray(authenticator?.groupIds) && authenticator.groupIds.length > 0
-              // @ts-ignore OKTA-1249727
+              // @ts-ignore TODO: Add groupIds field to IdxAuthenticator in auth-js SDK
               ? { groupIds: authenticator.groupIds }
               : {}
           ),
