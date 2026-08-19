@@ -167,7 +167,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     // ---- N-of-M grouped path -----------------------------------------------
     const allButtons: AuthenticatorButtonElement[] = getAuthenticatorEnrollButtonElements(
       authenticator.options as IdxOption[],
-      stepName as string,
+      stepName,
       languageTags,
       authenticatorEnrollments?.value,
     );
@@ -242,14 +242,14 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
 
   const authenticatorButtonsWithGracePeriod = getAuthenticatorEnrollButtonElements(
     authenticatorsWithGracePeriod,
-    stepName as string,
+    stepName,
     languageTags,
     authenticatorEnrollments?.value,
   );
 
   const authenticatorButtonsDueNow = getAuthenticatorEnrollButtonElements(
     authenticatorsDueNow,
-    stepName as string,
+    stepName,
     languageTags,
     authenticatorEnrollments?.value,
   );

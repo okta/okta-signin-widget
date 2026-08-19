@@ -153,7 +153,7 @@ const AuthenticatorGroupCard: UISchemaElementComponent<{
           fontSize: tokens.TypographySizeSubordinate,
           fontWeight: tokens.TypographyWeightBodyBold,
           padding: `${tokens.Spacing1} ${tokens.Spacing3}`,
-          borderRadius: '12px',
+          borderRadius: tokens.BorderRadiusOuter,
           background: tokens.HueNeutral100,
           marginBlockEnd: tokens.Spacing3,
         }}
