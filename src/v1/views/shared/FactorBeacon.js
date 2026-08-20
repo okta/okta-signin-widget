@@ -14,7 +14,7 @@
 import { View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import Factor from 'v1/models/Factor';
-import Q from 'q';
+import { createDeferred } from 'util/createDeferred';
 import FactorUtil from 'util/FactorUtil';
 import FactorsDropDown from 'v1/views/mfa-verify/dropdown/FactorsDropDown';
 export default View.extend({
@@ -73,7 +73,7 @@ export default View.extend({
   },
 
   fadeOut: function() {
-    const deferred = Q.defer();
+    const deferred = createDeferred();
 
     this.$('.auth-beacon-factor').fadeOut(200, function() {
       deferred.resolve();

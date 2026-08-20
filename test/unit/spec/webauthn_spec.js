@@ -1,12 +1,12 @@
 import Expect from 'helpers/util/Expect';
-import Q from 'q';
+import { createDeferred } from 'util/createDeferred';
 import webauthn from 'util/webauthn';
 
 Expect.describe('webauthn', function() {
   function setupMsCredentials() {
     window.msCredentials = {
       makeCredential: function() /*accountInfo, cryptoParams, challenge*/ {
-        const result = Q.defer();
+        const result = createDeferred();
 
         result.resolve({
           id: 'msCredentials_ID',
@@ -18,7 +18,7 @@ Expect.describe('webauthn', function() {
       },
 
       getAssertion: function() /*challenge, filters*/ {
-        const result = Q.defer();
+        const result = createDeferred();
 
         result.resolve({
           id: 'msCredentials_ID',

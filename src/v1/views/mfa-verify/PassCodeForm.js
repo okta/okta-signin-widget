@@ -13,8 +13,8 @@
 /* eslint complexity: [2, 7] */
 import { _, loc, Form, createButton, View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
-import Q from 'q';
 import Enums from 'util/Enums';
+import DelayUtil from 'util/delay';
 import TextBox from 'v1/views/shared/TextBox';
 const subtitleTpl = hbs('({{subtitle}})');
 const PassCodeFormwarningTemplate = View.extend({
@@ -140,7 +140,7 @@ export default Form.extend({
             .then(function() {
               // render and focus on the passcode input field.
               form.getInputs().first().render().focus();
-              return Q.delay(Enums.API_RATE_LIMIT);
+              return DelayUtil.delay(Enums.API_RATE_LIMIT);
             })
             .then(() => {
               this.options.title = formAndButtonDetails.formRetry;

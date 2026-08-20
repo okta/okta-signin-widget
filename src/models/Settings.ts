@@ -15,7 +15,6 @@
 import { _, Model, loc, internal, ModelProperty } from '@okta/courage';
 import config from 'config/config.json';
 import hbs from '@okta/handlebars-inline-precompile';
-import Q from 'q';
 import BrowserFeatures from 'util/BrowserFeatures';
 import {
   ConfigError,
@@ -522,7 +521,7 @@ export default class Settings extends Model {
   processCreds(creds) {
     const processCreds = this.get('processCreds');
 
-    return Q.Promise(function(resolve) {
+    return new Promise<void>(function(resolve) {
       if (!_.isFunction(processCreds)) {
         resolve();
       } else if (processCreds.length === 2) {

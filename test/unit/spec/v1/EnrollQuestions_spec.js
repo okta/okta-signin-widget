@@ -12,7 +12,6 @@ import resQuestions from 'helpers/xhr/MFA_ENROLL_question_questions';
 import resSuccess from 'helpers/xhr/SUCCESS';
 import labelsCountryJa from 'helpers/xhr/labels_country_ja';
 import labelsLoginJa from 'helpers/xhr/labels_login_ja';
-import Q from 'q';
 import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
 import RouterUtil from 'v1/util/RouterUtil';
@@ -238,7 +237,7 @@ function testEnrollQuestion(allFactors, expectedStateToken) {
   itp('shows error if error response on enrollment', function() {
     return setup(allFactors)
       .then(function(test) {
-        Q.stopUnhandledRejectionTracking();
+        Expect.stopUnhandledRejectionTracking();
         test.setNextResponse(resError);
         test.form.setAnswer('the answer');
         test.form.submit();

@@ -8,7 +8,7 @@ import Expect from 'helpers/util/Expect';
 import responseMfaEnrollActivateWindowsHello from 'helpers/xhr/MFA_ENROLL_ACTIVATE_windows_hello';
 import responseMfaEnrollAll from 'helpers/xhr/MFA_ENROLL_allFactors';
 import responseSuccess from 'helpers/xhr/SUCCESS';
-import Q from 'q';
+import { createDeferred } from 'util/createDeferred';
 import $sandbox from 'sandbox';
 import LoginUtil from 'util/Util';
 import webauthn from 'util/webauthn';
@@ -49,14 +49,14 @@ Expect.describe('EnrollWindowsHello', function() {
     spyOn(webauthn, 'isAvailable').and.returnValue(false);
     spyOn(webauthn, 'makeCredential');
     spyOn(webauthn, 'getAssertion');
-    return Q();
+    return Promise.resolve();
   }
 
   function emulateWindows(errorType) {
     spyOn(webauthn, 'isAvailable').and.returnValue(true);
 
     spyOn(webauthn, 'makeCredential').and.callFake(function() {
-      const deferred = Q.defer();
+      const deferred = createDeferred();
 
       switch (errorType) {
       case 'AbortError':
@@ -81,7 +81,7 @@ Expect.describe('EnrollWindowsHello', function() {
       return deferred.promise;
     });
 
-    return Q();
+    return Promise.resolve();
   }
 
   describe('Header & Footer', function() {

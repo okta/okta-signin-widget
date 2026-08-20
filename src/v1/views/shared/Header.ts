@@ -124,8 +124,7 @@ export default class Header extends View {
       return Animations.implode(container)
         .then(() => {
           removeBeacon(this);
-        })
-        .done(); // TODO: can this be removed if Animations.implode returns standard ES6 Promise?
+        });
     case 'fade':
       // Other transitions are performed on the beacon container,
       // but this transition is on the content inside the beacon.
@@ -143,8 +142,7 @@ export default class Header extends View {
         .then(() => {
           removeBeacon(this);
           addBeacon(this, NextBeacon, selector, options);
-        })
-        .done(); // TODO: can this be removed if fadeOut returns standard ES6 Promise?
+        });
     case 'swap':
       return Animations.swapBeacons({
         $el: container,
@@ -160,7 +158,7 @@ export default class Header extends View {
           }
           addBeacon(this, NextBeacon, selector, options);
         },
-      }).done(); // TODO: can this be removed if Animations.swapBeacons returns standard ES6 Promise?
+      });
     case 'load':
       // Show the loading beacon. Add a couple of classes
       // before triggering the add beacon code.
@@ -195,8 +193,7 @@ export default class Header extends View {
       .then(() => {
         removeBeacon(this);
         container.removeClass(LOADING_BEACON_CLS);
-      })
-      .done(); // TODO: can this be removed if Animations.implode returns standard ES6 Promise?
+      });
   }
 
   getTemplateData() {

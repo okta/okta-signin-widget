@@ -13,7 +13,6 @@ import resActivateError from 'helpers/xhr/MFA_ENROLL_ACTIVATE_errorActivate';
 import resEnrollInvalidPhoneError from 'helpers/xhr/MFA_ENROLL_ACTIVATE_invalid_phone';
 import resAllFactors from 'helpers/xhr/MFA_ENROLL_allFactors';
 import resExistingPhone from 'helpers/xhr/MFA_ENROLL_callFactor_existingPhone';
-import Q from 'q';
 import $sandbox from 'sandbox';
 import LoginUtil from 'util/Util';
 const itp = Expect.itp;
@@ -510,7 +509,7 @@ Expect.describe('EnrollCall', function() {
       const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
       return setupAndSendCodeFn()
         .then(function(test) {
-          Q.stopUnhandledRejectionTracking();
+          Expect.stopUnhandledRejectionTracking();
           test.setNextResponse(resActivateError);
           test.form.setCode(123);
           test.form.submit();

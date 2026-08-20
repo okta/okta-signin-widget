@@ -12,7 +12,6 @@
 
 import { _, loc, View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
-import Q from 'q';
 import BrowserFeatures from 'util/BrowserFeatures';
 import CryptoUtil from 'util/CryptoUtil';
 import { WebauthnAbortError, WebAuthnError } from 'util/Errors';
@@ -89,7 +88,7 @@ export default FormController.extend({
           if (typeof AbortController !== 'undefined') {
             self.webauthnAbortController = new AbortController();
           }
-          return new Q(
+          return Promise.resolve(
             navigator.credentials.create({
               publicKey: options,
               signal: self.webauthnAbortController && self.webauthnAbortController.signal,
@@ -124,7 +123,8 @@ export default FormController.extend({
               self.webauthnAbortController = null;
             });
         }
-      });
+      })
+        .catch(() => {});
     },
   },
 

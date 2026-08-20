@@ -25,7 +25,7 @@ import resSecurityImage from 'helpers/xhr/security_image';
 import resSecurityImageFail from 'helpers/xhr/security_image_fail';
 import resSecurityImageError from 'helpers/xhr/security_image_error';
 import PrimaryAuth from 'v1/models/PrimaryAuth';
-import Q from 'q';
+import { createDeferred } from 'util/createDeferred';
 import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
 import DeviceFingerprint from 'v1/util/DeviceFingerprint';
@@ -192,7 +192,7 @@ function setupUnauthenticated(settings, requests) {
 function setupPasswordlessAuth(requests, refreshState) {
   return setup({ 'features.passwordlessAuth': true }, requests, refreshState).then(function(test) {
     test.setNextResponse(resPasswordlessUnauthenticated);
-    return Q(test);
+    return Promise.resolve(test);
   });
 }
 
@@ -1205,7 +1205,7 @@ Expect.describe('PrimaryAuth', function() {
         is true (useDeviceFingerprintForSecurityImage defaults to true)`,
       function() {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-          const deferred = Q.defer();
+          const deferred = createDeferred();
 
           deferred.resolve('thisIsTheDeviceFingerprint');
           return deferred.promise;
@@ -1229,7 +1229,7 @@ Expect.describe('PrimaryAuth', function() {
         deviceFingerprinting and useDeviceFingerprintForSecurityImage) are enabled`,
       function() {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-          const deferred = Q.defer();
+          const deferred = createDeferred();
 
           deferred.resolve('thisIsTheDeviceFingerprint');
           return deferred.promise;
@@ -1319,7 +1319,7 @@ Expect.describe('PrimaryAuth', function() {
     });
     itp('contains device fingerprint header in primaryAuth if feature is enabled', function() {
       spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-        const deferred = Q.defer();
+        const deferred = createDeferred();
 
         deferred.resolve('thisIsTheDeviceFingerprint');
         return deferred.promise;
@@ -1343,7 +1343,7 @@ Expect.describe('PrimaryAuth', function() {
     });
     itp('continues with primary auth if there is an error getting fingerprint when feature is enabled', function() {
       spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-        const deferred = Q.defer();
+        const deferred = createDeferred();
 
         deferred.reject('there was an error');
         return deferred.promise;
@@ -1380,7 +1380,7 @@ Expect.describe('PrimaryAuth', function() {
       'contains device fingerprint and typing pattern header in primaryAuth if both features are enabled',
       function() {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-          const deferred = Q.defer();
+          const deferred = createDeferred();
 
           deferred.resolve('thisIsTheDeviceFingerprint');
           return deferred.promise;
@@ -1412,7 +1412,7 @@ Expect.describe('PrimaryAuth', function() {
     );
     itp('does not load deviceFingerprint when username field looses focus if username is empty', function() {
       spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-        const deferred = Q.defer();
+        const deferred = createDeferred();
 
         deferred.resolve('thisIsTheDeviceFingerprint');
         return deferred.promise;
@@ -1426,7 +1426,7 @@ Expect.describe('PrimaryAuth', function() {
     });
     itp('disables the "sign in" button while fetching fingerprint before model.save', function() {
       spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-        const deferred = Q.defer();
+        const deferred = createDeferred();
 
         deferred.resolve('thisIsTheDeviceFingerprint');
         return deferred.promise;
@@ -1497,7 +1497,7 @@ Expect.describe('PrimaryAuth', function() {
       });
       itp('shows beacon-loading animation when primaryAuth is submitted (with deviceFingerprint)', function() {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-          const deferred = Q.defer();
+          const deferred = createDeferred();
   
           deferred.resolve('thisIsTheDeviceFingerprint');
           return deferred.promise;
@@ -1537,7 +1537,7 @@ Expect.describe('PrimaryAuth', function() {
             return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function(test) {
-            Q.stopUnhandledRejectionTracking();
+            Expect.stopUnhandledRejectionTracking();
             spyOn(test.securityBeacon, 'toggleClass');
             test.setNextResponse(resUnauthorized);
             test.form.setPassword('pass');
@@ -1559,7 +1559,7 @@ Expect.describe('PrimaryAuth', function() {
             return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function(test) {
-            Q.stopUnhandledRejectionTracking();
+            Expect.stopUnhandledRejectionTracking();
             spyOn(test.securityBeacon, 'toggleClass');
             test.setNextResponse(resPwdExpired);
             test.form.setPassword('pass');
@@ -1580,7 +1580,7 @@ Expect.describe('PrimaryAuth', function() {
             return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function(test) {
-            Q.stopUnhandledRejectionTracking();
+            Expect.stopUnhandledRejectionTracking();
             spyOn(test.securityBeacon, 'toggleClass');
             spyOn(test.router.settings, 'callGlobalError');
             test.setNextResponse({ status: 0, response: {} });
@@ -1611,7 +1611,7 @@ Expect.describe('PrimaryAuth', function() {
       itp('does not show beacon-loading animation when primaryAuth fails (no security image)', function() {
         return setup()
           .then(function(test) {
-            Q.stopUnhandledRejectionTracking();
+            Expect.stopUnhandledRejectionTracking();
             test.setNextResponse(resUnauthorized);
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
@@ -1626,7 +1626,7 @@ Expect.describe('PrimaryAuth', function() {
       itp('does not show beacon-loading animation when password expires (no security image)', function() {
         return setup()
           .then(function(test) {
-            Q.stopUnhandledRejectionTracking();
+            Expect.stopUnhandledRejectionTracking();
             test.setNextResponse(resPwdExpired);
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
@@ -1641,7 +1641,7 @@ Expect.describe('PrimaryAuth', function() {
       it('hides beacon-loading animation when user lockout message is displayed(no security image and selfServiceUnlock is off)', function() {
         return setup()
           .then(function(test) {
-            Q.stopUnhandledRejectionTracking();
+            Expect.stopUnhandledRejectionTracking();
             test.setNextResponse(resLockedOut);
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
@@ -1658,7 +1658,7 @@ Expect.describe('PrimaryAuth', function() {
       itp('hide beacon spinner when security image is disabled during invalid login attempt', function() {
         return setup()
           .then(function(test) {
-            Q.stopUnhandledRejectionTracking();
+            Expect.stopUnhandledRejectionTracking();
             test.setNextResponse(resUnauthorized);
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
@@ -1676,7 +1676,7 @@ Expect.describe('PrimaryAuth', function() {
         return setup()
           .then(function(test) {
             spyOn(test.router.settings, 'callGlobalError');
-            Q.stopUnhandledRejectionTracking();
+            Expect.stopUnhandledRejectionTracking();
             test.setNextResponse({ status: 0, response: {} });
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
@@ -1711,7 +1711,7 @@ Expect.describe('PrimaryAuth', function() {
     });
     itp('shows beacon-loading animation while loading security image (with deviceFingerprint)', function() {
       spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-        const deferred = Q.defer();
+        const deferred = createDeferred();
 
         deferred.resolve('thisIsTheDeviceFingerprint');
         return deferred.promise;

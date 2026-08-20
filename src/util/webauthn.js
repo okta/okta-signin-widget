@@ -10,11 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import Q from 'q';
 import FidoUtil from 'util/FidoUtil';
 
 function adaptToOkta(promise) {
-  return new Q(promise);
+  return Promise.resolve(promise);
 }
 
 function makeCredential(accountInfo, cryptoParams, challenge) {
