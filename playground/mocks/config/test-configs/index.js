@@ -18,6 +18,7 @@ module.exports = {
   ReEnrollAuthenticatorWarningPasswordView: require('./ReEnrollAuthenticatorWarningPasswordView'),
   ResetAuthenticatorPasswordView: require('./ResetAuthenticatorPasswordView'),
   SelectAuthenticatorForEnroll: require('./SelectAuthenticatorForEnroll'),
+  SelectAuthenticatorForEnrollGroups: require('./SelectAuthenticatorForEnrollGroups'),
   SessionStorage: require('./SessionStorage'),
   WidgetCustomization: require('./WidgetCustomization'),
   EnrollAuthenticatorEmail: require('./EnrollAuthenticatorEmail'),

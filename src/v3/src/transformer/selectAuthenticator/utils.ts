@@ -25,8 +25,31 @@ import {
   AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP,
   AUTHENTICATOR_KEY,
 } from '../../constants';
-import { ActionParams, AuthenticatorButtonElement, ButtonType } from '../../types';
+import {
+  ActionParams,
+  AuthenticatorButtonElement,
+  AuthenticatorGroupCardElement,
+  ButtonType,
+} from '../../types';
 import { loc } from '../../util';
+
+// N-of-M wire types for authenticatorGroups[]. Not yet in the auth-js SDK, so
+// declared inline; matches idx-authenticator-groups-siw-contract page 2.
+export interface AuthenticatorGroupGracePeriod {
+  type?: 'BY_DATE_TIME' | 'BY_SKIP_COUNT';
+  expiry?: string;
+  skipCount?: number;
+  remainingSkips?: number;
+}
+
+export interface AuthenticatorGroup {
+  groupId: string;
+  // Currently always 'REQUIRED' per contract; the active gate is remaining > 0.
+  status: 'REQUIRED';
+  criteria: { type: string; count: number }[];
+  remaining: number;
+  gracePeriod?: AuthenticatorGroupGracePeriod;
+}
 
 const getVerifyEmailAriaLabel = (email?: string): string => (email
   ? loc('oie.select.authenticator.verify.email.with.email.label', 'login', [email])
@@ -160,7 +183,7 @@ const getAuthenticatorLabel = (
       // For Passkeys, return localized label; for custom, return displayName itself
       if (displayName === WEBAUTHN_DISPLAY_NAMES.PASSKEYS) {
         return loc('oie.webauthn.passkeysRebrand.passkeys.label', 'login');
-      } else if (displayName && displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT) {
+      } if (displayName && displayName !== WEBAUTHN_DISPLAY_NAMES.DEFAULT) {
         return displayName; // Custom display name
       }
       return loc('oie.webauthn.label', 'login'); // DEFAULT case
@@ -504,6 +527,17 @@ const formatAuthenticatorOptions = (
               : undefined,
           ),
           iconName: `${authenticatorKey}_${index}`,
+          // N-of-M: opaque group affiliation from the wire, threaded through so
+          // the transformer can partition options into group cards. Never
+          // rendered to end users. Only set when present so legacy responses
+          // produce byte-identical option shapes.
+          ...(
+            // @ts-ignore TODO: Add groupIds field to IdxAuthenticator in auth-js SDK
+            Array.isArray(authenticator?.groupIds) && authenticator.groupIds.length > 0
+              // @ts-ignore TODO: Add groupIds field to IdxAuthenticator in auth-js SDK
+              ? { groupIds: authenticator.groupIds }
+              : {}
+          ),
         },
       } as AuthenticatorButtonElement;
     });
@@ -614,3 +648,229 @@ export const getAuthenticatorEnrollButtonElements = (
   languageTags,
   authenticatorEnrollments,
 );
+
+// --- N-of-M helpers ---------------------------------------------------------
+
+/**
+ * Returns true iff an already-transformed AuthenticatorButtonElement carries a
+ * post-processed active grace-period marker. formatAuthenticatorOptions only
+ * sets gracePeriodRequiredDescription / gracePeriodRemainingSkipsDescription
+ * when the wire-side grace period is active — testing those is safe.
+ *
+ * Do NOT re-parse btn.options.gracePeriodExpiry: it is a locale-formatted
+ * display string (e.g. "11/30/2026, 07:00 PM EST"), not an ISO date, and
+ * `new Date(...)` on it is unreliable across engines/locales.
+ */
+export const isAuthenticatorButtonInGracePeriod = (btn: AuthenticatorButtonElement): boolean => {
+  const gp = btn.options as {
+    gracePeriodRequiredDescription?: string;
+    gracePeriodRemainingSkipsDescription?: string;
+  };
+  return !!(gp.gracePeriodRequiredDescription || gp.gracePeriodRemainingSkipsDescription);
+};
+
+const isGracePeriodExpiryStillActive = (expiry?: string): boolean => {
+  if (!expiry) { return false; }
+  const currentTimestampMs = Date.now();
+  const gracePeriodTimestampMs = new Date(expiry).getTime();
+  // eslint-disable-next-line no-restricted-globals
+  return !isNaN(gracePeriodTimestampMs) && currentTimestampMs < gracePeriodTimestampMs;
+};
+
+export const hasActiveGroupGracePeriod = (group?: AuthenticatorGroup): boolean => {
+  const gp = group?.gracePeriod;
+  if (!gp) { return false; }
+  return isGracePeriodExpiryStillActive(gp.expiry)
+    || (typeof gp.remainingSkips === 'number' && gp.remainingSkips > 0);
+};
+
+const groupGracePeriodDescriptions = (
+  gp: AuthenticatorGroupGracePeriod | undefined,
+  languageTags?: string[],
+): {
+  gracePeriodExpiry?: string;
+  gracePeriodRequiredDescription?: string;
+  gracePeriodRemainingSkipsDescription?: string;
+} => {
+  if (!gp) { return {}; }
+  const out: {
+    gracePeriodExpiry?: string;
+    gracePeriodRequiredDescription?: string;
+    gracePeriodRemainingSkipsDescription?: string;
+  } = {};
+
+  if (gp.expiry && isGracePeriodExpiryStillActive(gp.expiry)) {
+    const currentTimestampMs = Date.now();
+    const gracePeriodEpochTimestampMs = new Date(gp.expiry).getTime();
+    const remainingDays = TimeUtil.calculateDaysBetween(
+      currentTimestampMs,
+      gracePeriodEpochTimestampMs,
+    );
+    if (remainingDays === 1) {
+      out.gracePeriodRequiredDescription = loc(
+        'oie.enrollment.policy.grace.period.required.in.one.day',
+        'login',
+      );
+    } else if (remainingDays > 1) {
+      out.gracePeriodRequiredDescription = loc(
+        'oie.enrollment.policy.grace.period.required.in.days',
+        'login',
+        [remainingDays],
+      );
+    } else {
+      out.gracePeriodRequiredDescription = loc(
+        'oie.enrollment.policy.grace.period.required.today',
+        'login',
+      );
+    }
+    if (Array.isArray(languageTags)) {
+      out.gracePeriodExpiry = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(
+        new Date(gracePeriodEpochTimestampMs),
+        languageTags,
+        false,
+      ) as string;
+    }
+    return out;
+  }
+
+  if (typeof gp.remainingSkips === 'number' && gp.remainingSkips > 0) {
+    out.gracePeriodRemainingSkipsDescription = gp.remainingSkips === 1
+      ? loc('oie.enrollment.policy.grace.period.required.in.one.skip', 'login')
+      : loc(
+        'oie.enrollment.policy.grace.period.required.in.number.of.skips',
+        'login',
+        [gp.remainingSkips],
+      );
+  }
+  return out;
+};
+
+// Strip per-authenticator gracePeriod display fields from a button that renders
+// inside a group card — the card's own group-level grace period at the top of
+// the card is authoritative for every member row.
+const stripPerButtonGracePeriod = (
+  btn: AuthenticatorButtonElement,
+): AuthenticatorButtonElement => ({
+  ...btn,
+  options: {
+    ...btn.options,
+    gracePeriodExpiry: undefined,
+    gracePeriodRequiredDescription: undefined,
+    gracePeriodRemainingSkipsDescription: undefined,
+  },
+});
+
+// Copy a per-authenticator gracePeriod onto a button so the existing per-button
+// GP rendering picks it up. Used when a group-of-1 has a group-level GP —
+// rendering as a bare button, we inject the group GP into the member.
+const injectGracePeriodIntoButton = (
+  btn: AuthenticatorButtonElement,
+  gp: AuthenticatorGroupGracePeriod,
+  languageTags?: string[],
+): AuthenticatorButtonElement => {
+  const gpFields = groupGracePeriodDescriptions(gp, languageTags);
+  return { ...btn, options: { ...btn.options, ...gpFields } };
+};
+
+/**
+ * Partition button elements into group-aware section buckets.
+ *
+ * Fires when the response has at least one REQUIRED group with remaining > 0.
+ * For each group:
+ *   - remaining === 0 → hidden entirely
+ *   - members.length === 1 → bare button, no card (group GP injected onto the
+ *     button when present so per-button grace-period markup renders it)
+ *   - members.length ≥ 2 → AuthenticatorGroupCardElement with a "Choose {N} of:"
+ *     label, an optional group-level GP block, and the member buttons inside
+ *     (per-button gracePeriod stripped — the card GP wins)
+ *
+ * Buttons not consumed by any active group fall into an "ungrouped" bucket for
+ * the transformer to slot into the existing per-button gracePeriod split.
+ */
+export type GroupedSectionItem =
+  | { kind: 'card'; card: AuthenticatorGroupCardElement }
+  | { kind: 'bare'; button: AuthenticatorButtonElement };
+
+export interface PartitionedGroupedButtons {
+  requiredNow: GroupedSectionItem[];
+  requiredSoon: GroupedSectionItem[];
+  ungrouped: AuthenticatorButtonElement[];
+}
+
+// Bucket a single active group into the appropriate section, mutating the
+// requiredNow/requiredSoon/emitted collections in place and returning the
+// possibly-incremented cardIndex.
+const bucketGroupIntoSections = (
+  group: AuthenticatorGroup,
+  buttons: AuthenticatorButtonElement[],
+  cardIndex: number,
+  requiredNow: GroupedSectionItem[],
+  requiredSoon: GroupedSectionItem[],
+  emitted: Set<AuthenticatorButtonElement>,
+  languageTags?: string[],
+): number => {
+  const members = buttons.filter((btn) => (
+    Array.isArray(btn.options.groupIds)
+    && btn.options.groupIds.includes(group.groupId)
+  ));
+  if (members.length === 0) {
+    return cardIndex;
+  }
+  const groupHasGP = hasActiveGroupGracePeriod(group);
+  const bucket = groupHasGP ? requiredSoon : requiredNow;
+
+  if (members.length === 1) {
+    const [single] = members;
+    const decorated = groupHasGP && group.gracePeriod
+      ? injectGracePeriodIntoButton(single, group.gracePeriod, languageTags)
+      : single;
+    bucket.push({ kind: 'bare', button: decorated });
+    emitted.add(single);
+    return cardIndex;
+  }
+
+  const strippedMembers = members.map(stripPerButtonGracePeriod);
+  const gpFields = group.gracePeriod
+    ? groupGracePeriodDescriptions(group.gracePeriod, languageTags)
+    : {};
+  const card: AuthenticatorGroupCardElement = {
+    type: 'AuthenticatorGroupCard',
+    options: {
+      groupIndex: cardIndex,
+      remaining: group.remaining,
+      buttons: strippedMembers,
+      ...gpFields,
+    },
+  };
+  bucket.push({ kind: 'card', card });
+  members.forEach((m) => emitted.add(m));
+  return cardIndex + 1;
+};
+
+export const partitionGroupedEnrollButtons = (
+  buttons: AuthenticatorButtonElement[],
+  groups: AuthenticatorGroup[],
+  languageTags?: string[],
+): PartitionedGroupedButtons => {
+  const requiredNow: GroupedSectionItem[] = [];
+  const requiredSoon: GroupedSectionItem[] = [];
+  const emitted = new Set<AuthenticatorButtonElement>();
+
+  groups.reduce((cardIndex, group) => {
+    if (!group || group.remaining <= 0) {
+      return cardIndex;
+    }
+    return bucketGroupIntoSections(
+      group,
+      buttons,
+      cardIndex,
+      requiredNow,
+      requiredSoon,
+      emitted,
+      languageTags,
+    );
+  }, 0);
+
+  const ungrouped = buttons.filter((btn) => !emitted.has(btn));
+  return { requiredNow, requiredSoon, ungrouped };
+};
