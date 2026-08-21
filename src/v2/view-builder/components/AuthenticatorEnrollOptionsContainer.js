@@ -36,7 +36,9 @@ const AuthenticatorEnrollSectionHeader = View.extend({
       {{/if}}
       {{#if subtitleLinkOptions}}
         <div class="authenticator-list-subtitle-link-container">
-          <a href={{subtitleLinkOptions.href}} target="_blank" rel="noopener noreferrer">{{subtitleLinkOptions.label}}</a>
+          <a href={{subtitleLinkOptions.href}} target="_blank" rel="noopener noreferrer">
+            {{subtitleLinkOptions.label}}
+          </a>
         </div>
       {{/if}}
     </div>
