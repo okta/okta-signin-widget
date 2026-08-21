@@ -29,15 +29,17 @@ import { getGracePeriodRequiredSoonCustomLink } from '../utils/LinksUtil';
 const AuthenticatorEnrollSectionHeader = View.extend({
   className: 'authenticator-list authenticator-list-header',
   template: hbs`
-    <div class="authenticator-list-title">{{title}}</div>
-    {{#if subtitle}}
-      <p class="authenticator-list-subtitle">{{subtitle}}</p>
-    {{/if}}
-    {{#if subtitleLinkOptions}}
-      <div class="authenticator-list-subtitle-link-container">
-        <a href={{subtitleLinkOptions.href}} target="_blank" rel="noopener noreferrer">{{subtitleLinkOptions.label}}</a>
-      </div>
-    {{/if}}
+    <div class="list-content">
+      <div class="authenticator-list-title">{{title}}</div>
+      {{#if subtitle}}
+        <p class="authenticator-list-subtitle">{{subtitle}}</p>
+      {{/if}}
+      {{#if subtitleLinkOptions}}
+        <div class="authenticator-list-subtitle-link-container">
+          <a href={{subtitleLinkOptions.href}} target="_blank" rel="noopener noreferrer">{{subtitleLinkOptions.label}}</a>
+        </div>
+      {{/if}}
+    </div>
   `,
   getTemplateData() {
     return {
