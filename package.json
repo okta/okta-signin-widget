@@ -21,8 +21,15 @@
     "not IE_Mob 11"
   ],
   "engines": {
-    "node": ">=20.0.0",
+    "node": ">=14.18",
     "yarn": "^1.7.0"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=20.0.0",
+      "onFail": "error"
+    }
   },
   "files": [
     "dist",

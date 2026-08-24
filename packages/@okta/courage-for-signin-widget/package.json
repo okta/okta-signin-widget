@@ -26,7 +26,7 @@
     "patch": "./scripts/patch.sh"
   },
   "engines": {
-    "node": ">=20.0.0",
+    "node": ">=12.22.0",
     "yarn": "^1.7.0"
   },
   "dependencies": {

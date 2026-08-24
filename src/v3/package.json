@@ -150,6 +150,13 @@
     "whatwg-fetch": "^3.6.2"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=16"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=20.0.0",
+      "onFail": "error"
+    }
   }
 }

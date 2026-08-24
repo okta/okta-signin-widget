@@ -36,8 +36,5 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.2.6",
     "webcrypto-shim": "~0.1.7"
-  },
-  "engines": {
-    "node": ">=20.0.0"
   }
 }
