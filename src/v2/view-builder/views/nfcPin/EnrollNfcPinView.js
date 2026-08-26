@@ -5,7 +5,7 @@ import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { getFactorPageCustomLink, getSwitchAuthenticatorLink } from '../../utils/LinksUtil';
 import { doChallenge } from '../../utils/ChallengeViewUtil';
 import { AUTHENTICATOR_CANCEL_ACTION } from '../../utils/Constants';
-import { generatePasswordPolicyHtml } from '../password/PasswordPolicyUtil';
+import { generatePinPolicyHtml } from './PinPolicyUtil';
 
 /**
  * Phase 1: Device challenge — launches OV via setupNfcUrl, polls
@@ -56,7 +56,7 @@ const PinCreateBody = BaseForm.extend({
       || this.options.appState.get('enrollmentAuthenticator')?.settings;
     if (settings?.minLength) {
       const rulesList = [loc('oie.enroll.nfc_pin.create.requirement.length', 'login', [settings.minLength])];
-      generatePasswordPolicyHtml(this, rulesList, true);
+      generatePinPolicyHtml(this, rulesList, true);
     }
   },
 
