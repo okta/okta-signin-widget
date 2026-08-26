@@ -86,6 +86,11 @@ describe('v2/view-builder/views/nfcPin/EnrollNfcPinView', function() {
       expect(testContext.view.$('[data-se="password-authenticator--rules"]').length).toBe(1);
     });
 
+    it('shows "Requirements:" header, not "Password requirements:"', function() {
+      const headerText = testContext.view.$('.password-authenticator--heading').text().trim();
+      expect(headerText).toBe('Requirements:');
+    });
+
     it('shows "Return to authenticator list" link in footer', function() {
       expect(testContext.view.$('.link[data-se="switchAuthenticator"]').length).toBe(1);
     });
