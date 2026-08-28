@@ -113,6 +113,11 @@ export type DeviceRemediation = {
 
 export type ChromeLocalNetworkAccessDetails = {
   chromeLNAHelpLink: string;
+  // When true, skip the upfront LNA permission check and always probe first,
+  // only showing LNA remediation after the loopback probe has failed. Gated by
+  // the CHROME_LOCAL_NETWORK_ACCESS_IFRAME_RENDERED_IN_WEBVIEW2_ENHANCEMENT
+  // backend feature. See OKTA-1135857.
+  iframeRenderedInWebView2ContextEnhancementEnabled?: boolean;
 };
 
 export type DeviceChallengePayload = {
@@ -497,6 +502,10 @@ export interface LoopbackProbeElement extends UISchemaElement {
     deviceChallengePayload: DeviceChallengePayload;
     step: string;
     cancelStep: string;
+    // True when this is a registered-condition silent probe (no previous form).
+    // Silent probes never surface LNA remediation. Set by the transformer;
+    // treated as false (interactive) when absent. See OKTA-1135857.
+    isRegisteredConditionSilentProbe?: boolean;
   };
 }
 

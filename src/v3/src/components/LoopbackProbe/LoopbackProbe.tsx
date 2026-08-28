@@ -14,10 +14,13 @@ import { IdxActionParams } from '@okta/okta-auth-js';
 import { FunctionComponent } from 'preact';
 import { useEffect } from 'preact/hooks';
 
+import { ChromeLNADeniedError } from '../../../../util/Errors';
 import Logger from '../../../../util/Logger';
 import { useWidgetContext } from '../../contexts';
 import { ActionParams, LoopbackProbeElement } from '../../types';
-import { isAndroid, isPollingStep, makeRequest } from '../../util';
+import {
+  getChromeLNAPermissionState, isAndroid, isPollingStep, makeRequest,
+} from '../../util';
 
 const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
   uischema: {
@@ -25,12 +28,14 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
       deviceChallengePayload,
       cancelStep,
       step,
+      isRegisteredConditionSilentProbe,
     },
   },
 }) => {
   const widgetContext = useWidgetContext();
   const {
     authClient, idxTransaction, setIdxTransaction, widgetProps, pollInFlightRef,
+    setChromeLNADenied,
   } = widgetContext;
   const disableConcurrentPolling = widgetProps?.features?.disableConcurrentPolling;
   const disablePollDuringCancel = widgetProps?.features?.disablePollDuringCancel;
@@ -42,6 +47,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
     domain,
     httpsDomain,
     challengeRequest,
+    chromeLocalNetworkAccessDetails,
   } = deviceChallengePayload;
 
   const submitHandler = async (stepName: string) => {
@@ -183,9 +189,35 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
         // for the next ongoing polling to be triggered to make the authentication flow go faster
         submitHandler(step);
       } else {
-        // no more ports to probe: cancel polling and return
+        // no more ports to probe
         Logger.error('No available ports. Loopback server failed and polling is cancelled.');
 
+        // WebView2 iframe enhancement (OKTA-1135857): with the enhancement on,
+        // we probe first and only now (after failure) re-check the LNA
+        // permission. If it is denied for an interactive flow, surface the LNA
+        // remediation instead of cancelling. Silent probes never remediate, and
+        // any other permission state falls through to the normal cancel.
+        if (chromeLocalNetworkAccessDetails?.iframeRenderedInWebView2ContextEnhancementEnabled) {
+          await getChromeLNAPermissionState((currPermissionState) => {
+            if (currPermissionState === 'denied' && !isRegisteredConditionSilentProbe) {
+              // Flip the shared signal so the transformer re-runs and renders
+              // the LNA remediation callout in place of this probe.
+              // TODO: consider surfacing a distinct 'OV_UNREACHABLE_BY_LOOPBACK_LNA'
+              // reason for backend logging once it is supported.
+              setChromeLNADenied(true);
+              // Rethrown by getChromeLNAPermissionState -> unhandled rejection,
+              // captured by Sentry for monitoring (same path as the FF-off flow).
+              throw new ChromeLNADeniedError('Chrome Local Network Access permission was denied for FastPass.');
+            }
+            cancelHandler({
+              reason: 'OV_UNREACHABLE_BY_LOOPBACK',
+              statusCode: null,
+            });
+          });
+          return;
+        }
+
+        // cancel polling and return
         cancelHandler({
           reason: 'OV_UNREACHABLE_BY_LOOPBACK',
           statusCode: null,

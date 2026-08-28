@@ -125,6 +125,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [responseError, setResponseError] = useState<AuthApiError | OAuthError | null>(null);
   // Shared poll-in-flight tracker (see IWidgetContext.pollInFlightRef)
   const pollInFlightRef = useRef<boolean>(false);
+  // Set by LoopbackProbe when a failed probe is followed by a denied LNA
+  // permission re-check; flipping it re-runs the transformers to swap in the
+  // LNA remediation UI (WebView2 iframe enhancement). See OKTA-1135857.
+  const [chromeLNADenied, setChromeLNADenied] = useState<boolean>(false);
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data, pollInFlightRef);
   const interactionCodeFlowFormBag = useInteractionCodeFlow(
     idxTransaction,
@@ -315,6 +319,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       widgetProps,
       setMessage,
       isClientTransaction,
+      chromeLNADenied,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -323,6 +328,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     stepToRender,
     widgetProps,
     bootstrap,
+    chromeLNADenied,
   ]);
 
   // track previous idxTransaction
@@ -343,6 +349,15 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       SessionStorage.removeResendTimestamp();
     }
   }, [idxTransaction, abortController]);
+
+  // Reset the LNA-denied signal whenever a new transaction arrives so a fresh
+  // loopback attempt (or a poll after the user fixes the LNA setting) re-probes
+  // instead of staying pinned on the remediation UI. The remediation itself is
+  // rendered on the same transaction that failed, so this does not clear it
+  // prematurely. WebView2 iframe enhancement, OKTA-1135857.
+  useEffect(() => {
+    setChromeLNADenied(false);
+  }, [idxTransaction]);
 
   // update dataSchemaRef in context
   useEffect(() => {
@@ -530,6 +545,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setAbortController,
       abortController,
       pollInFlightRef,
+      chromeLNADenied,
+      setChromeLNADenied,
     }}
     >
       <OdysseyProvider

@@ -132,6 +132,23 @@ describe('v2/utils/ChallengeViewUtil', function() {
       expect(expectedAddArg.options.title).toBe(loc('chrome.lna.error.title', 'login'));
       expect(expectedAddArg.options.content.options.chromeLNAHelpLink).toBe(deviceChallengeWithChromeLNADetails.chromeLocalNetworkAccessDetails.chromeLNAHelpLink);
     });
+
+    // WebView2 iframe enhancement (OKTA-1135857): when enabled, doChallenge must
+    // NOT check the LNA permission upfront — it probes first and only surfaces
+    // remediation after the probe fails (handled in BaseOktaVerifyChallengeView).
+    it('probes first and skips the upfront permission check when WebView2 iframe enhancement is enabled', function() {
+      deviceChallengeWithChromeLNADetails.chromeLocalNetworkAccessDetails
+        .iframeRenderedInWebView2ContextEnhancementEnabled = true;
+      const permissionStateSpy = jest.fn();
+      BrowserFeatures.getChromeLNAPermissionState = permissionStateSpy;
+
+      doChallenge(testView);
+
+      expect(permissionStateSpy).not.toHaveBeenCalled();
+      expect(testView.title).toBe(loc('deviceTrust.sso.redirectText', 'login'));
+      expect(expectedAddArg.className).toBe('loopback-content');
+      expect(testView.doLoopback).toHaveBeenCalledWith(deviceChallengeWithChromeLNADetails);
+    });
   });
 
   it('CUSTOM_URI_CHALLENGE test case', function() {

@@ -8,6 +8,7 @@ import identifyWithDeviceProbingLoopback from '../../../playground/mocks/data/id
 import identifyWithDeviceProbingLoopback4 from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-4';
 import identifyWithDeviceProbingHttpsLoopback from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-https-loopback';
 import identifyWithDeviceProbingLoopbackAndChromeLNA from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-chrome-lna.json';
+import identifyWithDeviceProbingLoopbackChromeLNAWebView2 from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-chrome-lna-webview2.json';
 import loopbackChallengeNotReceived from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received';
 import identifyWithLoopbackFallbackAndroidWithoutLink from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received-android-no-link';
 import identifyWithLaunchAuthenticator from '../../../playground/mocks/data/idp/idx/identify-with-device-launch-authenticator';
@@ -474,6 +475,81 @@ const loopbackLNADeniedRemediationViewMock = RequestMock()
   .respond(identifyWithDeviceProbingLoopbackAndChromeLNA)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll$/)
   .respond(identifyWithDeviceProbingLoopbackAndChromeLNA);
+
+// OKTA-1135857 (WebView2 iframe enhancement): identify-with-device-probing-loopback-chrome-lna-webview2
+// is the same Chrome LNA loopback challenge but with the gating flag
+// `iframeRenderedInWebView2ContextEnhancementEnabled` on. With the flag on, the widget does NOT check
+// the LNA permission upfront — it always probes first, and only surfaces the remediation after the
+// probe fails and the permission re-check returns denied (interactive flows only).
+
+// flag on + granted: skip the upfront check, probe, and succeed (same outcome as flag off)
+const loopbackLNAWebView2GrantedLogger = RequestLogger(/introspect|probe/, { logRequestBody: true, stringifyRequestBody: true });
+const loopbackLNAWebView2GrantedMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithDeviceProbingLoopbackChromeLNAWebView2)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identifyWithDeviceProbingLoopbackChromeLNAWebView2)
+  .onRequestTo({ url: /2000\/probe/, method: 'OPTIONS' })
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo({ url: /2000\/probe/, method: 'GET' })
+  .respond(null, 500, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/6511\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/6511\/challenge/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+    'access-control-allow-methods': 'POST, GET, OPTIONS'
+  });
+
+// flag on + prompt + probe timeout/failure: subsequent attempts keep probing, never remediate
+const loopbackLNAWebView2PromptTimeoutLogger = RequestLogger(/introspect|probe|cancel/, { logRequestBody: true, stringifyRequestBody: true });
+const loopbackLNAWebView2PromptTimeoutMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithDeviceProbingLoopbackChromeLNAWebView2)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll$/)
+  .respond(identifyWithDeviceProbingLoopbackChromeLNAWebView2)
+  .onRequestTo(/(2000|6511|6512|6513)\/probe/)
+  .respond(null, 500, { 'access-control-allow-origin': '*' })
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
+  .respond(loopbackChallengeNotReceived)
+  .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
+  .respond(identifyWithDeviceProbingLoopbackChromeLNAWebView2)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll$/)
+  .respond(identifyWithDeviceProbingLoopbackChromeLNAWebView2);
+
+// flag on + denied + registered-condition silent probe: probe first (all fail), then cancel; no remediation
+const loopbackLNAWebView2DeniedSilentProbeRegisteredLogger = RequestLogger(/introspect|probe|cancel/, { logRequestBody: true, stringifyRequestBody: true });
+const loopbackLNAWebView2DeniedSilentProbeRegisteredMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithDeviceProbingLoopbackChromeLNAWebView2)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll$/)
+  .respond(identifyWithDeviceProbingLoopbackChromeLNAWebView2)
+  .onRequestTo(/(2000|6511|6512|6513)\/probe/)
+  .respond(null, 500, { 'access-control-allow-origin': '*' })
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
+  .respond(loopbackChallengeNotReceived);
+
+// flag on + denied + interactive: probe first (all ports fail), then show the remediation view
+const loopbackLNAWebView2DeniedRemediationViewLogger = RequestLogger(/introspect|probe|cancel/, { logRequestBody: true, stringifyRequestBody: true });
+const loopbackLNAWebView2DeniedRemediationViewMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(loopbackChallengeNotReceived)
+  .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
+  .respond(identifyWithDeviceProbingLoopbackChromeLNAWebView2)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll$/)
+  .respond(identifyWithDeviceProbingLoopbackChromeLNAWebView2)
+  .onRequestTo(/(2000|6511|6512|6513)\/probe/)
+  .respond(null, 500, { 'access-control-allow-origin': '*' });
 
 fixture('Device Challenge Polling View with the Loopback Server, Custom URI, App Link, and Universal Link approaches');
 
@@ -1089,5 +1165,122 @@ test
     await t.expect(errorBox.withText('Change the permission from “Block” to “Allow” and reload this page').exists).eql(true);
     await t.expect(errorBox.withText('For more information, follow the instructions on the Local app access page or contact your administrator for help.').exists).eql(true);
     await t.expect(errorBox.withText('Local app access').find('a[href="https://okta.com"]').exists).eql(true);
+  });
+
+test
+  .requestHooks(loopbackLNAWebView2GrantedLogger, loopbackLNAWebView2GrantedMock)('WebView2 iframe enhancement: when flag is on and Chrome Local Network Access permission state is granted, loopback succeeds', async t => {
+    const deviceChallengePollPageObject = await setup(t, true, 'granted');
+    await checkA11y(t);
+    await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
+    await t.expect(loopbackLNAWebView2GrantedLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/introspect/)
+    )).eql(1);
+    await t.expect(loopbackLNAWebView2GrantedLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.method === 'get' &&
+        record.request.url.match(/probe/)
+    )).eql(1);
+  });
+
+test
+  .requestHooks(loopbackLNAWebView2PromptTimeoutLogger, loopbackLNAWebView2PromptTimeoutMock)('WebView2 iframe enhancement: when flag is on and permission state is prompt and loopback fails due to timeout, subsequent loopback attempts proceed instead of showing error remediation view', async t => {
+    const deviceChallengeFallbackPage = await setupLoopbackFallback(t, undefined, 'prompt');
+    await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Sign In');
+    await t.expect(loopbackLNAWebView2PromptTimeoutLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/introspect/)
+    )).eql(1);
+    await t.wait(2000);
+    await t.expect(loopbackLNAWebView2PromptTimeoutLogger.count(
+      record => record.response.statusCode === 500 &&
+        record.request.url.match(/2000|6511|6512|6513/)
+    )).eql(4);
+    await t.expect(loopbackLNAWebView2PromptTimeoutLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/authenticators\/poll\/cancel/) &&
+        JSON.parse(record.request.body).reason === 'OV_UNREACHABLE_BY_LOOPBACK' &&
+        JSON.parse(record.request.body).statusCode === null
+    )).eql(1);
+
+    await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Sign In');
+    await deviceChallengeFallbackPage.clickOktaVerifyButton();
+
+    // Subsequent loopback attempts still proceed (probe again) and never show the remediation view,
+    // since the permission state is still `prompt` (not denied).
+    await t.expect(loopbackLNAWebView2PromptTimeoutLogger.count(
+      record => record.response.statusCode === 500 &&
+        record.request.url.match(/2000|6511|6512|6513/)
+    )).eql(8);
+    await t.expect(loopbackLNAWebView2PromptTimeoutLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/authenticators\/poll\/cancel/) &&
+        JSON.parse(record.request.body).reason === 'OV_UNREACHABLE_BY_LOOPBACK' &&
+        JSON.parse(record.request.body).statusCode === null
+    )).eql(2);
+
+    await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Sign In');
+  });
+
+test
+  .requestHooks(loopbackLNAWebView2DeniedSilentProbeRegisteredLogger, loopbackLNAWebView2DeniedSilentProbeRegisteredMock)('WebView2 iframe enhancement: when flag is on and permission is denied but loopback is triggered by registered condition silent probe, loopback fails but error remediation view is not shown', async t => {
+    const deviceChallengeFallbackPage = await setupLoopbackFallback(t, undefined, 'denied');
+    await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Sign In');
+    await t.expect(loopbackLNAWebView2DeniedSilentProbeRegisteredLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/introspect/)
+    )).eql(1);
+    await t.wait(2000);
+    await t.expect(loopbackLNAWebView2DeniedSilentProbeRegisteredLogger.count(
+      record => record.response.statusCode === 500 &&
+        record.request.url.match(/2000|6511|6512|6513/)
+    )).eql(4);
+    await t.expect(loopbackLNAWebView2DeniedSilentProbeRegisteredLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/authenticators\/poll\/cancel/) &&
+        JSON.parse(record.request.body).reason === 'OV_UNREACHABLE_BY_LOOPBACK' &&
+        JSON.parse(record.request.body).statusCode === null
+    )).eql(1);
+    await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Sign In');
+  });
+
+test
+  .requestHooks(loopbackLNAWebView2DeniedRemediationViewLogger, loopbackLNAWebView2DeniedRemediationViewMock)('WebView2 iframe enhancement: when flag is on and permission is denied and loopback is not triggered by registered condition silent probe, the widget probes first and only then shows the error remediation view', async t => {
+    const deviceChallengeFallbackPage = await setupLoopbackFallback(t, undefined, 'denied');
+    await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Sign In');
+
+    // Enable JS-error skipping BEFORE the click. The widget probes first and only throws
+    // ChromeLNADeniedError (logged for Sentry) after all ports fail — but TestCafe's click waits
+    // for that async work to settle, so the throw surfaces *within* the click action. Keep skipping
+    // on for the rest of the test, since the Gen3 flicker re-throws it on each poll cycle.
+    await t.skipJsErrors({ message: 'Chrome Local Network Access permission was denied for FastPass.' });
+    await deviceChallengeFallbackPage.clickOktaVerifyButton();
+    await t.wait(2000);
+
+    // This is the key difference from the flag-off flow: with the flag on the widget does NOT
+    // remediate upfront — it attempts the loopback probe FIRST (all ports are tried and fail)...
+    await t.expect(loopbackLNAWebView2DeniedRemediationViewLogger.count(
+      record => record.response.statusCode === 500 &&
+        record.request.url.match(/2000|6511|6512|6513/)
+    )).gte(4);
+
+    // ...and only after the probe fails does the LNA remediation view appear. The remediation UI
+    // is identical to the flag-off flow, so assert the full contents like the existing test.
+    await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Okta FastPass requires network permission');
+    const errorBox = userVariables.gen3 ? deviceChallengeFallbackPage.form.getErrorBox() : deviceChallengeFallbackPage.form.getErrorBoxCallout();
+    await t.expect(errorBox.withText('Unable to sign in').exists).eql(true);
+    await t.expect(errorBox.withText('The browser is blocking communication with Okta Verify.').exists).eql(true);
+    await t.expect(errorBox.withText('Go to your browser\'s site settings').exists).eql(true);
+    await t.expect(errorBox.withText('Find “Local network access” or “Apps on device”').exists).eql(true);
+    await t.expect(errorBox.withText('Change the permission from “Block” to “Allow” and reload this page').exists).eql(true);
+    await t.expect(errorBox.withText('For more information, follow the instructions on the Local app access page or contact your administrator for help.').exists).eql(true);
+    await t.expect(errorBox.withText('Local app access').find('a[href="https://okta.com"]').exists).eql(true);
+
+    // remediation is shown instead of cancelling — no poll/cancel request is sent
+    await t.expect(loopbackLNAWebView2DeniedRemediationViewLogger.count(
+      record => record.request.url.match(/authenticators\/poll\/cancel/)
+    )).eql(0);
   });
   

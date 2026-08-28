@@ -12,6 +12,8 @@ import {
   doChallenge,
   cancelPollingWithParams,
   createInvisibleIFrame,
+  isRegisteredConditionSilentProbe,
+  showChromeLNADeniedError,
 } from '../utils/ChallengeViewUtil';
 
 const request = (opts) => {
@@ -182,13 +184,32 @@ const Body = BaseFormWithPolling.extend({
             // This is to avoid concurrency issue where /poll/cancel takes long time to complete
             // and SIW will receive 400 error if the polling continues
             this.stopPolling();
-            cancelPollingWithParams(
+            const cancelLoopback = () => cancelPollingWithParams(
               this.options.appState,
               this.pollingCancelAction,
               AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE,
               null,
               !this.removed,
             );
+            // WebView2 iframe enhancement (OKTA-1135857): when enabled, probe
+            // first and re-check the LNA permission only now, after the probe
+            // failed — surface remediation instead of cancelling if it is denied
+            // for an interactive (non-silent) flow. Otherwise cancel as before.
+            if (deviceChallenge.chromeLocalNetworkAccessDetails?.iframeRenderedInWebView2ContextEnhancementEnabled
+              && !isRegisteredConditionSilentProbe(this)) {
+              BrowserFeatures.getChromeLNAPermissionState((currPermissionState) => {
+                if (currPermissionState === 'denied') {
+                  // Clear the loopback spinner before rendering remediation.
+                  // TODO: consider cancel with a new reason OV_UNREACHABLE_BY_LOOPBACK_LNA
+                  this.removeChildren();
+                  showChromeLNADeniedError(this, deviceChallenge);
+                } else {
+                  cancelLoopback();
+                }
+              });
+              return;
+            }
+            cancelLoopback();
           }
         });
     };
