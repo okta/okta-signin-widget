@@ -65,11 +65,6 @@ const webpackConfig = {
     static: [
       path.resolve(__dirname, '..', '..', 'target'),
       path.resolve(__dirname, 'public'),
-      {
-        staticOptions: {
-          watchContentBase: true
-        }
-      }
     ],
     port: DEV_SERVER_PORT,
     historyApiFallback: true,

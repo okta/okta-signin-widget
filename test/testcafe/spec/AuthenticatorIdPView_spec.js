@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, userVariables } from 'testcafe';
+import { RequestMock, RequestLogger, ClientFunction, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import { checkConsoleMessages, overrideWidgetOptions } from '../framework/shared';
 import IdPAuthenticatorPageObject from '../framework/page-objects/IdPAuthenticatorPageObject';
@@ -11,6 +11,8 @@ import xhrVerifyIdPAuthenticatorCustomLogo from '../../../playground/mocks/data/
 import xhrVerifyIdPAuthenticatorSingleRemediation from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-single-remediation.json';
 import xhrVerifyIdPAuthenticatorError from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-idp.json';
 import xhrVerifyIdpAuthentiatorErrorCustomLogo from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-idp-custom-logo.json';
+
+const getPageUrl = ClientFunction(() => window.location.href);
 
 const logger = RequestLogger(/introspect/,
   {
@@ -103,8 +105,7 @@ test
     await t.expect(pageObject.getBeaconSelector()).contains('mfa-custom-factor');
     await pageObject.submit('Enroll');
 
-    const pageUrl = await pageObject.getPageUrl();
-    await t.expect(pageUrl)
+    await t.expect(getPageUrl())
       .eql('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk');
   });
 
@@ -115,13 +116,12 @@ test
     },
   }))
   .requestHooks(logger, enrollMock)('should auto redirect to IdP when skipIdpFactorVerificationBtn feature is true', async t => {
-    const pageObject = await setup(t, {
+    await setup(t, {
       expectAutoRedirect: true
     });
 
     // assert redirect to IdP login page eventually
-    const pageUrl = await pageObject.getPageUrl();
-    await t.expect(pageUrl)
+    await t.expect(getPageUrl())
       .eql('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk');
   });
 
@@ -142,8 +142,7 @@ test
     }
     await pageObject.submit('Enroll');
 
-    const pageUrl = await pageObject.getPageUrl();
-    await t.expect(pageUrl)
+    await t.expect(getPageUrl())
       .eql('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk');
   });
 
@@ -205,8 +204,7 @@ test
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
     await pageObject.submit('Verify');
 
-    const pageUrl = await pageObject.getPageUrl();
-    await t.expect(pageUrl)
+    await t.expect(getPageUrl())
       .eql('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk');
   });
 
@@ -217,14 +215,13 @@ test
     },
   }))
   .requestHooks(logger, verifyMock)('should auto redirect to IdP when skipIdpFactorVerificationBtn feature is true', async t => {
-    const pageObject = await setup(t, {
+    await setup(t, {
       isVerify: true,
       expectAutoRedirect: true
     });
 
     // assert redirect to IdP login page eventually
-    const pageUrl = await pageObject.getPageUrl();
-    await t.expect(pageUrl)
+    await t.expect(getPageUrl())
       .eql('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk');
   });
 
@@ -245,8 +242,7 @@ test
     }
     await pageObject.submit('Verify');
 
-    const pageUrl = await pageObject.getPageUrl();
-    await t.expect(pageUrl)
+    await t.expect(getPageUrl())
       .eql('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk');
   });
 
@@ -259,8 +255,7 @@ test
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
     await pageObject.submit('Verify');
 
-    const pageUrl = await pageObject.getPageUrl();
-    await t.expect(pageUrl)
+    await t.expect(getPageUrl())
       .eql('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk');
   });
 

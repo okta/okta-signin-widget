@@ -9,8 +9,8 @@ export TEST_RESULT_FILE_DIR="${REPO}/build2/reports/junit"
 echo $TEST_SUITE_TYPE > $TEST_SUITE_TYPE_FILE
 echo $TEST_RESULT_FILE_DIR > $TEST_RESULT_FILE_DIR_FILE
 
-if ! setup_service node v16.18.1 &> /dev/null; then
-  echo "Node 16 is required to run English leak tests"
+if ! setup_service node v22.22.3 &> /dev/null; then
+  echo "Node 22 is required to run English leak tests"
   exit ${FAILED_SETUP}
 fi
 

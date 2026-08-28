@@ -37,7 +37,7 @@ if ! yarn build:release; then
   exit ${TEST_FAILURE}
 fi
 
-if ! setup_service node v14.18.2 &> /dev/null; then
+if ! setup_service node v22.22.3 &> /dev/null; then
   echo "Failed to install node"
   exit ${FAILED_SETUP}
 fi
