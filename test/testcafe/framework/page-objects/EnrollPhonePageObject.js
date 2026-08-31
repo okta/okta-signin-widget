@@ -81,22 +81,16 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
     return this.form.getTextBoxErrorMessage(PASSCODE_FIELD_NAME);
   }
   
-  resendCodeText(index) {
+  resendCodeText() {
     if (userVariables.gen3) {
-      if (index === undefined) {
-        index = 0;
-      }
-      return this.form.getErrorBoxTextByIndex(index);
+      return this.form.getElement('[data-se="reminder-prompt"]').innerText;
     }
     return this.form.getElement(RESEND_VIEW_SELECTOR).innerText;
   }
 
-  async resendCodeExists(index) {
+  async resendCodeExists() {
     if (userVariables.gen3) {
-      if (index === undefined) {
-        index = 0;
-      }
-      return this.form.hasAlertBox(index);
+      return this.form.elementExist('[data-se="reminder-prompt"]');
     }
 
     const isHidden = await this.form.getElement(RESEND_VIEW_SELECTOR).hasClass('hide');

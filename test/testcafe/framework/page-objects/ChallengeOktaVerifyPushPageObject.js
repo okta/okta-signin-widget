@@ -64,7 +64,7 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
 
   getWarningBox() {
     if (userVariables.gen3) {
-      return this.form.getAlertBox();
+      return this.form.getElement('[data-se="reminder-prompt"]');
     }
 
     return this.form.getElement(FORM_INFOBOX_WARNING);

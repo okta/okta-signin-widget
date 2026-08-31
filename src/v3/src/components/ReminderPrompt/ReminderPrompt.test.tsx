@@ -13,7 +13,7 @@
 import '@testing-library/jest-dom';
 
 import {
-  cleanup, fireEvent, render, within,
+  cleanup, fireEvent, render,
 } from '@testing-library/preact';
 import { HTMLReactParserOptions } from 'html-react-parser';
 import { h } from 'preact';
@@ -66,9 +66,9 @@ describe('ReminderPrompt', () => {
       },
     };
 
-    const { container, getByRole } = render(<ReminderPrompt {...props} />);
+    const { container, queryByText, findByText } = render(<ReminderPrompt {...props} />);
 
-    expect(container.firstChild).toBeNull();
+    expect(queryByText('Send again?')).not.toBeInTheDocument();
     act(() => {
       // @ts-expect-error setSystemTime does not exist on type 'typeof jest'
       jest.setSystemTime(Date.now() + DEFAULT_TIMEOUT_MS);
@@ -77,8 +77,7 @@ describe('ReminderPrompt', () => {
 
     expect(container.firstChild).not.toBeNull();
 
-    const box = getByRole('alert');
-    const sendAgainLink = await within(box).findByText('Send again?');
+    const sendAgainLink = await findByText('Send again?');
 
     expect(container).toMatchSnapshot();
 
@@ -111,9 +110,9 @@ describe('ReminderPrompt', () => {
       },
     };
 
-    const { container, getByRole } = render(<ReminderPrompt {...props} />);
+    const { container, queryByText, findByText } = render(<ReminderPrompt {...props} />);
 
-    expect(container.firstChild).toBeNull();
+    expect(queryByText('send again')).not.toBeInTheDocument();
 
     act(() => {
       // @ts-expect-error setSystemTime does not exist on type 'typeof jest'
@@ -123,8 +122,7 @@ describe('ReminderPrompt', () => {
 
     expect(container.firstChild).not.toBeNull();
 
-    const box = getByRole('alert');
-    const sendAgainLink = await within(box).findByText('send again');
+    const sendAgainLink = await findByText('send again');
 
     expect(container).toMatchSnapshot();
 
