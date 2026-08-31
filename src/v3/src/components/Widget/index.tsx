@@ -129,7 +129,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // permission re-check; flipping it re-runs the transformers to swap in the
   // LNA remediation UI (WebView2 iframe enhancement). See OKTA-1135857.
   const [chromeLNADenied, setChromeLNADenied] = useState<boolean>(false);
-  const pollingTransaction = usePolling(idxTransaction, widgetProps, data, pollInFlightRef);
+  // Stop polling once the LNA remediation is shown: the loopback probe failed on every port, so
+  // the challenge never reached Okta Verify and polling can never complete (also prevents the
+  // re-probe/flicker while the remediation is up). See OKTA-1135857.
+  const pollingTransaction = usePolling(
+    idxTransaction, widgetProps, data, pollInFlightRef, chromeLNADenied,
+  );
   const interactionCodeFlowFormBag = useInteractionCodeFlow(
     idxTransaction,
     widgetProps,

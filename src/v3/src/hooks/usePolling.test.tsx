@@ -230,6 +230,46 @@ describe('usePolling', () => {
     });
   });
 
+  describe('skipPolling - stops polling even for a polling step', () => {
+    // @ts-ignore remove after adding refresh to nextStep in auth-js
+    const pollingTransaction = {
+      nextStep: {
+        name: 'challenge-poll',
+        refresh: 4000,
+      },
+    } as IdxTransaction;
+
+    it('does not set up a timer and returns undefined when skipPolling is true', () => {
+      const { result } = renderHook(
+        () => usePolling(pollingTransaction, mockProps, mockData, undefined, true),
+      );
+      expect(result.current).toBeUndefined();
+      expect(setTimeout).not.toHaveBeenCalled();
+    });
+
+    it('polls normally when skipPolling is false', () => {
+      renderHook(() => usePolling(pollingTransaction, mockProps, mockData, undefined, false));
+      expect(setTimeout).toHaveBeenCalledTimes(1);
+      expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 4000);
+    });
+
+    it('stops the pending poll when skipPolling flips to true (e.g. LNA remediation is shown)', () => {
+      const { rerender } = renderHook(
+        ({ skip }: { skip: boolean }) => usePolling(
+          pollingTransaction, mockProps, mockData, undefined, skip,
+        ),
+        { initialProps: { skip: false } },
+      );
+      // polling is scheduled while not skipped
+      expect(setTimeout).toHaveBeenCalledTimes(1);
+
+      // remediation shown -> skip: the pending timer is cleared and never fires
+      rerender({ skip: true });
+      jest.advanceTimersByTime(4000);
+      expect(mockProceedFn).not.toHaveBeenCalled();
+    });
+  });
+
   // When an external prop update arrives while a /poll request is still
   // pending (e.g. LoopbackProbe.submitHandler → setIdxTransaction during a
   // slow /challenge), usePolling reschedules its timer and would fire a
