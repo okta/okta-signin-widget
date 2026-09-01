@@ -72,6 +72,7 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
           },
           cancelStep: 'authenticatorChallenge-cancel',
           step: 'device-challenge-poll',
+          isRegisteredConditionSilentProbe: true,
         });
       expect((updatedFormBag.uischema.elements[2] as LinkElement).options.label)
         .toBe('oie.verification.switch.authenticator');
@@ -129,6 +130,7 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
           },
           cancelStep: 'currentAuthenticator-cancel',
           step: 'challenge-poll',
+          isRegisteredConditionSilentProbe: true,
         });
       expect((updatedFormBag.uischema.elements[2] as LinkElement).options.label)
         .toBe('oie.verification.switch.authenticator');
@@ -139,7 +141,10 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
     });
   });
 
-  describe('where chromeLocalNetworkAccessDetails are defined', () => {
+  // WebView2 iframe enhancement (OKTA-1135857) explicitly off: only an explicit
+  // `false` preserves the legacy upfront permission-check path. An absent/true flag
+  // probes first (covered by the "WebView2 iframe enhancement is enabled" block).
+  describe('where chromeLocalNetworkAccessDetails are defined and the WebView2 flag is off', () => {
     const prevTransaction = getStubTransactionWithNextStep();
 
     const mockChromeLNAPermissionState = (permissionState: PermissionState) => {
@@ -160,6 +165,7 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
             challengeRequest: 'mockChallengeRequest',
             chromeLocalNetworkAccessDetails: {
               chromeLNAHelpLink: 'https://okta.com',
+              iframeRenderedInWebView2ContextEnhancementEnabled: false,
             },
           },
         },
@@ -191,10 +197,12 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
             challengeRequest: 'mockChallengeRequest',
             chromeLocalNetworkAccessDetails: {
               chromeLNAHelpLink: 'https://okta.com',
+              iframeRenderedInWebView2ContextEnhancementEnabled: false,
             },
           },
           cancelStep: 'authenticatorChallenge-cancel',
           step: 'device-challenge-poll',
+          isRegisteredConditionSilentProbe: true,
         });
       expect(updatedFormBag.uischema.elements[2].type).toBe('Link');
       expect((updatedFormBag.uischema.elements[2] as LinkElement).options.label)
@@ -230,10 +238,12 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
             challengeRequest: 'mockChallengeRequest',
             chromeLocalNetworkAccessDetails: {
               chromeLNAHelpLink: 'https://okta.com',
+              iframeRenderedInWebView2ContextEnhancementEnabled: false,
             },
           },
           cancelStep: 'authenticatorChallenge-cancel',
           step: 'device-challenge-poll',
+          isRegisteredConditionSilentProbe: true,
         });
       expect(updatedFormBag.uischema.elements[2].type).toBe('Link');
       expect((updatedFormBag.uischema.elements[2] as LinkElement).options.label)
@@ -298,6 +308,102 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
       ).options?.class).toBe('ERROR');
       expect(formBag.uischema.elements[2].type).toBe('Link');
       expect((formBag.uischema.elements[2] as LinkElement).options.label).toBe('goback');
+    });
+  });
+
+  describe('where WebView2 iframe enhancement is enabled (OKTA-1135857)', () => {
+    const prevTransaction = getStubTransactionWithNextStep();
+
+    beforeEach(() => {
+      formBag.uischema.elements = [];
+      transaction.nextStep = {
+        name: 'device-challenge-poll',
+        relatesTo: {
+          value: {
+            // @ts-expect-error ports does not exist on IdxAuthenticator
+            ports: ['2000', '6511', '6512', '6513'],
+            domain: 'http://localhost',
+            challengeRequest: 'mockChallengeRequest',
+            chromeLocalNetworkAccessDetails: {
+              chromeLNAHelpLink: 'https://okta.com',
+              iframeRenderedInWebView2ContextEnhancementEnabled: true,
+            },
+          },
+        },
+      };
+      transaction.availableSteps = [{ name: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE }];
+      // Keep deterministic: no "switch authenticator" link so element counts
+      // match the existing denied-interactive assertions.
+      jest.spyOn(idxUtils, 'hasMinAuthenticatorOptions').mockReturnValue(false);
+    });
+
+    it('should probe first (render Loopback elements) without checking the permission upfront', () => {
+      const getPermissionSpy = jest.spyOn(browserUtils, 'getChromeLNAPermissionState');
+      prevTransaction.nextStep = { name: IDX_STEP.IDENTIFY };
+
+      const updatedFormBag = transformOktaVerifyFPLoopbackPoll({
+        prevTransaction,
+        transaction,
+        formBag,
+        widgetProps,
+        chromeLNADenied: false,
+      });
+
+      // No upfront permission check — the probe runs first
+      expect(getPermissionSpy).not.toHaveBeenCalled();
+      expect(updatedFormBag.uischema.elements[1].type).toBe('LoopbackProbe');
+      expect((updatedFormBag.uischema.elements[1] as LoopbackProbeElement).options)
+        .toStrictEqual({
+          deviceChallengePayload: {
+            ports: ['2000', '6511', '6512', '6513'],
+            domain: 'http://localhost',
+            challengeRequest: 'mockChallengeRequest',
+            chromeLocalNetworkAccessDetails: {
+              chromeLNAHelpLink: 'https://okta.com',
+              iframeRenderedInWebView2ContextEnhancementEnabled: true,
+            },
+          },
+          cancelStep: 'authenticatorChallenge-cancel',
+          step: 'device-challenge-poll',
+          isRegisteredConditionSilentProbe: false,
+        });
+    });
+
+    it('should render LNA remediation (no throw) when chromeLNADenied is set for an interactive flow', () => {
+      prevTransaction.nextStep = { name: IDX_STEP.IDENTIFY };
+
+      const updatedFormBag = transformOktaVerifyFPLoopbackPoll({
+        prevTransaction,
+        transaction,
+        formBag,
+        widgetProps,
+        chromeLNADenied: true,
+      });
+
+      expect(updatedFormBag.uischema.elements.length).toBe(3);
+      expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('chrome.lna.fastpass.requires.permission.title');
+      expect(updatedFormBag.uischema.elements[1].type).toBe('InfoBox');
+      expect((updatedFormBag.uischema.elements[1] as InfoboxElement).options?.class).toBe('ERROR');
+      expect(updatedFormBag.uischema.elements[2].type).toBe('Link');
+    });
+
+    it('should keep probing (never remediate) for a silent probe even when chromeLNADenied is set', () => {
+      // Silent probe: prevTransaction has no next step name
+      prevTransaction.nextStep = { name: undefined as unknown as string };
+
+      const updatedFormBag = transformOktaVerifyFPLoopbackPoll({
+        prevTransaction,
+        transaction,
+        formBag,
+        widgetProps,
+        chromeLNADenied: true,
+      });
+
+      expect(updatedFormBag.uischema.elements[1].type).toBe('LoopbackProbe');
+      expect((updatedFormBag.uischema.elements[1] as LoopbackProbeElement).options
+        .isRegisteredConditionSilentProbe).toBe(true);
     });
   });
 });

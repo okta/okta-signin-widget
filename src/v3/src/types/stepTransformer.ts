@@ -21,6 +21,9 @@ type IdxStepTransformerOptions = {
   prevTransaction?: IdxTransaction;
   formBag: FormBag;
   widgetProps: WidgetProps;
+  // Runtime signal set by LoopbackProbe after a failed probe + denied LNA
+  // permission re-check (WebView2 iframe enhancement). See OKTA-1135857.
+  chromeLNADenied?: boolean;
 };
 
 // TODO: remove
@@ -33,6 +36,9 @@ export type TransformationOptions = {
   step: string;
   setMessage: StateUpdater<IdxMessage | undefined>;
   isClientTransaction: boolean;
+  // Runtime signal set by LoopbackProbe after a failed probe + denied LNA
+  // permission re-check (WebView2 iframe enhancement). See OKTA-1135857.
+  chromeLNADenied?: boolean;
 };
 
 export type TransformStepFn = (formbag: FormBag) => FormBag;
