@@ -129,15 +129,18 @@ export function doChallenge(view, fromView) {
   switch (deviceChallenge.challengeMethod) {
   case Enums.LOOPBACK_CHALLENGE: {
     view.title = loc('deviceTrust.sso.redirectText', 'login');
+    // WebView2 iframe enhancement (OKTA-1135857): treat the enhancement as enabled
+    // unless the flag is explicitly false, so behavior is preserved if the backend
+    // later removes the field from the response.
     if (chromeLocalNetworkAccessDetails
-        && !chromeLocalNetworkAccessDetails.iframeRenderedInWebView2ContextEnhancementEnabled) {
+        && chromeLocalNetworkAccessDetails.iframeRenderedInWebView2ContextEnhancementEnabled === false) {
       BrowserFeatures.getChromeLNAPermissionState(
         (currPermissionState) => handlePermissionState(view, currPermissionState, deviceChallenge)
       );
     } else {
-      // WebView2 iframe enhancement (OKTA-1135857): when enabled, skip the
-      // upfront LNA permission check and probe first. Remediation is surfaced
-      // only after the probe fails (see BaseOktaVerifyChallengeView.doLoopback).
+      // When enabled, skip the upfront LNA permission check and probe first.
+      // Remediation is surfaced only after the probe fails (see
+      // BaseOktaVerifyChallengeView.doLoopback).
       addLoopbackView(view, deviceChallenge);
     }
     break;

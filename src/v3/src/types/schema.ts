@@ -113,10 +113,12 @@ export type DeviceRemediation = {
 
 export type ChromeLocalNetworkAccessDetails = {
   chromeLNAHelpLink: string;
-  // When true, skip the upfront LNA permission check and always probe first,
-  // only showing LNA remediation after the loopback probe has failed. Gated by
-  // the CHROME_LOCAL_NETWORK_ACCESS_IFRAME_RENDERED_IN_WEBVIEW2_ENHANCEMENT
-  // backend feature. See OKTA-1135857.
+  // Skip the upfront LNA permission check and always probe first, only showing
+  // LNA remediation after the loopback probe has failed. Treated as enabled
+  // unless explicitly false, so behavior is preserved if the backend later
+  // removes this field from the response. Gated by the
+  // CHROME_LOCAL_NETWORK_ACCESS_IFRAME_RENDERED_IN_WEBVIEW2_ENHANCEMENT backend
+  // feature. See OKTA-1135857.
   iframeRenderedInWebView2ContextEnhancementEnabled?: boolean;
 };
 

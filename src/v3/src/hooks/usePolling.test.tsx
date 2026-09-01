@@ -230,7 +230,7 @@ describe('usePolling', () => {
     });
   });
 
-  describe('skipPolling - stops polling even for a polling step', () => {
+  describe('chromeLNADenied - stops polling even for a polling step', () => {
     // @ts-ignore remove after adding refresh to nextStep in auth-js
     const pollingTransaction = {
       nextStep: {
@@ -239,7 +239,7 @@ describe('usePolling', () => {
       },
     } as IdxTransaction;
 
-    it('does not set up a timer and returns undefined when skipPolling is true', () => {
+    it('does not set up a timer and returns undefined when chromeLNADenied is true', () => {
       const { result } = renderHook(
         () => usePolling(pollingTransaction, mockProps, mockData, undefined, true),
       );
@@ -247,24 +247,24 @@ describe('usePolling', () => {
       expect(setTimeout).not.toHaveBeenCalled();
     });
 
-    it('polls normally when skipPolling is false', () => {
+    it('polls normally when chromeLNADenied is false', () => {
       renderHook(() => usePolling(pollingTransaction, mockProps, mockData, undefined, false));
       expect(setTimeout).toHaveBeenCalledTimes(1);
       expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 4000);
     });
 
-    it('stops the pending poll when skipPolling flips to true (e.g. LNA remediation is shown)', () => {
+    it('stops the pending poll when chromeLNADenied flips to true (e.g. LNA remediation is shown)', () => {
       const { rerender } = renderHook(
-        ({ skip }: { skip: boolean }) => usePolling(
-          pollingTransaction, mockProps, mockData, undefined, skip,
+        ({ chromeLNADenied }: { chromeLNADenied: boolean }) => usePolling(
+          pollingTransaction, mockProps, mockData, undefined, chromeLNADenied,
         ),
-        { initialProps: { skip: false } },
+        { initialProps: { chromeLNADenied: false } },
       );
-      // polling is scheduled while not skipped
+      // polling is scheduled while not denied
       expect(setTimeout).toHaveBeenCalledTimes(1);
 
-      // remediation shown -> skip: the pending timer is cleared and never fires
-      rerender({ skip: true });
+      // remediation shown -> denied: the pending timer is cleared and never fires
+      rerender({ chromeLNADenied: true });
       jest.advanceTimersByTime(4000);
       expect(mockProceedFn).not.toHaveBeenCalled();
     });

@@ -195,7 +195,11 @@ const Body = BaseFormWithPolling.extend({
             // first and re-check the LNA permission only now, after the probe
             // failed — surface remediation instead of cancelling if it is denied
             // for an interactive (non-silent) flow. Otherwise cancel as before.
-            if (deviceChallenge.chromeLocalNetworkAccessDetails?.iframeRenderedInWebView2ContextEnhancementEnabled
+            // Treat the enhancement as enabled unless the flag is explicitly
+            // false, so behavior is preserved if the backend later removes it.
+            const chromeLNADetails = deviceChallenge.chromeLocalNetworkAccessDetails;
+            if (chromeLNADetails
+              && chromeLNADetails.iframeRenderedInWebView2ContextEnhancementEnabled !== false
               && !isRegisteredConditionSilentProbe(this)) {
               BrowserFeatures.getChromeLNAPermissionState((currPermissionState) => {
                 if (currPermissionState === 'denied') {

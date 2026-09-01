@@ -49,6 +49,11 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
     challengeRequest,
     chromeLocalNetworkAccessDetails,
   } = deviceChallengePayload;
+  // WebView2 iframe enhancement (OKTA-1135857): treat the enhancement as enabled
+  // unless the flag is explicitly false, so behavior is preserved if the backend
+  // later removes the field from the response.
+  const isWebView2EnhancementEnabled = !!chromeLocalNetworkAccessDetails
+    && chromeLocalNetworkAccessDetails.iframeRenderedInWebView2ContextEnhancementEnabled !== false;
 
   const submitHandler = async (stepName: string) => {
     const payload: IdxActionParams = {
@@ -197,7 +202,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
         // permission. If it is denied for an interactive flow, surface the LNA
         // remediation instead of cancelling. Silent probes never remediate, and
         // any other permission state falls through to the normal cancel.
-        if (chromeLocalNetworkAccessDetails?.iframeRenderedInWebView2ContextEnhancementEnabled) {
+        if (isWebView2EnhancementEnabled) {
           await getChromeLNAPermissionState((currPermissionState) => {
             if (currPermissionState === 'denied' && !isRegisteredConditionSilentProbe) {
               // Flip the shared signal so the transformer re-runs and renders

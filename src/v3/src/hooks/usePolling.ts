@@ -62,14 +62,14 @@ export const usePolling = (
   // When true, stop polling even if the transaction is a poll step. Used when the loopback probe
   // has failed on every port and we show the LNA remediation: the challenge never reached Okta
   // Verify, so polling can never complete. See OKTA-1135857.
-  skipPolling = false,
+  chromeLNADenied = false,
 ): IdxTransaction | undefined => {
   const { stateToken, authClient, features } = widgetProps;
   const [transaction, setTransaction] = useState<IdxTransaction | undefined>();
   const timerRef = useRef<NodeJS.Timeout>();
 
   const pollingStep = useMemo(() => {
-    if (skipPolling) {
+    if (chromeLNADenied) {
       return undefined;
     }
 
@@ -80,7 +80,7 @@ export const usePolling = (
 
     const res = getPollingStep(transaction) || idxTransactionPollingStep;
     return res;
-  }, [idxTransaction, transaction, skipPolling]);
+  }, [idxTransaction, transaction, chromeLNADenied]);
 
   // start polling timer when internal polling transaction changes
   useEffect(() => {

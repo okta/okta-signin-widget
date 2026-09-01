@@ -66,6 +66,11 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
     : transaction.nextStep?.relatesTo?.value?.contextualData?.challenge?.value;
 
   const { chromeLocalNetworkAccessDetails } = deviceChallengePayload;
+  // WebView2 iframe enhancement (OKTA-1135857): treat the enhancement as enabled
+  // unless the flag is explicitly false, so behavior is preserved if the backend
+  // later removes the field from the response.
+  const isWebView2EnhancementEnabled = !!chromeLocalNetworkAccessDetails
+    && chromeLocalNetworkAccessDetails.iframeRenderedInWebView2ContextEnhancementEnabled !== false;
 
   const errorCallout: InfoboxElement = {
     type: 'InfoBox',
@@ -181,7 +186,7 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
     ...linkElements,
   ];
 
-  if (chromeLocalNetworkAccessDetails?.iframeRenderedInWebView2ContextEnhancementEnabled) {
+  if (isWebView2EnhancementEnabled) {
     // WebView2 iframe enhancement (OKTA-1135857): do NOT check the LNA permission
     // upfront — always probe first. The LNA permission re-check happens in
     // LoopbackProbe after the probe fails; when it returns denied for an

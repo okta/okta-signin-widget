@@ -141,7 +141,10 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
     });
   });
 
-  describe('where chromeLocalNetworkAccessDetails are defined', () => {
+  // WebView2 iframe enhancement (OKTA-1135857) explicitly off: only an explicit
+  // `false` preserves the legacy upfront permission-check path. An absent/true flag
+  // probes first (covered by the "WebView2 iframe enhancement is enabled" block).
+  describe('where chromeLocalNetworkAccessDetails are defined and the WebView2 flag is off', () => {
     const prevTransaction = getStubTransactionWithNextStep();
 
     const mockChromeLNAPermissionState = (permissionState: PermissionState) => {
@@ -162,6 +165,7 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
             challengeRequest: 'mockChallengeRequest',
             chromeLocalNetworkAccessDetails: {
               chromeLNAHelpLink: 'https://okta.com',
+              iframeRenderedInWebView2ContextEnhancementEnabled: false,
             },
           },
         },
@@ -193,6 +197,7 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
             challengeRequest: 'mockChallengeRequest',
             chromeLocalNetworkAccessDetails: {
               chromeLNAHelpLink: 'https://okta.com',
+              iframeRenderedInWebView2ContextEnhancementEnabled: false,
             },
           },
           cancelStep: 'authenticatorChallenge-cancel',
@@ -233,6 +238,7 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
             challengeRequest: 'mockChallengeRequest',
             chromeLocalNetworkAccessDetails: {
               chromeLNAHelpLink: 'https://okta.com',
+              iframeRenderedInWebView2ContextEnhancementEnabled: false,
             },
           },
           cancelStep: 'authenticatorChallenge-cancel',

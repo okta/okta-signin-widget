@@ -64,7 +64,11 @@ describe('v2/utils/ChallengeViewUtil', function() {
         'challengerequest': 'abcdfg12345',
         'probeTimeoutMillis': 100,
         'chromeLocalNetworkAccessDetails': {
-          'chromeLNAHelpLink': 'https://okta.com'
+          'chromeLNAHelpLink': 'https://okta.com',
+          // WebView2 iframe enhancement (OKTA-1135857) explicitly off — exercises the
+          // legacy upfront permission-check path. Only an explicit `false` keeps it;
+          // an absent/true flag probes first (covered by the dedicated tests below).
+          'iframeRenderedInWebView2ContextEnhancementEnabled': false
         }
       };
       spyOn(testView, 'getDeviceChallengePayload').and.callFake(() => deviceChallengeWithChromeLNADetails);
@@ -139,6 +143,24 @@ describe('v2/utils/ChallengeViewUtil', function() {
     it('probes first and skips the upfront permission check when WebView2 iframe enhancement is enabled', function() {
       deviceChallengeWithChromeLNADetails.chromeLocalNetworkAccessDetails
         .iframeRenderedInWebView2ContextEnhancementEnabled = true;
+      const permissionStateSpy = jest.fn();
+      BrowserFeatures.getChromeLNAPermissionState = permissionStateSpy;
+
+      doChallenge(testView);
+
+      expect(permissionStateSpy).not.toHaveBeenCalled();
+      expect(testView.title).toBe(loc('deviceTrust.sso.redirectText', 'login'));
+      expect(expectedAddArg.className).toBe('loopback-content');
+      expect(testView.doLoopback).toHaveBeenCalledWith(deviceChallengeWithChromeLNADetails);
+    });
+
+    // WebView2 iframe enhancement (OKTA-1135857): the enhancement is treated as
+    // enabled unless the flag is explicitly false, so an absent flag must also
+    // probe first — this preserves the new behavior if the backend later removes
+    // the field from the response.
+    it('probes first and skips the upfront permission check when the WebView2 iframe flag is absent', function() {
+      delete deviceChallengeWithChromeLNADetails.chromeLocalNetworkAccessDetails
+        .iframeRenderedInWebView2ContextEnhancementEnabled;
       const permissionStateSpy = jest.fn();
       BrowserFeatures.getChromeLNAPermissionState = permissionStateSpy;
 
