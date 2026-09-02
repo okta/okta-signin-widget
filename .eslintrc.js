@@ -127,9 +127,7 @@ module.exports = {
           // fast-text-encoding
           'TextEncoder',
           // webcrypto-shim
-          'crypto.subtle',
-          // Runtime-checked via `typeof AbortController !== 'undefined'` in WebAuthn controllers
-          'AbortController'
+          'crypto.subtle'
         ]
       },
       'rules': {

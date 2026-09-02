@@ -95,7 +95,7 @@
   "globals": {
     "structuredClone": { "polyfillPackage": null, "note": "No standard polyfill; wrap in feature-detect or avoid in v1/v2" },
     "queueMicrotask": { "polyfillPackage": null, "note": "Use Promise.resolve().then(fn) instead" },
-    "URLSearchParams": { "polyfillPackage": "core-js/web/url-search-params" },
+    "URLSearchParams": { "polyfillPackage": "web/url-search-params" },
     "TextEncoder": { "polyfillPackage": "fast-text-encoding" },
     "TextDecoder": { "polyfillPackage": "fast-text-encoding" },
     "customElements": { "polyfillPackage": "@webcomponents/webcomponentsjs", "note": "ALTCHA-class — third-party libs using Web Components will trip this" }

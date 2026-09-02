@@ -43,12 +43,11 @@ if ! command -v yarn >/dev/null 2>&1; then
 else
   # Build the IE11-targeted bundles.
   echo "[ie11-compat-check] building bundles with IE11_COMPAT_MODE=true..."
-  if IE11_COMPAT_MODE=true yarn build:webpack-release; then
+  if IE11_COMPAT_MODE=true yarn build:webpack-dev; then
     BUNDLES=(
-      target/js/okta-sign-in.classic.min.js
-      target/js/okta-sign-in.oie.min.js
-      target/js/okta-sign-in.min.js
-      target/js/okta-sign-in.no-polyfill.min.js
+      target/js/okta-sign-in.classic.js
+      target/js/okta-sign-in.oie.js
+      target/js/okta-sign-in.js
     )
 
     # Only pass bundles that actually exist (some entry configs skip some outputs).
