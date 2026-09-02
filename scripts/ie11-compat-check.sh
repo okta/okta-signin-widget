@@ -13,13 +13,17 @@
 # doesn't block merges while we build trust in the signal. Bacon status is
 # also OPTIONAL as belt-and-suspenders.
 
-set -u
+# Early diagnostic so we see the script started even if setup.sh explodes.
+echo "[ie11-compat-check] script starting; OKTA_HOME=${OKTA_HOME:-<unset>} REPO=${REPO:-<unset>}"
 
-# Bacon-side setup (present in CI, absent locally).
+# Bacon-side setup (present in CI, absent locally). setup.sh sets `set -eo
+# pipefail` which we relax right after so the `cmd; STATUS=$?` capture pattern
+# below works and L2 runs even if L1.5 flags issues.
 if [ -n "${OKTA_HOME:-}" ] && [ -f "${OKTA_HOME}/${REPO:-}/scripts/setup.sh" ]; then
   source "${OKTA_HOME}/${REPO}/scripts/setup.sh"
   cd "${OKTA_HOME}/${REPO}"
 fi
+set +eo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$REPO_ROOT"
@@ -29,7 +33,7 @@ echo "IE11 compatibility check (warn-only)"
 echo "==========================================================="
 echo ""
 
-# ---- Layer 1.5 — source polyfill coverage ----
+# ---- Layer 1.5 - source polyfill coverage ----
 echo "--- L1.5: source polyfill coverage (v1/v2) ---"
 node scripts/check-polyfill-coverage.js
 SRC_STATUS=$?
