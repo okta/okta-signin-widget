@@ -70,7 +70,10 @@ function coversStaticMethod(covered, entry) {
 
 function coversGlobal(covered, entry) {
   if (!entry.polyfillPackage) return false;
-  return covered.has(entry.polyfillPackage) || covered.has('pkg:' + entry.polyfillPackage);
+  if (entry.polyfillPackage.startsWith('web/')) {
+    return covered.has(entry.polyfillPackage);
+  }
+  return covered.has('pkg:' + entry.polyfillPackage);
 }
 
 function parseFile(filePath, source) {
