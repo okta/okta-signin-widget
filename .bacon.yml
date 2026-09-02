@@ -21,13 +21,13 @@ test_suites:
     criteria: MERGE
     queue_name: ci-queue-productionJenga-AL2023
   # IE11 pre-merge compatibility check (warn-only).
-  # L1.5: source polyfill coverage (scripts/check-polyfill-coverage.js) — closes 2022 findIndex gap (OKTA-549514).
-  # L2:   es-check on IE11_COMPAT_MODE bundle — closes 2025 ALTCHA gap (OKTA-1029921).
+  # L1.5: source polyfill coverage (scripts/check-polyfill-coverage.js) - closes 2022 findIndex gap (OKTA-549514).
+  # L2:   es-check on IE11_COMPAT_MODE bundle - closes 2025 ALTCHA gap (OKTA-1029921).
   # criteria: OPTIONAL means findings surface as CI notes but do NOT block merge.
   # Flip to MERGE once the signal has proven low-noise (see plan doc).
   - name: ie11-compat-check
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '3.5'
+    sort_order: '27'
     timeout: '20'
     script_name: ie11-compat-check
     criteria: OPTIONAL
