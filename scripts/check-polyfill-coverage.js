@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-env node */
+/* eslint-env node, es2020 */
 /* eslint curly: 0, complexity: [2, 20], max-statements: [2, 40], max-len: [2, 200] */
 /*
  * Polyfill-coverage check for IE11 (Layer 1.5).
