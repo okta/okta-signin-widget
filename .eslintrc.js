@@ -92,7 +92,7 @@ module.exports = {
     {
       // IE11 compat coverage — scoped to v1/v2 only. v3 (React) does not require IE11 in practice
       // even though its own browserslist mentions it, and running compat rules there produces
-      // noise. See /Users/vijet.mahabaleshwar/.claude/plans/can-you-create-a-woolly-ember.md.
+      // noise. Instance-method coverage is handled by scripts/check-polyfill-coverage.js (L1.5).
       'files': ['src/**/*'],
       'excludedFiles': ['src/v3/**/*'],
       'extends': [
