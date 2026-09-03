@@ -47,8 +47,8 @@ echo "==========================================================="
 
 if [ "$SRC_STATUS" -ne 0 ]; then
   echo ""
-  echo "WARNING: IE11 compatibility issues detected in v1/v2 source."
-  echo "         See the section above for detail."
+  echo "WARNING: IE11 compatibility checker failed (exit=$SRC_STATUS)."
+  echo "         Compatibility results may be incomplete; see the section above for detail."
   echo "         This check is warn-only and does not block merge."
   echo "         Escalate to owner (SIW: Client SDKs) if unclear."
 fi
