@@ -13,7 +13,7 @@
 /* global u2f */
 import { _, loc, View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
-import Q from 'q';
+import { createDeferred } from 'util/createDeferred';
 import 'u2f-api-polyfill';
 import { U2FError } from 'util/Errors';
 import FidoUtil from 'util/FidoUtil';
@@ -59,7 +59,7 @@ export default FormController.extend({
           },
         ];
         const self = this;
-        const deferred = Q.defer();
+        const deferred = createDeferred();
 
         u2f.register(appId, registerRequests, [], function(data) {
           self.trigger('errors:clear');
@@ -85,7 +85,8 @@ export default FormController.extend({
           }
         });
         return deferred.promise;
-      });
+      })
+        .catch(() => {});
     },
   },
 

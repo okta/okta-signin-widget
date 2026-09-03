@@ -44,7 +44,7 @@ import resRSAChangePin from 'helpers/xhr/RSA_ERROR_change_pin';
 import resSuccess from 'helpers/xhr/SUCCESS';
 import labelsCountryJa from 'helpers/xhr/labels_country_ja';
 import labelsLoginJa from 'helpers/xhr/labels_login_ja';
-import Q from 'q';
+import { createDeferred } from 'util/createDeferred';
 import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
 import RouterUtil from 'v1/util/RouterUtil';
@@ -187,7 +187,7 @@ Expect.describe('MFA Verify', function() {
         await Expect.waitForVerifyCustomFactor();
       } else {
         router.verify(selectedFactor.get('provider'), selectedFactor.get('factorType'));
-        // BaseLoginController returns an instance of Q() from `fetchInitialData`
+        // BaseLoginController returns a native Promise from `fetchInitialData`
         // use tick() to wait for this promise to resolve and render
         await tick();
         await Expect.waitForMfaVerify();
@@ -238,7 +238,7 @@ Expect.describe('MFA Verify', function() {
       const factorType = selectedFactor.get('factorType');
 
       router.verifyNoProvider(factorType);
-      // BaseLoginController returns an instance of Q() from `fetchInitialData`
+      // BaseLoginController returns a native Promise from `fetchInitialData`
       // use tick() to wait for this promise to resolve and render
       await tick();
       await Expect.waitForMfaVerify();
@@ -450,7 +450,7 @@ Expect.describe('MFA Verify', function() {
     }
     test.setNextResponse(responses);
     test.router.verifyU2F();
-    // BaseLoginController returns an instance of Q() from `fetchInitialData`
+    // BaseLoginController returns a native Promise from `fetchInitialData`
     // use tick() to wait for this promise to resolve and render
     await tick();
     await Expect.waitForVerifyU2F();
@@ -595,49 +595,37 @@ Expect.describe('MFA Verify', function() {
     spyOn(webauthn, 'isAvailable').and.returnValue(false);
     spyOn(webauthn, 'makeCredential');
     spyOn(webauthn, 'getAssertion');
-    return Q();
+    return Promise.resolve();
   }
 
   function emulateWindows(errorType) {
     if (errorType) {
-      Q.stopUnhandledRejectionTracking();
+      Expect.stopUnhandledRejectionTracking();
     }
     spyOn(webauthn, 'isAvailable').and.returnValue(true);
 
     spyOn(webauthn, 'getAssertion').and.callFake(function() {
-      const deferred = Q.defer();
-
       switch (errorType) {
       case 'AbortError':
-        deferred.reject({
-          message: 'AbortError',
-        });
-        break;
-
       case 'NotSupportedError':
-        deferred.reject({
-          message: 'NotSupportedError',
-        });
-        break;
-
       case 'NotFoundError':
-        deferred.reject({
-          message: 'NotFoundError',
+        // Defer the rejection into the returned chain so the rejected promise
+        // is never left unhandled across ticks - native promises (unlike Q)
+        // surface that as an unhandled rejection.
+        return tick().then(function() {
+          return Promise.reject({ message: errorType });
         });
-        break;
 
       default:
-        deferred.resolve({
+        return tick({
           authenticatorData: 'authenticatorData1234',
           clientData: 'clientData1234',
           signature: 'signature1234',
         });
       }
-
-      return tick(deferred.promise);
     });
 
-    return Q();
+    return Promise.resolve();
   }
 
   // Mocks the right calls for Auth SDK's transactions handled in the widget
@@ -3242,7 +3230,7 @@ Expect.describe('MFA Verify', function() {
                 }, test);
               })
               .then(function(test) {
-                const deferred = Q.defer();
+                const deferred = createDeferred();
 
                 expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
                 const transaction = test.router.controller.model.appState.get('transaction');
@@ -3523,7 +3511,7 @@ Expect.describe('MFA Verify', function() {
             }
             return setupOktaPushWithIntrospect().then(function(test) {
               spyOn(test.router.settings, 'callGlobalError');
-              Q.stopUnhandledRejectionTracking();
+              Expect.stopUnhandledRejectionTracking();
               return (setupFailurePolling(test)
               // Final response - failed
                 .then(function(test) {
@@ -3596,7 +3584,7 @@ Expect.describe('MFA Verify', function() {
             }
             return setupOktaPushWithIntrospect().then(function(test) {
               spyOn(test.router.settings, 'callGlobalError');
-              Q.stopUnhandledRejectionTracking();
+              Expect.stopUnhandledRejectionTracking();
               return setupFailurePolling(test)
                 .then(function(test) {
                   expect(test.form.submitButton().prop('disabled')).toBe(true);
@@ -3767,7 +3755,7 @@ Expect.describe('MFA Verify', function() {
               const form = test.form[1];
 
               form.inlineTOTPAdd().click();
-              Q.stopUnhandledRejectionTracking();
+              Expect.stopUnhandledRejectionTracking();
               test.setNextResponse(resInvalidTotp);
               form.setAnswer('wrong');
               form.inlineTOTPVerify().click();
@@ -3803,7 +3791,7 @@ Expect.describe('MFA Verify', function() {
               const form = test.form[1];
 
               form.inlineTOTPAdd().click();
-              Q.stopUnhandledRejectionTracking();
+              Expect.stopUnhandledRejectionTracking();
               test.setNextResponse(resInvalidTotp);
               form.setAnswer('wrong');
               form.inlineTOTPVerify().click();
@@ -3849,7 +3837,7 @@ Expect.describe('MFA Verify', function() {
           return setupOktaPushWithTOTP()
             .then(function(test) {
               mockTransactions(test.router.controller, true);
-              Q.stopUnhandledRejectionTracking();
+              Expect.stopUnhandledRejectionTracking();
               test.setNextResponse(resInvalidTotp);
               const form = test.form[1];
 

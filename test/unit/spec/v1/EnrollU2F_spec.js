@@ -9,7 +9,6 @@ import resEnrollActivateU2F from 'helpers/xhr/MFA_ENROLL_ACTIVATE_u2f';
 import resU2F from 'helpers/xhr/MFA_ENROLL_U2F';
 import resAllFactors from 'helpers/xhr/MFA_ENROLL_allFactors';
 import resSuccess from 'helpers/xhr/SUCCESS';
-import Q from 'q';
 import $sandbox from 'sandbox';
 const itp = Expect.itp;
 const tick = Expect.tick;
@@ -70,7 +69,7 @@ Expect.describe('EnrollU2F', function() {
   }
 
   function setupU2fFails(errorCode) {
-    Q.stopUnhandledRejectionTracking();
+    Expect.stopUnhandledRejectionTracking();
     mockU2f();
     spyOn(window.u2f, 'register').and.callFake(function(appId, registerRequests, registeredKeys, callback) {
       callback({ errorCode: errorCode });

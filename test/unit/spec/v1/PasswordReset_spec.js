@@ -11,7 +11,6 @@ import resError from 'helpers/xhr/PASSWORD_RESET_error';
 import resErrorNoCause from 'helpers/xhr/PASSWORD_RESET_error_noCause';
 import resPasswordResetWithComplexity from 'helpers/xhr/PASSWORD_RESET_withComplexity';
 import resSuccess from 'helpers/xhr/SUCCESS';
-import Q from 'q';
 import $sandbox from 'sandbox';
 import LoginUtil from 'util/Util';
 const SharedUtil = internal.util.Util;
@@ -834,7 +833,7 @@ Expect.describe('PasswordReset', function() {
   itp('shows an error msg if there is an error submitting', function() {
     return setup()
       .then(function(test) {
-        Q.stopUnhandledRejectionTracking();
+        Expect.stopUnhandledRejectionTracking();
         test.setNextResponse(resError);
         test.form.setNewPassword('a');
         test.form.setConfirmPassword('a');
@@ -882,7 +881,7 @@ Expect.describe('PasswordReset', function() {
   itp('shows a simpler error msg without requirements if there is an error submitting', function() {
     return setup({ policyComplexity: 'all', 'features.showPasswordRequirementsAsHtmlList': true })
       .then(function(test) {
-        Q.stopUnhandledRejectionTracking();
+        Expect.stopUnhandledRejectionTracking();
         test.setNextResponse(resError);
         test.form.setNewPassword('a');
         test.form.setConfirmPassword('a');
@@ -926,7 +925,7 @@ Expect.describe('PasswordReset', function() {
   itp('shows error summary if error cause is missing, if there is an error submitting', function() {
     return setup({ policyComplexity: 'all', 'features.showPasswordRequirementsAsHtmlList': true })
       .then(function(test) {
-        Q.stopUnhandledRejectionTracking();
+        Expect.stopUnhandledRejectionTracking();
         test.setNextResponse(resErrorNoCause);
         test.form.setNewPassword('a');
         test.form.setConfirmPassword('a');

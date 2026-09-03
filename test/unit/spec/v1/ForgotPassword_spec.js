@@ -13,7 +13,6 @@ import resChallengeEmail from 'helpers/xhr/RECOVERY_CHALLENGE_EMAIL_PWD';
 import resChallengeSms from 'helpers/xhr/RECOVERY_CHALLENGE_SMS_PWD';
 import resError from 'helpers/xhr/RECOVERY_error';
 import resSuccess from 'helpers/xhr/SUCCESS';
-import Q from 'q';
 import $sandbox from 'sandbox';
 const SharedUtil = internal.util.Util;
 const itp = Expect.itp;
@@ -482,7 +481,7 @@ Expect.describe('ForgotPassword', function() {
       return setup()
         .then(function(test) {
           Util.resetAjaxRequests();
-          Q.stopUnhandledRejectionTracking();
+          Expect.stopUnhandledRejectionTracking();
           test.setNextResponse(resError);
           test.form.setUsername('foo');
           test.form.sendEmail();

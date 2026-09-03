@@ -2,8 +2,9 @@
 import { _, $, Backbone, internal } from '@okta/courage';
 import Duo from '@okta/duo';
 import 'jasmine-ajax';
-import Q from 'q';
 import Bundles from 'util/Bundles';
+import { createDeferred } from 'util/createDeferred';
+import DelayUtil from 'util/delay';
 import keys from '../xhr/keys';
 import wellKnown from '../xhr/well-known';
 import wellKnownSharedResource from '../xhr/well-known-shared-resource';
@@ -162,17 +163,17 @@ fn.mockJqueryCss = function() {
 };
 
 fn.mockQDelay = function() {
-  const original = Q.delay;
+  const original = DelayUtil.delay;
 
-  spyOn(Q, 'delay').and.callFake(function() {
+  spyOn(DelayUtil, 'delay').and.callFake(function() {
     return original.call(this, 0);
   });
 };
 
 fn.mockRateLimiting = function() {
-  const deferred = Q.defer();
+  const deferred = createDeferred();
 
-  spyOn(Q, 'delay').and.callFake(function() {
+  spyOn(DelayUtil, 'delay').and.callFake(function() {
     return deferred.promise;
   });
   return deferred;

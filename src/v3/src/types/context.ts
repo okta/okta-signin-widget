@@ -63,6 +63,12 @@ export type IWidgetContext = {
   // usePolling and LoopbackProbe.submitHandler when
   // features.disableConcurrentPolling is enabled.
   pollInFlightRef: MutableRef<boolean>;
+  // Set by LoopbackProbe when a loopback probe fails and the LNA permission
+  // re-check returns 'denied' (interactive flow). Flipping this re-runs the
+  // transformers and swaps the rendered UI to the LNA remediation. Only used
+  // when the WebView2 iframe enhancement is enabled. See OKTA-1135857.
+  chromeLNADenied: boolean;
+  setChromeLNADenied: StateUpdater<boolean>;
 };
 
 // Stepper context

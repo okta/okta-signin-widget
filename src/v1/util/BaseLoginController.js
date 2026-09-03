@@ -11,8 +11,6 @@
  */
 
 import { _, Form, Controller } from '@okta/courage';
-import Q from 'q';
-
 function getForm(controller) {
   return _.find(controller.getChildren(), function(item) {
     return item instanceof Form;
@@ -80,7 +78,7 @@ export default Controller.extend({
   // question, which requires an additional request to fetch the question
   // list.
   fetchInitialData: function() {
-    return Q();
+    return Promise.resolve();
   },
 
   // Override this method to prevent route navigation. This is useful for

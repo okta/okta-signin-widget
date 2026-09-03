@@ -79,6 +79,8 @@ const Harness: FunctionComponent<HarnessProps> = ({ widgetProps }) => {
     setAbortController: jest.fn(),
     abortController: undefined,
     pollInFlightRef,
+    chromeLNADenied: false,
+    setChromeLNADenied: jest.fn(),
   } as unknown as IWidgetContext;
 
   const uischema: LoopbackProbeElement = {

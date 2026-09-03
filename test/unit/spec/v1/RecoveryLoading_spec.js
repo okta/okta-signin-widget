@@ -9,7 +9,6 @@ import Util from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';
 import resRecovery from 'helpers/xhr/RECOVERY';
 import resError from 'helpers/xhr/RECOVERY_EXPIRED_error';
-import Q from 'q';
 import $sandbox from 'sandbox';
 const itp = Expect.itp;
 
@@ -57,7 +56,7 @@ function setup(settings, callRecoveryLoading, fail = false) {
   // shall not resolve / wait for anything that may cause promise.resolve,
   // which will end the test.
   // @see Expect.runTest
-  return Q(testData);
+  return Promise.resolve(testData);
 }
 
 Expect.describe('Recovery Loading', function() {

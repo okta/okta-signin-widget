@@ -11,7 +11,7 @@
  */
 /* eslint complexity: [2, 13] */
 import { _, loc, Collection } from '@okta/courage';
-import Q from 'q';
+import { createDeferred } from 'util/createDeferred';
 import { AuthStopPollInitiationError } from 'util/Errors';
 import factorUtil from 'util/FactorUtil';
 import Util from 'util/Util';
@@ -312,7 +312,7 @@ const FactorFactor = BaseLoginModel.extend({
         setTransaction(trans);
         // In Okta verify case we initiate poll.
         if ((trans.status === 'MFA_CHALLENGE' && trans.poll) || (trans.status === 'FACTOR_CHALLENGE' && trans.poll)) {
-          const deferred = Q.defer();
+          const deferred = createDeferred();
           const cancelPollInitiation = Util.callAfterTimeoutOrWindowRefocus(deferred.resolve, PUSH_INTERVAL);
           self.listenToOnce(self.options.appState, 'factorSwitched', () => {
             cancelPollInitiation();
@@ -333,16 +333,16 @@ const FactorFactor = BaseLoginModel.extend({
             let innerPromise;
             if (BrowserFeatures.isIOS()) {
               let cancelRedundantPoll;
-              innerPromise = Q.race([
+              innerPromise = Promise.race([
                 trans.poll(options),
                 (() => {
-                  const _deferred = Q.defer();
+                  const _deferred = createDeferred();
                   cancelRedundantPoll = Util.callAfterTimeoutOrWindowRefocus(_deferred.resolve, 2000, true);
                   return _deferred.promise.then(() => {
                     if (!pollingHasStarted) {
                       return trans.poll(options);
                     }
-                    return Q.defer().promise;   // never resolve this promise
+                    return new Promise(() => {});   // never resolve this promise
                   });
                 })()
               ])

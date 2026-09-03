@@ -21,6 +21,7 @@ export const transformLayout: TransformStepFnWithOptions = (options) => (formBag
     transaction,
     prevTransaction,
     step,
+    chromeLNADenied,
   } = options;
 
   const authenticatorKey = getAuthenticatorKey(transaction) ?? AUTHENTICATOR_KEY.DEFAULT;
@@ -30,6 +31,7 @@ export const transformLayout: TransformStepFnWithOptions = (options) => (formBag
     prevTransaction,
     formBag,
     widgetProps,
+    chromeLNADenied,
   }) ?? formBag;
 
   return updatedFormBag;

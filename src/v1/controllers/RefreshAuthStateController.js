@@ -40,7 +40,10 @@ export default FormController.extend({
       }
 
       appState.trigger('navigate', '');
-    });
+    })
+      // startTransaction already surfaces failures via the 'error' event; swallow
+      // the rejection it re-throws so it does not become an unhandled rejection.
+      .catch(() => {});
   },
 
   remove: function() {

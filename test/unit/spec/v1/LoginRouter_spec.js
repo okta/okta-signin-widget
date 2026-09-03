@@ -32,7 +32,6 @@ import resUnauthenticated from 'helpers/xhr/UNAUTHENTICATED';
 import labelsCountryJa from 'helpers/xhr/labels_country_ja';
 import labelsLoginJa from 'helpers/xhr/labels_login_ja';
 import resWellKnownSR from 'helpers/xhr/well-known-shared-resource';
-import Q from 'q';
 import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
 import Bundles from 'util/Bundles';
@@ -118,7 +117,7 @@ Expect.describe('v1/LoginRouter', function() {
     }
     setNextResponse(resp);
 
-    return Q({
+    return Promise.resolve({
       router: router,
       ac: authClient,
       setNextResponse: setNextResponse,

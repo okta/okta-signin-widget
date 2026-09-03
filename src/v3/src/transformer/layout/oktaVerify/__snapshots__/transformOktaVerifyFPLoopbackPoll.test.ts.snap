@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined should create Loopback Poll elements for display when permission state is "denied" and loopback is triggered by registered condition silent probe 1`] = `
+exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined and the WebView2 flag is off should create Loopback Poll elements for display when permission state is "denied" and loopback is triggered by registered condition silent probe 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -27,6 +27,7 @@ Object {
             "challengeRequest": "mockChallengeRequest",
             "chromeLocalNetworkAccessDetails": Object {
               "chromeLNAHelpLink": "https://okta.com",
+              "iframeRenderedInWebView2ContextEnhancementEnabled": false,
             },
             "domain": "http://localhost",
             "ports": Array [
@@ -36,6 +37,7 @@ Object {
               "6513",
             ],
           },
+          "isRegisteredConditionSilentProbe": true,
           "step": "device-challenge-poll",
         },
         "type": "LoopbackProbe",
@@ -59,7 +61,7 @@ Object {
 }
 `;
 
-exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined should create Loopback Poll elements for display when permission state is "granted" 1`] = `
+exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined and the WebView2 flag is off should create Loopback Poll elements for display when permission state is "granted" 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -86,6 +88,7 @@ Object {
             "challengeRequest": "mockChallengeRequest",
             "chromeLocalNetworkAccessDetails": Object {
               "chromeLNAHelpLink": "https://okta.com",
+              "iframeRenderedInWebView2ContextEnhancementEnabled": false,
             },
             "domain": "http://localhost",
             "ports": Array [
@@ -95,6 +98,7 @@ Object {
               "6513",
             ],
           },
+          "isRegisteredConditionSilentProbe": true,
           "step": "device-challenge-poll",
         },
         "type": "LoopbackProbe",
@@ -118,7 +122,7 @@ Object {
 }
 `;
 
-exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined should create Loopback Poll elements for display when permission state is "prompt" 1`] = `
+exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined and the WebView2 flag is off should create Loopback Poll elements for display when permission state is "prompt" 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -145,6 +149,7 @@ Object {
             "challengeRequest": "mockChallengeRequest",
             "chromeLocalNetworkAccessDetails": Object {
               "chromeLNAHelpLink": "https://okta.com",
+              "iframeRenderedInWebView2ContextEnhancementEnabled": false,
             },
             "domain": "http://localhost",
             "ports": Array [
@@ -154,6 +159,7 @@ Object {
               "6513",
             ],
           },
+          "isRegisteredConditionSilentProbe": true,
           "step": "device-challenge-poll",
         },
         "type": "LoopbackProbe",
@@ -177,7 +183,7 @@ Object {
 }
 `;
 
-exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined should create error remediation elements when permission state is "denied" and loopback is not triggered by registered condition silent probe 1`] = `
+exports[`Transform Okta Verify FP Loopback Poll where chromeLocalNetworkAccessDetails are defined and the WebView2 flag is off should create error remediation elements when permission state is "denied" and loopback is not triggered by registered condition silent probe 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -281,6 +287,7 @@ Object {
               "6513",
             ],
           },
+          "isRegisteredConditionSilentProbe": true,
           "step": "challenge-poll",
         },
         "type": "LoopbackProbe",
@@ -346,6 +353,7 @@ Object {
               "6513",
             ],
           },
+          "isRegisteredConditionSilentProbe": true,
           "step": "device-challenge-poll",
         },
         "type": "LoopbackProbe",

@@ -36,6 +36,7 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
   prevTransaction,
   transaction,
   formBag,
+  chromeLNADenied,
 }) => {
   const { nextStep: { name: prevStepName } = {} as NextStep } = prevTransaction ?? {};
   // If there is no previous transaction, it is a silent probe triggered by the registered condition
@@ -65,6 +66,11 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
     : transaction.nextStep?.relatesTo?.value?.contextualData?.challenge?.value;
 
   const { chromeLocalNetworkAccessDetails } = deviceChallengePayload;
+  // WebView2 iframe enhancement (OKTA-1135857): treat the enhancement as enabled
+  // unless the flag is explicitly false, so behavior is preserved if the backend
+  // later removes the field from the response.
+  const isWebView2EnhancementEnabled = !!chromeLocalNetworkAccessDetails
+    && chromeLocalNetworkAccessDetails.iframeRenderedInWebView2ContextEnhancementEnabled !== false;
 
   const errorCallout: InfoboxElement = {
     type: 'InfoBox',
@@ -164,6 +170,7 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
       deviceChallengePayload,
       cancelStep,
       step: transaction.nextStep?.name,
+      isRegisteredConditionSilentProbe,
     },
   } as LoopbackProbeElement;
 
@@ -179,7 +186,16 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
     ...linkElements,
   ];
 
-  if (chromeLocalNetworkAccessDetails) {
+  if (isWebView2EnhancementEnabled) {
+    // WebView2 iframe enhancement (OKTA-1135857): do NOT check the LNA permission
+    // upfront — always probe first. The LNA permission re-check happens in
+    // LoopbackProbe after the probe fails; when it returns denied for an
+    // interactive flow, it flips `chromeLNADenied`, re-running this transformer
+    // to render the remediation. Silent probes never remediate.
+    uischema.elements = (chromeLNADenied && !isRegisteredConditionSilentProbe)
+      ? chromeLNAErrorCalloutElements
+      : loopbackProbeElements;
+  } else if (chromeLocalNetworkAccessDetails) {
     getChromeLNAPermissionState((currPermissionState) => {
       switch (currPermissionState) {
         case 'prompt':

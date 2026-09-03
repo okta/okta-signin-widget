@@ -24,14 +24,6 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    clean: {
-      'types': [
-        'types/*/',
-        'types/*.d.ts',
-        'types/*.d.ts.map',
-      ]
-    },
-
     copy: {
       'types': {
         files: [
@@ -341,6 +333,19 @@ module.exports = function(grunt) {
       ]);
     }
   );
+
+  grunt.task.registerTask('clean:types', 'Clean generated type declaration files.', function() {
+    const fs = require('fs');
+    const paths = grunt.file.expand([
+      'types/*/',
+      'types/*.d.ts',
+      'types/*.d.ts.map',
+    ]);
+    paths.forEach(function(p) {
+      fs.rmSync(p, { recursive: true, force: true });
+    });
+    grunt.log.ok(paths.length + ' ' + grunt.util.pluralize(paths.length, 'path/paths') + ' cleaned.');
+  });
 
   grunt.task.registerTask('codegen', function() {
     const tasks = [

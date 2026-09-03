@@ -15,7 +15,7 @@
     "@okta/okta-signin-widget": "file:../../../dist"
   },
   "devDependencies": {
-    "rimraf": "^2.6.2",
+    "rimraf": "^4.4.1",
     "typescript": "~4.8.4"
   },
   "resolutions": {

@@ -13,7 +13,6 @@ import { _, Backbone, Model, loc, Form, View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import LoginModel from 'v1/models/LoginModel';
 import RegistrationSchema from 'v1/models/RegistrationSchema';
-import Q from 'q';
 import BaseLoginController from 'v1/util/BaseLoginController';
 import Enums from 'util/Enums';
 import { RegistrationError } from 'util/Errors';
@@ -289,8 +288,8 @@ export default BaseLoginController.extend({
         form.add(requiredFieldsLabel);
       }
     });
-    // fetch schema from API, returns a jqXHR. Wrap it in a Q
-    return Q(this.state.get('schema').fetch());
+    // fetch schema from API, returns a jqXHR. Wrap it in a native Promise
+    return Promise.resolve(this.state.get('schema').fetch());
   },
   Footer: RegistrationControllerFooter,
 });

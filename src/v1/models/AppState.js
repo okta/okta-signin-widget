@@ -12,7 +12,6 @@
 
 import { _, $, loc, Model } from '@okta/courage';
 import Factor from 'v1/models/Factor';
-import Q from 'q';
 import BrowserFeatures from 'util/BrowserFeatures';
 import { UnsupportedBrowserError } from 'util/Errors';
 const DEFAULT_APP_LOGO = '/img/logos/default.png';
@@ -38,7 +37,7 @@ export function getSecurityImageUrl(baseUrl, username) {
 function getSecurityImage(baseUrl, username, deviceFingerprint) {
   // When the username is empty, we want to show the default image.
   if (_.isEmpty(username) || _.isUndefined(username)) {
-    return Q({
+    return Promise.resolve({
       securityImage: UNDEFINED_USER,
       securityImageDescription: UNDEFINED_USER_IMAGE_DESCRIPTION,
     });
@@ -54,7 +53,7 @@ function getSecurityImage(baseUrl, username, deviceFingerprint) {
   if (deviceFingerprint) {
     data['headers'] = { 'X-Device-Fingerprint': deviceFingerprint };
   }
-  return Q($.ajax(data)).then(function(res) {
+  return Promise.resolve($.ajax(data)).then(function(res) {
     if (res.pwdImg === USER_NOT_SEEN_ON_DEVICE) {
       // When we get an unknown.png security image from OKTA,
       // we want to show the unknown-device security image.
@@ -131,15 +130,14 @@ export default Model.extend({
             model.set('securityImageDescription', image.securityImageDescription);
             model.unset('deviceFingerprint'); //Fingerprint can only be used once
           })
-          .fail(function(jqXhr) {
+          .catch(function(jqXhr) {
             // Only notify the consumer on a CORS error
             if (BrowserFeatures.corsIsNotEnabled(jqXhr)) {
               self.settings.callGlobalError(new UnsupportedBrowserError(loc('error.enabled.cors')));
             } else {
               self.settings.callGlobalError(new Error(`Failed to fetch security image: ${jqXhr.statusText}`));
             }
-          })
-          .done();
+          });
       });
     }
   },

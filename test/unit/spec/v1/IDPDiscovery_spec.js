@@ -19,7 +19,7 @@ import resErrorUnauthorized from 'helpers/xhr/UNAUTHORIZED_ERROR';
 import resSecurityImage from 'helpers/xhr/security_image';
 import resSecurityImageFail from 'helpers/xhr/security_image_fail';
 import IDPDiscovery from 'v1/models/IDPDiscovery';
-import Q from 'q';
+import { createDeferred } from 'util/createDeferred';
 import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
 import DeviceFingerprint from 'v1/util/DeviceFingerprint';
@@ -58,7 +58,7 @@ function setup(settings, requests) {
 
   const setNextWebfingerResponse = function(res, reject) {
     spyOn(authClient, 'webfinger').and.callFake(function() {
-      const deferred = Q.defer();
+      const deferred = createDeferred();
 
       if (reject) {
         deferred.reject(res);
@@ -751,7 +751,7 @@ Expect.describe('IDPDiscovery', function() {
         is true (useDeviceFingerprintForSecurityImage defaults to true)`,
       function() {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-          const deferred = Q.defer();
+          const deferred = createDeferred();
 
           deferred.resolve('thisIsTheDeviceFingerprint');
           return deferred.promise;
@@ -776,7 +776,7 @@ Expect.describe('IDPDiscovery', function() {
         deviceFingerprinting and useDeviceFingerprintForSecurityImage) are enabled`,
       function() {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-          const deferred = Q.defer();
+          const deferred = createDeferred();
 
           deferred.resolve('thisIsTheDeviceFingerprint');
           return deferred.promise;
@@ -867,7 +867,7 @@ Expect.describe('IDPDiscovery', function() {
     itp('renders primary auth with a device fingerprint for passwordless flow during idp discovery',
       function() {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-          const deferred = Q.defer();
+          const deferred = createDeferred();
           deferred.resolve('thisIsTheDeviceFingerprint');
           return deferred.promise;
         });
@@ -890,7 +890,7 @@ Expect.describe('IDPDiscovery', function() {
     itp('renders primary auth with a device fingerprint when passwordless is disabled during idp discovery',
       function() {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-          const deferred = Q.defer();
+          const deferred = createDeferred();
           deferred.resolve('thisIsTheDeviceFingerprint');
           return deferred.promise;
         });
@@ -919,7 +919,7 @@ Expect.describe('IDPDiscovery', function() {
     itp('renders primary auth when device fingerprint generation fails',
       function() {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-          const deferred = Q.defer();
+          const deferred = createDeferred();
           deferred.reject('testFailure');
           return deferred.promise;
         });
@@ -957,15 +957,13 @@ Expect.describe('IDPDiscovery', function() {
             spyOn(test.securityBeacon, 'toggleClass').and.callThrough();
             test.setNextWebfingerResponse(resSuccessSAML);
             test.form.submit();
-            return Expect.waitForSpyCall(test.securityBeacon.toggleClass, test);
-          })
-          .then(test => {
-            expect(test.securityBeacon.toggleClass).toHaveBeenCalledWith(BEACON_LOADING_CLS, true);
-            test.securityBeacon.toggleClass.calls.reset();
-            return waitForWebfingerCall(test);
+            return Expect.waitForSpyCall(SharedUtil.redirect, test);
           })
           .then(function(test) {
-            expect(test.securityBeacon.toggleClass).toHaveBeenCalledWith(BEACON_LOADING_CLS, false);
+            const spyCalls = test.securityBeacon.toggleClass.calls;
+
+            expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+            expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
           });
       });
       itp('does not show beacon-loading animation when authClient webfinger fails', function() {
@@ -977,7 +975,7 @@ Expect.describe('IDPDiscovery', function() {
             return waitForBeaconChange(test);
           })
           .then(function(test) {
-            Q.stopUnhandledRejectionTracking();
+            Expect.stopUnhandledRejectionTracking();
             spyOn(test.securityBeacon, 'toggleClass');
             test.setNextWebfingerResponse(resError, true);
             test.form.submit();
@@ -1006,7 +1004,7 @@ Expect.describe('IDPDiscovery', function() {
       itp('does not show beacon-loading animation when webfinger fails (no security image)', function() {
         return setup()
           .then(function(test) {
-            Q.stopUnhandledRejectionTracking();
+            Expect.stopUnhandledRejectionTracking();
             test.setNextWebfingerResponse(resError, true);
             test.form.setUsername('testuser@clouditude.net');
             test.form.submit();

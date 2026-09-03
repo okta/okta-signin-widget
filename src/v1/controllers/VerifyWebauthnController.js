@@ -13,7 +13,6 @@
 /* eslint complexity:[2, 10], max-params: [2, 11] */
 import { _, loc, View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
-import Q from 'q';
 import CryptoUtil from 'util/CryptoUtil';
 import { WebauthnAbortError, WebAuthnError } from 'util/Errors';
 import FactorUtil from 'util/FactorUtil';
@@ -103,7 +102,7 @@ export default FormController.extend({
           if (typeof AbortController !== 'undefined') {
             self.webauthnAbortController = new AbortController();
           }
-          return new Q(
+          return Promise.resolve(
             // navigator.credentials is not supported in IE11
             // eslint-disable-next-line compat/compat
             navigator.credentials.get({

@@ -12,13 +12,13 @@
 
 /* eslint max-statements: [2, 16] */
 
-import Q from 'q';
+import { createDeferred } from './createDeferred';
 import Enums from './Enums';
 const SWAP_PAGE_TIME = 200;
 const fn = {};
 
 function zoom($el, start, finish) {
-  const deferred = Q.defer();
+  const deferred = createDeferred();
 
   $el.animate(
     {
@@ -41,7 +41,7 @@ function zoom($el, start, finish) {
 }
 
 function rotate($el, start, finish) {
-  const deferred = Q.defer();
+  const deferred = createDeferred();
 
   $el.animate(
     {
@@ -67,7 +67,7 @@ function rotate($el, start, finish) {
 // remove the old dom node (and controller) in the same tick of the event
 // loop. Waiting for "then" results in a glitchy animation.
 fn.swapPages = function(options) {
-  const deferred = Q.defer();
+  const deferred = createDeferred();
   const $parent = options.$parent;
   const $oldRoot = options.$oldRoot;
   const $newRoot = options.$newRoot;

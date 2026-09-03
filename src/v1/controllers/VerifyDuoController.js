@@ -13,7 +13,6 @@
 /* eslint camelcase: 0 */
 import { $, _, loc } from '@okta/courage';
 import Duo from '@okta/duo';
-import Q from 'q';
 import FactorUtil from 'util/FactorUtil';
 import FormController from 'v1/util/FormController';
 import FooterMFA from 'v1/views/shared/FooterMFA';
@@ -78,7 +77,7 @@ export default FormController.extend({
       // are the only two places where we actually do this.
       // NOTE - If we ever decide to change this, we should test this very carefully.
 
-      return Q($.post(url, data))
+      return Promise.resolve($.post(url, data))
         .then(function() {
           return self.doTransaction(function(transaction) {
             let data;

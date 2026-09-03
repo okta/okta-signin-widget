@@ -135,6 +135,7 @@
             "challengeMethod": "LOOPBACK",
             "challengeRequest": "02vQULJDA20fnlkloDn2swWJkaxVTPQ10lyJH6I5c",
             "domain": "http://localhost",
+            "probeTimeoutMillis": 3000,
             "ports": [
               "2000",
               "6511",

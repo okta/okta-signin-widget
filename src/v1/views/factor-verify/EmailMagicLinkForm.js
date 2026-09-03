@@ -11,8 +11,8 @@
  */
 /* eslint complexity: [2, 7] */
 import { Form, createButton, loc } from '@okta/courage';
-import Q from 'q';
 import Enums from 'util/Enums';
+import DelayUtil from 'util/delay';
 export default Form.extend({
   layout: 'o-form-theme',
   className: 'factor-verify-magiclink',
@@ -41,7 +41,7 @@ export default Form.extend({
           this.model
             .save()
             .then(() => {
-              return Q.delay(Enums.API_RATE_LIMIT);
+              return DelayUtil.delay(Enums.API_RATE_LIMIT);
             })
             .then(() => {
               this.options.title = loc('mfa.resendEmail', 'login');

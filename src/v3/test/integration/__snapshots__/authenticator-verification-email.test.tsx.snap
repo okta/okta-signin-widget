@@ -143,7 +143,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       </div>
                       <div
                         class="MuiBox-root emotion-12"
-                      />
+                      >
+                        <div
+                          aria-atomic="true"
+                          aria-live="polite"
+                          class="MuiBox-root emotion-2"
+                        />
+                      </div>
                       <div
                         class="MuiBox-root emotion-12"
                       >
@@ -151,7 +157,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                           class="MuiBox-root emotion-20"
                         >
                           <p
-                            class="MuiTypography-root MuiTypography-body1 emotion-25"
+                            class="MuiTypography-root MuiTypography-body1 emotion-26"
                             data-se="o-form-explain"
                             tabindex="-1"
                           >
@@ -169,7 +175,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiBox-root emotion-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-27"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-28"
                           tabindex="0"
                           type="button"
                         >
@@ -181,7 +187,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-29"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-30"
                         data-se="cancel"
                         role="link"
                         type="button"
@@ -346,53 +352,60 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiBox-root emotion-12"
                       >
                         <div
-                          class="MuiBox-root emotion-12"
+                          aria-atomic="true"
+                          aria-live="polite"
+                          class="MuiBox-root emotion-2"
                         >
                           <div
-                            aria-label="warning"
-                            aria-labelledby="82mvyq"
-                            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-24"
-                            role="alert"
+                            class="MuiBox-root emotion-12"
+                            data-se="reminder-prompt"
                           >
                             <div
-                              class="MuiAlert-icon emotion-25"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-26"
-                                fill="none"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-                                  d="M9.342 2.918c1.123-2.144 4.192-2.144 5.315 0l7.695 14.69C23.398 19.605 21.95 22 19.695 22H4.305c-2.255 0-3.703-2.395-2.657-4.392l7.694-14.69ZM12 14a1 1 0 0 1-1-1V8h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                              </svg>
-                            </div>
-                            <div
-                              class="MuiAlert-message emotion-27"
+                              aria-label="warning"
+                              aria-labelledby="82mvyq"
+                              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-25"
+                              role="presentation"
                             >
                               <div
-                                class="emotion-28"
+                                class="MuiAlert-icon emotion-26"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-27"
+                                  fill="none"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    clip-rule="evenodd"
+                                    d="M9.342 2.918c1.123-2.144 4.192-2.144 5.315 0l7.695 14.69C23.398 19.605 21.95 22 19.695 22H4.305c-2.255 0-3.703-2.395-2.657-4.392l7.694-14.69ZM12 14a1 1 0 0 1-1-1V8h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
+                                    fill="currentColor"
+                                    fill-rule="evenodd"
+                                  />
+                                </svg>
+                              </div>
+                              <div
+                                class="MuiAlert-message emotion-28"
                               >
                                 <div
-                                  class="MuiBox-root emotion-2"
+                                  class="emotion-29"
                                 >
                                   <div
-                                    class="MuiBox-root emotion-30"
+                                    class="MuiBox-root emotion-2"
                                   >
-                                    Haven't received an email?
+                                    <div
+                                      class="MuiBox-root emotion-31"
+                                    >
+                                      Haven't received an email?
+                                    </div>
+                                    <a
+                                      class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways emotion-32"
+                                      href="#"
+                                    >
+                                      Send again
+                                    </a>
                                   </div>
-                                  <a
-                                    class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways emotion-31"
-                                    href="#"
-                                  >
-                                    Send again
-                                  </a>
                                 </div>
                               </div>
                             </div>
@@ -406,7 +419,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                           class="MuiBox-root emotion-20"
                         >
                           <p
-                            class="MuiTypography-root MuiTypography-body1 emotion-34"
+                            class="MuiTypography-root MuiTypography-body1 emotion-35"
                             data-se="o-form-explain"
                             tabindex="-1"
                           >
@@ -424,7 +437,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiBox-root emotion-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth Mui-focusVisible MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-36"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth Mui-focusVisible MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-37"
                           tabindex="0"
                           type="button"
                         >
@@ -436,7 +449,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-38"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-39"
                         data-se="cancel"
                         role="link"
                         type="button"
@@ -599,7 +612,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       </div>
                       <div
                         class="MuiBox-root emotion-12"
-                      />
+                      >
+                        <div
+                          aria-atomic="true"
+                          aria-live="polite"
+                          class="MuiBox-root emotion-2"
+                        />
+                      </div>
                       <div
                         class="MuiBox-root emotion-12"
                       >
@@ -607,7 +626,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                           class="MuiBox-root emotion-20"
                         >
                           <p
-                            class="MuiTypography-root MuiTypography-body1 emotion-25"
+                            class="MuiTypography-root MuiTypography-body1 emotion-26"
                             data-se="o-form-explain"
                             tabindex="-1"
                           >
@@ -625,10 +644,10 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiBox-root emotion-12"
                       >
                         <div
-                          class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-27"
+                          class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-28"
                         >
                           <label
-                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-28"
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-29"
                             data-shrink="false"
                             for="credentials.passcode"
                             id="credentials.passcode-label"
@@ -638,14 +657,14 @@ exports[`Email authenticator verification when email magic link = undefined rend
                             </span>
                           </label>
                           <div
-                            class="MuiInputBase-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl emotion-29"
+                            class="MuiInputBase-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl emotion-30"
                             required="true"
                           >
                             <input
                               aria-invalid="false"
                               aria-labelledby="credentials.passcode-label"
                               autocomplete="off"
-                              class="MuiInputBase-input emotion-30"
+                              class="MuiInputBase-input emotion-31"
                               data-se="credentials.passcode"
                               id="credentials.passcode"
                               inputmode="numeric"
@@ -660,7 +679,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiBox-root emotion-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-32"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-33"
                           data-se="save"
                           tabindex="0"
                           type="submit"
@@ -673,7 +692,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-34"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-35"
                         data-se="cancel"
                         role="link"
                         type="button"
@@ -879,7 +898,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       </div>
                       <div
                         class="MuiBox-root emotion-19"
-                      />
+                      >
+                        <div
+                          aria-atomic="true"
+                          aria-live="polite"
+                          class="MuiBox-root emotion-2"
+                        />
+                      </div>
                       <div
                         class="MuiBox-root emotion-19"
                       >
@@ -887,7 +912,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                           class="MuiBox-root emotion-27"
                         >
                           <p
-                            class="MuiTypography-root MuiTypography-body1 emotion-32"
+                            class="MuiTypography-root MuiTypography-body1 emotion-33"
                             data-se="o-form-explain"
                             tabindex="-1"
                           >
@@ -905,10 +930,10 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiBox-root emotion-19"
                       >
                         <div
-                          class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-34"
+                          class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-35"
                         >
                           <label
-                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-35"
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-36"
                             data-shrink="false"
                             for="credentials.passcode"
                             id="credentials.passcode-label"
@@ -918,7 +943,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                             </span>
                           </label>
                           <div
-                            class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error Mui-focused MuiInputBase-formControl emotion-36"
+                            class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error Mui-focused MuiInputBase-formControl emotion-37"
                             required="true"
                           >
                             <input
@@ -927,7 +952,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                               aria-invalid="true"
                               aria-labelledby="credentials.passcode-label"
                               autocomplete="off"
-                              class="MuiInputBase-input emotion-37"
+                              class="MuiInputBase-input emotion-38"
                               data-se="credentials.passcode"
                               id="credentials.passcode"
                               inputmode="numeric"
@@ -937,11 +962,11 @@ exports[`Email authenticator verification when email magic link = undefined rend
                             />
                           </div>
                           <div
-                            class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium Mui-focused MuiFormHelperText-filled emotion-38"
+                            class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium Mui-focused MuiFormHelperText-filled emotion-39"
                             id="credentials.passcode-error"
                           >
                             <span
-                              class="MuiBox-root emotion-39"
+                              class="MuiBox-root emotion-40"
                             >
                               Error:
                             </span>
@@ -957,7 +982,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiBox-root emotion-19"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-42"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-43"
                           data-se="save"
                           tabindex="0"
                           type="submit"
@@ -970,7 +995,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiBox-root emotion-19"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-45"
                         data-se="switchAuthenticator"
                         role="link"
                         type="button"
@@ -982,7 +1007,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiBox-root emotion-19"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-45"
                         data-se="cancel"
                         role="link"
                         type="button"
@@ -1190,53 +1215,60 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiBox-root emotion-19"
                       >
                         <div
-                          class="MuiBox-root emotion-19"
+                          aria-atomic="true"
+                          aria-live="polite"
+                          class="MuiBox-root emotion-2"
                         >
                           <div
-                            aria-label="warning"
-                            aria-labelledby="82mvyq"
-                            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-31"
-                            role="alert"
+                            class="MuiBox-root emotion-19"
+                            data-se="reminder-prompt"
                           >
                             <div
-                              class="MuiAlert-icon emotion-32"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
-                                fill="none"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-                                  d="M9.342 2.918c1.123-2.144 4.192-2.144 5.315 0l7.695 14.69C23.398 19.605 21.95 22 19.695 22H4.305c-2.255 0-3.703-2.395-2.657-4.392l7.694-14.69ZM12 14a1 1 0 0 1-1-1V8h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                              </svg>
-                            </div>
-                            <div
-                              class="MuiAlert-message emotion-15"
+                              aria-label="warning"
+                              aria-labelledby="82mvyq"
+                              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-calloutWarning MuiAlert-callout emotion-32"
+                              role="presentation"
                             >
                               <div
-                                class="emotion-16"
+                                class="MuiAlert-icon emotion-33"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
+                                  fill="none"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    clip-rule="evenodd"
+                                    d="M9.342 2.918c1.123-2.144 4.192-2.144 5.315 0l7.695 14.69C23.398 19.605 21.95 22 19.695 22H4.305c-2.255 0-3.703-2.395-2.657-4.392l7.694-14.69ZM12 14a1 1 0 0 1-1-1V8h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
+                                    fill="currentColor"
+                                    fill-rule="evenodd"
+                                  />
+                                </svg>
+                              </div>
+                              <div
+                                class="MuiAlert-message emotion-15"
                               >
                                 <div
-                                  class="MuiBox-root emotion-2"
+                                  class="emotion-16"
                                 >
                                   <div
-                                    class="MuiBox-root emotion-37"
+                                    class="MuiBox-root emotion-2"
                                   >
-                                    Haven't received an email?
+                                    <div
+                                      class="MuiBox-root emotion-38"
+                                    >
+                                      Haven't received an email?
+                                    </div>
+                                    <a
+                                      class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways emotion-39"
+                                      href="#"
+                                    >
+                                      Send again
+                                    </a>
                                   </div>
-                                  <a
-                                    class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways emotion-38"
-                                    href="#"
-                                  >
-                                    Send again
-                                  </a>
                                 </div>
                               </div>
                             </div>
@@ -1250,7 +1282,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                           class="MuiBox-root emotion-27"
                         >
                           <p
-                            class="MuiTypography-root MuiTypography-body1 emotion-41"
+                            class="MuiTypography-root MuiTypography-body1 emotion-42"
                             data-se="o-form-explain"
                             tabindex="-1"
                           >
@@ -1268,10 +1300,10 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiBox-root emotion-19"
                       >
                         <div
-                          class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-43"
+                          class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-44"
                         >
                           <label
-                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-44"
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-45"
                             data-shrink="false"
                             for="credentials.passcode"
                             id="credentials.passcode-label"
@@ -1281,7 +1313,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                             </span>
                           </label>
                           <div
-                            class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error Mui-focused MuiInputBase-formControl emotion-45"
+                            class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error Mui-focused MuiInputBase-formControl emotion-46"
                             required="true"
                           >
                             <input
@@ -1290,7 +1322,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                               aria-invalid="true"
                               aria-labelledby="credentials.passcode-label"
                               autocomplete="off"
-                              class="MuiInputBase-input emotion-46"
+                              class="MuiInputBase-input emotion-47"
                               data-se="credentials.passcode"
                               id="credentials.passcode"
                               inputmode="numeric"
@@ -1300,11 +1332,11 @@ exports[`Email authenticator verification when email magic link = undefined rend
                             />
                           </div>
                           <div
-                            class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium Mui-focused MuiFormHelperText-filled emotion-47"
+                            class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium Mui-focused MuiFormHelperText-filled emotion-48"
                             id="credentials.passcode-error"
                           >
                             <span
-                              class="MuiBox-root emotion-48"
+                              class="MuiBox-root emotion-49"
                             >
                               Error:
                             </span>
@@ -1320,7 +1352,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiBox-root emotion-19"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-51"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-52"
                           data-se="save"
                           tabindex="0"
                           type="submit"
@@ -1333,7 +1365,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiBox-root emotion-19"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-53"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-54"
                         data-se="switchAuthenticator"
                         role="link"
                         type="button"
@@ -1345,7 +1377,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiBox-root emotion-19"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-53"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-54"
                         data-se="cancel"
                         role="link"
                         type="button"
@@ -1629,7 +1661,13 @@ exports[`Email authenticator verification when email magic link = undefined shou
                       </div>
                       <div
                         class="MuiBox-root emotion-12"
-                      />
+                      >
+                        <div
+                          aria-atomic="true"
+                          aria-live="polite"
+                          class="MuiBox-root emotion-2"
+                        />
+                      </div>
                       <div
                         class="MuiBox-root emotion-12"
                       >
@@ -1637,7 +1675,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                           class="MuiBox-root emotion-20"
                         >
                           <p
-                            class="MuiTypography-root MuiTypography-body1 emotion-25"
+                            class="MuiTypography-root MuiTypography-body1 emotion-26"
                             data-se="o-form-explain"
                             tabindex="-1"
                           >
@@ -1655,10 +1693,10 @@ exports[`Email authenticator verification when email magic link = undefined shou
                         class="MuiBox-root emotion-12"
                       >
                         <div
-                          class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-27"
+                          class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-28"
                         >
                           <label
-                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-28"
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-29"
                             data-shrink="false"
                             for="credentials.passcode"
                             id="credentials.passcode-label"
@@ -1668,14 +1706,14 @@ exports[`Email authenticator verification when email magic link = undefined shou
                             </span>
                           </label>
                           <div
-                            class="MuiInputBase-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl emotion-29"
+                            class="MuiInputBase-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl emotion-30"
                             required="true"
                           >
                             <input
                               aria-invalid="false"
                               aria-labelledby="credentials.passcode-label"
                               autocomplete="one-time-code"
-                              class="MuiInputBase-input emotion-30"
+                              class="MuiInputBase-input emotion-31"
                               data-se="credentials.passcode"
                               id="credentials.passcode"
                               inputmode="numeric"
@@ -1690,7 +1728,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                         class="MuiBox-root emotion-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-32"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-fullWidth emotion-33"
                           data-se="save"
                           tabindex="0"
                           type="submit"
@@ -1703,7 +1741,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-34"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-35"
                         data-se="cancel"
                         role="link"
                         type="button"

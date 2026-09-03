@@ -14,7 +14,7 @@ import resAllFactors from 'helpers/xhr/MFA_REQUIRED_allFactors';
 import resMultipleWebauthn from 'helpers/xhr/MFA_REQUIRED_multipleWebauthn';
 import resMultipleWebauthnWithQuestion from 'helpers/xhr/MFA_REQUIRED_multipleWebauthn_question';
 import resSuccess from 'helpers/xhr/SUCCESS';
-import Q from 'q';
+import { createDeferred } from 'util/createDeferred';
 import $sandbox from 'sandbox';
 import CryptoUtil from 'util/CryptoUtil';
 import BrowserFeatures from 'util/BrowserFeatures';
@@ -150,7 +150,7 @@ function mockWebauthn(options) {
 
 function mockWebauthnSignFailure() {
   spyOn(navigator.credentials, 'get').and.callFake(function() {
-    const deferred = Q.defer();
+    const deferred = createDeferred();
 
     deferred.reject({ message: 'something went wrong' });
     return deferred.promise;
@@ -163,7 +163,7 @@ function mockWebauthnSignSuccess(rememberDevice) {
       $('[name=rememberDevice]').prop('checked', true);
       $('[name=rememberDevice]').trigger('change');
     }
-    const deferred = Q.defer();
+    const deferred = createDeferred();
 
     deferred.resolve({
       response: {
@@ -177,7 +177,7 @@ function mockWebauthnSignSuccess(rememberDevice) {
 }
 
 function mockWebauthnSignPending() {
-  spyOn(navigator.credentials, 'get').and.returnValue(Q.defer().promise);
+  spyOn(navigator.credentials, 'get').and.returnValue(createDeferred().promise);
 }
 
 function setupWebauthnFactor(options) {

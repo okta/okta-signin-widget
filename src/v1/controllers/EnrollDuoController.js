@@ -13,7 +13,6 @@
 /* eslint camelcase: 0*/
 import { $, _, loc } from '@okta/courage';
 import Duo from '@okta/duo';
-import Q from 'q';
 import FormController from 'v1/util/FormController';
 import Footer from 'v1/views/enroll-factors/Footer';
 export default FormController.extend({
@@ -56,7 +55,7 @@ export default FormController.extend({
       // jquery decides the Content-Type instead of it being a JSON type). Enroll/Verify DUO
       // are the only two places where we actually do this.
       // NOTE - If we ever decide to change this, we should test this very carefully.
-      return Q($.post(url, data))
+      return Promise.resolve($.post(url, data))
         .then(function() {
           return self.doTransaction(function(transaction) {
             return transaction.poll();
