@@ -68,7 +68,12 @@ else
       echo "[ie11-compat-check] no bundles found; nothing to scan"
       BUNDLE_STATUS=0
     else
-      npx --no-install es-check es5 "${EXISTING_BUNDLES[@]}" --allow-hash-bang --checkFeatures
+      # NOTE: --checkFeatures (feature-level check for Promise/Set/Map/etc.) is
+      # a 7.2+ flag and needs Node >=18 (commander@12). Bacon pins Node 16, so
+      # we stay on es-check 7.1.1 (commander@10) and rely on L1.5 for feature
+      # coverage of v1/v2 source. Bundle syntax check still catches modern JS
+      # from third-party deps (the 2025 ALTCHA class of issue).
+      npx --no-install es-check es5 "${EXISTING_BUNDLES[@]}" --allow-hash-bang
       BUNDLE_STATUS=$?
     fi
   else

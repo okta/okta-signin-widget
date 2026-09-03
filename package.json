@@ -174,7 +174,7 @@
     "cssnano": "^6.0.0",
     "dotenv": "^8.0.0",
     "eslint": "^7.23.0",
-    "es-check": "^7.2.1",
+    "es-check": "7.1.1",
     "eslint-import-resolver-typescript": "^3.5.0",
     "eslint-import-resolver-webpack": "^0.13.2",
     "eslint-plugin-compat": "4.0.2",
