@@ -1,0 +1,103 @@
+{
+  "$comment": "IE11-unsafe APIs used by scripts/check-polyfill-coverage.js. Update whenever polyfill/index.js changes so drift between source usage and polyfill coverage is caught pre-merge. See /Users/vijet.mahabaleshwar/.claude/plans/can-you-create-a-woolly-ember.md for context (2022 findIndex RCA / OKTA-549514).",
+
+  "$schema": {
+    "instanceMethods": "map of method name -> { corePolyfill: relative to core-js/features, on: [Array|String|Object|Number|Promise], safeContexts?: [ ...regexes for callee prefix that should be ignored ] }",
+    "staticMethods": "map of dotted-name -> { corePolyfill }",
+    "globals": "map of global name -> { polyfillPackage }"
+  },
+
+  "instanceMethods": {
+    "findIndex": {
+      "corePolyfill": "array/find-index",
+      "on": ["Array"],
+      "note": "2022 RCA OKTA-549514 — the exact method that shipped without a polyfill in SIW 7.0.0"
+    },
+    "find": {
+      "corePolyfill": "array/find",
+      "on": ["Array"]
+    },
+    "includes": {
+      "corePolyfill": "array/includes",
+      "on": ["Array", "String"],
+      "alt": "string/includes"
+    },
+    "startsWith": {
+      "corePolyfill": "string/starts-with",
+      "on": ["String"]
+    },
+    "endsWith": {
+      "corePolyfill": "string/ends-with",
+      "on": ["String"]
+    },
+    "flat": {
+      "corePolyfill": "array/flat",
+      "on": ["Array"]
+    },
+    "flatMap": {
+      "corePolyfill": "array/flat-map",
+      "on": ["Array"]
+    },
+    "at": {
+      "corePolyfill": "array/at",
+      "on": ["Array", "String"],
+      "safeContexts": [
+        "^form\\.at\\b",
+        "^this\\.form\\.at\\b",
+        "^collection\\.at\\b",
+        "^this\\.collection\\.at\\b",
+        "^this\\.at\\b"
+      ],
+      "note": "Backbone.Collection.prototype.at and Backbone.Form.prototype.at collide with Array.prototype.at. Ignore common Backbone call sites."
+    },
+    "replaceAll": {
+      "corePolyfill": "string/replace-all",
+      "on": ["String"]
+    },
+    "matchAll": {
+      "corePolyfill": "string/match-all",
+      "on": ["String"]
+    },
+    "padStart": {
+      "corePolyfill": "string/pad-start",
+      "on": ["String"]
+    },
+    "padEnd": {
+      "corePolyfill": "string/pad-end",
+      "on": ["String"]
+    },
+    "trimStart": {
+      "corePolyfill": "string/trim-start",
+      "on": ["String"]
+    },
+    "trimEnd": {
+      "corePolyfill": "string/trim-end",
+      "on": ["String"]
+    }
+  },
+
+  "staticMethods": {
+    "Object.entries": { "corePolyfill": "object/entries" },
+    "Object.values": { "corePolyfill": "object/values" },
+    "Object.fromEntries": { "corePolyfill": "object/from-entries" },
+    "Object.hasOwn": { "corePolyfill": "object/has-own" },
+    "Array.from": { "corePolyfill": "array/from" },
+    "Array.of": { "corePolyfill": "array/of" },
+    "Number.isFinite": { "corePolyfill": "number/is-finite" },
+    "Number.isInteger": { "corePolyfill": "number/is-integer" },
+    "Number.isNaN": { "corePolyfill": "number/is-nan" },
+    "Number.parseFloat": { "corePolyfill": "number/parse-float" },
+    "Number.parseInt": { "corePolyfill": "number/parse-int" },
+    "Promise.allSettled": { "corePolyfill": "promise/all-settled" },
+    "Promise.any": { "corePolyfill": "promise/any" }
+  },
+
+  "globals": {
+    "structuredClone": { "polyfillPackage": null, "note": "No standard polyfill; wrap in feature-detect or avoid in v1/v2" },
+    "queueMicrotask": { "polyfillPackage": null, "note": "Use Promise.resolve().then(fn) instead" },
+    "URLSearchParams": { "polyfillPackage": "web/url-search-params" },
+    "TextEncoder": { "polyfillPackage": "fast-text-encoding" },
+    "TextDecoder": { "polyfillPackage": "fast-text-encoding" },
+    "customElements": { "polyfillPackage": "@webcomponents/webcomponentsjs", "note": "ALTCHA-class — third-party libs using Web Components will trip this" }
+  }
+}
