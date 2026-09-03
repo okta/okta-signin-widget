@@ -23,7 +23,7 @@ echo "[ie11-compat-check] script starting; OKTA_HOME=${OKTA_HOME:-<unset>} REPO=
 # pipefail` which we relax right after so a non-zero exit from the check
 # doesn't abort before the summary.
 if [ -n "${OKTA_HOME:-}" ] && [ -f "${OKTA_HOME}/${REPO:-}/scripts/setup.sh" ]; then
-  source "${OKTA_HOME}/${REPO}/scripts/setup.sh"
+  source "${OKTA_HOME}/${REPO:-}/scripts/setup.sh"
   cd "${OKTA_HOME}/${REPO}"
 fi
 set +eo pipefail
