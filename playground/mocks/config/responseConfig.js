@@ -20,6 +20,14 @@ const idx = {
 
   '/idp/idx/introspect': [
     'identify',
+    // N-of-M authenticator groups demo: uncomment one of the variants below
+    // (and comment `identify` above) to preview the grouped enrollment screens.
+    // 'authenticator-enroll-select-authenticator-groups',
+    // 'authenticator-enroll-select-authenticator-groups-two',
+    // 'authenticator-enroll-select-authenticator-groups-optional-phase',
+    // 'authenticator-enroll-select-authenticator-groups-grace-period',
+    // 'authenticator-enroll-select-authenticator-groups-grace-period-skip',
+    // 'authenticator-enroll-select-authenticator-groups-mixed',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',

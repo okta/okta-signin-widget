@@ -252,6 +252,13 @@ const convert = (settings, idx = {}, lastResult = null) => {
     remediationValues,
     { idx }
   );
+
+  // `authenticatorGroups` is a plain top-level array on the wire (not the
+  // {type, value}-wrapped form that getFirstLevelObjects handles), so surface it
+  // explicitly. Absent when the applicable policy has no N-of-M groups configured.
+  if (Array.isArray(idx.rawIdxState.authenticatorGroups)) {
+    result.authenticatorGroups = idx.rawIdxState.authenticatorGroups;
+  }
   
   // transform result object
   if (isError(result) && isFailureRedirect(result)) {
