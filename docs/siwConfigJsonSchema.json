@@ -3,7 +3,8 @@
   "type": "object",
   "properties": {
     "logo": {
-      "type": "string"
+      "type": "string",
+      "pattern": "^https?://"
     },
     "logoText": {
       "type": "string"
@@ -33,7 +34,9 @@
           "type": "object",
           "patternProperties": {
             ".*": {
-              "type": "string"
+              "type": "string",
+              "pattern": "^[^<>]*$",
+              "maxLength": 1024
             }
           },
           "additionalProperties": false
@@ -41,26 +44,20 @@
       },
       "additionalProperties": false
     },
-    "assets": {
-      "type": "object",
-      "properties": {
-        "baseUrl": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false
-    },
     "signOutLink": {
-      "type": "string"
+      "type": "string",
+      "pattern": "^https?://"
     },
     "helpLinks": {
       "type": "object",
       "properties": {
         "help": {
-          "type": "string"
+          "type": "string",
+          "pattern": "^https?://"
         },
         "forgotPassword": {
-          "type": "string"
+          "type": "string",
+          "pattern": "^https?://"
         },
         "factorPage": {
           "type": "object",
@@ -69,7 +66,8 @@
               "type": "string"
             },
             "href": {
-              "type": "string"
+              "type": "string",
+              "pattern": "^https?://"
             },
             "target": {
               "type": "string"
@@ -82,7 +80,8 @@
           "additionalProperties": false
         },
         "unlock": {
-          "type": "string"
+          "type": "string",
+          "pattern": "^https?://"
         },
         "custom": {
           "type": "array",
@@ -93,7 +92,8 @@
                 "type": "string"
               },
               "href": {
-                "type": "string"
+                "type": "string",
+                "pattern": "^https?://"
               },
               "target": {
                 "type": "string"
@@ -633,33 +633,6 @@
             }
           },
           "additionalProperties": false
-        }
-      },
-      "additionalProperties": false
-    },
-    "hcaptcha": {
-      "type": "object",
-      "properties": {
-        "scriptSource": {
-          "type": "string"
-        },
-        "scriptParams": {
-          "type": "object",
-          "patternProperties": {
-            ".*": {
-              "type": "string"
-            }
-          },
-          "additionalProperties": false
-        }
-      },
-      "additionalProperties": false
-    },
-    "recaptcha": {
-      "type": "object",
-      "properties": {
-        "scriptSource": {
-          "type": "string"
         }
       },
       "additionalProperties": false
