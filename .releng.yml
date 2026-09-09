@@ -1,0 +1,56 @@
+# Release promotion customization for okta-signin-widget.
+# Reproduces the release-tools default promotion (this repo had no .releng.yml, so it used the default)
+# and, on MAIN RELEASES only, fires two NON-BLOCKING "signal" tasks against the monolith:
+#   - Gen 3 selenium — reuses the EXISTING SIWv3_Build launcher with IS_SIW_RELEASE_TRIGGER=true
+#   - cross-browser — CB_MULTI_BS
+# Both are FIRE-AND-FORGET (wait_for_task: false): they run asynchronously and do NOT gate promotion.
+# The Gen 3 run is chunked across containers via the selenium3 suite on a pushed SIWv3-builder-* branch,
+# so it can't be synchronously gated anyway — same pattern as okta-core's RELEASE_SeleniumRunner_Build.
+# See OKTA-1265817 / OKTA-1265130.
+#
+# Reference: https://oktainc.atlassian.net/wiki/spaces/ESS/pages/701926352 (Artifact Release Promotions)
+# Default:   https://github.com/atko-eng-services/release-tools/blob/master/promoter_v2/resources/default_promotion.yml
+#
+# Prereq (DONE): okta-core PR #138846 (OKTA-1265130) merged — the siwv3-it profile, SELENIUM_PROFILE
+#   hook, and release-capable siw-v3-selenium-tests.sh are on okta-core master. SIWv3_Build + CB_MULTI_BS
+#   already exist, so there is no new Bacon task to register.
+#
+# Questions for releng (see PR): does the promoter accept `task_name` (vs `bacon_task_name`); does
+#   task_params pass through as task env vars; is cross-artifact firing (bacon_artifact: monolith)
+#   allowed from a SIW promotion; and does create_downstream receive the clean release version.
+
+promotion:
+  master:
+    - merge
+    - tag
+    - artifactory_promotion
+    - release_notes
+    - bump_versions
+
+  # Main releases (~2x/month) — after promotion, fire Gen 3 selenium and cross-browser as NON-BLOCKING
+  # signals. Scoped to ^release$ so frequent preview/hotfix promotions don't trigger them.
+  # CONFIRM with releng that SIW main releases promote on the `release` branch.
+  /(^release$)/:
+    - artifactory_promotion
+    - task: custom_bacon_task            # Gen 3 monolith selenium — reuse the existing SIWv3_Build launcher
+      params:
+        task_name: SIWv3_Build           # EXISTING task (no new task to register)
+        bacon_artifact: monolith
+        task_params:
+          IS_SIW_RELEASE_TRIGGER: "true" # selects the release path in okta-core siw-v3-selenium-tests.sh
+          # release_version + ARTIFACT_SHA are auto-passed by the promoter; the release path injects the
+          # released widget version (create_downstream) then pushes a SIWv3-builder-* branch, and the
+          # SIWv3-builder.* commit_modifier rule runs it scoped to @TestOnSIWv3 on Gen 3, chunked.
+        wait_for_task: false             # fire-and-forget signal (async chunked run; does NOT gate)
+    - task: custom_bacon_task            # cross-browser — fire-and-forget signal
+      params:
+        task_name: CB_MULTI_BS
+        bacon_artifact: monolith
+        wait_for_task: false
+
+  # Preview / hotfix / point-release branches — unchanged from the release-tools default.
+  /(^preview$|^hotfix|^([0-9]+\.[0-9]+)-(hf|pf|lc|pb|tf)[0-9]+$)/:
+    - artifactory_promotion
+
+  default:
+    - fail
