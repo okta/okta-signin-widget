@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 
-import { oktaDashboardContent, overrideWidgetOptions } from '../framework/shared';
+import { oktaDashboardContent, renderWidget } from '../framework/shared';
 
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
@@ -572,12 +572,19 @@ test.requestHooks(mockEnrollRequiredSoonAuthenticators)('should load select opti
 }).clientScripts({ content: mockDate });
 
 test
-  .clientScripts(
-    overrideWidgetOptions({ language: 'ja' }),
-    { content: mockDate }
-  )
+  // OKTA-955134: render the widget explicitly with `language` baked in instead of relying on
+  // the overrideWidgetOptions clientScript + playground auto-render. The auto-render path
+  // (main.ts preRenderTasks.then(...)) reads window.additionalOptions at a single,
+  // unsynchronized moment; under gen3 Native Automation + concurrency it intermittently
+  // renders before the clientScript sets the language, producing the en-US default date and a
+  // deterministic (non-recoverable) failure. render:false + renderWidget() applies the locale
+  // synchronously in one awaited call. Same pattern as IdentifyWithPassword_spec.js.
+  .clientScripts({ content: mockDate })
   .requestHooks(mockEnrollRequiredSoonAuthenticators)('should load grace period dates in formats based on user locale ja', async t => {
-    const selectFactorPage = await setup(t);
+    const selectFactorPage = new SelectFactorPageObject(t);
+    await selectFactorPage.navigateToPage({ render: false });
+    await renderWidget({ language: 'ja' });
+    await t.expect(selectFactorPage.formExists()).ok();
     await checkA11y(t);
 
     await t.expect(selectFactorPage.getFactorsCount()).eql(3);
@@ -589,12 +596,14 @@ test
   });
 
 test
-  .clientScripts(
-    overrideWidgetOptions({ language: 'cs' }),
-    { content: mockDate }
-  )
+  // OKTA-955134: see ja test above — render with language explicitly to avoid the
+  // clientScript-vs-auto-render race that intermittently drops the locale under gen3.
+  .clientScripts({ content: mockDate })
   .requestHooks(mockEnrollRequiredSoonAuthenticators)('should load grace period dates in formats based on user locale cs', async t => {
-    const selectFactorPage = await setup(t);
+    const selectFactorPage = new SelectFactorPageObject(t);
+    await selectFactorPage.navigateToPage({ render: false });
+    await renderWidget({ language: 'cs' });
+    await t.expect(selectFactorPage.formExists()).ok();
     await checkA11y(t);
 
     await t.expect(selectFactorPage.getFactorsCount()).eql(3);
