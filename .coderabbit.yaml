@@ -1,0 +1,291 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+#
+# CodeRabbit configuration for okta-signin-widget.
+#
+# Design notes:
+#   - The mechanical checks (eslint-plugin-compat, scripts/check-polyfill-coverage.js,
+#     the IE11 compatibility CI check, stylelint, TSD) already cover the deterministic
+#     part of review. CodeRabbit's job is judgement calls: unfamiliar deps, cross-engine
+#     drift, security-sensitive touches, and public-API breakage.
+#   - Every path rule below is labeled with a Review Tier
+#     (Very High / High / Medium / Low / Very Low). The tier is surfaced in each comment
+#     so reviewers can see which findings need deeper attention.
+#   - v1 (Backbone Classic) and v2 (OIE) must keep working on IE11.
+#     v3 (Gen3, Preact/MUI) is not IE11-functional-tested; its rules focus on
+#     React/hooks/a11y/security, not polyfills.
+#   - Path-instruction rules are ordered specific-first because glob overlap precedence
+#     is not documented by CodeRabbit.
+
+language: "en-US"
+early_access: false
+
+tone_instructions: |
+  You are reviewing the Okta Sign-in Widget, an authentication UI shipped to end users of Okta customer tenants.
+  Three engines coexist: v1 (src/v1, Backbone Classic), v2 (src/v2, OIE/Backbone), v3 (src/v3, Gen3/Preact/MUI).
+  v1 and v2 must keep working on IE11; v3 does not. This is a security-sensitive surface (OIDC, PKCE, cookies, tokens, WebAuthn/FIDO).
+  The team already runs eslint-plugin-compat, custom scripts/check-polyfill-coverage.js, stylelint, TSD, Jest, TestCafe, and an IE11 compatibility CI check.
+  Do not restate what those tools catch. Focus on: correctness bugs, regressions, security issues, breaking public-API changes, cross-engine consistency, and any dependency or config change whose browser-support or blast-radius is not obvious.
+  Every path rule below carries a Review Tier label (Very High / High / Medium / Low / Very Low). Include that tier in each comment so reviewers can prioritize. Prefer few high-signal comments over many nits.
+
+reviews:
+  profile: "chill"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  review_details: true
+
+  auto_review:
+    enabled: true
+    drafts: false
+
+  path_filters:
+    - "!target/**"
+    - "!dist/**"
+    - "!**/build/**"
+    - "!node_modules/**"
+    - "!**/node_modules/**"
+    - "!**/*.min.js"
+    - "!**/*.min.css"
+    - "!**/*.map"
+    - "!**/__snapshots__/**"
+    - "!yarn.lock"
+    - "!package-lock.json"
+    - "!packages/@okta/i18n/src/**/*.properties"
+    - "!packages/@okta/courage-dist/esm/**"
+    - "!packages/@okta/courage-dist/cjs/**"
+
+  path_instructions:
+
+    # -------------------------------------------------------------------
+    # Very High / Extreme  —  isolate, extra approvals, custom test plan
+    # -------------------------------------------------------------------
+
+    - path: ".bacon.yml"
+      instructions: |
+        Review Tier: Very High (if removing suites) or High (adding suites).
+        CI configuration for this repo. Removing any suite — especially the IE11 compatibility check or any
+        auth/security suite — is very high tier and should be isolated with Architect review.
+        Adding a new suite is generally High tier.
+        Ask the author to link any downstream build result before merge.
+
+    # -------------------------------------------------------------------
+    # High  —  extra approvals, monitoring plan, isolate risky changes
+    # -------------------------------------------------------------------
+
+    - path: "polyfill/**"
+      instructions: |
+        Review Tier: High. Polyfill changes are legacy-browser breakage tripwires.
+        Confirm that any add/remove here stays in sync with:
+          - scripts/ie11-unsafe-apis.json (instance-method manifest)
+          - .eslintrc.js `settings.polyfills` array (v1/v2 override)
+          - the docstring examples in polyfill/README.md
+        Ask reviewer whether QA has been engaged for embedded-browser testing.
+        If a polyfill is being removed, verify no v1/v2 caller relies on it.
+
+    - path: "scripts/check-polyfill-coverage.js"
+      instructions: |
+        Review Tier: High. This is the IE11 safety net that closes eslint-plugin-compat's
+        instance-method blind spot. Any change here must preserve:
+          - the v1/v2 source scope,
+          - the ie11-unsafe-apis.json manifest wiring,
+          - the safeContexts regex list (Backbone.Collection.at, Form.at collisions).
+        Loosening this script should require Architect review.
+
+    - path: "scripts/ie11-unsafe-apis.json"
+      instructions: |
+        Review Tier: High. Manifest of instance/static methods and globals unsafe in IE11.
+        Removing an entry is only correct if IE11 support is genuinely dropped for that API.
+        Adding an entry should be paired with either a polyfill import in polyfill/index.js
+        or a code fix in v1/v2. Cross-check with .eslintrc.js `settings.polyfills`.
+
+    - path: "**/package.json"
+      instructions: |
+        Review Tier: High if `dependencies` or `engines` change; Medium if `devDependencies` or `scripts` change; Low if only metadata.
+        For dependency adds/upgrades, especially `@okta/okta-auth-js`, `@okta/courage-*`, `jquery`, `backbone`, `underscore`,
+        `handlebars`, `js-cookie`, `cross-fetch`, `dompurify`, or anything under `@okta/odyssey-*`:
+          - Ask reviewer to confirm the new version supports IE11 for v1/v2 consumers (v3 is exempt).
+          - Flag if the new package pulls in ES2015+ APIs not present in scripts/ie11-unsafe-apis.json.
+          - Flag any `engines` bump (higher Node/yarn requirement is a breaking change for consumers).
+        Any change to `browserslist`, `exports`, `main`, `module`, `types`, `files`, or `.npmignore`-referenced entries is High tier.
+
+    - path: "src/authClient/**"
+      instructions: |
+        Review Tier: High. This is the auth-client integration layer (classic / oie / default entrypoints).
+        Any change here can affect PKCE, token acquisition, redirect handling, or session bootstrap.
+        Require test evidence (unit + at least one TestCafe fixture). Flag any new console log, error message,
+        or serialization that could leak tokens, code_verifier, state, or nonce.
+
+    - path: "src/util/{OAuth2Util,CryptoUtil,FidoUtil,CookieUtil}*"
+      instructions: |
+        Review Tier: High. Token, PKCE, WebAuthn/FIDO, and cookie handling.
+        Flag: (1) any change to token storage location or serialization, (2) any new use of `crypto.subtle`
+        that isn't shimmed by webcrypto-shim in polyfill/index.js, (3) any logging that could include secrets,
+        (4) SameSite/Secure/HttpOnly attribute changes, (5) any new call site that doesn't handle the promise rejection.
+
+    - path: "src/{v1,v2}/**"
+      instructions: |
+        Review Tier: High for auth-flow files (matching `**/{login,authenticate,mfa,enroll,factor,session,authorize,oauth}*`); Medium otherwise.
+        These are the Backbone engines that must keep working on IE11.
+          - Flag any usage of instance methods listed in scripts/ie11-unsafe-apis.json (Array#at, String#replaceAll, etc.);
+            eslint-plugin-compat does NOT catch these — check-polyfill-coverage.js does, but only warns.
+          - Flag any inline Handlebars template literal (hbs`...`) that interpolates unescaped user data — XSS risk.
+          - Flag any new fetch/XHR that bypasses the auth-client abstraction.
+          - Flag any addition of a browser-only global (window, document, navigator, localStorage) without a guarded typeof check
+            in code that could run under SSR/tests.
+
+    - path: "src/exports/**"
+      instructions: |
+        Review Tier: High. This is the public entrypoint surface (default / classic / oie / cdn bundles).
+        Any change to exported names, default options, method signatures, or bundle boundaries is a breaking-change candidate.
+        Breaking changes are only allowed in a major-version release. Ask author whether the
+        release plan reflects this.
+
+    - path: "{types,src/types}/**"
+      instructions: |
+        Review Tier: High for changes to shipped public `.d.ts` files; Medium for internal types.
+        Public API type changes need TSD coverage in test/types/. Flag removals or narrowings of public types as
+        breaking-change candidates. Flag `any` widening as a regression.
+
+    - path: "test/types/**/*.test-d.ts"
+      instructions: |
+        Review Tier: Low, but couples to public API. When public types change, expect diffs here too.
+        If a `.test-d.ts` was deleted or a test-d assertion was loosened, ask why — this is the last line of type-safety
+        defense before consumers see the break.
+
+    - path: "{webpack,rollup}.*.config.{js,ts}"
+      instructions: |
+        Review Tier: High. Build configs decide what the shipped bundle looks like.
+        Flag: (1) any change to entry points or output filenames (breaks CDN consumers), (2) any change to
+        babel/preset-env targets or browserslist wiring, (3) new/removed plugins that affect module resolution,
+        source maps, or handlebars precompile, (4) any change to `externals` (bundling boundary drift).
+
+    - path: "babel.config.js"
+      instructions: |
+        Review Tier: High. Babel runs before webpack/rollup and controls transpilation targets for IE11.
+        Flag: (1) preset-env `targets` changes, (2) plugin reordering (handlebars-inline-precompile must run first),
+        (3) any removal of the amd-to-commonjs transform (Courage compatibility),
+        (4) any change that affects how @okta/* aliases are resolved.
+
+    - path: "Gruntfile.js"
+      instructions: |
+        Review Tier: High. Grunt drives asset compilation and legacy build steps.
+        Flag any task removal or reordering; call out anything that could change the shipped `target/` layout.
+
+    # -------------------------------------------------------------------
+    # Medium
+    # -------------------------------------------------------------------
+
+    - path: "src/v3/**"
+      instructions: |
+        Review Tier: Medium (v3 is not IE11-functional-tested; do NOT flag IE11-unsafe APIs here).
+        v3 is Preact via `@preact/compat`, MUI, Odyssey, emotion. Review focus:
+          - React hooks rules (dependency arrays, conditional hooks), a11y (ARIA, labels, focus management, keyboard),
+          - DOM XSS surface: any use of `dompurify`, `html-react-parser`, `dangerouslySetInnerHTML` — verify sanitization,
+          - Cookie/fetch security: `js-cookie` attributes, `cross-fetch` credentials mode,
+          - Effects that touch `window` / `document` without SSR / test-mode guards.
+        Point contributors at src/v3/.eslintrc.js for the v3-specific lint contract.
+        Do not restate what src/v3/.eslintrc.js already enforces.
+
+    - path: "src/v3/**/*.test.{ts,tsx}"
+      instructions: |
+        Review Tier: Low, but sensitive to false positives.
+        Flag: `.only(`, `xit(`, `xdescribe(`, disabled `test.skip` without a linked ticket, and any hard-coded
+        credentials, tenant URLs, or real user emails. Encourage descriptive names and edge-case coverage.
+
+    - path: "assets/sass/**"
+      instructions: |
+        Review Tier: Medium. StyleLint enforces most style rules — do not restate them.
+        Focus on: RTL/LTR direction support, high-contrast / prefers-reduced-motion, any hard-coded color that
+        should be an Odyssey token, and any `!important` that will fight downstream customer CSS.
+
+    - path: "packages/@okta/courage-*/**"
+      instructions: |
+        Review Tier: Medium. This is the internal Backbone UI library — treat as production surface.
+        Flag any change to Backbone View / Model / Collection semantics (event bindings, `initialize`, `render`).
+        Note: courage-dist ships prebuilt esm/cjs; those are excluded from review via path_filters.
+
+    - path: "packages/@okta/qtip2/**"
+      instructions: |
+        Review Tier: Medium. Tooltip library vendored inside the widget. Any change here can affect focus management
+        and screen-reader behavior on every tooltip in the widget.
+
+    - path: "packages/@okta/i18n/src/**/*.json"
+      instructions: |
+        Review Tier: Medium (schema files) — the .properties translation files are excluded from CodeRabbit review
+        because they go through the l10n workflow. If a translation *key* changes, confirm all consuming templates
+        are updated in the same PR. Warn on any English-only addition (english-leak risk).
+
+    - path: "src/{router,widget,config,models}/**"
+      instructions: |
+        Review Tier: Medium. Routing, bootstrap, config resolution, and shared models.
+        Flag: (1) any change to how the engine is selected (v1 vs v2 vs v3), (2) any new config default,
+        (3) any model attribute that touches token or session state.
+
+    # -------------------------------------------------------------------
+    # Low
+    # -------------------------------------------------------------------
+
+    - path: "playground/**"
+      instructions: |
+        Review Tier: Low. Dev-only harness — does not ship in the NPM bundle.
+        Skim for: real credentials, real tenant URLs, or secrets accidentally committed.
+        Do not flag stylistic issues here.
+
+    - path: ".widgetrc.sample.js"
+      instructions: |
+        Review Tier: Low. TestCafe / dev-server sample config. Watch for real tenant URLs or client IDs.
+
+    - path: "test/unit/spec/**/*.{js,ts}"
+      instructions: |
+        Review Tier: Low. Jest unit tests.
+        Flag: `.only(`, `xit(`, `xdescribe(`, disabled `test.skip` without a ticket, and hard-coded credentials or URLs.
+        Encourage descriptive names, edge-case coverage, and avoiding overly broad mocks of the auth-client.
+
+    - path: "test/testcafe/spec/**/*.{js,ts}"
+      instructions: |
+        Review Tier: Low. TestCafe e2e tests.
+        Flag: `.only(`, `fixture.skip`, missing `await` on TestController calls, and hard-coded credentials, tenant
+        URLs, or IDs. If a mock endpoint is being changed, verify request-mock coverage is still complete.
+
+    - path: ".eslintrc*"
+      instructions: |
+        Review Tier: Low, escalate to High if any `plugin:compat/*` rule is disabled or `settings.polyfills` is edited.
+        Flag any rule being loosened; look up whether a proper fix exists first. Any change to the v1/v2 IE11
+        override in the root .eslintrc.js should be cross-checked against polyfill/index.js and
+        scripts/ie11-unsafe-apis.json.
+
+    - path: "{stylelint.config.js,stylelint-local-rules.js}"
+      instructions: |
+        Review Tier: Low. Stylelint config. Flag any rule loosening.
+
+    - path: "packages/@okta/eslint-plugin-okta-ui/**"
+      instructions: |
+        Review Tier: Low. Custom ESLint rules. If a rule is being weakened, ask for the reasoning and ideally a
+        test case that demonstrates the new behavior.
+
+    # -------------------------------------------------------------------
+    # Very Low  —  doc-quality only
+    # -------------------------------------------------------------------
+
+    - path: "**/*.md"
+      instructions: |
+        Review Tier: Very Low. Docs.
+        Check: typos, broken links, references to deprecated APIs / removed config options, and any accidental
+        internal URLs — links to internal wikis, ticket trackers, or private repositories do not belong in
+        public documentation.
+
+    - path: "{.vscode/**,.editorconfig,.gitattributes,.gitignore}"
+      instructions: |
+        Review Tier: Very Low. Editor / VCS config. Only flag if a change would materially affect CI or bundle output.
+
+chat:
+  auto_reply: true
+
+knowledge_base:
+  code_guidelines:
+    filePatterns:
+      - "CONTRIBUTING.md"
+      - "CLAUDE.md"
+  learnings:
+    scope: "auto"
