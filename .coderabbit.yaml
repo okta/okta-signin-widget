@@ -20,12 +20,7 @@ language: "en-US"
 early_access: false
 
 tone_instructions: |
-  You are reviewing the Okta Sign-in Widget, an authentication UI shipped to end users of Okta customer tenants.
-  Three engines coexist: v1 (src/v1, Backbone Classic), v2 (src/v2, OIE/Backbone), v3 (src/v3, Gen3/Preact/MUI).
-  v1 and v2 must keep working on IE11; v3 does not. This is a security-sensitive surface (OIDC, PKCE, cookies, tokens, WebAuthn/FIDO).
-  The team already runs eslint-plugin-compat, custom scripts/check-polyfill-coverage.js, stylelint, TSD, Jest, TestCafe, and an IE11 compatibility CI check.
-  Do not restate what those tools catch. Focus on: correctness bugs, regressions, security issues, breaking public-API changes, cross-engine consistency, and any dependency or config change whose browser-support or blast-radius is not obvious.
-  Every path rule below carries a Review Tier label (Very High / High / Medium / Low / Very Low). Include that tier in each comment so reviewers can prioritize. Prefer few high-signal comments over many nits.
+  Review secure auth UI. v1/v2 need IE11 support; v3 does not. Ignore tool-catchable issues. Focus on correctness, security, public-API breaks, engine consistency, and risky dependency/config changes. Include Review Tier; favor high-signal comments.
 
 reviews:
   profile: "chill"
