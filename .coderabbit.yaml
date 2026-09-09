@@ -49,7 +49,6 @@ reviews:
     - "!**/*.min.css"
     - "!**/*.map"
     - "!**/__snapshots__/**"
-    - "!yarn.lock"
     - "!package-lock.json"
     - "!packages/@okta/i18n/src/**/*.properties"
     - "!packages/@okta/courage-dist/esm/**"
@@ -60,15 +59,6 @@ reviews:
     # -------------------------------------------------------------------
     # Very High / Extreme  —  3 approvals, isolate, DDRR, custom test plan
     # -------------------------------------------------------------------
-
-    - path: ".bacon.yml"
-      instructions: |
-        SIW Risk: Very High / Extreme (if removing suites) or High (adding suites).
-        This is the Bacon CI config. Removing any suite — especially `ie11-compat-check`, monolith downstream builds,
-        or any auth/security suite — is Very High risk and must be isolated with Architect review.
-        Adding a new suite is generally High risk (see PR_RISK_GUIDE.md).
-        Also flag any change that removes references to `loginpage_backbone.jsp` or `loginpage_cdn.jsp`.
-        Ask the author to link the monolith downstream build result before merge.
 
     # -------------------------------------------------------------------
     # High  —  3 approvals (TL + SME + QA), DDN ticket, monitoring plan
@@ -83,6 +73,11 @@ reviews:
           - the docstring examples in polyfill/README.md
         Ask reviewer whether QA has been engaged for embedded-browser testing.
         If a polyfill is being *removed*, verify no v1/v2 caller relies on it.
+
+    - path: "yarn.lock"
+      instructions: |
+        SIW Risk: High. Changes to yarn.lock resolutions can break embedded and legacy browsers.
+        Ensure a passing monolith downstream build before merging and follow the review checklist.
 
     - path: "scripts/check-polyfill-coverage.js"
       instructions: |
@@ -177,6 +172,11 @@ reviews:
     # Medium  —  2 SME approvals
     # -------------------------------------------------------------------
 
+    - path: "{.gitattributes,.gitignore}"
+      instructions: |
+        SIW Risk: Medium. These files can modify package output.
+        Ensure a passing monolith downstream build before merging and follow the review checklist.
+
     - path: "src/v3/**"
       instructions: |
         SIW Risk: Medium (v3 is not IE11-functional-tested; do NOT flag IE11-unsafe APIs here).
@@ -237,6 +237,13 @@ reviews:
       instructions: |
         SIW Risk: Low. TestCafe / dev-server sample config. Watch for real tenant URLs or client IDs.
 
+    - path: ".bacon.yml"
+      instructions: |
+        SIW Risk: Low for additions; High for removals.
+        This is the Bacon CI config. Flag any removal, including references to `loginpage_backbone.jsp` or
+        `loginpage_cdn.jsp`, and require the High-risk process: an isolated PR, DDN ticket, monitoring plan,
+        and a passing monolith downstream build.
+
     - path: "test/unit/spec/**/*.{js,ts}"
       instructions: |
         SIW Risk: Low. Jest unit tests.
@@ -275,9 +282,9 @@ reviews:
         Check: typos, broken links, references to deprecated APIs / removed config options, accidental internal URLs
         (jira / confluence / oktainc.atlassian.net links belong in commits and internal docs, not the public README).
 
-    - path: "{.vscode/**,.editorconfig,.gitattributes,.gitignore}"
+    - path: "{.vscode/**,.editorconfig}"
       instructions: |
-        SIW Risk: Very Low. Editor / VCS config. Only flag if a change would materially affect CI or bundle output.
+        SIW Risk: Very Low. Editor-only config. Only flag if a change would materially affect local development.
 
 chat:
   auto_reply: true
@@ -285,7 +292,8 @@ chat:
 knowledge_base:
   code_guidelines:
     filePatterns:
-      - ".github/PR_RISK_GUIDE.md"
+      - path: ".github/PR_RISK_GUIDE.md"
+        applyTo: "**/*"
       - "CONTRIBUTING.md"
       - "CLAUDE.md"
   learnings:
