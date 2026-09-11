@@ -87,3 +87,66 @@ scenario('select-authenticator-groups-mixed', (rest) => ([
     return res(ctx.status(200), ctx.json(body));
   }),
 ]));
+
+// Real-org QA response captured from qa-nofm.okta1.com. Uses the ion-wrapped
+// authenticatorGroups shape and omits `status` on the group — reproduces the
+// exact wire format the widget must handle.
+scenario('select-authenticator-groups-qa-wire', (rest) => ([
+  ...bootstrap(rest),
+  rest.post('*/idp/idx/introspect', async (req, res, ctx) => {
+    const { default: body } = await import('../response/idp/idx/authenticator-enroll-select-authenticator-groups-qa-wire.json');
+    return res(ctx.status(200), ctx.json(body));
+  }),
+]));
+
+// N=M edge case: single group where count === remaining, so the user must
+// enroll every member. Card label reads "Choose 3 of:".
+scenario('select-authenticator-groups-n-equals-m', (rest) => ([
+  ...bootstrap(rest),
+  rest.post('*/idp/idx/introspect', async (req, res, ctx) => {
+    const { default: body } = await import('../response/idp/idx/authenticator-enroll-select-authenticator-groups-n-equals-m.json');
+    return res(ctx.status(200), ctx.json(body));
+  }),
+]));
+
+// Group-of-1: a single authenticator in a required group renders as a bare
+// row (no card wrapper) per the container's members.length === 1 branch.
+scenario('select-authenticator-groups-single-member', (rest) => ([
+  ...bootstrap(rest),
+  rest.post('*/idp/idx/introspect', async (req, res, ctx) => {
+    const { default: body } = await import('../response/idp/idx/authenticator-enroll-select-authenticator-groups-single-member.json');
+    return res(ctx.status(200), ctx.json(body));
+  }),
+]));
+
+// Two REQUIRED groups without cross-membership: first is N>1 (2 of 3), second
+// is 1 of 3. Distinct from `select-authenticator-groups-two` which uses
+// cross-membership and 1-of-X.
+scenario('select-authenticator-groups-two-no-overlap', (rest) => ([
+  ...bootstrap(rest),
+  rest.post('*/idp/idx/introspect', async (req, res, ctx) => {
+    const { default: body } = await import('../response/idp/idx/authenticator-enroll-select-authenticator-groups-two-no-overlap.json');
+    return res(ctx.status(200), ctx.json(body));
+  }),
+]));
+
+// Grace period already elapsed: the group's gracePeriod.expiry is in the past.
+// hasActiveGroupGracePeriod returns false, so the group falls through to the
+// required-now bucket (blocking) instead of required-soon.
+scenario('select-authenticator-groups-grace-period-expired', (rest) => ([
+  ...bootstrap(rest),
+  rest.post('*/idp/idx/introspect', async (req, res, ctx) => {
+    const { default: body } = await import('../response/idp/idx/authenticator-enroll-select-authenticator-groups-grace-period-expired.json');
+    return res(ctx.status(200), ctx.json(body));
+  }),
+]));
+
+// Two groups with mixed grace-period states: one expired GP (required-now),
+// one active GP (required-soon). Exercises cross-group bucketing.
+scenario('select-authenticator-groups-two-mixed-gp', (rest) => ([
+  ...bootstrap(rest),
+  rest.post('*/idp/idx/introspect', async (req, res, ctx) => {
+    const { default: body } = await import('../response/idp/idx/authenticator-enroll-select-authenticator-groups-two-mixed-gp.json');
+    return res(ctx.status(200), ctx.json(body));
+  }),
+]));

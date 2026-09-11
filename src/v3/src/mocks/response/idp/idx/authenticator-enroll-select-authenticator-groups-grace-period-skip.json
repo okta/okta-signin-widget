@@ -123,19 +123,22 @@
     "type": "array",
     "value": []
   },
-  "authenticatorGroups": [
-    {
-      "groupId": "arg-recovery",
-      "status": "REQUIRED",
-      "criteria": [{ "type": "authenticatorCount", "count": 1 }],
-      "remaining": 1,
-      "gracePeriod": {
-        "type": "BY_SKIP_COUNT",
-        "skipCount": 3,
-        "remainingSkips": 3
+  "authenticatorGroups": {
+    "type": "array",
+    "value": [
+      {
+        "groupId": "arg-recovery",
+        "status": "REQUIRED",
+        "criteria": [{ "type": "authenticatorCount", "count": 1 }],
+        "remaining": 1,
+        "gracePeriod": {
+          "type": "BY_SKIP_COUNT",
+          "skipCount": 3,
+          "remainingSkips": 3
+        }
       }
-    }
-  ],
+    ]
+  },
   "user": {
     "type": "object",
     "value": {

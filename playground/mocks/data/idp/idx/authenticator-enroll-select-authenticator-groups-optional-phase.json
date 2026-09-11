@@ -133,14 +133,17 @@
       }
     ]
   },
-  "authenticatorGroups": [
-    {
-      "groupId": "arg-recovery",
-      "status": "REQUIRED",
-      "criteria": [{ "type": "authenticatorCount", "count": 1 }],
-      "remaining": 0
-    }
-  ],
+  "authenticatorGroups": {
+    "type": "array",
+    "value": [
+      {
+        "groupId": "arg-recovery",
+        "status": "REQUIRED",
+        "criteria": [{ "type": "authenticatorCount", "count": 1 }],
+        "remaining": 0
+      }
+    ]
+  },
   "user": {
     "type": "object",
     "value": {
