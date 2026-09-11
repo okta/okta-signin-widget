@@ -23,6 +23,7 @@ import {
   getAuthenticatorVerifyButtonElements,
   isAuthenticatorButtonInGracePeriod,
   isOnlyPushWithAutoChallenge,
+  normalizeAuthenticatorGroups,
   partitionGroupedEnrollButtons,
 } from './utils';
 
@@ -1362,6 +1363,36 @@ describe('Select Authenticator Utility Tests', () => {
 
     it('returns false when no grace-period fields are set', () => {
       expect(isAuthenticatorButtonInGracePeriod(makeBtn({}))).toBe(false);
+    });
+  });
+
+  describe('normalizeAuthenticatorGroups', () => {
+    const group: AuthenticatorGroup = {
+      groupId: 'arg-recovery',
+      criteria: [{ type: 'authenticatorCount', count: 1 }],
+      remaining: 1,
+    };
+
+    it('flattens the ion-wrapped {type, value} form to a plain array', () => {
+      expect(normalizeAuthenticatorGroups({ type: 'array', value: [group] }))
+        .toEqual([group]);
+    });
+
+    it('returns undefined when the field is absent', () => {
+      expect(normalizeAuthenticatorGroups(undefined)).toBeUndefined();
+      expect(normalizeAuthenticatorGroups(null)).toBeUndefined();
+    });
+
+    it('returns undefined for malformed input (missing value)', () => {
+      expect(normalizeAuthenticatorGroups({ type: 'array' })).toBeUndefined();
+    });
+
+    it('returns undefined for malformed input (wrong type discriminator)', () => {
+      expect(normalizeAuthenticatorGroups({ type: 'object', value: [group] })).toBeUndefined();
+    });
+
+    it('returns undefined for a bare array (not wrapped)', () => {
+      expect(normalizeAuthenticatorGroups([group])).toBeUndefined();
     });
   });
 });
