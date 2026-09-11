@@ -11,6 +11,7 @@ import XHRSuccessWithAppUser from '../../../../../playground/mocks/data/idp/idx/
 import XHRIdentify from '../../../../../playground/mocks/data/idp/idx/identify.json';
 import XHRIdentifyWithThirdPartyIdps from '../../../../../playground/mocks/data/idp/idx/identify-with-third-party-idps.json';
 import XHRIdentifyButUnknownUser from '../../../../../playground/mocks/data/idp/idx/identify-unknown-user.json';
+import XHRSelectAuthenticatorEnrollGroupsQaWire from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator-groups-qa-wire.json';
 
 describe('v2/ion/responseTransformer', function() {
   let idps = [
@@ -510,6 +511,24 @@ describe('v2/ion/responseTransformer', function() {
           },
         ],
         idx: idxResp,
+      });
+    });
+  });
+
+  describe('authenticatorGroups (ion-wrapped)', () => {
+    it('flattens the wrapped ion form to a plain array on result.authenticatorGroups', done => {
+      MockUtil.mockIntrospect(done, XHRSelectAuthenticatorEnrollGroupsQaWire, idxResp => {
+        const result = transformResponse(testContext.settings, idxResp);
+        expect(Array.isArray(result.authenticatorGroups)).toBe(true);
+        expect(result.authenticatorGroups).toEqual(XHRSelectAuthenticatorEnrollGroupsQaWire.authenticatorGroups.value);
+        expect(result.authenticatorGroups[0].remaining).toBe(2);
+      });
+    });
+
+    it('leaves result.authenticatorGroups undefined when the response omits the field', done => {
+      MockUtil.mockIntrospect(done, XHRIdentify, idxResp => {
+        const result = transformResponse(testContext.settings, idxResp);
+        expect(result.authenticatorGroups).toBeUndefined();
       });
     });
   });

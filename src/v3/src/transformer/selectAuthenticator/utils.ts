@@ -44,12 +44,27 @@ export interface AuthenticatorGroupGracePeriod {
 
 export interface AuthenticatorGroup {
   groupId: string;
-  // Currently always 'REQUIRED' per contract; the active gate is remaining > 0.
-  status: 'REQUIRED';
+  // Real IDX responses may omit this field; the active gate is remaining > 0.
+  status?: 'REQUIRED';
   criteria: { type: string; count: number }[];
   remaining: number;
   gracePeriod?: AuthenticatorGroupGracePeriod;
 }
+
+// authenticatorGroups arrives on the wire in the ion {type:'array', value:[...]}
+// wrapper like every other top-level array in an IDX response. Flatten to a
+// plain array so downstream consumers can treat it as one. Returns undefined
+// when the field is absent or malformed.
+export const normalizeAuthenticatorGroups = (
+  raw: unknown,
+): AuthenticatorGroup[] | undefined => {
+  if (raw && typeof raw === 'object'
+      && (raw as { type?: string }).type === 'array'
+      && Array.isArray((raw as { value?: unknown }).value)) {
+    return (raw as { value: AuthenticatorGroup[] }).value;
+  }
+  return undefined;
+};
 
 const getVerifyEmailAriaLabel = (email?: string): string => (email
   ? loc('oie.select.authenticator.verify.email.with.email.label', 'login', [email])

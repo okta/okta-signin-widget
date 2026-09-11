@@ -28,10 +28,10 @@ import {
 } from '../../types';
 import { getGracePeriodRequiredSoonCustomLink, getSupportedLanguages, loc } from '../../util';
 import {
-  AuthenticatorGroup,
   getAuthenticatorEnrollButtonElements,
   GroupedSectionItem,
   isAuthenticatorButtonInGracePeriod,
+  normalizeAuthenticatorGroups,
   partitionGroupedEnrollButtons,
 } from './utils';
 
@@ -146,7 +146,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
   // Trigger the N-of-M path only when at least one REQUIRED group has
   // remaining > 0. Otherwise take the legacy per-authenticator gracePeriod path
   // — this guarantees legacy responses render byte-identically to today.
-  const groups = authenticatorGroups as AuthenticatorGroup[] | undefined;
+  const groups = normalizeAuthenticatorGroups(authenticatorGroups);
   const hasActiveGroup = Array.isArray(groups) && groups.some((g) => g && g.remaining > 0);
 
   const title: TitleElement = {
@@ -176,7 +176,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
       requiredNow: requiredNowItems,
       requiredSoon: requiredSoonItems,
       ungrouped,
-    } = partitionGroupedEnrollButtons(allButtons, groups as AuthenticatorGroup[], languageTags);
+    } = partitionGroupedEnrollButtons(allButtons, groups, languageTags);
 
     // Route ungrouped buttons through the legacy per-button gracePeriod split.
     // isAuthenticatorButtonInGracePeriod reads the post-processed description
