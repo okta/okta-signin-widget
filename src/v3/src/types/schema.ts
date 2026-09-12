@@ -687,6 +687,12 @@ export interface InfoboxElement extends UISchemaElement {
     message: WidgetMessage | WidgetMessage[];
     class: string;
     dataSe?: string;
+    /**
+     * When set, rendered as the id of a wrapper around the message content so that other
+     * elements can reference the message via aria-describedby. Only set when something
+     * actually references it. See updatePasswordDescribedByFormError.
+     */
+    messageId?: string;
   }
 }
 

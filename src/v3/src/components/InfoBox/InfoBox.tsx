@@ -36,10 +36,32 @@ const InfoBox: UISchemaElementComponent<{
       message,
       class: messageClass,
       dataSe,
+      messageId,
     },
   } = uischema;
 
   const tokens = useOdysseyDesignTokens();
+
+  const messageContent = Array.isArray(message)
+    ? message.map((msg) => (
+      <Box
+        marginBlockEnd={tokens.Spacing2}
+        key={msg.message}
+      >
+        <WidgetMessageContainer
+          key={msg.message}
+          message={msg}
+          parserOptions={{ replace: getLinkReplacerFn({}, 'monochrome') }}
+          linkVariant="monochrome"
+        />
+      </Box>
+    ))
+    : (
+      <WidgetMessageContainer
+        message={message}
+        linkVariant="monochrome"
+      />
+    );
 
   return loading ? null : (
     <Box
@@ -52,28 +74,13 @@ const InfoBox: UISchemaElementComponent<{
         // visually-hidden severity text is not translated
         translate="no"
       >
-        {
-          Array.isArray(message)
-            ? message.map((msg) => (
-              <Box
-                marginBlockEnd={tokens.Spacing2}
-                key={msg.message}
-              >
-                <WidgetMessageContainer
-                  key={msg.message}
-                  message={msg}
-                  parserOptions={{ replace: getLinkReplacerFn({}, 'monochrome') }}
-                  linkVariant="monochrome"
-                />
-              </Box>
-            ))
-            : (
-              <WidgetMessageContainer
-                message={message}
-                linkVariant="monochrome"
-              />
-            )
-        }
+        {/*
+          * When another element references this message, expose the id on a wrapper around the
+          * message content only, excluding the Callout's icon and visually-hidden severity text,
+          * so that aria-describedby resolves to the message alone.
+          * See updatePasswordDescribedByFormError.
+          */}
+        {messageId ? <Box id={messageId}>{messageContent}</Box> : messageContent}
       </Callout>
     </Box>
   );

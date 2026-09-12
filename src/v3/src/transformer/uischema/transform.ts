@@ -24,6 +24,7 @@ import { overwriteAutocomplete } from './overwriteAutocomplete';
 import { setFocusOnFirstElement } from './setFocusOnFirstElement';
 import { updateCustomFields } from './updateCustomFields';
 import { updateElementKeys } from './updateElementKeys';
+import { updatePasswordDescribedByFormError } from './updatePasswordDescribedByFormError';
 import { updatePasswordDescribedByValue } from './updatePasswordDescribedByValue';
 
 export const transformUISchema: TransformStepFnWithOptions = (
@@ -36,6 +37,8 @@ export const transformUISchema: TransformStepFnWithOptions = (
   updateElementKeys(options),
   addIdToElements,
   updatePasswordDescribedByValue,
+  // Must run after updatePasswordDescribedByValue so the two describedby values compose
+  updatePasswordDescribedByFormError,
   overwriteAutocomplete(options),
   // OKTA-586475: Please keep this as the last function to be executed since we want to ensure
   // that the identifier container is always positioned at the top of a view
