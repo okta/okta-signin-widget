@@ -88,9 +88,9 @@ scenario('select-authenticator-groups-mixed', (rest) => ([
   }),
 ]));
 
-// Real-org QA response captured from qa-nofm.okta1.com. Uses the ion-wrapped
-// authenticatorGroups shape and omits `status` on the group — reproduces the
-// exact wire format the widget must handle.
+// Captured QA response. Uses the ion-wrapped authenticatorGroups shape and
+// omits `status` on the group — reproduces the exact wire format the widget
+// must handle.
 scenario('select-authenticator-groups-qa-wire', (rest) => ([
   ...bootstrap(rest),
   rest.post('*/idp/idx/introspect', async (req, res, ctx) => {
