@@ -342,6 +342,19 @@ const buildOktaVerifyOptions = (
     return [];
   }
 
+  // N-of-M: OV can belong to one or more required groups. Propagate its
+  // groupIds onto every expanded method-type button so partitionGroupedEnrollButtons
+  // can still assign these buttons to the correct group card. Without this,
+  // getAuthenticatorButtonElements splices the group-aware OV button out and
+  // replaces it with method-type buttons that have no group affiliation.
+  // @ts-ignore TODO: Add groupIds field to IdxAuthenticator in auth-js SDK
+  const ovGroupIds: string[] | undefined = Array.isArray(ovRemediation?.relatesTo?.groupIds)
+    // @ts-ignore TODO: Add groupIds field to IdxAuthenticator in auth-js SDK
+    && ovRemediation.relatesTo.groupIds.length > 0
+    // @ts-ignore TODO: Add groupIds field to IdxAuthenticator in auth-js SDK
+    ? ovRemediation.relatesTo.groupIds
+    : undefined;
+
   return methodType.options.map((option: IdxOption, index: number) => {
     const authenticatorButton: AuthenticatorButtonElement = {
       type: 'AuthenticatorButton',
@@ -371,6 +384,7 @@ const buildOktaVerifyOptions = (
         iconDescr: option.value === 'totp'
           ? loc('factor.totpSoft.description', 'login')
           : loc('factor.push.description', 'login'),
+        ...(ovGroupIds ? { groupIds: ovGroupIds } : {}),
       },
     };
     return authenticatorButton;
