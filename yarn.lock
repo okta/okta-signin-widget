@@ -4958,6 +4958,47 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.18.0.tgz#1a7481137a54740bee1ded4ae5752450f155d942"
   integrity sha512-xuglR2rBVHA5UsI8h8UbX4VJ470PtGCf5Vpswh7p2ukaqBGFTnsfzxUBetoWBWymHMxbIG0Cmx7Y9qDZzr648w==
 
+"@sentry-internal/browser-utils@8.55.2":
+  version "8.55.2"
+  resolved "https://registry.npmjs.org/@sentry-internal/browser-utils/-/browser-utils-8.55.2.tgz#3463115ac048813d71565c6fa2a48e6d60f15e8b"
+  integrity sha512-GnKod+gL/Y+1FUM/RGV8q6le1CoyiGbT40MitEK7eVwWe+bfTRq1gN7ioupyHFMUg1RlQkDQ4/sENmio/uow5A==
+  dependencies:
+    "@sentry/core" "8.55.2"
+
+"@sentry-internal/feedback@8.55.2":
+  version "8.55.2"
+  resolved "https://registry.npmjs.org/@sentry-internal/feedback/-/feedback-8.55.2.tgz#16608bf305beb840b751f63473558cb57e9c9503"
+  integrity sha512-XQy//NWbL0mLLM5w8wNDWMNpXz39VUyW2397dUrH8++kR63WhUVAvTOtL0o0GMVadSAzl1b08oHP9zSUNFQwcg==
+  dependencies:
+    "@sentry/core" "8.55.2"
+
+"@sentry-internal/replay-canvas@8.55.2":
+  version "8.55.2"
+  resolved "https://registry.npmjs.org/@sentry-internal/replay-canvas/-/replay-canvas-8.55.2.tgz#66138ae5e31c8e77a72ceab12673bfd7ae99dd26"
+  integrity sha512-P/jGiuR7dRLG9IzD/463fLgiibyYceauav/9prRG0ZxJm1AtuO02OKball2Fs3bbzdzwHCTlcsUuL2ivDF4b5A==
+  dependencies:
+    "@sentry-internal/replay" "8.55.2"
+    "@sentry/core" "8.55.2"
+
+"@sentry-internal/replay@8.55.2":
+  version "8.55.2"
+  resolved "https://registry.npmjs.org/@sentry-internal/replay/-/replay-8.55.2.tgz#c00cfa8117a6bad93f5522671049760e3780d0c8"
+  integrity sha512-+W43Z697EVe/OgpGW07B773sa8xO1UbpnW0Cr+E+3FMDb6ZbXlaBUoagPTUkkQPdwBe35SDh6r8y2M3EOPGbxg==
+  dependencies:
+    "@sentry-internal/browser-utils" "8.55.2"
+    "@sentry/core" "8.55.2"
+
+"@sentry/browser@^8.0.0":
+  version "8.55.2"
+  resolved "https://registry.npmjs.org/@sentry/browser/-/browser-8.55.2.tgz#95eff656e5a61f4a22605f88c03746c20c51cf47"
+  integrity sha512-xHuPIEKhx9zw5quWvv4YgZprnwoVMCfxIhmOIf6KJ9iizyUHeUDcKpLS59xERroqwX4RpvK+l/27AZu4zfZlzQ==
+  dependencies:
+    "@sentry-internal/browser-utils" "8.55.2"
+    "@sentry-internal/feedback" "8.55.2"
+    "@sentry-internal/replay" "8.55.2"
+    "@sentry-internal/replay-canvas" "8.55.2"
+    "@sentry/core" "8.55.2"
+
 "@sentry/cli-darwin@2.58.4":
   version "2.58.4"
   resolved "https://registry.npmjs.org/@sentry/cli-darwin/-/cli-darwin-2.58.4.tgz#5e3005c1f845acac243e8dcb23bef17337924768"
@@ -5017,6 +5058,11 @@
     "@sentry/cli-win32-arm64" "2.58.4"
     "@sentry/cli-win32-i686" "2.58.4"
     "@sentry/cli-win32-x64" "2.58.4"
+
+"@sentry/core@8.55.2":
+  version "8.55.2"
+  resolved "https://registry.npmjs.org/@sentry/core/-/core-8.55.2.tgz#1a841aefc9b96f7a8a05c30162fa6ebc7e1dc47a"
+  integrity sha512-YlEBwybUcOQ/KjMHDmof1vwweVnBtBxYlQp7DE3fOdtW4pqqdHWTnTntQs4VgYfxzjJYgtkd9LHlGtg8qy+JVQ==
 
 "@sideway/address@^4.1.5":
   version "4.1.5"

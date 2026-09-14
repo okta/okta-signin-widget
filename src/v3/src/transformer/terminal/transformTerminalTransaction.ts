@@ -29,7 +29,9 @@ import {
   UISchemaLayout,
   WidgetProps,
 } from '../../types';
+import { IWidgetContext } from '../../types/context';
 import {
+  buildDiagnosticBundle,
   containsMessageKey,
   containsMessageKeyPrefix,
   containsOneOfMessageKeys,
@@ -37,6 +39,7 @@ import {
   getBaseUrl,
   isOauth2Enabled,
   loc,
+  sendFeedbackToSentry,
   SessionStorage,
   shouldShowCancelLink,
 } from '../../util';
@@ -153,6 +156,47 @@ const appendViewLinks = (
   }
 };
 
+/**
+ * On an unrecoverable (error-class) terminal view, append a "Send feedback"
+ * link that ships a PII-safe diagnostic bundle to Sentry. Gated behind the
+ * `feedback.enabled` widget option; renders only when there is an ERROR message.
+ */
+const appendSendFeedbackLink = (
+  transaction: IdxTransaction,
+  uischema: UISchemaLayout,
+  widgetProps: WidgetProps,
+): void => {
+  if (!widgetProps.feedback?.enabled) {
+    return;
+  }
+  const isErrorTerminal = transaction.messages?.some((msg) => msg.class === 'ERROR');
+  if (!isErrorTerminal) {
+    return;
+  }
+
+  const feedbackLink: LinkElement = {
+    type: 'Link',
+    options: {
+      label: loc('feedback.send', 'login'),
+      dataSe: 'send-feedback',
+      onClick: async (widgetContext?: IWidgetContext) => {
+        if (!widgetContext) {
+          return;
+        }
+        try {
+          const bundle = buildDiagnosticBundle(widgetContext);
+          await sendFeedbackToSentry(bundle, widgetProps.feedback);
+        } catch (err) {
+          // Diagnostics must never break the terminal view.
+          // eslint-disable-next-line no-console
+          console.error('[siw-feedback] failed to send diagnostics', err);
+        }
+      },
+    },
+  };
+  uischema.elements.push(feedbackLink);
+};
+
 export const transformTerminalTransaction = (
   transaction: IdxTransaction,
   widgetProps: WidgetProps,
@@ -213,6 +257,8 @@ export const transformTerminalTransaction = (
   transformTerminalMessages(transaction, formBag);
 
   appendViewLinks(transaction, formBag.uischema, widgetProps, bootstrapFn);
+
+  appendSendFeedbackLink(transaction, formBag.uischema, widgetProps);
 
   setFocusOnFirstElement(formBag);
 

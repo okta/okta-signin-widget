@@ -67,12 +67,14 @@ import {
   getLanguageCode,
   getLanguageDirection,
   getOdysseyTranslationOverrides,
+  installFetchTap,
   isAndroidOrIOS,
   isAuthClientSet,
   isConfigRegisterFlow,
   isConsentStep,
   isOauth2Enabled,
   loadLanguage,
+  recordTransaction,
   SessionStorage,
   shouldAutoRedirect,
   triggerEmailVerifyCallback,
@@ -109,6 +111,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     flow,
     widgetHooks,
     features,
+    feedback,
   } = widgetProps;
 
   const [hide, setHide] = useState<boolean>(false);
@@ -125,6 +128,15 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [responseError, setResponseError] = useState<AuthApiError | OAuthError | null>(null);
   // Shared poll-in-flight tracker (see IWidgetContext.pollInFlightRef)
   const pollInFlightRef = useRef<boolean>(false);
+
+  // Install the feedback diagnostics fetch tap during first render (before the
+  // bootstrap introspect fires) so its request URL is captured. Records ONLY
+  // url + method + status. No-op unless the feedback feature is enabled.
+  useOnce(() => {
+    if (feedback?.enabled) {
+      installFetchTap();
+    }
+  });
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data, pollInFlightRef);
   const interactionCodeFlowFormBag = useInteractionCodeFlow(
     idxTransaction,
@@ -435,6 +447,15 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pollingTransaction]); // only watch on pollingTransaction changes
+
+  // Record every transaction into the feedback diagnostics trail. Bootstrap,
+  // form submits, and poll promotions all funnel through setIdxTransaction, so
+  // this single effect captures the whole flow. No-op unless feedback enabled.
+  useEffect(() => {
+    if (feedback?.enabled && idxTransaction) {
+      recordTransaction(idxTransaction, { includeRaw: feedback?.includeRawResponses });
+    }
+  }, [idxTransaction, feedback?.enabled, feedback?.includeRawResponses]);
 
   useEffect(() => {
     if (typeof interactionCodeFlowFormBag === 'undefined') {

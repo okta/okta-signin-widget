@@ -224,6 +224,22 @@ export type WidgetOptions = {
   recaptcha?: {
     scriptSource?: string;
   };
+  // Diagnostic feedback options (gen3). When enabled, an unrecoverable terminal
+  // error view shows a "Send feedback" button that ships a PII-safe diagnostic
+  // bundle (flow trail + correlation ids + environment) to the configured Sentry
+  // DSN. See src/v3/docs/terminal-feedback-diagnostics.md.
+  feedback?: {
+    // show the "Send feedback" button on terminal error views
+    enabled?: boolean;
+    // Sentry DSN the diagnostic report is sent to
+    sentryDsn?: string;
+    // Sentry environment tag (e.g. 'dev', 'preview', 'prod')
+    sentryEnvironment?: string;
+    // POC/exploration only: also attach the full raw IDX responses + request URLs
+    // per step. PII/secret-bearing (stateHandle, identifier) — attachment-only,
+    // MUST be scrubbed before production. Default off.
+    includeRawResponses?: boolean;
+  };
 };
 
 export type IdxMethod =

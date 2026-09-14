@@ -16,6 +16,19 @@ const config = {
   assets: {
     baseUrl: '/'
   },
+  // Diagnostic feedback -> Sentry (gen3 only).
+  // See src/v3/docs/terminal-feedback-diagnostics.md.
+  // To verify end-to-end against a dev Sentry project, either paste your dev DSN
+  // below, or (easier, no rebuild) pass it in the playground URL:
+  //   http://localhost:3000/?sentryDsn=https://<key>@oXXX.ingest.sentry.io/<project>
+  feedback: {
+    enabled: true,
+    sentryDsn: (typeof window !== 'undefined'
+      && new URLSearchParams(window.location.search).get('sentryDsn')) || '',
+    sentryEnvironment: 'dev',
+    // POC: attach full raw IDX responses + request URLs (PII-bearing; trim later)
+    includeRawResponses: true
+  },
   // Hooks block processing and run custom logic before or after a form is rendered
   hooks: {
     'identify': {
