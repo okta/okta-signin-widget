@@ -31,7 +31,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
 
       const settings = new Settings({ baseUrl: 'http://localhost:3000', ...settingsOptions });
 
-      jest.spyOn(Date, 'now').mockReturnValue(new Date('12/30/2023').getTime());
+      jest.spyOn(Date, 'now').mockReturnValue(Date.parse('2023-12-30T00:00:00.000Z'));
       jest.spyOn(appState, 'hasRemediationObject').mockReturnValue(skipRemediation);
 
       testContext.view = new AuthenticatorEnrollOptionsContainer({

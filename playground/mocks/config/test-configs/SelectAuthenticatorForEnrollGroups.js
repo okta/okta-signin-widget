@@ -44,9 +44,9 @@ const mockEnrollAuthenticatorGroupsMixed = {
   ],
 };
 
-// Real-org QA response captured from qa-nofm.okta1.com. Uses the ion-wrapped
-// authenticatorGroups shape and omits `status` on the group — reproduces the
-// exact wire format the widget must handle.
+// Captured QA response. Uses the ion-wrapped authenticatorGroups shape and
+// omits `status` on the group — reproduces the exact wire format the widget
+// must handle.
 const mockEnrollAuthenticatorGroupsQaWire = {
   '/idp/idx/introspect': [
     'authenticator-enroll-select-authenticator-groups-qa-wire'
