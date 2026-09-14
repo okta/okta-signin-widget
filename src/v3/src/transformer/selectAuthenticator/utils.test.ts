@@ -755,6 +755,74 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues[1].options.actionParams!['authenticator.methodType']).toBe('push');
     });
 
+    it('propagates OV authenticator groupIds onto every expanded method-type button', () => {
+      // Regression: when Okta Verify has multiple method types (push/totp),
+      // getAuthenticatorButtonElements splices the group-aware OV button out
+      // and replaces it with per-method buttons. Without propagation, those
+      // replacement buttons lose their group affiliation and render outside
+      // the required group card.
+      const options: IdxOption[] = [{
+        label: 'Okta Verify',
+        value: [
+          {
+            name: 'methodType',
+            options: [
+              { label: 'Code', value: 'totp' },
+              { label: 'Push', value: 'push' },
+            ],
+          },
+          { name: 'id', value: 'aut-ov' },
+        ],
+        relatesTo: {
+          id: '',
+          type: '',
+          methods: [{ type: '' }],
+          displayName: '',
+          key: AUTHENTICATOR_KEY.OV,
+          // @ts-expect-error groupIds not yet in IdxAuthenticator SDK type
+          groupIds: ['arg-strong', 'arg-recovery'],
+        },
+      }];
+
+      const buttons = getAuthenticatorEnrollButtonElements(options, stepName);
+
+      expect(buttons.length).toBe(2);
+      buttons.forEach((btn) => {
+        expect(btn.options.key).toBe(AUTHENTICATOR_KEY.OV);
+        expect(btn.options.groupIds).toEqual(['arg-strong', 'arg-recovery']);
+      });
+    });
+
+    it('does not add a groupIds field to OV method-type buttons when the OV authenticator is ungrouped', () => {
+      const options: IdxOption[] = [{
+        label: 'Okta Verify',
+        value: [
+          {
+            name: 'methodType',
+            options: [
+              { label: 'Code', value: 'totp' },
+              { label: 'Push', value: 'push' },
+            ],
+          },
+          { name: 'id', value: 'aut-ov' },
+        ],
+        relatesTo: {
+          id: '',
+          type: '',
+          methods: [{ type: '' }],
+          displayName: '',
+          key: AUTHENTICATOR_KEY.OV,
+        },
+      }];
+
+      const buttons = getAuthenticatorEnrollButtonElements(options, stepName);
+
+      expect(buttons.length).toBe(2);
+      buttons.forEach((btn) => {
+        expect(btn.options.groupIds).toBeUndefined();
+      });
+    });
+
     it('should detect authenticator options for additional enroll', () => {
       const authenticatorEnrollments: IdxAuthenticator[] = [
         {

@@ -150,3 +150,15 @@ scenario('select-authenticator-groups-two-mixed-gp', (rest) => ([
     return res(ctx.status(200), ctx.json(body));
   }),
 ]));
+
+// Okta Verify (with multiple method types: push + totp) sitting inside an
+// active required group alongside another authenticator. Exercises the
+// buildOktaVerifyOptions groupIds propagation: OV expands into per-method
+// buttons and must remain inside the group card, not render alongside it.
+scenario('select-authenticator-groups-ov-in-group', (rest) => ([
+  ...bootstrap(rest),
+  rest.post('*/idp/idx/introspect', async (req, res, ctx) => {
+    const { default: body } = await import('../response/idp/idx/authenticator-enroll-select-authenticator-groups-ov-in-group.json');
+    return res(ctx.status(200), ctx.json(body));
+  }),
+]));
