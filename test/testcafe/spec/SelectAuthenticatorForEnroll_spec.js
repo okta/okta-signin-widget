@@ -430,7 +430,7 @@ test.requestHooks(mockOptionalAuthenticatorEnrollment)('should skip optional enr
   await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Security Key or Biometric Authenticator');
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(2)).eql('Use a security key or a biometric authenticator to sign in');
   await t.expect(selectFactorPage.getFactorIconSelectorByIndex(2)).contains('mfa-webauthn');
-  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql(userVariables.gen3 ? 'Set up another' : 'Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2, true)).eql('webauthn');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(2)).eql(false);
 

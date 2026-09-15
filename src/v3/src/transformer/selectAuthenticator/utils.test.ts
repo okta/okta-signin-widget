@@ -751,7 +751,11 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues[1].options.actionParams!['authenticator.methodType']).toBe('push');
     });
 
-    it('should detect authenticator options for additional enroll', () => {
+    // OKTA-1245836: the authenticator enroll list always uses the "Set up" CTA, matching
+    // gen2. Even when an authenticator is already present in authenticatorEnrollments
+    // (e.g. email/password enrolled earlier in a registration flow), it must not be
+    // labeled "Set up another".
+    it('should use the "Set up" CTA for enroll options even when already enrolled', () => {
       const authenticatorEnrollments: IdxAuthenticator[] = [
         {
           id: 'enrolled-email-1',
@@ -800,12 +804,14 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues.length).toBe(2);
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.PASSWORD);
       expect(authenticatorOptionValues[0].label).toBe('Password');
+      expect(authenticatorOptionValues[0].options.isAdditionalEnroll).toBeUndefined();
       expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
       expect(authenticatorOptionValues[0].options.gracePeriodExpiry).toBeNull();
       expect(authenticatorOptionValues[0].options.gracePeriodRequiredDescription).toBeNull();
       expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.EMAIL);
       expect(authenticatorOptionValues[1].label).toBe('Email');
-      expect(authenticatorOptionValues[1].options.ctaLabel).toBe('enroll.choices.setup.another');
+      expect(authenticatorOptionValues[1].options.isAdditionalEnroll).toBeUndefined();
+      expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
       expect(authenticatorOptionValues[1].options.gracePeriodExpiry).toBeNull();
       expect(authenticatorOptionValues[1].options.gracePeriodRequiredDescription).toBeNull();
       expect(authenticatorOptionValues[1].options.gracePeriodRemainingSkipsDescription).toBeNull();
