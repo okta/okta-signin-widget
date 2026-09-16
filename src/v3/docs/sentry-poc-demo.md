@@ -76,6 +76,17 @@ sequenceDiagram
 - Trace **B** is rebuilt from the trail's timestamps at completion (root `auth.flow` + a
   child `auth.step` per entry) → ships as **one** transaction.
 
+### Sentry API used per scenario
+
+All paths lazy-init the SDK with `Sentry.init({ dsn, environment })` and end with
+`Sentry.flush()`.
+
+| Scenario | Sentry SDK API |
+|---|---|
+| **A** — error event | `Sentry.withScope()` → `scope.setTags()` + `scope.setContext('siwDiagnostics', …)` + `scope.addAttachment()`, then `Sentry.captureException()` (returns the event id) |
+| **A** — user feedback | `Sentry.captureFeedback({ message, associatedEventId, tags }, { attachments })` — linked to the event id above |
+| **B** — performance trace | `Sentry.startInactiveSpan({ op: 'auth.flow', forceTransaction: true })` for the root, child `Sentry.startInactiveSpan({ op: 'auth.step' })` nested inside `Sentry.withActiveSpan(root, …)`, each closed with `span.end()`; sampled via `tracesSampleRate` |
+
 ### What we collect
 
 **Always (metadata — PII-safe):**
