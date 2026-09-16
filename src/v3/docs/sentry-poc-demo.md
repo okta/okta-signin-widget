@@ -10,16 +10,10 @@ demo/explainer; the deep design + PII writeup lives in
 
 Two gaps in how we understand real sign-ins:
 
-- **Debugging a broken sign-in.** When a user dead-ends, the only faithful record today is a
-  **customer-collected HAR file** — slow to obtain, awkward for the user, and full of raw
-  secrets (tokens, cookies, credentials). Support/eng often can't see *what the user went
-  through* or *where it broke*.
-- **Observability / product insight.** There's no easy way to answer aggregate questions from
-  real traffic — *how long does sign-in take? how many flows use Okta Verify? where do users
-  drop off?*
+- **Debugging a broken sign-in.** When a user dead-ends, the only faithful record today is a **customer-collected HAR file** — slow to obtain, awkward for the user, and full of raw secrets (tokens, cookies, credentials). Support/eng often can't see *what the user went through* or *where it broke*.
+- **Observability / product insight.** There's no easy way to answer aggregate questions from real traffic — *how long does sign-in take? how many flows use Okta Verify? where do users drop off?*
 
-Both are answered by the same underlying idea: **record each step of the sign-in as it
-happens**, then send that trail to Sentry.
+Both are answered by the same underlying idea: **record each step of the sign-in as it happens**, then send that trail to Sentry.
 
 ---
 
@@ -103,22 +97,11 @@ sequenceDiagram
 
 ## 4. Open questions
 
-- **PII.** The base trail already includes the user identifier, request URLs, and message
-  keys. `includeRawResponses` adds credentials/OTP and `stateHandle`. What must be scrubbed
-  or dropped before any non-POC use?
+- **PII.** The base trail already includes the user identifier, request URLs, and message keys. `includeRawResponses` adds credentials/OTP and `stateHandle`. What must be scrubbed or dropped before any non-POC use?
 - **User consent.** Feature A is explicit (the user clicks *Send feedback*). Feature B
-  auto-sends on **every** completed flow — does that need a consent/notice model, or is
-  metadata-only acceptable?
-- **Data scrubbing.** Sentry redacts fields whose name contains `auth` (e.g.
-  `authenticatorKey` → `[Filtered]`). Fix via Safe Fields, renaming, or accept it? This
-  affects which observability questions we can answer.
-- **Sampling & cost.** The POC traces at 100%. Real traffic needs a `tracesSampler` (low
-  success rate, higher for errors) or it will exhaust the Sentry quota.
-- **DSN & project.** Where should the DSN live for Okta-hosted pages, and do we want a
-  dedicated project vs. separating by `environment` tag?
-- **Coverage gaps.** Cross-tab (email magic link) and cross-device (Okta Verify on a phone)
-  legs can't be seen client-side; full correlation needs a server-side id
-  (`x-okta-request-id`). Also: gen2 parity, and IE11 (Sentry v8 is modern-only).
+  auto-sends on **every** completed flow — does that need a consent/notice model, or is metadata-only acceptable?
+- **Sampling & cost.** The POC traces at 100%. Real traffic needs a `tracesSampler` (low success rate, higher for errors) or it will exhaust the Sentry quota.
+- **Future work.** Gen2 parity, and IE11 (Sentry v8 is modern-only).
 
 ---
 
