@@ -252,6 +252,15 @@ const convert = (settings, idx = {}, lastResult = null) => {
     remediationValues,
     { idx }
   );
+
+  // `authenticatorGroups` arrives in the ion {type, value}-wrapped form on the
+  // wire like every other top-level array in an IDX response. Flatten to a
+  // plain array so downstream consumers can treat it as one. Absent when the
+  // applicable policy has no N-of-M groups configured.
+  const rawGroups = idx.rawIdxState.authenticatorGroups;
+  if (rawGroups && rawGroups.type === 'array' && Array.isArray(rawGroups.value)) {
+    result.authenticatorGroups = rawGroups.value;
+  }
   
   // transform result object
   if (isError(result) && isFailureRedirect(result)) {
