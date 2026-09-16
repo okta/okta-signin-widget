@@ -222,7 +222,7 @@
     "patch-package": "^8.0.0",
     "pixelmatch": "^5.3.0",
     "pngjs": "^7.0.0",
-    "postcss": "^8.4.38",
+    "postcss": "^8.5.23",
     "postcss-loader": "^7.3.4",
     "postcss-scss": "^4.0.9",
     "postinstall-postinstall": "^2.1.0",
