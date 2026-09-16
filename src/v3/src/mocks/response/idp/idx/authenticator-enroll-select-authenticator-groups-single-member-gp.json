@@ -19,23 +19,44 @@
             "type": "object",
             "options": [
               {
-                "label": "Email",
+                "label": "Password",
                 "value": {
                   "form": {
                     "value": [
-                      { "name": "id", "required": true, "value": "aut-email-arg-recovery", "mutable": false },
-                      { "name": "methodType", "required": false, "value": "email", "mutable": false }
+                      { "name": "id", "required": true, "value": "aut-password-standalone", "mutable": false }
                     ]
                   }
                 },
                 "relatesTo": "$.authenticators.value[0]"
               },
               {
+                "label": "NFC",
+                "value": {
+                  "form": {
+                    "value": [
+                      { "name": "id", "required": true, "value": "aut-nfc-arg-single", "mutable": false }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[1]"
+              },
+              {
+                "label": "Google Authenticator",
+                "value": {
+                  "form": {
+                    "value": [
+                      { "name": "id", "required": true, "value": "aut-google-auth-arg-deadline", "mutable": false }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[2]"
+              },
+              {
                 "label": "Phone",
                 "value": {
                   "form": {
                     "value": [
-                      { "name": "id", "required": true, "value": "aut-phone-arg-recovery", "mutable": false },
+                      { "name": "id", "required": true, "value": "aut-phone-arg-deadline", "mutable": false },
                       {
                         "name": "methodType",
                         "required": false,
@@ -45,29 +66,6 @@
                         ]
                       },
                       { "name": "phoneNumber", "required": false, "type": "string" }
-                    ]
-                  }
-                },
-                "relatesTo": "$.authenticators.value[1]"
-              },
-              {
-                "label": "Okta Verify",
-                "value": {
-                  "form": {
-                    "value": [
-                      { "name": "id", "required": true, "value": "aut-okta-verify-shared", "mutable": false }
-                    ]
-                  }
-                },
-                "relatesTo": "$.authenticators.value[2]"
-              },
-              {
-                "label": "Security Key or Biometric Authenticator (FIDO2)",
-                "value": {
-                  "form": {
-                    "value": [
-                      { "name": "id", "required": true, "value": "aut-webauthn-arg-strong", "mutable": false, "visible": false },
-                      { "name": "methodType", "required": false, "value": "webauthn", "mutable": false, "visible": false }
                     ]
                   }
                 },
@@ -90,41 +88,35 @@
     "type": "array",
     "value": [
       {
-        "displayName": "Email",
-        "type": "email",
-        "key": "okta_email",
-        "id": "email-enroll-id",
-        "authenticatorId": "aut-email-arg-recovery",
-        "groupIds": ["arg-recovery"]
+        "displayName": "Password",
+        "type": "password",
+        "key": "okta_password",
+        "id": "password-enroll-id",
+        "authenticatorId": "aut-password-standalone"
+      },
+      {
+        "displayName": "NFC",
+        "type": "security_key",
+        "key": "smart_card_idp",
+        "id": "nfc-enroll-id",
+        "authenticatorId": "aut-nfc-arg-single",
+        "groupIds": ["arg-single"]
+      },
+      {
+        "displayName": "Google Authenticator",
+        "type": "app",
+        "key": "google_otp",
+        "id": "google-auth-enroll-id",
+        "authenticatorId": "aut-google-auth-arg-deadline",
+        "groupIds": ["arg-deadline"]
       },
       {
         "displayName": "Phone",
         "type": "phone",
         "key": "phone_number",
-        "id": "phone-enroll-id",
-        "authenticatorId": "aut-phone-arg-recovery",
-        "groupIds": ["arg-recovery"]
-      },
-      {
-        "displayName": "Okta Verify",
-        "type": "app",
-        "key": "okta_verify",
-        "id": "okta-verify-enroll-id",
-        "authenticatorId": "aut-okta-verify-shared",
-        "groupIds": ["arg-recovery", "arg-strong"],
-        "methods": [
-          { "type": "signed_nonce" },
-          { "type": "push" },
-          { "type": "totp" }
-        ]
-      },
-      {
-        "displayName": "Security Key or Biometric",
-        "type": "security_key",
-        "key": "webauthn",
-        "id": "webauthn-enroll-id",
-        "authenticatorId": "aut-webauthn-arg-strong",
-        "groupIds": ["arg-strong"]
+        "id": "phone-deadline-enroll-id",
+        "authenticatorId": "aut-phone-arg-deadline",
+        "groupIds": ["arg-deadline"]
       }
     ]
   },
@@ -136,14 +128,22 @@
     "type": "array",
     "value": [
       {
-        "groupId": "arg-recovery",
+        "groupId": "arg-single",
         "criteria": [{ "type": "authenticatorCount", "count": 1 }],
-        "remaining": 1
+        "remaining": 1,
+        "gracePeriod": {
+          "gracePeriodType": "BY_SKIP_COUNT",
+          "remainingSkips": 3
+        }
       },
       {
-        "groupId": "arg-strong",
+        "groupId": "arg-deadline",
         "criteria": [{ "type": "authenticatorCount", "count": 1 }],
-        "remaining": 1
+        "remaining": 1,
+        "gracePeriod": {
+          "gracePeriodType": "BY_DATE_TIME",
+          "expiry": "2099-12-31T23:59:59.000Z"
+        }
       }
     ]
   },

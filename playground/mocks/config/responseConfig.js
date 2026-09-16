@@ -35,6 +35,7 @@ const idx = {
     // 'authenticator-enroll-select-authenticator-groups-grace-period-expired',
     // 'authenticator-enroll-select-authenticator-groups-two-mixed-gp',
     // 'authenticator-enroll-select-authenticator-groups-ov-in-group',
+    // 'authenticator-enroll-select-authenticator-groups-single-member-gp',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',

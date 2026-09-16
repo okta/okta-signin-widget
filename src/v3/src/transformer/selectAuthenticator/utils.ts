@@ -36,9 +36,8 @@ import { loc } from '../../util';
 // N-of-M wire types for authenticatorGroups[]. Not yet in the auth-js SDK, so
 // declared inline; matches idx-authenticator-groups-siw-contract page 2.
 export interface AuthenticatorGroupGracePeriod {
-  type?: 'BY_DATE_TIME' | 'BY_SKIP_COUNT';
+  gracePeriodType?: 'BY_DATE_TIME' | 'BY_SKIP_COUNT';
   expiry?: string;
-  skipCount?: number;
   remainingSkips?: number;
 }
 
