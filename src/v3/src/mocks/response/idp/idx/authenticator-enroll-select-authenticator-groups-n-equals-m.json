@@ -151,7 +151,6 @@
     "value": [
       {
         "groupId": "arg-recovery",
-        "status": "REQUIRED",
         "criteria": [
           {
             "type": "authenticatorCount",

@@ -151,7 +151,6 @@
     "value": [
       {
         "groupId": "arg-recovery",
-        "status": "REQUIRED",
         "criteria": [
           {
             "type": "authenticatorCount",
@@ -160,7 +159,7 @@
         ],
         "remaining": 1,
         "gracePeriod": {
-          "type": "BY_DATE_TIME",
+          "gracePeriodType": "BY_DATE_TIME",
           "expiry": "2025-01-01T00:00:00.000Z"
         }
       }

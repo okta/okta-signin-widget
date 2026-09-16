@@ -103,7 +103,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollGroupCard', function() {
       {
         groupId: 'arg-recovery',
         remaining: 1,
-        gracePeriod: { type: 'BY_DATE_TIME', expiry: '2024-01-06T00:00:00.000Z' }, // ~7 days after mocked Date.now
+        gracePeriod: { gracePeriodType: 'BY_DATE_TIME', expiry: '2024-01-06T00:00:00.000Z' }, // ~7 days after mocked Date.now
       },
       buildMembers(),
     );
@@ -117,7 +117,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollGroupCard', function() {
       {
         groupId: 'arg-recovery',
         remaining: 1,
-        gracePeriod: { type: 'BY_SKIP_COUNT', skipCount: 3, remainingSkips: 3 },
+        gracePeriod: { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 3 },
       },
       buildMembers(),
     );
@@ -129,21 +129,21 @@ describe('v2/view-builder/components/AuthenticatorEnrollGroupCard', function() {
       {
         groupId: 'arg-recovery',
         remaining: 1,
-        gracePeriod: { type: 'BY_SKIP_COUNT', skipCount: 3, remainingSkips: 1 },
+        gracePeriod: { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 1 },
       },
       buildMembers(),
     );
     expect(testContext.view.$('.authenticator-grace-period-skip-count-description').text()).toBe('1 skip remaining');
   });
 
-  it('renders skip-count grace period when type is BY_DATE_TIME but expiry has lapsed (fall-through)', function() {
+  it('renders skip-count grace period when gracePeriodType is BY_DATE_TIME but expiry has lapsed (fall-through)', function() {
     // BY_DATE_TIME expiry in the past + active remainingSkips: hasActiveGroupGracePeriod returns
     // true (via remainingSkips), so _getGroupGracePeriodData must also surface the skip count.
     testContext.init(
       {
         groupId: 'arg-recovery',
         remaining: 1,
-        gracePeriod: { type: 'BY_DATE_TIME', expiry: '2020-01-01T00:00:00.000Z', remainingSkips: 2 },
+        gracePeriod: { gracePeriodType: 'BY_DATE_TIME', expiry: '2020-01-01T00:00:00.000Z', remainingSkips: 2 },
       },
       buildMembers(),
     );

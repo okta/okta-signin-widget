@@ -702,7 +702,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
         status: 'REQUIRED',
         criteria: [{ type: 'authenticatorCount', count: 1 }],
         remaining: 1,
-        gracePeriod: { type: 'BY_DATE_TIME', expiry: '2024-01-06T00:00:00.000Z' }, // ~7 days after mocked Date.now
+        gracePeriod: { gracePeriodType: 'BY_DATE_TIME', expiry: '2024-01-06T00:00:00.000Z' }, // ~7 days after mocked Date.now
       }];
       testContext.init(authenticators, true, {}, groups);
 
@@ -723,7 +723,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
         status: 'REQUIRED',
         criteria: [{ type: 'authenticatorCount', count: 1 }],
         remaining: 1,
-        gracePeriod: { type: 'BY_SKIP_COUNT', skipCount: 3, remainingSkips: 3 },
+        gracePeriod: { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 3 },
       }];
       testContext.init(authenticators, true, {}, groups);
 
@@ -738,7 +738,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
           ...opt.relatesTo,
           // Simulate a stale per-authenticator gracePeriod on the wire — should
           // NOT render because the group GP takes precedence inside a card.
-          gracePeriod: { type: 'BY_SKIP_COUNT', remainingSkips: 42 },
+          gracePeriod: { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 42 },
         },
       }));
       const groups = [{
@@ -746,7 +746,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
         status: 'REQUIRED',
         criteria: [{ type: 'authenticatorCount', count: 1 }],
         remaining: 1,
-        gracePeriod: { type: 'BY_SKIP_COUNT', skipCount: 3, remainingSkips: 3 },
+        gracePeriod: { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 3 },
       }];
       testContext.init(authenticators, true, {}, groups);
 
