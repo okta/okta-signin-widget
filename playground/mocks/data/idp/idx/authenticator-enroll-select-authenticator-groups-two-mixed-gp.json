@@ -213,7 +213,6 @@
     "value": [
       {
         "groupId": "arg-recovery",
-        "status": "REQUIRED",
         "criteria": [
           {
             "type": "authenticatorCount",
@@ -222,13 +221,12 @@
         ],
         "remaining": 1,
         "gracePeriod": {
-          "type": "BY_DATE_TIME",
+          "gracePeriodType": "BY_DATE_TIME",
           "expiry": "2025-01-01T00:00:00.000Z"
         }
       },
       {
         "groupId": "arg-strong",
-        "status": "REQUIRED",
         "criteria": [
           {
             "type": "authenticatorCount",
@@ -237,7 +235,7 @@
         ],
         "remaining": 1,
         "gracePeriod": {
-          "type": "BY_DATE_TIME",
+          "gracePeriodType": "BY_DATE_TIME",
           "expiry": "2099-12-31T23:59:59.000Z"
         }
       }

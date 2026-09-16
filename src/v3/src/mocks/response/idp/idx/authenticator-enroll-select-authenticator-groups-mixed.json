@@ -155,23 +155,14 @@
         "type": "security_key",
         "key": "smart_card_idp",
         "id": "nfc-enroll-id",
-        "authenticatorId": "aut-nfc-standalone",
-        "gracePeriod": {
-          "type": "BY_SKIP_COUNT",
-          "skipCount": 3,
-          "remainingSkips": 3
-        }
+        "authenticatorId": "aut-nfc-standalone"
       },
       {
         "displayName": "Security Key or Biometric",
         "type": "security_key",
         "key": "webauthn",
         "id": "webauthn-standalone-enroll-id",
-        "authenticatorId": "aut-webauthn-standalone",
-        "gracePeriod": {
-          "type": "BY_DATE_TIME",
-          "expiry": "2099-12-31T23:59:59.000Z"
-        }
+        "authenticatorId": "aut-webauthn-standalone"
       },
       {
         "displayName": "Google Authenticator",
@@ -200,18 +191,20 @@
     "value": [
       {
         "groupId": "arg-strong",
-        "status": "REQUIRED",
-        "criteria": [{ "type": "authenticatorCount", "count": 1 }],
-        "remaining": 1
-      },
-      {
-        "groupId": "arg-deadline",
-        "status": "REQUIRED",
         "criteria": [{ "type": "authenticatorCount", "count": 1 }],
         "remaining": 1,
         "gracePeriod": {
-          "type": "BY_DATE_TIME",
-          "expiry": "2099-12-31T23:59:59.000Z"
+          "remainingSkips": 2,
+          "gracePeriodType": "BY_SKIP_COUNT"
+        }
+      },
+      {
+        "groupId": "arg-deadline",
+        "criteria": [{ "type": "authenticatorCount", "count": 1 }],
+        "remaining": 1,
+        "gracePeriod": {
+          "expiry": "2099-12-31T23:59:59.000Z",
+          "gracePeriodType": "BY_DATE_TIME"
         }
       }
     ]

@@ -137,13 +137,11 @@
     "value": [
       {
         "groupId": "arg-recovery",
-        "status": "REQUIRED",
         "criteria": [{ "type": "authenticatorCount", "count": 1 }],
         "remaining": 1
       },
       {
         "groupId": "arg-strong",
-        "status": "REQUIRED",
         "criteria": [{ "type": "authenticatorCount", "count": 1 }],
         "remaining": 1
       }

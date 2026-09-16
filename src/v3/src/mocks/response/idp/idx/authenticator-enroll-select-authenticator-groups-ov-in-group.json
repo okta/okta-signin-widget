@@ -96,7 +96,6 @@
     "value": [
       {
         "groupId": "arg-strong",
-        "status": "REQUIRED",
         "criteria": [{ "type": "authenticatorCount", "count": 1 }],
         "remaining": 1
       }

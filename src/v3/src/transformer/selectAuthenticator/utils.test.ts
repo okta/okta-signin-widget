@@ -1305,7 +1305,7 @@ describe('Select Authenticator Utility Tests', () => {
         status: 'REQUIRED',
         criteria: [{ type: 'authenticatorCount', count: 1 }],
         remaining: 1,
-        gracePeriod: { type: 'BY_SKIP_COUNT', skipCount: 3, remainingSkips: 3 },
+        gracePeriod: { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 3 },
       }];
       const { requiredNow, requiredSoon } = partitionGroupedEnrollButtons(buttons, groups);
       expect(requiredNow).toHaveLength(0);
@@ -1370,7 +1370,7 @@ describe('Select Authenticator Utility Tests', () => {
         status: 'REQUIRED',
         criteria: [{ type: 'authenticatorCount', count: 1 }],
         remaining: 1,
-        gracePeriod: { type: 'BY_SKIP_COUNT', remainingSkips: 3 },
+        gracePeriod: { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 3 },
       }];
       const { requiredSoon } = partitionGroupedEnrollButtons(buttons, groups);
       expect(requiredSoon[0]).toMatchObject({ kind: 'card' });

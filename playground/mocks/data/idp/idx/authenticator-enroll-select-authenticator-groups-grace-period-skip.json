@@ -128,12 +128,10 @@
     "value": [
       {
         "groupId": "arg-recovery",
-        "status": "REQUIRED",
         "criteria": [{ "type": "authenticatorCount", "count": 1 }],
         "remaining": 1,
         "gracePeriod": {
-          "type": "BY_SKIP_COUNT",
-          "skipCount": 3,
+          "gracePeriodType": "BY_SKIP_COUNT",
           "remainingSkips": 3
         }
       }
