@@ -55,9 +55,9 @@ single hook records each transaction; that trail is then sent to Sentry two ways
 
 ```mermaid
 flowchart LR
-  A[IDX sign-in flow] -->|each transaction| B[Diagnostic trail<br/>memory + sessionStorage]
-  B -->|A: click Send feedback<br/>on terminal error| C[Sentry event<br/>+ User Feedback]
-  B -->|B: on flow completion| D[Sentry performance<br/>transaction]
+  A["IDX sign-in flow"] -->|each transaction| B["Diagnostic trail<br/>(memory + sessionStorage)"]
+  B -->|"A: Send feedback (terminal error)"| C["Sentry event<br/>+ User Feedback"]
+  B -->|"B: on flow completion"| D["Sentry performance<br/>transaction"]
 ```
 
 How each transaction is tracked (no per-view instrumentation):
@@ -70,7 +70,8 @@ sequenceDiagram
   U->>W: step (introspect / identify / verify / poll)
   W->>W: setIdxTransaction(...)
   W->>T: recordTransaction(step, url, status, authenticator, messages)
-  Note over T: polls collapse into one entry; mirrored to sessionStorage;<br/>reset on a fresh flow
+  Note over T: polls collapse into one entry
+  Note over T: persisted to sessionStorage, reset on a fresh flow
 ```
 
 - The whole flow runs through one state (`idxTransaction`); a single React effect records
