@@ -52,6 +52,7 @@ export * from './rendererUtils';
 export * from './resetMessagesToInputs';
 export * from './sessionStorage';
 export * from './sentryFeedback';
+export * from './sentryTracePoc';
 export * from './settingsUtils';
 export * from './setUrlQueryParams';
 export * from './shouldShowCancelLink';

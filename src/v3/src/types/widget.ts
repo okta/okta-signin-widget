@@ -239,6 +239,12 @@ export type WidgetOptions = {
     // per step. PII/secret-bearing (stateHandle, identifier) — attachment-only,
     // MUST be scrubbed before production. Default off.
     includeRawResponses?: boolean;
+    // POC/exploration only: on every completed flow (success or terminal), emit
+    // one Sentry *performance transaction* (init->finish timing + per-step
+    // waterfall) to the same DSN, so the data can be aggregated in Sentry's
+    // traces dataset. Uses 100% sampling — do NOT enable on real traffic as-is.
+    // See src/v3/util/sentryTracePoc.ts. Default off.
+    tracePoc?: boolean;
   };
 };
 

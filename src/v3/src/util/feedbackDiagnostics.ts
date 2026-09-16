@@ -337,6 +337,17 @@ export const buildDiagnosticBundle = (ctx: IWidgetContext): SiwDiagnosticBundle 
   };
 };
 
+/**
+ * Snapshot of the accumulated per-transaction trail. Used by the tracing POC
+ * ({@link ../util/sentryTracePoc}) to reconstruct a Sentry span tree from the
+ * recorded step timeline. Rehydrates from sessionStorage first so a redirect-
+ * spanning flow yields the full trail.
+ */
+export const getDiagnosticTransactions = (): TransactionRecord[] => {
+  hydrateOnce();
+  return [...transactions];
+};
+
 /** Clear the accumulated trail (e.g. after a successful send). */
 export const resetDiagnostics = (): void => {
   transactions = [];

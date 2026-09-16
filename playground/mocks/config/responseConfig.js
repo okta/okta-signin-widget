@@ -1236,6 +1236,11 @@ const temporaryAccessCode = {
 };
 
 module.exports = {
-  mocks: idx,
+  // mocks: idx,
   // mocks: Test.ChallengeAuthenticatorEmail.networkFailurePollingMock
+  // mocks: Test.FeedbackDiagnosticsDemo.identifyThenTerminalMock,
+  // Tracing POC (feedback.tracePoc) — a completed flow emits one Sentry
+  mocks: Test.TracePocDemo.oktaVerifyTotpSuccessMock,
+  // performance transaction (op:auth.flow). See test-configs/TracePocDemo.js.
+  // mocks: Test.TracePocDemo.passwordSuccessMock,
 };

@@ -64,6 +64,7 @@ import {
   buildAuthCoinProps,
   canBootstrapWidget,
   extractPageTitle,
+  getDiagnosticTransactions,
   getLanguageCode,
   getLanguageDirection,
   getOdysseyTranslationOverrides,
@@ -75,6 +76,8 @@ import {
   isOauth2Enabled,
   loadLanguage,
   recordTransaction,
+  resetDiagnostics,
+  sendAuthFlowTrace,
   SessionStorage,
   shouldAutoRedirect,
   triggerEmailVerifyCallback,
@@ -128,12 +131,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [responseError, setResponseError] = useState<AuthApiError | OAuthError | null>(null);
   // Shared poll-in-flight tracker (see IWidgetContext.pollInFlightRef)
   const pollInFlightRef = useRef<boolean>(false);
+  // Tracing POC: ensure we emit at most one auth-flow transaction per widget load
+  const authFlowTraceSentRef = useRef<boolean>(false);
 
   // Install the feedback diagnostics fetch tap during first render (before the
   // bootstrap introspect fires) so its request URL is captured. Records ONLY
   // url + method + status. No-op unless the feedback feature is enabled.
   useOnce(() => {
-    if (feedback?.enabled) {
+    if (feedback?.enabled || feedback?.tracePoc) {
       installFetchTap();
     }
   });
@@ -214,6 +219,16 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const bootstrap = useCallback(async () => {
     const usingStateHandleFromSession = stateHandle
       && stateHandle === SessionStorage.getStateHandle();
+    // Feedback diagnostics: a fresh flow (NOT a redirect/reload continuation from
+    // a saved stateHandle) starts a new trail. Clear any trail left over from a
+    // previous sign-in in the same tab so each flow's trace/feedback is scoped to
+    // one flow — otherwise sessionStorage accumulation merges multiple flows into
+    // one giant trace. The redirect-survival case (usingStateHandleFromSession)
+    // deliberately keeps the trail.
+    if ((feedback?.enabled || feedback?.tracePoc) && !usingStateHandleFromSession) {
+      resetDiagnostics();
+      authFlowTraceSentRef.current = false;
+    }
     await initLanguage();
     try {
       if (typeof proxyIdxResponse !== 'undefined') {
@@ -452,10 +467,43 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // form submits, and poll promotions all funnel through setIdxTransaction, so
   // this single effect captures the whole flow. No-op unless feedback enabled.
   useEffect(() => {
-    if (feedback?.enabled && idxTransaction) {
+    if ((feedback?.enabled || feedback?.tracePoc) && idxTransaction) {
       recordTransaction(idxTransaction, { includeRaw: feedback?.includeRawResponses });
     }
-  }, [idxTransaction, feedback?.enabled, feedback?.includeRawResponses]);
+  }, [idxTransaction, feedback?.enabled, feedback?.tracePoc, feedback?.includeRawResponses]);
+
+  // Tracing POC: when a flow reaches SUCCESS or a TERMINAL view, emit one Sentry
+  // performance transaction (init->finish timing + per-step waterfall) built from
+  // the recorded trail. Fires at most once per widget load. No-op unless
+  // feedback.tracePoc is enabled and a DSN is configured. Runs AFTER the
+  // recordTransaction effect above, so the final step is already in the trail.
+  useEffect(() => {
+    if (!feedback?.tracePoc || authFlowTraceSentRef.current || !idxTransaction) {
+      return;
+    }
+    const isComplete = [IdxStatus.SUCCESS, IdxStatus.TERMINAL].includes(idxTransaction.status);
+    if (!isComplete) {
+      return;
+    }
+    authFlowTraceSentRef.current = true;
+    const eventCtx = getEventContext(idxTransaction);
+    const isError = idxTransaction.messages?.some((msg) => msg.class === 'ERROR') ?? false;
+    sendAuthFlowTrace(
+      getDiagnosticTransactions(),
+      {
+        flow,
+        formName: eventCtx.formName,
+        authenticatorKey: eventCtx.authenticatorKey,
+        methodType: eventCtx.methodType,
+        outcome: isError ? 'error' : 'success',
+        version: OKTA_SIW_VERSION,
+        commit: OKTA_SIW_COMMIT_HASH,
+      },
+      feedback,
+    ).catch(() => {
+      // Tracing POC must never affect the auth flow; swallow any send error.
+    });
+  }, [idxTransaction, feedback, flow]);
 
   useEffect(() => {
     if (typeof interactionCodeFlowFormBag === 'undefined') {

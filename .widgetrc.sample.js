@@ -27,7 +27,14 @@ const config = {
       && new URLSearchParams(window.location.search).get('sentryDsn')) || '',
     sentryEnvironment: 'dev',
     // POC: attach full raw IDX responses + request URLs (PII-bearing; trim later)
-    includeRawResponses: true
+    includeRawResponses: true,
+    // POC: on every completed flow (success OR terminal), emit one Sentry
+    // *performance transaction* (init->finish timing + per-step waterfall) so you
+    // can explore it in Sentry's traces dataset. 100% sampled — POC only.
+    // Run a full flow to a success/terminal view, then look in Sentry:
+    //   Explore -> Traces  (op:auth.flow) — root duration = init->finish time
+    //   filter/group by attributes: authenticatorKey, flow, outcome, finalStep
+    tracePoc: true
   },
   // Hooks block processing and run custom logic before or after a form is rendered
   hooks: {
