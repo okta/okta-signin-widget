@@ -112,7 +112,35 @@ All paths lazy-init the SDK with `Sentry.init({ dsn, environment })` and end wit
 - **User consent.** Feature A is explicit (the user clicks *Send feedback*). Feature B
   auto-sends on **every** completed flow — does that need a consent/notice model, or is metadata-only acceptable?
 - **Sampling & cost.** The POC traces at 100%. Real traffic needs a `tracesSampler` (low success rate, higher for errors) or it will exhaust the Sentry quota.
-- **Future work.** Gen2 parity, and IE11 (Sentry v8 is modern-only).
+- **Future work.** Gen2 parity. (IE11 is covered in §5.)
+
+---
+
+## 5. IE11 compatibility
+
+SIW must run on **IE11** — a constraint this POC did not account for up front (noticed just
+before the demo).
+
+- The POC was built on **Sentry SDK v8**, which **dropped IE11** (it requires ES2018 and
+  ships no ES5 bundle).
+- The base widget is unaffected — the SDK is lazy-loaded in a separate chunk that never loads
+  on the IE11 critical path — but the Sentry **feature** (feedback + trace) will not run on
+  IE11 as currently built.
+- **Sentry v7 (latest `7.120.4`) is the IE11-compatible line**, via its ES5 CDN bundle
+  (`bundle.tracing.es5.min.js`).
+
+All capabilities exist in v7, but a few calls are **renamed** (the v8-only APIs we used don't
+exist in v7):
+
+| Feature | v8 (POC) | v7 (IE11) |
+|---|---|---|
+| User Feedback | `captureFeedback(...)` | `captureUserFeedback({ event_id, comments, … })` |
+| Trace spans | `startInactiveSpan` + `withActiveSpan` + `span.end()` | `startTransaction` + `transaction.startChild` + `span.finish()` |
+| Span attributes | `setAttribute` / `attributes` | `setTag` (searchable) / `setData` |
+
+Event capture (`init`, `captureException`, `withScope`, `addAttachment`, `flush`) is identical
+across v7/v8, and v7 still supports explicit start/end timestamps — so the reconstruct-at-
+completion design carries over unchanged.
 
 ---
 
