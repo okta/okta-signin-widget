@@ -212,7 +212,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
               setChromeLNADenied(true);
               // Rethrown by getChromeLNAPermissionState -> unhandled rejection,
               // captured by Sentry for monitoring (same path as the FF-off flow).
-              throw new ChromeLNADeniedError('Chrome Local Network Access permission was denied for FastPass.');
+              throw new ChromeLNADeniedError('Chrome Local Network Access permission was denied for Okta Verify.');
             }
             cancelHandler({
               reason: 'OV_UNREACHABLE_BY_LOOPBACK',
