@@ -375,7 +375,6 @@ const formatAuthenticatorOptions = (
   step: string,
   isEnroll?: boolean,
   languageTags?: string[],
-  authenticatorEnrollments?: IdxAuthenticator[],
 ): AuthenticatorButtonElement[] => {
   const authenticatorOptionSet = new Set<string>();
   return options
@@ -405,8 +404,12 @@ const formatAuthenticatorOptions = (
       const id = getOptionValue(option.value as Input[], 'id')?.value;
       const methodType = getOptionValue(option.value as Input[], 'methodType')?.value;
       const enrollmentId = getOptionValue(option.value as Input[], 'enrollmentId')?.value;
-      const isAdditionalEnroll = isEnroll && authenticator
-        && isAuthenticatorAlreadyEnrolled(authenticator, authenticatorEnrollments);
+      // The authenticator enroll list always uses the "Set up" CTA, matching gen2. We no
+      // longer flag options as "additional enroll" here: keying purely off an existing
+      // enrollment of the same authenticator key mislabels a factor enrolled earlier in
+      // the same flow (e.g. email enrolled during registration) as "Set up another".
+      // See OKTA-1245836. Okta Verify keeps its own "add another device" handling in
+      // buildOktaVerifyOptions.
       const AUTHENTICATORS_WITH_METHOD_TYPE = [
         AUTHENTICATOR_KEY.ON_PREM,
         AUTHENTICATOR_KEY.OV,
@@ -471,9 +474,8 @@ const formatAuthenticatorOptions = (
           type: ButtonType.BUTTON,
           key: authenticatorKey,
           isEnroll,
-          isAdditionalEnroll,
           authenticator,
-          ctaLabel: getCtaLabel(isEnroll, isAdditionalEnroll),
+          ctaLabel: getCtaLabel(isEnroll),
           description: getAuthenticatorDescription(
             option,
             authenticatorKey,
@@ -517,7 +519,7 @@ const getAuthenticatorButtonElements = (
   authenticatorEnrollments?: IdxAuthenticator[],
 ): AuthenticatorButtonElement[] => {
   const formattedOptions = formatAuthenticatorOptions(
-    options, step, isEnroll, languageTags, authenticatorEnrollments,
+    options, step, isEnroll, languageTags,
   );
 
   // appending OV options back to its original spot
