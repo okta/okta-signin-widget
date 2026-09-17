@@ -53,7 +53,7 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
   const oktaFPRequiresPermissionTitleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: loc('chrome.lna.fastpass.requires.permission.title', 'login'),
+      content: loc('chrome.lna.okta-verify.requires.permission.title', 'login'),
     },
   };
 

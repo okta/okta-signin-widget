@@ -90,7 +90,7 @@ export function isRegisteredConditionSilentProbe(view) {
 // after-probe-failure path (BaseOktaVerifyChallengeView) for the WebView2 iframe
 // enhancement. See OKTA-1135857.
 export function showChromeLNADeniedError(view, deviceChallenge) {
-  updateChromeLNATitle(view, loc('chrome.lna.fastpass.requires.permission.title', 'login'));
+  updateChromeLNATitle(view, loc('chrome.lna.okta-verify.requires.permission.title', 'login'));
   addLNAErrorView(view, deviceChallenge.chromeLocalNetworkAccessDetails?.chromeLNAHelpLink);
   // Log error for Sentry monitoring
   throw new ChromeLNADeniedError('Chrome Local Network Access permission was denied for FastPass.');
