@@ -36,6 +36,9 @@ jest.mock('./applyAsteriskToFieldElements', () => ({
 jest.mock('./updatePasswordDescribedByValue', () => ({
   updatePasswordDescribedByValue: () => ({}),
 }));
+jest.mock('./updatePasswordDescribedByFormError', () => ({
+  updatePasswordDescribedByFormError: () => ({}),
+}));
 jest.mock('./overwriteAutocomplete', () => ({
   overwriteAutocomplete: () => () => ({}),
 }));
@@ -55,6 +58,7 @@ const mocked = {
   setFocus: require('./setFocusOnFirstElement'),
   applyAsterisk: require('./applyAsteriskToFieldElements'),
   updatePasswordEle: require('./updatePasswordDescribedByValue'),
+  updatePasswordFormError: require('./updatePasswordDescribedByFormError'),
   overwriteAutocomplete: require('./overwriteAutocomplete'),
   createIdentifierContainer: require('./createIdentifierContainer'),
   addWebAuthNAutofillHandler: require('./addWebAuthNAutofillHandler'),
@@ -70,6 +74,7 @@ describe('UISchema transformer', () => {
     jest.spyOn(mocked.setFocus, 'setFocusOnFirstElement');
     jest.spyOn(mocked.applyAsterisk, 'applyAsteriskToFieldElements');
     jest.spyOn(mocked.updatePasswordEle, 'updatePasswordDescribedByValue');
+    jest.spyOn(mocked.updatePasswordFormError, 'updatePasswordDescribedByFormError');
     jest.spyOn(mocked.overwriteAutocomplete, 'overwriteAutocomplete');
     jest.spyOn(mocked.createIdentifierContainer, 'createIdentifierContainer');
     jest.spyOn(mocked.addWebAuthNAutofillHandler, 'addWebAuthNAutofillHandler');
@@ -87,6 +92,12 @@ describe('UISchema transformer', () => {
       .toHaveBeenCalledBefore(
         mocked.updatePasswordEle.updatePasswordDescribedByValue,
       );
+    // Must run after updatePasswordDescribedByValue so that the two aria-describedby values
+    // compose rather than overwrite one another
+    expect(mocked.updatePasswordEle.updatePasswordDescribedByValue)
+      .toHaveBeenCalledBefore(
+        mocked.updatePasswordFormError.updatePasswordDescribedByFormError,
+      );
 
     expect(mocked.createTextEleKey.createTextElementKeys).toHaveBeenCalled();
     expect(mocked.updateEleKey.updateElementKeys).toHaveBeenCalled();
@@ -95,6 +106,7 @@ describe('UISchema transformer', () => {
     expect(mocked.setFocus.setFocusOnFirstElement).toHaveBeenCalled();
     expect(mocked.applyAsterisk.applyAsteriskToFieldElements).toHaveBeenCalled();
     expect(mocked.updatePasswordEle.updatePasswordDescribedByValue).toHaveBeenCalled();
+    expect(mocked.updatePasswordFormError.updatePasswordDescribedByFormError).toHaveBeenCalled();
     expect(mocked.overwriteAutocomplete.overwriteAutocomplete).toHaveBeenCalled();
     expect(mocked.createIdentifierContainer.createIdentifierContainer).toHaveBeenCalled();
     expect(mocked.addWebAuthNAutofillHandler.addWebAuthNAutofillHandler).toHaveBeenCalled();
