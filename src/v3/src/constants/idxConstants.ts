@@ -158,9 +158,13 @@ export const TERMINAL_KEY: Record<string, string> = {
 export const CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY = 'oie.authenticator.custom_app.method.push.verify.enable.biometrics';
 export const OV_UV_ENABLE_BIOMETRIC_SERVER_KEY = 'oie.authenticator.oktaverify.method.totp.verify.enable.biometrics';
 export const OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY = 'oie.authenticator.app.method.push.verify.enable.biometrics';
+export const OV_UV_RESEND_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY = 'oie.authenticator.app.method.push.verify.enable.biometrics_or_pin';
+export const OV_UV_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY = 'oie.authenticator.oktaverify.method.totp.verify.enable.biometrics_or_pin';
 export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows';
 export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.desktop';
 export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.mobile';
+export const OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_DESKTOP = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.desktop';
+export const OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.mobile';
 export const OV_NMC_FORCE_UPGRADE_SERVER_KEY = 'oie.authenticator.app.method.push.force.upgrade.number_challenge';
 export const ON_PREM_TOKEN_CHANGE_ERROR_KEY = 'errors.E0000113';
 
