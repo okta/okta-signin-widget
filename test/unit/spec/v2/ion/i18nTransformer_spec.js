@@ -2502,5 +2502,43 @@ describe('v2/ion/i18nTransformer', function() {
       expect(Bundles.login[key]).toBeUndefined();
       expect(getMessage(message).replace('SecondEmail', '{0}')).toEqual(Bundles.login[newKey]);
     });
+
+    it('resolves notUniqueWithinOrg to the existing fully-translated errors.E0000114 key when param is the login field (Primary Key), without {0} substitution', () => {
+      Bundles.login = originalLoginBundle;
+      const key = 'registration.error.notUniqueWithinOrg';
+      const message = {
+        message: 'some message',
+        i18n: { key, params: ['Primary Key'] },
+      };
+      const reusedKey = 'errors.E0000114';
+      expect(Bundles.login[key]).toBeUndefined();
+      const result = getMessage(message);
+      expect(result).toEqual(Bundles.login[reusedKey]);
+      // The English param value must not leak into the translated message.
+      expect(result).not.toContain('Primary Key');
+      expect(result).not.toContain('{0}');
+    });
+
+    it('still resolves notUniqueWithinOrg to the .Email key when param is Email', () => {
+      Bundles.login = originalLoginBundle;
+      const key = 'registration.error.notUniqueWithinOrg';
+      const message = {
+        message: 'some message',
+        i18n: { key, params: ['Email'] },
+      };
+      const newKey = 'registration.error.notUniqueWithinOrg.Email';
+      expect(getMessage(message)).toEqual(Bundles.login[newKey]);
+    });
+
+    it('falls back to the .custom key with {0} substitution for an unknown notUniqueWithinOrg param', () => {
+      Bundles.login = originalLoginBundle;
+      const key = 'registration.error.notUniqueWithinOrg';
+      const message = {
+        message: 'some message',
+        i18n: { key, params: ['Employee ID'] },
+      };
+      const newKey = 'registration.error.notUniqueWithinOrg.custom';
+      expect(getMessage(message).replace('Employee ID', '{0}')).toEqual(Bundles.login[newKey]);
+    });
   });
 });
