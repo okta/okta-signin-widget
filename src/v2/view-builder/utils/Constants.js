@@ -8,12 +8,16 @@ export const AUTHENTICATOR_CANCEL_ACTION = 'currentAuthenticator-cancel';
 export const WIDGET_FOOTER_CLASS = 'siw-main-footer';
 export const FASTPASS_FALLBACK_SPINNER_TIMEOUT = 4000;
 export const IDENTIFIER_FLOW = 'IDENTIFIER';
-export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP 
+export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP
   = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.desktop';
-export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS 
+export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS
   = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows';
-export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE 
+export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE
   = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.mobile';
+export const OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_DESKTOP
+  = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.desktop';
+export const OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE
+  = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.mobile';
 export const AUTHENTICATOR_ALLOWED_FOR_OPTIONS = {
   ANY: 'any',
   SSO: 'sso',

@@ -17,6 +17,8 @@ import {
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
+  OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_DESKTOP,
+  OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE,
   TERMINAL_KEY,
 } from '../../constants';
 import { getStubFormBag, getStubTransaction } from '../../mocks/utils/utils';
@@ -336,5 +338,32 @@ describe('Terminal Message Transformer Tests', () => {
     expect(listMessages).toHaveLength(2);
     expect(listMessages[0].message).toBe('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.point1');
     expect(listMessages[1].message).toBe('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.point2');
+  });
+
+  it.each([
+    ['mobile', OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE],
+    ['desktop', OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_DESKTOP],
+  ])('should add screen lock InfoBox for the %s biometrics_or_pin key', (_name, key) => {
+    transaction.messages?.push(getMockMessage(
+      'Enable screen lock confirmation',
+      'ERROR',
+      key,
+    ));
+    const updatedFormBag = transformTerminalMessages(transaction, formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    const infoBox = updatedFormBag.uischema.elements[0] as InfoboxElement;
+    expect(infoBox.options?.class).toBe('ERROR');
+    expect(infoBox.options?.message).toEqual(expect.objectContaining({
+      type: 'list',
+      class: 'ERROR',
+      title: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.title',
+      description: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.description',
+    }));
+    // 2 bullets for both platforms -- desktop does not get the biometric-sensor bullet here
+    const listMessages = (infoBox.options?.message as any).message;
+    expect(listMessages).toHaveLength(2);
+    expect(listMessages[0].message).toBe('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.point1');
+    expect(listMessages[1].message).toBe('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.point2');
   });
 });
