@@ -198,6 +198,11 @@ const I18N_OVERRIDE_WITH_PARAMS_MAP = {
   },
   'registration.error.notUniqueWithinOrg': {
     Email: 'Email',
+    // The login field arrives with the English display name 'Primary Key'. Reuse
+    // the existing, already-translated 'errors.E0000114' ("A user with this login
+    // already exists...") instead of dropping the raw English param into the
+    // translated .custom template. Value contains a '.', so it is used verbatim.
+    'Primary Key': 'errors.E0000114',
   },
 };
 
@@ -234,14 +239,15 @@ const I18N_OVERRIDE_WITH_PARAMS_MAP = {
  * @returns {String}
  */
 const getI8nKeyUsingParams = (key, param) => {
-  let i18nKey = key;
-
-  if (I18N_OVERRIDE_WITH_PARAMS_MAP[i18nKey][param]) {
-    i18nKey += `.${param}`;
-  } else {
-    i18nKey += '.custom';
+  const knownParamValue = I18N_OVERRIDE_WITH_PARAMS_MAP[key][param];
+  if (!knownParamValue) {
+    return `${key}.custom`;
   }
-  return i18nKey;
+  // A mapped value that is itself a fully-qualified i18n key (contains a '.') is
+  // reused verbatim, letting us point a param at an existing translated string
+  // (e.g. 'Primary Key' -> 'errors.E0000114'). Otherwise the value is a suffix
+  // appended to the base key (e.g. 'Email' -> '<key>.Email').
+  return knownParamValue.includes('.') ? knownParamValue : `${key}.${knownParamValue}`;
 };
 
 const getI18NParams = (remediation, authenticatorKey) => {
