@@ -5,6 +5,8 @@ import {
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
+  OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE,
+  OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_DESKTOP,
 } from '../../utils/Constants';
 
 const Body = BaseOktaVerifyChallengeView.extend({
@@ -25,6 +27,8 @@ const Body = BaseOktaVerifyChallengeView.extend({
       OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
       OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
       OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
+      OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE,
+      OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_DESKTOP,
     ])) {
       const messages = this.options.appState.get('messages');
       const biometricsOptions = getBiometricsErrorOptions(messages, true);

@@ -21,6 +21,8 @@ import {
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
+  OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_DESKTOP,
+  OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE,
   REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON,
 } from '../utils/Constants';
 import BrowserFeatures from '../../../util/BrowserFeatures';
@@ -270,42 +272,35 @@ export function cancelPollingWithParams(appState, pollingCancelAction, cancelRea
   appState.trigger('invokeAction', pollingCancelAction, actionParams, showFormErrors);
 }
 
-export function getBiometricsErrorOptions(error, isMessageObj) {
-  let errorSummaryKeys;
-  if (isMessageObj) {
-    errorSummaryKeys  = Object.values(error?.value[0]?.i18n);
-  } else {
-    errorSummaryKeys = error?.responseJSON?.errorSummaryKeys;
-  }
+function getBiometricsOrPinCalloutOptions() {
+  return {
+    type: 'error',
+    className: 'okta-verify-uv-callout-content',
+    title: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.title', 'login'),
+    subtitle: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.description',
+      'login'),
+    bullets: [
+      loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.point1', 'login'),
+      loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.point2', 'login'),
+    ],
+  };
+}
 
-  const isBiometricsRequiredMobile = errorSummaryKeys
-      && errorSummaryKeys.includes(OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE);
-  const isBiometricsRequiredDesktop = errorSummaryKeys
-      && errorSummaryKeys.includes(OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP);
-  const isBiometricsRequiredWindows = errorSummaryKeys
-      && errorSummaryKeys.includes(OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS);
-  let options = [];
+function getWindowsBiometricsCalloutOptions() {
+  return {
+    type: 'error',
+    className: 'okta-verify-uv-callout-content',
+    title: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.title', 'login'),
+    subtitle: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.description',
+      'login'),
+    bullets: [
+      loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.point1', 'login'),
+      loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.point2', 'login'),
+    ],
+  };
+}
 
-  if (!isBiometricsRequiredMobile && !isBiometricsRequiredDesktop && !isBiometricsRequiredWindows) {
-    return options;
-  }
-
-  if (isBiometricsRequiredWindows) {
-    options = {
-      type: 'error',
-      className: 'okta-verify-uv-callout-content',
-      title: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.title', 'login'),
-      subtitle: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.description',
-        'login'),
-      bullets: [
-        loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.point1', 'login'),
-        loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.point2', 'login'),
-      ],
-    };
-
-    return options;
-  }
-
+function getBiometricsCalloutOptions(isDesktop) {
   const bulletPoints = [
     loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point1', 'login'),
     loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point2', 'login'),
@@ -313,21 +308,42 @@ export function getBiometricsErrorOptions(error, isMessageObj) {
   ];
 
   // Add an additional bullet point for desktop devices
-  if (isBiometricsRequiredDesktop) {
+  if (isDesktop) {
     bulletPoints.push(
       loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point4', 'login')
     );
   }
 
-  options = {
+  return {
     type: 'error',
     className: 'okta-verify-uv-callout-content',
     title: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.title', 'login'),
     subtitle: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.description', 'login'),
     bullets: bulletPoints,
   };
+}
 
-  return options;
+export function getBiometricsErrorOptions(error, isMessageObj) {
+  const errorSummaryKeys = isMessageObj
+    ? Object.values(error?.value[0]?.i18n)
+    : error?.responseJSON?.errorSummaryKeys;
+  const hasKey = (key) => !!errorSummaryKeys && errorSummaryKeys.includes(key);
+
+  if (hasKey(OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS)) {
+    return getWindowsBiometricsCalloutOptions();
+  }
+
+  if (hasKey(OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE)
+    || hasKey(OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_DESKTOP)) {
+    return getBiometricsOrPinCalloutOptions();
+  }
+
+  const isDesktop = hasKey(OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP);
+  if (hasKey(OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE) || isDesktop) {
+    return getBiometricsCalloutOptions(isDesktop);
+  }
+
+  return null;
 }
 
 export function createInvisibleIFrame(iFrameId, iFrameSrc) {

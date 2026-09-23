@@ -6,6 +6,7 @@ import pushPoll from '../../../playground/mocks/data/idp/idx/authenticator-verif
 import pushReject from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-reject-push';
 import pushUpgradeOktaVerify from '../../../playground/mocks/data/idp/idx/okta-verify-version-upgrade';
 import pushEnableBiometricsOktaVerify from '../../../playground/mocks/data/idp/idx/okta-verify-uv-verify-enable-biometrics';
+import pushEnableBiometricsOrPinOktaVerify from '../../../playground/mocks/data/idp/idx/okta-verify-uv-verify-enable-biometrics-or-pin';
 
 const logger = RequestLogger(/challenge|challenge\/poll/,
   {
@@ -31,6 +32,12 @@ const pushEnableBiometricsMock = RequestMock()
   .respond(pushPoll)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(pushEnableBiometricsOktaVerify);
+
+const pushEnableBiometricsOrPinMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(pushPoll)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(pushEnableBiometricsOrPinOktaVerify);
 
 fixture('Challenge Okta Verify Push Resend');
 
@@ -118,6 +125,29 @@ test
     await t.expect(errorSubtitleBullet2).contains('Okta Verify is up-to-date');
     const errorSubtitleBullet3 = challengeOktaVerifyPushPageObject.getNthErrorBulletPoint(2);
     await t.expect(errorSubtitleBullet3).contains('In Okta Verify, biometrics are enabled for your account');
+
+    const resendPushBtn = challengeOktaVerifyPushPageObject.getResendPushButton();
+    await t.expect(challengeOktaVerifyPushPageObject.form.getButton('Resend push notification').exists).eql(true);
+    await t.expect(resendPushBtn.hasClass('link-button-disabled')).notOk();
+  });
+
+test
+  .requestHooks(logger, pushEnableBiometricsOrPinMock)('challenge okta verify resend push with uv enable screen lock message', async t => {
+    const challengeOktaVerifyPushPageObject = await setup(t);
+    await checkA11y(t);
+    await challengeOktaVerifyPushPageObject.waitForErrorBox();
+    const pageTitle = challengeOktaVerifyPushPageObject.getFormTitle();
+    await t.expect(pageTitle).contains('Get a push notification');
+    const errorBox = challengeOktaVerifyPushPageObject.getErrorBox();
+    await t.expect(errorBox.innerText).contains('Your response was received, but your org requires biometrics or a device screen lock. Ensure that you meet the following requirements and try again:');
+    await t.expect(challengeOktaVerifyPushPageObject.getErrorTitle()).contains('Enable screen lock confirmation in Okta Verify');
+
+    // Only two bullets: biometrics setup is deliberately not listed as a remediation step
+    const errorSubtitleBullet1 = challengeOktaVerifyPushPageObject.getNthErrorBulletPoint(0);
+    await t.expect(errorSubtitleBullet1).contains('Okta Verify is up to date.');
+    const errorSubtitleBullet2 = challengeOktaVerifyPushPageObject.getNthErrorBulletPoint(1);
+    await t.expect(errorSubtitleBullet2).contains('Screen lock confirmation is enabled for your account in Okta Verify.');
+    await t.expect(errorBox.innerText).notContains('Your device supports biometrics');
 
     const resendPushBtn = challengeOktaVerifyPushPageObject.getResendPushButton();
     await t.expect(challengeOktaVerifyPushPageObject.form.getButton('Resend push notification').exists).eql(true);

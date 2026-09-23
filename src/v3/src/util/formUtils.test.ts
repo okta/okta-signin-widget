@@ -16,6 +16,10 @@ import {
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
+  OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_DESKTOP,
+  OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE,
+  OV_UV_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY,
+  OV_UV_RESEND_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY,
 } from '../constants/idxConstants';
 import { getBiometricsErrorMessageElement, getSignInWithPasskeyButtonElement } from './formUtils';
 
@@ -110,5 +114,99 @@ describe('getBiometricsErrorMessageElement', () => {
         { class: 'INFO', message: 'oie.authenticator.app.method.push.verify.enable.biometrics.point3' },
       ],
     });
+  });
+
+  it('returns 2 bullets and the screen lock title for the biometrics_or_pin key', () => {
+    const result = getBiometricsErrorMessageElement(
+      OV_UV_RESEND_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY,
+    );
+    expect(result).toEqual({
+      class: 'ERROR',
+      title: 'oie.authenticator.app.method.push.verify.enable.biometrics_or_pin.title',
+      description: 'oie.authenticator.app.method.push.verify.enable.biometrics_or_pin.description',
+      message: [
+        {
+          class: 'INFO',
+          message: 'oie.authenticator.app.method.push.verify.enable.biometrics_or_pin.point1',
+        },
+        {
+          class: 'INFO',
+          message: 'oie.authenticator.app.method.push.verify.enable.biometrics_or_pin.point2',
+        },
+      ],
+    });
+  });
+
+  it('does not fall through to the biometrics-only copy for the biometrics_or_pin key', () => {
+    const result = getBiometricsErrorMessageElement(
+      OV_UV_RESEND_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY,
+    );
+    expect(result.title).not.toBe('oie.authenticator.app.method.push.verify.enable.biometrics.title');
+    expect(result.message).toHaveLength(2);
+  });
+
+  it('returns 2 bullets of TOTP copy for the TOTP biometrics_or_pin key', () => {
+    const result = getBiometricsErrorMessageElement(OV_UV_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY);
+    expect(result).toEqual({
+      class: 'ERROR',
+      title: 'oie.authenticator.oktaverify.method.totp.verify.enable.biometrics_or_pin.title',
+      description: 'oie.authenticator.oktaverify.method.totp.verify.enable.biometrics_or_pin.description',
+      message: [
+        {
+          class: 'INFO',
+          message: 'oie.authenticator.oktaverify.method.totp.verify.enable.biometrics_or_pin.point1',
+        },
+        {
+          class: 'INFO',
+          message: 'oie.authenticator.oktaverify.method.totp.verify.enable.biometrics_or_pin.point2',
+        },
+      ],
+    });
+  });
+
+  it.each([
+    ['mobile', OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE],
+    ['desktop', OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_DESKTOP],
+  ])('returns 2 bullets of shared FastPass copy for the %s biometrics_or_pin key', (_name, key) => {
+    const result = getBiometricsErrorMessageElement(key);
+    expect(result).toEqual({
+      class: 'ERROR',
+      title: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.title',
+      description: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.description',
+      message: [
+        {
+          class: 'INFO',
+          message: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.point1',
+        },
+        {
+          class: 'INFO',
+          message: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.point2',
+        },
+      ],
+    });
+  });
+
+  it('drops the biometric-sensor bullet for FastPass desktop biometrics_or_pin', () => {
+    const biometricsOnly = getBiometricsErrorMessageElement(
+      OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
+    );
+    const orPin = getBiometricsErrorMessageElement(
+      OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_DESKTOP,
+    );
+    expect(biometricsOnly.message).toHaveLength(4);
+    expect(orPin.message).toHaveLength(2);
+  });
+
+  it('resolves a distinct per-flow i18n title key rather than a shared one', () => {
+    const titles = [
+      OV_UV_RESEND_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY,
+      OV_UV_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY,
+      OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE,
+    ].map((key) => getBiometricsErrorMessageElement(key).title);
+    expect(titles).toEqual([
+      'oie.authenticator.app.method.push.verify.enable.biometrics_or_pin.title',
+      'oie.authenticator.oktaverify.method.totp.verify.enable.biometrics_or_pin.title',
+      'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.title',
+    ]);
   });
 });

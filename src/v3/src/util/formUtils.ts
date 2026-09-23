@@ -25,6 +25,10 @@ import {
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
+  OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_DESKTOP,
+  OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE,
+  OV_UV_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY,
+  OV_UV_RESEND_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY,
   SOCIAL_IDP_TYPE_TO_I18KEY,
   TERMINAL_KEY,
 } from '../constants';
@@ -389,6 +393,36 @@ export const getBiometricsErrorMessageElement = (
       loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point1', 'login'),
       loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point2', 'login'),
       loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point3', 'login'),
+    ];
+  } else if (messageKey === OV_UV_RESEND_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY) {
+    title = loc('oie.authenticator.app.method.push.verify.enable.biometrics_or_pin.title', 'login');
+    customMessage = loc('oie.authenticator.app.method.push.verify.enable.biometrics_or_pin.description', 'login');
+    messageBullets = [
+      loc('oie.authenticator.app.method.push.verify.enable.biometrics_or_pin.point1', 'login'),
+      loc('oie.authenticator.app.method.push.verify.enable.biometrics_or_pin.point2', 'login'),
+    ];
+  } else if (messageKey === OV_UV_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY) {
+    title = loc('oie.authenticator.oktaverify.method.totp.verify.enable.biometrics_or_pin.title', 'login');
+    customMessage = loc(
+      'oie.authenticator.oktaverify.method.totp.verify.enable.biometrics_or_pin.description',
+      'login',
+    );
+    messageBullets = [
+      loc('oie.authenticator.oktaverify.method.totp.verify.enable.biometrics_or_pin.point1', 'login'),
+      loc('oie.authenticator.oktaverify.method.totp.verify.enable.biometrics_or_pin.point2', 'login'),
+    ];
+  } else if (
+    messageKey === OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE
+    || messageKey === OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_DESKTOP
+  ) {
+    title = loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.title', 'login');
+    customMessage = loc(
+      'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.description',
+      'login',
+    );
+    messageBullets = [
+      loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.point1', 'login'),
+      loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.point2', 'login'),
     ];
   } else {
     title = loc('oie.authenticator.app.method.push.verify.enable.biometrics.title', 'login');
