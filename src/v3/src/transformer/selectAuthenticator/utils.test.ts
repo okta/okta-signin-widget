@@ -1295,6 +1295,27 @@ describe('Select Authenticator Utility Tests', () => {
       expect(requiredNow[0].kind).toBe('bare');
     });
 
+    it('clamps card.options.remaining to members.length when OAMP filters members out', () => {
+      // Two group members present in the button list; group.remaining says 3
+      // (IDX policy). The card must render "Choose 2 of:" — the shown count
+      // can never exceed what the user can actually pick.
+      const buttons = [
+        makeButton('email', ['arg-recovery']),
+        makeButton('phone', ['arg-recovery']),
+      ];
+      const groups: AuthenticatorGroup[] = [{
+        groupId: 'arg-recovery',
+        status: 'REQUIRED',
+        criteria: [{ type: 'authenticatorCount', count: 3 }],
+        remaining: 3,
+      }];
+      const { requiredNow } = partitionGroupedEnrollButtons(buttons, groups);
+      expect(requiredNow).toHaveLength(1);
+      const card = requiredNow[0] as Extract<typeof requiredNow[0], { kind: 'card' }>;
+      expect(card.card.options.remaining).toBe(2);
+      expect(card.card.options.buttons).toHaveLength(2);
+    });
+
     it('places a group with active BY_SKIP_COUNT grace period in the requiredSoon bucket', () => {
       const buttons = [
         makeButton('email', ['arg-recovery']),
@@ -1358,6 +1379,107 @@ describe('Select Authenticator Utility Tests', () => {
         .filter((i): i is Extract<typeof i, { kind: 'card' }> => i.kind === 'card')
         .map((i) => i.card.options.groupIndex);
       expect(indices).toEqual([0, 1]);
+    });
+
+    // -------------------------------------------------------------------------
+    // Grace-period urgency ordering (OKTA-1283647). Groups with active grace
+    // periods should sort ahead of no-GP groups; among active GPs,
+    // BY_SKIP_COUNT beats BY_DATE_TIME, fewer-skips beats more-skips, and
+    // sooner-expiry beats later-expiry. No-GP groups keep their wire order.
+    // -------------------------------------------------------------------------
+    describe('grace-period urgency ordering', () => {
+      // Build N buttons wired to a groupId, each with a synthetic key so the
+      // resulting card's member count is a stable identity signal.
+      const buttonsFor = (groupId: string, count: number): AuthenticatorButtonElement[] => (
+        Array.from({ length: count }, (_, i) => makeButton(`${groupId}-m${i}`, [groupId]))
+      );
+
+      const requiredGroup = (
+        id: string,
+        remaining: number,
+        gracePeriod?: AuthenticatorGroup['gracePeriod'],
+      ): AuthenticatorGroup => ({
+        groupId: id,
+        status: 'REQUIRED',
+        criteria: [{ type: 'authenticatorCount', count: 1 }],
+        remaining,
+        ...(gracePeriod ? { gracePeriod } : {}),
+      });
+
+      const cardCounts = (items: ReturnType<typeof partitionGroupedEnrollButtons>['requiredSoon']) => (
+        items
+          .filter((i): i is Extract<typeof i, { kind: 'card' }> => i.kind === 'card')
+          .map((i) => i.card.options.buttons.length)
+      );
+
+      it('sorts two BY_DATE_TIME groups so the sooner expiry comes first', () => {
+        // Wire order reversed: later first, sooner second.
+        const buttons = [
+          ...buttonsFor('arg-later', 2),
+          ...buttonsFor('arg-sooner', 3),
+        ];
+        const groups: AuthenticatorGroup[] = [
+          requiredGroup('arg-later', 1, { gracePeriodType: 'BY_DATE_TIME', expiry: '2099-12-31T23:59:59.000Z' }),
+          requiredGroup('arg-sooner', 1, { gracePeriodType: 'BY_DATE_TIME', expiry: '2099-01-01T00:00:00.000Z' }),
+        ];
+        const { requiredNow, requiredSoon } = partitionGroupedEnrollButtons(buttons, groups);
+        expect(requiredNow).toHaveLength(0);
+        // arg-sooner (3) before arg-later (2).
+        expect(cardCounts(requiredSoon)).toEqual([3, 2]);
+        // groupIndex assignment follows the sorted iteration order.
+        const indices = requiredSoon
+          .filter((i): i is Extract<typeof i, { kind: 'card' }> => i.kind === 'card')
+          .map((i) => i.card.options.groupIndex);
+        expect(indices).toEqual([0, 1]);
+      });
+
+      it('places BY_SKIP_COUNT groups above BY_DATE_TIME groups', () => {
+        // Wire order: date first, skip second → post-sort: skip first.
+        const buttons = [
+          ...buttonsFor('arg-date', 2),
+          ...buttonsFor('arg-skip', 3),
+        ];
+        const groups: AuthenticatorGroup[] = [
+          requiredGroup('arg-date', 1, { gracePeriodType: 'BY_DATE_TIME', expiry: '2099-01-01T00:00:00.000Z' }),
+          requiredGroup('arg-skip', 1, { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 2 }),
+        ];
+        const { requiredSoon } = partitionGroupedEnrollButtons(buttons, groups);
+        // arg-skip (3) before arg-date (2).
+        expect(cardCounts(requiredSoon)).toEqual([3, 2]);
+      });
+
+      it('sorts BY_SKIP_COUNT groups by remainingSkips ascending', () => {
+        // Wire order: 5 skips first, 1 skip second → post-sort: 1 skip first.
+        const buttons = [
+          ...buttonsFor('arg-many-skips', 2),
+          ...buttonsFor('arg-few-skips', 3),
+        ];
+        const groups: AuthenticatorGroup[] = [
+          requiredGroup('arg-many-skips', 1, { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 5 }),
+          requiredGroup('arg-few-skips', 1, { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 1 }),
+        ];
+        const { requiredSoon } = partitionGroupedEnrollButtons(buttons, groups);
+        // arg-few-skips (3) before arg-many-skips (2).
+        expect(cardCounts(requiredSoon)).toEqual([3, 2]);
+      });
+
+      it('keeps no-GP groups in requiredNow and orders active-GP groups in requiredSoon', () => {
+        // Wire order: date, skip, no-GP. Post-sort iteration: skip → date → no-GP.
+        // Bucketing → requiredNow: [no-GP], requiredSoon: [skip, date].
+        const buttons = [
+          ...buttonsFor('arg-date', 2),
+          ...buttonsFor('arg-skip', 3),
+          ...buttonsFor('arg-nogp', 4),
+        ];
+        const groups: AuthenticatorGroup[] = [
+          requiredGroup('arg-date', 1, { gracePeriodType: 'BY_DATE_TIME', expiry: '2099-01-01T00:00:00.000Z' }),
+          requiredGroup('arg-skip', 1, { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 2 }),
+          requiredGroup('arg-nogp', 1),
+        ];
+        const { requiredNow, requiredSoon } = partitionGroupedEnrollButtons(buttons, groups);
+        expect(cardCounts(requiredNow)).toEqual([4]); // arg-nogp
+        expect(cardCounts(requiredSoon)).toEqual([3, 2]); // arg-skip, arg-date
+      });
     });
 
     it('strips per-button grace-period fields on members inside a card (group GP wins)', () => {
