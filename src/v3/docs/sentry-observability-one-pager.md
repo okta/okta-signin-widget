@@ -52,7 +52,7 @@ of un-vetted PII and noise.
 (client-side, as the user progresses); the assembled transaction is **sent once, on flow
 completion** (success or terminal) — not continuously, and nothing is sent for abandoned flows.
 
-## 4. Limitations (after the scrubbing + IE11 fixes)
+## 4. Limitations
 
 What genuinely remains:
 
