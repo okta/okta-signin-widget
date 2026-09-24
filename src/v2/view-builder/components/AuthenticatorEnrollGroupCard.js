@@ -94,8 +94,12 @@ export default View.extend({
   },
 
   getTemplateData() {
-    const { group, groupIndex } = this.options;
-    const chooseLabel = loc('oie.enrollment.group.choose.n.of', 'login', [group.remaining]);
+    const { group, groupIndex, remaining } = this.options;
+    // `remaining` is passed pre-clamped from the container (min of group.remaining
+    // and members.length). Fall back to the raw group value only if omitted, so
+    // any future direct instantiation still renders.
+    const effectiveRemaining = typeof remaining === 'number' ? remaining : group.remaining;
+    const chooseLabel = loc('oie.enrollment.group.choose.n.of', 'login', [effectiveRemaining]);
     const gracePeriodData = this._getGroupGracePeriodData(group.gracePeriod);
     return {
       chooseLabel,

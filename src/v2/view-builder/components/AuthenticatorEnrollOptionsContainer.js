@@ -78,6 +78,36 @@ const hasActiveGroupGracePeriod = (group) => {
     || (gp.remainingSkips > 0);
 };
 
+// Rank each group for display order (see OKTA-1283647):
+//   tier 0 → active skip-based grace period (fewer remainingSkips first)
+//   tier 1 → active date-based grace period (sooner expiry first)
+//   tier 2 → no active grace period (goes to "Required now"; wire order preserved)
+const getGroupUrgencyRank = (group) => {
+  const gp = group?.gracePeriod;
+  if (!gp) {
+    return { tier: 2, value: 0 };
+  }
+  if (typeof gp.remainingSkips === 'number' && gp.remainingSkips > 0) {
+    return { tier: 0, value: gp.remainingSkips };
+  }
+  if (gp.expiry && isGracePeriodExpiryStillActive(gp.expiry)) {
+    return { tier: 1, value: new Date(gp.expiry).getTime() };
+  }
+  return { tier: 2, value: 0 };
+};
+
+const sortGroupsByUrgency = (groups) => [...groups].sort((a, b) => {
+  const ra = getGroupUrgencyRank(a);
+  const rb = getGroupUrgencyRank(b);
+  if (ra.tier !== rb.tier) {
+    return ra.tier - rb.tier;
+  }
+  if (ra.tier === 2) {
+    return 0;
+  }
+  return ra.value - rb.value;
+});
+
 export default View.extend({
 
   className: 'authenticator-enroll-list-container',
@@ -173,8 +203,11 @@ export default View.extend({
       emitted.push(single);
     } else {
       // Group-of-≥2 → card. Members are cloned inside the card to strip any
-      // per-row grace period (group GP wins).
-      bucket.push({ kind: 'card', group, members });
+      // per-row grace period (group GP wins). Clamp remaining to members.length
+      // so the "Choose N of:" label never asks for more than what OAMP-filtered
+      // membership actually offers.
+      const remaining = Math.min(group.remaining, members.length);
+      bucket.push({ kind: 'card', group, members, remaining });
       members.forEach(m => emitted.push(m));
     }
   },
@@ -192,7 +225,7 @@ export default View.extend({
     // which does not enumerate Set among the browser globals.
     const emitted = [];
 
-    groups.forEach(group => {
+    sortGroupsByUrgency(groups).forEach(group => {
       if (group && group.remaining > 0) {
         this._bucketGroup(group, requiredNow, requiredSoon, emitted);
       }
@@ -265,6 +298,7 @@ export default View.extend({
         ...this.options,
         group: entry.group,
         members: entry.members,
+        remaining: entry.remaining,
         groupIndex: (sectionOptions.cardIndexOffset || 0) + i,
       }));
     });

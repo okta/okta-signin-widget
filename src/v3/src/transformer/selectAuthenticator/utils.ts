@@ -714,6 +714,40 @@ export const hasActiveGroupGracePeriod = (group?: AuthenticatorGroup): boolean =
     || (typeof gp.remainingSkips === 'number' && gp.remainingSkips > 0);
 };
 
+// Rank each group for display order (see OKTA-1283647):
+//   tier 0 → active skip-based grace period (fewer remainingSkips first)
+//   tier 1 → active date-based grace period (sooner expiry first)
+//   tier 2 → no active grace period (goes to "Required now"; wire order preserved)
+type GroupUrgencyRank = { tier: 0 | 1 | 2; value: number };
+
+const getGroupUrgencyRank = (group?: AuthenticatorGroup): GroupUrgencyRank => {
+  const gp = group?.gracePeriod;
+  if (!gp) {
+    return { tier: 2, value: 0 };
+  }
+  if (typeof gp.remainingSkips === 'number' && gp.remainingSkips > 0) {
+    return { tier: 0, value: gp.remainingSkips };
+  }
+  if (gp.expiry && isGracePeriodExpiryStillActive(gp.expiry)) {
+    return { tier: 1, value: new Date(gp.expiry).getTime() };
+  }
+  return { tier: 2, value: 0 };
+};
+
+export const sortGroupsByUrgency = (
+  groups: AuthenticatorGroup[],
+): AuthenticatorGroup[] => [...groups].sort((a, b) => {
+  const ra = getGroupUrgencyRank(a);
+  const rb = getGroupUrgencyRank(b);
+  if (ra.tier !== rb.tier) {
+    return ra.tier - rb.tier;
+  }
+  if (ra.tier === 2) {
+    return 0;
+  }
+  return ra.value - rb.value;
+});
+
 const groupGracePeriodDescriptions = (
   gp: AuthenticatorGroupGracePeriod | undefined,
   languageTags?: string[],
@@ -863,11 +897,16 @@ const bucketGroupIntoSections = (
   const gpFields = group.gracePeriod
     ? groupGracePeriodDescriptions(group.gracePeriod, languageTags)
     : {};
+  // Clamp remaining to the number of members actually available to enroll.
+  // If OAMP filters members out of the response, group.remaining from IDX
+  // can exceed members.length, producing a "Choose N of:" label larger than
+  // the number of choices actually shown.
+  const displayRemaining = Math.min(group.remaining, members.length);
   const card: AuthenticatorGroupCardElement = {
     type: 'AuthenticatorGroupCard',
     options: {
       groupIndex: cardIndex,
-      remaining: group.remaining,
+      remaining: displayRemaining,
       buttons: strippedMembers,
       ...gpFields,
     },
@@ -886,7 +925,7 @@ export const partitionGroupedEnrollButtons = (
   const requiredSoon: GroupedSectionItem[] = [];
   const emitted = new Set<AuthenticatorButtonElement>();
 
-  groups.reduce((cardIndex, group) => {
+  sortGroupsByUrgency(groups).reduce((cardIndex, group) => {
     if (!group || group.remaining <= 0) {
       return cardIndex;
     }
