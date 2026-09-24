@@ -51,13 +51,17 @@ const mockGetAuthenticatorEnrollButtonElementsFn = jest.fn().mockImplementation(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   _step: string, _locale?: string, _authenticatorEnrollments?: IdxAuthenticator[],
 ) => (options.length ? getMockAuthenticatorButtons() : []));
-jest.mock('./utils', () => ({
-  getAuthenticatorEnrollButtonElements: (options: IdxOption[],
-    step: string,
-    locale?: string,
-    /* eslint-disable max-len */
-    authenticatorEnrollments?: IdxAuthenticator[]) => mockGetAuthenticatorEnrollButtonElementsFn(options, step, locale, authenticatorEnrollments),
-}));
+jest.mock('./utils', () => {
+  const actualUtils = jest.requireActual('./utils');
+  return {
+    ...actualUtils,
+    getAuthenticatorEnrollButtonElements: (options: IdxOption[],
+      step: string,
+      locale?: string,
+      /* eslint-disable max-len */
+      authenticatorEnrollments?: IdxAuthenticator[]) => mockGetAuthenticatorEnrollButtonElementsFn(options, step, locale, authenticatorEnrollments),
+  };
+});
 
 jest.mock('util/LanguageUtil', () => ({
   getLanguageTags: jest.fn().mockImplementation(() => ['ok_pl']),
@@ -70,7 +74,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
   let widgetProps: WidgetProps;
 
   beforeEach(() => {
-    jest.spyOn(Date, 'now').mockReturnValue(new Date('12/30/2024').getTime());
+    jest.spyOn(Date, 'now').mockReturnValue(Date.parse('2024-12-30T00:00:00.000Z'));
     formBag.uischema.elements = [];
     transaction.availableSteps = [];
     transaction.nextStep = {

@@ -20,6 +20,22 @@ const idx = {
 
   '/idp/idx/introspect': [
     'identify',
+    // N-of-M authenticator groups demo: uncomment one of the variants below
+    // (and comment `identify` above) to preview the grouped enrollment screens.
+    // 'authenticator-enroll-select-authenticator-groups',
+    // 'authenticator-enroll-select-authenticator-groups-two',
+    // 'authenticator-enroll-select-authenticator-groups-optional-phase',
+    // 'authenticator-enroll-select-authenticator-groups-grace-period',
+    // 'authenticator-enroll-select-authenticator-groups-grace-period-skip',
+    // 'authenticator-enroll-select-authenticator-groups-mixed',
+    // 'authenticator-enroll-select-authenticator-groups-qa-wire',
+    // 'authenticator-enroll-select-authenticator-groups-n-equals-m',
+    // 'authenticator-enroll-select-authenticator-groups-single-member',
+    // 'authenticator-enroll-select-authenticator-groups-two-no-overlap',
+    // 'authenticator-enroll-select-authenticator-groups-grace-period-expired',
+    // 'authenticator-enroll-select-authenticator-groups-two-mixed-gp',
+    // 'authenticator-enroll-select-authenticator-groups-ov-in-group',
+    // 'authenticator-enroll-select-authenticator-groups-single-member-gp',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',

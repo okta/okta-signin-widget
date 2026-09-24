@@ -1,0 +1,112 @@
+{
+  "stateHandle": "02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt",
+  "version": "1.0.0",
+  "expiresAt": "2026-12-31T21:05:31.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "accepts": "application/json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "required": true,
+            "type": "object",
+            "options": [
+              {
+                "label": "Security Question",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut-sq-arg-recovery",
+                        "mutable": false,
+                        "visible": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "displayName": "Security Question",
+        "type": "security_question",
+        "key": "security_question",
+        "id": "sq-enroll-id",
+        "authenticatorId": "aut-sq-arg-recovery",
+        "groupIds": [
+          "arg-recovery"
+        ]
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": []
+  },
+  "authenticatorGroups": {
+    "type": "array",
+    "value": [
+      {
+        "groupId": "arg-recovery",
+        "criteria": [
+          {
+            "type": "authenticatorCount",
+            "count": 1
+          }
+        ],
+        "remaining": 1
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00utjm1GstPjCF9Ad0g3",
+      "identifier": "eva@example.com"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  }
+}

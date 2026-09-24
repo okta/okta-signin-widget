@@ -13,14 +13,18 @@
 import { Input } from '@okta/okta-auth-js';
 import { IdxAuthenticator, IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP, AUTHENTICATOR_KEY, IDX_STEP } from 'src/constants';
-import { ButtonType } from 'src/types';
+import { AuthenticatorButtonElement, ButtonType } from 'src/types';
 import TimeUtil from 'util/TimeUtil';
 
 import {
+  AuthenticatorGroup,
   getAppAuthenticatorMethodButtonElements,
   getAuthenticatorEnrollButtonElements,
   getAuthenticatorVerifyButtonElements,
+  isAuthenticatorButtonInGracePeriod,
   isOnlyPushWithAutoChallenge,
+  normalizeAuthenticatorGroups,
+  partitionGroupedEnrollButtons,
 } from './utils';
 
 describe('Select Authenticator Utility Tests', () => {
@@ -751,6 +755,74 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues[1].options.actionParams!['authenticator.methodType']).toBe('push');
     });
 
+    it('propagates OV authenticator groupIds onto every expanded method-type button', () => {
+      // Regression: when Okta Verify has multiple method types (push/totp),
+      // getAuthenticatorButtonElements splices the group-aware OV button out
+      // and replaces it with per-method buttons. Without propagation, those
+      // replacement buttons lose their group affiliation and render outside
+      // the required group card.
+      const options: IdxOption[] = [{
+        label: 'Okta Verify',
+        value: [
+          {
+            name: 'methodType',
+            options: [
+              { label: 'Code', value: 'totp' },
+              { label: 'Push', value: 'push' },
+            ],
+          },
+          { name: 'id', value: 'aut-ov' },
+        ],
+        relatesTo: {
+          id: '',
+          type: '',
+          methods: [{ type: '' }],
+          displayName: '',
+          key: AUTHENTICATOR_KEY.OV,
+          // @ts-expect-error groupIds not yet in IdxAuthenticator SDK type
+          groupIds: ['arg-strong', 'arg-recovery'],
+        },
+      }];
+
+      const buttons = getAuthenticatorEnrollButtonElements(options, stepName);
+
+      expect(buttons.length).toBe(2);
+      buttons.forEach((btn) => {
+        expect(btn.options.key).toBe(AUTHENTICATOR_KEY.OV);
+        expect(btn.options.groupIds).toEqual(['arg-strong', 'arg-recovery']);
+      });
+    });
+
+    it('does not add a groupIds field to OV method-type buttons when the OV authenticator is ungrouped', () => {
+      const options: IdxOption[] = [{
+        label: 'Okta Verify',
+        value: [
+          {
+            name: 'methodType',
+            options: [
+              { label: 'Code', value: 'totp' },
+              { label: 'Push', value: 'push' },
+            ],
+          },
+          { name: 'id', value: 'aut-ov' },
+        ],
+        relatesTo: {
+          id: '',
+          type: '',
+          methods: [{ type: '' }],
+          displayName: '',
+          key: AUTHENTICATOR_KEY.OV,
+        },
+      }];
+
+      const buttons = getAuthenticatorEnrollButtonElements(options, stepName);
+
+      expect(buttons.length).toBe(2);
+      buttons.forEach((btn) => {
+        expect(btn.options.groupIds).toBeUndefined();
+      });
+    });
+
     // OKTA-1245836: the authenticator enroll list always uses the "Set up" CTA, matching
     // gen2. Even when an authenticator is already present in authenticatorEnrollments
     // (e.g. email/password enrolled earlier in a registration flow), it must not be
@@ -1148,6 +1220,375 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
       expect(authenticatorOptionValues[0].options.gracePeriodExpiry).toBeNull();
       expect(authenticatorOptionValues[0].options.gracePeriodRequiredDescription).toBeNull();
+    });
+  });
+
+  describe('partitionGroupedEnrollButtons (N-of-M)', () => {
+    const makeButton = (
+      key: string,
+      groupIds: string[] = [],
+    ): AuthenticatorButtonElement => ({
+      type: 'AuthenticatorButton',
+      label: key,
+      id: `auth_btn_${key}`,
+      options: {
+        type: ButtonType.BUTTON,
+        key,
+        ariaLabel: `Set up ${key}`,
+        ctaLabel: 'Set up',
+        dataSe: key,
+        step: 'select-authenticator-enroll',
+        iconName: `${key}_0`,
+        includeData: true,
+        includeImmutableData: false,
+        actionParams: { 'authenticator.id': `id-${key}` },
+        groupIds,
+      },
+    });
+
+    it('emits one card per REQUIRED group with remaining > 0', () => {
+      const buttons = [
+        makeButton('email', ['arg-recovery']),
+        makeButton('phone', ['arg-recovery']),
+        makeButton('security_question', ['arg-recovery']),
+      ];
+      const groups: AuthenticatorGroup[] = [{
+        groupId: 'arg-recovery',
+        status: 'REQUIRED',
+        criteria: [{ type: 'authenticatorCount', count: 1 }],
+        remaining: 1,
+      }];
+      const {
+        requiredNow,
+        requiredSoon,
+        ungrouped,
+      } = partitionGroupedEnrollButtons(buttons, groups);
+      expect(requiredNow).toHaveLength(1);
+      expect(requiredNow[0]).toMatchObject({
+        kind: 'card',
+        card: {
+          options: {
+            remaining: 1,
+            groupIndex: 0,
+            buttons: expect.any(Array),
+          },
+        },
+      });
+      // Card carries all three group members. Asserting via a type-narrowed
+      // reference so the .buttons length check is a plain (non-conditional) expect.
+      const firstNow = requiredNow[0] as Extract<typeof requiredNow[0], { kind: 'card' }>;
+      expect(firstNow.card.options.buttons).toHaveLength(3);
+      expect(requiredSoon).toHaveLength(0);
+      expect(ungrouped).toHaveLength(0);
+    });
+
+    it('renders a group-of-1 as a bare button, not a card', () => {
+      const buttons = [makeButton('okta_password', ['arg-required-pw'])];
+      const groups: AuthenticatorGroup[] = [{
+        groupId: 'arg-required-pw',
+        status: 'REQUIRED',
+        criteria: [{ type: 'authenticatorCount', count: 1 }],
+        remaining: 1,
+      }];
+      const { requiredNow } = partitionGroupedEnrollButtons(buttons, groups);
+      expect(requiredNow).toHaveLength(1);
+      expect(requiredNow[0].kind).toBe('bare');
+    });
+
+    it('clamps card.options.remaining to members.length when OAMP filters members out', () => {
+      // Two group members present in the button list; group.remaining says 3
+      // (IDX policy). The card must render "Choose 2 of:" — the shown count
+      // can never exceed what the user can actually pick.
+      const buttons = [
+        makeButton('email', ['arg-recovery']),
+        makeButton('phone', ['arg-recovery']),
+      ];
+      const groups: AuthenticatorGroup[] = [{
+        groupId: 'arg-recovery',
+        status: 'REQUIRED',
+        criteria: [{ type: 'authenticatorCount', count: 3 }],
+        remaining: 3,
+      }];
+      const { requiredNow } = partitionGroupedEnrollButtons(buttons, groups);
+      expect(requiredNow).toHaveLength(1);
+      const card = requiredNow[0] as Extract<typeof requiredNow[0], { kind: 'card' }>;
+      expect(card.card.options.remaining).toBe(2);
+      expect(card.card.options.buttons).toHaveLength(2);
+    });
+
+    it('places a group with active BY_SKIP_COUNT grace period in the requiredSoon bucket', () => {
+      const buttons = [
+        makeButton('email', ['arg-recovery']),
+        makeButton('phone', ['arg-recovery']),
+      ];
+      const groups: AuthenticatorGroup[] = [{
+        groupId: 'arg-recovery',
+        status: 'REQUIRED',
+        criteria: [{ type: 'authenticatorCount', count: 1 }],
+        remaining: 1,
+        gracePeriod: { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 3 },
+      }];
+      const { requiredNow, requiredSoon } = partitionGroupedEnrollButtons(buttons, groups);
+      expect(requiredNow).toHaveLength(0);
+      expect(requiredSoon).toHaveLength(1);
+      const firstSoon = requiredSoon[0] as Extract<typeof requiredSoon[0], { kind: 'card' }>;
+      expect(firstSoon.card.options.gracePeriodRemainingSkipsDescription)
+        .toContain('oie.enrollment.policy.grace.period.required.in.number');
+    });
+
+    it('skips satisfied groups entirely (remaining === 0)', () => {
+      const buttons = [
+        makeButton('phone', ['arg-recovery']),
+        makeButton('okta_password', []),
+      ];
+      const groups: AuthenticatorGroup[] = [{
+        groupId: 'arg-recovery',
+        status: 'REQUIRED',
+        criteria: [{ type: 'authenticatorCount', count: 1 }],
+        remaining: 0,
+      }];
+      const {
+        requiredNow,
+        requiredSoon,
+        ungrouped,
+      } = partitionGroupedEnrollButtons(buttons, groups);
+      expect(requiredNow).toHaveLength(0);
+      expect(requiredSoon).toHaveLength(0);
+      // Both buttons fall through as ungrouped because the group is satisfied.
+      expect(ungrouped).toHaveLength(2);
+    });
+
+    it('assigns unique positional groupIndex values across multiple cards', () => {
+      const buttons = [
+        makeButton('email', ['arg-recovery']),
+        makeButton('phone', ['arg-recovery']),
+        makeButton('okta_verify', ['arg-recovery', 'arg-strong']),
+        makeButton('webauthn', ['arg-strong']),
+      ];
+      const groups: AuthenticatorGroup[] = [
+        {
+          groupId: 'arg-recovery', status: 'REQUIRED', criteria: [{ type: 'authenticatorCount', count: 1 }], remaining: 1,
+        },
+        {
+          groupId: 'arg-strong', status: 'REQUIRED', criteria: [{ type: 'authenticatorCount', count: 1 }], remaining: 1,
+        },
+      ];
+      const { requiredNow } = partitionGroupedEnrollButtons(buttons, groups);
+      expect(requiredNow).toHaveLength(2);
+      const indices = requiredNow
+        .filter((i): i is Extract<typeof i, { kind: 'card' }> => i.kind === 'card')
+        .map((i) => i.card.options.groupIndex);
+      expect(indices).toEqual([0, 1]);
+    });
+
+    // -------------------------------------------------------------------------
+    // Grace-period urgency ordering (OKTA-1283647). Groups with active grace
+    // periods should sort ahead of no-GP groups; among active GPs,
+    // BY_SKIP_COUNT beats BY_DATE_TIME, fewer-skips beats more-skips, and
+    // sooner-expiry beats later-expiry. No-GP groups keep their wire order.
+    // -------------------------------------------------------------------------
+    describe('grace-period urgency ordering', () => {
+      // Build N buttons wired to a groupId, each with a synthetic key so the
+      // resulting card's member count is a stable identity signal.
+      const buttonsFor = (groupId: string, count: number): AuthenticatorButtonElement[] => (
+        Array.from({ length: count }, (_, i) => makeButton(`${groupId}-m${i}`, [groupId]))
+      );
+
+      const requiredGroup = (
+        id: string,
+        remaining: number,
+        gracePeriod?: AuthenticatorGroup['gracePeriod'],
+      ): AuthenticatorGroup => ({
+        groupId: id,
+        status: 'REQUIRED',
+        criteria: [{ type: 'authenticatorCount', count: 1 }],
+        remaining,
+        ...(gracePeriod ? { gracePeriod } : {}),
+      });
+
+      const cardCounts = (items: ReturnType<typeof partitionGroupedEnrollButtons>['requiredSoon']) => (
+        items
+          .filter((i): i is Extract<typeof i, { kind: 'card' }> => i.kind === 'card')
+          .map((i) => i.card.options.buttons.length)
+      );
+
+      it('sorts two BY_DATE_TIME groups so the sooner expiry comes first', () => {
+        // Wire order reversed: later first, sooner second.
+        const buttons = [
+          ...buttonsFor('arg-later', 2),
+          ...buttonsFor('arg-sooner', 3),
+        ];
+        const groups: AuthenticatorGroup[] = [
+          requiredGroup('arg-later', 1, { gracePeriodType: 'BY_DATE_TIME', expiry: '2099-12-31T23:59:59.000Z' }),
+          requiredGroup('arg-sooner', 1, { gracePeriodType: 'BY_DATE_TIME', expiry: '2099-01-01T00:00:00.000Z' }),
+        ];
+        const { requiredNow, requiredSoon } = partitionGroupedEnrollButtons(buttons, groups);
+        expect(requiredNow).toHaveLength(0);
+        // arg-sooner (3) before arg-later (2).
+        expect(cardCounts(requiredSoon)).toEqual([3, 2]);
+        // groupIndex assignment follows the sorted iteration order.
+        const indices = requiredSoon
+          .filter((i): i is Extract<typeof i, { kind: 'card' }> => i.kind === 'card')
+          .map((i) => i.card.options.groupIndex);
+        expect(indices).toEqual([0, 1]);
+      });
+
+      it('places BY_SKIP_COUNT groups above BY_DATE_TIME groups', () => {
+        // Wire order: date first, skip second → post-sort: skip first.
+        const buttons = [
+          ...buttonsFor('arg-date', 2),
+          ...buttonsFor('arg-skip', 3),
+        ];
+        const groups: AuthenticatorGroup[] = [
+          requiredGroup('arg-date', 1, { gracePeriodType: 'BY_DATE_TIME', expiry: '2099-01-01T00:00:00.000Z' }),
+          requiredGroup('arg-skip', 1, { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 2 }),
+        ];
+        const { requiredSoon } = partitionGroupedEnrollButtons(buttons, groups);
+        // arg-skip (3) before arg-date (2).
+        expect(cardCounts(requiredSoon)).toEqual([3, 2]);
+      });
+
+      it('sorts BY_SKIP_COUNT groups by remainingSkips ascending', () => {
+        // Wire order: 5 skips first, 1 skip second → post-sort: 1 skip first.
+        const buttons = [
+          ...buttonsFor('arg-many-skips', 2),
+          ...buttonsFor('arg-few-skips', 3),
+        ];
+        const groups: AuthenticatorGroup[] = [
+          requiredGroup('arg-many-skips', 1, { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 5 }),
+          requiredGroup('arg-few-skips', 1, { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 1 }),
+        ];
+        const { requiredSoon } = partitionGroupedEnrollButtons(buttons, groups);
+        // arg-few-skips (3) before arg-many-skips (2).
+        expect(cardCounts(requiredSoon)).toEqual([3, 2]);
+      });
+
+      it('keeps no-GP groups in requiredNow and orders active-GP groups in requiredSoon', () => {
+        // Wire order: date, skip, no-GP. Post-sort iteration: skip → date → no-GP.
+        // Bucketing → requiredNow: [no-GP], requiredSoon: [skip, date].
+        const buttons = [
+          ...buttonsFor('arg-date', 2),
+          ...buttonsFor('arg-skip', 3),
+          ...buttonsFor('arg-nogp', 4),
+        ];
+        const groups: AuthenticatorGroup[] = [
+          requiredGroup('arg-date', 1, { gracePeriodType: 'BY_DATE_TIME', expiry: '2099-01-01T00:00:00.000Z' }),
+          requiredGroup('arg-skip', 1, { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 2 }),
+          requiredGroup('arg-nogp', 1),
+        ];
+        const { requiredNow, requiredSoon } = partitionGroupedEnrollButtons(buttons, groups);
+        expect(cardCounts(requiredNow)).toEqual([4]); // arg-nogp
+        expect(cardCounts(requiredSoon)).toEqual([3, 2]); // arg-skip, arg-date
+      });
+    });
+
+    it('strips per-button grace-period fields on members inside a card (group GP wins)', () => {
+      const buttonWithPerGP = makeButton('email', ['arg-recovery']);
+      // Simulate a per-authenticator grace period lingering on the wire.
+      buttonWithPerGP.options.gracePeriodRemainingSkipsDescription = 'stale-per-button-gp';
+      const buttons = [buttonWithPerGP, makeButton('phone', ['arg-recovery'])];
+      const groups: AuthenticatorGroup[] = [{
+        groupId: 'arg-recovery',
+        status: 'REQUIRED',
+        criteria: [{ type: 'authenticatorCount', count: 1 }],
+        remaining: 1,
+        gracePeriod: { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 3 },
+      }];
+      const { requiredSoon } = partitionGroupedEnrollButtons(buttons, groups);
+      expect(requiredSoon[0]).toMatchObject({ kind: 'card' });
+      const cardSoon = requiredSoon[0] as Extract<typeof requiredSoon[0], { kind: 'card' }>;
+      const members = cardSoon.card.options.buttons;
+      // Assert each member's GP fields are stripped. Wrapping the per-member
+      // assertions in an object-shape matcher on the full array so eslint's
+      // no-conditional-expect rule stays happy.
+      expect(members).toEqual(members.map(() => expect.objectContaining({
+        options: expect.objectContaining({
+          gracePeriodRemainingSkipsDescription: undefined,
+          gracePeriodRequiredDescription: undefined,
+          gracePeriodExpiry: undefined,
+        }),
+      })));
+    });
+  });
+
+  describe('isAuthenticatorButtonInGracePeriod', () => {
+    // Guards the ungrouped-bucket path in transformSelectAuthenticatorEnroll:
+    // the previous implementation tried to re-parse the locale-formatted
+    // btn.options.gracePeriodExpiry as an ISO date. This helper reads the
+    // description fields instead (only set when GP is active), which is safe
+    // across engines/locales.
+    const makeBtn = (opts: Partial<AuthenticatorButtonElement['options']>): AuthenticatorButtonElement => ({
+      type: 'AuthenticatorButton',
+      label: 'x',
+      id: 'auth_btn_x',
+      options: {
+        type: ButtonType.BUTTON,
+        key: 'x',
+        ariaLabel: 'x',
+        ctaLabel: 'Set up',
+        dataSe: 'x',
+        step: 'select-authenticator-enroll',
+        iconName: 'x_0',
+        includeData: true,
+        includeImmutableData: false,
+        actionParams: { 'authenticator.id': 'x' },
+        ...opts,
+      },
+    });
+
+    it('returns true when gracePeriodRequiredDescription is present (BY_DATE_TIME)', () => {
+      expect(isAuthenticatorButtonInGracePeriod(makeBtn({
+        gracePeriodRequiredDescription: 'Required in 14 days',
+      }))).toBe(true);
+    });
+
+    it('returns true when gracePeriodRemainingSkipsDescription is present (BY_SKIP_COUNT)', () => {
+      expect(isAuthenticatorButtonInGracePeriod(makeBtn({
+        gracePeriodRemainingSkipsDescription: '3 skips remaining',
+      }))).toBe(true);
+    });
+
+    it('returns false when only the locale-formatted gracePeriodExpiry is present (no active GP)', () => {
+      // Regression: previous code re-parsed this string with new Date(...),
+      // which succeeded for some locales in V8 but failed in strict engines,
+      // producing inconsistent bucketing. The helper must NOT rely on it.
+      expect(isAuthenticatorButtonInGracePeriod(makeBtn({
+        gracePeriodExpiry: '11/30/2026, 07:00 PM EST',
+      }))).toBe(false);
+    });
+
+    it('returns false when no grace-period fields are set', () => {
+      expect(isAuthenticatorButtonInGracePeriod(makeBtn({}))).toBe(false);
+    });
+  });
+
+  describe('normalizeAuthenticatorGroups', () => {
+    const group: AuthenticatorGroup = {
+      groupId: 'arg-recovery',
+      criteria: [{ type: 'authenticatorCount', count: 1 }],
+      remaining: 1,
+    };
+
+    it('flattens the ion-wrapped {type, value} form to a plain array', () => {
+      expect(normalizeAuthenticatorGroups({ type: 'array', value: [group] }))
+        .toEqual([group]);
+    });
+
+    it('returns undefined when the field is absent', () => {
+      expect(normalizeAuthenticatorGroups(undefined)).toBeUndefined();
+      expect(normalizeAuthenticatorGroups(null)).toBeUndefined();
+    });
+
+    it('returns undefined for malformed input (missing value)', () => {
+      expect(normalizeAuthenticatorGroups({ type: 'array' })).toBeUndefined();
+    });
+
+    it('returns undefined for malformed input (wrong type discriminator)', () => {
+      expect(normalizeAuthenticatorGroups({ type: 'object', value: [group] })).toBeUndefined();
+    });
+
+    it('returns undefined for a bare array (not wrapped)', () => {
+      expect(normalizeAuthenticatorGroups([group])).toBeUndefined();
     });
   });
 });

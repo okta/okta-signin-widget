@@ -171,28 +171,42 @@ export default ListView.extend({
   },
 
   template: hbs`<div class="list-content">
-    <div class="authenticator-list-title">
-      {{title}}
-    </div>
-    {{#if subtitle}}
-      <p class="authenticator-list-subtitle">
-        {{subtitle}}
-      </p>
-    {{/if}}
-    {{#if subtitleLinkOptions}}
-      <div class="authenticator-list-subtitle-link-container">
-        <a href={{subtitleLinkOptions.href}} target="_blank" rel="noopener noreferrer">{{subtitleLinkOptions.label}}</a>
+    {{#if showTitle}}
+      <div class="authenticator-list-title">
+        {{title}}
       </div>
+      {{#if subtitle}}
+        <p class="authenticator-list-subtitle">
+          {{subtitle}}
+        </p>
+      {{/if}}
+      {{#if subtitleLinkOptions}}
+        <div class="authenticator-list-subtitle-link-container">
+          <a
+            href={{subtitleLinkOptions.href}}
+            target="_blank"
+            rel="noopener noreferrer"
+          >{{subtitleLinkOptions.label}}</a>
+        </div>
+      {{/if}}
     {{/if}}
   </div>`,
 
   getTemplateData() {
-    // presence of the skip remediation form tells us that the authenticators are all optional
+    // In the legacy (pre-N-of-M) path the presence of a `skip` remediation
+    // implies the authenticators are all optional, so we use it as the trigger
+    // for the "Optional" title. In the N-of-M grouped path the caller always
+    // supplies `listTitle` explicitly (Required now / Required soon), so this
+    // fallback is only consulted when a section title wasn't passed in.
     const title = this.hasOptionalFactors? loc('oie.setup.optional', 'login'):loc('oie.setup.required', 'login');
+    // showTitle defaults to true; N-of-M group cards render an internal member
+    // list without a section title (the card supplies its own "Choose N of:" label).
+    const showTitle = this.options.showTitle !== false;
     return {
       title: this.options.listTitle || title,
       subtitle: this.options.listSubtitle || null,
       subtitleLinkOptions: this.options.listSubtitleLinkOptions || null,
+      showTitle,
     };
   }
 
