@@ -138,12 +138,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // bootstrap introspect fires) so its request URL is captured. Records ONLY
   // url + method + status. No-op unless the feedback feature is enabled.
   useOnce(() => {
-    if (feedback?.enabled || feedback?.tracePoc) {
-      installFetchTap();
-    }
-    // Session Replay must record from bootstrap so a recording exists to attach
-    // when the user later clicks "Send feedback". Buffers in memory only; nothing
-    // is uploaded until that click (see sendFeedbackToSentry -> replay.flush()).
+    // Kick off the Replay buffer load early (shared, at-most-once) so the SDK chunk
+    // is loading during initLanguage and is ready by the time `bootstrap` awaits it
+    // before the first IDX request. The fetch tap is installed in `bootstrap` AFTER
+    // this so it sits ABOVE Replay's fetch instrumentation (see bootstrap ordering).
     if (feedback?.replay) {
       startFeedbackReplayBuffer(feedback).catch(() => {
         // replay is best-effort; never affect the auth flow
@@ -237,6 +235,19 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       resetDiagnostics();
     }
     await initLanguage();
+    // ORDER MATTERS (both must happen before the first IDX request below):
+    // 1) Start Session Replay so it instruments the NATIVE window.fetch first —
+    //    Replay then sits in okta-auth-js's fetch call path and captures the IDX
+    //    network calls. Awaited (shared at-most-once init) so it completes first.
+    // 2) THEN install our diagnostic tap, which wraps the (now Replay-wrapped)
+    //    fetch — so requests flow tap -> Replay -> native and BOTH capture. If the
+    //    tap were installed first it would capture native and bypass Replay.
+    if (feedback?.replay) {
+      await startFeedbackReplayBuffer(feedback);
+    }
+    if (feedback?.enabled || feedback?.tracePoc) {
+      installFetchTap();
+    }
     try {
       if (typeof proxyIdxResponse !== 'undefined') {
         setIdxTransaction({

@@ -33,7 +33,9 @@ type SentryNS = typeof import('@sentry/browser');
 
 let bundledNs: SentryNS | undefined;
 let bundledInitialized = false;
-let replayBuffering = false;
+// Single in-flight init so the bootstrap `await` and the useOnce kickoff share one
+// buffering start (and `startBuffering` is called at most once).
+let replayBufferPromise: Promise<void> | undefined;
 
 /**
  * Prefer the wrapper-provided global SDK. In prod, `@okta/sentry-wrapper` runs
@@ -81,15 +83,26 @@ const ensureBundledInit = (Sentry: SentryNS, options: FeedbackSentryOptions): vo
     defaultIntegrations: false,
     autoSessionTracking: false,
     integrations: options.replay
-      ? [new Sentry.Replay({
-        maskAllText: true,
-        maskAllInputs: true,
-        blockAllMedia: true,
-        // POC ONLY: capture bodies for IDX calls (PII/secret-bearing — never on
-        // real traffic). Scoped to /idp/idx/ paths.
-        networkDetailAllowUrls: ['/idp/idx/'],
-        networkCaptureBodies: true,
-      })]
+      ? [
+        // Replay's network capture (v7) does NOT self-instrument fetch/xhr when
+        // `client.on` exists (it does for BrowserClient). Instead it enriches the
+        // breadcrumbs produced by the core Breadcrumbs integration. With
+        // defaultIntegrations:false we must add Breadcrumbs explicitly, or the
+        // replay Network tab stays empty. GlobalHandlers is intentionally omitted,
+        // so we still do NOT auto-capture unhandled errors.
+        new Sentry.Breadcrumbs({
+          console: true, dom: true, fetch: true, xhr: true, history: true,
+        }),
+        new Sentry.Replay({
+          maskAllText: true,
+          maskAllInputs: true,
+          blockAllMedia: true,
+          // POC ONLY: capture bodies for IDX calls (PII/secret-bearing — never on
+          // real traffic). Scoped to /idp/idx/ paths.
+          networkDetailAllowUrls: ['/idp/idx/'],
+          networkCaptureBodies: true,
+        }),
+      ]
       : [],
     replaysSessionSampleRate: 0,
     replaysOnErrorSampleRate: 0,
@@ -131,25 +144,24 @@ const getReplay = (Sentry: SentryNS) => {
  * this is a no-op. Only in the bundled-fallback path do we init + startBuffering
  * ourselves. Safe no-op when replay is off.
  */
-export const startFeedbackReplayBuffer = async (
+export const startFeedbackReplayBuffer = (
   options?: FeedbackSentryOptions,
 ): Promise<void> => {
-  if (!options?.replay) {
-    return;
+  // Prod path: the wrapper owns Replay + buffering. Nothing to do here.
+  if (!options?.replay || !options?.sentryDsn || getWrapperSentry()) {
+    return Promise.resolve();
   }
-  // Prod path: the wrapper owns Replay + buffering. Nothing to do.
-  if (getWrapperSentry()) {
-    return;
+  if (!replayBufferPromise) {
+    replayBufferPromise = (async () => {
+      const Sentry = await loadBundledSentry();
+      ensureBundledInit(Sentry, options);
+      getReplay(Sentry)?.startBuffering();
+    })();
   }
-  if (!options?.sentryDsn) {
-    return;
-  }
-  const Sentry = await loadBundledSentry();
-  ensureBundledInit(Sentry, options);
-  if (!replayBuffering) {
-    getReplay(Sentry)?.startBuffering();
-    replayBuffering = true;
-  }
+  // Awaiting this before the first IDX request guarantees Replay's fetch/xhr
+  // instrumentation is installed before okta-auth-js binds its fetch — so the IDX
+  // network calls are captured in the replay.
+  return replayBufferPromise;
 };
 
 /**
