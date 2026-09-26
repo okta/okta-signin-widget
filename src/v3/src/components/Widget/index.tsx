@@ -64,10 +64,10 @@ import {
   buildAuthCoinProps,
   canBootstrapWidget,
   extractPageTitle,
-  getDiagnosticTransactions,
   getLanguageCode,
   getLanguageDirection,
   getOdysseyTranslationOverrides,
+  getTraceContext,
   installFetchTap,
   isAndroidOrIOS,
   isAuthClientSet,
@@ -75,10 +75,12 @@ import {
   isConsentStep,
   isOauth2Enabled,
   loadLanguage,
+  markRootEmitted,
   recordTransaction,
   resetDiagnostics,
-  sendAuthFlowTrace,
+  sendAuthStepSpan,
   SessionStorage,
+  startFeedbackReplayBuffer,
   shouldAutoRedirect,
   triggerEmailVerifyCallback,
 } from '../../util';
@@ -131,8 +133,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [responseError, setResponseError] = useState<AuthApiError | OAuthError | null>(null);
   // Shared poll-in-flight tracker (see IWidgetContext.pollInFlightRef)
   const pollInFlightRef = useRef<boolean>(false);
-  // Tracing POC: ensure we emit at most one auth-flow transaction per widget load
-  const authFlowTraceSentRef = useRef<boolean>(false);
 
   // Install the feedback diagnostics fetch tap during first render (before the
   // bootstrap introspect fires) so its request URL is captured. Records ONLY
@@ -140,6 +140,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   useOnce(() => {
     if (feedback?.enabled || feedback?.tracePoc) {
       installFetchTap();
+    }
+    // Session Replay must record from bootstrap so a recording exists to attach
+    // when the user later clicks "Send feedback". Buffers in memory only; nothing
+    // is uploaded until that click (see sendFeedbackToSentry -> replay.flush()).
+    if (feedback?.replay) {
+      startFeedbackReplayBuffer(feedback).catch(() => {
+        // replay is best-effort; never affect the auth flow
+      });
     }
   });
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data, pollInFlightRef);
@@ -227,7 +235,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     // deliberately keeps the trail.
     if ((feedback?.enabled || feedback?.tracePoc) && !usingStateHandleFromSession) {
       resetDiagnostics();
-      authFlowTraceSentRef.current = false;
     }
     await initLanguage();
     try {
@@ -463,33 +470,36 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pollingTransaction]); // only watch on pollingTransaction changes
 
-  // Record every transaction into the feedback diagnostics trail. Bootstrap,
-  // form submits, and poll promotions all funnel through setIdxTransaction, so
-  // this single effect captures the whole flow. No-op unless feedback enabled.
+  // Record every transaction into the feedback diagnostics trail AND, for the
+  // tracing POC, emit one Sentry transaction per request as it happens (instead
+  // of one reconstructed transaction at flow end). Bootstrap, form submits, and
+  // poll promotions all funnel through setIdxTransaction, so this single effect
+  // captures the whole flow. `recordTransaction` returns the newly-added record
+  // (or undefined when a poll tick collapsed into the previous step), so we emit
+  // exactly one span per distinct request. No-op unless feedback is enabled.
   useEffect(() => {
-    if ((feedback?.enabled || feedback?.tracePoc) && idxTransaction) {
-      recordTransaction(idxTransaction, { includeRaw: feedback?.includeRawResponses });
-    }
-  }, [idxTransaction, feedback?.enabled, feedback?.tracePoc, feedback?.includeRawResponses]);
-
-  // Tracing POC: when a flow reaches SUCCESS or a TERMINAL view, emit one Sentry
-  // performance transaction (init->finish timing + per-step waterfall) built from
-  // the recorded trail. Fires at most once per widget load. No-op unless
-  // feedback.tracePoc is enabled and a DSN is configured. Runs AFTER the
-  // recordTransaction effect above, so the final step is already in the trail.
-  useEffect(() => {
-    if (!feedback?.tracePoc || authFlowTraceSentRef.current || !idxTransaction) {
+    if (!(feedback?.enabled || feedback?.tracePoc) || !idxTransaction) {
       return;
     }
-    const isComplete = [IdxStatus.SUCCESS, IdxStatus.TERMINAL].includes(idxTransaction.status);
-    if (!isComplete) {
+    const newRecord = recordTransaction(
+      idxTransaction,
+      { includeRaw: feedback?.includeRawResponses },
+    );
+    if (!feedback?.tracePoc || !newRecord) {
       return;
     }
-    authFlowTraceSentRef.current = true;
+    // Decide root-vs-child synchronously here (and mark it immediately) so two
+    // back-to-back requests cannot both claim the trace root.
+    const traceCtx = getTraceContext();
+    const asRoot = !traceCtx.rootEmitted;
+    if (asRoot) {
+      markRootEmitted();
+    }
     const eventCtx = getEventContext(idxTransaction);
     const isError = idxTransaction.messages?.some((msg) => msg.class === 'ERROR') ?? false;
-    sendAuthFlowTrace(
-      getDiagnosticTransactions(),
+    sendAuthStepSpan(
+      newRecord,
+      traceCtx,
       {
         flow,
         formName: eventCtx.formName,
@@ -500,10 +510,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         commit: OKTA_SIW_COMMIT_HASH,
       },
       feedback,
+      asRoot,
     ).catch(() => {
       // Tracing POC must never affect the auth flow; swallow any send error.
     });
-  }, [idxTransaction, feedback, flow]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idxTransaction, feedback?.enabled, feedback?.tracePoc, feedback?.includeRawResponses, flow]);
 
   useEffect(() => {
     if (typeof interactionCodeFlowFormBag === 'undefined') {

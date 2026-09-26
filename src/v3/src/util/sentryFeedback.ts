@@ -24,9 +24,133 @@ export interface FeedbackSentryOptions {
   enabled?: boolean;
   sentryDsn?: string;
   sentryEnvironment?: string;
+  /** POC: record a masked Session Replay buffer from bootstrap, uploaded only on
+   *  the "Send feedback" click and linked to that event. */
+  replay?: boolean;
 }
 
-let initialized = false;
+type SentryNS = typeof import('@sentry/browser');
+
+let bundledNs: SentryNS | undefined;
+let bundledInitialized = false;
+let replayBuffering = false;
+
+/**
+ * Prefer the wrapper-provided global SDK. In prod, `@okta/sentry-wrapper` runs
+ * `Sentry.init()` at page load and publishes `window.Sentry`. Reusing it means SIW
+ * does NOT bundle or initialize its own SDK — and, crucially, the wrapper's
+ * fetch/xhr instrumentation is already installed before okta-auth-js binds fetch,
+ * so Replay captures the IDX calls. Returns undefined unless an initialized
+ * wrapper client is present.
+ */
+const getWrapperSentry = (): SentryNS | undefined => {
+  if (typeof window === 'undefined') {
+    return undefined;
+  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const s = (window as any).Sentry as SentryNS | undefined;
+  try {
+    if (s && typeof s.getCurrentHub === 'function' && s.getCurrentHub().getClient()) {
+      return s;
+    }
+  } catch {
+    // fall through to the bundled fallback
+  }
+  return undefined;
+};
+
+/** Lazy-load our own bundled SDK — fallback for contexts WITHOUT the wrapper (the
+ *  standalone playground/tests). Emitted as a separate async chunk. */
+const loadBundledSentry = async (): Promise<SentryNS> => {
+  if (!bundledNs) {
+    bundledNs = await import(/* webpackChunkName: "sentry-feedback" */ '@sentry/browser');
+  }
+  return bundledNs;
+};
+
+/** Init the bundled SDK once (fallback only). Mirrors what the wrapper does in
+ *  prod: masked Replay in buffer mode, IDX bodies allowed, nothing auto-uploaded. */
+const ensureBundledInit = (Sentry: SentryNS, options: FeedbackSentryOptions): void => {
+  if (bundledInitialized) {
+    return;
+  }
+  Sentry.init({
+    dsn: options.sentryDsn,
+    environment: options.sentryEnvironment,
+    release: `okta-signin-widget-gen3@${OKTA_SIW_VERSION}+${OKTA_SIW_COMMIT_HASH}`,
+    defaultIntegrations: false,
+    autoSessionTracking: false,
+    integrations: options.replay
+      ? [new Sentry.Replay({
+        maskAllText: true,
+        maskAllInputs: true,
+        blockAllMedia: true,
+        // POC ONLY: capture bodies for IDX calls (PII/secret-bearing — never on
+        // real traffic). Scoped to /idp/idx/ paths.
+        networkDetailAllowUrls: ['/idp/idx/'],
+        networkCaptureBodies: true,
+      })]
+      : [],
+    replaysSessionSampleRate: 0,
+    replaysOnErrorSampleRate: 0,
+  });
+  bundledInitialized = true;
+};
+
+/**
+ * Resolve the SDK to use: the wrapper's `window.Sentry` when present (prod path —
+ * no init), else our bundled copy which we init on demand. Returns
+ * `{ Sentry, external }`; `external` means the wrapper owns init + Replay.
+ */
+const resolveSentry = async (
+  options?: FeedbackSentryOptions,
+): Promise<{ Sentry: SentryNS; external: boolean } | undefined> => {
+  const wrapper = getWrapperSentry();
+  if (wrapper) {
+    return { Sentry: wrapper, external: true };
+  }
+  if (!options?.sentryDsn) {
+    return undefined;
+  }
+  const Sentry = await loadBundledSentry();
+  ensureBundledInit(Sentry, options);
+  return { Sentry, external: false };
+};
+
+const getReplay = (Sentry: SentryNS) => {
+  try {
+    return Sentry.getCurrentHub().getIntegration(Sentry.Replay);
+  } catch {
+    return undefined;
+  }
+};
+
+/**
+ * Ensure a Session Replay is buffering before the terminal error. When the wrapper
+ * is present it already initialized Replay and started buffering at page load, so
+ * this is a no-op. Only in the bundled-fallback path do we init + startBuffering
+ * ourselves. Safe no-op when replay is off.
+ */
+export const startFeedbackReplayBuffer = async (
+  options?: FeedbackSentryOptions,
+): Promise<void> => {
+  if (!options?.replay) {
+    return;
+  }
+  // Prod path: the wrapper owns Replay + buffering. Nothing to do.
+  if (getWrapperSentry()) {
+    return;
+  }
+  if (!options?.sentryDsn) {
+    return;
+  }
+  const Sentry = await loadBundledSentry();
+  ensureBundledInit(Sentry, options);
+  if (!replayBuffering) {
+    getReplay(Sentry)?.startBuffering();
+    replayBuffering = true;
+  }
+};
 
 /**
  * Build a short, human-readable report from the diagnostic bundle: the terminal
@@ -68,26 +192,27 @@ export const sendFeedbackToSentry = async (
   options?: FeedbackSentryOptions,
   userComment?: string,
 ): Promise<string | undefined> => {
-  const dsn = options?.sentryDsn;
-  if (!dsn) {
+  const resolved = await resolveSentry(options);
+  if (!resolved) {
     // eslint-disable-next-line no-console
-    console.warn('[siw-feedback] No Sentry DSN configured; skipping send.');
+    console.warn('[siw-feedback] No Sentry available (no window.Sentry, no DSN); skipping send.');
     return undefined;
   }
+  const { Sentry } = resolved;
 
-  const Sentry = await import(/* webpackChunkName: "sentry-feedback" */ '@sentry/browser');
-
-  if (!initialized) {
-    Sentry.init({
-      dsn,
-      environment: options?.sentryEnvironment,
-      release: `okta-signin-widget-gen3@${bundle.widget.version}+${bundle.widget.commit}`,
-      // Keep the SDK lean and scoped strictly to our explicit capture: no
-      // auto-captured global errors, breadcrumbs, tracing or replay.
-      defaultIntegrations: false,
-      integrations: [],
-    });
-    initialized = true;
+  // If a replay buffer has been recording (feedback.replay), flush it NOW so the
+  // in-memory recording uploads and the exception captured just below is stamped
+  // with its replay_id — that is what links the replay to this feedback event.
+  // This is the only point at which any replay data leaves the browser.
+  let replayId: string | undefined;
+  if (options?.replay) {
+    const replay = getReplay(Sentry);
+    try {
+      await replay?.flush();
+      replayId = replay?.getReplayId();
+    } catch {
+      // replay is best-effort; never block the feedback send
+    }
   }
 
   const { flow, widget } = bundle;
@@ -100,6 +225,7 @@ export const sendFeedbackToSentry = async (
       flow: flow.type,
       formName: flow.formName,
       authenticatorKey: flow.authenticatorKey,
+      hasReplay: Boolean(replayId),
     });
     // Keep the raw IDX responses OUT of the indexed context (they are bulky and
     // PII/secret-bearing). Strip `rawResponse` from each transaction for the
@@ -127,33 +253,22 @@ export const sendFeedbackToSentry = async (
   // is what surfaces in Sentry's User Feedback dashboard and links back to it.
   // A typed user comment (when we add a text field) is prepended to the
   // auto-summary of the error + step trail.
+  //
+  // Sentry v7 `captureUserFeedback` links purely by `event_id` (no source/tags/
+  // attachment args — those already rode with the linked event above).
   const summary = buildFeedbackSummary(bundle);
   const message = userComment ? `${userComment}\n\n---\n${summary}` : summary;
-  try {
-    Sentry.captureFeedback(
-      {
-        message,
-        associatedEventId: eventId,
-        source: 'siw-terminal-feedback',
-        tags: {
-          engine: 'gen3',
-          flow: flow.type,
-          formName: flow.formName,
-          authenticatorKey: flow.authenticatorKey,
-        },
-      },
-      // Attach the full bundle to the feedback too, so the trail travels with the
-      // feedback entry independent of the linked event.
-      {
-        attachments: [{
-          filename: 'siw-diagnostics.json',
-          data: JSON.stringify(bundle, null, 2),
-          contentType: 'application/json',
-        }],
-      },
-    );
-  } catch {
-    // feedback is best-effort; never let it break the terminal view
+  if (eventId) {
+    try {
+      Sentry.captureUserFeedback({
+        event_id: eventId,
+        name: 'SIW gen3',
+        email: '',
+        comments: message,
+      });
+    } catch {
+      // feedback is best-effort; never let it break the terminal view
+    }
   }
 
   try {

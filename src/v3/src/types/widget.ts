@@ -245,6 +245,12 @@ export type WidgetOptions = {
     // traces dataset. Uses 100% sampling — do NOT enable on real traffic as-is.
     // See src/v3/util/sentryTracePoc.ts. Default off.
     tracePoc?: boolean;
+    // POC/exploration only: record a Sentry Session Replay into an in-memory
+    // buffer from widget bootstrap and upload it ONLY when the user clicks
+    // "Send feedback" on a terminal error, linked to that event via replay_id.
+    // All text/inputs masked, media blocked, IDX bodies never captured. Requires
+    // feedback.enabled for the link. Default off. See src/v3/util/sentryFeedback.ts.
+    replay?: boolean;
   };
 };
 

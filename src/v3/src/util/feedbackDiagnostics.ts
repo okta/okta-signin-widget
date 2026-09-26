@@ -58,6 +58,10 @@ export interface TransactionRecord {
   requestUrl?: string;
   method?: string;
   httpStatus?: number;
+  /** epoch millis when the underlying IDX request started / finished (captured by
+   *  the fetch tap) — gives each per-request trace span its real network timing */
+  requestStartTs?: number;
+  requestEndTs?: number;
   /** IDX-level status */
   idxStatus?: string;
   requestDidSucceed?: boolean;
@@ -106,11 +110,54 @@ export interface SiwDiagnosticBundle {
   user?: { identifier?: string };
 }
 
+/**
+ * Trace identity for the per-request tracing POC. Generated once per flow and
+ * persisted so every request in the flow (across same-tab redirects) emits its
+ * own Sentry transaction under ONE shared `traceId` — that is what lets Sentry's
+ * Trace View stitch the separate envelopes into a single waterfall. The first
+ * request becomes the trace root (`spanId === rootSpanId`, no parent); every
+ * later request is a child (`parentSpanId === rootSpanId`).
+ */
+export interface TraceContext {
+  /** 32-hex shared across every transaction in the flow */
+  traceId: string;
+  /** 16-hex id of the root span; children reference it as their parentSpanId */
+  rootSpanId: string;
+  /** set once the root transaction has been emitted, so subsequent requests
+   *  emit as children rather than each becoming a competing root */
+  rootEmitted?: boolean;
+}
+
 // ---- module state (per page-load; rehydrated from sessionStorage) ----
 let transactions: TransactionRecord[] = [];
-let lastRequest: { url?: string; method?: string; httpStatus?: number; body?: unknown } = {};
+let lastRequest: {
+  url?: string;
+  method?: string;
+  httpStatus?: number;
+  body?: unknown;
+  startedAt?: number;
+  endedAt?: number;
+} = {};
+let traceContext: TraceContext | undefined;
 let hydrated = false;
 let fetchTapInstalled = false;
+
+/** Cryptographically-random lowercase hex of `bytes` length (2 hex chars/byte).
+ *  Falls back to Math.random on ancient engines without WebCrypto. */
+const randomHex = (bytes: number): string => {
+  const arr = new Uint8Array(bytes);
+  try {
+    const cryptoObj = window.crypto
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ?? (window as any).msCrypto;
+    cryptoObj.getRandomValues(arr);
+  } catch {
+    for (let i = 0; i < bytes; i += 1) {
+      arr[i] = Math.floor(Math.random() * 256);
+    }
+  }
+  return Array.from(arr, (b) => b.toString(16).padStart(2, '0')).join('');
+};
 
 /** Parse a fetch request body (JSON string / FormData / URLSearchParams) for diagnostics. */
 const parseRequestBody = (init?: RequestInit): unknown => {
@@ -152,14 +199,14 @@ const persist = (): void => {
     return;
   }
   try {
-    store.setItem(SESSION_KEY, JSON.stringify({ transactions }));
+    store.setItem(SESSION_KEY, JSON.stringify({ transactions, trace: traceContext }));
   } catch {
     // Raw responses can be large; if persisting fails (quota), retry without
     // them so at least the lean trail survives redirects.
     try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const lean = transactions.map(({ rawResponse, requestBody, ...t }) => t);
-      store.setItem(SESSION_KEY, JSON.stringify({ transactions: lean }));
+      store.setItem(SESSION_KEY, JSON.stringify({ transactions: lean, trace: traceContext }));
     } catch {
       // give up — best effort only
     }
@@ -180,9 +227,40 @@ const hydrateOnce = (): void => {
     if (raw) {
       const parsed = JSON.parse(raw);
       transactions = Array.isArray(parsed?.transactions) ? parsed.transactions : [];
+      traceContext = parsed?.trace?.traceId ? parsed.trace : undefined;
     }
   } catch {
     transactions = [];
+    traceContext = undefined;
+  }
+};
+
+/**
+ * Return the flow's shared trace identity, generating (and persisting) it on
+ * first use. Used by the tracing POC ({@link ../util/sentryTracePoc}) so each
+ * per-request transaction rides the same `traceId` and Sentry can assemble the
+ * waterfall. Rehydrates from sessionStorage first so a redirect-spanning flow
+ * keeps one trace.
+ */
+export const getTraceContext = (): TraceContext => {
+  hydrateOnce();
+  if (!traceContext) {
+    // 16 bytes -> 32 hex (trace id); 8 bytes -> 16 hex (span id), matching the
+    // Sentry id widths.
+    traceContext = { traceId: randomHex(16), rootSpanId: randomHex(8) };
+    persist();
+  }
+  return traceContext;
+};
+
+/** Mark the root transaction as emitted so later requests emit as children.
+ *  Called synchronously the moment we decide a request will be the root, to
+ *  avoid two rapid transactions both claiming root. */
+export const markRootEmitted = (): void => {
+  hydrateOnce();
+  if (traceContext && !traceContext.rootEmitted) {
+    traceContext.rootEmitted = true;
+    persist();
   }
 };
 
@@ -203,7 +281,9 @@ export const installFetchTap = (): void => {
   hydrateOnce();
   const originalFetch = window.fetch.bind(window);
   window.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
+    const startedAt = Date.now();
     const response = await originalFetch(input, init);
+    const endedAt = Date.now();
     try {
       const url = typeof input === 'string'
         ? input
@@ -214,6 +294,8 @@ export const installFetchTap = (): void => {
           method: init?.method ?? (input as Request)?.method ?? 'GET',
           httpStatus: response.status,
           body: parseRequestBody(init),
+          startedAt,
+          endedAt,
         };
       }
     } catch {
@@ -231,9 +313,9 @@ export const installFetchTap = (): void => {
 export const recordTransaction = (
   txn?: IdxTransaction,
   options?: { includeRaw?: boolean },
-): void => {
+): TransactionRecord | undefined => {
   if (!txn) {
-    return;
+    return undefined;
   }
   hydrateOnce();
   const eventCtx = getEventContext(txn);
@@ -255,29 +337,38 @@ export const recordTransaction = (
     last.ts = Date.now();
     last.requestUrl = lastRequest.url ?? last.requestUrl;
     last.httpStatus = lastRequest.httpStatus ?? last.httpStatus;
-  } else {
-    transactions.push({
-      seq: transactions.length,
-      ts: Date.now(),
-      step,
-      requestUrl: lastRequest.url,
-      method: lastRequest.method,
-      httpStatus: lastRequest.httpStatus,
-      idxStatus: txn.status,
-      requestDidSucceed: txn.requestDidSucceed,
-      messageKeys,
-      authenticatorKey: eventCtx.authenticatorKey,
-      // PII/secret-bearing (request body carries credentials/OTP; response carries
-      // stateHandle/identifier) — attachment-only, must be scrubbed before prod
-      ...(options?.includeRaw
-        ? { requestBody: lastRequest.body, rawResponse: txn.rawIdxState }
-        : {}),
-    });
-    if (transactions.length > MAX_RECORDS) {
-      transactions.shift();
-    }
+    last.requestStartTs = lastRequest.startedAt ?? last.requestStartTs;
+    last.requestEndTs = lastRequest.endedAt ?? last.requestEndTs;
+    persist();
+    // A collapsed poll is not a distinct request; signal "nothing new" so the
+    // per-request tracer does not flood Sentry with an envelope per poll tick.
+    return undefined;
+  }
+  const record: TransactionRecord = {
+    seq: transactions.length,
+    ts: Date.now(),
+    step,
+    requestUrl: lastRequest.url,
+    method: lastRequest.method,
+    httpStatus: lastRequest.httpStatus,
+    requestStartTs: lastRequest.startedAt,
+    requestEndTs: lastRequest.endedAt,
+    idxStatus: txn.status,
+    requestDidSucceed: txn.requestDidSucceed,
+    messageKeys,
+    authenticatorKey: eventCtx.authenticatorKey,
+    // PII/secret-bearing (request body carries credentials/OTP; response carries
+    // stateHandle/identifier) — attachment-only, must be scrubbed before prod
+    ...(options?.includeRaw
+      ? { requestBody: lastRequest.body, rawResponse: txn.rawIdxState }
+      : {}),
+  };
+  transactions.push(record);
+  if (transactions.length > MAX_RECORDS) {
+    transactions.shift();
   }
   persist();
+  return record;
 };
 
 const collectEnvironment = (): SiwDiagnosticBundle['environment'] => {
@@ -352,6 +443,7 @@ export const getDiagnosticTransactions = (): TransactionRecord[] => {
 export const resetDiagnostics = (): void => {
   transactions = [];
   lastRequest = {};
+  traceContext = undefined;
   const store = safeGetSession();
   try {
     store?.removeItem(SESSION_KEY);
