@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import mockResponse from '../../../../playground/mocks/data/idp/idx/error-okta-verify-uv-totp-verify-enable-biometrics-or-pin.json';
+import mockResponse from '../../../../playground/mocks/data/idp/idx/error-400-okta-verify-uv-totp-verify-enable-biometrics-or-pin.json';
 import { setup } from './util';
 
 describe('authenticator-verification-ov-totp-biometrics-or-pin-error', () => {

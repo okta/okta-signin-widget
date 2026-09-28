@@ -579,7 +579,7 @@ const userVerificationLoopbackBiometricsOrPinError = {
     'authenticator-verification-okta-verify-signed-nonce-loopback'
   ],
   '/idp/idx/authenticators/poll': [
-    'error-okta-verify-uv-fastpass-verify-enable-biometrics-or-pin-desktop',
+    'error-400-okta-verify-uv-fastpass-verify-enable-biometrics-or-pin-desktop',
     // 'error-400-okta-verify-uv-fastpass-verify-enable-biometrics-or-pin-mobile',
   ],
 };
@@ -714,7 +714,7 @@ const userVerificationCredentialSSOExtensionBiometricsOrPinError = {
   ],
   '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify': [
     'error-400-okta-verify-uv-fastpass-verify-enable-biometrics-or-pin-mobile'
-    //'error-okta-verify-uv-fastpass-verify-enable-biometrics-or-pin-desktop'
+    //'error-400-okta-verify-uv-fastpass-verify-enable-biometrics-or-pin-desktop'
   ],
 };
 
@@ -843,7 +843,7 @@ const totpEnableBiometricsOrPin = {
     'authenticator-verification-okta-verify-totp'
   ],
   '/idp/idx/challenge/answer': [
-    'error-okta-verify-uv-totp-verify-enable-biometrics-or-pin',
+    'error-400-okta-verify-uv-totp-verify-enable-biometrics-or-pin',
   ],
 };
 
