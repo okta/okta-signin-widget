@@ -3,6 +3,42 @@
 Copy-paste widget definitions for a Sentry **Dashboard** that visualizes the gen3 sign-in
 funnel, drop-off, outcome mix, and authenticator breakdown from the per-step tracing POC.
 
+## Live instance
+
+A demo dashboard is already built (org `okta-prod`):
+**https://okta-prod.sentry.io/dashboard/10248871/** — "SIW gen3 auth-flow POC (shuo)".
+
+It was created with the `sentry` CLI (v0.30+, `sentry auth login`):
+
+```bash
+sentry dashboard create okta-prod/ 'SIW gen3 auth-flow POC (shuo)'
+D="okta-prod/ 10248871"   # <dashboard-id> from create
+
+sentry dashboard widget add $D "Step funnel (reach per step)" --display bar \
+  --dataset spans --query count --where "span.op:[auth.flow,auth.step]" --group-by step --sort=-count
+sentry dashboard widget add $D "Per-step duration (p95)" --display line \
+  --dataset spans --query "p95:span.duration" --where "span.op:auth.step" --group-by step
+sentry dashboard widget add $D "Flows started" --display big_number \
+  --dataset spans --query count --where "span.op:auth.flow"
+sentry dashboard widget add $D "Success (final steps)" --display big_number \
+  --dataset spans --query count --where "span.op:auth.step outcome:success"
+sentry dashboard widget add $D "Errors (final steps)" --display big_number \
+  --dataset spans --query count --where "span.op:auth.step outcome:error"
+sentry dashboard widget add $D "Outcome mix" --display bar \
+  --dataset spans --query count --where "span.op:auth.step has:outcome" --group-by outcome --sort=-count
+sentry dashboard widget add $D "Authenticator mix" --display bar \
+  --dataset spans --query count --where "span.op:auth.step has:authenticatorKey" --group-by authenticatorKey --sort=-count
+```
+
+> `--sort=-count` must use `=` (a bare `-count` value is parsed as a flag). Widget add needs the org
+> positional (`okta-prod/`) — it can't auto-detect it for a bare dashboard id.
+
+**Data caveat:** the spans currently in the project were generated across several iterations of this POC
+(single-transaction → per-step models), so `step`/`outcome`/`authenticatorKey` are well populated but
+`isFinal` is only on the newest per-step spans. For an accurate **drop-rate** (started vs `isFinal:true`),
+regenerate a clean batch with the current build; the funnel bar already shows drop-off (reach narrows per
+step) and works on the existing data. The widgets below are the generic definitions.
+
 ## What the widget emits (the data model)
 
 Per-step live tracing (`src/v3/src/util/sentryTracePoc.ts`) emits **one transaction per IDX step**,
