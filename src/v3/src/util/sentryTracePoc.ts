@@ -133,6 +133,10 @@ export const sendAuthStepSpan = async (
       engine: 'gen3',
       flow: meta.flow ?? '',
       step: record.step,
+      // In tags (not just data) so Sentry dashboards can group by it. Low
+      // cardinality (okta_password, okta_verify, …). Undefined on early steps
+      // (e.g. identify) — Sentry drops undefined tags.
+      authenticatorKey: record.authenticatorKey ?? meta.authenticatorKey,
       // Flow-completion signals for drop-off analysis: a trace with no
       // `isFinal:true` step is a dropped flow.
       isFinal: meta.isFinal,

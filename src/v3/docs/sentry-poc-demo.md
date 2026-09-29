@@ -186,5 +186,8 @@ run the flow, then look in Sentry (filter `environment:dev`): **Traces** (`op:au
 **Issues**, **User Feedback**. Example dashboard:
 https://okta-prod.sentry.io/dashboard/10087424/
 
+To build the funnel / drop-off dashboard from the per-step trace data, see
+[`sentry-dashboard-widgets.md`](./sentry-dashboard-widgets.md) (copy-paste widget queries).
+
 Code: trail `feedbackDiagnostics.ts`, senders `sentryFeedback.ts` / `sentryTracePoc.ts`,
 wiring `components/Widget/index.tsx`, demo mocks `test-configs/TracePocDemo.js`.
