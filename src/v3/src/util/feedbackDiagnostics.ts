@@ -111,20 +111,20 @@ export interface SiwDiagnosticBundle {
 }
 
 /**
- * Trace identity for the per-request tracing POC. Generated once per flow and
- * persisted so every request in the flow (across same-tab redirects) emits its
- * own Sentry transaction under ONE shared `traceId` — that is what lets Sentry's
- * Trace View stitch the separate envelopes into a single waterfall. The first
- * request becomes the trace root (`spanId === rootSpanId`, no parent); every
- * later request is a child (`parentSpanId === rootSpanId`).
+ * Trace identity for the tracing POC. Generated once per flow and persisted (so
+ * it survives same-tab redirects) so the flow's single `auth.flow` transaction
+ * carries a stable `traceId` and a fixed root `spanId`. See
+ * {@link ../util/sentryTracePoc}, which emits one transaction (with a child
+ * `auth.step` span per step) when the flow reaches a final state.
  */
 export interface TraceContext {
-  /** 32-hex shared across every transaction in the flow */
+  /** 32-hex trace id of the flow's transaction */
   traceId: string;
-  /** 16-hex id of the root span; children reference it as their parentSpanId */
+  /** 16-hex id used as the transaction's root span id */
   rootSpanId: string;
-  /** set once the root transaction has been emitted, so subsequent requests
-   *  emit as children rather than each becoming a competing root */
+  /** set once the flow's transaction has been emitted, so we emit it exactly
+   *  once per flow (guards re-renders and a redirect returning to the same
+   *  final state) */
   rootEmitted?: boolean;
 }
 
@@ -253,9 +253,9 @@ export const getTraceContext = (): TraceContext => {
   return traceContext;
 };
 
-/** Mark the root transaction as emitted so later requests emit as children.
- *  Called synchronously the moment we decide a request will be the root, to
- *  avoid two rapid transactions both claiming root. */
+/** Mark the flow's transaction as emitted so it is sent exactly once per flow.
+ *  Called synchronously the moment we decide to emit (at flow completion), to
+ *  avoid a re-render sending a duplicate. */
 export const markRootEmitted = (): void => {
   hydrateOnce();
   if (traceContext && !traceContext.rootEmitted) {

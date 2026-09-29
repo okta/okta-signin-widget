@@ -70,8 +70,16 @@ const loadBundledSentry = async (): Promise<SentryNS> => {
   return bundledNs;
 };
 
-/** Init the bundled SDK once (fallback only). Mirrors what the wrapper does in
- *  prod: masked Replay in buffer mode, IDX bodies allowed, nothing auto-uploaded. */
+/**
+ * Init the bundled SDK once (fallback only). This is the SINGLE init for the
+ * bundled path: it configures BOTH POCs (Replay/feedback AND the per-request
+ * tracing spans in sentryTracePoc.ts) so neither feature calls `Sentry.init()`
+ * a second time. A second `init()` on the same v7 singleton rebinds the hub's
+ * client, detaching the first feature's integrations (e.g. Replay) — which is
+ * exactly what previously broke the replay when `tracePoc` and `replay` were
+ * both on. Mirrors what the wrapper does in prod: masked Replay in buffer mode,
+ * IDX bodies allowed, nothing auto-uploaded.
+ */
 const ensureBundledInit = (Sentry: SentryNS, options: FeedbackSentryOptions): void => {
   if (bundledInitialized) {
     return;
@@ -106,7 +114,17 @@ const ensureBundledInit = (Sentry: SentryNS, options: FeedbackSentryOptions): vo
       : [],
     replaysSessionSampleRate: 0,
     replaysOnErrorSampleRate: 0,
+    // POC: 100% capture so every IDX request emitted by sentryTracePoc.ts is
+    // observable, and so its explicit `sampled: true` survives v7's sampling
+    // gate. No auto-instrumentation is added (defaultIntegrations:false), so this
+    // only affects the transactions we start manually. Replace with a
+    // `tracesSampler` scoped to `siw.auth_flow` before any real use.
+    tracesSampleRate: 1.0,
   });
+  // BrowserTracing is intentionally omitted, so the hub's `startTransaction`
+  // extension is not registered by init alone; add it explicitly so the manual
+  // transactions in sentryTracePoc.ts work off this same client.
+  Sentry.addTracingExtensions();
   bundledInitialized = true;
 };
 
@@ -115,7 +133,7 @@ const ensureBundledInit = (Sentry: SentryNS, options: FeedbackSentryOptions): vo
  * no init), else our bundled copy which we init on demand. Returns
  * `{ Sentry, external }`; `external` means the wrapper owns init + Replay.
  */
-const resolveSentry = async (
+export const resolveSentry = async (
   options?: FeedbackSentryOptions,
 ): Promise<{ Sentry: SentryNS; external: boolean } | undefined> => {
   const wrapper = getWrapperSentry();

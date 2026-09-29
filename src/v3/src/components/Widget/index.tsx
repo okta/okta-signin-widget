@@ -64,6 +64,7 @@ import {
   buildAuthCoinProps,
   canBootstrapWidget,
   extractPageTitle,
+  getDiagnosticTransactions,
   getLanguageCode,
   getLanguageDirection,
   getOdysseyTranslationOverrides,
@@ -78,10 +79,10 @@ import {
   markRootEmitted,
   recordTransaction,
   resetDiagnostics,
-  sendAuthStepSpan,
+  sendAuthFlowTrace,
   SessionStorage,
-  startFeedbackReplayBuffer,
   shouldAutoRedirect,
+  startFeedbackReplayBuffer,
   triggerEmailVerifyCallback,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
@@ -481,35 +482,40 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pollingTransaction]); // only watch on pollingTransaction changes
 
-  // Record every transaction into the feedback diagnostics trail AND, for the
-  // tracing POC, emit one Sentry transaction per request as it happens (instead
-  // of one reconstructed transaction at flow end). Bootstrap, form submits, and
-  // poll promotions all funnel through setIdxTransaction, so this single effect
-  // captures the whole flow. `recordTransaction` returns the newly-added record
-  // (or undefined when a poll tick collapsed into the previous step), so we emit
-  // exactly one span per distinct request. No-op unless feedback is enabled.
+  // Record every transaction into the feedback diagnostics trail. Bootstrap, form
+  // submits, and poll promotions all funnel through setIdxTransaction, so this
+  // single effect captures the whole flow (consecutive identical steps, e.g.
+  // polls, are collapsed inside recordTransaction). For the tracing POC, when the
+  // flow reaches a FINAL state we emit the whole trail as ONE `auth.flow`
+  // transaction with a child `auth.step` span per step — so Sentry shows a single
+  // trace that expands into the steps. No-op unless feedback is enabled.
   useEffect(() => {
     if (!(feedback?.enabled || feedback?.tracePoc) || !idxTransaction) {
       return;
     }
-    const newRecord = recordTransaction(
+    recordTransaction(
       idxTransaction,
       { includeRaw: feedback?.includeRawResponses },
     );
-    if (!feedback?.tracePoc || !newRecord) {
+    if (!feedback?.tracePoc) {
       return;
     }
-    // Decide root-vs-child synchronously here (and mark it immediately) so two
-    // back-to-back requests cannot both claim the trace root.
-    const traceCtx = getTraceContext();
-    const asRoot = !traceCtx.rootEmitted;
-    if (asRoot) {
-      markRootEmitted();
+    // Only emit at flow completion (terminal or success), and exactly once — the
+    // (persisted) rootEmitted flag guards against re-renders and a redirect that
+    // returns to the same final state.
+    const isFinal = [IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(idxTransaction.status);
+    if (!isFinal) {
+      return;
     }
+    const traceCtx = getTraceContext();
+    if (traceCtx.rootEmitted) {
+      return;
+    }
+    markRootEmitted();
     const eventCtx = getEventContext(idxTransaction);
     const isError = idxTransaction.messages?.some((msg) => msg.class === 'ERROR') ?? false;
-    sendAuthStepSpan(
-      newRecord,
+    sendAuthFlowTrace(
+      getDiagnosticTransactions(),
       traceCtx,
       {
         flow,
@@ -521,7 +527,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         commit: OKTA_SIW_COMMIT_HASH,
       },
       feedback,
-      asRoot,
     ).catch(() => {
       // Tracing POC must never affect the auth flow; swallow any send error.
     });
