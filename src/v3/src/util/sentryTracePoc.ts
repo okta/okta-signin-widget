@@ -13,22 +13,26 @@
 /**
  * Tracing POC (gen3 only) — sibling to `sentryFeedback.ts`.
  *
- * Emits ONE Sentry performance transaction PER FLOW when the flow reaches a final
- * state (terminal or success). The root `auth.flow` transaction spans the whole
- * sign-in (first request start → last request end), and each recorded step is a
- * CHILD span (`auth.step`, `startChild`) named after the step (`identify`,
- * `challenge-authenticator`, `terminal`, …). Because the children ride inside the
- * single transaction envelope, Sentry's Trace View renders them as one waterfall
- * that expands into the per-step spans — no cross-transaction stitching required.
- * The timing is reconstructed from the diagnostic trail
- * ({@link TransactionRecord}), which records every step (with real request
- * timings) as the flow runs; the transaction rides the trail's shared `traceId`
- * ({@link TraceContext}).
+ * Emits ONE Sentry transaction PER STEP, live, as each IDX request completes —
+ * NOT one transaction reconstructed at the end. Every transaction in a flow shares
+ * one `traceId` ({@link TraceContext}); the first step is emitted as the trace root
+ * (`op: auth.flow`, `spanId === rootSpanId`, no parent) and each later step as a
+ * child (`op: auth.step`, `parentSpanId === rootSpanId`). Because they all carry
+ * the same `traceId` and link via `parentSpanId`, Sentry stitches them into one
+ * trace, while each step is observable the instant it happens.
+ *
+ * Why per-step (vs one transaction at completion): it lets us see **partial /
+ * dropped flows**. A user who abandons mid-sign-in (closes the tab, walks away)
+ * still leaves behind the steps they reached — a "reconstruct-at-completion" model
+ * would emit nothing for them. Each step carries `isFinal` + `outcome` tags, so a
+ * DROPPED flow is a trace with no `isFinal: true` step; a completed flow ends in a
+ * step tagged `outcome: success|error`. This is what answers "how far do flows get
+ * before they drop?".
  *
  * Pinned to `@sentry/browser` v7 (prod parity for legacy-browser support). v7's
- * `startTransaction` accepts an explicit `traceId`/`spanId` and honours explicit
- * `startTimestamp`/`endTimestamp` on both the transaction and its child spans,
- * which is what lets us stamp the real request timings after the fact.
+ * `startTransaction` accepts explicit `traceId`/`spanId`/`parentSpanId`, which is
+ * what makes the deterministic root/child linkage above possible without any
+ * read-back or ordering race.
  *
  * Uses the wrapper's global `window.Sentry` (via {@link resolveSentry}) — this
  * module does NOT init the SDK itself, and there is no bundled fallback. The
@@ -37,27 +41,28 @@
  * is absent, this no-ops with a loud console error.
  *
  * POC caveats:
- * - `tracesSampleRate: 1.0` (set by the wrapper's init) so every flow shows up
+ * - `tracesSampleRate: 1.0` (set by the wrapper's init) so every step shows up
  *   while you explore. This will NOT survive real traffic — scope it to a
  *   `tracesSampler` and a low rate before any broad use
  *   (see docs/terminal-feedback-diagnostics.md).
  * - No BrowserTracing integration is added, so there are no auto pageload/
- *   navigation transactions — only the one transaction we emit per flow.
- * - Reconstruct-at-completion trade-off: a flow that redirects away or never
- *   reaches a final state emits nothing (the previous per-request variant left a
- *   partial trace behind; this variant favours the single expandable waterfall).
- * - Polling ticks are collapsed upstream (one child span per distinct step, not
- *   one per poll) so a long poll does not flood the trace with spans.
+ *   navigation transactions — only the per-step transactions we emit here.
+ * - Polling ticks are collapsed upstream (one span per distinct step, not one per
+ *   poll) so a long poll does not flood Sentry with envelopes.
  */
 import { TraceContext, TransactionRecord } from './feedbackDiagnostics';
 import { resolveSentry } from './sentryFeedback';
 
-export interface AuthFlowTraceMeta {
+export interface AuthStepMeta {
   flow?: string;
-  formName?: string;
   authenticatorKey?: string;
   methodType?: string;
-  outcome: 'success' | 'error';
+  /** true when this step is the flow's final state (terminal/success). A trace
+   *  with no `isFinal: true` step is a DROPPED flow. */
+  isFinal: boolean;
+  /** the flow outcome once known: `success`/`error` on the final step, else
+   *  `pending` for intermediate steps. */
+  outcome: 'success' | 'error' | 'pending';
   version: string;
   commit: string;
 }
@@ -75,100 +80,85 @@ const spanWindow = (record: TransactionRecord): { start: number; end: number } =
 };
 
 /**
- * Emit the WHOLE flow as ONE `auth.flow` transaction with a child `auth.step`
- * span per recorded step, reconstructed from the diagnostic trail. Call once,
- * when the flow reaches a final state (terminal/success). No-op (loud console
- * error) if the wrapper's `window.Sentry` is absent, or if the trail is empty.
+ * Emit ONE transaction for a single IDX step, live, the moment it completes. The
+ * caller decides (synchronously, via {@link markRootEmitted}) whether this step is
+ * the trace root by passing `asRoot`; that keeps the root decision race-free even
+ * if two requests resolve back-to-back. No-op (loud console error) if the wrapper's
+ * `window.Sentry` is absent.
  *
- * @param records  the full step trail (each carries real per-request timing)
+ * Emitting live (rather than at flow completion) is what surfaces dropped flows:
+ * every step reached is already in Sentry, so a flow that never finishes still
+ * leaves its partial trace behind. `isFinal`/`outcome` mark whether the flow
+ * completed.
+ *
+ * @param record   the just-recorded step (carries real per-request timing)
  * @param traceCtx the flow's shared trace identity (traceId + root spanId)
- * @param meta     flow-level discriminators (ride as tags/data on the root)
+ * @param meta     flow-level discriminators + drop-detection tags
+ * @param asRoot   true => emit as the trace root (auth.flow); false => child (auth.step)
  */
-export const sendAuthFlowTrace = async (
-  records: TransactionRecord[],
+export const sendAuthStepSpan = async (
+  record: TransactionRecord,
   traceCtx: TraceContext,
-  meta: AuthFlowTraceMeta,
+  meta: AuthStepMeta,
+  asRoot = false,
 ): Promise<void> => {
-  if (records.length === 0) {
-    return;
-  }
-
   // Use the wrapper's global window.Sentry (no bundled fallback). If it isn't
-  // present, hard-fail loudly rather than silently dropping the trace — a missing
+  // present, hard-fail loudly rather than silently dropping the span — a missing
   // wrapper is a setup bug we want visible while POC'ing the global-Sentry path.
   const Sentry = resolveSentry();
   if (!Sentry) {
     // eslint-disable-next-line no-console
-    console.error('[siw-trace] window.Sentry not found — the Sentry wrapper must init and publish it before the widget loads; cannot emit auth.flow trace.');
+    console.error('[siw-trace] window.Sentry not found — the Sentry wrapper must init and publish it before the widget loads; cannot emit auth step span.');
     return;
   }
   // `startTransaction` is a tracing extension; the wrapper registers it at init,
   // but call it here too (idempotent) to be safe before we start a transaction.
   Sentry.addTracingExtensions();
 
-  const first = records[0];
-  const last = records[records.length - 1];
-  const flowStart = spanWindow(first).start;
-  const flowEnd = spanWindow(last).end;
+  const { start, end } = spanWindow(record);
 
   const transaction = Sentry.startTransaction({
-    name: 'siw.auth_flow',
-    op: 'auth.flow',
+    name: asRoot ? 'siw.auth_flow' : record.step,
+    op: asRoot ? 'auth.flow' : 'auth.step',
+    // Share the flow's trace so every step lands in one trace.
     traceId: traceCtx.traceId,
-    spanId: traceCtx.rootSpanId,
-    // Force-keep: init sets tracesSampleRate so v7 respects this explicit choice.
-    // Also what makes v7 attach a span recorder, so the child spans below ride in
-    // this transaction's envelope.
+    // Root owns the shared rootSpanId (no parent); later steps hang off it.
+    ...(asRoot
+      ? { spanId: traceCtx.rootSpanId }
+      : { parentSpanId: traceCtx.rootSpanId }),
+    // Force-keep: the wrapper's init sets tracesSampleRate so v7 respects this.
     sampled: true,
-    startTimestamp: toSeconds(flowStart),
+    startTimestamp: toSeconds(start),
     tags: {
       engine: 'gen3',
       flow: meta.flow ?? '',
+      step: record.step,
+      // Flow-completion signals for drop-off analysis: a trace with no
+      // `isFinal:true` step is a dropped flow.
+      isFinal: meta.isFinal,
       outcome: meta.outcome,
-      finalStep: last.step,
     },
     data: {
-      stepCount: records.length,
-      formName: meta.formName,
-      authenticatorKey: meta.authenticatorKey,
+      seq: record.seq,
+      step: record.step,
+      requestUrl: record.requestUrl,
+      method: record.method,
+      httpStatus: record.httpStatus,
+      idxStatus: record.idxStatus,
+      requestDidSucceed: record.requestDidSucceed,
+      authenticatorKey: record.authenticatorKey ?? meta.authenticatorKey,
       methodType: meta.methodType,
+      // collapsed consecutive polls represented by this one span
+      pollCount: record.count,
     },
   });
 
-  // One child span per recorded step -> the trace expands into identify,
-  // challenge-authenticator, terminal, … in Sentry's waterfall.
-  records.forEach((record) => {
-    const { start, end } = spanWindow(record);
-    const span = transaction.startChild({
-      op: 'auth.step',
-      description: record.step,
-      startTimestamp: toSeconds(start),
-      tags: {
-        step: record.step,
-        outcome: record.requestDidSucceed === false ? 'error' : 'success',
-      },
-      data: {
-        seq: record.seq,
-        step: record.step,
-        requestUrl: record.requestUrl,
-        method: record.method,
-        httpStatus: record.httpStatus,
-        idxStatus: record.idxStatus,
-        requestDidSucceed: record.requestDidSucceed,
-        authenticatorKey: record.authenticatorKey ?? meta.authenticatorKey,
-        // collapsed consecutive polls represented by this one span
-        pollCount: record.count,
-      },
-    });
-    if (typeof record.httpStatus === 'number') {
-      span.setHttpStatus(record.httpStatus);
-    }
-    span.finish(toSeconds(end));
-  });
+  if (typeof record.httpStatus === 'number') {
+    transaction.setHttpStatus(record.httpStatus);
+  }
 
-  // Finishing the transaction is what enqueues its (single) envelope with all the
-  // child spans attached; flush pushes it out.
-  transaction.finish(toSeconds(flowEnd));
+  // Finishing the transaction is what enqueues its envelope; flush pushes it out.
+  transaction.finish(toSeconds(end));
 
   try {
     await Sentry.flush(2000);

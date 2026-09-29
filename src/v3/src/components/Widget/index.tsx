@@ -64,7 +64,6 @@ import {
   buildAuthCoinProps,
   canBootstrapWidget,
   extractPageTitle,
-  getDiagnosticTransactions,
   getLanguageCode,
   getLanguageDirection,
   getOdysseyTranslationOverrides,
@@ -79,7 +78,7 @@ import {
   markRootEmitted,
   recordTransaction,
   resetDiagnostics,
-  sendAuthFlowTrace,
+  sendAuthStepSpan,
   SessionStorage,
   shouldAutoRedirect,
   triggerEmailVerifyCallback,
@@ -461,50 +460,52 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pollingTransaction]); // only watch on pollingTransaction changes
 
-  // Record every transaction into the feedback diagnostics trail. Bootstrap, form
-  // submits, and poll promotions all funnel through setIdxTransaction, so this
-  // single effect captures the whole flow (consecutive identical steps, e.g.
-  // polls, are collapsed inside recordTransaction). For the tracing POC, when the
-  // flow reaches a FINAL state we emit the whole trail as ONE `auth.flow`
-  // transaction with a child `auth.step` span per step — so Sentry shows a single
-  // trace that expands into the steps. No-op unless feedback is enabled.
+  // Record every transaction into the feedback diagnostics trail AND, for the
+  // tracing POC, emit one Sentry transaction per step LIVE as it happens (root
+  // `auth.flow` for the first step, child `auth.step` for the rest, all sharing one
+  // traceId). Emitting live is what surfaces dropped flows: a user who abandons
+  // mid-sign-in still leaves the steps they reached. Bootstrap, form submits, and
+  // poll promotions all funnel through setIdxTransaction; `recordTransaction`
+  // returns the newly-added record (or undefined when a poll collapsed into the
+  // previous step), so we emit exactly one span per distinct request. `isFinal`/
+  // `outcome` tag whether the flow completed (terminal/success) or is still in
+  // progress — a trace with no `isFinal:true` step is a dropped flow.
   useEffect(() => {
     if (!(feedback?.enabled || feedback?.tracePoc) || !idxTransaction) {
       return;
     }
-    recordTransaction(
+    const newRecord = recordTransaction(
       idxTransaction,
       { includeRaw: feedback?.includeRawResponses },
     );
-    if (!feedback?.tracePoc) {
+    if (!feedback?.tracePoc || !newRecord) {
       return;
     }
-    // Only emit at flow completion (terminal or success), and exactly once — the
-    // (persisted) rootEmitted flag guards against re-renders and a redirect that
-    // returns to the same final state.
-    const isFinal = [IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(idxTransaction.status);
-    if (!isFinal) {
-      return;
-    }
+    // Decide root-vs-child synchronously here (and mark it immediately) so two
+    // back-to-back requests cannot both claim the trace root.
     const traceCtx = getTraceContext();
-    if (traceCtx.rootEmitted) {
-      return;
+    const asRoot = !traceCtx.rootEmitted;
+    if (asRoot) {
+      markRootEmitted();
     }
-    markRootEmitted();
     const eventCtx = getEventContext(idxTransaction);
+    const isFinal = [IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(idxTransaction.status);
     const isError = idxTransaction.messages?.some((msg) => msg.class === 'ERROR') ?? false;
-    sendAuthFlowTrace(
-      getDiagnosticTransactions(),
+    // eslint-disable-next-line no-nested-ternary
+    const outcome = isFinal ? (isError ? 'error' : 'success') : 'pending';
+    sendAuthStepSpan(
+      newRecord,
       traceCtx,
       {
         flow,
-        formName: eventCtx.formName,
         authenticatorKey: eventCtx.authenticatorKey,
         methodType: eventCtx.methodType,
-        outcome: isError ? 'error' : 'success',
+        isFinal,
+        outcome,
         version: OKTA_SIW_VERSION,
         commit: OKTA_SIW_COMMIT_HASH,
       },
+      asRoot,
     ).catch(() => {
       // Tracing POC must never affect the auth flow; swallow any send error.
     });

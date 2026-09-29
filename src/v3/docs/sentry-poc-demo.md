@@ -22,7 +22,7 @@ Both are answered by the same underlying idea: **record each step of the sign-in
 | Feature | Problem it solves | What it does |
 |---|---|---|
 | **A. Feedback diagnostics** | Debugging one incident (replaces the HAR ask) | On a terminal *error*, a **Send feedback** button ships the flow trail to Sentry as an **event** (context + JSON attachment) plus a linked **User Feedback** entry. One click, PII-safe by default. |
-| **B. Performance trace** | Observability across many sign-ins | On **every completed flow**, emit one Sentry **transaction**: total init→finish time + a per-step waterfall, with searchable attributes (flow, authenticator, outcome). |
+| **B. Performance trace** | Observability across many sign-ins (incl. drop-off) | Emit one Sentry **transaction per step, live** (root `auth.flow` + child `auth.step`, shared `traceId`), with searchable attributes (flow, authenticator, `isFinal`, `outcome`). Because steps ship as they happen, **dropped flows** (user abandons mid-sign-in) still leave a partial trace — a trace with no `isFinal:true` step. |
 
 **A replaces customer HAR collection:**
 
@@ -73,8 +73,9 @@ sequenceDiagram
 - A tiny `fetch` tap notes only **URL + method + HTTP status** of each `/idp/idx/*` call.
 - The Sentry SDK is **lazy-loaded** (dynamic `import()`), so there's zero cost on the auth
   path until we actually send.
-- Trace **B** is rebuilt from the trail's timestamps at completion (root `auth.flow` + a
-  child `auth.step` per entry) → ships as **one** transaction.
+- Trace **B** emits one transaction per step, live, as each request completes (root
+  `auth.flow` for the first step, child `auth.step` for the rest, all sharing one
+  `traceId`) → dropped flows still leave the steps they reached.
 
 ### Sentry API used per scenario
 

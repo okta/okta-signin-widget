@@ -13,12 +13,14 @@ server-side for deep analytics.
 
 ## 2. What we can do with Sentry
 
-The widget records a per-flow trail and sends it as one **transaction** (`op:auth.flow`) with a
-child **span** per step (`op:auth.step`), plus searchable attributes (authenticator, flow,
-outcome, timings).
+The widget emits one **transaction per step, live** as each request completes — a root
+(`op:auth.flow`) for the first step and a child (`op:auth.step`) for each later step, all sharing
+one `traceId` — plus searchable attributes (authenticator, flow, `isFinal`, `outcome`, timings).
+Emitting live (vs. one transaction at the end) means **dropped flows** still leave the steps they
+reached, so we can measure where users abandon: a trace with no `isFinal:true` step is a drop.
 
-- **Duration** — p50/p95/p99 of the whole flow (wall-clock, includes user think time) + a
-  per-step waterfall.
+- **Duration** — p50/p95/p99 per step + the full flow for completed sign-ins.
+- **Drop-off funnel** — how far flows get before they abandon (steps reached vs. `isFinal`).
 - **Authenticator mix & counts** — group by low-cardinality attributes.
 - **Trace → error pivot** — same platform as error reporting.
 
