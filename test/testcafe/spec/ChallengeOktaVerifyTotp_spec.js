@@ -8,6 +8,7 @@ import totpChallenge from '../../../playground/mocks/data/idp/idx/authenticator-
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidTOTP from '../../../playground/mocks/data/idp/idx/error-okta-verify-totp';
 import errorEnableBiometricsOktaVerifyTotp from '../../../playground/mocks/data/idp/idx/error-okta-verify-uv-totp-verify-enable-biometrics';
+import errorEnableBiometricsOrPinOktaVerifyTotp from '../../../playground/mocks/data/idp/idx/error-400-okta-verify-uv-totp-verify-enable-biometrics-or-pin';
 
 const logger = RequestLogger(/challenge|challenge\/answer/,
   {
@@ -35,6 +36,12 @@ const totpEnableBiometricsMock = RequestMock()
   .respond(totpChallenge)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(errorEnableBiometricsOktaVerifyTotp, 400);
+
+const totpEnableBiometricsOrPinMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(totpChallenge)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(errorEnableBiometricsOrPinOktaVerifyTotp, 400);
 
 fixture('Challenge Okta Verify Totp Form');
 
@@ -122,4 +129,26 @@ test
     await t.expect(errorSubtitleBullet2).contains('Okta Verify is up-to-date');
     const errorSubtitleBullet3 = challengeOktaVerifyTOTPPageObject.getNthErrorBulletPoint(2);
     await t.expect(errorSubtitleBullet3).contains('In Okta Verify, biometrics are enabled for your account');
+  });
+
+test
+  .requestHooks(logger, totpEnableBiometricsOrPinMock)('challenge okta verify totp uv enable screen lock message', async t => {
+    const challengeOktaVerifyTOTPPageObject = await setup(t);
+    await checkA11y(t);
+    await challengeOktaVerifyTOTPPageObject.verifyFactor('credentials.totp', '123');
+    await challengeOktaVerifyTOTPPageObject.clickVerifyButton();
+    await t.expect(challengeOktaVerifyTOTPPageObject.getFormTitle()).contains('Enter a code');
+    await challengeOktaVerifyTOTPPageObject.form.hasErrorBox();
+    await t.expect(challengeOktaVerifyTOTPPageObject.getErrorTitle()).contains('Enable screen lock confirmation in Okta Verify');
+    await t.expect(
+      challengeOktaVerifyTOTPPageObject
+        .errorHasSubtitle('Your response was received, but your org requires biometrics or a device screen lock. Ensure that you meet the following requirements and try again:')
+    ).eql(true);
+    const errorSubtitleBullet1 = challengeOktaVerifyTOTPPageObject.getNthErrorBulletPoint(0);
+    await t.expect(errorSubtitleBullet1).contains('Okta Verify is up to date.');
+    const errorSubtitleBullet2 = challengeOktaVerifyTOTPPageObject.getNthErrorBulletPoint(1);
+    await t.expect(errorSubtitleBullet2).contains('Screen lock confirmation is enabled for your account in Okta Verify.');
+    const errorBoxText = challengeOktaVerifyTOTPPageObject.getErrorFromErrorBox();
+    await t.expect(errorBoxText).notContains('Your device supports biometrics');
+    await t.expect(errorBoxText).notContains('passcode');
   });

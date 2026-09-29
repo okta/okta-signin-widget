@@ -14,6 +14,8 @@ import {
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
+  OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_DESKTOP,
+  OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE,
   TERMINAL_KEY,
 } from '../../constants';
 import {
@@ -82,6 +84,31 @@ const appendBiometricsErrorBox = (
         class: 'ERROR',
         title: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.title', 'login'),
         description: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.description', 'login'),
+        message: listMessages,
+      },
+    },
+  } as InfoboxElement);
+};
+
+const appendBiometricsOrPinErrorBox = (uischema: UISchemaLayout) => {
+  const listMessages: WidgetMessage[] = [
+    loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.point1', 'login'),
+    loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.point2', 'login'),
+  ].map((msg: string) => ({ class: 'INFO', message: msg }));
+
+  uischema.elements.push({
+    type: 'InfoBox',
+    options: {
+      class: 'ERROR',
+      dataSe: 'callout',
+      message: {
+        type: 'list',
+        class: 'ERROR',
+        title: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.title', 'login'),
+        description: loc(
+          'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.description',
+          'login',
+        ),
         message: listMessages,
       },
     },
@@ -206,12 +233,22 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
         OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
         OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
         OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
+        OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE,
+        OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_DESKTOP,
       ],
       displayedMessages,
     )
   ) {
     if (containsMessageKey(OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS, displayedMessages)) {
       appendWindowsBiometricsErrorBox(uischema);
+    } else if (containsOneOfMessageKeys(
+      [
+        OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE,
+        OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_DESKTOP,
+      ],
+      displayedMessages,
+    )) {
+      appendBiometricsOrPinErrorBox(uischema);
     } else {
       appendBiometricsErrorBox(
         uischema,

@@ -1,5 +1,5 @@
 import {doChallenge, getBiometricsErrorOptions} from '../../../../../../src/v2/view-builder/utils/ChallengeViewUtil';
-import { loc, View, createButton } from '@okta/courage';
+import { loc, View, createButton, _ } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import BrowserFeatures from '../../../../../../src/util/BrowserFeatures';
 import Enums from '../../../../../../src/util/Enums';
@@ -340,14 +340,15 @@ describe('v2/utils/ChallengeViewUtil', function() {
 
   describe('getBiometricsErrorOptions', function() {
     describe('with HTTP 400 error response (isMessageObj=false)', function() {
-      it('returns empty array for non-biometrics error', function() {
+      it('returns null for non-biometrics error', function() {
         const error = {
           responseJSON: {
             errorSummaryKeys: ['some.other.error.key']
           }
         };
         const result = getBiometricsErrorOptions(error, false);
-        expect(result).toEqual([]);
+        expect(result).toBeNull();
+        expect(_.isEmpty(result)).toBe(true);
       });
 
       it('returns formatted options for mobile biometrics error', function() {
@@ -362,6 +363,35 @@ describe('v2/utils/ChallengeViewUtil', function() {
         expect(result.title).toBe(loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.title', 'login'));
         expect(result.subtitle).toBe(loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.description', 'login'));
         expect(result.bullets).toHaveLength(3);
+      });
+
+      it.each([
+        ['mobile', 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.mobile'],
+        ['desktop', 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.desktop'],
+      ])('returns screen lock options with 2 bullet points for %s biometrics_or_pin error', function(_name, key) {
+        const error = {
+          responseJSON: {
+            errorSummaryKeys: [key]
+          }
+        };
+        const result = getBiometricsErrorOptions(error, false);
+        expect(result.type).toBe('error');
+        expect(result.title).toBe(loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.title', 'login'));
+        expect(result.subtitle).toBe(loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.description', 'login'));
+        expect(result.bullets).toHaveLength(2);
+      });
+
+      it('gives the Windows copy precedence when a windows key and an or_pin key both arrive', function() {
+        const error = {
+          responseJSON: {
+            errorSummaryKeys: [
+              'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.desktop',
+              'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows',
+            ]
+          }
+        };
+        const result = getBiometricsErrorOptions(error, false);
+        expect(result.title).toBe(loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.windows.title', 'login'));
       });
 
       it('returns formatted options for desktop biometrics error with 4 bullet points', function() {
@@ -444,7 +474,29 @@ describe('v2/utils/ChallengeViewUtil', function() {
         expect(result.bullets).toHaveLength(2);
       });
 
-      it('returns empty array for non-biometrics global message', function() {
+      it.each([
+        ['mobile', 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.mobile'],
+        ['desktop', 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.desktop'],
+      ])('returns screen lock options with 2 bullet points for %s biometrics_or_pin global message',
+        function(_name, key) {
+          const messages = {
+            value: [{
+              message: 'screen lock error',
+              i18n: {
+                key,
+              },
+              class: 'ERROR'
+            }]
+          };
+          const result = getBiometricsErrorOptions(messages, true);
+          expect(result.type).toBe('error');
+          expect(result.className).toBe('okta-verify-uv-callout-content');
+          expect(result.title).toBe(loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.title', 'login'));
+          expect(result.subtitle).toBe(loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.description', 'login'));
+          expect(result.bullets).toHaveLength(2);
+        });
+
+      it('returns null for non-biometrics global message', function() {
         const messages = {
           value: [{
             message: 'some other error',
@@ -455,7 +507,8 @@ describe('v2/utils/ChallengeViewUtil', function() {
           }]
         };
         const result = getBiometricsErrorOptions(messages, true);
-        expect(result).toEqual([]);
+        expect(result).toBeNull();
+        expect(_.isEmpty(result)).toBe(true);
       });
     });
   });

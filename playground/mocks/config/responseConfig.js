@@ -22,6 +22,7 @@ const idx = {
     'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
+    // 'authenticator-enroll-ov-qr-enable-biometrics-or-pin',
     // 'authenticator-verification-okta-verify-push',
     // 'error-401-invalid-otp-passcode',
     // 'error-with-failure-redirect',
@@ -50,6 +51,7 @@ const idx = {
     // 'authenticator-enroll-ov-same-device-setup-url',
     // 'authenticator-enroll-ov-device-bootstrap',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
+    // 'authenticator-enroll-ov-qr-enable-biometrics-or-pin',
     // 'error-internal-server-error',
     // 'authenticator-enroll-security-question',
     // 'authenticator-enroll-select-authenticator',
@@ -194,7 +196,8 @@ const idx = {
     // 'authenticator-verification-custom-app-push-reject',
     // 'authenticator-enroll-ov-sms-enable-biometrics',
     // 'okta-verify-version-upgrade',
-    // 'okta-verify-uv-verify-enable-biometrics'
+    // 'okta-verify-uv-verify-enable-biometrics',
+    // 'okta-verify-uv-verify-enable-biometrics-or-pin'
   ],
   // To test network failure recovery (OKTA-1083742), replace the above with:
   // '/idp/idx/challenge/poll': withNetworkFailure(
@@ -570,6 +573,19 @@ const userVerificationLoopbackBiometricsError = {
   ],
 };
 
+// user verification: loopback with biometrics-or-screen-lock error
+// Loopback probes localhost, fails, then calls /idp/idx/authenticators/poll/cancel, not mocked here.
+// Use the custom URI scenario below to reach the same callout without probing.
+const userVerificationLoopbackBiometricsOrPinError = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-signed-nonce-loopback'
+  ],
+  '/idp/idx/authenticators/poll': [
+    'error-400-okta-verify-uv-fastpass-verify-enable-biometrics-or-pin-desktop',
+    // 'error-400-okta-verify-uv-fastpass-verify-enable-biometrics-or-pin-mobile',
+  ],
+};
+
 // user verification: Windows authenticator with custom URI
 const userVerificationCustomUri = {
   '/idp/idx/introspect': [
@@ -605,6 +621,19 @@ const userVerificationCustomUriWindowsUVKeyNotEnrolledBiometricsError = {
   ],
 };
 
+// user verification: custom URI, UV key not enrolled, biometrics-or-screen-lock error (macOS/Linux)
+const userVerificationCustomUriUVKeyNotEnrolledBiometricsOrPinError = {
+  '/oauth2/default/v1/interact': [
+    'interact'
+  ],
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-signed-nonce-custom-uri',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'okta-verify-uv-verify-custom-uri-enable-biometrics-or-pin-uv-key-not-enrolled-desktop',
+  ],
+};
+
 // user verification: Android authenticator with app link
 const userVerificationAppLink = {
   '/idp/idx/introspect': [
@@ -628,6 +657,16 @@ const userVerificationAppLinkBiometricsError = {
   ],
   '/idp/idx/authenticators/poll': [
     'error-400-okta-verify-uv-fastpass-verify-enable-biometrics-mobile',
+  ],
+};
+
+// user verification: App link with biometrics-or-screen-lock error
+const userVerificationAppLinkBiometricsOrPinError = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-signed-nonce-app-link',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'error-400-okta-verify-uv-fastpass-verify-enable-biometrics-or-pin-mobile',
   ],
 };
 
@@ -670,6 +709,17 @@ const userVerificationCredentialSSOExtensionUVKeyNotEnrolledBiometricsError = {
   ],
 };
 
+// user verification: Credential SSO extension with biometrics-or-screen-lock error
+const userVerificationCredentialSSOExtensionBiometricsOrPinError = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-signed-nonce-credential-sso-extension'
+  ],
+  '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify': [
+    'error-400-okta-verify-uv-fastpass-verify-enable-biometrics-or-pin-mobile'
+    //'error-400-okta-verify-uv-fastpass-verify-enable-biometrics-or-pin-desktop'
+  ],
+};
+
 // user verification: Apple authenticator with universal link
 const userVerificationUniversalLink = {
   '/idp/idx/introspect': [
@@ -705,6 +755,19 @@ const userVerificationUniversalLinkUVKeyNotEnrolledBiometricsError = {
   ],
   '/idp/idx/authenticators/poll': [
     'okta-verify-uv-verify-universal-link-enable-biometrics-uv-key-not-enrolled-universal-link'
+  ],
+};
+
+// user verification: universal link, UV key not enrolled, biometrics-or-screen-lock error
+const userVerificationUniversalLinkUVKeyNotEnrolledBiometricsOrPinError = {
+  '/oauth2/default/v1/interact': [
+    'interact'
+  ],
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-signed-nonce-universal-link',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'okta-verify-uv-verify-universal-link-enable-biometrics-or-pin-uv-key-not-enrolled-universal-link'
   ],
 };
 
@@ -774,6 +837,17 @@ const totpEnableBiometrics = {
   ],
   '/idp/idx/challenge/answer': [
     'error-okta-verify-uv-totp-verify-enable-biometrics',
+  ],
+};
+
+// Gen2 renders the structured callout only on a 400; the playground answers 200, so the flat
+// message shows instead. Gen3 routes on the message key and is unaffected.
+const totpEnableBiometricsOrPin = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-totp'
+  ],
+  '/idp/idx/challenge/answer': [
+    'error-400-okta-verify-uv-totp-verify-enable-biometrics-or-pin',
   ],
 };
 

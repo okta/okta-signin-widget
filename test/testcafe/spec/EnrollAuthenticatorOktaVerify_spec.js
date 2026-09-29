@@ -30,6 +30,7 @@ import xhrAuthenticatorEnrollOktaVerifyViaSMSVersionUpgradeNonIos from '../../..
 import xhrAuthenticatorEnrollOktaVerifyViaQRVersionUpgradeNonIos from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr-version-upgrade-non-ios.json';
 
 import xhrAuthenticatorEnrollEnableBiometricsQr from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr-enable-biometrics.json';
+import xhrAuthenticatorEnrollEnableBiometricsOrPinQr from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr-enable-biometrics-or-pin.json';
 import xhrAuthenticatorEnrollEnableBiometricsEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email-enable-biometrics.json';
 import xhrAuthenticatorEnrollEnableBiometricsSMS from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms-enable-biometrics.json';
 
@@ -281,6 +282,17 @@ const enrollViaQRcodeEnableBiometricsMocks = pollResponse => RequestMock()
 const enrollViaQRcodeEnableBiometricsMocks1 = enrollViaQRcodeEnableBiometricsMocks(!userVariables.gen3 ? xhrSuccess : xhrAuthenticatorEnrollEnableBiometricsQr);
 const enrollViaQRcodeEnableBiometricsMocks2 = enrollViaQRcodeEnableBiometricsMocks(xhrSuccess);
 
+const enrollViaQRcodeEnableBiometricsOrPinMocks = pollResponse => RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollEnableBiometricsOrPinQr)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(pollResponse)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
+// Poll returns the same response in both engines so the callout stays on screen for the
+// assertions rather than the poll advancing past it.
+const enrollViaQRcodeEnableBiometricsOrPinMocks1 = enrollViaQRcodeEnableBiometricsOrPinMocks(xhrAuthenticatorEnrollEnableBiometricsOrPinQr);
+
 const enrollViaEmailEnableBiometricsMocks = pollResponse => RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollOktaVerifyQr)
@@ -344,6 +356,8 @@ const fipsUpgradeTitle = 'Update Okta Verify';
 
 const enableBiometricsMessage = 'Your organization requires biometrics. To proceed, ensure your device supports biometrics, then add your account and enable biometrics when prompted.';
 const enableBiometricsMessageTitle = 'Enable biometrics to add an account in Okta Verify';
+const enableBiometricsOrPinMessage = 'Your org requires biometrics or a device screen lock. To proceed, add your account in Okta Verify and enable screen lock confirmation when prompted.';
+const enableBiometricsOrPinMessageTitle = 'Enable screen lock confirmation in Okta Verify';
 
 const urlCopiedToClipboardMessage = 'Copy sign-in URL to clipboard';
 const oktaVerifyAppStoreDownloadUrl = 'https://apps.apple.com/us/app/okta-verify/id490179405';
@@ -835,6 +849,20 @@ test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksGoBack1)('should not sh
   // hit go back
   await enrollOktaVerifyPage.switchAuthenticator();
   await t.expect(errorBox.exists).notOk;
+});
+
+test.meta('mobile', false).requestHooks(logger, enrollViaQRcodeEnableBiometricsOrPinMocks1)('should see ov enable screen lock message during enroll via QR code', async t => {
+  const enrollOktaVerifyPage = await setup(t, true);
+  await checkA11y(t);
+  await t.expect(enrollOktaVerifyPage.getFormTitle(1)).eql('Set up Okta Verify');
+  await t.expect(await enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(true);
+  await t.expect(enrollOktaVerifyPage.hasQRcode()).eql(true);
+  const errorBox = enrollOktaVerifyPage.getErrorBox();
+  await t.expect(errorBox.innerText).contains(enableBiometricsOrPinMessage);
+  const errorTitle = enrollOktaVerifyPage.getErrorTitle();
+  await t.expect(errorTitle).contains(enableBiometricsOrPinMessageTitle);
+  await t.expect(errorBox.innerText).notContains('ensure your device supports biometrics');
+  await t.expect(errorBox.innerText).notContains('passcode');
 });
 
 test.meta('mobile', false).requestHooks(logger, enrollViaQRcodeEnableBiometricsMocks1)('should see ov enable biometrics message during enroll via QR code', async t => {

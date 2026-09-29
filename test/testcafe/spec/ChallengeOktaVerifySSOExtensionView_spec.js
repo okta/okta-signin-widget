@@ -6,6 +6,8 @@ import identifyWithNoAppleCredentialSSOExtension from '../../../playground/mocks
 import identifyWithUserVerificationBiometricsErrorDesktop from '../../../playground/mocks/data/idp/idx/error-okta-verify-uv-fastpass-verify-enable-biometrics-desktop.json';
 import identifyWithUserVerificationBiometricsErrorMobile from '../../../playground/mocks/data/idp/idx/error-400-okta-verify-uv-fastpass-verify-enable-biometrics-mobile.json';
 import identifyWithUserVerificationBiometricsGlobalMessageMobile from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-credential-sso-extension-biometrics-global-message.json';
+import identifyWithUserVerificationBiometricsOrPinErrorMobile from '../../../playground/mocks/data/idp/idx/error-400-okta-verify-uv-fastpass-verify-enable-biometrics-or-pin-mobile.json';
+import identifyWithUserVerificationBiometricsOrPinGlobalMessageMobile from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-credential-sso-extension-biometrics-or-pin-global-message.json';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import { Constants } from '../framework/shared';
 import { getStateHandleFromSessionStorage } from '../framework/shared';
@@ -59,6 +61,22 @@ const credentialSSOExtensionBiometricsErrorMobileMock = RequestMock()
     res.setBody(identifyWithUserVerificationBiometricsErrorMobile);
   });
 
+
+const credentialSSOExtensionBiometricsOrPinErrorMobileMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(identifyUserVerificationWithCredentialSSOExtension)
+  .onRequestTo(verifyUrl)
+  .respond((req, res) => {
+    res.statusCode = '400';
+    res.headers['content-type'] = 'application/json';
+    res.setBody(identifyWithUserVerificationBiometricsOrPinErrorMobile);
+  });
+
+const credentialSSOExtensionBiometricsOrPinGlobalMessageMobileMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(identifyUserVerificationWithCredentialSSOExtension)
+  .onRequestTo(verifyUrl)
+  .respond(identifyWithUserVerificationBiometricsOrPinGlobalMessageMobile);
 
 fixture('App SSO Extension View from MFA list');
 
@@ -140,6 +158,40 @@ test
     await t.expect(errorText).contains('Okta Verify is up-to-date');
     await t.expect(errorText).contains('In Okta Verify, biometrics are enabled for your account');
     await t.expect(errorText).contains('Your device\'s biometric sensors are accessible');
+  });
+
+test
+  .requestHooks(credentialSSOExtensionBiometricsOrPinErrorMobileMock)('show screen lock error for mobile platform in credential SSO Extension', async t => {
+    const ssoExtensionPage = new BasePageObject(t);
+    await ssoExtensionPage.navigateToPage();
+    await t.expect(ssoExtensionPage.formExists()).ok();
+
+    const errorText = ssoExtensionPage.getErrorBoxText();
+    await t.expect(errorText).contains('Enable screen lock confirmation in Okta Verify');
+    await t.expect(errorText).contains('Your response was received, but your org requires biometrics or a device screen lock.');
+    await t.expect(errorText).contains('Ensure that you meet the following requirements and try again');
+    await t.expect(errorText).contains('Okta Verify is up to date.');
+    await t.expect(errorText).contains('Screen lock confirmation is enabled for your account in Okta Verify.');
+    await t.expect(errorText).notContains('Your device supports biometrics');
+    await t.expect(errorText).notContains('Your device\'s biometric sensors are accessible');
+    await t.expect(errorText).notContains('passcode');
+  });
+
+test
+  .requestHooks(credentialSSOExtensionBiometricsOrPinGlobalMessageMobileMock)('show screen lock error from global messages for mobile platform in credential SSO Extension', async t => {
+    const ssoExtensionPage = new BasePageObject(t);
+    await ssoExtensionPage.navigateToPage();
+    await t.expect(ssoExtensionPage.formExists()).ok();
+
+    const errorText = ssoExtensionPage.getErrorBoxText();
+    await t.expect(errorText).contains('Enable screen lock confirmation in Okta Verify');
+    await t.expect(errorText).contains('Your response was received, but your org requires biometrics or a device screen lock.');
+    await t.expect(errorText).contains('Ensure that you meet the following requirements and try again');
+    await t.expect(errorText).contains('Okta Verify is up to date.');
+    await t.expect(errorText).contains('Screen lock confirmation is enabled for your account in Okta Verify.');
+    await t.expect(errorText).notContains('Your device supports biometrics');
+    await t.expect(errorText).notContains('Your device\'s biometric sensors are accessible');
+    await t.expect(errorText).notContains('passcode');
   });
 
 test

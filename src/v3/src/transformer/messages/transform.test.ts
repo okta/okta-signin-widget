@@ -19,7 +19,10 @@ import {
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
+  OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE,
+  OV_UV_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY,
   OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY,
+  OV_UV_RESEND_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY,
 } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import { InfoboxElement, WidgetProps } from 'src/types';
@@ -108,6 +111,31 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         i18n: { key: 'oie.authenticator.app.method.push.enroll.enable.biometrics' },
         message: 'oie.authenticator.app.method.push.enroll.enable.biometrics',
         title: 'oie.authenticator.app.method.push.enroll.enable.biometrics.title',
+      });
+  });
+
+  it('should add screen lock title when OV QR enroll biometrics_or_pin key exists in transaction', () => {
+    transaction.messages = [
+      {
+        message: 'OV Enroll biometrics or screen lock message.',
+        class: 'ERROR',
+        i18n: { key: OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_OR_PIN_KEY },
+      },
+    ];
+    const updatedFormBag = transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
+      .toBe('ERROR');
+    // Enrollment renders a title plus the server's own sentence as the body -- no bullets.
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
+      .toEqual({
+        class: 'ERROR',
+        i18n: { key: 'oie.authenticator.app.method.push.enroll.enable.biometrics_or_pin' },
+        message: 'oie.authenticator.app.method.push.enroll.enable.biometrics_or_pin',
+        title: 'oie.authenticator.app.method.push.enroll.enable.biometrics_or_pin.title',
       });
   });
 
@@ -261,6 +289,112 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         description: 'oie.authenticator.app.method.push.verify.enable.biometrics.description',
         title: 'oie.authenticator.app.method.push.verify.enable.biometrics.title',
       });
+  });
+
+  it('should add screen lock message list when biometrics_or_pin error key exists in transaction', () => {
+    transaction.messages = [
+      {
+        message: 'This is a biometrics or screen lock error.',
+        class: 'ERROR',
+        i18n: { key: OV_UV_RESEND_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY },
+      },
+    ];
+    const updatedFormBag = transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
+      .toBe('ERROR');
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
+      .toEqual({
+        class: 'ERROR',
+        message: [
+          { class: 'INFO', message: 'oie.authenticator.app.method.push.verify.enable.biometrics_or_pin.point1' },
+          { class: 'INFO', message: 'oie.authenticator.app.method.push.verify.enable.biometrics_or_pin.point2' },
+        ],
+        description: 'oie.authenticator.app.method.push.verify.enable.biometrics_or_pin.description',
+        title: 'oie.authenticator.app.method.push.verify.enable.biometrics_or_pin.title',
+      });
+  });
+
+  it('should add TOTP screen lock message list when TOTP biometrics_or_pin key exists', () => {
+    transaction.messages = [
+      {
+        message: 'TOTP biometrics or screen lock error.',
+        class: 'ERROR',
+        i18n: { key: OV_UV_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY },
+      },
+    ];
+    const updatedFormBag = transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
+      .toEqual({
+        class: 'ERROR',
+        message: [
+          {
+            class: 'INFO',
+            message: 'oie.authenticator.oktaverify.method.totp.verify.enable.biometrics_or_pin.point1',
+          },
+          {
+            class: 'INFO',
+            message: 'oie.authenticator.oktaverify.method.totp.verify.enable.biometrics_or_pin.point2',
+          },
+        ],
+        description: 'oie.authenticator.oktaverify.method.totp.verify.enable.biometrics_or_pin.description',
+        title: 'oie.authenticator.oktaverify.method.totp.verify.enable.biometrics_or_pin.title',
+      });
+  });
+
+  it('should add FastPass screen lock message list when FastPass mobile biometrics_or_pin key exists', () => {
+    transaction.messages = [
+      {
+        message: 'FastPass mobile biometrics or screen lock error.',
+        class: 'ERROR',
+        i18n: { key: OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE },
+      },
+    ];
+    const updatedFormBag = transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
+      .toEqual({
+        class: 'ERROR',
+        message: [
+          {
+            class: 'INFO',
+            message: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.point1',
+          },
+          {
+            class: 'INFO',
+            message: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.point2',
+          },
+        ],
+        description: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.description',
+        title: 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.title',
+      });
+  });
+
+  it('renders exactly one element for a biometrics_or_pin key, not a duplicate plain box', () => {
+    // Guards the CUSTOM_MESSAGE_KEYS half of the wiring: without it transformGeneralMessages
+    // would also render the server sentence beneath the structured callout.
+    transaction.messages = [
+      {
+        message: 'FastPass mobile biometrics or screen lock error.',
+        class: 'ERROR',
+        i18n: { key: OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE },
+      },
+    ];
+    const updatedFormBag = transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+
+    expect(updatedFormBag.uischema.elements).toHaveLength(1);
   });
 
   it('should add message list with 3 bullets when FastPass mobile biometrics key exists', () => {

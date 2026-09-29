@@ -16,6 +16,8 @@ import identifyWithSSOExtensionFallbackWithoutLink from '../../../playground/moc
 import identifyWithUserVerificationLaunchUniversalLink from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-universal-link';
 import identifyWithUserVerificationBiometricsGlobalMessageMobile from '../../../playground/mocks/data/idp/idx/okta-verify-uv-verify-universal-link-enable-biometrics-uv-key-not-enrolled-universal-link.json';
 import identifyWithUserVerificationBiometricsGlobalMessageWindows from '../../../playground/mocks/data/idp/idx/okta-verify-uv-verify-custom-uri-enable-biometrics-uv-key-not-enrolled-windows.json';
+import identifyWithUserVerificationBiometricsOrPinGlobalMessageMobile from '../../../playground/mocks/data/idp/idx/okta-verify-uv-verify-universal-link-enable-biometrics-or-pin-uv-key-not-enrolled-universal-link.json';
+import identifyWithUserVerificationBiometricsOrPinGlobalMessageDesktop from '../../../playground/mocks/data/idp/idx/okta-verify-uv-verify-custom-uri-enable-biometrics-or-pin-uv-key-not-enrolled-desktop.json';
 import mfaSelect from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
 import loopbackChallengeNotReceived from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received';
 import assureWithLaunchAppLink from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-app-link';
@@ -305,6 +307,18 @@ const universalLinkBiometricsGlobalMessageMock = RequestMock()
   .respond(identifyWithUserVerificationLaunchUniversalLink)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithUserVerificationBiometricsGlobalMessageMobile);
+
+const universalLinkBiometricsOrPinGlobalMessageMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(identifyWithUserVerificationLaunchUniversalLink)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identifyWithUserVerificationBiometricsOrPinGlobalMessageMobile);
+
+const customURIBiometricsOrPinGlobalMessageDesktopMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(identifyWithUserVerificationCustomURI)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identifyWithUserVerificationBiometricsOrPinGlobalMessageDesktop);
 
 const universalLinkLogger = RequestLogger(
   /introspect|probe|cancel|launch|poll/,
@@ -710,6 +724,37 @@ test
     await t.expect(errorText).contains('Okta Verify is up-to-date');
     await t.expect(errorText).contains('In Okta Verify, biometrics are enabled for your account');
     await t.expect(errorText).notContains('Your device\'s biometric sensors are accessible');
+  });
+
+test
+  .requestHooks(universalLinkBiometricsOrPinGlobalMessageMock)('show screen lock error from global messages for mobile platform in universal link', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
+
+    const errorText = deviceChallengePollPageObject.getErrorBoxText();
+    await t.expect(errorText).contains('Enable screen lock confirmation in Okta Verify');
+    await t.expect(errorText).contains('Your response was received, but your org requires biometrics or a device screen lock.');
+    await t.expect(errorText).contains('Ensure that you meet the following requirements and try again');
+    await t.expect(errorText).contains('Okta Verify is up to date.');
+    await t.expect(errorText).contains('Screen lock confirmation is enabled for your account in Okta Verify.');
+    await t.expect(errorText).notContains('Your device supports biometrics');
+    await t.expect(errorText).notContains('Your device\'s biometric sensors are accessible');
+    await t.expect(errorText).notContains('passcode');
+  });
+
+test
+  .requestHooks(customURIBiometricsOrPinGlobalMessageDesktopMock)('show screen lock error from global messages for desktop platform in custom URI', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
+
+    const errorText = deviceChallengePollPageObject.getErrorBoxText();
+    await t.expect(errorText).contains('Enable screen lock confirmation in Okta Verify');
+    await t.expect(errorText).contains('Your response was received, but your org requires biometrics or a device screen lock.');
+    await t.expect(errorText).contains('Okta Verify is up to date.');
+    await t.expect(errorText).contains('Screen lock confirmation is enabled for your account in Okta Verify.');
+    await t.expect(errorText).notContains('Your device\'s biometric sensors are accessible');
+    await t.expect(errorText).notContains('Your device supports biometrics');
+    await t.expect(errorText).notContains('passcode');
   });
 
 test
