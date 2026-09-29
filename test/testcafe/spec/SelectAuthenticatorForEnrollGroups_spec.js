@@ -1,4 +1,4 @@
-import { RequestMock, Selector, userVariables } from 'testcafe';
+import { ClientFunction, RequestMock, Selector, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
@@ -9,6 +9,10 @@ import xhrGroupsGracePeriod from '../../../playground/mocks/data/idp/idx/authent
 import xhrGroupsGracePeriodSkip from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator-groups-grace-period-skip.json';
 import xhrGroupsMixed from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator-groups-mixed.json';
 import xhrGroupsOptionalPhase from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator-groups-optional-phase.json';
+import xhrGroupsOvInGroup from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator-groups-ov-in-group.json';
+import xhrGroupsSingleMember from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator-groups-single-member.json';
+import xhrGroupsSingleMemberGp from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator-groups-single-member-gp.json';
+import xhrGroupsGracePeriodExpired from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator-groups-grace-period-expired.json';
 
 // N-of-M authenticator groups. TestCafe runs against both v2 and v3 (gen3
 // parity). Selectors that differ between engines pull from the shared
@@ -24,6 +28,37 @@ const gracePeriodRequiredDescriptionSelector = userVariables.gen3
 const gracePeriodSkipCountDescriptionSelector = userVariables.gen3
   ? '[data-se="authenticator-grace-period-skip-count-description"]'
   : '.authenticator-grace-period-skip-count-description';
+const listTitleSelector = userVariables.gen3
+  ? '[data-se="authenticator-list-title"]'
+  : '.authenticator-list-title';
+const authenticatorRowSelector = userVariables.gen3
+  ? '[data-se="authenticator-button"]'
+  : '.authenticator-row';
+const authenticatorLabelSelector = userVariables.gen3
+  ? '[data-se="authenticator-button-label"]'
+  : '.authenticator-label';
+
+// Section titles, cards and rows in DOM order, e.g.
+// ['title:Required soon', 'row:NFC', 'card:authenticator-enroll-group-0', 'card-row:Phone'].
+const readPageOutline = ClientFunction(({ titleSel, cardSel, rowSel, labelSel }) => {
+  const nodes = document.querySelectorAll(`${titleSel}, ${cardSel}, ${rowSel}`);
+  return Array.prototype.map.call(nodes, (node) => {
+    if (node.matches(titleSel)) {
+      return `title:${node.textContent.trim()}`;
+    }
+    if (node.matches(cardSel)) {
+      return `card:${node.getAttribute('data-se')}`;
+    }
+    const label = node.querySelector(labelSel).textContent.trim();
+    return `${node.closest(cardSel) ? 'card-row' : 'row'}:${label}`;
+  });
+});
+const getPageOutline = () => readPageOutline({
+  titleSel: listTitleSelector,
+  cardSel: groupCardSelector,
+  rowSel: authenticatorRowSelector,
+  labelSel: authenticatorLabelSelector,
+});
 
 const mockGroupsSingle = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -48,6 +83,22 @@ const mockGroupsMixed = RequestMock()
 const mockGroupsOptionalPhase = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrGroupsOptionalPhase);
+
+const mockGroupsOvInGroup = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrGroupsOvInGroup);
+
+const mockGroupsSingleMember = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrGroupsSingleMember);
+
+const mockGroupsSingleMemberGp = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrGroupsSingleMemberGp);
+
+const mockGroupsGracePeriodExpired = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrGroupsGracePeriodExpired);
 
 fixture('Select Authenticator for Enrollment - N-of-M Groups');
 
@@ -204,5 +255,95 @@ test.requestHooks(mockGroupsOptionalPhase)(
     await t.expect(Selector(groupCardSelector).count).eql(0);
     // Legacy authenticator rows still render.
     await t.expect(selectFactorPage.getFactorsCount()).gt(0);
+  }
+);
+
+// -----------------------------------------------------------------------------
+// Okta Verify (push + totp) and WebAuthn in one 1-of group. OV expands into one
+// button per method and every expanded button stays inside the card. The chip
+// counts distinct authenticators, not buttons.
+// -----------------------------------------------------------------------------
+test.requestHooks(mockGroupsOvInGroup)(
+  'keeps split Okta Verify method buttons inside the group card',
+  async t => {
+    await setup(t);
+    const card = Selector(groupCardSelector);
+    await t.expect(card.count).eql(1);
+    await t.expect(card.find(chooseNOfLabelSelector).innerText).eql('Choose 1 of:');
+    await t.expect(card.find(authenticatorRowSelector).count).eql(3);
+    await t.expect(card.find('[data-se="okta_verify-push"]').exists).ok();
+    await t.expect(card.find('[data-se="okta_verify-totp"]').exists).ok();
+    await t.expect(card.find('[data-se="webauthn"]').exists).ok();
+    // Nothing leaks outside the card.
+    await t.expect(Selector(authenticatorRowSelector).count).eql(3);
+  }
+);
+
+// -----------------------------------------------------------------------------
+// Single-member group without a grace period → bare row in Required now.
+// -----------------------------------------------------------------------------
+test.requestHooks(mockGroupsSingleMember)(
+  'renders a single-member group as a bare row in Required now',
+  async t => {
+    await setup(t);
+    await t.expect(Selector(groupCardSelector).count).eql(0);
+    await t.expect(getPageOutline()).eql([
+      'title:Required now',
+      'row:Security Question',
+    ]);
+    await t.expect(Selector(gracePeriodRequiredDescriptionSelector).exists).notOk();
+    await t.expect(Selector(gracePeriodSkipCountDescriptionSelector).exists).notOk();
+  }
+);
+
+// -----------------------------------------------------------------------------
+// Ungrouped Password, single-member arg-single (NFC, BY_SKIP_COUNT) and
+// two-member arg-deadline (BY_DATE_TIME, 2099). The group GP is injected onto
+// the NFC row, and the skip-count group sorts ahead of the date-based card.
+// -----------------------------------------------------------------------------
+test.requestHooks(mockGroupsSingleMemberGp)(
+  'injects the group grace period onto a single-member row and orders it by urgency',
+  async t => {
+    await setup(t);
+    await t.expect(getPageOutline()).eql([
+      'title:Required now',
+      'row:Password',
+      'title:Required soon',
+      'row:NFC',
+      'card:authenticator-enroll-group-0',
+      'card-row:Google Authenticator',
+      'card-row:Phone',
+    ]);
+
+    const nfcRow = Selector(authenticatorRowSelector).withText('NFC');
+    await t.expect(nfcRow.find(gracePeriodSkipCountDescriptionSelector).innerText)
+      .eql('3 skips remaining');
+
+    const card = Selector(groupCardSelector);
+    await t.expect(card.find(gracePeriodRequiredDescriptionSelector).exists).ok();
+    await t.expect(card.find(gracePeriodSkipCountDescriptionSelector).exists).notOk();
+
+    const passwordRow = Selector(authenticatorRowSelector).withText('Password');
+    await t.expect(passwordRow.find(gracePeriodRequiredDescriptionSelector).exists).notOk();
+    await t.expect(passwordRow.find(gracePeriodSkipCountDescriptionSelector).exists).notOk();
+  }
+);
+
+// -----------------------------------------------------------------------------
+// BY_DATE_TIME group grace period whose expiry is in the past → the group is
+// required now and no grace-period text renders.
+// -----------------------------------------------------------------------------
+test.requestHooks(mockGroupsGracePeriodExpired)(
+  'buckets a group with an expired BY_DATE_TIME grace period into Required now',
+  async t => {
+    await setup(t);
+    await t.expect(getPageOutline()).eql([
+      'title:Required now',
+      'card:authenticator-enroll-group-0',
+      'card-row:Email',
+      'card-row:Phone',
+      'card-row:Security Question',
+    ]);
+    await t.expect(Selector(gracePeriodRequiredDescriptionSelector).exists).notOk();
   }
 );
