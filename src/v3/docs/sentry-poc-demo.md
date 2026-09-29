@@ -144,6 +144,33 @@ completion design carries over unchanged.
 
 ---
 
+## 6. Playground wrapper — global `window.Sentry` (SDK separated from the widget)
+
+Prod Okta does **not** have the widget bundle/own its Sentry SDK. `@okta/sentry-wrapper`
+(okta-ui) runs `Sentry.init()` at page load and publishes `window.Sentry`; apps reuse that
+global. **SIW now REQUIRES this** — `resolveSentry()` in `sentryFeedback.ts` returns the global
+`window.Sentry` and there is **no bundled fallback**: the widget never ships or inits its own SDK.
+If the global is absent, the Sentry features hard-fail with a loud console error (so a missing/late
+wrapper is caught during testing rather than silently masked).
+
+The playground provides that wrapper with a POC stand-in:
+
+- **`playground/sentry-wrapper.ts`** — a separate webpack entry emitted as **`js/sentry-wrapper.js`**.
+  It reads `window.okta.sentry` (set by an inline block in `index.html`; `?sentryDsn=` overrides),
+  runs `Sentry.init()` (v7, with Breadcrumbs + Replay in buffer mode + tracing extensions), starts
+  Replay buffering, and sets `window.Sentry`.
+- **`playground/index.html`** loads it **before** the widget: `runtime.js → sentry-wrapper.js →
+  okta-sign-in.js`. So `window.Sentry` exists before the widget bootstraps and before the first IDX call.
+
+Replay, the `auth.flow` trace, and the feedback event all flow through this global SDK; the widget
+bundle contains no `@sentry/browser` at runtime. Remove the wrapper `<script>` (or clear
+`window.okta.sentry`) and the features hard-fail loudly — proving the widget genuinely depends on the
+external, global Sentry.
+
+> POC differences from prod okta-core: the wrapper is pinned to **v7** (the widget's consumption code
+> uses v7 APIs) and **includes Replay** (prod ships only browser tracing) so the replay+trace POC can run
+> through the global.
+
 ## Appendix — try it locally
 
 ```bash

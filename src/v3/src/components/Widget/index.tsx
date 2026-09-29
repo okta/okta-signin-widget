@@ -82,7 +82,6 @@ import {
   sendAuthFlowTrace,
   SessionStorage,
   shouldAutoRedirect,
-  startFeedbackReplayBuffer,
   triggerEmailVerifyCallback,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
@@ -135,20 +134,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // Shared poll-in-flight tracker (see IWidgetContext.pollInFlightRef)
   const pollInFlightRef = useRef<boolean>(false);
 
-  // Install the feedback diagnostics fetch tap during first render (before the
-  // bootstrap introspect fires) so its request URL is captured. Records ONLY
-  // url + method + status. No-op unless the feedback feature is enabled.
-  useOnce(() => {
-    // Kick off the Replay buffer load early (shared, at-most-once) so the SDK chunk
-    // is loading during initLanguage and is ready by the time `bootstrap` awaits it
-    // before the first IDX request. The fetch tap is installed in `bootstrap` AFTER
-    // this so it sits ABOVE Replay's fetch instrumentation (see bootstrap ordering).
-    if (feedback?.replay) {
-      startFeedbackReplayBuffer(feedback).catch(() => {
-        // replay is best-effort; never affect the auth flow
-      });
-    }
-  });
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data, pollInFlightRef);
   const interactionCodeFlowFormBag = useInteractionCodeFlow(
     idxTransaction,
@@ -236,16 +221,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       resetDiagnostics();
     }
     await initLanguage();
-    // ORDER MATTERS (both must happen before the first IDX request below):
-    // 1) Start Session Replay so it instruments the NATIVE window.fetch first —
-    //    Replay then sits in okta-auth-js's fetch call path and captures the IDX
-    //    network calls. Awaited (shared at-most-once init) so it completes first.
-    // 2) THEN install our diagnostic tap, which wraps the (now Replay-wrapped)
-    //    fetch — so requests flow tap -> Replay -> native and BOTH capture. If the
-    //    tap were installed first it would capture native and bypass Replay.
-    if (feedback?.replay) {
-      await startFeedbackReplayBuffer(feedback);
-    }
+    // Session Replay is owned by the Sentry wrapper (loaded before the widget), so
+    // its fetch instrumentation is already in place. Our diagnostic tap is installed
+    // here, on top of that wrapped fetch, so requests flow tap -> Replay -> native
+    // and BOTH capture. Install before the first IDX request below.
     if (feedback?.enabled || feedback?.tracePoc) {
       installFetchTap();
     }
@@ -526,7 +505,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         version: OKTA_SIW_VERSION,
         commit: OKTA_SIW_COMMIT_HASH,
       },
-      feedback,
     ).catch(() => {
       // Tracing POC must never affect the auth flow; swallow any send error.
     });

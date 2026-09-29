@@ -18,7 +18,21 @@
         cspNonce: 'playground'
       });
     </script> -->
+    <!-- POC: Sentry "wrapper" (mirrors @okta/sentry-wrapper). This inline config plus
+         the separate /js/sentry-wrapper.js below init the Sentry SDK and publish
+         window.Sentry BEFORE the widget loads, so the widget consumes the global
+         instead of bundling/initing its own SDK. Override the DSN at runtime with
+         ?sentryDsn=... . See playground/sentry-wrapper.ts. -->
+    <script nonce="playground">
+      window.okta = window.okta || {};
+      window.okta.sentry = {
+        sentryDsn: 'https://939d90d8aac16573dffc853d5cf65ab8@o101443.ingest.us.sentry.io/4512165835702272',
+        deployEnv: 'dev',
+        tracesSampleRate: '1.0'
+      };
+    </script>
     <script src="/runtime.js"></script>
+    <script src="/js/sentry-wrapper.js"></script>
     <script src="/js/okta-sign-in.js"></script>
     <script src="/js/okta-plugin-a11y.js"></script>
     <script src="/playground.bundle.js"></script>

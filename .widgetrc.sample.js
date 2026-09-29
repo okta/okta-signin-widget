@@ -21,6 +21,12 @@ const config = {
   // To verify end-to-end against a dev Sentry project, either paste your dev DSN
   // below, or (easier, no rebuild) pass it in the playground URL:
   //   http://localhost:3000/?sentryDsn=https://<key>@oXXX.ingest.sentry.io/<project>
+  //
+  // NOTE: the widget no longer bundles/inits its own SDK — it REQUIRES the Sentry
+  // "wrapper" that playground/index.html loads (js/sentry-wrapper.js) to have set
+  // window.Sentry before the widget. The wrapper owns the DSN/environment (via
+  // window.okta.sentry in index.html), so `sentryDsn`/`sentryEnvironment` here are
+  // unused; the flags below are the behavior toggles.
   feedback: {
     enabled: true,
     sentryDsn: (typeof window !== 'undefined'
@@ -34,7 +40,10 @@ const config = {
     // Run a full flow to a success/terminal view, then look in Sentry:
     //   Explore -> Traces  (op:auth.flow) — root duration = init->finish time
     //   filter/group by attributes: authenticatorKey, flow, outcome, finalStep
-    tracePoc: true
+    tracePoc: true,
+    // POC: record a masked Session Replay from bootstrap; upload ONLY when the user
+    // clicks "Send feedback" on a terminal error, linked to that event via replay_id.
+    replay: true
   },
   // Hooks block processing and run custom logic before or after a form is rendered
   hooks: {

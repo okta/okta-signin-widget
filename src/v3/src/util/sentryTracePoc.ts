@@ -30,14 +30,14 @@
  * `startTimestamp`/`endTimestamp` on both the transaction and its child spans,
  * which is what lets us stamp the real request timings after the fact.
  *
- * Shares ONE `Sentry.init()` with the Replay/feedback POC — this module does not
- * init the SDK itself; it emits transactions on whatever client `resolveSentry`
- * (in sentryFeedback.ts) returns. That single init owns the sample rate and the
- * tracing extensions, so `tracePoc` and `replay` can be enabled together without
- * a second `init()` rebinding the hub and detaching Replay.
+ * Uses the wrapper's global `window.Sentry` (via {@link resolveSentry}) — this
+ * module does NOT init the SDK itself, and there is no bundled fallback. The
+ * wrapper (prod `@okta/sentry-wrapper`, or the playground `sentry-wrapper.ts`)
+ * owns `Sentry.init()`, the sample rate, and the tracing extensions. If the global
+ * is absent, this no-ops with a loud console error.
  *
  * POC caveats:
- * - `tracesSampleRate: 1.0` (set by that shared init) so every flow shows up
+ * - `tracesSampleRate: 1.0` (set by the wrapper's init) so every flow shows up
  *   while you explore. This will NOT survive real traffic — scope it to a
  *   `tracesSampler` and a low rate before any broad use
  *   (see docs/terminal-feedback-diagnostics.md).
@@ -50,7 +50,7 @@
  *   one per poll) so a long poll does not flood the trace with spans.
  */
 import { TraceContext, TransactionRecord } from './feedbackDiagnostics';
-import { FeedbackSentryOptions, resolveSentry } from './sentryFeedback';
+import { resolveSentry } from './sentryFeedback';
 
 export interface AuthFlowTraceMeta {
   flow?: string;
@@ -77,40 +77,33 @@ const spanWindow = (record: TransactionRecord): { start: number; end: number } =
 /**
  * Emit the WHOLE flow as ONE `auth.flow` transaction with a child `auth.step`
  * span per recorded step, reconstructed from the diagnostic trail. Call once,
- * when the flow reaches a final state (terminal/success). No-op if no DSN is
- * configured or the trail is empty.
+ * when the flow reaches a final state (terminal/success). No-op (loud console
+ * error) if the wrapper's `window.Sentry` is absent, or if the trail is empty.
  *
  * @param records  the full step trail (each carries real per-request timing)
  * @param traceCtx the flow's shared trace identity (traceId + root spanId)
  * @param meta     flow-level discriminators (ride as tags/data on the root)
- * @param options  Sentry DSN/environment
  */
 export const sendAuthFlowTrace = async (
   records: TransactionRecord[],
   traceCtx: TraceContext,
   meta: AuthFlowTraceMeta,
-  options?: FeedbackSentryOptions,
 ): Promise<void> => {
-  const dsn = options?.sentryDsn;
-  if (!dsn || records.length === 0) {
+  if (records.length === 0) {
     return;
   }
 
-  // Single shared init: reuse the SDK that sentryFeedback resolves — the wrapper's
-  // window.Sentry in prod (no init), else our bundled copy inited exactly once by
-  // `ensureBundledInit` (which sets `tracesSampleRate` + registers tracing
-  // extensions for us). This is what lets the tracing POC and the Replay/feedback
-  // POC run together: previously each module called `Sentry.init()` on the same
-  // singleton, and the second call rebound the hub's client, detaching the first
-  // feature's integrations (Replay) — so the buffered replay never linked/uploaded.
-  const resolved = await resolveSentry(options);
-  if (!resolved) {
+  // Use the wrapper's global window.Sentry (no bundled fallback). If it isn't
+  // present, hard-fail loudly rather than silently dropping the trace — a missing
+  // wrapper is a setup bug we want visible while POC'ing the global-Sentry path.
+  const Sentry = resolveSentry();
+  if (!Sentry) {
+    // eslint-disable-next-line no-console
+    console.error('[siw-trace] window.Sentry not found — the Sentry wrapper must init and publish it before the widget loads; cannot emit auth.flow trace.');
     return;
   }
-  const { Sentry } = resolved;
-  // `startTransaction` is a tracing extension. It's registered by
-  // `ensureBundledInit` on the bundled path; call it here too (idempotent) so the
-  // wrapper/external path also has it before we start a transaction.
+  // `startTransaction` is a tracing extension; the wrapper registers it at init,
+  // but call it here too (idempotent) to be safe before we start a transaction.
   Sentry.addTracingExtensions();
 
   const first = records[0];
