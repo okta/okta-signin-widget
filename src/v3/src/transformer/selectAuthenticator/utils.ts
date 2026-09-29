@@ -861,6 +861,12 @@ export interface PartitionedGroupedButtons {
   ungrouped: AuthenticatorButtonElement[];
 }
 
+// Group membership is per authenticator in the current IDX contract, so an OV
+// split into per-method buttons counts once. Revisit if groups become per-method.
+const countEnrollableAuthenticators = (members: AuthenticatorButtonElement[]): number => (
+  new Set(members.map((btn) => btn.options.actionParams?.['authenticator.id'] ?? btn.id)).size
+);
+
 // Bucket a single active group into the appropriate section, mutating the
 // requiredNow/requiredSoon/emitted collections in place and returning the
 // possibly-incremented cardIndex.
@@ -897,11 +903,9 @@ const bucketGroupIntoSections = (
   const gpFields = group.gracePeriod
     ? groupGracePeriodDescriptions(group.gracePeriod, languageTags)
     : {};
-  // Clamp remaining to the number of members actually available to enroll.
-  // If OAMP filters members out of the response, group.remaining from IDX
-  // can exceed members.length, producing a "Choose N of:" label larger than
-  // the number of choices actually shown.
-  const displayRemaining = Math.min(group.remaining, members.length);
+  // Clamp remaining to what the user can actually enroll. If OAMP filters
+  // members out, group.remaining from IDX can exceed the members shown.
+  const displayRemaining = Math.min(group.remaining, countEnrollableAuthenticators(members));
   const card: AuthenticatorGroupCardElement = {
     type: 'AuthenticatorGroupCard',
     options: {

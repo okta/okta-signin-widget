@@ -101,23 +101,33 @@ const buildCustomLink = (
   return undefined;
 };
 
-// Expand a grouped-section bucket into UI elements. Bare buttons collapse into
-// a single AuthenticatorButtonList; each card is a standalone element.
+// Expand a grouped-section bucket into UI elements, preserving item order.
+// Consecutive bare buttons collapse into one AuthenticatorButtonList.
 const sectionElements = (
   items: GroupedSectionItem[],
   dataSe: string,
 ): UISchemaElement[] => {
   const out: UISchemaElement[] = [];
-  const bareButtons = items.filter((i): i is Extract<GroupedSectionItem, { kind: 'bare' }> => i.kind === 'bare').map((i) => i.button);
-  const cards = items.filter((i): i is Extract<GroupedSectionItem, { kind: 'card' }> => i.kind === 'card').map((i) => i.card);
-  if (bareButtons.length > 0) {
-    const list: AuthenticatorButtonListElement = {
-      type: 'AuthenticatorButtonList',
-      options: { buttons: bareButtons, dataSe },
-    };
-    out.push(list);
-  }
-  cards.forEach((card) => out.push(card));
+  let bareButtons: AuthenticatorButtonElement[] = [];
+  const flushBareButtons = () => {
+    if (bareButtons.length > 0) {
+      const list: AuthenticatorButtonListElement = {
+        type: 'AuthenticatorButtonList',
+        options: { buttons: bareButtons, dataSe },
+      };
+      out.push(list);
+      bareButtons = [];
+    }
+  };
+  items.forEach((item) => {
+    if (item.kind === 'bare') {
+      bareButtons.push(item.button);
+    } else {
+      flushBareButtons();
+      out.push(item.card);
+    }
+  });
+  flushBareButtons();
   return out;
 };
 
@@ -173,8 +183,8 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     );
 
     const {
-      requiredNow: requiredNowItems,
-      requiredSoon: requiredSoonItems,
+      requiredNow: groupedNowItems,
+      requiredSoon: groupedSoonItems,
       ungrouped,
     } = partitionGroupedEnrollButtons(allButtons, groups, languageTags);
 
@@ -182,10 +192,15 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     // isAuthenticatorButtonInGracePeriod reads the post-processed description
     // fields on options (which are only populated when the GP is active) rather
     // than trying to re-parse the locale-formatted gracePeriodExpiry string.
+    // Ungrouped buttons lead each section; grouped items follow in urgency order.
+    const requiredNowItems: GroupedSectionItem[] = [];
+    const requiredSoonItems: GroupedSectionItem[] = [];
     ungrouped.forEach((btn) => {
       const soon = isAuthenticatorButtonInGracePeriod(btn);
       (soon ? requiredSoonItems : requiredNowItems).push({ kind: 'bare', button: btn });
     });
+    requiredNowItems.push(...groupedNowItems);
+    requiredSoonItems.push(...groupedSoonItems);
 
     const elements: UISchemaElement[] = [title, description];
 

@@ -736,6 +736,50 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
         .toBe('Choose 2 of:');
     });
 
+    const ovMethodOption = (methodType, groupIds) => ({
+      label: 'Okta Verify',
+      value: { id: 'aut-ov', methodType },
+      relatesTo: { key: 'okta_verify', id: 'aut-ov', groupIds, allowedFor: 'any' },
+      authenticatorKey: 'okta_verify',
+      groupIds,
+    });
+
+    it('clamps "Choose N of:" to distinct authenticators when OV is split into method options', function() {
+      const authenticators = [
+        ovMethodOption('push', ['arg-strong']),
+        ovMethodOption('totp', ['arg-strong']),
+        groupMemberOptions(['arg-strong'])[0],
+      ];
+      const groups = [{
+        groupId: 'arg-strong',
+        criteria: [{ type: 'authenticatorCount', count: 3 }],
+        remaining: 3,
+      }];
+      testContext.init(authenticators, false, {}, groups);
+
+      expect(testContext.view.$('.authenticator-enroll-group-card .authenticator-row').length).toBe(3);
+      expect(testContext.view.$('[data-se="authenticator-enroll-group-card-label"]').text().trim())
+        .toBe('Choose 2 of:');
+    });
+
+    it('keeps a split-OV-only group as a card with "Choose 1 of:"', function() {
+      const authenticators = [
+        ovMethodOption('push', ['arg-strong']),
+        ovMethodOption('totp', ['arg-strong']),
+      ];
+      const groups = [{
+        groupId: 'arg-strong',
+        criteria: [{ type: 'authenticatorCount', count: 2 }],
+        remaining: 2,
+      }];
+      testContext.init(authenticators, false, {}, groups);
+
+      expect(testContext.view.$('.authenticator-enroll-group-card').length).toBe(1);
+      expect(testContext.view.$('.authenticator-enroll-group-card .authenticator-row').length).toBe(2);
+      expect(testContext.view.$('[data-se="authenticator-enroll-group-card-label"]').text().trim())
+        .toBe('Choose 1 of:');
+    });
+
     it('renders BY_SKIP_COUNT group grace period as "N skips remaining"', function() {
       const authenticators = groupMemberOptions(['arg-recovery']);
       const groups = [{
@@ -886,6 +930,100 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
         const titles = testContext.view.$('.authenticator-list-title');
         expect(titles.eq(0).text()).toBe('Required now');
         expect(titles.eq(1).text()).toBe('Required soon');
+      });
+    });
+
+    describe('section item order', function() {
+      const member = (label, groupIds = []) => ({
+        label,
+        value: { id: `aut-${label}` },
+        relatesTo: { key: label, id: `aut-${label}`, groupIds, allowedFor: 'any' },
+        authenticatorKey: label,
+        groupIds,
+      });
+
+      const labelsIn = ($el) => $el.find('.authenticator-label').map((_, el) => el.textContent.trim()).get().join(',');
+
+      const summarize = () => testContext.view.$el.children().map((_, el) => {
+        const $el = testContext.view.$(el);
+        const title = $el.find('.authenticator-list-title').text().trim();
+        const prefix = title ? `${title}|` : '';
+        if ($el.hasClass('authenticator-enroll-group-card')) {
+          return `card:${labelsIn($el)}`;
+        }
+        if ($el.hasClass('authenticator-list-header')) {
+          return `${prefix}header`;
+        }
+        if ($el.hasClass('authenticator-enroll-list')) {
+          return `${prefix}list:${labelsIn($el)}`;
+        }
+        return el.className;
+      }).get();
+
+      it('renders single-member groups between cards in urgency order', function() {
+        const authenticators = [
+          member('date-a', ['arg-date']),
+          member('date-b', ['arg-date']),
+          member('skip2', ['arg-skip-2']),
+          member('skip1-a', ['arg-skip-1']),
+          member('skip1-b', ['arg-skip-1']),
+        ];
+        const groups = [
+          { groupId: 'arg-date', criteria: [], remaining: 1, gracePeriod: { gracePeriodType: 'BY_DATE_TIME', expiry: '2024-01-06T00:00:00.000Z' } },
+          { groupId: 'arg-skip-2', criteria: [], remaining: 1, gracePeriod: { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 2 } },
+          { groupId: 'arg-skip-1', criteria: [], remaining: 1, gracePeriod: { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 1 } },
+        ];
+        testContext.init(authenticators, false, {}, groups);
+
+        expect(summarize()).toEqual([
+          'Required soon|header',
+          'card:skip1-a,skip1-b',
+          'list:skip2',
+          'card:date-a,date-b',
+        ]);
+        const cards = testContext.view.$('.authenticator-enroll-group-card');
+        expect(cards.eq(0).attr('data-se')).toBe('authenticator-enroll-group-0');
+        expect(cards.eq(1).attr('data-se')).toBe('authenticator-enroll-group-1');
+      });
+
+      it('merges consecutive single-member groups into one list', function() {
+        const authenticators = [
+          member('solo-a', ['arg-solo-a']),
+          member('solo-b', ['arg-solo-b']),
+          member('pair-a', ['arg-pair']),
+          member('pair-b', ['arg-pair']),
+        ];
+        const groups = [
+          { groupId: 'arg-solo-a', criteria: [], remaining: 1 },
+          { groupId: 'arg-solo-b', criteria: [], remaining: 1 },
+          { groupId: 'arg-pair', criteria: [], remaining: 1 },
+        ];
+        testContext.init(authenticators, false, {}, groups);
+
+        expect(summarize()).toEqual([
+          'Required now|list:solo-a,solo-b',
+          'card:pair-a,pair-b',
+        ]);
+      });
+
+      it('keeps ungrouped authenticators at the top of their section', function() {
+        const authenticators = [
+          member('pair-a', ['arg-pair']),
+          member('pair-b', ['arg-pair']),
+          member('solo', ['arg-solo']),
+          member('standalone'),
+        ];
+        const groups = [
+          { groupId: 'arg-pair', criteria: [], remaining: 1 },
+          { groupId: 'arg-solo', criteria: [], remaining: 1 },
+        ];
+        testContext.init(authenticators, false, {}, groups);
+
+        expect(summarize()).toEqual([
+          'Required now|list:standalone',
+          'card:pair-a,pair-b',
+          'list:solo',
+        ]);
       });
     });
 

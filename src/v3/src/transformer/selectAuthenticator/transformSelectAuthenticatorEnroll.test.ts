@@ -16,11 +16,13 @@ import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/
 import {
   AuthenticatorButtonElement,
   AuthenticatorButtonListElement,
+  AuthenticatorGroupCardElement,
   ButtonElement,
   ButtonType,
   DescriptionElement,
   LinkElement,
   TitleElement,
+  UISchemaElement,
   WidgetProps,
 } from 'src/types';
 
@@ -717,5 +719,110 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       .options.buttons[0] as AuthenticatorButtonElement).options.type).toBe(ButtonType.BUTTON);
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
       .options.buttons[0] as AuthenticatorButtonElement).label).toBe('Email');
+  });
+
+  describe('N-of-M grouped section order', () => {
+    const groupedButton = (label: string, groupIds: string[] = []): AuthenticatorButtonElement => ({
+      type: 'AuthenticatorButton',
+      label,
+      options: {
+        type: ButtonType.BUTTON,
+        key: label,
+        ctaLabel: 'Set up',
+        ariaLabel: `Set up ${label}`,
+        step: IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
+        actionParams: { 'authenticator.id': `id-${label}` },
+        groupIds,
+      },
+    } as AuthenticatorButtonElement);
+
+    const summarize = (elements: UISchemaElement[]): string[] => elements.slice(2).map((el) => {
+      if (el.type === 'AuthenticatorButtonList') {
+        return `list:${(el as AuthenticatorButtonListElement).options.buttons.map((b) => b.label).join(',')}`;
+      }
+      if (el.type === 'AuthenticatorGroupCard') {
+        return `card:${(el as AuthenticatorGroupCardElement).options.buttons.map((b) => b.label).join(',')}`;
+      }
+      return el.type;
+    });
+
+    const runWithGroups = (buttons: AuthenticatorButtonElement[], groups: unknown[]) => {
+      mockGetAuthenticatorEnrollButtonElementsFn.mockImplementationOnce(() => buttons);
+      // @ts-expect-error authenticatorGroups is not yet in the auth-js SDK types
+      transaction.rawIdxState.authenticatorGroups = { type: 'array', value: groups };
+      const result = transformSelectAuthenticatorEnroll({ transaction, formBag, widgetProps });
+      // @ts-expect-error authenticatorGroups is not yet in the auth-js SDK types
+      delete transaction.rawIdxState.authenticatorGroups;
+      return summarize(result.uischema.elements as UISchemaElement[]);
+    };
+
+    it('renders single-member groups between cards in urgency order', () => {
+      const buttons = [
+        groupedButton('date-a', ['arg-date']),
+        groupedButton('date-b', ['arg-date']),
+        groupedButton('skip2', ['arg-skip-2']),
+        groupedButton('skip1-a', ['arg-skip-1']),
+        groupedButton('skip1-b', ['arg-skip-1']),
+      ];
+      const groups = [
+        {
+          groupId: 'arg-date', criteria: [], remaining: 1, gracePeriod: { gracePeriodType: 'BY_DATE_TIME', expiry: '2099-01-01T00:00:00.000Z' },
+        },
+        {
+          groupId: 'arg-skip-2', criteria: [], remaining: 1, gracePeriod: { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 2 },
+        },
+        {
+          groupId: 'arg-skip-1', criteria: [], remaining: 1, gracePeriod: { gracePeriodType: 'BY_SKIP_COUNT', remainingSkips: 1 },
+        },
+      ];
+
+      expect(runWithGroups(buttons, groups)).toEqual([
+        'Heading',
+        'Description',
+        'card:skip1-a,skip1-b',
+        'list:skip2',
+        'card:date-a,date-b',
+      ]);
+    });
+
+    it('merges consecutive single-member groups into one list', () => {
+      const buttons = [
+        groupedButton('solo-a', ['arg-solo-a']),
+        groupedButton('solo-b', ['arg-solo-b']),
+        groupedButton('pair-a', ['arg-pair']),
+        groupedButton('pair-b', ['arg-pair']),
+      ];
+      const groups = [
+        { groupId: 'arg-solo-a', criteria: [], remaining: 1 },
+        { groupId: 'arg-solo-b', criteria: [], remaining: 1 },
+        { groupId: 'arg-pair', criteria: [], remaining: 1 },
+      ];
+
+      expect(runWithGroups(buttons, groups)).toEqual([
+        'Heading',
+        'list:solo-a,solo-b',
+        'card:pair-a,pair-b',
+      ]);
+    });
+
+    it('keeps ungrouped authenticators at the top of their section', () => {
+      const buttons = [
+        groupedButton('pair-a', ['arg-pair']),
+        groupedButton('pair-b', ['arg-pair']),
+        groupedButton('solo', ['arg-solo']),
+        groupedButton('standalone'),
+      ];
+      const groups = [
+        { groupId: 'arg-pair', criteria: [], remaining: 1 },
+        { groupId: 'arg-solo', criteria: [], remaining: 1 },
+      ];
+
+      expect(runWithGroups(buttons, groups)).toEqual([
+        'Heading',
+        'list:standalone',
+        'card:pair-a,pair-b',
+        'list:solo',
+      ]);
+    });
   });
 });

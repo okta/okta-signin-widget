@@ -1316,6 +1316,68 @@ describe('Select Authenticator Utility Tests', () => {
       expect(card.card.options.buttons).toHaveLength(2);
     });
 
+    const makeOvMethodButton = (
+      methodType: string,
+      groupIds: string[],
+    ): AuthenticatorButtonElement => {
+      const btn = makeButton(`okta_verify_${methodType}`, groupIds);
+      btn.options.actionParams = {
+        'authenticator.id': 'id-okta_verify',
+        'authenticator.methodType': methodType,
+      };
+      return btn;
+    };
+
+    it('clamps card.options.remaining to distinct authenticators when OV is split into method buttons', () => {
+      const buttons = [
+        makeOvMethodButton('push', ['arg-strong']),
+        makeOvMethodButton('totp', ['arg-strong']),
+        makeButton('webauthn', ['arg-strong']),
+      ];
+      const groups: AuthenticatorGroup[] = [{
+        groupId: 'arg-strong',
+        criteria: [{ type: 'authenticatorCount', count: 3 }],
+        remaining: 3,
+      }];
+      const { requiredNow } = partitionGroupedEnrollButtons(buttons, groups);
+      const card = requiredNow[0] as Extract<typeof requiredNow[0], { kind: 'card' }>;
+      expect(card.card.options.remaining).toBe(2);
+      expect(card.card.options.buttons).toHaveLength(3);
+    });
+
+    it('keeps a split-OV-only group as a card with remaining clamped to 1', () => {
+      const buttons = [
+        makeOvMethodButton('push', ['arg-strong']),
+        makeOvMethodButton('totp', ['arg-strong']),
+      ];
+      const groups: AuthenticatorGroup[] = [{
+        groupId: 'arg-strong',
+        criteria: [{ type: 'authenticatorCount', count: 2 }],
+        remaining: 2,
+      }];
+      const { requiredNow } = partitionGroupedEnrollButtons(buttons, groups);
+      expect(requiredNow).toHaveLength(1);
+      const card = requiredNow[0] as Extract<typeof requiredNow[0], { kind: 'card' }>;
+      expect(card.kind).toBe('card');
+      expect(card.card.options.remaining).toBe(1);
+      expect(card.card.options.buttons).toHaveLength(2);
+    });
+
+    it('counts authenticator instances that share a key as distinct when clamping', () => {
+      const idpA = makeButton('external_idp', ['arg-idp']);
+      idpA.options.actionParams = { 'authenticator.id': 'id-idp-a' };
+      const idpB = makeButton('external_idp', ['arg-idp']);
+      idpB.options.actionParams = { 'authenticator.id': 'id-idp-b' };
+      const groups: AuthenticatorGroup[] = [{
+        groupId: 'arg-idp',
+        criteria: [{ type: 'authenticatorCount', count: 3 }],
+        remaining: 3,
+      }];
+      const { requiredNow } = partitionGroupedEnrollButtons([idpA, idpB], groups);
+      const card = requiredNow[0] as Extract<typeof requiredNow[0], { kind: 'card' }>;
+      expect(card.card.options.remaining).toBe(2);
+    });
+
     it('places a group with active BY_SKIP_COUNT grace period in the requiredSoon bucket', () => {
       const buttons = [
         makeButton('email', ['arg-recovery']),

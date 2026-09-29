@@ -108,6 +108,13 @@ const sortGroupsByUrgency = (groups) => [...groups].sort((a, b) => {
   return ra.value - rb.value;
 });
 
+// Group membership is per authenticator in the current IDX contract, so an OV
+// split into per-method options counts once. Revisit if groups become per-method.
+const countEnrollableAuthenticators = (members) => members
+  .map(m => m.relatesTo?.id ?? m)
+  .filter((id, i, ids) => ids.indexOf(id) === i)
+  .length;
+
 export default View.extend({
 
   className: 'authenticator-enroll-list-container',
@@ -203,10 +210,10 @@ export default View.extend({
       emitted.push(single);
     } else {
       // Group-of-≥2 → card. Members are cloned inside the card to strip any
-      // per-row grace period (group GP wins). Clamp remaining to members.length
-      // so the "Choose N of:" label never asks for more than what OAMP-filtered
-      // membership actually offers.
-      const remaining = Math.min(group.remaining, members.length);
+      // per-row grace period (group GP wins). Clamp remaining so the
+      // "Choose N of:" label never asks for more than OAMP-filtered membership
+      // actually offers.
+      const remaining = Math.min(group.remaining, countEnrollableAuthenticators(members));
       bucket.push({ kind: 'card', group, members, remaining });
       members.forEach(m => emitted.push(m));
     }
@@ -232,14 +239,19 @@ export default View.extend({
     });
 
     // Ungrouped options and options whose only groups are already satisfied
-    // (remaining == 0). Fall through to the legacy per-authenticator GP path.
+    // (remaining == 0). Fall through to the legacy per-authenticator GP path
+    // and lead each section; grouped items follow in urgency order.
+    const ungroupedNow = [];
+    const ungroupedSoon = [];
     this.options.optionItems.forEach(opt => {
       if (emitted.includes(opt)) {
         return;
       }
-      const bucket = hasActivePerAuthGracePeriod(opt) ? requiredSoon : requiredNow;
+      const bucket = hasActivePerAuthGracePeriod(opt) ? ungroupedSoon : ungroupedNow;
       bucket.push({ kind: 'bare', option: opt });
     });
+    requiredNow.unshift(...ungroupedNow);
+    requiredSoon.unshift(...ungroupedSoon);
 
     this._renderGroupedSection(requiredNow, {
       listTitle: loc('oie.setup.required.now', 'login'),
@@ -269,38 +281,53 @@ export default View.extend({
       return;
     }
 
-    const bareRows = items.filter(i => i.kind === 'bare').map(i => i.option);
-    const cards = items.filter(i => i.kind === 'card');
+    // Items render in order. Consecutive bare rows share one ListView; the
+    // section title rides on the first ListView, or on a standalone header
+    // when the section opens with a card.
+    let bareRows = [];
+    let cardIndex = sectionOptions.cardIndexOffset || 0;
+    let hasTitle = false;
 
-    if (bareRows.length > 0) {
-      // At least one bare row → let the standard ListView render the section
-      // title/subtitle plus the rows. Cards render as siblings after.
+    const flushBareRows = () => {
+      if (bareRows.length === 0) {
+        return;
+      }
       this.add(new AuthenticatorEnrollOptions({
         ...this.options,
         collection: new Collection(bareRows),
         optionItems: bareRows,
+        showTitle: !hasTitle,
         listTitle: sectionOptions.listTitle,
         listSubtitle: sectionOptions.listSubtitle,
         listSubtitleLinkOptions: sectionOptions.listSubtitleLinkOptions,
       }));
-    } else {
-      // Card-only section → emit just the title/subtitle DOM without wrapping
-      // it in an empty AuthenticatorEnrollOptions ListView.
-      this.add(new AuthenticatorEnrollSectionHeader({
-        title: sectionOptions.listTitle,
-        subtitle: sectionOptions.listSubtitle,
-        subtitleLinkOptions: sectionOptions.listSubtitleLinkOptions,
-      }));
-    }
+      hasTitle = true;
+      bareRows = [];
+    };
 
-    cards.forEach((entry, i) => {
+    items.forEach((entry) => {
+      if (entry.kind === 'bare') {
+        bareRows.push(entry.option);
+        return;
+      }
+      flushBareRows();
+      if (!hasTitle) {
+        this.add(new AuthenticatorEnrollSectionHeader({
+          title: sectionOptions.listTitle,
+          subtitle: sectionOptions.listSubtitle,
+          subtitleLinkOptions: sectionOptions.listSubtitleLinkOptions,
+        }));
+        hasTitle = true;
+      }
       this.add(new AuthenticatorEnrollGroupCard({
         ...this.options,
         group: entry.group,
         members: entry.members,
         remaining: entry.remaining,
-        groupIndex: (sectionOptions.cardIndexOffset || 0) + i,
+        groupIndex: cardIndex,
       }));
+      cardIndex += 1;
     });
+    flushBareRows();
   },
 });
