@@ -574,6 +574,8 @@ const userVerificationLoopbackBiometricsError = {
 };
 
 // user verification: loopback with biometrics-or-screen-lock error
+// Loopback probes localhost, fails, then calls /idp/idx/authenticators/poll/cancel, not mocked here.
+// Use the custom URI scenario below to reach the same callout without probing.
 const userVerificationLoopbackBiometricsOrPinError = {
   '/idp/idx/introspect': [
     'authenticator-verification-okta-verify-signed-nonce-loopback'
@@ -838,6 +840,8 @@ const totpEnableBiometrics = {
   ],
 };
 
+// Gen2 renders the structured callout only on a 400; the playground answers 200, so the flat
+// message shows instead. Gen3 routes on the message key and is unaffected.
 const totpEnableBiometricsOrPin = {
   '/idp/idx/introspect': [
     'authenticator-verification-okta-verify-totp'
