@@ -161,3 +161,61 @@
   }
 
 }
+
+// N-of-M authenticator group card.
+// Wraps a group's unenrolled members with a bordered container, an optional
+// group-level grace-period block, and a "Choose {N} of:" label chip. Individual
+// .authenticator-row markup inside is unchanged; group cards nest under the
+// section's .authenticator-enroll-list.
+.authenticator-enroll-group-card {
+  border: 1px solid #e0e0e0;
+  background-color: #f3f3f3;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 24px;
+
+  .authenticator-enroll-group-card__label {
+    display: inline-block;
+    color: $text-color-dark;
+    padding: 4px 12px 4px 0;
+    font-size: 13px;
+    font-weight: $font-weight-labels;
+    margin-bottom: 13px;
+  }
+
+  // Group-level grace-period block. Reuses .authenticator-grace-period-* markup
+  // classes from AuthenticatorRow so the visual is identical to per-authenticator
+  // grace periods.
+  .authenticator-grace-period-container {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 8px;
+  }
+
+  .authenticator-grace-period-text-container {
+    display: inline-block;
+  }
+
+  .authenticator-grace-period-required-description,
+  .authenticator-grace-period-skip-count-description {
+    color: $text-color-warning;
+    display: inline-block;
+  }
+
+  .authenticator-grace-period-required-icon {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 5px;
+    margin-top: 2px;
+
+    &::before {
+      content: url('../img/ui/indicators/clock.png');
+    }
+  }
+
+  // Rows inside a card need less bottom margin than free-standing rows because
+  // the card supplies its own outer margin.
+  .authenticator-row:last-child {
+    margin-bottom: 0;
+  }
+}
