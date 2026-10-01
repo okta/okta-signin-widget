@@ -139,6 +139,12 @@ let lastRequest: {
   endedAt?: number;
 } = {};
 let traceContext: TraceContext | undefined;
+// Set once a flow reaches a final state (see markFlowComplete). The NEXT distinct
+// step then begins a fresh flow and clears the prior trail/trace — this is how we
+// scope one trace per flow without relying on the bootstrap stateHandle heuristic
+// (which can't tell flows apart when the playground reuses a fixed stateToken).
+// Persisted so it survives a page reload between flows.
+let flowComplete = false;
 let hydrated = false;
 let fetchTapInstalled = false;
 
@@ -199,14 +205,17 @@ const persist = (): void => {
     return;
   }
   try {
-    store.setItem(SESSION_KEY, JSON.stringify({ transactions, trace: traceContext }));
+    store.setItem(SESSION_KEY, JSON.stringify({ transactions, trace: traceContext, flowComplete }));
   } catch {
     // Raw responses can be large; if persisting fails (quota), retry without
     // them so at least the lean trail survives redirects.
     try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const lean = transactions.map(({ rawResponse, requestBody, ...t }) => t);
-      store.setItem(SESSION_KEY, JSON.stringify({ transactions: lean, trace: traceContext }));
+      store.setItem(
+        SESSION_KEY,
+        JSON.stringify({ transactions: lean, trace: traceContext, flowComplete }),
+      );
     } catch {
       // give up — best effort only
     }
@@ -228,10 +237,12 @@ const hydrateOnce = (): void => {
       const parsed = JSON.parse(raw);
       transactions = Array.isArray(parsed?.transactions) ? parsed.transactions : [];
       traceContext = parsed?.trace?.traceId ? parsed.trace : undefined;
+      flowComplete = parsed?.flowComplete === true;
     }
   } catch {
     transactions = [];
     traceContext = undefined;
+    flowComplete = false;
   }
 };
 
@@ -344,6 +355,16 @@ export const recordTransaction = (
     // per-request tracer does not flood Sentry with an envelope per poll tick.
     return undefined;
   }
+  if (flowComplete) {
+    // The previous flow reached a final state and THIS is the first distinct step
+    // of a new flow — clear the prior flow's trail + trace so this flow is scoped
+    // on its own (otherwise auth.flow.total would span both flows + the idle gap).
+    // Placed AFTER the repeat check so terminal re-renders don't wipe the trail the
+    // "Send feedback" button still needs.
+    transactions = [];
+    traceContext = undefined;
+    flowComplete = false;
+  }
   const record: TransactionRecord = {
     seq: transactions.length,
     ts: Date.now(),
@@ -439,11 +460,24 @@ export const getDiagnosticTransactions = (): TransactionRecord[] => {
   return [...transactions];
 };
 
+/**
+ * Mark the current flow as finished (call once it reaches a final/terminal state).
+ * The trail is kept intact for now (the terminal "Send feedback" button still needs
+ * it); the NEXT distinct step recorded will start a fresh flow and clear it. See
+ * {@link recordTransaction}.
+ */
+export const markFlowComplete = (): void => {
+  hydrateOnce();
+  flowComplete = true;
+  persist();
+};
+
 /** Clear the accumulated trail (e.g. after a successful send). */
 export const resetDiagnostics = (): void => {
   transactions = [];
   lastRequest = {};
   traceContext = undefined;
+  flowComplete = false;
   const store = safeGetSession();
   try {
     store?.removeItem(SESSION_KEY);

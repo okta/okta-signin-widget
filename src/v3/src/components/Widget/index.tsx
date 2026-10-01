@@ -76,6 +76,7 @@ import {
   isConsentStep,
   isOauth2Enabled,
   loadLanguage,
+  markFlowComplete,
   markRootEmitted,
   recordTransaction,
   resetDiagnostics,
@@ -514,6 +515,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       sendAuthFlowTotalSpan(getDiagnosticTransactions(), traceCtx, meta).catch(() => {
         // best-effort; never affect the auth flow
       });
+      // Mark the flow done so the NEXT flow (even in the same tab, no reload) starts
+      // a fresh trail/trace — the trail stays intact for the terminal's Send feedback.
+      markFlowComplete();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idxTransaction, feedback?.enabled, feedback?.tracePoc, feedback?.includeRawResponses, flow]);
