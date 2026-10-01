@@ -29,17 +29,17 @@ sentry dashboard widget add $D "Errors (final steps)" --display big_number \
 sentry dashboard widget add $D "Outcome mix" --display bar \
   --dataset spans --query count --where "span.op:auth.step has:outcome" --group-by outcome --sort=-count
 sentry dashboard widget add $D "Authenticator mix" --display bar \
-  --dataset spans --query count --where "span.op:auth.step has:authenticatorKey" --group-by authenticatorKey --sort=-count
+  --dataset spans --query count --where "span.op:auth.step has:factor" --group-by factor --sort=-count
 sentry dashboard widget add $D "Total Human Experience Latency (End-to-End)" --display table \
   --dataset spans --query "p50:span.duration" --query "p95:span.duration" --query "p99:span.duration" \
-  --where "span.op:auth.flow.total" --group-by authenticatorKey
+  --where "span.op:auth.flow.total" --group-by factor
 ```
 
 > `--sort=-count` must use `=` (a bare `-count` value is parsed as a flag). Widget add needs the org
 > positional (`okta-prod/`) — it can't auto-detect it for a bare dashboard id.
 
 **Data caveat:** the spans currently in the project were generated across several iterations of this POC
-(single-transaction → per-step models), so `step`/`outcome`/`authenticatorKey` are well populated but
+(single-transaction → per-step models), so `step`/`outcome`/`factor` are well populated but
 `isFinal` is only on the newest per-step spans. For an accurate **drop-rate** (started vs `isFinal:true`),
 regenerate a clean batch with the current build; the funnel bar already shows drop-off (reach narrows per
 step) and works on the existing data. The widgets below are the generic definitions.
@@ -60,10 +60,17 @@ Searchable **span tags** on every step:
 |---|---|---|
 | `engine` | `gen3` | scope |
 | `flow` | e.g. `DEFAULT`, `PROFILE_ENROLLMENT` | segment |
-| `step` | `identify`, `challenge-authenticator`, … | funnel axis |
-| `authenticatorKey` | `okta_password`, `okta_verify`, … (absent on early steps) | authenticator breakdown |
+| `step` | `identify`, `challenge-factor`, `select-factor`, … | funnel axis |
+| `factor` | `okta_password`, `okta_verify`, … (absent on early steps) | authenticator breakdown |
 | `isFinal` | `true` on the flow's final step, else `false` | completed vs dropped |
 | `outcome` | `success` / `error` on the final step, `pending` before | outcome mix |
+
+> **Data scrubbing (important):** the DSN points at a **production** Sentry org (`okta-prod`), whose
+> data-scrubbing redacts any tag **name or value containing "auth"** to `[Filtered]`. So the
+> authenticator is tagged under **`factor`** (not `authenticatorKey`), and step labels have
+> "authenticator" rewritten to "factor" (`challenge-authenticator → challenge-factor`). The span ops
+> (`auth.flow`/`auth.step`) are unaffected — core span fields aren't PII-scrubbed. If you point the
+> wrapper DSN at a non-prod project, the raw names come through unscrubbed.
 
 Key idea for **drop-off**: because steps ship live, a **started** flow always has one `auth.flow` root,
 and a **completed** flow additionally has a step tagged `isFinal:true`. A flow the user abandons has the
@@ -72,7 +79,7 @@ root (+ the steps reached) but **no `isFinal:true`** → it's a drop.
 **End-to-end latency** — on completion the widget also emits one extra span, `op = auth.flow.total`,
 whose `span.duration` spans the **whole flow** (first step's request start → final step's request end,
 i.e. it includes the wall-clock *between* steps = the human time spent). It's tagged with the flow's
-`authenticatorKey` (the last step that carried one). This is the only span whose duration is the
+`factor` (the last step that carried one). This is the only span whose duration is the
 "human experience latency"; the per-step `auth.step` durations are individual requests only.
 
 ---
@@ -107,7 +114,7 @@ Then walk the widgets:
 6. **Outcome mix** — *"What's the distribution?"* Same data as 4/5 as one chart: `success` / `error` /
    `pending` (pending = reached but not yet final).
 
-7. **Authenticator mix** — *"Which authenticators are actually used?"* Count by `authenticatorKey`
+7. **Authenticator mix** — *"Which authenticators are actually used?"* Count by `factor`
    (`okta_password`, `okta_verify`, …). Answers "how many flows use Okta Verify?" directly.
 
 8. **Total Human Experience Latency (End-to-End)** — *"How long does signing in actually take a human,
@@ -178,8 +185,8 @@ Success vs error among **completed** flows (dropped shown separately, see note).
 ### 4. Authenticator breakdown (Table or Bar)
 Which authenticators flows actually use.
 - **Visualize:** `count_unique(trace)`  *(so a multi-step flow counts once)*
-- **Query:** `span.op:auth.step has:authenticatorKey environment:dev`
-- **Group by:** `authenticatorKey`  *(→ `okta_password`, `okta_verify`, …)*
+- **Query:** `span.op:auth.step has:factor environment:dev`
+- **Group by:** `factor`  *(→ `okta_password`, `okta_verify`, …)*
 
 ### 5. Per-step duration (Line or Bar)
 - **Visualize:** `p50(span.duration)` and `p95(span.duration)`
@@ -191,7 +198,7 @@ Whole-flow wall-clock per authentication method (P50 / P95 / P99), from the dedi
 `auth.flow.total` span. Mirrors the "Total Human Experience Latency" table layout.
 - **Visualize:** `p50(span.duration)`, `p95(span.duration)`, `p99(span.duration)`
 - **Query:** `span.op:auth.flow.total environment:dev`
-- **Group by:** `authenticatorKey`
+- **Group by:** `factor`
 - **Display:** Table (full width)
 
 > Needs flows run on the **current build** (the `auth.flow.total` span is new) — existing spans predate
@@ -206,7 +213,7 @@ Whole-flow wall-clock per authentication method (P50 / P95 / P99), from the dedi
 - Dropped flows (list): open **Traces**, filter `span.op:auth.flow environment:dev`, then inspect traces
   with no `isFinal:true` span. (Dashboards can't express "trace lacking a tag" directly — the
   started−completed delta is the aggregate proxy.)
-- One authenticator: `span.op:auth.step authenticatorKey:okta_verify`.
+- One authenticator: `span.op:auth.step factor:okta_verify`.
 - Errors only: `isFinal:true outcome:error`.
 
 ---

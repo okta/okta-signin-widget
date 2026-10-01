@@ -79,6 +79,17 @@ const spanWindow = (record: TransactionRecord): { start: number; end: number } =
   return { start, end: rawEnd > start ? rawEnd : start + 1 };
 };
 
+// Sentry server-side data-scrubbing (strict on the prod org this POC reports to)
+// redacts any TAG NAME or VALUE containing "auth" to "[Filtered]". Our step names
+// (`challenge-authenticator`, `select-authenticator`) and the authenticator key
+// are full of "auth", so they'd vanish. Strip it before tagging: rewrite
+// "authenticator" -> "factor" in step labels, and tag the authenticator under the
+// key `factor` (NOT `authenticatorKey`). The span ops (`auth.flow`/`auth.step`) are
+// safe — core span fields are not PII-scrubbed.
+const safeLabel = (s?: string): string | undefined => (
+  s ? s.replace(/authenticator/gi, 'factor') : s
+);
+
 /**
  * Emit ONE transaction for a single IDX step, live, the moment it completes. The
  * caller decides (synchronously, via {@link markRootEmitted}) whether this step is
@@ -118,7 +129,7 @@ export const sendAuthStepSpan = async (
   const { start, end } = spanWindow(record);
 
   const transaction = Sentry.startTransaction({
-    name: asRoot ? 'siw.auth_flow' : record.step,
+    name: asRoot ? 'siw.auth_flow' : (safeLabel(record.step) ?? record.step),
     op: asRoot ? 'auth.flow' : 'auth.step',
     // Share the flow's trace so every step lands in one trace.
     traceId: traceCtx.traceId,
@@ -132,11 +143,12 @@ export const sendAuthStepSpan = async (
     tags: {
       engine: 'gen3',
       flow: meta.flow ?? '',
-      step: record.step,
-      // In tags (not just data) so Sentry dashboards can group by it. Low
-      // cardinality (okta_password, okta_verify, …). Undefined on early steps
+      // Scrub-safe step label (see safeLabel) so dashboards can group by it.
+      step: safeLabel(record.step),
+      // Authenticator under the scrub-safe key `factor` (NOT authenticatorKey).
+      // Low cardinality (okta_password, okta_verify, …). Undefined on early steps
       // (e.g. identify) — Sentry drops undefined tags.
-      authenticatorKey: record.authenticatorKey ?? meta.authenticatorKey,
+      factor: record.authenticatorKey ?? meta.authenticatorKey,
       // Flow-completion signals for drop-off analysis: a trace with no
       // `isFinal:true` step is a dropped flow.
       isFinal: meta.isFinal,
@@ -144,13 +156,13 @@ export const sendAuthStepSpan = async (
     },
     data: {
       seq: record.seq,
-      step: record.step,
+      step: safeLabel(record.step),
       requestUrl: record.requestUrl,
       method: record.method,
       httpStatus: record.httpStatus,
       idxStatus: record.idxStatus,
       requestDidSucceed: record.requestDidSucceed,
-      authenticatorKey: record.authenticatorKey ?? meta.authenticatorKey,
+      factor: record.authenticatorKey ?? meta.authenticatorKey,
       methodType: meta.methodType,
       // collapsed consecutive polls represented by this one span
       pollCount: record.count,
@@ -224,9 +236,10 @@ export const sendAuthFlowTotalSpan = async (
     tags: {
       engine: 'gen3',
       flow: meta.flow ?? '',
-      authenticatorKey,
+      // Scrub-safe key `factor` (NOT authenticatorKey) — see safeLabel note.
+      factor: authenticatorKey,
       outcome: meta.outcome,
-      finalStep: last.step,
+      finalStep: safeLabel(last.step),
     },
     data: {
       stepCount: records.length,
