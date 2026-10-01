@@ -14,8 +14,10 @@ It was created with the `sentry` CLI (v0.30+, `sentry auth login`):
 sentry dashboard create okta-prod/ 'SIW gen3 auth-flow POC (shuo)'
 D="okta-prod/ 10248871"   # <dashboard-id> from create
 
-sentry dashboard widget add $D "Step funnel (reach per step)" --display bar \
+sentry dashboard widget add $D "Step funnel (reach per step)" --display categorical_bar \
   --dataset spans --query count --where "span.op:[auth.flow,auth.step]" --group-by step --sort=-count
+sentry dashboard widget add $D "Funnel trend (per day)" --display bar \
+  --dataset spans --query count --where "span.op:[auth.flow,auth.step]" --group-by step
 sentry dashboard widget add $D "Per-step duration (p95)" --display line \
   --dataset spans --query "p95:span.duration" --where "span.op:auth.step" --group-by step
 sentry dashboard widget add $D "Flows started" --display big_number \
@@ -85,9 +87,11 @@ method, and how it ends. The widget emits one span per step as it happens (`auth
 
 Then walk the widgets:
 
-1. **Step funnel (reach per step)** — *"How far do people get?"* Bar of flows reaching each step
-   (`identify → challenge-authenticator → success/terminal`). The bars step **down** — each drop is
-   people who left. This is the headline drop-off view.
+1. **Step funnel (reach per step)** — *"How far do people get?"* Aggregate bar of flows reaching each
+   step (`identify → challenge-authenticator → success/terminal`) over the selected date range. The
+   bars step **down** — each drop is people who left. Headline drop-off view. Its sibling
+   **Funnel trend (per day)** is the same data over time — *"is drop-off getting better or worse?"*
+   Use the dashboard **time-range picker** (top-right) to set the window for both (and every widget).
 
 2. **Per-step duration (p95)** — *"Which step is slow, server-side?"* p95 latency of each individual
    IDX request by step. Spikes point at a specific step/authenticator being slow to respond (network +
@@ -129,14 +133,25 @@ Sentry → **Dashboards** → **Create Dashboard** → **Add Widget** for each b
 **Dataset: Spans** and add `environment:dev` to the query (the POC's env). "Group by" = the widget's
 group column; "Visualize" = the y-axis/aggregate.
 
-### 1. Step funnel (Bar)
-How many flows reach each step — the bar heights step down as users drop off.
+### 1. Step funnel (Categorical Bar — aggregate)
+How many flows reach each step, aggregated over the dashboard's selected date range — the bars step
+down as users drop off.
 - **Visualize:** `count()`
 - **Query:** `(span.op:auth.flow OR span.op:auth.step) environment:dev`
 - **Group by:** `step`
-- **Display:** Bar (sort by count desc)
+- **Display:** `categorical_bar`, sort by count desc (one bar per step, no time axis — reads as a funnel)
 
 > Includes `auth.flow` so the first step (`identify`) is counted alongside the `auth.step` steps.
+> A plain `bar`/`line` widget grouped by `step` renders as a **time-series** (per-day) instead — use
+> that for the *trend* (widget 1b), and `categorical_bar`/`table` for the aggregate funnel shape.
+> The window is the dashboard's **time-range picker** (top-right); pick e.g. 7d/30d for the funnel.
+
+### 1b. Funnel trend (Bar — per day)
+Same data as a time-series, to see whether reach/drop-off is moving over time.
+- **Visualize:** `count()`
+- **Query:** `(span.op:auth.flow OR span.op:auth.step) environment:dev`
+- **Group by:** `step`
+- **Display:** `bar` (time-series — x-axis binned by day over the selected range)
 
 ### 2a. Flows started (Big Number)
 - **Visualize:** `count()`
