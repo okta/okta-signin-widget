@@ -145,6 +145,11 @@ let traceContext: TraceContext | undefined;
 // (which can't tell flows apart when the playground reuses a fixed stateToken).
 // Persisted so it survives a page reload between flows.
 let flowComplete = false;
+// Set by the fetch tap when it sees an `/idp/idx/introspect` call — that is the
+// true "a new flow is bootstrapping" signal (fires on first load, reload, cancel,
+// and retry alike). The next recorded step then clears any prior trail/trace, so a
+// flow's timing never spans a previous attempt or the idle gap between attempts.
+let pendingFlowReset = false;
 let hydrated = false;
 let fetchTapInstalled = false;
 
@@ -308,6 +313,11 @@ export const installFetchTap = (): void => {
           startedAt,
           endedAt,
         };
+        if (url.indexOf('/idp/idx/introspect') >= 0) {
+          // A new flow is bootstrapping — the next recorded step starts a fresh
+          // trail/trace (so timing never spans a prior attempt or the gap between).
+          pendingFlowReset = true;
+        }
       }
     } catch {
       // never let diagnostics interfere with the actual request
@@ -329,6 +339,15 @@ export const recordTransaction = (
     return undefined;
   }
   hydrateOnce();
+  if (pendingFlowReset) {
+    // A fresh `/introspect` was seen — this step belongs to a brand-new flow.
+    // Clear any prior trail/trace so this flow's timing (and auth.flow.total) is
+    // scoped to itself, even across cancels, retries, or reloads.
+    transactions = [];
+    traceContext = undefined;
+    flowComplete = false;
+    pendingFlowReset = false;
+  }
   const eventCtx = getEventContext(txn);
   const messages = getMessages(txn);
   const messageKeys = messages
