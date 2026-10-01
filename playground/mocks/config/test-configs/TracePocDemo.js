@@ -13,6 +13,8 @@
 //   mocks: Test.TracePocDemo.passwordSuccessMock       // recommended: 3-step success (okta_password)
 //   mocks: Test.TracePocDemo.oktaVerifyTotpSuccessMock // okta_verify (TOTP) — for group-by-authenticator
 //   mocks: Test.TracePocDemo.oktaVerifyPushSuccessMock // okta_verify (push) — collapsed polls + success
+//   mocks: Test.TracePocDemo.oktaVerifyMfaPushMock     // COMPLEX: password + OV push MFA (deep funnel)
+//   mocks: Test.TracePocDemo.oktaVerifySelectPushMock  // OV push via authenticator picker (no password)
 //   mocks: Test.TracePocDemo.terminalErrorMock         // outcome:error trace
 //
 // Each export is a complete mocks object (incl. the oauth2 endpoints) so it
@@ -93,9 +95,67 @@ const terminalErrorMock = {
   ],
 };
 
+// COMPLEX (recommended): full MFA with Okta Verify PUSH.
+//   username -> password (1st factor) -> pick a 2nd factor -> Okta Verify push
+//   (auto-polls "waiting" x2, then approved) -> success.
+// Trail (5 transactions): identify -> challenge-authenticator (okta_password) ->
+// select-authenticator -> challenge-authenticator (okta_verify, polls collapse to
+// one span) -> success. Gives a deep funnel + waterfall; final authenticatorKey
+// resolves to okta_verify. Walk it: enter any username -> Next -> any password ->
+// Verify -> choose "Okta Verify" -> it auto-polls then completes.
+const oktaVerifyMfaPushMock = {
+  ...base,
+  '/idp/idx/introspect': [
+    'identify'
+  ],
+  '/idp/idx/identify': [
+    'authenticator-verification-password'
+  ],
+  // After the password is answered, present the authenticator picker (2nd factor).
+  '/idp/idx/challenge/answer': [
+    'authenticator-verification-select-authenticator'
+  ],
+  // Selecting Okta Verify from the picker POSTs here -> the push challenge.
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-push'
+  ],
+  // The push view auto-polls: two "waiting" ticks (collapsed into one span with a
+  // count) then an approval that completes the flow.
+  '/idp/idx/challenge/poll': [
+    'authenticator-verification-okta-verify-push',
+    'authenticator-verification-okta-verify-push',
+    'success-with-interaction-code'
+  ],
+};
+
+// SIMPLER OV variant (high-confidence fallback): username -> pick authenticator ->
+// Okta Verify push (polls) -> success. No password factor.
+// Trail: identify -> select-authenticator -> challenge-authenticator (okta_verify) ->
+// success. Use this if the MFA chain above misbehaves with your fixtures.
+const oktaVerifySelectPushMock = {
+  ...base,
+  '/idp/idx/introspect': [
+    'identify'
+  ],
+  '/idp/idx/identify': [
+    'authenticator-verification-select-authenticator'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-push'
+  ],
+  '/idp/idx/challenge/poll': [
+    'authenticator-verification-okta-verify-push',
+    'authenticator-verification-okta-verify-push',
+    'authenticator-verification-okta-verify-push',
+    'success-with-interaction-code'
+  ],
+};
+
 module.exports = {
   passwordSuccessMock,
   oktaVerifyTotpSuccessMock,
   oktaVerifyPushSuccessMock,
   terminalErrorMock,
+  oktaVerifyMfaPushMock,
+  oktaVerifySelectPushMock,
 };
