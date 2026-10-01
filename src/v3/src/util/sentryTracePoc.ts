@@ -236,8 +236,12 @@ export const sendAuthFlowTotalSpan = async (
     tags: {
       engine: 'gen3',
       flow: meta.flow ?? '',
-      // Scrub-safe key `factor` (NOT authenticatorKey) — see safeLabel note.
+      // Authenticator under BOTH keys: `factor` (scrub-safe) and `authenticatorKey`
+      // (canonical — the latency widget groups by this). NOTE: `authenticatorKey`
+      // is redacted to "[Filtered]" by okta-prod's default data scrubbing unless the
+      // okta-siw-poc project's scrubbing is relaxed; `factor` always comes through.
       factor: authenticatorKey,
+      authenticatorKey,
       outcome: meta.outcome,
       finalStep: safeLabel(last.step),
     },

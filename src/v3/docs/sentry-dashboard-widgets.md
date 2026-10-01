@@ -8,7 +8,10 @@ funnel, drop-off, outcome mix, and authenticator breakdown from the per-step tra
 A demo dashboard is already built (org `okta-prod`):
 **https://okta-prod.sentry.io/dashboard/10248871/** — "SIW gen3 auth-flow POC (shuo)".
 
-It was created with the `sentry` CLI (v0.30+, `sentry auth login`):
+**Dashboard-as-code / migration:** the whole dashboard is reproducible from
+[`../scripts/create-sentry-dashboard.sh`](../scripts/create-sentry-dashboard.sh) — run
+`ORG=<org> ./create-sentry-dashboard.sh` (needs the `sentry` CLI + `sentry auth login`) to recreate it
+in any org/project. The individual commands it runs are listed below for reference:
 
 ```bash
 sentry dashboard create okta-prod/ 'SIW gen3 auth-flow POC (shuo)'
