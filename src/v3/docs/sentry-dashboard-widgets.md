@@ -28,6 +28,9 @@ sentry dashboard widget add $D "Outcome mix" --display bar \
   --dataset spans --query count --where "span.op:auth.step has:outcome" --group-by outcome --sort=-count
 sentry dashboard widget add $D "Authenticator mix" --display bar \
   --dataset spans --query count --where "span.op:auth.step has:authenticatorKey" --group-by authenticatorKey --sort=-count
+sentry dashboard widget add $D "Total Human Experience Latency (End-to-End)" --display table \
+  --dataset spans --query "p50:span.duration" --query "p95:span.duration" --query "p99:span.duration" \
+  --where "span.op:auth.flow.total" --group-by authenticatorKey
 ```
 
 > `--sort=-count` must use `=` (a bare `-count` value is parsed as a flag). Widget add needs the org
@@ -63,6 +66,12 @@ Searchable **span tags** on every step:
 Key idea for **drop-off**: because steps ship live, a **started** flow always has one `auth.flow` root,
 and a **completed** flow additionally has a step tagged `isFinal:true`. A flow the user abandons has the
 root (+ the steps reached) but **no `isFinal:true`** → it's a drop.
+
+**End-to-end latency** — on completion the widget also emits one extra span, `op = auth.flow.total`,
+whose `span.duration` spans the **whole flow** (first step's request start → final step's request end,
+i.e. it includes the wall-clock *between* steps = the human time spent). It's tagged with the flow's
+`authenticatorKey` (the last step that carried one). This is the only span whose duration is the
+"human experience latency"; the per-step `auth.step` durations are individual requests only.
 
 ---
 
@@ -114,6 +123,18 @@ Which authenticators flows actually use.
 - **Query:** `span.op:auth.step environment:dev`
 - **Group by:** `step`
 
+### 6. Total Human Experience Latency — End-to-End (Table)
+Whole-flow wall-clock per authentication method (P50 / P95 / P99), from the dedicated
+`auth.flow.total` span. Mirrors the "Total Human Experience Latency" table layout.
+- **Visualize:** `p50(span.duration)`, `p95(span.duration)`, `p99(span.duration)`
+- **Query:** `span.op:auth.flow.total environment:dev`
+- **Group by:** `authenticatorKey`
+- **Display:** Table (full width)
+
+> Needs flows run on the **current build** (the `auth.flow.total` span is new) — existing spans predate
+> it. Values reflect real wall-clock *including* the gaps between steps; the seconds-scale "human" numbers
+> only appear with real user pacing (automated/fast test runs will read much lower).
+
 ---
 
 ## Ad-hoc queries (Trace Explorer / Discover, Spans dataset)
@@ -127,11 +148,10 @@ Which authenticators flows actually use.
 
 ---
 
-## Caveat — whole-flow duration
+## Note — per-step vs end-to-end duration
 
-The per-step model favors **drop-off visibility** over end-to-end timing: each step is its own
-transaction, and the `auth.flow` root span covers only the **first** step (not the whole sign-in). So
-widget 5 is **per-step** duration. True end-to-end flow duration would need trace-level duration
-(max step end − min step start across the trace) or the alternative single-transaction-at-completion
-model (which, in turn, can't see dropped flows). This is the deliberate trade-off of per-step live
-emission — see `sentryTracePoc.ts`.
+The per-step model favors **drop-off visibility**: each step is its own transaction and the `auth.flow`
+root covers only the **first** step, so widget 5 (`auth.step`) is *per-step request* timing, not the
+whole sign-in. End-to-end latency is captured separately by the dedicated `auth.flow.total` span
+(widget 6), emitted once on completion spanning first→last step — so we get both the drop-off funnel
+*and* whole-flow "human" latency. See `sentryTracePoc.ts` (`sendAuthStepSpan` + `sendAuthFlowTotalSpan`).

@@ -170,3 +170,74 @@ export const sendAuthStepSpan = async (
     // flush is best-effort
   }
 };
+
+/**
+ * Emit ONE `auth.flow.total` span measuring the **end-to-end** flow latency — from
+ * the first step's request start to the final step's request end (so it includes
+ * the wall-clock between steps, i.e. the human time spent). Call once, on the final
+ * step; the per-step spans only measure individual requests and the `auth.flow`
+ * root covers just the first step, so this is the only span whose `span.duration`
+ * is the whole-flow "human experience latency". Tagged with the flow's
+ * `authenticatorKey` so a dashboard can show P50/P95/P99 per authentication method.
+ * No-op (loud console error) if the wrapper's `window.Sentry` is absent, or the
+ * trail is empty.
+ *
+ * @param records  the full step trail (first→last gives the end-to-end window)
+ * @param traceCtx the flow's shared trace identity (keeps it in the same trace)
+ * @param meta     flow-level discriminators (outcome, fallback authenticatorKey)
+ */
+export const sendAuthFlowTotalSpan = async (
+  records: TransactionRecord[],
+  traceCtx: TraceContext,
+  meta: AuthStepMeta,
+): Promise<void> => {
+  if (records.length === 0) {
+    return;
+  }
+  const Sentry = resolveSentry();
+  if (!Sentry) {
+    // eslint-disable-next-line no-console
+    console.error('[siw-trace] window.Sentry not found — cannot emit auth.flow.total latency span.');
+    return;
+  }
+  Sentry.addTracingExtensions();
+
+  const first = records[0];
+  const last = records[records.length - 1];
+  const start = first.requestStartTs ?? first.ts;
+  const rawEnd = last.requestEndTs ?? last.ts;
+  const end = rawEnd > start ? rawEnd : start + 1;
+  // The flow's authenticator = the last step that actually carried one (the final
+  // success/terminal step usually has none).
+  const authenticatorKey = [...records].reverse()
+    .find((r) => r.authenticatorKey)?.authenticatorKey ?? meta.authenticatorKey;
+
+  const transaction = Sentry.startTransaction({
+    name: 'siw.auth_flow.total',
+    op: 'auth.flow.total',
+    // Keep it in the flow's trace (as a child of the root) for correlation; its
+    // duration intentionally spans the whole flow, not just one request.
+    traceId: traceCtx.traceId,
+    parentSpanId: traceCtx.rootSpanId,
+    sampled: true,
+    startTimestamp: toSeconds(start),
+    tags: {
+      engine: 'gen3',
+      flow: meta.flow ?? '',
+      authenticatorKey,
+      outcome: meta.outcome,
+      finalStep: last.step,
+    },
+    data: {
+      stepCount: records.length,
+      methodType: meta.methodType,
+    },
+  });
+  transaction.finish(toSeconds(end));
+
+  try {
+    await Sentry.flush(2000);
+  } catch {
+    // flush is best-effort
+  }
+};

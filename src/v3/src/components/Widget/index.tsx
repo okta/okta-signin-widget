@@ -64,6 +64,7 @@ import {
   buildAuthCoinProps,
   canBootstrapWidget,
   extractPageTitle,
+  getDiagnosticTransactions,
   getLanguageCode,
   getLanguageDirection,
   getOdysseyTranslationOverrides,
@@ -78,6 +79,7 @@ import {
   markRootEmitted,
   recordTransaction,
   resetDiagnostics,
+  sendAuthFlowTotalSpan,
   sendAuthStepSpan,
   SessionStorage,
   shouldAutoRedirect,
@@ -493,22 +495,26 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     const isError = idxTransaction.messages?.some((msg) => msg.class === 'ERROR') ?? false;
     // eslint-disable-next-line no-nested-ternary
     const outcome = isFinal ? (isError ? 'error' : 'success') : 'pending';
-    sendAuthStepSpan(
-      newRecord,
-      traceCtx,
-      {
-        flow,
-        authenticatorKey: eventCtx.authenticatorKey,
-        methodType: eventCtx.methodType,
-        isFinal,
-        outcome,
-        version: OKTA_SIW_VERSION,
-        commit: OKTA_SIW_COMMIT_HASH,
-      },
-      asRoot,
-    ).catch(() => {
+    const meta = {
+      flow,
+      authenticatorKey: eventCtx.authenticatorKey,
+      methodType: eventCtx.methodType,
+      isFinal,
+      outcome,
+      version: OKTA_SIW_VERSION,
+      commit: OKTA_SIW_COMMIT_HASH,
+    };
+    sendAuthStepSpan(newRecord, traceCtx, meta, asRoot).catch(() => {
       // Tracing POC must never affect the auth flow; swallow any send error.
     });
+    // On completion, also emit the end-to-end "human latency" span (whole-flow
+    // wall-clock, first step start -> final step end) tagged with the flow's
+    // authenticator, so a dashboard can show P50/P95/P99 per auth method.
+    if (isFinal) {
+      sendAuthFlowTotalSpan(getDiagnosticTransactions(), traceCtx, meta).catch(() => {
+        // best-effort; never affect the auth flow
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idxTransaction, feedback?.enabled, feedback?.tracePoc, feedback?.includeRawResponses, flow]);
 
