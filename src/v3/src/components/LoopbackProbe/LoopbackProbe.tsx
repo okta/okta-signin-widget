@@ -19,8 +19,30 @@ import Logger from '../../../../util/Logger';
 import { useWidgetContext } from '../../contexts';
 import { ActionParams, LoopbackProbeElement } from '../../types';
 import {
-  getChromeLNAPermissionState, isAndroid, isPollingStep, makeRequest,
+  getChromeLNAPermissionState, isAndroid, isPollingStep, isTimeoutError, makeRequest,
 } from '../../util';
+
+// Granular loopback cancel reasons (OKTA-1288279). Reported on the /cancel
+// request so the backend/Splunk can tell a probe timeout, a challenge timeout, a
+// wrong-OS-profile 503, and LNA-denied apart from the opaque network failure.
+type LoopbackCancelReason =
+  | 'OV_UNREACHABLE_BY_LOOPBACK'
+  | 'OV_LOOPBACK_PROBE_TIMEOUT'
+  | 'OV_LOOPBACK_CHALLENGE_TIMEOUT'
+  | 'OV_LOOPBACK_WRONG_PROFILE'
+  | 'OV_UNREACHABLE_BY_LOOPBACK_LNA';
+
+// Priority of the reasons that can be observed while probing ports. When ports
+// fail differently we report the single highest-priority one, once, after all
+// ports are exhausted. LNA outranks all of these but is determined separately by
+// the post-probe permission check, so it is not part of this map.
+const PROBE_FAILURE_PRIORITY: Record<LoopbackCancelReason, number> = {
+  OV_UNREACHABLE_BY_LOOPBACK: 0,
+  OV_LOOPBACK_PROBE_TIMEOUT: 1,
+  OV_LOOPBACK_WRONG_PROFILE: 2,
+  OV_LOOPBACK_CHALLENGE_TIMEOUT: 3,
+  OV_UNREACHABLE_BY_LOOPBACK_LNA: 4,
+};
 
 const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
   uischema: {
@@ -48,12 +70,17 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
     httpsDomain,
     challengeRequest,
     chromeLocalNetworkAccessDetails,
+    granularLoopbackFailureReasonsEnabled,
   } = deviceChallengePayload;
   // WebView2 iframe enhancement (OKTA-1135857): treat the enhancement as enabled
   // unless the flag is explicitly false, so behavior is preserved if the backend
   // later removes the field from the response.
   const isWebView2EnhancementEnabled = !!chromeLocalNetworkAccessDetails
     && chromeLocalNetworkAccessDetails.iframeRenderedInWebView2ContextEnhancementEnabled !== false;
+  // Granular loopback cancel reasons (OKTA-1288279) are opt-in: only report them
+  // when the backend explicitly turns the gate on, otherwise collapse to the
+  // single OV_UNREACHABLE_BY_LOOPBACK bucket older cancel-request enums accept.
+  const granularReasonsEnabled = granularLoopbackFailureReasonsEnabled === true;
 
   const submitHandler = async (stepName: string) => {
     const payload: IdxActionParams = {
@@ -120,6 +147,22 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
   useEffect(() => {
     const doLoopback = async () => {
       let foundPort = false;
+      // Highest-priority failure reason observed across all ports. Starts at the
+      // opaque network failure and is only ever upgraded (never downgraded), so
+      // when ports fail differently we report the most informative one, once,
+      // after all ports are exhausted. See PROBE_FAILURE_PRIORITY.
+      let probeFailureReason: LoopbackCancelReason = 'OV_UNREACHABLE_BY_LOOPBACK';
+      const recordFailureReason = (reason: LoopbackCancelReason) => {
+        if (PROBE_FAILURE_PRIORITY[reason] > PROBE_FAILURE_PRIORITY[probeFailureReason]) {
+          probeFailureReason = reason;
+        }
+      };
+      // Collapse granular reasons to the single bucket when the backend has not
+      // opted in, so older backends keep receiving a value their cancel-request
+      // enum accepts (OKTA-1288279).
+      const toCancelReason = (reason: LoopbackCancelReason): LoopbackCancelReason => (
+        granularReasonsEnabled ? reason : 'OV_UNREACHABLE_BY_LOOPBACK'
+      );
 
       let baseUrls = ports.map((port) => `${domain}:${port}`);
       if (httpsDomain) {
@@ -131,9 +174,10 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
       // loop over each domain:port
       // eslint-disable-next-line no-restricted-syntax
       for (const baseUrl of baseUrls) {
+        // probe the url
+        let probeResponse;
         try {
-          // probe the url
-          const probeResponse = await makeRequest({
+          probeResponse = await makeRequest({
             method: 'GET',
             /*
             OKTA-278573 in loopback server, SSL handshake sometimes takes more than 100ms and thus needs additional
@@ -146,46 +190,74 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
             timeout: isAndroid() ? 3_000 : probeTimeoutMillis,
             url: `${baseUrl}/probe`,
           });
-
-          if (!probeResponse.ok) {
-            Logger.error(`Authenticator is not listening on url ${baseUrl}.`);
-            // there's more ports to try, continue with next port
-            continue;
+        } catch (e) {
+          // A probe timeout is the dominant failure (security software / dev
+          // tools slowing the localhost probe past probeTimeoutMillis) and
+          // throws an AbortError; anything else is an unexpected network error.
+          // We do not cancel early on a timeout — keep trying the other ports.
+          if (isTimeoutError(e)) {
+            Logger.error(`Probe request timed out for url ${baseUrl}.`);
+            recordFailureReason('OV_LOOPBACK_PROBE_TIMEOUT');
+          } else {
+            Logger.error(`Something unexpected happened while we were checking url ${baseUrl}`);
           }
+          // there's more ports to try, continue with next port
+          continue;
+        }
 
-          // try port with challenge request
-          const challengeResponse = await makeRequest({
+        if (!probeResponse.ok) {
+          Logger.error(`Authenticator is not listening on url ${baseUrl}.`);
+          // there's more ports to try, continue with next port
+          continue;
+        }
+
+        // try port with challenge request
+        let challengeResponse;
+        try {
+          challengeResponse = await makeRequest({
             url: `${baseUrl}/challenge`,
             method: 'POST',
             timeout: 300_000,
             data: JSON.stringify({ challengeRequest }),
           });
-
-          if (!challengeResponse.ok) {
-            // Windows and MacOS return status code 503 when
-            // there are multiple profiles on the device and
-            // the wrong OS profile responds to the challenge request
-            if (challengeResponse.status !== 503) {
-              // when challenge response with other error statuses,
-              // cancel polling and return immediately
-              cancelHandler({
-                reason: 'OV_RETURNED_ERROR',
-                statusCode: challengeResponse.status,
-              });
-
-              return;
-            }
-            // no errors but this is not the port we're looking for
-            // continue with next loop iteration
-            continue;
-          }
-          // challenge response was a 2xx, end probing
-          foundPort = true;
-          break;
         } catch (e) {
-          // only for unexpected error conditions (e.g. fetch throws an error)
-          Logger.error(`Something unexpected happened while we were checking url ${baseUrl}`);
+          // A challenge timeout is distinct from OV_RETURNED_ERROR (an OV error
+          // *status*, handled below). As with probe timeouts we continue to the
+          // next port rather than cancelling early.
+          if (isTimeoutError(e)) {
+            Logger.error(`Challenge request timed out for url ${baseUrl}.`);
+            recordFailureReason('OV_LOOPBACK_CHALLENGE_TIMEOUT');
+          } else {
+            Logger.error(`Something unexpected happened while we were challenging url ${baseUrl}`);
+          }
+          continue;
         }
+
+        if (!challengeResponse.ok) {
+          // Windows and MacOS return status code 503 when
+          // there are multiple profiles on the device and
+          // the wrong OS profile responds to the challenge request
+          if (challengeResponse.status !== 503) {
+            // when challenge response with other error statuses, cancel polling
+            // and return immediately. OV_RETURNED_ERROR is an existing reason
+            // the backend already accepts, so it is not gated.
+            cancelHandler({
+              reason: 'OV_RETURNED_ERROR',
+              statusCode: challengeResponse.status,
+            });
+
+            return;
+          }
+          // Wrong OS profile responded. This branch used to be skipped silently;
+          // record it (so it surfaces in telemetry) and continue with the next
+          // port.
+          Logger.error(`Wrong OS profile responded with 503 on url ${baseUrl}.`);
+          recordFailureReason('OV_LOOPBACK_WRONG_PROFILE');
+          continue;
+        }
+        // challenge response was a 2xx, end probing
+        foundPort = true;
+        break;
       }
 
       if (foundPort) {
@@ -193,41 +265,46 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
         // once the OV challenge succeeds, triggers another polling right away without waiting
         // for the next ongoing polling to be triggered to make the authentication flow go faster
         submitHandler(step);
-      } else {
-        // no more ports to probe
-        Logger.error('No available ports. Loopback server failed and polling is cancelled.');
-
-        // WebView2 iframe enhancement (OKTA-1135857): with the enhancement on,
-        // we probe first and only now (after failure) re-check the LNA
-        // permission. If it is denied for an interactive flow, surface the LNA
-        // remediation instead of cancelling. Silent probes never remediate, and
-        // any other permission state falls through to the normal cancel.
-        if (isWebView2EnhancementEnabled) {
-          await getChromeLNAPermissionState((currPermissionState) => {
-            if (currPermissionState === 'denied' && !isRegisteredConditionSilentProbe) {
-              // Flip the shared signal so the transformer re-runs and renders
-              // the LNA remediation callout in place of this probe.
-              // TODO: consider surfacing a distinct 'OV_UNREACHABLE_BY_LOOPBACK_LNA'
-              // reason for backend logging once it is supported.
-              setChromeLNADenied(true);
-              // Rethrown by getChromeLNAPermissionState -> unhandled rejection,
-              // captured by Sentry for monitoring (same path as the FF-off flow).
-              throw new ChromeLNADeniedError('Chrome Local Network Access permission was denied for FastPass.');
-            }
-            cancelHandler({
-              reason: 'OV_UNREACHABLE_BY_LOOPBACK',
-              statusCode: null,
-            });
-          });
-          return;
-        }
-
-        // cancel polling and return
-        cancelHandler({
-          reason: 'OV_UNREACHABLE_BY_LOOPBACK',
-          statusCode: null,
-        });
+        return;
       }
+
+      // no more ports to probe
+      Logger.error('No available ports. Loopback server failed and polling is cancelled.');
+
+      // WebView2 iframe enhancement (OKTA-1135857): with the enhancement on,
+      // we probe first and only now (after failure) re-check the LNA
+      // permission. If it is denied for an interactive flow, surface the LNA
+      // remediation instead of cancelling. Silent probes never remediate, and
+      // any other permission state falls through to the normal cancel.
+      if (isWebView2EnhancementEnabled) {
+        await getChromeLNAPermissionState((currPermissionState) => {
+          if (currPermissionState === 'denied' && !isRegisteredConditionSilentProbe) {
+            // Flip the shared signal so the transformer re-runs and renders
+            // the LNA remediation callout in place of this probe.
+            setChromeLNADenied(true);
+            // Rethrown by getChromeLNAPermissionState -> unhandled rejection,
+            // captured by Sentry for monitoring (same path as the FF-off flow).
+            throw new ChromeLNADeniedError('Chrome Local Network Access permission was denied for FastPass.');
+          }
+          // Permission denied on a silent probe (which cannot remediate) — report
+          // the LNA reason, which outranks any port-level failure. Otherwise fall
+          // back to the highest-priority reason seen while probing.
+          const reason: LoopbackCancelReason = currPermissionState === 'denied'
+            ? 'OV_UNREACHABLE_BY_LOOPBACK_LNA'
+            : probeFailureReason;
+          cancelHandler({
+            reason: toCancelReason(reason),
+            statusCode: null,
+          });
+        });
+        return;
+      }
+
+      // cancel polling and return
+      cancelHandler({
+        reason: toCancelReason(probeFailureReason),
+        statusCode: null,
+      });
     };
 
     doLoopback();

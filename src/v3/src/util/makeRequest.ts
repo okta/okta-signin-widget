@@ -66,3 +66,13 @@ export const makeRequest = async ({
 
   return Promise.race([responsePromise, timeoutPromise]);
 };
+
+/**
+ * Whether a rejected makeRequest promise is a timeout rather than a connection
+ * or other network failure. makeRequest aborts via AbortController (and raises
+ * an equivalent AbortError on the IE11 Promise.race fallback above) when a
+ * request exceeds its timeout, so a timeout always surfaces as an AbortError.
+ * Kept here, next to makeRequest, since it encodes how makeRequest signals a
+ * timeout — the two must change together.
+ */
+export const isTimeoutError = (e: unknown): boolean => (e as { name?: string })?.name === 'AbortError';
