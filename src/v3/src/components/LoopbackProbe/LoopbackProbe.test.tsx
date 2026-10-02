@@ -17,6 +17,7 @@ import { h } from 'preact';
 import { LoopbackProbeElement } from 'src/types';
 
 import * as browserUtils from '../../util/browserUtils';
+import * as makeRequestModule from '../../util/makeRequest';
 import LoopbackProbe from './LoopbackProbe';
 
 const proceedStub = jest.fn();
@@ -548,6 +549,182 @@ describe('LoopbackProbe', () => {
         },
       }],
       stateHandle: 'fake-state-handle',
+    });
+  });
+
+  // Granular loopback cancel reasons (OKTA-1288279). These drive makeRequest
+  // with a spy (rather than msw) so every failure mode — including the 300s
+  // challenge timeout — resolves deterministically without real timers. The
+  // spy is restored after each test so it does not leak into the msw-based
+  // tests in the surrounding describes.
+  describe('granular loopback cancel reasons (OKTA-1288279)', () => {
+    const abortError = () => Object.assign(new Error('Aborted'), { name: 'AbortError' });
+    const fakeResponse = (status: number): Response => (
+      { ok: status >= 200 && status < 300, status } as unknown as Response
+    );
+
+    const buildProps = (
+      granularLoopbackFailureReasonsEnabled: boolean | undefined,
+      extraPayload: Record<string, unknown> = {},
+      extraOptions: Record<string, unknown> = {},
+    ): { uischema: LoopbackProbeElement } => ({
+      uischema: {
+        type: 'LoopbackProbe',
+        options: {
+          deviceChallengePayload: {
+            ports: ['2000', '6512'],
+            domain: 'http://localhost',
+            challengeRequest: 'mockChallengeRequest',
+            probeTimeoutMillis: 100,
+            ...(typeof granularLoopbackFailureReasonsEnabled === 'boolean'
+              ? { granularLoopbackFailureReasonsEnabled }
+              : {}),
+            ...extraPayload,
+          },
+          cancelStep: 'authenticatorChallenge-cancel',
+          step: 'device-challenge-poll',
+          ...extraOptions,
+        },
+      } as LoopbackProbeElement,
+    });
+
+    const cancelCall = (reason: string, statusCode: number | null = null) => ({
+      actions: [{
+        name: 'authenticatorChallenge-cancel',
+        params: { reason, statusCode },
+      }],
+      stateHandle: 'fake-state-handle',
+    });
+
+    afterEach(() => {
+      // Restore the makeRequest / getChromeLNAPermissionState spies so the
+      // outer describes keep using the real implementations + msw.
+      jest.restoreAllMocks();
+    });
+
+    it('reports OV_LOOPBACK_PROBE_TIMEOUT when probes time out and the gate is on', async () => {
+      jest.spyOn(makeRequestModule, 'makeRequest')
+        .mockImplementation(async () => { throw abortError(); });
+
+      render(<LoopbackProbe {...buildProps(true)} />);
+
+      await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+      expect(proceedStub).toHaveBeenCalledWith(cancelCall('OV_LOOPBACK_PROBE_TIMEOUT'));
+    });
+
+    it('collapses a probe timeout to OV_UNREACHABLE_BY_LOOPBACK when the gate is off', async () => {
+      jest.spyOn(makeRequestModule, 'makeRequest')
+        .mockImplementation(async () => { throw abortError(); });
+
+      render(<LoopbackProbe {...buildProps(false)} />);
+
+      await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+      expect(proceedStub).toHaveBeenCalledWith(cancelCall('OV_UNREACHABLE_BY_LOOPBACK'));
+    });
+
+    it('reports OV_LOOPBACK_CHALLENGE_TIMEOUT when the challenge times out and the gate is on', async () => {
+      jest.spyOn(makeRequestModule, 'makeRequest').mockImplementation(async ({ method }) => {
+        if (method === 'GET') {
+          return fakeResponse(200); // probe succeeds
+        }
+        throw abortError(); // challenge times out
+      });
+
+      render(<LoopbackProbe {...buildProps(true)} />);
+
+      await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+      expect(proceedStub).toHaveBeenCalledWith(cancelCall('OV_LOOPBACK_CHALLENGE_TIMEOUT'));
+    });
+
+    it('reports OV_LOOPBACK_WRONG_PROFILE when every challenge returns 503 and the gate is on', async () => {
+      jest.spyOn(makeRequestModule, 'makeRequest').mockImplementation(async ({ method }) => (
+        method === 'GET' ? fakeResponse(200) : fakeResponse(503)
+      ));
+
+      render(<LoopbackProbe {...buildProps(true)} />);
+
+      await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+      expect(proceedStub).toHaveBeenCalledWith(cancelCall('OV_LOOPBACK_WRONG_PROFILE'));
+    });
+
+    it('still reports (ungated) OV_RETURNED_ERROR for a non-503 challenge error even when the gate is on', async () => {
+      jest.spyOn(makeRequestModule, 'makeRequest').mockImplementation(async ({ method }) => (
+        method === 'GET' ? fakeResponse(200) : fakeResponse(400)
+      ));
+
+      render(<LoopbackProbe {...buildProps(true)} />);
+
+      await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+      expect(proceedStub).toHaveBeenCalledWith(cancelCall('OV_RETURNED_ERROR', 400));
+    });
+
+    it('picks the higher-priority reason: challenge timeout outranks probe timeout', async () => {
+      // port 2000: probe times out; port 6512: probe ok then challenge times out
+      jest.spyOn(makeRequestModule, 'makeRequest').mockImplementation(async ({ url, method }) => {
+        if (url.includes(':2000/probe')) {
+          throw abortError();
+        }
+        if (method === 'GET') {
+          return fakeResponse(200);
+        }
+        throw abortError();
+      });
+
+      render(<LoopbackProbe {...buildProps(true)} />);
+
+      await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+      expect(proceedStub).toHaveBeenCalledWith(cancelCall('OV_LOOPBACK_CHALLENGE_TIMEOUT'));
+    });
+
+    it('picks the higher-priority reason: wrong-profile 503 outranks probe timeout', async () => {
+      // port 2000: probe times out; port 6512: probe ok then challenge 503
+      jest.spyOn(makeRequestModule, 'makeRequest').mockImplementation(async ({ url, method }) => {
+        if (url.includes(':2000/probe')) {
+          throw abortError();
+        }
+        return method === 'GET' ? fakeResponse(200) : fakeResponse(503);
+      });
+
+      render(<LoopbackProbe {...buildProps(true)} />);
+
+      await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+      expect(proceedStub).toHaveBeenCalledWith(cancelCall('OV_LOOPBACK_WRONG_PROFILE'));
+    });
+
+    describe('LNA outranks port-level failures (WebView2 enhancement, silent probe)', () => {
+      const lnaPayload = {
+        chromeLocalNetworkAccessDetails: {
+          chromeLNAHelpLink: 'https://okta.com',
+          iframeRenderedInWebView2ContextEnhancementEnabled: true,
+        },
+      };
+      const silentOpts = { isRegisteredConditionSilentProbe: true };
+
+      beforeEach(() => {
+        // probes time out everywhere → the port-level reason would be
+        // OV_LOOPBACK_PROBE_TIMEOUT, but LNA-denied must win.
+        jest.spyOn(makeRequestModule, 'makeRequest')
+          .mockImplementation(async () => { throw abortError(); });
+        jest.spyOn(browserUtils, 'getChromeLNAPermissionState')
+          .mockImplementation((handlePermissionState) => {
+            handlePermissionState('denied');
+            return Promise.resolve();
+          });
+      });
+
+      it('reports OV_UNREACHABLE_BY_LOOPBACK_LNA when the gate is on', async () => {
+        render(<LoopbackProbe {...buildProps(true, lnaPayload, silentOpts)} />);
+
+        await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+        expect(proceedStub).toHaveBeenCalledWith(cancelCall('OV_UNREACHABLE_BY_LOOPBACK_LNA'));
+      });
+
+      it('collapses to OV_UNREACHABLE_BY_LOOPBACK when the gate is off', async () => {
+        render(<LoopbackProbe {...buildProps(false, lnaPayload, silentOpts)} />);
+
+        await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+        expect(proceedStub).toHaveBeenCalledWith(cancelCall('OV_UNREACHABLE_BY_LOOPBACK'));
+      });
     });
   });
 
