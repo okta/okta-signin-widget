@@ -1,7 +1,9 @@
-# SIW gen3 → Sentry: auth-flow funnel dashboard
+# SIW gen3 → Sentry: auth-flow observability dashboard
 
-Copy-paste widget definitions for a Sentry **Dashboard** that visualizes the gen3 sign-in
-funnel, drop-off, outcome mix, and authenticator breakdown from the per-step tracing POC.
+Copy-paste widget definitions for a Sentry **Dashboard** that visualizes the gen3 sign-in flow from
+the per-step tracing POC. Ordered strongest-first: **latency per authenticator** (the lead — real
+APM), then authenticator/outcome **mix** and **volume**, then an explicitly **approximate** drop-off
+view (directional only — Sentry is APM, not a product-analytics funnel tool; see the caveats).
 
 ## Live instance
 
@@ -90,52 +92,54 @@ i.e. it includes the wall-clock *between* steps = the human time spent). It's ta
 ## Presenting to the team (talk track)
 
 **Framing (say this first):** "Every number on this dashboard comes from the sign-in widget's own
-instrumentation — no server logs, no HAR files. It shows that from the client alone we can answer the
-questions we usually can't: how far users get, where they drop, how long sign-in really takes per
-method, and how it ends. The widget emits one span per step as it happens (`auth.flow` root +
-`auth.step` children, shared trace), plus one end-to-end span per completed flow (`auth.flow.total`)."
+instrumentation — no server logs, no HAR files. The sweet spot is **simple aggregation sliced by
+authenticator**: how long sign-in really takes per method, which methods are used, how flows end. The
+widget emits one span per step as it happens (`auth.flow` root + `auth.step` children, shared trace),
+plus one end-to-end span per completed flow (`auth.flow.total`)."
 
-Then walk the widgets:
+Then walk the widgets, strongest-first:
 
-1. **Step funnel (reach per step)** — *"How far do people get?"* Aggregate bar of flows reaching each
-   step (`identify → challenge-authenticator → success/terminal`) over the selected date range. The
-   bars step **down** — each drop is people who left. Headline drop-off view. Its sibling
-   **Funnel trend (per day)** is the same data over time — *"is drop-off getting better or worse?"*
-   Use the dashboard **time-range picker** (top-right) to set the window for both (and every widget).
+1. **Total Human Experience Latency (End-to-End) by authenticator** — *the lead.* *"How long does
+   signing in actually take a human, per method?"* p50/p95/p99 of the **whole-flow wall-clock** (first
+   request → final step, **including the time the user spends** reading/typing), grouped by
+   authentication method. This is the number product cares about, it's **live**, and it's the one you
+   can't easily get from backend timings alone. Use the dashboard **time-range picker** (top-right) to
+   set the window (applies to every widget).
 
 2. **Per-step duration (p95)** — *"Which step is slow, server-side?"* p95 latency of each individual
    IDX request by step. Spikes point at a specific step/authenticator being slow to respond (network +
    backend), independent of user think time.
 
-3. **Flows started** — *"How many sign-in attempts?"* One `auth.flow` root per flow = total attempts.
-   The denominator for everything else.
+3. **Authenticator mix** — *"Which authenticators are actually used?"* Count by `factor`
+   (`okta_password`, `okta_verify`, …). Answers "how many flows use Okta Verify?" — read as a
+   **relative mix** (ratios survive sampling), not an exact total.
 
-4. **Success (final steps)** / 5. **Errors (final steps)** — *"How many finished, and how?"* Completed
-   flows split by outcome. **Started − (Success + Errors) = dropped/in-progress** — that's your drop
-   count in one subtraction.
+4. **Outcome mix** — *"How do flows end?"* `success` / `error` / `pending` (pending = reached but not
+   yet final). Natural pivot into error-reporting (same platform).
 
-6. **Outcome mix** — *"What's the distribution?"* Same data as 4/5 as one chart: `success` / `error` /
-   `pending` (pending = reached but not yet final).
+5. **Flows started** / 6. **Success** / 7. **Errors** — *"Rough volume."* One `auth.flow` root per
+   flow = attempts; the final-step splits give completed outcomes. **Started − (Success + Errors) =
+   dropped/in-progress.** Sampled estimates — directional, not exact tallies.
 
-7. **Authenticator mix** — *"Which authenticators are actually used?"* Count by `factor`
-   (`okta_password`, `okta_verify`, …). Answers "how many flows use Okta Verify?" directly.
-
-8. **Total Human Experience Latency (End-to-End)** — *"How long does signing in actually take a human,
-   per method?"* The marquee widget: p50/p95/p99 of the **whole-flow wall-clock** (first request →
-   final step, **including the time the user spends** reading/typing), grouped by authentication method.
-   This is the number product cares about and the one you can't get from backend timings alone.
+8. **Approx. drop-off (reach per step)** — *the caveated extra, last on purpose.* Aggregate bar of
+   flows reaching each step; the bars step **down** as users leave. Useful as a **directional** signal
+   — but say the three limits out loud (below): it is **not** a true funnel. Its sibling **Approx.
+   drop-off trend (per day)** is the same data over time.
 
 **Caveats to say out loud (so nobody is misled):**
 - This is **POC data** generated by mock flows; the numbers are illustrative, not production traffic.
 - **Latency is real wall-clock incl. think time** — fast automated/test clicks read low; realistic
   seconds-scale numbers need real user pacing.
-- **Drop-off** reads two ways: the funnel narrowing (widget 1) and Started − Completed (widgets 3–5).
+- **Drop-off is approximate, not a true funnel:** (a) a grouped bar doesn't enforce step **order**
+  (counts traces that *touched* a step, not that reached it in sequence); (b) **sampling** → every
+  count is an estimate; (c) **client survivorship** — the top is "flows where the SDK ran," not
+  everyone who landed, so a failed bootstrap is invisible. Exact ordered funnels are **server-side**.
 - Authenticator variety depends on which flows were run (built-in mocks cover `okta_password` /
   `okta_verify`).
 
-**The one-line takeaway:** "The widget can self-report the full sign-in funnel, outcomes, and real
-end-to-end latency per authenticator — the inputs to drop-off and performance analysis — without any
-server-side change."
+**The one-line takeaway:** "From the client alone, the widget gives us **live latency and mix
+analytics per authenticator** today — no server change. It does **not** give exact counts or a true
+funnel; that stays server-side."
 
 ## Add the dashboard
 

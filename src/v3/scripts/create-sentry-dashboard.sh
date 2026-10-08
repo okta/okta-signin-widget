@@ -4,8 +4,9 @@
 #
 # Dashboard-as-code for easy migration: to stand the dashboard up in a different
 # Sentry org (or after someone deletes it), just run this against that org. It
-# builds the funnel / outcome / authenticator / drop-off / end-to-end-latency
-# widgets from the per-step tracing POC (see sentryTracePoc.ts).
+# builds the widgets from the per-step tracing POC (see sentryTracePoc.ts),
+# ordered strongest-first: latency-per-authenticator (the lead), then mix and
+# volume, then an explicitly APPROXIMATE drop-off view (not a true funnel).
 #
 # Requirements:
 #   - the `sentry` CLI (https://cli.sentry.dev), authenticated: `sentry auth login`
@@ -38,14 +39,21 @@ echo "dashboard id = ${DID}"
 
 add() { sentry dashboard widget add "${ORG}/" "${DID}" "$@" >/dev/null && echo "  + $1"; }
 
-# Row 1 — the funnel (aggregate) + its daily trend
-add "Step funnel (reach per step)" --display categorical_bar --dataset spans \
-  --query count --where 'span.op:[auth.flow,auth.step] !step:"[Filtered]" !step:""' \
-  --group-by step --sort=-count
-add "Funnel trend (per day)" --display bar --dataset spans \
-  --query count --where "span.op:[auth.flow,auth.step]" --group-by step
+# Row 1 — THE LEAD: latency per authenticator (the strength — real APM, live, exact-shape).
+# End-to-end "human" latency per method, then per-step request latency.
+add "Total Human Experience Latency (End-to-End) by authenticator" --display table --dataset spans \
+  --query "p50:span.duration" --query "p95:span.duration" --query "p99:span.duration" \
+  --where "span.op:auth.flow.total" --group-by authenticatorKey
+add "Per-step duration (p95)" --display line --dataset spans \
+  --query "p95:span.duration" --where "span.op:auth.step" --group-by step
 
-# Row 2 — volume + outcomes (big numbers)
+# Row 2 — mix (relative counts; honest as ratios, not exact totals)
+add "Authenticator mix" --display bar --dataset spans \
+  --query count --where "span.op:auth.step has:factor" --group-by factor --sort=-count
+add "Outcome mix" --display bar --dataset spans \
+  --query count --where "span.op:auth.step has:outcome" --group-by outcome --sort=-count
+
+# Row 3 — volume (big numbers; sampled estimates)
 add "Flows started" --display big_number --dataset spans \
   --query count --where "span.op:auth.flow"
 add "Success (final steps)" --display big_number --dataset spans \
@@ -53,17 +61,12 @@ add "Success (final steps)" --display big_number --dataset spans \
 add "Errors (final steps)" --display big_number --dataset spans \
   --query count --where "span.op:auth.step outcome:error"
 
-# Row 3 — distributions
-add "Outcome mix" --display bar --dataset spans \
-  --query count --where "span.op:auth.step has:outcome" --group-by outcome --sort=-count
-add "Authenticator mix" --display bar --dataset spans \
-  --query count --where "span.op:auth.step has:factor" --group-by factor --sort=-count
-
-# Row 4 — per-step latency + end-to-end "human" latency per method
-add "Per-step duration (p95)" --display line --dataset spans \
-  --query "p95:span.duration" --where "span.op:auth.step" --group-by step
-add "Total Human Experience Latency (End-to-End)" --display table --dataset spans \
-  --query "p50:span.duration" --query "p95:span.duration" --query "p99:span.duration" \
-  --where "span.op:auth.flow.total" --group-by authenticatorKey
+# Row 4 — APPROXIMATE drop-off (directional only: not ordered, sampled, client-survivorship).
+# Kept last + explicitly labeled so it reads as a caveated extra, not a true funnel.
+add "Approx. drop-off (reach per step)" --display categorical_bar --dataset spans \
+  --query count --where 'span.op:[auth.flow,auth.step] !step:"[Filtered]" !step:""' \
+  --group-by step --sort=-count
+add "Approx. drop-off trend (per day)" --display bar --dataset spans \
+  --query count --where "span.op:[auth.flow,auth.step]" --group-by step
 
 echo "Done -> https://${ORG}.sentry.io/dashboard/${DID}/"
