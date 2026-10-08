@@ -50,6 +50,7 @@ export * from './punctuate';
 export * from './removeFieldLevelMessages';
 export * from './rendererUtils';
 export * from './resetMessagesToInputs';
+export * from './sentryFeedback';
 export * from './sessionStorage';
 export * from './settingsUtils';
 export * from './setUrlQueryParams';

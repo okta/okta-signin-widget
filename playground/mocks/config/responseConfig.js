@@ -1389,4 +1389,8 @@ const nfcPinVerify = {
 module.exports = {
   mocks: idx,
   // mocks: Test.ChallengeAuthenticatorEmail.networkFailurePollingMock
+  // "Send feedback" -> Sentry demo (gen3). Uncomment one and set feedback.enabled
+  // in .widgetrc.js. See src/v3/docs/sentry-user-feedback-playground.md.
+  // mocks: Test.FeedbackDemo.identifyThenTerminalMock,
+  // mocks: Test.FeedbackDemo.simpleTerminalMock,
 };

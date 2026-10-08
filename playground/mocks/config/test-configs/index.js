@@ -23,5 +23,6 @@ module.exports = {
   WidgetCustomization: require('./WidgetCustomization'),
   EnrollAuthenticatorEmail: require('./EnrollAuthenticatorEmail'),
   UserUnlockAccountLandingApp: require('./UserUnlockAccountLandingApp'),
-  DeviceCodeActivate: require('./DeviceCodeActivate')
+  DeviceCodeActivate: require('./DeviceCodeActivate'),
+  FeedbackDemo: require('./FeedbackDemo')
 };

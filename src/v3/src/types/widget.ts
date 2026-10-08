@@ -224,6 +224,20 @@ export type WidgetOptions = {
   recaptcha?: {
     scriptSource?: string;
   };
+  // User-feedback options (gen3). When enabled, the widget exposes a
+  // "Send feedback" affordance (invokable from any view) that flushes the
+  // Sentry Session Replay buffer and emits a linked User Feedback entry. The
+  // client data comes purely from the wrapper's masked Session Replay; the
+  // widget bundles no Sentry SDK and consumes a global `window.Sentry`.
+  // See src/v3/docs/sentry-user-feedback-design.md.
+  feedback?: {
+    // Show the "Send feedback" entry point. DEFAULT: false (off).
+    enabled?: boolean;
+    // Embedded/self-hosted opt-out: when true, suppress the entry point even if
+    // `enabled` is turned on (e.g. by the Okta-hosted login page). Lets embedding
+    // customers keep feedback off for their deployment.
+    optOut?: boolean;
+  };
 };
 
 export type IdxMethod =

@@ -18,5 +18,6 @@ export * from './useOnChange';
 export * from './useOnSubmit';
 export * from './useOnSubmitValidation';
 export * from './usePolling';
+export * from './useSendFeedback';
 export * from './useStateHandle';
 export * from './useValue';

@@ -76,6 +76,16 @@ const devConfig: Configuration = mergeWithRules({
     mode: 'development',
     devtool: 'source-map',
     entry: {
+      // Local-dev Sentry "wrapper" (stand-in for @okta/sentry-wrapper). Loaded by
+      // index.html BEFORE the widget so it inits the SDK and publishes
+      // window.Sentry; the widget then consumes that global instead of bundling
+      // its own SDK. See playground/sentry-wrapper.ts.
+      sentryWrapper: {
+        import: [
+          `${PLAYGROUND}/sentry-wrapper.ts`,
+        ],
+        filename: 'js/sentry-wrapper.js',
+      },
       playground: {
         import: [
           `${PLAYGROUND}/main.ts`,
