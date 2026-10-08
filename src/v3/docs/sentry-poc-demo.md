@@ -184,7 +184,7 @@ tracePoc, includeRawResponses }`), pick a mock in
 `Test.TracePocDemo.oktaVerifyTotpSuccessMock` for a trace, `terminalErrorMock` for feedback),
 run the flow, then look in Sentry (filter `environment:dev`): **Traces** (`op:auth.flow`),
 **Issues**, **User Feedback**. Example dashboard:
-https://okta-prod.sentry.io/dashboard/10087424/
+https://okta-prod.sentry.io/dashboard/10248871/?statsPeriod=7d&unselectedSeries=2256499%3A&unselectedSeries=2256495%3A
 
 To build the funnel / drop-off dashboard from the per-step trace data, see
 [`sentry-dashboard-widgets.md`](./sentry-dashboard-widgets.md) (copy-paste widget queries).

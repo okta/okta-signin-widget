@@ -29,8 +29,8 @@ can't give you as easily — *"Okta Verify push is slower than password"* is a t
   Directional only — **not** a true ordered funnel; see §5/§6.
 - **Trace → error pivot** — same platform as error reporting.
 
-**Live demo dashboard:** <https://okta-prod.sentry.io/dashboard/10087424/> — latency per
-authenticator (lead), authenticator/outcome mix, per-step timing, approximate drop-off, and trend.
+**Live demo dashboard:** <https://okta-prod.sentry.io/dashboard/10248871/?statsPeriod=7d&unselectedSeries=2256499%3A&unselectedSeries=2256495%3A>
+— latency per authenticator (lead), authenticator/outcome mix, per-step timing, approximate drop-off, and trend.
 
 Example queries:
 
