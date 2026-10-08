@@ -46,8 +46,9 @@ sequenceDiagram
   participant S as Sentry (okta-prod)
 
   Note over SIW: page load → new traceId + rootSpanId for this flow
-  U->>SIW: step 1 — identify (IDX request completes)
-  SIW->>S: emit auth.flow (root span) — LIVE, flushed now
+  SIW->>SIW: bootstrap — /idp/idx/introspect → first form (identify)
+  SIW->>S: emit auth.flow (ROOT span) — LIVE, flushed now
+  Note right of S: root = the introspect bootstrap,<br/>named for the first form (identify)
   U->>SIW: step 2 — select-authenticator (completes)
   SIW->>S: emit auth.step (child) — LIVE
   U->>SIW: step N — challenge (completes)
@@ -70,7 +71,7 @@ sequenceDiagram
 
 ```mermaid
 flowchart TD
-  F["auth.flow (root)<br/>op:auth.flow · step 1<br/>duration = step-1 request"]
+  F["auth.flow (root)<br/>op:auth.flow · introspect bootstrap (named 'identify')<br/>duration = bootstrap request"]
   S2["auth.step<br/>op:auth.step · step 2"]
   SN["auth.step<br/>op:auth.step · step N"]
   FIN["auth.step (isFinal:true)<br/>op:auth.step · final step"]
