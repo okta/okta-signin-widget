@@ -7,7 +7,7 @@ here.)
 
 Sentry can answer the **simple** observability questions — counts, duration, authenticator mix
 — across **all browsers** (data-scrubbing fixed in project settings; SDK v7 covers IE11). For
-**funnels, exact counts, availability, long history, or joins** with other data, server-side
+**exact counts, availability, long history, or joins** with other data, server-side
 (Splunk / BigQuery) is stronger. Use Sentry for quick latency/mix checks and dashboards; lean
 server-side for deep analytics.
 
@@ -25,19 +25,9 @@ can't give you as easily — *"Okta Verify push is slower than password"* is a t
 
 - **Latency by authenticator** — p50/p95/p99 per step and whole-flow, grouped by `factor`. *(lead)*
 - **Authenticator & outcome mix** — relative counts by `factor` / `outcome` (ratios, not exact totals).
-- **Approximate drop-off** — how far flows get before they abandon (steps reached vs. `isFinal`).
-  Directional only — **not** a true ordered funnel; see §5/§6.
-- **Trace → error pivot** — same platform as error reporting.
 
 **Live demo dashboard:** <https://okta-prod.sentry.io/dashboard/10248871/?statsPeriod=7d&unselectedSeries=2256499%3A&unselectedSeries=2256495%3A>
-— latency per authenticator (lead), authenticator/outcome mix, per-step timing, approximate drop-off, and trend.
-
-Example queries:
-
-- Latency by authenticator — `span.op:"auth.flow.total"` → `p95(span.duration)` grouped by `factor`
-- Per-step duration — `span.op:"auth.step"` → `p95(span.duration)` grouped by `step`
-- Authenticator mix — `span.op:"auth.step" has:factor` → `count_unique(trace)` grouped by `factor`
-- Outcome mix — `span.op:"auth.step" has:outcome` → `count()` grouped by `outcome`
+— latency per authenticator (lead), authenticator/outcome mix, and per-step timing.
 
 ## 3. What SIW sends to Sentry — data & timing (at a glance)
 
@@ -62,9 +52,6 @@ sequenceDiagram
   SIW->>S: emit auth.step (child) — LIVE
   U->>SIW: step N — challenge (completes)
   SIW->>S: emit auth.step (child) — LIVE
-  rect rgb(255,245,230)
-    Note over U,S: user abandons here? partial trace is ALREADY in Sentry → measurable drop
-  end
   U->>SIW: final step — success / terminal
   SIW->>S: emit auth.step (isFinal:true) + auth.flow.total — LIVE
 ```
@@ -73,9 +60,6 @@ sequenceDiagram
 
 - **Emitted live, per step** — each span is finished and `flush()`ed the instant its request
   resolves. Nothing waits for the flow to end.
-- **This is why drops are visible** — an abandoned flow still left the steps it reached in Sentry; a
-  trace with **no `isFinal:true` span** is a drop. (Contrast: a "build one transaction at the end"
-  model would emit nothing for abandoners.)
 - **Span window = real network timing** — `startTimestamp`/`finish` come from a `fetch` tap
   (`requestStartTs`→`requestEndTs`). `auth.flow.total` spans **first step start → last step end**, so
   it includes the human think-time between steps (true end-to-end latency).
@@ -107,7 +91,7 @@ All spans share one `traceId`; children link to the root via `parentSpanId`.
 | `flow` | string | `authenticate` | IDX flow type |
 | `step` | string | `challenge-factor` | form/step name; `authenticator`→`factor` rewrite (scrub-safe) |
 | `factor` | string | `okta_verify` | the authenticator key, under the scrub-safe key `factor` (not `authenticator*`) |
-| `isFinal` | boolean | `false` | `true` only on the flow's final span → drop detection |
+| `isFinal` | boolean | `false` | `true` only on the flow's final span (marks the completing step) |
 | `outcome` | enum | `pending` \| `success` \| `error` | `pending` on intermediate steps |
 
 **Context (`data`) — attached, not indexed** (visible on the span, not aggregated):
@@ -157,8 +141,7 @@ We turn **off** Sentry's automatic capture and track **only what we explicitly c
 of un-vetted PII and noise.
 
 **When it's tracked:** see §3 — one span is emitted **live as each IDX step completes** (client-side,
-as the user progresses), all sharing one `traceId`. Because spans ship per-step rather than once at
-the end, **partial/abandoned flows are still visible** (a trace with no `isFinal:true` span is a drop).
+as the user progresses), all sharing one `traceId`.
 
 ## 5. Limitations
 
@@ -172,16 +155,11 @@ What genuinely remains:
   sampling is required (above), so exact counts aren't free.
 - **~90-day retention, no SQL / warehouse joins, no cohort/retention analysis.** No long
   history; can't join sign-in data with org/product data.
-- **Drop-off is approximate, not a true funnel.** Per-step spans *do* support a directional
-  drop-off view (reach per step = `count_unique(trace)` by `step`), but three gaps keep it from
-  being a real funnel: (a) **no funnel tool** — Sentry is APM, not product analytics, so a grouped
-  bar doesn't enforce step *order* (it counts traces that *touched* a step, not that reached it in
-  sequence); (b) **sampling** makes every stage count an estimate; (c) **client-side survivorship**
-  — the top of the funnel is "flows where the SDK ran and recorded step 1," not everyone who landed,
-  so a failed bootstrap is invisible (no denominator). Exact, ordered funnels are **server-side**
-  (introspect-per-pageview).
-- **No availability / outage detection.** A failed bootstrap emits nothing, so there's no
-  denominator to detect a drop against — a **server-side / synthetic-monitoring** concern.
+- **Not a product-analytics tool.** Sentry is APM, not product analytics — no funnel / cohort /
+  retention tooling. Ordered funnels and cohort analysis are **server-side**.
+- **No availability / outage detection.** A failed bootstrap emits nothing (client-side
+  survivorship — only flows where the SDK ran are ever seen), so there's no denominator to detect
+  an outage against — a **server-side / synthetic-monitoring** concern.
 - **SDK v7 is EOL (maintenance only)** and must coexist with okta-core's v10 `sentry-wrapper`
   — two SDK versions on one page, needing an isolated/namespaced client.
 - **PII minimization → not everything is captured.** By logging only low-PII metadata (no
@@ -198,7 +176,7 @@ questions Sentry can't do well are answerable server-side:
 |---|---|---|---|
 | Latency percentiles by authenticator | ✅ **lead** | limited | ✅ (not live) |
 | Counts / mix | ✅ sampled (ratios) | ✅ exact | ✅ exact |
-| Funnels / drop-off | 🟡 approximate | ✅ true | ✅ true |
+| Funnels / cohort analysis | ✗ | ✅ | ✅ |
 | Joins / long history | ✗ | limited | ✅ |
 | Real-time | ✅ | ✅ | ✗ |
 | Setup | none (built) | some | build pipeline |
