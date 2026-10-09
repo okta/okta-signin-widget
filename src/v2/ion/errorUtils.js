@@ -24,6 +24,16 @@ import IonResponseHelper from './IonResponseHelper';
 const buildErrorObject = (error, onUnsupportedError) => {
   if (IonResponseHelper.isIonErrorResponse(error)) {
     return IonResponseHelper.convertFormErrors(error);
+  } else if (error.messages?.value?.length) {
+    // API error that also carries IDX-style messages: render the (localized) messages
+    // instead of the raw errorSummary, e.g. "Api validation failed: ..."
+    return {
+      responseJSON: {
+        ...error,
+        errorSummary: IonResponseHelper.getGlobalErrors(error),
+        errorSummaryKeys: IonResponseHelper.getGlobalErrorKeys(error),
+      },
+    };
   } else if (error.errorSummary) {
     return { responseJSON: error };
   } else {
