@@ -129,6 +129,15 @@ export type DeviceChallengePayload = {
   challengeRequest: string;
   probeTimeoutMillis?: number;
   chromeLocalNetworkAccessDetails?: ChromeLocalNetworkAccessDetails;
+  // Opt-in gate for granular loopback cancel reasons (OKTA-1288279). When the
+  // backend sends this as true, the widget reports fine-grained failure reasons
+  // (OV_LOOPBACK_PROBE_TIMEOUT, OV_LOOPBACK_CHALLENGE_TIMEOUT,
+  // OV_LOOPBACK_WRONG_PROFILE, OV_UNREACHABLE_BY_LOOPBACK_LNA) on the /cancel
+  // request. Treated as disabled unless explicitly true, so older backends whose
+  // cancel-request enum does not accept the new values keep receiving the single
+  // OV_UNREACHABLE_BY_LOOPBACK bucket (#4128 pattern). Field name pending
+  // confirmation with Device Assurance.
+  granularLoopbackFailureReasonsEnabled?: boolean;
 };
 
 export type AutoCompleteValue = 'username'

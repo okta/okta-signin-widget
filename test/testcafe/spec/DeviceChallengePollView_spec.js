@@ -5,6 +5,7 @@ import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChall
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import identifyWithDeviceProbingLoopback from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback';
+import identifyWithDeviceProbingLoopbackGranularReasons from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-granular-reasons.json';
 import identifyWithDeviceProbingLoopback4 from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-4';
 import identifyWithDeviceProbingHttpsLoopback from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-https-loopback';
 import identifyWithDeviceProbingLoopbackAndChromeLNA from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-chrome-lna.json';
@@ -274,6 +275,53 @@ const loopbackChallengeWrongProfileMock = RequestMock()
   .onRequestTo(/6513\/challenge/)
   .respond((req, res) => {
     res.statusCode = req.method !== 'POST' ? 204 : 500;
+    res.headers = {
+      'access-control-allow-origin': '*',
+      'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+      'access-control-allow-methods': 'POST, GET, OPTIONS'
+    };
+  });
+
+// OKTA-1288279: granular loopback cancel reasons. With the backend gate
+// (granularLoopbackFailureReasonsEnabled) on, a wrong-OS-profile 503 on every
+// port reports OV_LOOPBACK_WRONG_PROFILE instead of the generic bucket.
+const loopbackWrongProfileGranularLogger = RequestLogger(/introspect|probe|challenge|poll|cancel/, { logRequestBody: true, stringifyRequestBody: true });
+const loopbackWrongProfileGranularMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithDeviceProbingLoopbackGranularReasons)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identifyWithDeviceProbingLoopbackGranularReasons)
+  .onRequestTo(/(2000|6511|6512|6513)\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/(2000|6511|6512|6513)\/challenge/)
+  .respond((req, res) => {
+    res.statusCode = req.method !== 'POST' ? 204 : 503;
+    res.headers = {
+      'access-control-allow-origin': '*',
+      'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+      'access-control-allow-methods': 'POST, GET, OPTIONS'
+    };
+  });
+
+// Gate OFF (existing base fixture): the same wrong-profile 503-everywhere case
+// still collapses to the single OV_UNREACHABLE_BY_LOOPBACK bucket.
+const loopbackWrongProfileUngatedLogger = RequestLogger(/introspect|probe|challenge|poll|cancel/, { logRequestBody: true, stringifyRequestBody: true });
+const loopbackWrongProfileUngatedMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithDeviceProbingLoopback)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identifyWithDeviceProbingLoopback)
+  .onRequestTo(/(2000|6511|6512|6513)\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/(2000|6511|6512|6513)\/challenge/)
+  .respond((req, res) => {
+    res.statusCode = req.method !== 'POST' ? 204 : 503;
     res.headers = {
       'access-control-allow-origin': '*',
       'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
@@ -814,6 +862,49 @@ test
         record.request.url.match(/authenticators\/poll\/cancel/) &&
         JSON.parse(record.request.body).reason === 'OV_RETURNED_ERROR' &&
         JSON.parse(record.request.body).statusCode === 500
+    )).eql(1);
+  });
+
+// OKTA-1288279: with the backend gate on, a wrong-OS-profile 503 on every port
+// cancels with the granular OV_LOOPBACK_WRONG_PROFILE reason.
+test
+  .requestHooks(loopbackWrongProfileGranularLogger, loopbackWrongProfileGranularMock)('with granular reasons gate on, wrong-profile 503 on every port cancels with OV_LOOPBACK_WRONG_PROFILE', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
+    await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
+    await t.wait(6000); // wait for all four ports to probe + challenge
+    await t.expect(loopbackWrongProfileGranularLogger.count(
+      record => record.response.statusCode === 503 &&
+        record.request.method === 'post' &&
+        record.request.url.match(/(2000|6511|6512|6513)\/challenge/)
+    )).eql(4);
+    await t.expect(loopbackWrongProfileGranularLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/authenticators\/poll\/cancel/) &&
+        JSON.parse(record.request.body).reason === 'OV_LOOPBACK_WRONG_PROFILE' &&
+        JSON.parse(record.request.body).statusCode === null
+    )).eql(1);
+  });
+
+// OKTA-1288279: with the gate off (base fixture), the same wrong-profile case
+// still collapses to the single OV_UNREACHABLE_BY_LOOPBACK bucket — older
+// backends keep receiving a value their cancel-request enum accepts.
+test
+  .requestHooks(loopbackWrongProfileUngatedLogger, loopbackWrongProfileUngatedMock)('with granular reasons gate off, wrong-profile 503 on every port still cancels with OV_UNREACHABLE_BY_LOOPBACK', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
+    await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
+    await t.wait(6000); // wait for all four ports to probe + challenge
+    await t.expect(loopbackWrongProfileUngatedLogger.count(
+      record => record.response.statusCode === 503 &&
+        record.request.method === 'post' &&
+        record.request.url.match(/(2000|6511|6512|6513)\/challenge/)
+    )).eql(4);
+    await t.expect(loopbackWrongProfileUngatedLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/authenticators\/poll\/cancel/) &&
+        JSON.parse(record.request.body).reason === 'OV_UNREACHABLE_BY_LOOPBACK' &&
+        JSON.parse(record.request.body).statusCode === null
     )).eql(1);
   });
 

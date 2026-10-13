@@ -24,6 +24,43 @@ const request = (opts) => {
   return $.ajax(ajaxOptions);
 };
 
+// Granular loopback cancel reasons (OKTA-1288279). We probe multiple ports and
+// continue on each failure; a single reason is sent once, at the end, when all
+// ports are exhausted. When ports fail differently we report the highest-priority
+// one: LNA > challenge-timeout > wrong-profile > probe-timeout > generic. The
+// tracker collapses to the single OV_UNREACHABLE_BY_LOOPBACK bucket unless the
+// backend opts in via deviceChallenge.granularLoopbackFailureReasonsEnabled, so
+// older cancel-request enums still receive a value they accept. Must stay in sync
+// with the gen3 LoopbackCancelReason set in
+// src/v3/src/components/LoopbackProbe/LoopbackProbe.tsx.
+const createLoopbackReasonTracker = (granularEnabled) => {
+  const PRIORITY = {
+    [AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE]: 0,
+    [AUTHENTICATION_CANCEL_REASONS.PROBE_TIMEOUT]: 1,
+    [AUTHENTICATION_CANCEL_REASONS.WRONG_PROFILE]: 2,
+    [AUTHENTICATION_CANCEL_REASONS.CHALLENGE_TIMEOUT]: 3,
+    [AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE_LNA]: 4,
+  };
+  let current = AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE;
+  return {
+    record(reason) {
+      if (PRIORITY[reason] > PRIORITY[current]) {
+        current = reason;
+      }
+    },
+    resolve() {
+      return granularEnabled ? current : AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE;
+    },
+  };
+};
+
+// A jQuery $.ajax request surfaces a timeout (the dominant loopback failure:
+// security software / dev tools slowing the localhost probe past
+// probeTimeoutMillis) as status 0 with statusText 'timeout'. Connection refused
+// and HTTP error statuses do not, so this cleanly separates a timeout from an
+// opaque network failure or an error response.
+const isTimeoutXhr = (xhr) => xhr?.status === 0 && xhr?.statusText === 'timeout';
+
 const Body = BaseFormWithPolling.extend({
   noButtonBar: true,
 
@@ -80,6 +117,11 @@ const Body = BaseFormWithPolling.extend({
     let foundPort = false;
     let ovFailed = false;
     let countFailedPorts = 0;
+    // See createLoopbackReasonTracker. Gated by the backend opt-in so gate-off
+    // behavior (including the reason value) is unchanged. OKTA-1288279.
+    const reasonTracker = createLoopbackReasonTracker(
+      deviceChallenge.granularLoopbackFailureReasonsEnabled === true
+    );
 
     const getAuthenticatorUrl = (path, domainUrl) => {
       return `${domainUrl}:${currentPort}/${path}`;
@@ -109,8 +151,15 @@ const Body = BaseFormWithPolling.extend({
       });
     };
 
-    const onFailure = () => {
+    const onFailure = (xhr) => {
       Logger.error(`Something unexpected happened while we were checking port ${currentPort}.`);
+      // A probe timeout is the dominant loopback failure (security software /
+      // dev tools slowing the localhost probe past probeTimeoutMillis). Record
+      // it so it can be reported once at exhaustion; non-timeout probe failures
+      // fall through to the generic OV_UNREACHABLE_BY_LOOPBACK bucket.
+      if (isTimeoutXhr(xhr)) {
+        reasonTracker.record(AUTHENTICATION_CANCEL_REASONS.PROBE_TIMEOUT);
+      }
       return $.Deferred().reject();
     };
 
@@ -133,14 +182,30 @@ const Body = BaseFormWithPolling.extend({
             })
             .catch((xhr) => {
               countFailedPorts++;
-              // Windows and MacOS return status code 503 when
-              // there are multiple profiles on the device and
-              // the wrong OS profile responds to the challenge request
-              if (xhr.status !== 503) {
-                // when challenge responds with other errors,
+              if (isTimeoutXhr(xhr)) {
+                // A challenge timeout (status 0) is distinct from OV_RETURNED_ERROR,
+                // which is OV responding with an error *status*. Match gen3's
+                // long-standing behavior: continue to the next port instead of
+                // cancelling early, and report once at exhaustion. This also
+                // corrects the old gen2 behavior, which mislabeled a challenge
+                // timeout as OV_RETURNED_ERROR (status 0) — gate-off now collapses
+                // it to the generic OV_UNREACHABLE_BY_LOOPBACK network-failure
+                // bucket, which is the accurate description for a timeout.
+                reasonTracker.record(AUTHENTICATION_CANCEL_REASONS.CHALLENGE_TIMEOUT);
+                if (countFailedPorts === maxNumberOfPorts) {
+                  cancelPollingWithParams(
+                    this.options.appState,
+                    this.pollingCancelAction,
+                    reasonTracker.resolve(),
+                    null,
+                    !this.removed,
+                  );
+                }
+              } else if (xhr.status !== 503) {
+                // when challenge responds with other error statuses,
                 // - stop the remaining probing
                 ovFailed = true;
-                // - cancel polling right away
+                // - cancel polling right away (existing, ungated reason)
                 cancelPollingWithParams(
                   this.options.appState,
                   this.pollingCancelAction,
@@ -148,17 +213,23 @@ const Body = BaseFormWithPolling.extend({
                   xhr.status,
                   !this.removed,
                 );
-              } else if (countFailedPorts === maxNumberOfPorts) {
-                // when challenge is responded by the wrong OS profile and
-                // all the ports are exhausted,
-                // cancel the polling like the probing has failed
-                cancelPollingWithParams(
-                  this.options.appState,
-                  this.pollingCancelAction,
-                  AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE,
-                  null,
-                  !this.removed,
-                );
+              } else {
+                // Windows and MacOS return status code 503 when there are
+                // multiple profiles on the device and the wrong OS profile
+                // responds to the challenge request. Record it (so it surfaces
+                // in telemetry) and continue with the next port.
+                reasonTracker.record(AUTHENTICATION_CANCEL_REASONS.WRONG_PROFILE);
+                if (countFailedPorts === maxNumberOfPorts) {
+                  // wrong OS profile on every port and all ports exhausted —
+                  // cancel the polling like the probing has failed
+                  cancelPollingWithParams(
+                    this.options.appState,
+                    this.pollingCancelAction,
+                    reasonTracker.resolve(),
+                    null,
+                    !this.removed,
+                  );
+                }
               }
             });
         })
@@ -184,29 +255,37 @@ const Body = BaseFormWithPolling.extend({
             // This is to avoid concurrency issue where /poll/cancel takes long time to complete
             // and SIW will receive 400 error if the polling continues
             this.stopPolling();
+            // Reports the highest-priority reason recorded while probing
+            // (collapsed to OV_UNREACHABLE_BY_LOOPBACK when the gate is off).
             const cancelLoopback = () => cancelPollingWithParams(
               this.options.appState,
               this.pollingCancelAction,
-              AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE,
+              reasonTracker.resolve(),
               null,
               !this.removed,
             );
             // WebView2 iframe enhancement (OKTA-1135857): when enabled, probe
             // first and re-check the LNA permission only now, after the probe
-            // failed — surface remediation instead of cancelling if it is denied
-            // for an interactive (non-silent) flow. Otherwise cancel as before.
-            // Treat the enhancement as enabled unless the flag is explicitly
-            // false, so behavior is preserved if the backend later removes it.
+            // failed. Treat the enhancement as enabled unless the flag is
+            // explicitly false, so behavior is preserved if the backend later
+            // removes it.
             const chromeLNADetails = deviceChallenge.chromeLocalNetworkAccessDetails;
             if (chromeLNADetails
-              && chromeLNADetails.iframeRenderedInWebView2ContextEnhancementEnabled !== false
-              && !isRegisteredConditionSilentProbe(this)) {
+              && chromeLNADetails.iframeRenderedInWebView2ContextEnhancementEnabled !== false) {
               BrowserFeatures.getChromeLNAPermissionState((currPermissionState) => {
                 if (currPermissionState === 'denied') {
-                  // Clear the loopback spinner before rendering remediation.
-                  // TODO: consider cancel with a new reason OV_UNREACHABLE_BY_LOOPBACK_LNA
-                  this.removeChildren();
-                  showChromeLNADeniedError(this, deviceChallenge);
+                  if (isRegisteredConditionSilentProbe(this)) {
+                    // Silent probes never remediate (OKTA-1135857). Report the
+                    // LNA reason (OKTA-1288279) — it outranks any port-level
+                    // failure — and cancel. Gate-off collapses it to the bucket.
+                    reasonTracker.record(AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE_LNA);
+                    cancelLoopback();
+                  } else {
+                    // Interactive flow: surface the LNA remediation instead of
+                    // cancelling. Clear the loopback spinner first.
+                    this.removeChildren();
+                    showChromeLNADeniedError(this, deviceChallenge);
+                  }
                 } else {
                   cancelLoopback();
                 }

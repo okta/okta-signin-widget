@@ -29,4 +29,15 @@ export const AUTHENTICATION_CANCEL_REASONS = {
   LOOPBACK_FAILURE: 'OV_UNREACHABLE_BY_LOOPBACK',
   OV_ERROR: 'OV_RETURNED_ERROR',
   USER_CANCELED: 'USER_CANCELED',
+  // Granular loopback failure reasons (OKTA-1288279). Reported in place of the
+  // single LOOPBACK_FAILURE bucket when the backend opts in via the
+  // deviceChallenge.granularLoopbackFailureReasonsEnabled gate, so the
+  // backend/Splunk can tell a probe timeout, a challenge timeout, a
+  // wrong-OS-profile 503, and LNA-denied apart from an opaque network failure.
+  // Must stay in sync with the gen3 LoopbackCancelReason set in
+  // src/v3/src/components/LoopbackProbe/LoopbackProbe.tsx.
+  PROBE_TIMEOUT: 'OV_LOOPBACK_PROBE_TIMEOUT',
+  CHALLENGE_TIMEOUT: 'OV_LOOPBACK_CHALLENGE_TIMEOUT',
+  WRONG_PROFILE: 'OV_LOOPBACK_WRONG_PROFILE',
+  LOOPBACK_FAILURE_LNA: 'OV_UNREACHABLE_BY_LOOPBACK_LNA',
 };
