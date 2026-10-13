@@ -13,5 +13,10 @@
     "component": "DOMPurify",
     "version": "2.5.8",
     "justification": "CVE-2025-26791 has been patched locally within patches/dompurify+2.5.8.patch compared fix (https://github.com/cure53/DOMPurify/commit/d18ffcb554e0001748865da03ac75dd7829f0f02#diff-8e647ca2a1d9380f03114f7df5e6a70563c9cb40b03dca353a43ce84b974c2cdR6)"
+  },
+  {
+    "component": "handlebars",
+    "version": "4.7.9",
+    "justification": "CVE-2026-106446/GHSA-8r5x-fm3f-whwj (AST type confusion in compile) and CVE-2026-106444/GHSA-xw65-4hp5-5hc7 (unsafe inline embedding of precompiled templates) are compiler-only and not reachable: the widget bundles only the handlebars RUNTIME (webpack.common.config.js and babel.config.js alias 'handlebars' and 'handlebars/runtime' to packages/@okta/courage-dist/esm/lib/handlebars/dist/cjs/handlebars.runtime.js) and precompiles all templates at build time via @okta/babel-plugin-handlebars-inline-precompile, so the handlebars compiler/parser is never shipped. CVE-2026-106445/GHSA-p8wg-vrv2-v86f (own-property check bypass) is fixed upstream in handlebars 4.7.10; upgrading the courage-dist vendored copy is tracked as a follow-up."
   }
 ]
