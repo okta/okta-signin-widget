@@ -38,7 +38,12 @@ echo $TEST_SUITE_TYPE > $TEST_SUITE_TYPE_FILE
 echo $TEST_RESULT_FILE_DIR > $TEST_RESULT_FILE_DIR_FILE
 mkdir -p "${OKTA_HOME}/${TEST_RESULT_FILE_DIR}"
 
-source ${OKTA_HOME}/${REPO}/scripts/setup.sh
+# Only node is needed here (for e2e.sh's fallback when nvm is absent) — skip
+# setup.sh's full widget `yarn install`, since this suite never builds the widget.
+if ! setup_service node v22.22.3 &> /dev/null; then
+  echo "Failed to install node"
+  exit ${FAILED_SETUP}
+fi
 
 # ---- Resolve the widget version published in this pipeline ----------------
 # publish.sh writes `<pkgname>@<pkgsemver>` to global scope via `upload_job_data`.
@@ -55,18 +60,18 @@ create_log_group "Resolve widget artifact version"
   # downstream/create-downstream-for-*.sh convention where the caller declares
   # upstream_artifact_version before the call.
   WIDGET_ARTIFACT_VERSION=""
-  # `prereq: publish` in .bacon.yml guarantees publish ran, and publish.sh:61
-  # unconditionally uploads artifact_version on npm-publish success — so a
-  # download failure here is a real error, not a "no publish, skip" case.
+  # `prereq: publish` in .bacon.yml guarantees publish ran, but publish.sh:61-66
+  # treats an upload_job_data failure as non-fatal — so a missing value here
+  # means publish succeeded without recording its version. Fail setup loudly.
   if ! download_job_data global artifact_version WIDGET_ARTIFACT_VERSION okta-signin-widget "${COMMIT_SHA}"; then
     echo "Failed to download artifact_version for ${COMMIT_SHA} — publish should"
     echo "have uploaded it via upload_job_data (publish.sh:61). Check the publish"
     echo "suite result for this SHA."
     exit ${FAILED_SETUP}
   fi
-  # Format from publish.sh:60 is `<pkgname>@<pkgsemver>`. pkgname itself contains
-  # an `@` (`@okta/okta-signin-widget`), so `@` shows up 3× total — version is field 3.
-  SIW_OVERRIDE_VERSION="$(echo "${WIDGET_ARTIFACT_VERSION}" | cut -d'@' -f3)"
+  # Format from publish.sh:60 is `<pkgname>@<pkgsemver>`, and pkgname itself
+  # starts with `@` (`@okta/okta-signin-widget`) — version is after the last `@`.
+  SIW_OVERRIDE_VERSION="${WIDGET_ARTIFACT_VERSION##*@}"
   if [[ -z "${SIW_OVERRIDE_VERSION}" ]]; then
     echo "Failed to parse version from artifact_version='${WIDGET_ARTIFACT_VERSION}'."
     exit ${FAILED_SETUP}
@@ -80,7 +85,7 @@ finish_log_group $?
 # Bacon-provided token helper to install the credential redirect before
 # `git clone`. Placed under OKTA_HOME so e2e.sh's OKTA_HOME/REPO resolution
 # works when we override REPO below. SIW_PLAYWRIGHT_REF is an env-var escape
-# hatch to pin against a specific branch/tag/SHA when needed.
+# hatch to pin against a specific branch or tag (not a SHA — `clone --branch`).
 SIW_PLAYWRIGHT_REF="${SIW_PLAYWRIGHT_REF:-main}"
 create_log_group "Clone siw-playwright"
   SIW_PLAYWRIGHT_DIR="${OKTA_HOME}/siw-playwright"
@@ -95,6 +100,10 @@ create_log_group "Clone siw-playwright"
     exit ${FAILED_SETUP}
   fi
   echo "siw-playwright cloned at $(git -C "${SIW_PLAYWRIGHT_DIR}" rev-parse --short HEAD)"
+  if [[ ! -f "${SIW_PLAYWRIGHT_DIR}/.bacon/e2e.sh" ]]; then
+    echo "siw-playwright@${SIW_PLAYWRIGHT_REF} has no .bacon/e2e.sh — entrypoint moved?"
+    exit ${FAILED_SETUP}
+  fi
 finish_log_group $?
 
 # ---- Invoke siw-playwright's .bacon/e2e.sh --------------------------------
@@ -102,15 +111,21 @@ finish_log_group $?
 # SIW_OVERRIDE_VERSION via scripts/dockolith/setup.sh to inject our tarball
 # into the monolith. Unset SIW_GEN so all three gens run sequentially against
 # one shared dockolith (default behavior we shipped in OKTA-1264739).
+# Because TEST_SUITE_TYPE is already exported, e2e.sh leaves Bacon reporting to
+# us (no TEST_*_FILE writes) and exits plain SUCCESS/FAILURE. It also owns
+# dockolith teardown via its own EXIT trap.
 create_log_group "siw-playwright e2e (all gens)"
-  export REPO=siw-playwright
-  export SIW_OVERRIDE_VERSION
-  unset SIW_GEN
   # e2e.sh has its own `set -e`-free semantics for the gen loop (continue-on-
   # failure across gens) — we mirror that here so we don't short-circuit on the
-  # entrypoint's non-zero exit before we've collected artifacts.
+  # entrypoint's non-zero exit before we've collected artifacts. Subshell keeps
+  # the REPO override from leaking into the rest of this script.
   set +e
-  bash "${SIW_PLAYWRIGHT_DIR}/.bacon/e2e.sh"
+  (
+    export REPO=siw-playwright
+    export SIW_OVERRIDE_VERSION
+    unset SIW_GEN
+    bash "${SIW_PLAYWRIGHT_DIR}/.bacon/e2e.sh"
+  )
   E2E_EXIT=$?
   set -e
   echo "siw-playwright e2e.sh exited with ${E2E_EXIT}"
@@ -124,25 +139,35 @@ finish_log_group ${E2E_EXIT} || true
 #   - test-results-gen{N}/          (traces, videos, screenshots)
 # JUnit XMLs go into TEST_RESULT_FILE_DIR so Bacon picks them up via the
 # PUBLISH_TYPE_AND_RESULT_DIR exit code. Everything else is a log-only artifact.
+# Best-effort: a truncated XML or failed upload must not abort the script under
+# `set -e` — that would skip later gens' artifacts and lose the publish exit code.
 create_log_group "Collect artifacts"
+  set +e
   TOTAL_TESTS=0
   TOTAL_FAILURES=0
+  TOTAL_ERRORS=0
   for gen in 1 2 3; do
     JUNIT="${SIW_PLAYWRIGHT_DIR}/siw-junit-results-gen${gen}.xml"
     HTML_DIR="${SIW_PLAYWRIGHT_DIR}/playwright-report-gen${gen}"
     TR_DIR="${SIW_PLAYWRIGHT_DIR}/test-results-gen${gen}"
     if [ -f "${JUNIT}" ]; then
-      cp "${JUNIT}" "${OKTA_HOME}/${TEST_RESULT_FILE_DIR}/"
+      # Bacon keys test rows on classname+name and ignores hostname, so the same
+      # spec across gens collapses into one row (21 testcases -> testsRun=7) and
+      # one gen's pass can mask another's failure. Prefix classname with the gen.
+      sed "s|classname=\"|classname=\"gen${gen}/|g" "${JUNIT}" \
+        > "${OKTA_HOME}/${TEST_RESULT_FILE_DIR}/$(basename "${JUNIT}")"
       # Parse per-gen totals from the root <testsuites tests="N" failures="M" skipped="P">
       # tag for the Custom Messages panel.
       GEN_STATS="$(grep -oE '<testsuites [^>]+' "${JUNIT}" | head -1 \
-        | grep -oE '(tests|failures|skipped)="[0-9]+"' \
+        | grep -oE '(tests|failures|errors|skipped)="[0-9]+"' \
         | tr -d '"' | paste -sd, -)"
       log_custom_message "Gen ${gen} results" "${GEN_STATS:-<no data>}"
       GEN_TESTS=$(echo "$GEN_STATS" | grep -oE 'tests=[0-9]+' | cut -d= -f2)
       GEN_FAILURES=$(echo "$GEN_STATS" | grep -oE 'failures=[0-9]+' | cut -d= -f2)
+      GEN_ERRORS=$(echo "$GEN_STATS" | grep -oE 'errors=[0-9]+' | cut -d= -f2)
       TOTAL_TESTS=$((TOTAL_TESTS + ${GEN_TESTS:-0}))
       TOTAL_FAILURES=$((TOTAL_FAILURES + ${GEN_FAILURES:-0}))
+      TOTAL_ERRORS=$((TOTAL_ERRORS + ${GEN_ERRORS:-0}))
     else
       log_custom_message "Gen ${gen} results" "<no JUnit output — gen may have crashed before tests ran>"
     fi
@@ -158,8 +183,9 @@ create_log_group "Collect artifacts"
   if [ -f "${SIW_PLAYWRIGHT_DIR}/e2e-report.html" ]; then
     log_extra_file "${SIW_PLAYWRIGHT_DIR}/e2e-report.html"
   fi
-  log_custom_message "Total (all gens)" "tests=${TOTAL_TESTS} failures=${TOTAL_FAILURES}"
-finish_log_group $?
+  log_custom_message "Total (all gens)" "tests=${TOTAL_TESTS} failures=${TOTAL_FAILURES} errors=${TOTAL_ERRORS}"
+  set -e
+finish_log_group 0
 
 # ---- Preserve the entrypoint's pass/fail signal ---------------------------
 # PUBLISH_TYPE_AND_RESULT_DIR{_BUT_ALWAYS_FAIL} tells Bacon to publish
