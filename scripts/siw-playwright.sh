@@ -8,7 +8,7 @@
 #
 #   e2e (default) — gen 1/2/3 end-to-end specs against a locally hosted org
 #                   with our build installed.
-#   page-unit     — ~140 gen 2/3 page tests against a mocked backend, with
+#   page-unit     — gen 2/3 page tests against a mocked backend, with
 #                   siw-playwright's SIW pin swapped for our version.
 #
 # The entrypoint leaves reporting to this script (TEST_SUITE_TYPE is exported
@@ -29,13 +29,46 @@ case "${SIW_PLAYWRIGHT_SUITE}" in
     ;;
 esac
 
+# Comma-separated tests/failures/errors/skipped from a JUnit file's root tag.
+junit_stats() {
+  grep -oE '<testsuites [^>]+' "$1" | head -1 \
+    | grep -oE '(tests|failures|errors|skipped)="[0-9]+"' \
+    | tr -d '"' | paste -sd, -
+}
+
+# Exit code for a failed entrypoint run. A run that produced no JUnit at all
+# never got to the tests (install, registry, environment start), so report it
+# as a setup failure rather than a test failure with zero results.
+failure_exit_code() {
+  local -r entrypoint_exit="$1" junit_count="$2"
+  if [[ ${entrypoint_exit} -eq ${FAILED_SETUP} || ${junit_count} -eq 0 ]]; then
+    echo "${FAILED_SETUP}"
+  else
+    echo "${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}"
+  fi
+}
+
+# Fail the run if the entrypoint didn't actually test SIW_OVERRIDE_VERSION.
+# The pre-run grep only shows the entrypoint knows about the variable; this
+# checks the override took effect.
+require_override_applied() {
+  local -r what="$1" actual="$2"
+  if [[ "${actual}" != "${SIW_OVERRIDE_VERSION}" ]]; then
+    echo "siw-playwright: ${what} was '${actual:-<missing>}', expected ${SIW_OVERRIDE_VERSION}."
+    echo "The run did not test the published build."
+    log_custom_message "SIW override not applied" "${what}: '${actual:-<missing>}', expected ${SIW_OVERRIDE_VERSION}" || true
+    exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
+  fi
+}
+
 export TEST_SUITE_TYPE="junit"
 export TEST_RESULT_FILE_DIR="${REPO}/build2/reports/junit"
 echo $TEST_SUITE_TYPE > $TEST_SUITE_TYPE_FILE
 echo $TEST_RESULT_FILE_DIR > $TEST_RESULT_FILE_DIR_FILE
 mkdir -p "${OKTA_HOME}/${TEST_RESULT_FILE_DIR}"
 
-# Only node is needed; this suite never builds the widget.
+# Fallback node for runners without nvm; the entrypoints switch to the
+# version in siw-playwright's .nvmrc themselves.
 if ! setup_service node v22.22.3 &> /dev/null; then
   echo "Failed to install node"
   exit ${FAILED_SETUP}
@@ -43,7 +76,7 @@ fi
 
 # ---- Resolve the widget version published for this commit -----------------
 create_log_group "Resolve widget artifact version"
-  COMMIT_SHA="$(git -C ${OKTA_HOME}/${REPO} rev-parse HEAD)"
+  COMMIT_SHA="$(git -C "${OKTA_HOME}/${REPO}" rev-parse HEAD)"
   echo "Fetching artifact_version for commit ${COMMIT_SHA}..."
   # download_job_data writes into the named variable, which must already exist.
   WIDGET_ARTIFACT_VERSION=""
@@ -54,12 +87,12 @@ create_log_group "Resolve widget artifact version"
   fi
   # Value is `@okta/okta-signin-widget@<version>`; the version is after the last `@`.
   SIW_OVERRIDE_VERSION="${WIDGET_ARTIFACT_VERSION##*@}"
-  if [[ -z "${SIW_OVERRIDE_VERSION}" ]]; then
-    echo "Failed to parse version from artifact_version='${WIDGET_ARTIFACT_VERSION}'."
+  if [[ ! "${SIW_OVERRIDE_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+    echo "Failed to parse a version from artifact_version='${WIDGET_ARTIFACT_VERSION}'."
     exit ${FAILED_SETUP}
   fi
   echo "SIW version under test: ${SIW_OVERRIDE_VERSION}"
-  log_custom_message "SIW version tested" "${SIW_OVERRIDE_VERSION}"
+  log_custom_message "SIW version tested" "${SIW_OVERRIDE_VERSION}" || true
 finish_log_group $?
 
 # ---- Clone siw-playwright -------------------------------------------------
@@ -69,7 +102,10 @@ create_log_group "Clone siw-playwright"
   SIW_PLAYWRIGHT_DIR="${OKTA_HOME}/siw-playwright"
   rm -rf "${SIW_PLAYWRIGHT_DIR}"
   if command -v setup_github_token >/dev/null 2>&1; then
-    setup_github_token atko-eng "" force
+    if ! setup_github_token atko-eng "" force; then
+      echo "GitHub token setup failed."
+      exit ${FAILED_SETUP}
+    fi
   fi
   if ! git clone --depth 1 --branch "${SIW_PLAYWRIGHT_REF}" https://github.com/atko-eng/siw-playwright.git "${SIW_PLAYWRIGHT_DIR}"; then
     echo "git clone failed."
@@ -81,8 +117,7 @@ create_log_group "Clone siw-playwright"
     echo "siw-playwright@${SIW_PLAYWRIGHT_REF} has no .bacon/${SIW_PLAYWRIGHT_SUITE}.sh — entrypoint moved?"
     exit ${FAILED_SETUP}
   fi
-  # An entrypoint without override support would test its own pinned SIW and
-  # pass without ever touching our build.
+  # Cheap early check; require_override_applied verifies the result after the run.
   if ! grep -q 'SIW_OVERRIDE_VERSION' "${ENTRYPOINT}"; then
     echo "siw-playwright@${SIW_PLAYWRIGHT_REF} .bacon/${SIW_PLAYWRIGHT_SUITE}.sh doesn't support"
     echo "SIW_OVERRIDE_VERSION — it would test its pinned SIW, not ${SIW_OVERRIDE_VERSION}."
@@ -92,8 +127,9 @@ finish_log_group $?
 
 if [[ "${SIW_PLAYWRIGHT_SUITE}" == "page-unit" ]]; then
   # ---- Run page-unit ------------------------------------------------------
-  # Pre-release builds (x.y.z-g<sha>) only exist in npm-okta-all, so point
-  # siw-playwright's @okta registry there; strict semvers use npm-okta-release.
+  # Our builds are x.y.z-g<sha>, which only npm-okta-all has, so point
+  # siw-playwright's @okta registry there. A strict semver would come from
+  # npm-okta-release (same split as siw-playwright's dockolith setup).
   if [[ -z "${ARTIFACTORY_URL:-}" ]]; then
     echo "ARTIFACTORY_URL is not set; can't point siw-playwright at the published SIW."
     exit ${FAILED_SETUP}
@@ -123,11 +159,11 @@ if [[ "${SIW_PLAYWRIGHT_SUITE}" == "page-unit" ]]; then
     set +e
     PU_REPORTS="${SIW_PLAYWRIGHT_DIR}/build2/reports/playwright"
     JUNIT="${PU_REPORTS}/siw-junit-results.xml"
+    JUNIT_COUNT=0
     if [ -f "${JUNIT}" ]; then
+      JUNIT_COUNT=1
       cp "${JUNIT}" "${OKTA_HOME}/${TEST_RESULT_FILE_DIR}/"
-      PU_STATS="$(grep -oE '<testsuites [^>]+' "${JUNIT}" | head -1 \
-        | grep -oE '(tests|failures|errors|skipped)="[0-9]+"' \
-        | tr -d '"' | paste -sd, -)"
+      PU_STATS="$(junit_stats "${JUNIT}")"
       log_custom_message "Page-unit results" "${PU_STATS:-<no data>}"
     else
       log_custom_message "Page-unit results" "<no JUnit output — page-unit may have failed before tests ran>"
@@ -146,8 +182,11 @@ if [[ "${SIW_PLAYWRIGHT_SUITE}" == "page-unit" ]]; then
 
   if [ ${PAGE_UNIT_EXIT} -ne 0 ]; then
     echo "siw-playwright: page-unit reported failure — see page-unit-report.html and artifacts."
-    exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
+    exit "$(failure_exit_code "${PAGE_UNIT_EXIT}" "${JUNIT_COUNT}")"
   fi
+  INSTALLED_SIW="$(node -p 'require(process.argv[1]).version' \
+    "${SIW_PLAYWRIGHT_DIR}/node_modules/@okta/okta-signin-widget/package.json" 2>/dev/null || true)"
+  require_override_applied "installed @okta/okta-signin-widget" "${INSTALLED_SIW}"
   exit ${PUBLISH_TYPE_AND_RESULT_DIR}
 fi
 
@@ -174,18 +213,18 @@ create_log_group "Collect artifacts"
   TOTAL_TESTS=0
   TOTAL_FAILURES=0
   TOTAL_ERRORS=0
+  JUNIT_COUNT=0
   for gen in 1 2 3; do
     JUNIT="${SIW_PLAYWRIGHT_DIR}/siw-junit-results-gen${gen}.xml"
     HTML_DIR="${SIW_PLAYWRIGHT_DIR}/playwright-report-gen${gen}"
     TR_DIR="${SIW_PLAYWRIGHT_DIR}/test-results-gen${gen}"
     if [ -f "${JUNIT}" ]; then
+      JUNIT_COUNT=$((JUNIT_COUNT + 1))
       # Prefix classname with the gen so the same spec in different gens shows
       # up as separate results instead of being merged.
       sed "s|classname=\"|classname=\"gen${gen}/|g" "${JUNIT}" \
         > "${OKTA_HOME}/${TEST_RESULT_FILE_DIR}/$(basename "${JUNIT}")"
-      GEN_STATS="$(grep -oE '<testsuites [^>]+' "${JUNIT}" | head -1 \
-        | grep -oE '(tests|failures|errors|skipped)="[0-9]+"' \
-        | tr -d '"' | paste -sd, -)"
+      GEN_STATS="$(junit_stats "${JUNIT}")"
       log_custom_message "Gen ${gen} results" "${GEN_STATS:-<no data>}"
       GEN_TESTS=$(echo "$GEN_STATS" | grep -oE 'tests=[0-9]+' | cut -d= -f2)
       GEN_FAILURES=$(echo "$GEN_STATS" | grep -oE 'failures=[0-9]+' | cut -d= -f2)
@@ -212,6 +251,14 @@ finish_log_group 0
 
 if [ ${E2E_EXIT} -ne 0 ]; then
   echo "siw-playwright: e2e reported failure — see e2e-report.html and per-gen artifacts."
-  exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
+  exit "$(failure_exit_code "${E2E_EXIT}" "${JUNIT_COUNT}")"
 fi
+# siw-playwright's dockolith setup stages the override build here before
+# copying it into the monolith; no staged build means the monolith ran its own.
+if [[ -d "${SIW_PLAYWRIGHT_DIR}/.tmp/siw-override/staged/${SIW_OVERRIDE_VERSION}" ]]; then
+  STAGED_SIW="${SIW_OVERRIDE_VERSION}"
+else
+  STAGED_SIW=""
+fi
+require_override_applied "staged SIW build" "${STAGED_SIW}"
 exit ${PUBLISH_TYPE_AND_RESULT_DIR}
