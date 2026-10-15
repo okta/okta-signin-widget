@@ -1,13 +1,20 @@
 #!/bin/bash
 
 # ============================================================================
-# siw-playwright: post-publish smoke against dockolith
+# siw-playwright: post-publish regression against the just-published SIW
 # ============================================================================
-# Runs siw-playwright's e2e suite against the SIW tarball we just published.
-# Catches gen-3 (Odyssey) regressions that don't surface in the widget's own
-# testcafe / v3 suites — those exercise the widget in isolation, while this
-# exercises it inside a monolith-hosted org via the isolated Playwright fixtures
-# in siw-playwright.
+# Runs one of siw-playwright's suites against the SIW version we just published,
+# selected by SIW_PLAYWRIGHT_SUITE (set per Bacon suite in .bacon.yml):
+#
+#   e2e (default) — .bacon/e2e.sh: gen 1/2/3 against a dockolith monolith with
+#                   our tarball docker-cp'd in. Catches gen-3 (Odyssey)
+#                   regressions that don't surface in the widget's own testcafe /
+#                   v3 suites — those exercise the widget in isolation, while this
+#                   exercises it inside a monolith-hosted org.
+#   page-unit     — .bacon/page-unit.sh: ~140 mock-backend page tests (gen 2/3
+#                   identify, password, email, GA, authenticator selection,
+#                   unlock, recovery) with siw-playwright's SIW pin swapped for
+#                   our version. No monolith needed.
 #
 # Prereq: `publish` (which runs `ci-append-sha` + `npm publish` and then
 # `upload_job_data global artifact_version` — that's how we get the just-
@@ -16,10 +23,11 @@
 # Behavior:
 #   - Downloads the widget artifact_version from S3 (uploaded by publish.sh)
 #   - Clones the sibling siw-playwright repo
-#   - Invokes its .bacon/e2e.sh with SIW_OVERRIDE_VERSION set — that script
-#     spins up dockolith once, loops SIW_GEN=1,2,3 with the tarball docker-cp'd
-#     into the monolith, and reports pass/fail per gen with continue-on-failure
-#   - Uploads per-gen playwright-report / test-results dirs as Bacon artifacts
+#   - Invokes the selected entrypoint with SIW_OVERRIDE_VERSION set and
+#     TEST_SUITE_TYPE pre-exported, so it leaves Bacon reporting to us and
+#     exits plain 0/1
+#   - Copies its JUnit into TEST_RESULT_FILE_DIR and uploads reports/traces as
+#     Bacon artifacts
 # ============================================================================
 
 set -eo pipefail
@@ -27,9 +35,18 @@ set -eo pipefail
 : "${OKTA_HOME:?OKTA_HOME must be set}"
 : "${REPO:?REPO must be set}"
 
+SIW_PLAYWRIGHT_SUITE="${SIW_PLAYWRIGHT_SUITE:-e2e}"
+case "${SIW_PLAYWRIGHT_SUITE}" in
+  e2e|page-unit) ;;
+  *)
+    echo "Unknown SIW_PLAYWRIGHT_SUITE='${SIW_PLAYWRIGHT_SUITE}'; expected e2e or page-unit."
+    exit ${FAILED_SETUP}
+    ;;
+esac
+
 # ---- Tell Bacon this is a JUnit-reporting suite ---------------------------
 # Same pattern e2e-monolith.sh uses (scripts/e2e-monolith.sh:6-9). Populating
-# TEST_RESULT_FILE_DIR with the per-gen JUnit XMLs (later, after e2e.sh runs)
+# TEST_RESULT_FILE_DIR with the JUnit XMLs (later, after the entrypoint runs)
 # is what makes Bacon's Test Result panel show per-test rows instead of
 # "0/0 methods passed".
 export TEST_SUITE_TYPE="junit"
@@ -38,7 +55,7 @@ echo $TEST_SUITE_TYPE > $TEST_SUITE_TYPE_FILE
 echo $TEST_RESULT_FILE_DIR > $TEST_RESULT_FILE_DIR_FILE
 mkdir -p "${OKTA_HOME}/${TEST_RESULT_FILE_DIR}"
 
-# Only node is needed here (for e2e.sh's fallback when nvm is absent) — skip
+# Only node is needed here (for the entrypoint's fallback when nvm is absent) — skip
 # setup.sh's full widget `yarn install`, since this suite never builds the widget.
 if ! setup_service node v22.22.3 &> /dev/null; then
   echo "Failed to install node"
@@ -83,7 +100,7 @@ finish_log_group $?
 # ---- Clone siw-playwright -------------------------------------------------
 # siw-playwright lives in a separate private GitHub org, so we ask the
 # Bacon-provided token helper to install the credential redirect before
-# `git clone`. Placed under OKTA_HOME so e2e.sh's OKTA_HOME/REPO resolution
+# `git clone`. Placed under OKTA_HOME so the entrypoint's OKTA_HOME/REPO resolution
 # works when we override REPO below. SIW_PLAYWRIGHT_REF is an env-var escape
 # hatch to pin against a specific branch or tag (not a SHA — `clone --branch`).
 SIW_PLAYWRIGHT_REF="${SIW_PLAYWRIGHT_REF:-main}"
@@ -100,11 +117,79 @@ create_log_group "Clone siw-playwright"
     exit ${FAILED_SETUP}
   fi
   echo "siw-playwright cloned at $(git -C "${SIW_PLAYWRIGHT_DIR}" rev-parse --short HEAD)"
-  if [[ ! -f "${SIW_PLAYWRIGHT_DIR}/.bacon/e2e.sh" ]]; then
-    echo "siw-playwright@${SIW_PLAYWRIGHT_REF} has no .bacon/e2e.sh — entrypoint moved?"
+  ENTRYPOINT="${SIW_PLAYWRIGHT_DIR}/.bacon/${SIW_PLAYWRIGHT_SUITE}.sh"
+  if [[ ! -f "${ENTRYPOINT}" ]]; then
+    echo "siw-playwright@${SIW_PLAYWRIGHT_REF} has no .bacon/${SIW_PLAYWRIGHT_SUITE}.sh — entrypoint moved?"
+    exit ${FAILED_SETUP}
+  fi
+  # An entrypoint that predates the external-caller contract ignores
+  # SIW_OVERRIDE_VERSION and tests siw-playwright's own pinned SIW — a green run
+  # that never touched our build. Refuse rather than mislead.
+  if ! grep -q 'SIW_OVERRIDE_VERSION' "${ENTRYPOINT}"; then
+    echo "siw-playwright@${SIW_PLAYWRIGHT_REF} .bacon/${SIW_PLAYWRIGHT_SUITE}.sh doesn't support"
+    echo "SIW_OVERRIDE_VERSION — it would test its pinned SIW, not ${SIW_OVERRIDE_VERSION}."
     exit ${FAILED_SETUP}
   fi
 finish_log_group $?
+
+if [[ "${SIW_PLAYWRIGHT_SUITE}" == "page-unit" ]]; then
+  # ---- Invoke siw-playwright's .bacon/page-unit.sh ------------------------
+  # page-unit.sh swaps siw-playwright's root `resolutions` SIW pin for
+  # SIW_OVERRIDE_VERSION, installs, and fails setup if the installed version
+  # doesn't match. TEST_SUITE_TYPE is already exported, so it skips its own
+  # Bacon reporting and exits plain SUCCESS/FAILURE. COVERAGE stays unset —
+  # coverage is siw-playwright's own merge-gate concern, not this suite's.
+  create_log_group "siw-playwright page-unit"
+    set +e
+    (
+      export REPO=siw-playwright
+      export SIW_OVERRIDE_VERSION
+      unset COVERAGE COVERAGE_SHARD_INDEX COVERAGE_SHARD_TOTAL
+      bash "${ENTRYPOINT}"
+    )
+    PAGE_UNIT_EXIT=$?
+    set -e
+    echo "siw-playwright page-unit.sh exited with ${PAGE_UNIT_EXIT}"
+  finish_log_group ${PAGE_UNIT_EXIT} || true
+
+  # ---- Collect artifacts + JUnit XML --------------------------------------
+  # page-unit.sh writes, under build2/:
+  #   - reports/playwright/siw-junit-results.xml  (Bacon-parseable test data)
+  #   - page-unit-report.html                     (self-contained, renders in Log Viewer)
+  #   - reports/playwright/siw-html-report/       (Playwright's SPA)
+  #   - reports/playwright/siw-test-results/      (traces, videos, screenshots; failures only)
+  # Best-effort, same as the e2e collection below.
+  create_log_group "Collect artifacts"
+    set +e
+    PU_REPORTS="${SIW_PLAYWRIGHT_DIR}/build2/reports/playwright"
+    JUNIT="${PU_REPORTS}/siw-junit-results.xml"
+    if [ -f "${JUNIT}" ]; then
+      cp "${JUNIT}" "${OKTA_HOME}/${TEST_RESULT_FILE_DIR}/"
+      PU_STATS="$(grep -oE '<testsuites [^>]+' "${JUNIT}" | head -1 \
+        | grep -oE '(tests|failures|errors|skipped)="[0-9]+"' \
+        | tr -d '"' | paste -sd, -)"
+      log_custom_message "Page-unit results" "${PU_STATS:-<no data>}"
+    else
+      log_custom_message "Page-unit results" "<no JUnit output — page-unit may have failed before tests ran>"
+    fi
+    if [ -d "${PU_REPORTS}/siw-html-report" ]; then
+      log_extra_dir_as_zip "${PU_REPORTS}/siw-html-report" "playwright-report-page-unit.zip"
+    fi
+    if [ -d "${PU_REPORTS}/siw-test-results" ]; then
+      log_extra_dir_as_zip "${PU_REPORTS}/siw-test-results" "test-results-page-unit.zip"
+    fi
+    if [ -f "${SIW_PLAYWRIGHT_DIR}/build2/page-unit-report.html" ]; then
+      log_extra_file "${SIW_PLAYWRIGHT_DIR}/build2/page-unit-report.html"
+    fi
+    set -e
+  finish_log_group 0
+
+  if [ ${PAGE_UNIT_EXIT} -ne 0 ]; then
+    echo "siw-playwright: page-unit reported failure — see page-unit-report.html and artifacts."
+    exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
+  fi
+  exit ${PUBLISH_TYPE_AND_RESULT_DIR}
+fi
 
 # ---- Invoke siw-playwright's .bacon/e2e.sh --------------------------------
 # The entrypoint reads OKTA_HOME + REPO to `cd` into itself, and picks up
@@ -124,7 +209,7 @@ create_log_group "siw-playwright e2e (all gens)"
     export REPO=siw-playwright
     export SIW_OVERRIDE_VERSION
     unset SIW_GEN
-    bash "${SIW_PLAYWRIGHT_DIR}/.bacon/e2e.sh"
+    bash "${ENTRYPOINT}"
   )
   E2E_EXIT=$?
   set -e
