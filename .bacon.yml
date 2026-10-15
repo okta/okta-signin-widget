@@ -192,12 +192,8 @@ test_suites:
     script_name: vrt-v3-get-screenshots
     criteria: OPTIONAL
     queue_name: ci-queue-productionJenga-AL2023
-  # Post-publish regression: run siw-playwright's dockolith-backed e2e (all
-  # gens 1+2+3) against the SIW tarball we just published. Catches gen-3
-  # (Odyssey) regressions that the widget's own suites don't exercise, since
-  # they test the widget in isolation. MAINLINE-only + prereq'd on publish.
-  # Monolith-Build queue matches siw-playwright's own e2e (dockolith requires
-  # pre-warmed hosts; AL2023 sibling containers break backdoorentry.okta1.com).
+  # Post-publish regression: siw-playwright's e2e suite (gens 1, 2 and 3)
+  # against the version we just published.
   - name: siw-playwright
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '27'
@@ -207,10 +203,8 @@ test_suites:
     queue_name: ci-queue-prodJenga-Monolith-Build
     prereq_test_suite_name: publish
     trigger: AUTO
-  # Same post-publish regression, page-unit flavour: siw-playwright's ~140
-  # mock-backend page tests (gen 2/3) with its SIW pin swapped for the version we
-  # just published. No monolith, so it runs on the regular AL2023 queue (same
-  # one siw-playwright's own page-unit suites use), in parallel with the above.
+  # Post-publish regression: siw-playwright's page-unit suite (gen 2/3, mocked
+  # backend) against the version we just published.
   - name: siw-playwright-page-unit
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '28'
