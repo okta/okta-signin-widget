@@ -139,11 +139,31 @@ if [[ "${SIW_PLAYWRIGHT_SUITE}" == "page-unit" ]]; then
   # doesn't match. TEST_SUITE_TYPE is already exported, so it skips its own
   # Bacon reporting and exits plain SUCCESS/FAILURE. COVERAGE stays unset —
   # coverage is siw-playwright's own merge-gate concern, not this suite's.
+  #
+  # siw-playwright's .yarnrc.yml resolves @okta packages from
+  # OKTA_NPM_REGISTRY_SERVER (default npm-okta-all). On this runner a topic
+  # build like 7.51.0-g<sha> failed with "No candidates found": the runner's
+  # @okta registry is npm-okta-release, which only holds release versions.
+  # Pin the registry explicitly, choosing it the same way siw-playwright's
+  # scripts/dockolith/setup.sh does: strict semver -> npm-okta-release,
+  # anything else -> npm-okta-all (which includes npm-topic, where publish.sh
+  # pushes).
+  if [[ -z "${ARTIFACTORY_URL:-}" ]]; then
+    echo "ARTIFACTORY_URL is not set; can't point siw-playwright at the published SIW."
+    exit ${FAILED_SETUP}
+  fi
+  if [[ "${SIW_OVERRIDE_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    SIW_NPM_REPO="npm-okta-release"
+  else
+    SIW_NPM_REPO="npm-okta-all"
+  fi
+  echo "Resolving @okta packages from ${SIW_NPM_REPO} (runner had OKTA_NPM_REGISTRY_SERVER='${OKTA_NPM_REGISTRY_SERVER:-<unset>}', NPM_TOKEN $([[ -n "${NPM_TOKEN:-}" ]] && echo set || echo unset))"
   create_log_group "siw-playwright page-unit"
     set +e
     (
       export REPO=siw-playwright
       export SIW_OVERRIDE_VERSION
+      export OKTA_NPM_REGISTRY_SERVER="${ARTIFACTORY_URL}/api/npm/${SIW_NPM_REPO}"
       unset COVERAGE COVERAGE_SHARD_INDEX COVERAGE_SHARD_TOTAL
       bash "${ENTRYPOINT}"
     )
