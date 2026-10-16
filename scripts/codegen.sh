@@ -12,7 +12,12 @@ first () {
 dir-sum () (
   TMP=$(mktemp)
   tar -cf - $@ > $TMP
-  SUM=$(md5 -q $TMP)
+  if command -v md5 >/dev/null 2>&1; then
+    SUM=$(md5 -q $TMP)
+  else
+    SUM=$(md5sum $TMP | first)
+  fi
+  rm -f $TMP
 	echo "$SUM $@"
 )
 
