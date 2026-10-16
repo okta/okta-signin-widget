@@ -192,3 +192,27 @@ test_suites:
     script_name: vrt-v3-get-screenshots
     criteria: OPTIONAL
     queue_name: ci-queue-productionJenga-AL2023
+  # Post-publish regression: siw-playwright's e2e suite (gens 1, 2 and 3)
+  # against the version we just published.
+  - name: siw-playwright
+    script_path: /root/okta/okta-signin-widget/scripts
+    sort_order: '27'
+    timeout: '45'
+    script_name: siw-playwright
+    criteria: MAINLINE
+    queue_name: ci-queue-prodJenga-Monolith-Build
+    prereq_test_suite_name: publish
+    trigger: AUTO
+  # Post-publish regression: siw-playwright's page-unit suite (gen 2/3, mocked
+  # backend) against the version we just published.
+  - name: siw-playwright-page-unit
+    script_path: /root/okta/okta-signin-widget/scripts
+    sort_order: '28'
+    timeout: '30'
+    script_name: siw-playwright
+    criteria: MAINLINE
+    queue_name: ci-queue-productionJenga-AL2023
+    prereq_test_suite_name: publish
+    trigger: AUTO
+    script_env:
+      SIW_PLAYWRIGHT_SUITE: page-unit
