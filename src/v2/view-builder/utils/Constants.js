@@ -18,6 +18,8 @@ export const OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_DESKTOP
   = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.desktop';
 export const OV_UV_ENABLE_BIOMETRICS_OR_PIN_FASTPASS_MOBILE
   = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.mobile';
+export const FASTPASS_ENROLLMENT_ON_OTHER_DEVICE_ERROR
+  = 'idx.only.fastpass.enrollment.on.other.device.error';
 export const AUTHENTICATOR_ALLOWED_FOR_OPTIONS = {
   ANY: 'any',
   SSO: 'sso',

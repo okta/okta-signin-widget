@@ -11,13 +11,19 @@
  */
 
 import { HttpRequestClient } from '@okta/okta-auth-js';
+import { within } from '@testing-library/preact';
 
 import deviceChallengePollResponse from '../../../../playground/mocks/data/idp/idx/device-probing-chrome-dtc.json';
-import pollErrorResponse from '../../src/mocks/response/idp/idx/authenticators/poll/device-challenge-poll-fastpass-enrollment-on-other-device-error.json';
+import pollErrorResponse from '../../../../playground/mocks/data/idp/idx/error-poll-400-fastpass-enrollment-on-other-device.json';
 import { setup, updateStateHandleInMock } from './util';
 
 describe('device-challenge-poll-fastpass-enrollment-on-other-device-error', () => {
-  const errorMessage = pollErrorResponse.messages.value[0].message;
+  const description = 'To continue, you\'ll need an additional security method to verify your identity.';
+  const steps = [
+    'Switch to your other device that already has Okta Verify with Okta FastPass set up.',
+    'Set up an additional security method.',
+    'Return here and try again with your new security method.',
+  ];
 
   beforeEach(() => {
     jest.useFakeTimers();
@@ -27,7 +33,7 @@ describe('device-challenge-poll-fastpass-enrollment-on-other-device-error', () =
     jest.useRealTimers();
   });
 
-  it('should render messages from the failed poll response instead of errorSummary', async () => {
+  it('should render the failed poll error as a description with numbered steps', async () => {
     let pollCount = 0;
     const mockRequestClient: HttpRequestClient = jest.fn().mockImplementation((_, url) => {
       updateStateHandleInMock(deviceChallengePollResponse);
@@ -69,14 +75,18 @@ describe('device-challenge-poll-fastpass-enrollment-on-other-device-error', () =
     } = await setup({ mockRequestClient });
 
     expect(await findByText(/Verifying your identity/)).toBeInTheDocument();
-    expect(queryByText(errorMessage)).not.toBeInTheDocument();
+    expect(queryByText(description)).not.toBeInTheDocument();
 
     jest.advanceTimersByTime(2500 /* refresh: 2000 */);
 
-    const message = await findByText(errorMessage, undefined, { timeout: 5000 });
+    const message = await findByText(description, undefined, { timeout: 5000 });
     expect(pollCount).toBe(2);
-    expect(message.closest('[data-se="infobox-error"]')).toBeInTheDocument();
+    const errorBox = message.closest('[data-se="infobox-error"]') as HTMLElement;
+    expect(errorBox).toBeInTheDocument();
+    const listItems = within(errorBox).getAllByRole('listitem');
+    expect(listItems.map((item) => item.textContent)).toEqual(steps);
     expect(container).not.toHaveTextContent('Api validation failed');
+    expect(container).not.toHaveTextContent(pollErrorResponse.messages.value[0].message);
     expect(await findByText('Back to sign in')).toBeInTheDocument();
   });
 });

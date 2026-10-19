@@ -54,7 +54,7 @@ describe('v2/ion/errorUtils', function() {
       expect(errorUtils.buildErrorObject(error)).toEqual({
         responseJSON: {
           ...error,
-          errorSummary: 'Switch to your other device',
+          errorSummary: Bundles.login['idx.only.fastpass.enrollment.on.other.device.error'],
           errorSummaryKeys: ['idx.only.fastpass.enrollment.on.other.device.error'],
         },
       });
