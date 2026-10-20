@@ -18,7 +18,11 @@ import {
 
 import { TERMINAL_KEY } from '../constants';
 import { FormBag, WidgetOptions } from '../types';
-import { containsMessageKey, isPollingStep } from '../util';
+import {
+  containsMessageKey,
+  fastpassPollingLog,
+  isPollingStep,
+} from '../util';
 
 const DEFAULT_TIMEOUT = 4000;
 
@@ -92,9 +96,12 @@ export const usePolling = (
 
     const { name, refresh = DEFAULT_TIMEOUT } = pollingStep;
 
+    fastpassPollingLog('poll tick scheduled', { name, refresh });
+
     // one time request
     // the following polling requests will be triggered based on idxTransaction update
     timerRef.current = setTimeout(async () => {
+      fastpassPollingLog('poll tick fired', { name });
       let payload: IdxActionParams = {};
       const autoChallenge = getAutoChallengeValue(idxTransaction, data);
       if (autoChallenge !== undefined) {
@@ -114,11 +121,19 @@ export const usePolling = (
       const guarded = (features?.disableConcurrentPolling
         || features?.disablePollDuringCancel) && isPollingStep(name);
       if (guarded && pollInFlightRef?.current) {
+        // Log-only: this early-return does not re-arm the timer. Logged to help
+        // investigate the "stuck on /authenticator/poll" reports.
+        fastpassPollingLog('poll tick suppressed by in-flight guard (chain not rescheduled)', {
+          name,
+          disableConcurrentPolling: !!features?.disableConcurrentPolling,
+          disablePollDuringCancel: !!features?.disablePollDuringCancel,
+        });
         return;
       }
       if (guarded && pollInFlightRef) {
         // eslint-disable-next-line no-param-reassign
         pollInFlightRef.current = true;
+        fastpassPollingLog('poll claimed in-flight flag', { name });
       }
       try {
         // TODO: Revert to use action once this fix is completed OKTA-512706
@@ -139,15 +154,28 @@ export const usePolling = (
           if (clonedPollingStep !== undefined) {
             clonedPollingStep.refresh = 60000;
           }
+          fastpassPollingLog('poll rate-limited, backing off 60s', { name });
           setTransaction(clonedTransaction);
           return;
         }
 
+        fastpassPollingLog('poll response received', {
+          name,
+          nextStep: newTransaction?.nextStep?.name,
+        });
         setTransaction(newTransaction);
+      } catch (e) {
+        // re-thrown below so existing behavior is unchanged
+        fastpassPollingLog('poll proceed threw', {
+          name,
+          error: (e as Error)?.message,
+        });
+        throw e;
       } finally {
         if (guarded && pollInFlightRef) {
           // eslint-disable-next-line no-param-reassign
           pollInFlightRef.current = false;
+          fastpassPollingLog('poll released in-flight flag', { name });
         }
       }
     }, refresh);
