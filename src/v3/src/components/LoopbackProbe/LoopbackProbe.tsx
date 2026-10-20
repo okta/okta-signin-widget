@@ -19,6 +19,7 @@ import Logger from '../../../../util/Logger';
 import { useWidgetContext } from '../../contexts';
 import { ActionParams, LoopbackProbeElement } from '../../types';
 import {
+  fastpassPollingLog,
   getChromeLNAPermissionState, isAndroid, isPollingStep, makeRequest,
 } from '../../util';
 
@@ -101,8 +102,17 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
     // "Claim only if free, clear only what you claimed" — if a /poll
     // is already in flight, the flag is already true; we don't touch
     // it, and its own `finally` will clear it.
+    // Capture BEFORE the claim mutates the ref, so the log reflects whether a
+    // /poll was already in flight when cancel began.
+    const pollInFlightAtEntry = !!pollInFlightRef?.current;
     const claimedPollFlag = !!(disablePollDuringCancel
       && pollInFlightRef && !pollInFlightRef.current);
+    fastpassPollingLog('loopback cancel started', {
+      cancelStep,
+      reason: params?.reason,
+      claimedPollFlag,
+      pollInFlightAtEntry,
+    });
     if (claimedPollFlag && pollInFlightRef) {
       pollInFlightRef.current = true;
     }
@@ -112,6 +122,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
     } finally {
       if (claimedPollFlag && pollInFlightRef) {
         pollInFlightRef.current = false;
+        fastpassPollingLog('loopback cancel released in-flight flag', { cancelStep });
       }
     }
   };
@@ -120,6 +131,14 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
   useEffect(() => {
     const doLoopback = async () => {
       let foundPort = false;
+
+      fastpassPollingLog('loopback probe started', {
+        step,
+        portCount: ports.length,
+        hasHttpsDomain: !!httpsDomain,
+        probeTimeoutMillis,
+        userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined,
+      });
 
       let baseUrls = ports.map((port) => `${domain}:${port}`);
       if (httpsDomain) {
@@ -192,10 +211,16 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
         // success condition
         // once the OV challenge succeeds, triggers another polling right away without waiting
         // for the next ongoing polling to be triggered to make the authentication flow go faster
+        fastpassPollingLog('loopback probe found port, triggering immediate poll', { step });
         submitHandler(step);
       } else {
         // no more ports to probe
         Logger.error('No available ports. Loopback server failed and polling is cancelled.');
+        fastpassPollingLog('loopback probe failed all ports', {
+          step,
+          isWebView2EnhancementEnabled,
+          isRegisteredConditionSilentProbe,
+        });
 
         // WebView2 iframe enhancement (OKTA-1135857): with the enhancement on,
         // we probe first and only now (after failure) re-check the LNA

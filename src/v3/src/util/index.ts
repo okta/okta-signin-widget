@@ -20,6 +20,7 @@ export * from './cookieUtils';
 export * from './environmentUtils';
 export * from './escape';
 export * from './extractPageTitle';
+export * from './fastpassPollingLog';
 export * from './flattenInputs';
 export * from './formatError';
 export * from './formUtils';
