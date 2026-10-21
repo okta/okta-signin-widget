@@ -229,6 +229,7 @@ export interface WebAuthNAutofillUICredentials {
   authenticatorData: string;
   signatureData: string;
   userHandle: string;
+  credentialId?: string;
 }
 
 export interface IdxAuthenticatorWithChallengeData extends IdxAuthenticator {

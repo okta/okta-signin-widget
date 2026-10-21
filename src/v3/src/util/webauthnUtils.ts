@@ -10,8 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { OktaAuth } from '@okta/okta-auth-js';
-import omit from 'lodash/omit';
+import { IdxTransaction, OktaAuth } from '@okta/okta-auth-js';
 
 import {
   WebAuthNAuthenticationHandler,
@@ -56,6 +55,20 @@ export const isPasskeyAutofillAvailable = async () => {
 };
 
 export const isGetPasskeyAvailable = () => isCredentialsGetApiAvailable() && typeof PublicKeyCredential !== 'undefined';
+
+/**
+ * Whether the remediation's credentials form advertises `credentialId`.
+ * The credential ID is only sent when the server opts in, so older servers that
+ * reject unknown credential properties keep receiving the payload they expect.
+ */
+export const isCredentialIdAccepted = (
+  transaction: IdxTransaction,
+  stepName: string | undefined,
+): boolean => {
+  const remediation = transaction.neededToProceed?.find(({ name }) => name === stepName);
+  const credentialsInput = remediation?.value?.find(({ name }) => name === 'credentials');
+  return !!credentialsInput?.form?.value?.some(({ name }) => name === 'credentialId');
+};
 
 export const isRelyingPartyIdMismatchError = (error: unknown): boolean => (
   (error as DOMException)?.name === 'SecurityError'
@@ -148,8 +161,13 @@ export const webAuthNAuthenticationHandler: WebAuthNAuthenticationHandler = asyn
   }
 
   // Extracts the key properties from the credentials object and returns.
-  // for some reason generic remediator does not allow/expect id field and fails when passed
-  return { credentials: omit(OktaAuth.webauthn.getAssertion(credentials), ['id']) };
+  // The server rejects unknown properties, so `id` is never sent as-is; it is
+  // forwarded as `credentialId` only when the remediation form declares it.
+  const { id, ...assertion } = OktaAuth.webauthn.getAssertion(credentials);
+  if (id && isCredentialIdAccepted(transaction, nextStep.name)) {
+    return { credentials: { ...assertion, credentialId: id } };
+  }
+  return { credentials: assertion };
 };
 
 const challengeDataToCredentialRequestOptions = (
@@ -170,6 +188,7 @@ function isAuthenticatorAssertionResponse(
 
 const createPayloadFromCredentials = (
   credential: PublicKeyCredential,
+  includeCredentialId: boolean,
 ): WebAuthNAutofillUICredentials | undefined => {
   if (credential && isAuthenticatorAssertionResponse(credential.response)) {
     return {
@@ -177,6 +196,7 @@ const createPayloadFromCredentials = (
       authenticatorData: binToStr(credential.response.authenticatorData),
       signatureData: binToStr(credential.response.signature),
       userHandle: binToStr(credential.response.userHandle as ArrayBuffer),
+      ...(includeCredentialId && credential.id && { credentialId: credential.id }),
     } as WebAuthNAutofillUICredentials;
   }
   return undefined;
@@ -185,6 +205,7 @@ const createPayloadFromCredentials = (
 export const webAuthNAutofillActionHandler = async (
   challengeData: WebAuthNChallengeDataWithUserVerification,
   abortController: AbortController | undefined,
+  includeCredentialId = false,
 ): Promise<WebAuthNAutofillUICredentials | undefined> => {
   // if the browser doesn't support Passkey autofill and AbortController,
   // no action needs to be taken as there are other steps the user can take to proceed
@@ -198,7 +219,7 @@ export const webAuthNAutofillActionHandler = async (
       signal: abortController.signal,
     })) as PublicKeyCredential;
 
-    return createPayloadFromCredentials(credential);
+    return createPayloadFromCredentials(credential, includeCredentialId);
   }
   return undefined;
 };
@@ -206,6 +227,7 @@ export const webAuthNAutofillActionHandler = async (
 export const webAuthNModalActionHandler = async (
   challengeData: WebAuthNChallengeDataWithUserVerification,
   abortController: AbortController | undefined,
+  includeCredentialId = false,
 ): Promise<WebAuthNAutofillUICredentials | undefined> => {
   // if the browser doesn't support Passkey and AbortController,
   // no action needs to be taken as there are other steps the user can take to proceed
@@ -221,5 +243,5 @@ export const webAuthNModalActionHandler = async (
     signal: abortController.signal,
   })) as PublicKeyCredential;
 
-  return createPayloadFromCredentials(credential);
+  return createPayloadFromCredentials(credential, includeCredentialId);
 };

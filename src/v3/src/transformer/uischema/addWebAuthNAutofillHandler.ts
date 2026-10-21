@@ -19,7 +19,11 @@ import {
   WebAuthNAutofillElement,
   WebAuthNAutofillUICredentials,
 } from '../../types';
-import { isConditionalMediationAvailable, webAuthNAutofillActionHandler } from '../../util';
+import {
+  isConditionalMediationAvailable,
+  isCredentialIdAccepted,
+  webAuthNAutofillActionHandler,
+} from '../../util';
 import { traverseLayout } from '../util';
 import { getUIElementWithName } from '../utils';
 
@@ -67,6 +71,10 @@ export const addWebAuthNAutofillHandler: TransformStepFnWithOptions = ({
     if (webauthAutofillStep) {
       const { challengeData } = webauthAutofillStep
         .relatesTo?.value as IdxAuthenticatorWithChallengeData;
+      const includeCredentialId = isCredentialIdAccepted(
+        transaction,
+        IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
+      );
       const webAuthNAutofillEl: WebAuthNAutofillElement = {
         type: 'WebAuthNAutofill',
         options: {
@@ -75,6 +83,7 @@ export const addWebAuthNAutofillHandler: TransformStepFnWithOptions = ({
             webAuthNAutofillActionHandler(
               challengeData,
               abortController,
+              includeCredentialId,
             ) as Promise<WebAuthNAutofillUICredentials>
           ),
         },

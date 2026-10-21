@@ -55,7 +55,7 @@ import {
 import { idpIconMap } from './idpIconMap';
 import { loc } from './locUtil';
 import { probeLoopbackAndExecute } from './probeLoopbackAndExecute';
-import { webAuthNModalActionHandler } from './webauthnUtils';
+import { isCredentialIdAccepted, webAuthNModalActionHandler } from './webauthnUtils';
 
 export type PhoneVerificationStep = typeof IDX_STEP.CHALLENGE_AUTHENTICATOR
 | typeof IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA;
@@ -128,6 +128,7 @@ export const getSignInWithPasskeyButtonElement = (
       getCredentials: (abortController: AbortController | undefined) => (webAuthNModalActionHandler(
         challengeData,
         abortController,
+        isCredentialIdAccepted(transaction, IDX_STEP.LAUNCH_PASSKEYS_AUTHENTICATOR),
       ) as Promise<WebAuthNAutofillUICredentials>),
     },
   }];

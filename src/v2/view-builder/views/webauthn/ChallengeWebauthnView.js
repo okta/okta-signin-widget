@@ -122,6 +122,12 @@ const Body = BaseForm.extend({
           userHandle: CryptoUtil.binToStr(assertion.response.userHandle ?? '')
         });
       }
+      const hasCredentialIdSchema = this.options.appState.getSchemaByName('credentials.credentialId');
+      if (hasCredentialIdSchema && assertion.id) {
+        _.extend(credentials, {
+          credentialId: assertion.id
+        });
+      }
 
       this.model.set({
         credentials

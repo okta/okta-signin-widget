@@ -297,6 +297,11 @@ const Body = BaseForm.extend({
       signatureData: CryptoUtil.binToStr(assertion.response.signature),
       userHandle
     };
+    const credentialsForm = this.options.appState.hasRemediationObject(remediation)?.value
+      ?.find(({ name }) => name === 'credentials')?.form?.value;
+    if (assertion.id && credentialsForm?.some(({ name }) => name === 'credentialId')) {
+      credentials.credentialId = assertion.id;
+    }
 
     this.options.appState.trigger('invokeAction', remediation, {credentials});
   },

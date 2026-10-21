@@ -20,7 +20,12 @@ import {
 } from '@okta/okta-auth-js';
 import { getMockCreateCredentialsResponse, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
-import { isRelyingPartyIdMismatchError, webAuthNAuthenticationHandler, webAuthNEnrollmentHandler } from '.';
+import {
+  isCredentialIdAccepted,
+  isRelyingPartyIdMismatchError,
+  webAuthNAuthenticationHandler,
+  webAuthNEnrollmentHandler,
+} from '.';
 
 jest.mock('./locUtil', () => ({
   loc: jest.fn().mockImplementation((key: string, _bundle: string, params?: unknown[]) => {
@@ -50,6 +55,43 @@ describe('isRelyingPartyIdMismatchError', () => {
     expect(isRelyingPartyIdMismatchError(null)).toBe(false);
     expect(isRelyingPartyIdMismatchError(undefined)).toBe(false);
     expect(isRelyingPartyIdMismatchError('string')).toBe(false);
+  });
+});
+
+const credentialsInput = (fieldNames: string[]) => ({
+  name: 'credentials',
+  form: { value: fieldNames.map((name) => ({ name })) },
+});
+
+describe('isCredentialIdAccepted', () => {
+  it('should return true when the step credentials form declares credentialId', () => {
+    const transaction = getStubTransactionWithNextStep();
+    transaction.neededToProceed = [{
+      name: 'challenge-authenticator',
+      value: [credentialsInput(['clientData', 'credentialId'])],
+    }] as unknown as typeof transaction.neededToProceed;
+
+    expect(isCredentialIdAccepted(transaction, 'challenge-authenticator')).toBe(true);
+  });
+
+  it('should return false when the step credentials form does not declare credentialId', () => {
+    const transaction = getStubTransactionWithNextStep();
+    transaction.neededToProceed = [{
+      name: 'challenge-authenticator',
+      value: [credentialsInput(['clientData', 'userHandle'])],
+    }] as unknown as typeof transaction.neededToProceed;
+
+    expect(isCredentialIdAccepted(transaction, 'challenge-authenticator')).toBe(false);
+  });
+
+  it('should return false when the step is not present', () => {
+    const transaction = getStubTransactionWithNextStep();
+    transaction.neededToProceed = [{
+      name: 'identify',
+      value: [credentialsInput(['credentialId'])],
+    }] as unknown as typeof transaction.neededToProceed;
+
+    expect(isCredentialIdAccepted(transaction, 'challenge-authenticator')).toBe(false);
   });
 });
 
@@ -187,6 +229,59 @@ describe('WebAuthN Util Tests', () => {
       expect(mockedWebauthn.getAssertion).toHaveBeenCalled();
       expect(mockCredentialsContainer.get).toHaveBeenCalled();
     });
+
+  it('should omit id from the verification payload when credentialId is not declared', async () => {
+    transaction.nextStep = {
+      name: 'challenge-authenticator',
+      relatesTo: {
+        value: {
+          contextualData: { challengeData: {} as ChallengeData },
+        } as IdxAuthenticator,
+      },
+    };
+    transaction.neededToProceed = [{
+      name: 'challenge-authenticator',
+      value: [credentialsInput(['clientData', 'authenticatorData', 'signatureData'])],
+    }] as unknown as typeof transaction.neededToProceed;
+    transaction.rawIdxState = {
+      ...transaction.rawIdxState,
+      authenticatorEnrollments: { value: [{ credentialId: '123456' }] },
+    } as RawIdxResponse;
+    const { credentials } = await webAuthNAuthenticationHandler(transaction);
+
+    expect(credentials).toEqual({
+      clientData: 'abc',
+      authenticatorData: 'def',
+      signatureData: 'ghi',
+    });
+  });
+
+  it('should send id as credentialId when the challenge form declares credentialId', async () => {
+    transaction.nextStep = {
+      name: 'challenge-authenticator',
+      relatesTo: {
+        value: {
+          contextualData: { challengeData: {} as ChallengeData },
+        } as IdxAuthenticator,
+      },
+    };
+    transaction.neededToProceed = [{
+      name: 'challenge-authenticator',
+      value: [credentialsInput(['clientData', 'authenticatorData', 'signatureData', 'credentialId'])],
+    }] as unknown as typeof transaction.neededToProceed;
+    transaction.rawIdxState = {
+      ...transaction.rawIdxState,
+      authenticatorEnrollments: { value: [{ credentialId: '123456' }] },
+    } as RawIdxResponse;
+    const { credentials } = await webAuthNAuthenticationHandler(transaction);
+
+    expect(credentials).toEqual({
+      clientData: 'abc',
+      authenticatorData: 'def',
+      signatureData: 'ghi',
+      credentialId: '123',
+    });
+  });
 
   it('should throw an error when browser credentials prompt is interrupted while authenticating with webauthn', async () => {
     mockCredentialsContainer.get = jest.fn().mockImplementationOnce(

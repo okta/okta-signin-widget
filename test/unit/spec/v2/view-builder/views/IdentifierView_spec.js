@@ -469,6 +469,58 @@ describe('v2/view-builder/views/IdentifierView', function() {
     });
   });
 
+  describe('remediateWithAssertion credentialId', function() {
+    const assertion = {
+      id: 'credential-id-b',
+      response: {
+        clientDataJSON: new Uint8Array([1]).buffer,
+        authenticatorData: new Uint8Array([2]).buffer,
+        signature: new Uint8Array([3]).buffer,
+        userHandle: new Uint8Array([4]).buffer,
+      },
+    };
+    const credentialsRemediation = (fieldNames) => ({
+      name: FORMS.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
+      value: [{ name: 'credentials', form: { value: fieldNames.map((name) => ({ name })) } }],
+    });
+
+    beforeEach(function() {
+      jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+      jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(true);
+      jest.spyOn(webauthn, 'isConditionalMediationAvailable').mockReturnValue(false);
+    });
+
+    it('includes credentialId when the remediation credentials form declares it', function() {
+      jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(
+        credentialsRemediation(['clientData', 'userHandle', 'credentialId'])
+      );
+      testContext.init(XHRIdentifyWithWebAuthnAutofill.remediation.value);
+      const triggerSpy = jest.spyOn(testContext.view.options.appState, 'trigger');
+
+      testContext.view.form.remediateWithAssertion(assertion, FORMS.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR);
+
+      expect(triggerSpy).toHaveBeenCalledWith(
+        'invokeAction',
+        FORMS.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
+        { credentials: expect.objectContaining({ credentialId: 'credential-id-b' }) },
+      );
+    });
+
+    it('omits credentialId when the remediation credentials form does not declare it', function() {
+      jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(
+        credentialsRemediation(['clientData', 'userHandle'])
+      );
+      testContext.init(XHRIdentifyWithWebAuthnAutofill.remediation.value);
+      const triggerSpy = jest.spyOn(testContext.view.options.appState, 'trigger');
+
+      testContext.view.form.remediateWithAssertion(assertion, FORMS.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR);
+
+      const [, , { credentials }] = triggerSpy.mock.calls.find(([event]) => event === 'invokeAction');
+      expect(credentials).not.toHaveProperty('credentialId');
+      expect(credentials.userHandle).toBeDefined();
+    });
+  });
+
   describe('Modal passkey error handling', function() {
     beforeEach(function() {
       jest.spyOn(AppState.prototype, 'get').mockImplementation((key) => {

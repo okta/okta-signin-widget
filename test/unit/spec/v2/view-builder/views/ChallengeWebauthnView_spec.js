@@ -34,7 +34,12 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
       });
       jest.spyOn(appState, 'shouldShowSignOutLinkInCurrentForm').mockReturnValue(false);
       jest.spyOn(appState, 'hasRemediationObject').mockReturnValue(residentKeySetting.canEnrollResidentKey ?? false);
-      jest.spyOn(appState, 'getSchemaByName').mockReturnValue(residentKeySetting.hasUserHandleSchema ?? false);
+      if (residentKeySetting.schemaNames) {
+        jest.spyOn(appState, 'getSchemaByName')
+          .mockImplementation((name) => residentKeySetting.schemaNames.includes(name));
+      } else {
+        jest.spyOn(appState, 'getSchemaByName').mockReturnValue(residentKeySetting.hasUserHandleSchema ?? false);
+      }
       const settings = new Settings({ baseUrl: 'http://localhost:3000' });
       const currentViewState = {
         name: 'challenge-authenticator',
@@ -414,6 +419,76 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
       });
       expect(testContext.view.form.saveForm).toHaveBeenCalledWith(testContext.view.form.model);
       expect(testContext.view.form.webauthnAbortController).toBe(null);
+      done();
+    })
+      .catch(done.fail);
+  });
+
+  it('saveForm is called with credentialId when the credentials form declares credentialId', function(done) {
+    const assertion = {
+      id: 'credential-id-b',
+      response: {
+        clientDataJSON: 123,
+        authenticatorData: 234,
+        signature: 'magizh',
+        userHandle: 'userId',
+      },
+    };
+
+    jest.spyOn(BaseForm.prototype, 'saveForm');
+    jest.spyOn(navigator.credentials, 'get').mockReturnValue(Promise.resolve(assertion));
+
+    testContext.init(
+      ChallengeWebauthnResponse.currentAuthenticator.value,
+      [],
+      {},
+      { schemaNames: ['credentials.credentialId'] }
+    );
+
+    Expect.wait(() => {
+      return BaseForm.prototype.saveForm.mock.calls.length > 0;
+    }).then(() => {
+      expect(testContext.view.form.model.get('credentials')).toEqual({
+        clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),
+        authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
+        signatureData: CryptoUtil.binToStr(assertion.response.signature),
+        credentialId: 'credential-id-b',
+      });
+      done();
+    })
+      .catch(done.fail);
+  });
+
+  it('saveForm is called without credentialId when the credentials form does not declare it', function(done) {
+    const assertion = {
+      id: 'credential-id-b',
+      response: {
+        clientDataJSON: 123,
+        authenticatorData: 234,
+        signature: 'magizh',
+        userHandle: 'userId',
+      },
+    };
+
+    jest.spyOn(BaseForm.prototype, 'saveForm');
+    jest.spyOn(navigator.credentials, 'get').mockReturnValue(Promise.resolve(assertion));
+
+    testContext.init(
+      ChallengeWebauthnResponse.currentAuthenticator.value,
+      [],
+      {},
+      { schemaNames: ['credentials.userHandle'] }
+    );
+
+    Expect.wait(() => {
+      return BaseForm.prototype.saveForm.mock.calls.length > 0;
+    }).then(() => {
+      expect(testContext.view.form.model.get('credentials')).toEqual({
+        clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),
+        authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
+        signatureData: CryptoUtil.binToStr(assertion.response.signature),
+        userHandle: CryptoUtil.binToStr(assertion.response.userHandle),
+      });
       done();
     })
       .catch(done.fail);
