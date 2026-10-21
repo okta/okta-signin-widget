@@ -81,8 +81,9 @@ function indexOf(array, value) {
 
 function escapeExpression(string) {
   if (typeof string !== 'string') {
-    // don't escape SafeStrings, since they're already safe
-    if (string && string.toHTML) {
+    // don't escape SafeStrings, since they're already safe. Other values with a
+    // "toHTML" key, e.g. from JSON context data, are escaped like any object.
+    if (string && typeof string.toHTML === 'function') {
       return string.toHTML();
     } else if (string == null) {
       return '';

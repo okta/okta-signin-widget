@@ -305,7 +305,7 @@ const StringUtil =
     const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
 
     if (length === undefined) {
-      length = oktaUnderscore.random(characters.length);
+      length = (window.crypto || window.msCrypto).getRandomValues(new Uint32Array(1))[0] % (characters.length + 1);
     } else if (length === 0) {
       return '';
     }
@@ -313,7 +313,7 @@ const StringUtil =
     const stringArray = [];
 
     while (length--) {
-      stringArray.push(characters[oktaUnderscore.random(characters.length - 1)]);
+      stringArray.push(characters[(window.crypto || window.msCrypto).getRandomValues(new Uint32Array(1))[0] % characters.length]);
     }
 
     return stringArray.join('');

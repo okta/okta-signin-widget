@@ -127,36 +127,38 @@ const PasswordBoxForSigninWidget = PasswordBox.extend({
 });
 const Form = BaseForm.extend({
   scrollOnError: function () {
-    // scrollOnError is true by default. Override to false if `scrollOnError` has been set to false in widget settings.
     const {
       settings: settings
-    } = this.options;
-
-    // OKTA-1104008 diagnostics: log every scroll-on-error gate evaluation so we can
+    } = this.options; // OKTA-1104008 diagnostics: log every scroll-on-error gate evaluation so we can
     // confirm whether iPadOS is firing this per keystroke. iOS-only (covers iPadOS 13+
     // which reports as Mac). Wrapped in try/catch so a property-access failure never
     // breaks the widget. Volume is bounded by the 100ms throttle on the underlying
     // 'invalid error' listener. Remove together with PR #3974's behavioral fix.
+
     try {
       const ua = navigator.userAgent;
-      const isIOS = /iPad|iPhone|iPod/i.test(ua) || (ua.includes('Mac') && 'ontouchend' in document);
+      const isIOS = /iPad|iPhone|iPod/i.test(ua) || ua.includes('Mac') && 'ontouchend' in document;
+
       if (isIOS) {
-        const active = document.activeElement;
+        const active = document.activeElement || null;
         console.log({
           tag: 'siw-scroll-diag:gate',
           ts: Date.now(),
-          ua,
+          ua: ua,
           active: {
-            tag: active && active.tagName,
-            type: active && active.type,
-            readOnly: active && active.readOnly,
+            tag: active?.tagName,
+            type: active?.type,
+            readOnly: active?.readOnly
           },
           scrollY: window.scrollY,
-          visualViewportH: window.visualViewport && window.visualViewport.height,
-          scrollOnErrorSetting: settings.get('features.scrollOnError'),
+          visualViewportH: window.visualViewport?.height,
+          scrollOnErrorSetting: settings.get('features.scrollOnError')
         });
       }
-    } catch (_e) { /* diagnostics must never break the form */ }
+    } catch (_e) {
+      /* diagnostics must never break the form */
+    } // scrollOnError is true by default. Override to false if `scrollOnError` has been set to false in widget settings.
+
 
     if (settings.get('features.scrollOnError') === false) {
       return false;

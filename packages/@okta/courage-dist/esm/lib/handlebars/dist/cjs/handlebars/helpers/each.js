@@ -19,6 +19,27 @@ var _utils = utils;
 var _exception = exception.exports;
 
 var _exception2 = _interopRequireDefault(_exception);
+/**
+ * Close an unfinished iterator after the block body threw, like for...of does,
+ * so that generators can run their cleanup code.
+ *
+ * Errors thrown while closing, including by a `return` getter, are ignored:
+ * the block's error is the cause and is the one the caller must see.
+ *
+ * @param {Iterator} iterator the iterator that was being consumed
+ */
+
+
+function closeIterator(iterator) {
+  try {
+    var _close = iterator['return'];
+
+    if (_utils.isFunction(_close)) {
+      _close.call(iterator);
+    }
+  } catch (closeError) {// NOP
+  }
+}
 
 exports['default'] = function (instance) {
   instance.registerHelper('each', function (context, options) {
@@ -45,7 +66,7 @@ exports['default'] = function (instance) {
       data = _utils.createFrame(options.data);
     }
 
-    function execIteration(field, index, last) {
+    function execIteration(field, index, last, value) {
       if (data) {
         data.key = field;
         data.index = index;
@@ -57,9 +78,9 @@ exports['default'] = function (instance) {
         }
       }
 
-      ret = ret + fn(context[field], {
+      ret = ret + fn(value, {
         data: data,
-        blockParams: _utils.blockParams([context[field], field], [contextPath + field, null])
+        blockParams: _utils.blockParams([value, field], [contextPath + field, null])
       });
     }
 
@@ -67,21 +88,28 @@ exports['default'] = function (instance) {
       if (_utils.isArray(context)) {
         for (var j = context.length; i < j; i++) {
           if (i in context) {
-            execIteration(i, i, i === context.length - 1);
+            execIteration(i, i, i === context.length - 1, context[i]);
           }
         }
       } else if (typeof Symbol === 'function' && context[Symbol.iterator]) {
-        var newContext = [];
         var iterator = context[Symbol.iterator]();
+        var current = iterator.next();
 
-        for (var it = iterator.next(); !it.done; it = iterator.next()) {
-          newContext.push(it.value);
-        }
+        while (!current.done) {
+          var next = iterator.next();
 
-        context = newContext;
+          try {
+            execIteration(i, i, next.done, current.value);
+          } catch (e) {
+            if (!next.done) {
+              closeIterator(iterator);
+            }
 
-        for (var j = context.length; i < j; i++) {
-          execIteration(i, i, i === context.length - 1);
+            throw e;
+          }
+
+          current = next;
+          i++;
         }
       } else {
         (function () {
@@ -91,7 +119,7 @@ exports['default'] = function (instance) {
             // the last iteration without have to scan the object twice and create
             // an itermediate keys array.
             if (priorKey !== undefined) {
-              execIteration(priorKey, i - 1);
+              execIteration(priorKey, i - 1, false, context[priorKey]);
             }
 
             priorKey = key;
@@ -99,7 +127,7 @@ exports['default'] = function (instance) {
           });
 
           if (priorKey !== undefined) {
-            execIteration(priorKey, i - 1, true);
+            execIteration(priorKey, i - 1, true, context[priorKey]);
           }
         })();
       }

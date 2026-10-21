@@ -8,6 +8,7 @@ import { l as logger } from '../../../../../../_virtual/logger.js';
 protoAccess.__esModule = true;
 protoAccess.createProtoAccessControl = createProtoAccessControl;
 protoAccess.resultIsAllowed = resultIsAllowed;
+protoAccess.isPrototypeConstructor = isPrototypeConstructor;
 protoAccess.resetLoggedProperties = resetLoggedProperties; // istanbul ignore next
 
 function _interopRequireDefault(obj) {
@@ -60,6 +61,25 @@ function resultIsAllowed(result, protoAccessControl, propertyName) {
   } else {
     return checkWhiteList(protoAccessControl.properties, propertyName);
   }
+}
+/**
+ * Detect a prototype object's own "constructor" back-reference, e.g.
+ * `Function.prototype.constructor === Function`. Because "constructor" is an
+ * "own" property of such objects, it would otherwise bypass the prototype-access
+ * checks and expose dangerous constructors (allowing arbitrary code execution).
+ *
+ * Only functions can be constructors, so other values are never treated as one
+ * and their `prototype` is never read.
+ *
+ * @param {*} parent the object the property is being read from
+ * @param {string} propertyName the property being looked up
+ * @param {*} result the already-resolved value of `parent[propertyName]`
+ * @returns {boolean} true if the lookup resolves `parent`'s own constructor
+ */
+
+
+function isPrototypeConstructor(parent, propertyName, result) {
+  return propertyName === 'constructor' && typeof result === 'function' && parent === result.prototype;
 }
 
 function checkWhiteList(protoAccessControlForType, propertyName) {
