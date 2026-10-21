@@ -34,8 +34,11 @@ interface JQueryStatic {
   trim(str: string): string;
 }
 
+// msCrypto was removed from lib.dom.d.ts but courage's StringUtil still
+// references it as a legacy IE fallback for window.crypto
 interface Window {
   jQueryCourage?: JQueryStatic;
   _features?: string[];
   okta?: OktaCourage.okta;
+  msCrypto?: Crypto;
 }

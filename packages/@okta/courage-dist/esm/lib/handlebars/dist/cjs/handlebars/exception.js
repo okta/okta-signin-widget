@@ -10,13 +10,18 @@ function Exception(message, node) {
       line = undefined,
       endLineNumber = undefined,
       column = undefined,
-      endColumn = undefined;
+      endColumn = undefined; // Hand-built ASTs may carry a partial loc; never let the location
+  // bookkeeping mask the actual error message.
 
-  if (loc) {
+  if (loc && loc.start) {
     line = loc.start.line;
-    endLineNumber = loc.end.line;
     column = loc.start.column;
-    endColumn = loc.end.column;
+
+    if (loc.end) {
+      endLineNumber = loc.end.line;
+      endColumn = loc.end.column;
+    }
+
     message += ' - ' + line + ':' + column;
   }
 

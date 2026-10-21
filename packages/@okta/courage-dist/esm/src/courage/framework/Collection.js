@@ -125,7 +125,6 @@ const collectionProps =
     // - appversions/src/models/CustomType.js
     // - appversions/src/models/EnumType.js
     // - appversions/src/models/SignOnMode.js
-    // - authn-factors/src/models/Feature.js
     // - shared/src/models/SamlAttribute.js
     // 3. Function that returns a class.
     //    model: function() { return BaseModel.extend({..}); }

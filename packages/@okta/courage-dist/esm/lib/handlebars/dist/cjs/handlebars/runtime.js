@@ -108,9 +108,21 @@ function template(templateSpec, env) {
     partial = env.VM.resolvePartial.call(this, partial, context, options);
     options.hooks = this.hooks;
     options.protoAccessControl = this.protoAccessControl;
-    var result = env.VM.invokePartial.call(this, partial, context, options);
+    var result = env.VM.invokePartial.call(this, partial, context, options); // An empty result normally means the partial is template source that still
+    // has to be compiled. A function partial has already been invoked, so an
+    // empty result from it is a bug in that partial.
+
+    if (result == null && Utils.isFunction(partial)) {
+      throw new _exception2['default']('The partial ' + options.name + ' returned no output: partials must return a string');
+    }
 
     if (result == null && env.compile) {
+      // Only template source registered as a partial may be compiled here.
+      // Anything else (e.g. an AST-shaped object) must not become code.
+      if (typeof partial !== 'string') {
+        throw new _exception2['default']('The partial ' + options.name + ' could not be compiled: partials must be strings or functions returning strings');
+      }
+
       options.partials[options.name] = env.compile(partial, templateSpec.compilerOptions, env);
       result = options.partials[options.name](context, options);
     }
@@ -152,9 +164,14 @@ function template(templateSpec, env) {
 
       if (result == null) {
         return result;
-      }
+      } // Own properties are trusted context data and returned as-is, except for
+      // a prototype's own "constructor" back-reference (e.g.
+      // Function.prototype.constructor === Function): that must still pass the
+      // prototype-access deny list, otherwise the Function constructor becomes
+      // reachable and arbitrary code can be executed.
 
-      if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+
+      if (Object.prototype.hasOwnProperty.call(parent, propertyName) && !_internalProtoAccess.isPrototypeConstructor(parent, propertyName, result)) {
         return result;
       }
 
@@ -331,8 +348,11 @@ function resolvePartial(partial, context, options) {
     } else {
       partial = lookupOwnProperty(options.partials, options.name);
     }
-  } else if (!partial.call && !options.name) {
-    // This is a dynamic partial that returned a string
+  } else if (typeof partial !== 'function' && !options.name) {
+    // This is a dynamic partial that returned a name rather than a compiled
+    // partial. Only functions are accepted as partials here; any other value
+    // (including an object with a "call" property) is treated as a name, so
+    // that context data can never be compiled as a template.
     options.name = partial;
     partial = lookupOwnProperty(options.partials, partial);
   }
