@@ -537,10 +537,10 @@
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
 
-"@okta/courage@4.7.0-10243-g5f61b1c":
-  version "4.7.0-10243-g5f61b1c"
-  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.7.0-10243-g5f61b1c.tgz#3148ba75ed879945aaaac930573af3967aa1583e"
-  integrity sha512-sVQxHYPHu2uisvSjNqceFc4dDunTHErROFabo9Uz222f/bNNy5rQU8pCT92hcRU3nCUeRuPh9+dojuG2ZJoBkg==
+"@okta/courage@4.7.0-10244-g9746d51":
+  version "4.7.0-10244-g9746d51"
+  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.7.0-10244-g9746d51.tgz#6c9ba78cf5eb540b866d1fc4a451ed9993ed3153"
+  integrity sha512-wQgKi7rlJZU1S3dpfCBQhQ3JhSnUn1i0DnJpp4/jkKfu1XFdYUeHAj2EYIbXbjfPqwjZ6DjwvBQj2lZIbds66w==
   dependencies:
     "@okta/auth-foundation" "^0.5.1-g1a4d389"
     "@okta/jquery.simplemodal" "1.4.19-g8b711ea"
