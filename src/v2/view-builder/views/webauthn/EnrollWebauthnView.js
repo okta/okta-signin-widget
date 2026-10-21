@@ -148,9 +148,10 @@ const Body = BaseForm.extend({
     const relatesToObject = this.options.currentViewState.relatesTo;
     const activationData = relatesToObject?.value.contextualData.activationData;
     if (webauthn.isNewApiAvailable()) {
-      const excludeCredentials = activationData.authenticatorSelection?.requireResidentKey === true ?
-        [] :
-        getExcludeCredentials(this.options.appState.get('authenticatorEnrollments').value);
+      // Always exclude existing enrollments, including for discoverable credentials. Synced passkey
+      // providers (e.g. iCloud Keychain) silently overwrite a passkey for the same RP + user handle,
+      // which would leave the older Okta enrollment pointing at a key that no longer exists.
+      const excludeCredentials = getExcludeCredentials(this.options.appState.get('authenticatorEnrollments').value);
       const options = _.extend({}, activationData, {
         challenge: CryptoUtil.strToBin(activationData.challenge),
         user: {

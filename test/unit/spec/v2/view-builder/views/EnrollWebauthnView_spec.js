@@ -701,7 +701,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       .catch(done.fail);
   });
 
-  it('credentials.get should be called with empty excludeCredentials when requreResidentKey=true', function(done) {
+  it('credentials.create should be called with existing enrollments in excludeCredentials when requireResidentKey=true', function(done) {
     const newCredential = {
       response: {
         clientDataJSON: 123,
@@ -716,8 +716,6 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
 
     const currentAuthenticator = JSON.parse(JSON.stringify(EnrollWebauthnResponse.currentAuthenticator.value));
     currentAuthenticator.contextualData.activationData.authenticatorSelection.requireResidentKey = true;
-    testContext.init(currentAuthenticator);
-
     testContext.init(currentAuthenticator, EnrollWebauthnResponse.authenticatorEnrollments);
     testContext.view.$('.webauthn-setup').click();
 
@@ -753,7 +751,20 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
               appid: 'http://idx.okta1.com:1802',
             },
             hints: ['security-key'],
-            excludeCredentials: [],
+            excludeCredentials: [
+              {
+                type: 'public-key',
+                id: CryptoUtil.strToBin(
+                  'hpxQXbu5R5Y2JMqpvtE9Oo9FdwO6z2kMR-ZQkAb6p6GSguXQ57oVXKvpVHT2fyCR_m2EL1vIgszxi00kyFIX6w'
+                ),
+              },
+              {
+                type: 'public-key',
+                id: CryptoUtil.strToBin(
+                  '7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w'
+                ),
+              },
+            ],
           },
           signal: jasmine.any(Object),
         });
