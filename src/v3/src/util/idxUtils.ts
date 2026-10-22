@@ -115,6 +115,34 @@ export const containsOneOfMessageKeys = (
   messages?: WidgetMessage[],
 ): boolean => keys.some((key) => containsMessageKey(key, messages));
 
+/**
+ * A transaction renders as a "terminal" view (no further user action) when it is
+ * TERMINAL/SUCCESS, has only a skip remediation, or has no next step. Mirrors the
+ * branch in Widget's formBag derivation that routes to transformTerminalTransaction.
+ */
+export const isTerminalTransaction = (transaction?: IdxTransaction): boolean => {
+  if (!transaction) {
+    return false;
+  }
+  return [IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(transaction.status)
+    || transaction.nextStep?.name === IDX_STEP.SKIP
+    || !transaction.nextStep;
+};
+
+/**
+ * True for a terminal view that represents a FAILURE the user is stuck on — the
+ * "crash" surface in the feedback design — as opposed to a successful end state
+ * (e.g. a success redirect). Gated on an ERROR-class terminal message and the
+ * absence of a success context. Used to decide between the inline "Report issue"
+ * form (error terminal) and the "Send feedback" link (active steps).
+ */
+export const isErrorTerminalTransaction = (transaction?: IdxTransaction): boolean => {
+  if (!isTerminalTransaction(transaction) || transaction?.context?.success) {
+    return false;
+  }
+  return transaction?.messages?.some((m) => m.class === 'ERROR') ?? false;
+};
+
 export const updatePasswordRequirementsNotMetMessage = (
   messages: IdxMessage[],
 ): IdxMessage[] => (

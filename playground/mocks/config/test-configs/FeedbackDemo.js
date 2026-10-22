@@ -36,6 +36,7 @@ const identifyThenTerminalMock = {
 };
 
 // Simplest: land directly on a view on page load (zero clicks before sending).
+// The "Send feedback" link + dialog surface is available on this (and any) view.
 const simpleTerminalMock = {
   ...base,
   '/idp/idx/introspect': [
@@ -43,7 +44,58 @@ const simpleTerminalMock = {
   ],
 };
 
+// Crash surface: /introspect returns HTTP 500 (the filename's error-500- prefix
+// drives the status), so bootstrap throws and the widget sets responseError.
+// With feedback.enabled, the inline "Report issue to Okta" form renders in place
+// of the plain "Unable to load page" error view. Submit is gated on the consent
+// checkbox; a successful send swaps in the green "Report sent to Okta" confirmation.
+const crashMock = {
+  ...base,
+  '/idp/idx/introspect': [
+    'error-500-internal-server-error'
+  ],
+};
+
+// "Send feedback" dialog surface: land on a normal, actionable step (identify)
+// and STAY there (no identify route registered, so submitting does nothing).
+// The bottom-of-view "Send feedback" link opens the dialog. Submit is gated on
+// the consent checkbox; a successful send closes the dialog + shows a success toast.
+const activeStepMock = {
+  ...base,
+  '/idp/idx/introspect': [
+    'identify'
+  ],
+};
+
+// Realistic multi-step journey for exercising the Sentry event + Session Replay
+// end to end. Two good actionable steps, then an error terminal:
+//   1. introspect        -> identify (enter any username, Next)
+//   2. identify          -> email verification w/ a direct OTP field
+//                           (enter any code, Verify) — the no-magic-link variant
+//                           lands straight on the passcode input so the next POST
+//                           goes to /challenge/answer
+//   3. challenge/answer  -> terminal-return-error-email (error terminal)
+// On steps 1-2 the bottom-of-view "Send feedback" link + dialog is available; on
+// step 3 the inline "Report issue to Okta" crash form renders. Either way the
+// replay buffer has captured the full multi-request journey, so the feedback
+// event in Sentry links a replay that walks through all three steps.
+const multiStepThenTerminalMock = {
+  ...base,
+  '/idp/idx/introspect': [
+    'identify'
+  ],
+  '/idp/idx/identify': [
+    'authenticator-verification-email-without-emailmagiclink'
+  ],
+  '/idp/idx/challenge/answer': [
+    'terminal-return-error-email'
+  ],
+};
+
 module.exports = {
   identifyThenTerminalMock,
   simpleTerminalMock,
+  crashMock,
+  activeStepMock,
+  multiStepThenTerminalMock,
 };

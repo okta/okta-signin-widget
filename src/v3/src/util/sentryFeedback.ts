@@ -53,6 +53,15 @@ export interface FeedbackContext {
 export interface SendFeedbackOptions {
   /** Optional free-form comment typed by the user. */
   comment?: string;
+  /** Optional email the user typed; passed through to the Sentry feedback entry. */
+  email?: string;
+  /**
+   * Whether to attach the Session Replay buffer (the "diagnostic logs" the user
+   * consents to). When false, no replay is flushed or linked — only the comment,
+   * email, and the fixed tag set are sent. DEFAULT: true (back-compat with the
+   * original always-flush behavior).
+   */
+  attachLogs?: boolean;
   /** Low-cardinality context tags (see {@link FeedbackContext}). */
   context?: FeedbackContext;
 }
@@ -137,7 +146,10 @@ export const sendFeedbackToSentry = async (
     return { ok: false };
   }
 
-  const replayId = await flushReplay(Sentry);
+  // Replay is the "diagnostic logs" the user consents to. Only flush/link it
+  // when the caller opted in (attachLogs). Defaults to true for back-compat.
+  const attachLogs = options?.attachLogs ?? true;
+  const replayId = attachLogs ? await flushReplay(Sentry) : undefined;
   const { flow, formName, factor } = options?.context ?? {};
 
   let eventId: string | undefined;
@@ -162,7 +174,7 @@ export const sendFeedbackToSentry = async (
       Sentry.captureUserFeedback({
         event_id: eventId,
         name: 'SIW user',
-        email: '',
+        email: options?.email?.trim() || '',
         comments: options?.comment?.trim() || 'SIW user feedback (no comment)',
       });
     } catch {
