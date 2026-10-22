@@ -53,7 +53,7 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
   const oktaFPRequiresPermissionTitleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: loc('chrome.lna.fastpass.requires.permission.title', 'login'),
+      content: loc('chrome.lna.okta-verify.requires.permission.title', 'login'),
     },
   };
 
@@ -210,7 +210,7 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
           } else {
             uischema.elements = chromeLNAErrorCalloutElements;
             // Log error for Sentry monitoring
-            throw new ChromeLNADeniedError('Chrome Local Network Access permission was denied for FastPass.');
+            throw new ChromeLNADeniedError('Chrome Local Network Access permission was denied for Okta Verify.');
           }
           break;
         default:
