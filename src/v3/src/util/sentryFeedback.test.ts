@@ -162,5 +162,37 @@ describe('sentryFeedback', () => {
       expect(result.ok).toBe(true);
       expect(Sentry.captureUserFeedback).toHaveBeenCalled();
     });
+
+    it('passes the trimmed email through to the user feedback entry', async () => {
+      const { Sentry } = makeFakeSentry();
+      w.Sentry = Sentry;
+
+      await sendFeedbackToSentry({ comment: 'hi', email: '  john.smith@email.com  ' });
+
+      expect(Sentry.captureUserFeedback).toHaveBeenCalledWith(expect.objectContaining({
+        email: 'john.smith@email.com',
+      }));
+    });
+
+    it('does NOT flush/link the replay when attachLogs is false (consent withheld)', async () => {
+      const { Sentry, replay, getScope } = makeFakeSentry({ replayId: 'rep-7' });
+      w.Sentry = Sentry;
+
+      const result = await sendFeedbackToSentry({ comment: 'x', attachLogs: false });
+
+      expect(replay.flush).not.toHaveBeenCalled();
+      expect(result).toEqual({ ok: true, eventId: 'event-abc', replayId: undefined });
+      expect(getScope()?.setTags.mock.calls[0][0]).toMatchObject({ hasReplay: false });
+    });
+
+    it('flushes/links the replay when attachLogs is true (consent given)', async () => {
+      const { Sentry, replay } = makeFakeSentry({ replayId: 'rep-7' });
+      w.Sentry = Sentry;
+
+      const result = await sendFeedbackToSentry({ comment: 'x', attachLogs: true });
+
+      expect(replay.flush).toHaveBeenCalledTimes(1);
+      expect(result).toMatchObject({ ok: true, replayId: 'rep-7' });
+    });
   });
 });

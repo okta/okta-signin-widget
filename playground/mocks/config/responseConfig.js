@@ -1391,6 +1391,11 @@ module.exports = {
   // mocks: Test.ChallengeAuthenticatorEmail.networkFailurePollingMock
   // "Send feedback" -> Sentry demo (gen3). Uncomment one and set feedback.enabled
   // in .widgetrc.js. See src/v3/docs/sentry-user-feedback-playground.md.
-  // mocks: Test.FeedbackDemo.identifyThenTerminalMock,
-  // mocks: Test.FeedbackDemo.simpleTerminalMock,
+  //   multiStepThenTerminalMock -> 3-step journey (identify -> email code -> error terminal);
+  //                                best for exercising the Sentry event + Session Replay
+  //   activeStepMock            -> normal step with the "Send feedback" link + dialog
+  //   crashMock                 -> inline "Report issue to Okta" crash form (error terminal)
+  // mocks: Test.FeedbackDemo.multiStepThenTerminalMock,
+  // mocks: Test.FeedbackDemo.activeStepMock,
+  // mocks: Test.FeedbackDemo.crashMock,
 };
