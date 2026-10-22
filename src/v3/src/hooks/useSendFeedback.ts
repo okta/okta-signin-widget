@@ -16,6 +16,19 @@ import { useWidgetContext } from '../contexts';
 import { getEventContext } from '../util/getEventContext';
 import { SendFeedbackResult, sendFeedbackToSentry } from '../util/sentryFeedback';
 
+/** User-supplied fields collected by the feedback UI. */
+export type SendFeedbackInput = {
+  /** Free-form feedback/comment typed by the user. */
+  comment?: string;
+  /** Optional email typed by the user. */
+  email?: string;
+  /**
+   * Whether the user consented to attaching diagnostic logs (Session Replay).
+   * When omitted, defaults to the sender's behavior (attach).
+   */
+  attachLogs?: boolean;
+};
+
 export type UseSendFeedback = {
   /**
    * Whether the "Send feedback" affordance should be shown. True only when
@@ -23,11 +36,13 @@ export type UseSendFeedback = {
    */
   enabled: boolean;
   /**
-   * Flush the Session Replay buffer and emit a linked Sentry User Feedback
-   * entry for the current flow/form. Safe to call from any view. Resolves with
-   * `{ ok: false }` (and logs) if the wrapper global is absent; never throws.
+   * Emit a linked Sentry User Feedback entry for the current flow/form, with
+   * the user's comment/email and (when consented) the Session Replay buffer.
+   * Safe to call from any view. Accepts a plain comment string for convenience,
+   * or a full input object. Resolves with `{ ok: false }` (and logs) if the
+   * wrapper global is absent; never throws.
    */
-  sendFeedback: (comment?: string) => Promise<SendFeedbackResult>;
+  sendFeedback: (input?: string | SendFeedbackInput) => Promise<SendFeedbackResult>;
 };
 
 /**
@@ -42,13 +57,20 @@ export const useSendFeedback = (): UseSendFeedback => {
   const { feedback, flow } = widgetProps;
   const enabled = Boolean(feedback?.enabled);
 
-  const sendFeedback = useCallback(async (comment?: string): Promise<SendFeedbackResult> => {
+  const sendFeedback = useCallback(async (
+    input?: string | SendFeedbackInput,
+  ): Promise<SendFeedbackResult> => {
     if (!enabled) {
       return { ok: false };
     }
+    const { comment, email, attachLogs } = typeof input === 'string'
+      ? { comment: input, email: undefined, attachLogs: undefined }
+      : (input ?? {});
     const { formName, authenticatorKey } = getEventContext(idxTransaction);
     return sendFeedbackToSentry({
       comment,
+      email,
+      attachLogs,
       context: {
         flow,
         formName,

@@ -23,7 +23,7 @@ import {
   IdxTransaction,
   OAuthError,
 } from '@okta/okta-auth-js';
-import { FunctionComponent, h } from 'preact';
+import { Fragment, FunctionComponent, h } from 'preact';
 import {
   useCallback,
   useEffect,
@@ -64,6 +64,7 @@ import {
   buildAuthCoinProps,
   canBootstrapWidget,
   extractPageTitle,
+  getBackToSignInUri,
   getLanguageCode,
   getLanguageDirection,
   getOdysseyTranslationOverrides,
@@ -71,7 +72,9 @@ import {
   isAuthClientSet,
   isConfigRegisterFlow,
   isConsentStep,
+  isErrorTerminalTransaction,
   isOauth2Enabled,
+  isTerminalTransaction,
   loadLanguage,
   SessionStorage,
   shouldAutoRedirect,
@@ -84,6 +87,7 @@ import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
 import ConsentHeader from '../ConsentHeader';
+import { ReportIssueForm, SendFeedbackLink } from '../Feedback';
 import Form from '../Form';
 import InitialSpinner from '../Spinner/InitialSpinner';
 import GlobalStyles from './GlobalStyles';
@@ -109,6 +113,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     flow,
     widgetHooks,
     features,
+    feedback,
   } = widgetProps;
 
   const [hide, setHide] = useState<boolean>(false);
@@ -523,6 +528,18 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
   }, [getDocumentTitle]);
 
+  // "Send feedback" is off by default. SendFeedbackLink re-checks this via
+  // useSendFeedback(); the crash-form branch needs it directly.
+  const feedbackEnabled = Boolean(feedback?.enabled);
+  // The crash / "Report issue" surface replaces the view on a fatal bootstrap
+  // error (responseError) OR on an IDX error-terminal the user is stuck on. The
+  // "Send feedback" link shows only on normal, actionable steps — never on a
+  // terminal view (per the design: "every step except the crash UI").
+  const isErrorTerminal = isErrorTerminalTransaction(idxTransaction);
+  const showReportIssue = feedbackEnabled && (Boolean(responseError) || isErrorTerminal);
+  const showFeedbackLink = feedbackEnabled && !responseError
+    && !isTerminalTransaction(idxTransaction);
+
   return (
     <WidgetContextProvider value={{
       authClient,
@@ -581,9 +598,29 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
           <AuthContent>
             {isConsentStep(idxTransaction) && <ConsentHeader />}
             {
-              uischema.elements.length > 0
-                ? <Form uischema={uischema as UISchemaLayout} />
-                : <InitialSpinner />
+              // Crash surface: a fatal bootstrap error ("Unable to load page")
+              // or an IDX error-terminal the user is stuck on is replaced by the
+              // inline "Report issue to Okta" form. Otherwise render the normal
+              // form plus the "Send feedback" link on actionable steps.
+              showReportIssue
+                ? (
+                  <ReportIssueForm
+                    onBackToSignIn={() => {
+                      const uri = getBackToSignInUri(widgetProps);
+                      window.location.assign(uri || window.location.href);
+                    }}
+                  />
+                )
+                : (
+                  <Fragment>
+                    {
+                      uischema.elements.length > 0
+                        ? <Form uischema={uischema as UISchemaLayout} />
+                        : <InitialSpinner />
+                    }
+                    {showFeedbackLink && <SendFeedbackLink />}
+                  </Fragment>
+                )
             }
           </AuthContent>
         </AuthContainer>
