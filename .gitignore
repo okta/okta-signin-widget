@@ -26,6 +26,7 @@ package-lock.json
 .eslintcache
 /types
 .codegen.sum
+.githooks/
 
 # Test dist package
 node_modules2

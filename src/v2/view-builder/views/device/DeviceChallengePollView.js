@@ -1,4 +1,4 @@
-import { loc, createCallout } from '@okta/courage';
+import { loc, View, createCallout } from '@okta/courage';
 import { BaseFooter, BaseView, BaseOktaVerifyChallengeView } from '../../internals';
 import Enums from '../../../../util/Enums';
 import {
@@ -7,7 +7,11 @@ import {
   AUTHENTICATION_CANCEL_REASONS,
 } from '../../utils/Constants';
 import Link from '../../components/Link';
-import { doChallenge, cancelPollingWithParams } from '../../utils/ChallengeViewUtil';
+import {
+  doChallenge,
+  cancelPollingWithParams,
+  getFastPassEnrollmentOnOtherDeviceErrorOptions,
+} from '../../utils/ChallengeViewUtil';
 import OktaVerifyAuthenticatorHeader from '../../components/OktaVerifyAuthenticatorHeader';
 import { getSignOutLink } from '../../utils/LinksUtil';
 import CustomAccessDeniedErrorMessage from '../shared/CustomAccessDeniedErrorMessage';
@@ -33,7 +37,26 @@ const Body = BaseOktaVerifyChallengeView.extend({
     this.options.appState.trigger('updateFooterLink', data);
   },
 
+  showMessages(options) {
+    // Render numbered steps when the error arrives as a global IDX message (form re-render)
+    if (!(options instanceof View)) {
+      const fastPassEnrollmentOnOtherDeviceOptions = getFastPassEnrollmentOnOtherDeviceErrorOptions(
+        this.options.appState.get('messages'), true);
+      if (fastPassEnrollmentOnOtherDeviceOptions) {
+        options = createCallout(fastPassEnrollmentOnOtherDeviceOptions);
+      }
+    }
+
+    BaseOktaVerifyChallengeView.prototype.showMessages.call(this, options);
+  },
+
   showCustomFormErrorCallout(error, messages) {
+    const fastPassEnrollmentOnOtherDeviceOptions = getFastPassEnrollmentOnOtherDeviceErrorOptions(error);
+    if (fastPassEnrollmentOnOtherDeviceOptions) {
+      this.showMessages(createCallout(fastPassEnrollmentOnOtherDeviceOptions));
+      return true;
+    }
+
     const responseJSON = error.responseJSON;
     let options = {
       type: 'error',
