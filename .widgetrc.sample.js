@@ -27,10 +27,7 @@ const config = {
   // See src/v3/docs/sentry-user-feedback-playground.md.
   feedback: {
     // Show the "Send feedback" entry point. Default off in production.
-    enabled: true,
-    // Embedded/self-hosted opt-out: force the entry point off even if `enabled`
-    // is turned on by the host login page. Default false.
-    optOut: false
+    enabled: true
   },
   // Hooks block processing and run custom logic before or after a form is rendered
   hooks: {

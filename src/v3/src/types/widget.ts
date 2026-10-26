@@ -231,12 +231,10 @@ export type WidgetOptions = {
   // widget bundles no Sentry SDK and consumes a global `window.Sentry`.
   // See src/v3/docs/sentry-user-feedback-design.md.
   feedback?: {
-    // Show the "Send feedback" entry point. DEFAULT: false (off).
+    // Show the "Send feedback" entry point. DEFAULT: false (off). On the
+    // Okta-hosted login page okta-core sets this (FF-gated); embedders control
+    // it directly in their own widget config.
     enabled?: boolean;
-    // Embedded/self-hosted opt-out: when true, suppress the entry point even if
-    // `enabled` is turned on (e.g. by the Okta-hosted login page). Lets embedding
-    // customers keep feedback off for their deployment.
-    optOut?: boolean;
   };
 };
 
