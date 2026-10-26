@@ -37,7 +37,7 @@ any custom per-step event stack. This document is *only* the user-feedback featu
 - Capture client diagnostics via **Session Replay only**, uploaded **on click** (buffer mode).
 - Redaction via **Sentry org + project scrubbing rules** (no bespoke client-side payload scrubbing).
 - Consume a **global `window.Sentry`** published by the Sentry wrapper; hard-fail loudly if absent.
-- **Off by default**; gated server-side by a feature flag, with an embedded/self-hosted opt-out.
+- **Off by default**; gated server-side by a feature flag (embedders control it in their own config).
 - A short, optional **user comment**.
 
 **Non-goals**
@@ -159,7 +159,7 @@ flowchart TB
 | Widget **sender** (resolve global, flush replay, `captureUserFeedback`, tags) | `src/v3/src/util/sentryFeedback.ts` | OKTA-1290948 |
 | **Entry point** invokable from any view (unstyled trigger via widget context/hook) | gen3 widget | OKTA-1290948 |
 | **UI + i18n** (styled button, comment field, status strings) | gen3 + `@okta/i18n` | OKTA-1290987 |
-| **Config** (`WidgetOptions.feedback`, off by default + embedded opt-out) | `src/v3/src/types/widget.ts` | OKTA-1290948 |
+| **Config** (`WidgetOptions.feedback.enabled`, off by default) | `src/v3/src/types/widget.ts` | OKTA-1290948 |
 | **Server gate** (feature flag, wrapper params) | `okta-core` | OKTA-1291005 |
 | **Local harness** (playground wrapper + demo) | `playground/` | OKTA-1291007 |
 
@@ -217,19 +217,21 @@ sequenceDiagram
 ```ts
 feedback?: {
   enabled?: boolean;        // show the Send-feedback entry point. DEFAULT: false (off)
-  // embedded/self-hosted opt-out knob (exact name TBD in OKTA-1290948)
 };
 ```
 
 - **Off by default.** The feature appears only when enabled.
-- **Embedded opt-out** so embedding customers can suppress it even if Okta-hosted turns it on.
+- **No separate opt-out.** A single `enabled` is sufficient: on the Okta-hosted login page okta-core
+  builds the widget config and sets `enabled` (FF-gated), and embedders construct `OktaSignIn`
+  themselves — nothing upstream can turn it on for them, so leaving it unset keeps it off. Revisit
+  only if enablement ever comes from server data the host doesn't control.
 - POC-only knobs (`includeRawResponses`, `tracePoc`, `sentryDsn`) are **removed** from the shipped
   surface — the wrapper owns the DSN; there is no custom trail and no tracing.
 
 ### 6.2 Server gate (okta-core, OKTA-1291005)
 
 - A **feature flag** (default off) turns `feedback.enabled` on for the Okta-hosted login page; ramp via FF.
-- **FF vs. KnownConfig** decision for per-org enablement / embedded opt-out granularity — settled there.
+- **FF vs. KnownConfig** decision for per-org enablement granularity — settled there.
 - okta-core ensures the login page loads the **forked v7 wrapper (with Replay + Feedback)** and passes
   Replay config via `window.okta.sentry`, and that the wrapper inits **before** the widget bootstraps.
 

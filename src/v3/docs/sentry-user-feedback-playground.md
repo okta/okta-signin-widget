@@ -35,7 +35,7 @@ clicks "Send feedback".
 
 2. **Enable the feature** in `.widgetrc.js` (copy from `.widgetrc.sample.js`):
    ```js
-   feedback: { enabled: true, optOut: false },
+   feedback: { enabled: true },
    ```
 
 3. **Pick a demo mock** (optional). In `playground/mocks/config/responseConfig.js`,
