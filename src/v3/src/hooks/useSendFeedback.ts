@@ -19,7 +19,7 @@ import { SendFeedbackResult, sendFeedbackToSentry } from '../util/sentryFeedback
 export type UseSendFeedback = {
   /**
    * Whether the "Send feedback" affordance should be shown. True only when
-   * `feedback.enabled` is set and the embedded `feedback.optOut` is not.
+   * `feedback.enabled` is set.
    */
   enabled: boolean;
   /**
@@ -40,7 +40,7 @@ export type UseSendFeedback = {
 export const useSendFeedback = (): UseSendFeedback => {
   const { widgetProps, idxTransaction } = useWidgetContext();
   const { feedback, flow } = widgetProps;
-  const enabled = Boolean(feedback?.enabled) && !feedback?.optOut;
+  const enabled = Boolean(feedback?.enabled);
 
   const sendFeedback = useCallback(async (comment?: string): Promise<SendFeedbackResult> => {
     if (!enabled) {
