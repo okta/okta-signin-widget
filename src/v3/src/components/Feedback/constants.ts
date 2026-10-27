@@ -14,5 +14,5 @@
  * Public Okta legal URLs linked from the feedback consent text. Kept here so
  * both feedback surfaces (crash form + dialog) share one source of truth.
  */
-export const OKTA_PRIVACY_POLICY_URL = 'https://www.okta.com/privacy-policy/';
-export const OKTA_MASTER_SUBSCRIPTION_AGREEMENT_URL = 'https://www.okta.com/agreements/';
+export const OKTA_PRIVACY_POLICY_URL = 'https://www.okta.com/legal/privacy-policy/';
+export const OKTA_MASTER_SUBSCRIPTION_AGREEMENT_URL = 'https://www.okta.com/legal/';
