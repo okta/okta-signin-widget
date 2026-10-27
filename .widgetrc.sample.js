@@ -23,8 +23,11 @@ const config = {
   // The widget does NOT bundle/init its own Sentry SDK — it REQUIRES the Sentry
   // "wrapper" (see `sentryWrapper` below) to have set window.Sentry first.
   feedback: {
-    // Show the "Send feedback" entry point. Default off in production.
-    enabled: true
+    // Show the "Send feedback" entry point. Off by default (as in production):
+    // CI copies this file to .widgetrc.js, so turning it on here changes the
+    // views every parity / VRT / English-leaks test renders. Enable it in your
+    // local .widgetrc.js instead.
+    enabled: false
   },
   // Playground-only (NOT a widget option; stripped before the widget is created).
   // Config for playground/sentry-wrapper.ts, the local stand-in for okta-core's

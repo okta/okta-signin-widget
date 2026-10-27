@@ -86,7 +86,9 @@ describe('feedback', () => {
       } = await setup({ mockResponse, widgetOptions });
 
       expect(await findByText(message)).toBeInTheDocument();
-      await user.type(getByTestId('feedback-terminal-comment'), 'stuck on this page');
+      // Keep the typed text short: each keystroke re-renders the whole widget,
+      // and long strings blow past the 10s jest timeout on CI.
+      await user.type(getByTestId('feedback-terminal-comment'), 'stuck');
       await user.click(getByRole('checkbox', { name: /diagnostic logs/ }));
       await user.click(getByTestId('feedback-terminal-submit'));
 
@@ -95,7 +97,7 @@ describe('feedback', () => {
       expect(queryByTestId('feedback-terminal')).not.toBeInTheDocument();
       expect(await findByText(/Back to sign in/)).toBeInTheDocument();
       expect(Sentry.captureUserFeedback).toHaveBeenCalledWith(expect.objectContaining({
-        comments: 'stuck on this page',
+        comments: 'stuck',
       }));
     });
   });
