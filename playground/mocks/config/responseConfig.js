@@ -1390,7 +1390,7 @@ module.exports = {
   mocks: idx,
   // mocks: Test.ChallengeAuthenticatorEmail.networkFailurePollingMock
   // "Send feedback" -> Sentry demo (gen3). Uncomment one and set feedback.enabled
-  // in .widgetrc.js. See src/v3/docs/sentry-user-feedback-playground.md.
+  // (and sentryWrapper.dsn) in .widgetrc.js.
   //   multiStepThenTerminalMock -> 3-step journey (identify -> email code -> error terminal);
   //                                best for exercising the Sentry event + Session Replay
   //   activeStepMock            -> normal step with the "Send feedback" link + dialog

@@ -23,6 +23,11 @@
  * entry) and loaded by playground/index.html BEFORE the widget bundle — mirroring
  * okta-core's separate `sentry-wrapper.pack.js` load order.
  *
+ * Config comes from the `sentryWrapper` block in `.widgetrc.js` (gitignored, so
+ * each engineer points it at their own dev project); `?sentryDsn=...` in the URL
+ * overrides the DSN. With no DSN the wrapper is a no-op (window.Sentry stays
+ * unset, so "Send feedback" logs a setup error instead of sending).
+ *
  * Kept intentionally aligned with the forked prod v7 wrapper (OKTA-1290997):
  * - Pinned to `@sentry/browser` v7 — SIW must run on IE11, and Sentry v8+ dropped
  *   it. The widget's consumption code targets v7 APIs (`getCurrentHub`,
@@ -32,7 +37,7 @@
  *   it on "Send feedback").
  * - `networkCaptureBodies` ON, scoped to `/idp/idx/`, so the replay retains the
  *   server's error `message`; sensitive fields are redacted by Sentry org +
- *   project data-scrubbing on ingest (see sentry-user-feedback-design.md §3.2).
+ *   project data-scrubbing on ingest.
  *
  * NOT included (out of scope for the user-feedback feature): BrowserTracing /
  * performance transactions / `addTracingExtensions`. This wrapper only provides
@@ -40,30 +45,31 @@
  */
 import * as Sentry from '@sentry/browser';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { sentryWrapper } = require('../.widgetrc.js'); // commonJS module
+
 interface PlaygroundSentryConfig {
-  sentryDsn?: string;
-  deployEnv?: string;
+  dsn?: string;
+  environment?: string;
 }
 
 declare global {
   interface Window {
-    // Set by the inline <script> in index.html, mirroring okta-core's window.okta.sentry.
-    okta?: { sentry?: PlaygroundSentryConfig };
     // Published for the widget to consume.
     Sentry?: typeof Sentry;
   }
 }
 
-/** Config precedence: `?sentryDsn=` URL override, then the window.okta.sentry block. */
+/** Config precedence: `?sentryDsn=` URL override, then `.widgetrc.js` `sentryWrapper`. */
 const resolveConfig = (): PlaygroundSentryConfig => {
-  const fromGlobal = (typeof window !== 'undefined' && window.okta?.sentry) || {};
+  const fromWidgetRc: PlaygroundSentryConfig = sentryWrapper || {};
   let dsnOverride: string | null = null;
   try {
     dsnOverride = new URLSearchParams(window.location.search).get('sentryDsn');
   } catch {
     // no-op: URL parsing is best-effort
   }
-  return { ...fromGlobal, sentryDsn: dsnOverride || fromGlobal.sentryDsn };
+  return { ...fromWidgetRc, dsn: dsnOverride || fromWidgetRc.dsn };
 };
 
 /** v7-safe "already initialized?" check (the same guard the widget uses to detect us). */
@@ -77,13 +83,13 @@ const alreadyInitialized = (): boolean => {
 
 const init = (): void => {
   const config = resolveConfig();
-  if (!config.sentryDsn || alreadyInitialized()) {
+  if (!config.dsn || alreadyInitialized()) {
     return;
   }
 
   Sentry.init({
-    dsn: config.sentryDsn,
-    environment: config.deployEnv ?? 'dev',
+    dsn: config.dsn,
+    environment: config.environment ?? 'dev',
     defaultIntegrations: false,
     autoSessionTracking: false,
     integrations: [
@@ -101,7 +107,7 @@ const init = (): void => {
         // Capture IDX request/response bodies so the replay retains the server's
         // error `message`. Scoped to /idp/idx/. Sensitive fields are redacted by
         // Sentry org + project data-scrubbing on ingest (verified by test); no
-        // client-side body redaction is done here. See the design doc §3.2.
+        // client-side body redaction is done here.
         networkDetailAllowUrls: ['/idp/idx/'],
         networkCaptureBodies: true,
       }),

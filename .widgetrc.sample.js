@@ -21,13 +21,18 @@ const config = {
   // Session Replay buffer and emits a linked User Feedback entry.
   //
   // The widget does NOT bundle/init its own Sentry SDK — it REQUIRES the Sentry
-  // "wrapper" that playground/index.html loads (js/sentry-wrapper.js) to have set
-  // window.Sentry first. The wrapper owns the DSN/environment (via
-  // window.okta.sentry in index.html, or ?sentryDsn=... in the URL).
-  // See src/v3/docs/sentry-user-feedback-playground.md.
+  // "wrapper" (see `sentryWrapper` below) to have set window.Sentry first.
   feedback: {
     // Show the "Send feedback" entry point. Default off in production.
     enabled: true
+  },
+  // Playground-only (NOT a widget option; stripped before the widget is created).
+  // Config for playground/sentry-wrapper.ts, the local stand-in for okta-core's
+  // @okta/sentry-wrapper. Point `dsn` at your own dev Sentry project, or pass
+  // ?sentryDsn=... in the URL. Empty DSN = Sentry disabled.
+  sentryWrapper: {
+    dsn: '',
+    environment: 'dev'
   },
   // Hooks block processing and run custom logic before or after a form is rendered
   hooks: {
