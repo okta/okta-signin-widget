@@ -13,4 +13,5 @@
 export { ReportIssueForm } from './ReportIssueForm';
 export { SendFeedbackDialog } from './SendFeedbackDialog';
 export { SendFeedbackLink } from './SendFeedbackLink';
+export { TerminalFeedbackForm } from './TerminalFeedbackForm';
 export { useFeedbackForm } from './useFeedbackForm';

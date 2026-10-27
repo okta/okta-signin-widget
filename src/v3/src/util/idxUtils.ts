@@ -129,20 +129,6 @@ export const isTerminalTransaction = (transaction?: IdxTransaction): boolean => 
     || !transaction.nextStep;
 };
 
-/**
- * True for a terminal view that represents a FAILURE the user is stuck on — the
- * "crash" surface in the feedback design — as opposed to a successful end state
- * (e.g. a success redirect). Gated on an ERROR-class terminal message and the
- * absence of a success context. Used to decide between the inline "Report issue"
- * form (error terminal) and the "Send feedback" link (active steps).
- */
-export const isErrorTerminalTransaction = (transaction?: IdxTransaction): boolean => {
-  if (!isTerminalTransaction(transaction) || transaction?.context?.success) {
-    return false;
-  }
-  return transaction?.messages?.some((m) => m.class === 'ERROR') ?? false;
-};
-
 export const updatePasswordRequirementsNotMetMessage = (
   messages: IdxMessage[],
 ): IdxMessage[] => (
