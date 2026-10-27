@@ -229,7 +229,6 @@ export type WidgetOptions = {
   // Sentry Session Replay buffer and emits a linked User Feedback entry. The
   // client data comes purely from the wrapper's masked Session Replay; the
   // widget bundles no Sentry SDK and consumes a global `window.Sentry`.
-  // See src/v3/docs/sentry-user-feedback-design.md.
   feedback?: {
     // Show the "Send feedback" entry point. DEFAULT: false (off). On the
     // Okta-hosted login page okta-core sets this (FF-gated); embedders control

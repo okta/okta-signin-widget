@@ -1,7 +1,8 @@
 /* eslint no-console: 0 */
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const signinWidgetOptions = require('../.widgetrc.js'); // commonJS module
+// `sentryWrapper` is consumed by playground/sentry-wrapper.ts, not the widget.
+// eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unused-vars
+const { sentryWrapper, ...signinWidgetOptions } = require('../.widgetrc.js'); // commonJS module
 
 import {
   OktaSignInConstructor,

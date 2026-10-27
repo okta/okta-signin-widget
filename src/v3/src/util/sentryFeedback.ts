@@ -17,7 +17,7 @@
  * Replay buffer and emits a linked Sentry *User Feedback* entry, so support and
  * engineering can see what the user went through and where it broke.
  *
- * Design (src/v3/docs/sentry-user-feedback-design.md):
+ * Design:
  * - Client data comes PURELY from the wrapper's masked Session Replay buffer.
  *   There is no custom diagnostic trail, no per-step span stack, no fetch tap,
  *   and no raw-response capture (all of which were POC-only and are dropped).

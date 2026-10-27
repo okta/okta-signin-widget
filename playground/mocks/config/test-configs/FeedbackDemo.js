@@ -1,5 +1,4 @@
 // Mock flows for exercising the gen3 "Send feedback" -> Sentry feature locally.
-// See src/v3/docs/sentry-user-feedback-playground.md.
 //
 // The feature is invokable from ANY view (not just terminal errors). These mocks
 // just give a tester a deterministic flow to click through and then send feedback
