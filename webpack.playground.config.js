@@ -115,6 +115,11 @@ module.exports = {
   devServer: {
     ...hotReloadOptions,
     host: HOST,
+    // When bound to a non-localhost host (e.g. OKTA_SIW_HOST=0.0.0.0 for a
+    // BrowserStack Local tunnel), accept the tunnel's Host header
+    // (bs-local.com) which wds would otherwise reject with "Invalid Host
+    // header". Localhost dev keeps the default 'auto' allow-list.
+    ...(process.env.OKTA_SIW_HOST ? { allowedHosts: 'all' } : {}),
     watchFiles: [...staticDirs],
     static: [
       ...staticDirs
