@@ -66,6 +66,15 @@ const activeStepMock = {
   ],
 };
 
+// Non-error (INFO) terminal: message + "Back to sign in", with the inline
+// "Send feedback to Okta" form between them (every message-only terminal gets it).
+const infoTerminalMock = {
+  ...base,
+  '/idp/idx/introspect': [
+    'terminal-reset-password-success'
+  ],
+};
+
 // Realistic multi-step journey for exercising the Sentry event + Session Replay
 // end to end. Two good actionable steps, then an error terminal:
 //   1. introspect        -> identify (enter any username, Next)
@@ -75,7 +84,8 @@ const activeStepMock = {
 //                           goes to /challenge/answer
 //   3. challenge/answer  -> terminal-return-error-email (error terminal)
 // On steps 1-2 the bottom-of-view "Send feedback" link + dialog is available; on
-// step 3 the inline "Report issue to Okta" crash form renders. Either way the
+// step 3 the terminal message renders with an inline "Send feedback to Okta"
+// form above "Back to sign in". Either way the
 // replay buffer has captured the full multi-request journey, so the feedback
 // event in Sentry links a replay that walks through all three steps.
 const multiStepThenTerminalMock = {
@@ -92,6 +102,7 @@ const multiStepThenTerminalMock = {
 };
 
 module.exports = {
+  infoTerminalMock,
   identifyThenTerminalMock,
   simpleTerminalMock,
   crashMock,

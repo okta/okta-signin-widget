@@ -72,7 +72,6 @@ import {
   isAuthClientSet,
   isConfigRegisterFlow,
   isConsentStep,
-  isErrorTerminalTransaction,
   isOauth2Enabled,
   isTerminalTransaction,
   loadLanguage,
@@ -134,6 +133,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // permission re-check; flipping it re-runs the transformers to swap in the
   // LNA remediation UI (WebView2 iframe enhancement). See OKTA-1135857.
   const [chromeLNADenied, setChromeLNADenied] = useState<boolean>(false);
+  // Set by the inline terminal feedback form after a successful send; the
+  // terminal view then renders only the success message + back link.
+  const [terminalFeedbackSent, setTerminalFeedbackSent] = useState<boolean>(false);
   // Stop polling once the LNA remediation is shown: the loopback probe failed on every port, so
   // the challenge never reached Okta Verify and polling can never complete (also prevents the
   // re-probe/flicker while the remediation is up). See OKTA-1135857.
@@ -290,7 +292,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     if ([IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(idxTransaction.status)
       || idxTransaction.nextStep?.name === IDX_STEP.SKIP // force safe mode to be terminal
       || !idxTransaction.nextStep) {
-      return transformTerminalTransaction(idxTransaction, widgetProps, bootstrap);
+      return transformTerminalTransaction(
+        idxTransaction,
+        widgetProps,
+        bootstrap,
+        { feedbackSent: terminalFeedbackSent },
+      );
     }
 
     if (!isOauth2Enabled(widgetProps) && prevIdxTransactionRef.current) {
@@ -339,6 +346,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     widgetProps,
     bootstrap,
     chromeLNADenied,
+    terminalFeedbackSent,
   ]);
 
   // track previous idxTransaction
@@ -367,6 +375,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // prematurely. WebView2 iframe enhancement, OKTA-1135857.
   useEffect(() => {
     setChromeLNADenied(false);
+    setTerminalFeedbackSent(false);
   }, [idxTransaction]);
 
   // update dataSchemaRef in context
@@ -532,11 +541,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // useSendFeedback(); the crash-form branch needs it directly.
   const feedbackEnabled = Boolean(feedback?.enabled);
   // The crash / "Report issue" surface replaces the view on a fatal bootstrap
-  // error (responseError) OR on an IDX error-terminal the user is stuck on. The
-  // "Send feedback" link shows only on normal, actionable steps — never on a
-  // terminal view (per the design: "every step except the crash UI").
-  const isErrorTerminal = isErrorTerminalTransaction(idxTransaction);
-  const showReportIssue = feedbackEnabled && (Boolean(responseError) || isErrorTerminal);
+  // error (responseError). Terminal views keep their message and get the inline
+  // feedback form from transformTerminalTransaction, so the "Send feedback" link
+  // shows only on normal, actionable steps.
+  const showReportIssue = feedbackEnabled && Boolean(responseError);
   const showFeedbackLink = feedbackEnabled && !responseError
     && !isTerminalTransaction(idxTransaction);
 
@@ -569,6 +577,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       pollInFlightRef,
       chromeLNADenied,
       setChromeLNADenied,
+      setTerminalFeedbackSent,
     }}
     >
       <OdysseyProvider
@@ -598,10 +607,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
           <AuthContent>
             {isConsentStep(idxTransaction) && <ConsentHeader />}
             {
-              // Crash surface: a fatal bootstrap error ("Unable to load page")
-              // or an IDX error-terminal the user is stuck on is replaced by the
-              // inline "Report issue to Okta" form. Otherwise render the normal
-              // form plus the "Send feedback" link on actionable steps.
+              // Crash surface: a fatal bootstrap error ("Unable to load page") is
+              // replaced by the inline "Report issue to Okta" form. Otherwise render
+              // the normal form plus the "Send feedback" link on actionable steps.
               showReportIssue
                 ? (
                   <ReportIssueForm
