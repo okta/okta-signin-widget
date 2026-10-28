@@ -28,7 +28,7 @@ const makeFakeSentry = (opts?: {
     flush: jest.fn().mockResolvedValue(undefined),
     getReplayId: jest.fn().mockReturnValue(replayId),
   };
-  let capturedScope: { setTags: jest.Mock } | undefined;
+  let capturedScope: { setTags: jest.Mock; setContext: jest.Mock } | undefined;
   const Replay = function Replay() {}; // integration class token
   const Sentry = {
     Replay,
@@ -39,7 +39,7 @@ const makeFakeSentry = (opts?: {
       )),
     })),
     withScope: jest.fn((cb: (scope: unknown) => void) => {
-      capturedScope = { setTags: jest.fn() };
+      capturedScope = { setTags: jest.fn(), setContext: jest.fn() };
       cb(capturedScope);
     }),
     captureMessage: jest.fn().mockReturnValue('event-abc'),
@@ -129,6 +129,8 @@ describe('sentryFeedback', () => {
       });
 
       expect(replay.flush).toHaveBeenCalledTimes(1);
+      // Stop recording after the upload: only the pre-send buffer is consented to.
+      expect(replay.flush).toHaveBeenCalledWith({ continueRecording: false });
       expect(Sentry.captureMessage).toHaveBeenCalledWith('SIW user feedback', 'info');
       expect(Sentry.captureUserFeedback).toHaveBeenCalledWith(expect.objectContaining({
         event_id: 'event-abc',
@@ -154,6 +156,10 @@ describe('sentryFeedback', () => {
         factor: 'okta_verify',
         hasReplay: true,
       });
+      // Linked via the `replay` context, never a `replayId` tag (which would make
+      // the buffer-mode SDK restart full session recording).
+      expect(Object.keys(tags)).not.toContain('replayId');
+      expect(scope?.setContext).toHaveBeenCalledWith('replay', { replay_id: 'replay-123' });
       // never leak an authenticator* key (org scrubber strips auth* fields)
       expect(Object.keys(tags)).not.toContain('authenticatorKey');
     });
@@ -210,6 +216,7 @@ describe('sentryFeedback', () => {
       expect(replay.flush).not.toHaveBeenCalled();
       expect(result).toEqual({ ok: true, eventId: 'event-abc', replayId: undefined });
       expect(getScope()?.setTags.mock.calls[0][0]).toMatchObject({ hasReplay: false });
+      expect(getScope()?.setContext).not.toHaveBeenCalled();
     });
 
     it('flushes/links the replay when attachLogs is true (consent given)', async () => {

@@ -129,10 +129,15 @@ const getReplay = (Sentry: SentryNS) => {
 };
 
 /**
- * Flush the Session Replay buffer (if the wrapper registered Replay) so the
- * in-memory recording uploads and the event captured just after is stamped with
- * its `replay_id` — that id is what links the replay to this feedback. This is
+ * Upload the Session Replay buffer (if the wrapper registered Replay) and return
+ * its id, which the caller stamps on the feedback event to link the two. This is
  * the only point at which any replay data leaves the browser.
+ *
+ * `continueRecording: false` stops recording once the buffer is uploaded. The
+ * SDK default (true) converts the buffer into a full session recording that
+ * keeps streaming everything the user does next — beyond what they consented to
+ * ("diagnostic logs with my feedback"). Recording stays off for the rest of the
+ * page, so a second send on the same page links the same (earlier) replay.
  */
 const flushReplay = async (Sentry: SentryNS): Promise<string | undefined> => {
   const replay = getReplay(Sentry);
@@ -140,7 +145,7 @@ const flushReplay = async (Sentry: SentryNS): Promise<string | undefined> => {
     return undefined;
   }
   try {
-    await replay.flush();
+    await replay.flush({ continueRecording: false });
     return replay.getReplayId();
   } catch {
     // replay is best-effort; never block the feedback send
@@ -186,6 +191,14 @@ export const sendFeedbackToSentry = async (
       factor,
       hasReplay: Boolean(replayId),
     });
+    // Link the replay explicitly: with `continueRecording: false` the replay
+    // stays in buffer mode, so the SDK does not auto-link this event. Use the
+    // `replay` context, NOT a `replayId` tag — in buffer mode the SDK treats a
+    // sent event tagged `replayId` as a sampled error and restarts full session
+    // recording, which is exactly what `continueRecording: false` prevents.
+    if (replayId) {
+      scope.setContext('replay', { replay_id: replayId });
+    }
     // The carrier event anchors the User Feedback entry and the replay link. It
     // carries no payload beyond the tags above; all session detail rides in the
     // (scrubbed) replay.
