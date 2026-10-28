@@ -28,7 +28,9 @@ const makeFakeSentry = (opts?: {
     flush: jest.fn().mockResolvedValue(undefined),
     getReplayId: jest.fn().mockReturnValue(replayId),
   };
-  let capturedScope: { setTags: jest.Mock; setContext: jest.Mock } | undefined;
+  let capturedScope: {
+    setTags: jest.Mock; setContext: jest.Mock; clearBreadcrumbs: jest.Mock;
+  } | undefined;
   const Replay = function Replay() {}; // integration class token
   const Sentry = {
     Replay,
@@ -39,7 +41,7 @@ const makeFakeSentry = (opts?: {
       )),
     })),
     withScope: jest.fn((cb: (scope: unknown) => void) => {
-      capturedScope = { setTags: jest.fn(), setContext: jest.fn() };
+      capturedScope = { setTags: jest.fn(), setContext: jest.fn(), clearBreadcrumbs: jest.fn() };
       cb(capturedScope);
     }),
     captureMessage: jest.fn().mockReturnValue('event-abc'),
@@ -160,6 +162,8 @@ describe('sentryFeedback', () => {
       // the buffer-mode SDK restart full session recording).
       expect(Object.keys(tags)).not.toContain('replayId');
       expect(scope?.setContext).toHaveBeenCalledWith('replay', { replay_id: 'replay-123' });
+      // page breadcrumbs (console, fetch/XHR URLs, clicks) never ride on the carrier event
+      expect(scope?.clearBreadcrumbs).toHaveBeenCalledBefore(Sentry.captureMessage);
       // never leak an authenticator* key (org scrubber strips auth* fields)
       expect(Object.keys(tags)).not.toContain('authenticatorKey');
     });

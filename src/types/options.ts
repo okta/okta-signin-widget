@@ -116,6 +116,12 @@ export interface WidgetOptions
   recaptcha?: {
     scriptSource?: string;
   };
+  // User feedback -> Sentry (Gen3 only). The feedback UI renders only when
+  // `enabled` is true AND the host page has initialized a Sentry v7 wrapper
+  // that publishes `window.Sentry` before the widget loads.
+  feedback?: {
+    enabled?: boolean;
+  };
 
   /**
    * @deprecated since version 7.0
