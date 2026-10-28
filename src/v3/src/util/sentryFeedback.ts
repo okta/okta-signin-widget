@@ -201,7 +201,10 @@ export const sendFeedbackToSentry = async (
     }
     // The carrier event anchors the User Feedback entry and the replay link. It
     // carries no payload beyond the tags above; all session detail rides in the
-    // (scrubbed) replay.
+    // (scrubbed) replay. Drop the page's breadcrumbs (console, fetch/XHR URLs,
+    // DOM clicks) so they don't ride along unmasked — withScope clones the
+    // scope, so this only affects this event.
+    scope.clearBreadcrumbs();
     eventId = Sentry.captureMessage('SIW user feedback', 'info');
   });
 
