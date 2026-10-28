@@ -11,46 +11,42 @@
  */
 
 /**
- * Playground Sentry "wrapper" — a local-dev stand-in for `@okta/sentry-wrapper`.
+ * Playground Sentry "wrapper" — a local-dev stand-in for okta-ui's `@okta/sentry-wrapper`
+ * (packages/sentry-wrapper, the ie11 bundle `sentry-wrapper.ie11.pack.js` the login page
+ * loads), so the "Send feedback" feature can be exercised end-to-end without okta-core.
  *
- * In production, `@okta/sentry-wrapper` runs `Sentry.init()` at page load and
- * publishes a global `window.Sentry`; the Sign-In Widget REUSES that global
- * rather than bundling/initializing its own SDK. This module reproduces that
- * pattern in the SIW playground so engineers can exercise the "Send feedback"
- * feature end-to-end without okta-core.
+ * Like the real wrapper, it runs `Sentry.init()` at page load and publishes `window.Sentry`;
+ * the widget REUSES that global rather than bundling its own SDK. It is its OWN bundle
+ * (`js/sentry-wrapper.js`) loaded by playground/index.html BEFORE the widget, mirroring
+ * okta-core's load order.
  *
- * It is emitted as its OWN bundle (`js/sentry-wrapper.js`, a separate webpack
- * entry) and loaded by playground/index.html BEFORE the widget bundle — mirroring
- * okta-core's separate `sentry-wrapper.pack.js` load order.
+ * Kept in sync with the real wrapper for everything the feedback feature depends on:
+ * - Same SDK: `@sentry/browser` 7.80.0 (the ie11 bundle's version; v8+ dropped IE11).
+ * - Same config contract: `replay` (opt-in, default off) and `replayNetworkDetailAllowUrls`
+ *   (JSON Array String, default none) — the `window.okta.sentry` params okta-core sets.
+ * - Same Replay setup: masked, BUFFER mode (sample rates 0), `startBuffering()` right after
+ *   init so fetch/XHR are instrumented before okta-auth-js binds fetch; network bodies only
+ *   for the allow-listed URLs.
+ * - Same `beforeSend` rule for non-error message events (the widget's feedback carrier
+ *   event): kept only when replay is on, minus breadcrumbs / Referer.
+ * Intentionally omitted (no effect on feedback): BrowserTracing / tracesSampleRate,
+ * the error allow/block lists, org-id URL redaction, and the i18n DOM interceptor.
  *
- * Config comes from the `sentryWrapper` block in `.widgetrc.js` (gitignored, so
- * each engineer points it at their own dev project); `?sentryDsn=...` in the URL
- * overrides the DSN. With no DSN the wrapper is a no-op (window.Sentry stays
- * unset, so "Send feedback" logs a setup error instead of sending).
- *
- * Kept intentionally aligned with the forked prod v7 wrapper (OKTA-1290997):
- * - Pinned to `@sentry/browser` v7 — SIW must run on IE11, and Sentry v8+ dropped
- *   it. The widget's consumption code targets v7 APIs (`getCurrentHub`,
- *   `Sentry.Replay`, `startBuffering`, `captureUserFeedback`).
- * - Session Replay in BUFFER mode: masking fully on, media blocked, sample rates
- *   0 (records to an in-memory buffer, uploads nothing until the widget flushes
- *   it on "Send feedback").
- * - `networkCaptureBodies` ON, scoped to `/idp/idx/`, so the replay retains the
- *   server's error `message`; sensitive fields are redacted by Sentry org +
- *   project data-scrubbing on ingest.
- *
- * NOT included (out of scope for the user-feedback feature): BrowserTracing /
- * performance transactions / `addTracingExtensions`. This wrapper only provides
- * what the feedback sender consumes.
+ * Config: the `sentryWrapper` block in `.widgetrc.js` (gitignored, so each engineer points
+ * it at their own dev project); `?sentryDsn=...` in the URL overrides the DSN. With no DSN
+ * the wrapper is a no-op (window.Sentry stays unset, so the widget hides the feedback UI).
  */
 import * as Sentry from '@sentry/browser';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { sentryWrapper } = require('../.widgetrc.js'); // commonJS module
 
+// Subset of okta-ui's SentryParams (window.okta.sentry), plus the playground-only DSN keys.
 interface PlaygroundSentryConfig {
   dsn?: string;
   environment?: string;
+  replay?: boolean;
+  replayNetworkDetailAllowUrls?: string;
 }
 
 declare global {
@@ -72,8 +68,8 @@ const resolveConfig = (): PlaygroundSentryConfig => {
   return { ...fromWidgetRc, dsn: dsnOverride || fromWidgetRc.dsn };
 };
 
-/** v7-safe "already initialized?" check (the same guard the widget uses to detect us). */
-const alreadyInitialized = (): boolean => {
+/** Same check as the ie11 bundle's `isInitialized()` (and the widget's resolveSentry()). */
+const isInitialized = (): boolean => {
   try {
     return Boolean(Sentry.getCurrentHub().getClient());
   } catch {
@@ -81,60 +77,86 @@ const alreadyInitialized = (): boolean => {
   }
 };
 
+/** Same parsing as okta-ui's getReplayNetworkDetailAllowUrls: invalid/missing -> []. */
+const getReplayNetworkDetailAllowUrls = ({ replayNetworkDetailAllowUrls }: PlaygroundSentryConfig): string[] => {
+  try {
+    const urls = JSON.parse(replayNetworkDetailAllowUrls as string);
+    if (!Array.isArray(urls)) {
+      return [];
+    }
+    return urls.filter((url) => typeof url === 'string' && url !== '');
+  } catch {
+    return [];
+  }
+};
+
+/** Same rule as okta-ui's isNonErrorMessageEvent: captureMessage below error level, no exception. */
+const isNonErrorMessageEvent = (event: Sentry.Event): boolean => (
+  !event.exception
+  && typeof event.message === 'string'
+  && !['error', 'fatal'].includes(event.level as string)
+);
+
 const init = (): void => {
   const config = resolveConfig();
-  if (!config.dsn || alreadyInitialized()) {
+  if (!config.dsn || isInitialized()) {
     return;
   }
+  const replayEnabled = config.replay === true;
+  const networkDetailAllowUrls = getReplayNetworkDetailAllowUrls(config);
 
   Sentry.init({
     dsn: config.dsn,
     environment: config.environment ?? 'dev',
-    defaultIntegrations: false,
-    autoSessionTracking: false,
-    integrations: [
-      // Replay's network capture (v7) enriches the breadcrumbs produced by the
-      // core Breadcrumbs integration; with defaultIntegrations:false we must add
-      // it explicitly or the replay Network tab stays empty. GlobalHandlers is
-      // omitted, so we do NOT auto-capture unhandled errors.
-      new Sentry.Breadcrumbs({
-        console: true, dom: true, fetch: true, xhr: true, history: true,
-      }),
+    sendDefaultPii: false,
+    integrations: replayEnabled ? [
       new Sentry.Replay({
         maskAllText: true,
         maskAllInputs: true,
         blockAllMedia: true,
-        // Capture IDX request/response bodies so the replay retains the server's
-        // error `message`. Scoped to /idp/idx/. Sensitive fields are redacted by
-        // Sentry org + project data-scrubbing on ingest (verified by test); no
-        // client-side body redaction is done here.
-        networkDetailAllowUrls: ['/idp/idx/'],
-        networkCaptureBodies: true,
+        networkDetailAllowUrls,
+        // bodies are only captured for networkDetailAllowUrls, so this is a no-op when empty
+        networkCaptureBodies: networkDetailAllowUrls.length > 0,
       }),
-    ],
-    // Buffer mode: Replay records but uploads nothing until the widget flushes it
-    // on "Send feedback". Nothing auto-uploads.
-    replaysSessionSampleRate: 0,
-    replaysOnErrorSampleRate: 0,
+    ] : [],
+    ...(replayEnabled && {
+      // Buffer mode only: never sample a session or an error into an uploaded replay.
+      replaysSessionSampleRate: 0,
+      replaysOnErrorSampleRate: 0,
+    }),
+    beforeSend: (event) => {
+      if (replayEnabled && isNonErrorMessageEvent(event)) {
+        delete event.breadcrumbs;
+        if (event.request?.headers?.Referer) {
+          delete event.request.headers.Referer;
+        }
+        return event;
+      }
+      // The real wrapper filters errors through its allow/block lists; the playground keeps
+      // them (scrubbed) so local errors still show up in your dev project.
+      if (event.level === 'error' || event.exception) {
+        delete event.breadcrumbs;
+        return event;
+      }
+      return null;
+    },
   });
 
-  // Start Session Replay buffering NOW, at page load, so its fetch/xhr breadcrumb
-  // instrumentation is installed before okta-auth-js binds fetch — capturing the
-  // IDX calls into the in-memory buffer.
-  try {
-    const replay = Sentry.getCurrentHub().getIntegration(Sentry.Replay);
-    replay?.startBuffering();
-  } catch {
-    // replay is best-effort; never block page load
+  // Same as the ie11 bundle: start buffering right after init (getReplay() maps to this).
+  if (replayEnabled) {
+    try {
+      Sentry.getCurrentHub().getIntegration(Sentry.Replay)?.startBuffering();
+    } catch {
+      // replay is best-effort; never block page load
+    }
   }
 
   const scope = Sentry.getCurrentHub().getScope();
   scope?.setTag('app_name', 'okta-signin-widget');
-  scope?.setTag('engine', 'gen3');
-  // Lets us confirm in Sentry that events arrived via the wrapper/global path.
+  scope?.setTag('team_name', 'siw');
+  // Lets us confirm in Sentry that events arrived via the playground stand-in.
   scope?.setTag('sentry_source', 'playground-wrapper');
 
-  // Publish for the widget to consume via resolveSentry().
   window.Sentry = Sentry;
 };
 
