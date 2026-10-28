@@ -41,6 +41,7 @@ const installFakeSentry = () => {
 };
 
 const widgetOptions = { feedback: { enabled: true } };
+const errorMessage = /Could not process this email link/;
 
 const isBefore = (a: Node, b: Node) => Boolean(
   // eslint-disable-next-line no-bitwise
@@ -61,7 +62,7 @@ describe('feedback', () => {
   });
 
   describe.each([
-    ['error', errorTerminal, /Could not process this email link/],
+    ['error', errorTerminal, errorMessage],
     ['info', infoTerminal, /You can now sign in with your existing username and new password/],
   ])('%s terminal view', (_, mockResponse, message) => {
     it('renders the inline form between the message and the back link', async () => {
@@ -79,33 +80,36 @@ describe('feedback', () => {
       // Terminal views get the inline form, not the bottom-of-view link.
       expect(queryByTestId('send-feedback-link')).not.toBeInTheDocument();
     });
+  });
 
-    it('collapses to the success message + back link after sending', async () => {
-      const {
-        user, findByText, findByTestId, getByTestId, getByRole, queryByText, queryByTestId,
-      } = await setup({ mockResponse, widgetOptions });
+  // One full-widget send flow is enough (the collapse itself is unit-tested in
+  // transformTerminalTransaction for any terminal); a second copy made this file
+  // the slowest on CI and pushed it past the 10s jest timeout.
+  it('collapses a terminal view to the success message + back link after sending', async () => {
+    const {
+      user, findByText, findByTestId, getByTestId, queryByText, queryByTestId,
+    } = await setup({ mockResponse: errorTerminal, widgetOptions });
 
-      expect(await findByText(message)).toBeInTheDocument();
-      // Keep the typed text short: each keystroke re-renders the whole widget,
-      // and long strings blow past the 10s jest timeout on CI.
-      await user.type(getByTestId('feedback-terminal-comment'), 'stuck');
-      await user.click(getByRole('checkbox', { name: /diagnostic logs/ }));
-      await user.click(getByTestId('feedback-terminal-submit'));
+    expect(await findByText(errorMessage)).toBeInTheDocument();
+    // Keep the typed text short: each keystroke re-renders the whole widget,
+    // and long strings blow past the 10s jest timeout on CI.
+    await user.type(getByTestId('feedback-terminal-comment'), 'stuck');
+    await user.click(getByTestId('feedback-terminal-consent'));
+    await user.click(getByTestId('feedback-terminal-submit'));
 
-      expect(await findByTestId('feedback-terminal-success')).toBeInTheDocument();
-      expect(queryByText(message)).not.toBeInTheDocument();
-      expect(queryByTestId('feedback-terminal')).not.toBeInTheDocument();
-      expect(await findByText(/Back to sign in/)).toBeInTheDocument();
-      expect(Sentry.captureUserFeedback).toHaveBeenCalledWith(expect.objectContaining({
-        comments: 'stuck',
-      }));
-    });
+    expect(await findByTestId('feedback-terminal-success')).toBeInTheDocument();
+    expect(queryByText(errorMessage)).not.toBeInTheDocument();
+    expect(queryByTestId('feedback-terminal')).not.toBeInTheDocument();
+    expect(await findByText(/Back to sign in/)).toBeInTheDocument();
+    expect(Sentry.captureUserFeedback).toHaveBeenCalledWith(expect.objectContaining({
+      comments: 'stuck',
+    }));
   });
 
   it('does not render any feedback surface when feedback is not enabled', async () => {
     const { findByText, queryByTestId } = await setup({ mockResponse: errorTerminal });
 
-    expect(await findByText(/Could not process this email link/)).toBeInTheDocument();
+    expect(await findByText(errorMessage)).toBeInTheDocument();
     expect(queryByTestId('feedback-terminal')).not.toBeInTheDocument();
     expect(queryByTestId('send-feedback-link')).not.toBeInTheDocument();
   });
