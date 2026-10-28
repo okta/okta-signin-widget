@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { resolveSentry, sendFeedbackToSentry } from './sentryFeedback';
+import { isFeedbackAvailable, resolveSentry, sendFeedbackToSentry } from './sentryFeedback';
 
 type AnyWindow = typeof window & { Sentry?: unknown };
 
@@ -80,6 +80,33 @@ describe('sentryFeedback', () => {
       const { Sentry } = makeFakeSentry();
       w.Sentry = Sentry;
       expect(resolveSentry()).toBe(Sentry);
+    });
+  });
+
+  describe('isFeedbackAvailable', () => {
+    it('is false when feedback is not enabled, even with the wrapper present', () => {
+      w.Sentry = makeFakeSentry().Sentry;
+      expect(isFeedbackAvailable(false)).toBe(false);
+      expect(isFeedbackAvailable(undefined)).toBe(false);
+    });
+
+    it('is false and warns when enabled but window.Sentry is missing', () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+      expect(isFeedbackAvailable(true)).toBe(false);
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('window.Sentry is not initialized'));
+    });
+
+    it('is false when the global exists but has no initialized client', () => {
+      jest.spyOn(console, 'warn').mockImplementation(() => {});
+      w.Sentry = makeFakeSentry({ withClient: false }).Sentry;
+      expect(isFeedbackAvailable(true)).toBe(false);
+    });
+
+    it('is true when enabled and the wrapper has initialized window.Sentry', () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+      w.Sentry = makeFakeSentry().Sentry;
+      expect(isFeedbackAvailable(true)).toBe(true);
+      expect(warnSpy).not.toHaveBeenCalled();
     });
   });
 

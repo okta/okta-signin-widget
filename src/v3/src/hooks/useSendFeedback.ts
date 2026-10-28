@@ -32,7 +32,8 @@ export type SendFeedbackInput = {
 export type UseSendFeedback = {
   /**
    * Whether the "Send feedback" affordance should be shown. True only when
-   * `feedback.enabled` is set.
+   * `feedback.enabled` is set AND the wrapper's `window.Sentry` was initialized
+   * at mount (see `isFeedbackAvailable`).
    */
   enabled: boolean;
   /**
@@ -53,9 +54,9 @@ export type UseSendFeedback = {
  * separate ticket (OKTA-1290987); this hook is the functional seam.
  */
 export const useSendFeedback = (): UseSendFeedback => {
-  const { widgetProps, idxTransaction } = useWidgetContext();
-  const { feedback, flow } = widgetProps;
-  const enabled = Boolean(feedback?.enabled);
+  const { widgetProps, idxTransaction, feedbackAvailable } = useWidgetContext();
+  const { flow } = widgetProps;
+  const enabled = Boolean(feedbackAvailable);
 
   const sendFeedback = useCallback(async (
     input?: string | SendFeedbackInput,

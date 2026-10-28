@@ -259,20 +259,23 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect(assignMock).toHaveBeenCalledWith(loginPath);
   });
 
-  it('should insert the inline feedback form before the back link when feedback is enabled', () => {
-    widgetProps = { feedback: { enabled: true } } as WidgetProps;
+  it('should insert the inline feedback form before the back link when feedback is available', () => {
     transaction.messages?.push(getMockMessage(
       'Your password reset was successful.',
       'INFO',
       'oie.reset.password.success',
     ));
-    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+    const formBag = transformTerminalTransaction(
+      transaction,
+      widgetProps,
+      mockBootstrapFn,
+      { feedbackAvailable: true },
+    );
 
     expect(formBag.uischema.elements.map(({ type }) => type)).toEqual(['FeedbackForm', 'Link']);
   });
 
   it('should render only the success message and back link once feedback is sent', () => {
-    widgetProps = { feedback: { enabled: true } } as WidgetProps;
     transaction.messages?.push(getMockMessage(
       'There was an unsupported response from server.',
       'ERROR',
@@ -282,7 +285,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       transaction,
       widgetProps,
       mockBootstrapFn,
-      { feedbackSent: true },
+      { feedbackAvailable: true, feedbackSent: true },
     );
 
     const [successBox, backLink] = formBag.uischema.elements as [InfoboxElement, LinkElement];
@@ -293,7 +296,9 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect(backLink.type).toBe('Link');
   });
 
-  it('should not add the inline feedback form when feedback is not enabled', () => {
+  it('should not add the inline feedback form when feedback is not available', () => {
+    // e.g. feedback.enabled but no Sentry wrapper: the Widget passes feedbackAvailable=false.
+    widgetProps = { feedback: { enabled: true } } as WidgetProps;
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag.uischema.elements.some(({ type }) => type === 'FeedbackForm')).toBe(false);

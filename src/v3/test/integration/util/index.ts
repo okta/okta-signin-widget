@@ -15,3 +15,4 @@ export * from './createAuthJsPayload';
 export * from './updateDynamicAttribute';
 export * from './setup';
 export * from './getMockCredentialsResponse';
+export * from './installFakeSentry';

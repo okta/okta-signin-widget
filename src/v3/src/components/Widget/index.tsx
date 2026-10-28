@@ -72,6 +72,7 @@ import {
   isAuthClientSet,
   isConfigRegisterFlow,
   isConsentStep,
+  isFeedbackAvailable,
   isOauth2Enabled,
   isTerminalTransaction,
   loadLanguage,
@@ -136,6 +137,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // Set by the inline terminal feedback form after a successful send; the
   // terminal view then renders only the success message + back link.
   const [terminalFeedbackSent, setTerminalFeedbackSent] = useState<boolean>(false);
+  // Feedback UI renders only when enabled AND the wrapper's window.Sentry is
+  // initialized. Checked once at mount: the wrapper loads before the widget.
+  const [feedbackAvailable] = useState<boolean>(() => isFeedbackAvailable(feedback?.enabled));
   // Stop polling once the LNA remediation is shown: the loopback probe failed on every port, so
   // the challenge never reached Okta Verify and polling can never complete (also prevents the
   // re-probe/flicker while the remediation is up). See OKTA-1135857.
@@ -296,7 +300,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         idxTransaction,
         widgetProps,
         bootstrap,
-        { feedbackSent: terminalFeedbackSent },
+        { feedbackAvailable, feedbackSent: terminalFeedbackSent },
       );
     }
 
@@ -537,15 +541,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
   }, [getDocumentTitle]);
 
-  // "Send feedback" is off by default. SendFeedbackLink re-checks this via
-  // useSendFeedback(); the crash-form branch needs it directly.
-  const feedbackEnabled = Boolean(feedback?.enabled);
   // The crash / "Report issue" surface replaces the view on a fatal bootstrap
   // error (responseError). Terminal views keep their message and get the inline
   // feedback form from transformTerminalTransaction, so the "Send feedback" link
   // shows only on normal, actionable steps.
-  const showReportIssue = feedbackEnabled && Boolean(responseError);
-  const showFeedbackLink = feedbackEnabled && !responseError
+  const showReportIssue = feedbackAvailable && Boolean(responseError);
+  const showFeedbackLink = feedbackAvailable && !responseError
     && !isTerminalTransaction(idxTransaction);
 
   return (
@@ -577,6 +578,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       pollInFlightRef,
       chromeLNADenied,
       setChromeLNADenied,
+      feedbackAvailable,
       setTerminalFeedbackSent,
     }}
     >

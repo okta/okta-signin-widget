@@ -159,7 +159,14 @@ export const transformTerminalTransaction = (
   transaction: IdxTransaction,
   widgetProps: WidgetProps,
   bootstrapFn: () => Promise<void>,
-  { feedbackSent = false }: { feedbackSent?: boolean } = {},
+  {
+    feedbackAvailable = false,
+    feedbackSent = false,
+  }: {
+    /** `feedback.enabled` AND an initialized wrapper `window.Sentry` (see isFeedbackAvailable). */
+    feedbackAvailable?: boolean;
+    feedbackSent?: boolean;
+  } = {},
 ): FormBag => {
   const { authClient } = widgetProps;
 
@@ -213,7 +220,7 @@ export const transformTerminalTransaction = (
 
   // After the inline feedback form is sent, the view collapses to just the
   // confirmation + back link; the original terminal message is dropped.
-  if (widgetProps.feedback?.enabled && feedbackSent) {
+  if (feedbackAvailable && feedbackSent) {
     const successBox: InfoboxElement = {
       type: 'InfoBox',
       options: {
@@ -238,7 +245,7 @@ export const transformTerminalTransaction = (
 
   // Terminal views have no actionable step to hang the "Send feedback" link off,
   // so the feedback form renders inline, between the message and the back link.
-  if (widgetProps.feedback?.enabled) {
+  if (feedbackAvailable) {
     const feedbackForm: FeedbackFormElement = { type: 'FeedbackForm' };
     formBag.uischema.elements.push(feedbackForm);
   }
