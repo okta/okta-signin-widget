@@ -28,7 +28,7 @@ export const installFakeSentry = () => {
       getClient: () => ({}),
       getIntegration: (klass: unknown) => (klass === Replay ? replay : undefined),
     }),
-    withScope: (cb: (scope: unknown) => void) => cb({ setTags: jest.fn() }),
+    withScope: (cb: (scope: unknown) => void) => cb({ setTags: jest.fn(), setContext: jest.fn() }),
     captureMessage: jest.fn().mockReturnValue('event-abc'),
     captureUserFeedback: jest.fn(),
     flush: jest.fn().mockResolvedValue(true),
