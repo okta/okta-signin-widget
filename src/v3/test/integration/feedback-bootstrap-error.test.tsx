@@ -10,11 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup } from './util';
+import { installFakeSentry, setup, uninstallFakeSentry } from './util';
 
 // Own file: a fatal bootstrap error must be the first render in the module, or
 // state cached by earlier renders (see feedback.test.tsx) masks the failure.
 describe('feedback-bootstrap-error', () => {
+  beforeEach(() => {
+    installFakeSentry();
+  });
+
+  afterEach(() => {
+    uninstallFakeSentry();
+  });
+
   it('replaces the view with the "Report issue" form when bootstrap fails', async () => {
     const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     const mockRequestClient = jest.fn().mockRejectedValue({

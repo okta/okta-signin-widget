@@ -97,6 +97,29 @@ export const resolveSentry = (): SentryNS | undefined => {
   return undefined;
 };
 
+/**
+ * Whether the feedback UI should render: `feedback.enabled` AND an initialized
+ * wrapper `window.Sentry`. Evaluated once per widget mount — the wrapper loads
+ * before the widget, so a global that is absent at mount means no send can
+ * succeed, and showing the form would only collect input that is then dropped.
+ * Logs a warning when the option is on but the wrapper is missing, since that
+ * is a host-page setup bug.
+ */
+export const isFeedbackAvailable = (enabled?: boolean): boolean => {
+  if (!enabled) {
+    return false;
+  }
+  if (resolveSentry()) {
+    return true;
+  }
+  // eslint-disable-next-line no-console
+  console.warn(
+    '[siw-feedback] feedback.enabled is set but window.Sentry is not initialized — '
+    + 'the Sentry wrapper must load before the widget; hiding the feedback UI.',
+  );
+  return false;
+};
+
 const getReplay = (Sentry: SentryNS) => {
   try {
     return Sentry.getCurrentHub().getIntegration(Sentry.Replay);

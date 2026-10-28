@@ -69,6 +69,9 @@ export type IWidgetContext = {
   // when the WebView2 iframe enhancement is enabled. See OKTA-1135857.
   chromeLNADenied: boolean;
   setChromeLNADenied: StateUpdater<boolean>;
+  // `feedback.enabled` AND an initialized wrapper `window.Sentry`, evaluated once
+  // at mount. Gates every feedback surface (link, dialog, inline + crash forms).
+  feedbackAvailable: boolean;
   // Set by the inline terminal feedback form after a successful send. Flipping
   // this re-runs the terminal transformer so the view collapses to just the
   // success message + back link. Reset on every new transaction.
