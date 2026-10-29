@@ -84,6 +84,24 @@ describe('useFeedbackForm', () => {
     expect(result.current?.submitting).toBe(false);
   });
 
+  it('clears the comment and consent (but keeps the email) after a send', async () => {
+    const { result } = renderUseFeedbackForm();
+    act(() => {
+      result.current?.setEmail('a@b.com');
+      result.current?.setComment('it broke');
+      result.current?.setConsent(true);
+    });
+
+    await act(async () => {
+      await result.current?.submit();
+    });
+
+    expect(result.current?.comment).toBe('');
+    expect(result.current?.consent).toBe(false);
+    expect(result.current?.canSubmit).toBe(false);
+    expect(result.current?.email).toBe('a@b.com');
+  });
+
   it('still reports sent when Sentry is unavailable (best-effort send)', async () => {
     mockSendFeedback.mockResolvedValue({ ok: false });
     const { result } = renderUseFeedbackForm();
