@@ -522,7 +522,7 @@ export const buildEndUserRemediationMessages = (
         const expiry = params[0];
         const expiryDate = new Date(expiry as string);
         const localizedExpiry = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(
-          expiryDate, languageTags, false
+          expiryDate, languageTags, false,
         );
         widgetMsg.title = localizedExpiry ? loc(key, 'login', [localizedExpiry]) : message;
       }
