@@ -544,9 +544,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // The crash / "Report issue" surface replaces the view on a fatal bootstrap
   // error (responseError). Terminal views keep their message and get the inline
   // feedback form from transformTerminalTransaction, so the "Send feedback" link
-  // shows only on normal, actionable steps.
+  // shows only on normal, actionable steps — and not under the bootstrap spinner
+  // (no form rendered yet).
   const showReportIssue = feedbackAvailable && Boolean(responseError);
   const showFeedbackLink = feedbackAvailable && !responseError
+    && uischema.elements.length > 0
     && !isTerminalTransaction(idxTransaction);
 
   return (

@@ -79,9 +79,14 @@ export const useFeedbackForm = (): UseFeedbackForm => {
         attachLogs: consent,
       });
       // Best-effort send: show the success state regardless of the Sentry
-      // result so the user always gets closure (a missing wrapper logs loudly
-      // to the console but must not strand the user on a spinner).
+      // result so the user always gets closure (a failed send must not strand
+      // the user on a spinner).
       setSent(true);
+      // Clear the comment and consent so a re-opened dialog (it stays mounted)
+      // can't re-send the old text or re-attach logs without a fresh consent.
+      // The email stays prefilled.
+      setComment('');
+      setConsent(false);
     } finally {
       setSubmitting(false);
     }
