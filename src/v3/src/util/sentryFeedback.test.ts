@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import BrowserFeatures from '../../../util/BrowserFeatures';
 import { isFeedbackAvailable, resolveSentry, sendFeedbackToSentry } from './sentryFeedback';
 
 type AnyWindow = typeof window & { Sentry?: unknown };
@@ -109,6 +110,12 @@ describe('sentryFeedback', () => {
       w.Sentry = makeFakeSentry().Sentry;
       expect(isFeedbackAvailable(true)).toBe(true);
       expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('is false in IE11, even when enabled and the wrapper is initialized', () => {
+      jest.spyOn(BrowserFeatures, 'isIE').mockReturnValue(true);
+      w.Sentry = makeFakeSentry().Sentry;
+      expect(isFeedbackAvailable(true)).toBe(false);
     });
   });
 

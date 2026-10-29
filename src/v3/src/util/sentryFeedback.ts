@@ -31,7 +31,10 @@
  *   falling back — a missing/late wrapper is a setup bug we want to see.
  * - IE11: the widget's consumption code targets v7 APIs (`getCurrentHub`,
  *   `Sentry.Replay`, `captureUserFeedback`) because Sentry v8+ dropped IE11.
+ *   The feedback UI itself is disabled in IE11 (see {@link isFeedbackAvailable}).
  */
+
+import BrowserFeatures from '../../../util/BrowserFeatures';
 
 type SentryNS = typeof import('@sentry/browser');
 
@@ -104,9 +107,12 @@ export const resolveSentry = (): SentryNS | undefined => {
  * succeed, and showing the form would only collect input that is then dropped.
  * Logs a warning when the option is on but the wrapper is missing, since that
  * is a host-page setup bug.
+ *
+ * Always false in IE11: the feedback dialog's fields render collapsed there, and
+ * Session Replay (the diagnostic logs the user consents to) does not run in it.
  */
 export const isFeedbackAvailable = (enabled?: boolean): boolean => {
-  if (!enabled) {
+  if (!enabled || BrowserFeatures.isIE()) {
     return false;
   }
   if (resolveSentry()) {
