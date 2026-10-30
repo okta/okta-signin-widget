@@ -23,7 +23,9 @@ import {
   TERMINAL_TITLE_KEY,
 } from '../../constants';
 import {
+  FeedbackFormElement,
   FormBag,
+  InfoboxElement,
   LinkElement,
   TitleElement,
   UISchemaLayout,
@@ -157,6 +159,14 @@ export const transformTerminalTransaction = (
   transaction: IdxTransaction,
   widgetProps: WidgetProps,
   bootstrapFn: () => Promise<void>,
+  {
+    feedbackAvailable = false,
+    feedbackSent = false,
+  }: {
+    /** `feedback.enabled` AND an initialized wrapper `window.Sentry` (see isFeedbackAvailable). */
+    feedbackAvailable?: boolean;
+    feedbackSent?: boolean;
+  } = {},
 ): FormBag => {
   const { authClient } = widgetProps;
 
@@ -208,9 +218,37 @@ export const transformTerminalTransaction = (
     }
   }
 
+  // After the inline feedback form is sent, the view collapses to just the
+  // confirmation + back link; the original terminal message is dropped.
+  if (feedbackAvailable && feedbackSent) {
+    const successBox: InfoboxElement = {
+      type: 'InfoBox',
+      options: {
+        message: {
+          class: 'SUCCESS',
+          message: loc('feedback.dialog.success', 'login'),
+          i18n: { key: 'feedback.dialog.success' },
+        },
+        class: 'SUCCESS',
+        dataSe: 'feedback-terminal-success',
+      },
+    };
+    formBag.uischema.elements.push(successBox);
+    appendViewLinks(transaction, formBag.uischema, widgetProps, bootstrapFn);
+    setFocusOnFirstElement(formBag);
+    return formBag;
+  }
+
   appendTitleElement(formBag.uischema, messages);
 
   transformTerminalMessages(transaction, formBag);
+
+  // Terminal views have no actionable step to hang the "Send feedback" link off,
+  // so the feedback form renders inline, between the message and the back link.
+  if (feedbackAvailable) {
+    const feedbackForm: FeedbackFormElement = { type: 'FeedbackForm' };
+    formBag.uischema.elements.push(feedbackForm);
+  }
 
   appendViewLinks(transaction, formBag.uischema, widgetProps, bootstrapFn);
 

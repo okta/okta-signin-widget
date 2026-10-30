@@ -16,6 +16,31 @@ const config = {
   assets: {
     baseUrl: '/'
   },
+  // User feedback -> Sentry (gen3 only). When enabled, the widget exposes a
+  // "Send feedback" action (invokable from any view) that flushes the Sentry
+  // Session Replay buffer and emits a linked User Feedback entry.
+  //
+  // The widget does NOT bundle/init its own Sentry SDK — it REQUIRES the Sentry
+  // "wrapper" (see `sentryWrapper` below) to have set window.Sentry first.
+  feedback: {
+    // Show the "Send feedback" entry point. Off by default (as in production):
+    // CI copies this file to .widgetrc.js, so turning it on here changes the
+    // views every parity / VRT / English-leaks test renders. Enable it in your
+    // local .widgetrc.js instead.
+    enabled: false
+  },
+  // Playground-only (NOT a widget option; stripped before the widget is created).
+  // Config for playground/sentry-wrapper.ts, the local stand-in for okta-ui's
+  // @okta/sentry-wrapper. Point `dsn` at your own dev Sentry project, or pass
+  // ?sentryDsn=... in the URL. Empty DSN = Sentry disabled.
+  // `replay` / `replayNetworkDetailAllowUrls` match the real wrapper's
+  // window.okta.sentry params (values okta-core sets on the login page).
+  sentryWrapper: {
+    dsn: '',
+    environment: 'dev',
+    replay: true,
+    replayNetworkDetailAllowUrls: '["/idp/idx/"]'
+  },
   // Hooks block processing and run custom logic before or after a form is rendered
   hooks: {
     'identify': {

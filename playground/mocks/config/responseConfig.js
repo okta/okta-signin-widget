@@ -1389,4 +1389,15 @@ const nfcPinVerify = {
 module.exports = {
   mocks: idx,
   // mocks: Test.ChallengeAuthenticatorEmail.networkFailurePollingMock
+  // "Send feedback" -> Sentry demo (gen3). Uncomment one and set feedback.enabled
+  // (and sentryWrapper.dsn) in .widgetrc.js.
+  //   multiStepThenTerminalMock -> 3-step journey (identify -> email code -> error terminal);
+  //                                best for exercising the Sentry event + Session Replay
+  //   activeStepMock            -> normal step with the "Send feedback" link + dialog
+  //   infoTerminalMock          -> terminal message + inline "Send feedback" form + back link
+  //   crashMock                 -> inline "Report issue to Okta" crash form (fatal bootstrap error)
+  // mocks: Test.FeedbackDemo.multiStepThenTerminalMock,
+  // mocks: Test.FeedbackDemo.activeStepMock,
+  // mocks: Test.FeedbackDemo.infoTerminalMock,
+  // mocks: Test.FeedbackDemo.crashMock,
 };

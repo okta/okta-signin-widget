@@ -23,7 +23,7 @@ import {
   IdxTransaction,
   OAuthError,
 } from '@okta/okta-auth-js';
-import { FunctionComponent, h } from 'preact';
+import { Fragment, FunctionComponent, h } from 'preact';
 import {
   useCallback,
   useEffect,
@@ -64,6 +64,7 @@ import {
   buildAuthCoinProps,
   canBootstrapWidget,
   extractPageTitle,
+  getBackToSignInUri,
   getLanguageCode,
   getLanguageDirection,
   getOdysseyTranslationOverrides,
@@ -71,7 +72,9 @@ import {
   isAuthClientSet,
   isConfigRegisterFlow,
   isConsentStep,
+  isFeedbackAvailable,
   isOauth2Enabled,
+  isTerminalTransaction,
   loadLanguage,
   SessionStorage,
   shouldAutoRedirect,
@@ -84,6 +87,7 @@ import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
 import ConsentHeader from '../ConsentHeader';
+import { ReportIssueForm, SendFeedbackLink } from '../Feedback';
 import Form from '../Form';
 import InitialSpinner from '../Spinner/InitialSpinner';
 import GlobalStyles from './GlobalStyles';
@@ -109,6 +113,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     flow,
     widgetHooks,
     features,
+    feedback,
   } = widgetProps;
 
   const [hide, setHide] = useState<boolean>(false);
@@ -129,6 +134,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // permission re-check; flipping it re-runs the transformers to swap in the
   // LNA remediation UI (WebView2 iframe enhancement). See OKTA-1135857.
   const [chromeLNADenied, setChromeLNADenied] = useState<boolean>(false);
+  // Set by the inline terminal feedback form after a successful send; the
+  // terminal view then renders only the success message + back link.
+  const [terminalFeedbackSent, setTerminalFeedbackSent] = useState<boolean>(false);
+  // Feedback UI renders only when enabled AND the wrapper's window.Sentry is
+  // initialized. Checked once at mount: the wrapper loads before the widget.
+  const [feedbackAvailable] = useState<boolean>(() => isFeedbackAvailable(feedback?.enabled));
   // Stop polling once the LNA remediation is shown: the loopback probe failed on every port, so
   // the challenge never reached Okta Verify and polling can never complete (also prevents the
   // re-probe/flicker while the remediation is up). See OKTA-1135857.
@@ -285,7 +296,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     if ([IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(idxTransaction.status)
       || idxTransaction.nextStep?.name === IDX_STEP.SKIP // force safe mode to be terminal
       || !idxTransaction.nextStep) {
-      return transformTerminalTransaction(idxTransaction, widgetProps, bootstrap);
+      return transformTerminalTransaction(
+        idxTransaction,
+        widgetProps,
+        bootstrap,
+        { feedbackAvailable, feedbackSent: terminalFeedbackSent },
+      );
     }
 
     if (!isOauth2Enabled(widgetProps) && prevIdxTransactionRef.current) {
@@ -334,6 +350,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     widgetProps,
     bootstrap,
     chromeLNADenied,
+    terminalFeedbackSent,
   ]);
 
   // track previous idxTransaction
@@ -362,6 +379,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // prematurely. WebView2 iframe enhancement, OKTA-1135857.
   useEffect(() => {
     setChromeLNADenied(false);
+    setTerminalFeedbackSent(false);
   }, [idxTransaction]);
 
   // update dataSchemaRef in context
@@ -523,6 +541,16 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
   }, [getDocumentTitle]);
 
+  // The crash / "Report issue" surface replaces the view on a fatal bootstrap
+  // error (responseError). Terminal views keep their message and get the inline
+  // feedback form from transformTerminalTransaction, so the "Send feedback" link
+  // shows only on normal, actionable steps — and not under the bootstrap spinner
+  // (no form rendered yet).
+  const showReportIssue = feedbackAvailable && Boolean(responseError);
+  const showFeedbackLink = feedbackAvailable && !responseError
+    && uischema.elements.length > 0
+    && !isTerminalTransaction(idxTransaction);
+
   return (
     <WidgetContextProvider value={{
       authClient,
@@ -552,6 +580,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       pollInFlightRef,
       chromeLNADenied,
       setChromeLNADenied,
+      feedbackAvailable,
+      setTerminalFeedbackSent,
     }}
     >
       <OdysseyProvider
@@ -581,9 +611,28 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
           <AuthContent>
             {isConsentStep(idxTransaction) && <ConsentHeader />}
             {
-              uischema.elements.length > 0
-                ? <Form uischema={uischema as UISchemaLayout} />
-                : <InitialSpinner />
+              // Crash surface: a fatal bootstrap error ("Unable to load page") is
+              // replaced by the inline "Report issue to Okta" form. Otherwise render
+              // the normal form plus the "Send feedback" link on actionable steps.
+              showReportIssue
+                ? (
+                  <ReportIssueForm
+                    onBackToSignIn={() => {
+                      const uri = getBackToSignInUri(widgetProps);
+                      window.location.assign(uri || window.location.href);
+                    }}
+                  />
+                )
+                : (
+                  <Fragment>
+                    {
+                      uischema.elements.length > 0
+                        ? <Form uischema={uischema as UISchemaLayout} />
+                        : <InitialSpinner />
+                    }
+                    {showFeedbackLink && <SendFeedbackLink />}
+                  </Fragment>
+                )
             }
           </AuthContent>
         </AuthContainer>

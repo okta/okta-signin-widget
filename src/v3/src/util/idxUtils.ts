@@ -115,6 +115,20 @@ export const containsOneOfMessageKeys = (
   messages?: WidgetMessage[],
 ): boolean => keys.some((key) => containsMessageKey(key, messages));
 
+/**
+ * A transaction renders as a "terminal" view (no further user action) when it is
+ * TERMINAL/SUCCESS, has only a skip remediation, or has no next step. Mirrors the
+ * branch in Widget's formBag derivation that routes to transformTerminalTransaction.
+ */
+export const isTerminalTransaction = (transaction?: IdxTransaction): boolean => {
+  if (!transaction) {
+    return false;
+  }
+  return [IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(transaction.status)
+    || transaction.nextStep?.name === IDX_STEP.SKIP
+    || !transaction.nextStep;
+};
+
 export const updatePasswordRequirementsNotMetMessage = (
   messages: IdxMessage[],
 ): IdxMessage[] => (

@@ -14,6 +14,7 @@ import { IdxContext, IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
 import { act } from '@testing-library/preact';
 import {
   FormBag,
+  InfoboxElement,
   LinkElement,
   TitleElement,
   WidgetProps,
@@ -256,6 +257,51 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(1);
     expect(assignMock).toHaveBeenCalledTimes(1);
     expect(assignMock).toHaveBeenCalledWith(loginPath);
+  });
+
+  it('should insert the inline feedback form before the back link when feedback is available', () => {
+    transaction.messages?.push(getMockMessage(
+      'Your password reset was successful.',
+      'INFO',
+      'oie.reset.password.success',
+    ));
+    const formBag = transformTerminalTransaction(
+      transaction,
+      widgetProps,
+      mockBootstrapFn,
+      { feedbackAvailable: true },
+    );
+
+    expect(formBag.uischema.elements.map(({ type }) => type)).toEqual(['FeedbackForm', 'Link']);
+  });
+
+  it('should render only the success message and back link once feedback is sent', () => {
+    transaction.messages?.push(getMockMessage(
+      'There was an unsupported response from server.',
+      'ERROR',
+      'error.unsupported.response',
+    ));
+    const formBag = transformTerminalTransaction(
+      transaction,
+      widgetProps,
+      mockBootstrapFn,
+      { feedbackAvailable: true, feedbackSent: true },
+    );
+
+    const [successBox, backLink] = formBag.uischema.elements as [InfoboxElement, LinkElement];
+    expect(formBag.uischema.elements.length).toBe(2);
+    expect(successBox.type).toBe('InfoBox');
+    expect(successBox.options.class).toBe('SUCCESS');
+    expect(successBox.options.dataSe).toBe('feedback-terminal-success');
+    expect(backLink.type).toBe('Link');
+  });
+
+  it('should not add the inline feedback form when feedback is not available', () => {
+    // e.g. feedback.enabled but no Sentry wrapper: the Widget passes feedbackAvailable=false.
+    widgetProps = { feedback: { enabled: true } } as WidgetProps;
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+
+    expect(formBag.uischema.elements.some(({ type }) => type === 'FeedbackForm')).toBe(false);
   });
 
   it('should not add back to sign in link when cancel is not available', () => {
