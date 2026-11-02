@@ -117,6 +117,29 @@ describe('useFeedbackForm', () => {
     expect(result.current?.canSubmit).toBe(true);
   });
 
+  it('keeps a comment typed while the send was in flight', async () => {
+    let resolveSend: (r: { ok: boolean }) => void = () => {};
+    mockSendFeedback.mockReturnValue(new Promise((r) => { resolveSend = r; }));
+    const { result } = renderUseFeedbackForm();
+    act(() => {
+      result.current?.setComment('first');
+      result.current?.setConsent(true);
+    });
+
+    let sending: Promise<void> | undefined;
+    act(() => {
+      sending = result.current?.submit();
+    });
+    act(() => result.current?.setComment('first, and more'));
+    await act(async () => {
+      resolveSend({ ok: true });
+      await sending;
+    });
+
+    expect(result.current?.sent).toBe(true);
+    expect(result.current?.comment).toBe('first, and more');
+  });
+
   it('never rejects, and reports failed, if sendFeedback throws', async () => {
     mockSendFeedback.mockRejectedValue(new Error('boom'));
     const { result } = renderUseFeedbackForm();

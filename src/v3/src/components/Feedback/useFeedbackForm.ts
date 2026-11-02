@@ -92,8 +92,9 @@ export const useFeedbackForm = (): UseFeedbackForm => {
     setSent(true);
     // Clear the comment and consent so a re-opened dialog (it stays mounted)
     // can't re-send the old text or re-attach logs without a fresh consent.
-    // The email stays.
-    setComment('');
+    // Only clear the comment if it's still what was sent, so text typed while
+    // the send was in flight survives. The email stays.
+    setComment((current) => (current === comment ? '' : current));
     setConsent(false);
   }, [canSubmit, sendFeedback, email, comment, consent]);
 
