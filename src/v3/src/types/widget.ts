@@ -230,9 +230,10 @@ export type WidgetOptions = {
   // client data comes purely from the wrapper's masked Session Replay; the
   // widget bundles no Sentry SDK and consumes a global `window.Sentry`.
   feedback?: {
-    // Show the "Send feedback" entry point. DEFAULT: false (off). On the
-    // Okta-hosted login page okta-core sets this (FF-gated); embedders control
-    // it directly in their own widget config.
+    // Show the "Send feedback" entry point. DEFAULT: false (off). Okta-hosted
+    // login page only: okta-core sets this (FF-gated) alongside Okta's Sentry
+    // wrapper config; without that wrapper (e.g. an embedded widget) it has no
+    // effect. See isFeedbackAvailable.
     enabled?: boolean;
   };
 };

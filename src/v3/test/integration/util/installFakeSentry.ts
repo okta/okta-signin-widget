@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-type WindowWithSentry = typeof window & { Sentry?: unknown };
+type WindowWithSentry = typeof window & { Sentry?: unknown; okta?: unknown };
 
 /**
- * Install a minimal v7 Sentry global, as published by the (prod or playground)
- * wrapper. The feedback UI only renders when this is present at widget mount.
+ * Install a minimal v7 Sentry global plus the `window.okta.sentry` config, as on
+ * a page running Okta's (prod or playground) wrapper. The feedback UI only
+ * renders when both are present at widget mount.
  */
 export const installFakeSentry = () => {
   const replay = {
@@ -38,9 +39,11 @@ export const installFakeSentry = () => {
     flush: jest.fn().mockResolvedValue(true),
   };
   (window as WindowWithSentry).Sentry = Sentry;
+  (window as WindowWithSentry).okta = { sentry: { replay: true } };
   return Sentry;
 };
 
 export const uninstallFakeSentry = () => {
   delete (window as WindowWithSentry).Sentry;
+  delete (window as WindowWithSentry).okta;
 };

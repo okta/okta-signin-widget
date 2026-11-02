@@ -101,12 +101,25 @@ export const resolveSentry = (): SentryNS | undefined => {
 };
 
 /**
- * Whether the feedback UI should render: `feedback.enabled` AND an initialized
- * wrapper `window.Sentry`. Evaluated once per widget mount — the wrapper loads
- * before the widget, so a global that is absent at mount means no send can
- * succeed, and showing the form would only collect input that is then dropped.
- * Logs a warning when the option is on but the wrapper is missing, since that
- * is a host-page setup bug.
+ * Whether the page runs Okta's own Sentry wrapper with feedback replay on: the
+ * `window.okta.sentry` config okta-core sets for `@okta/sentry-wrapper`, with
+ * `replay: true`. A `window.Sentry` alone isn't enough: on an embedding page it
+ * may be the host's own SDK, which would send the feedback to the host's Sentry
+ * project while the UI says "Send feedback to Okta".
+ */
+const isOktaSentryWrapper = (): boolean => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { okta } = window as any;
+  return okta?.sentry?.replay === true;
+};
+
+/**
+ * Whether the feedback UI should render: `feedback.enabled` AND Okta's Sentry
+ * wrapper (see {@link isOktaSentryWrapper}) has initialized `window.Sentry`.
+ * Evaluated once per widget mount — the wrapper loads before the widget, so a
+ * global that is absent at mount means no send can succeed, and showing the form
+ * would only collect input that is then dropped. Logs a warning when the option
+ * is on but the wrapper is missing, since that is a host-page setup bug.
  *
  * Always false in IE11: the feedback dialog's fields render collapsed there, and
  * Session Replay (the diagnostic logs the user consents to) does not run in it.
@@ -115,15 +128,29 @@ export const isFeedbackAvailable = (enabled?: boolean): boolean => {
   if (!enabled || BrowserFeatures.isIE()) {
     return false;
   }
-  if (resolveSentry()) {
+  if (isOktaSentryWrapper() && resolveSentry()) {
     return true;
   }
   // eslint-disable-next-line no-console
   console.warn(
-    '[siw-feedback] feedback.enabled is set but window.Sentry is not initialized — '
-    + 'the Sentry wrapper must load before the widget; hiding the feedback UI.',
+    '[siw-feedback] feedback.enabled is set but Okta\'s Sentry wrapper is not initialized '
+    + '(window.okta.sentry.replay + window.Sentry) — it must load before the widget; '
+    + 'hiding the feedback UI.',
   );
   return false;
+};
+
+// Upper bound on the replay upload. A stalled upload (proxy, ad blocker holding
+// the request open) must not leave the Send button disabled forever.
+export const REPLAY_FLUSH_TIMEOUT_MS = 5000;
+
+// Resolves to `fallback` if `promise` hasn't settled within `ms`.
+const withTimeout = <T>(promise: Promise<T>, ms: number, fallback: T): Promise<T> => {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<T>((resolve) => {
+    timer = setTimeout(() => resolve(fallback), ms);
+  });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
 };
 
 const getReplay = (Sentry: SentryNS) => {
@@ -144,6 +171,10 @@ const getReplay = (Sentry: SentryNS) => {
  * keeps streaming everything the user does next — beyond what they consented to
  * ("diagnostic logs with my feedback"). Recording stays off for the rest of the
  * page, so a second send on the same page links the same (earlier) replay.
+ *
+ * Bounded by {@link REPLAY_FLUSH_TIMEOUT_MS}: if the upload hasn't finished by
+ * then, the feedback is sent without a replay link (`hasReplay: false`) rather
+ * than linking a replay that may never arrive.
  */
 const flushReplay = async (Sentry: SentryNS): Promise<string | undefined> => {
   const replay = getReplay(Sentry);
@@ -151,25 +182,20 @@ const flushReplay = async (Sentry: SentryNS): Promise<string | undefined> => {
     return undefined;
   }
   try {
-    await replay.flush({ continueRecording: false });
-    return replay.getReplayId();
+    const flushed = await withTimeout(
+      replay.flush({ continueRecording: false }).then(() => true),
+      REPLAY_FLUSH_TIMEOUT_MS,
+      false,
+    );
+    return flushed ? replay.getReplayId() : undefined;
   } catch {
     // replay is best-effort; never block the feedback send
     return undefined;
   }
 };
 
-/**
- * Send a user-feedback report to Sentry.
- *
- * Returns `{ ok: false }` (and logs a loud `console.error`) when no wrapper
- * `window.Sentry` is present. Otherwise flushes the replay, captures a carrier
- * event stamped with the fixed tag set, and links a User Feedback entry to it.
- * Best-effort throughout: a failure must never break the sign-in UI.
- */
-export const sendFeedbackToSentry = async (
-  options?: SendFeedbackOptions,
-): Promise<SendFeedbackResult> => {
+// The send itself; may throw if the host's window.Sentry does. See sendFeedbackToSentry.
+const send = async (options?: SendFeedbackOptions): Promise<SendFeedbackResult> => {
   const Sentry = resolveSentry();
   if (!Sentry) {
     // eslint-disable-next-line no-console
@@ -217,24 +243,45 @@ export const sendFeedbackToSentry = async (
     eventId = Sentry.captureMessage('SIW user feedback', 'info');
   });
 
-  if (eventId) {
-    try {
-      Sentry.captureUserFeedback({
-        event_id: eventId,
-        name: 'SIW user',
-        email: options?.email?.trim() || '',
-        comments: options?.comment?.trim() || 'SIW user feedback (no comment)',
-      });
-    } catch {
-      // feedback is best-effort; never let it break the view
-    }
+  if (!eventId) {
+    return { ok: false };
   }
+  // The report is what support reads; if it can't be captured, the send failed
+  // (sendFeedbackToSentry turns the throw into `{ ok: false }`).
+  Sentry.captureUserFeedback({
+    event_id: eventId,
+    name: 'SIW user',
+    email: options?.email?.trim() || '',
+    comments: options?.comment?.trim() || 'SIW user feedback (no comment)',
+  });
 
   try {
     await Sentry.flush(2000);
   } catch {
-    // flush is best-effort
+    // flush is best-effort: both events are already queued for sending
   }
 
-  return { ok: Boolean(eventId), eventId, replayId };
+  return { ok: true, eventId, replayId };
+};
+
+/**
+ * Send a user-feedback report to Sentry.
+ *
+ * Returns `{ ok: false }` (and logs a loud `console.error`) when no wrapper
+ * `window.Sentry` is present. Otherwise flushes the replay, captures a carrier
+ * event stamped with the fixed tag set, and links a User Feedback entry to it.
+ * `ok` is true only when both the carrier and the User Feedback entry were
+ * captured. Never throws or rejects: any error from the host's `window.Sentry`
+ * resolves to `{ ok: false }`, so a failure can't break the sign-in UI.
+ */
+export const sendFeedbackToSentry = async (
+  options?: SendFeedbackOptions,
+): Promise<SendFeedbackResult> => {
+  try {
+    return await send(options);
+  } catch {
+    // eslint-disable-next-line no-console
+    console.error('[siw-feedback] sending feedback failed; nothing was confirmed sent.');
+    return { ok: false };
+  }
 };

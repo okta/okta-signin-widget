@@ -101,7 +101,22 @@ describe('feedback', () => {
     expect(await findByText(errorMessage)).toBeInTheDocument();
     expect(queryByTestId('feedback-terminal')).not.toBeInTheDocument();
     expect(queryByTestId('send-feedback-link')).not.toBeInTheDocument();
-    expect(consoleWarnSpy).toHaveBeenCalledWith(expect.stringContaining('window.Sentry is not initialized'));
+    expect(consoleWarnSpy).toHaveBeenCalledWith(expect.stringContaining('Sentry wrapper is not initialized'));
+    consoleWarnSpy.mockRestore();
+  });
+
+  // An embedder's own window.Sentry must not receive feedback labelled "to Okta".
+  it('renders no feedback surface on a page whose window.Sentry is not Okta\'s wrapper', async () => {
+    delete (window as typeof window & { okta?: unknown }).okta;
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const { findByText, queryByTestId } = await setup({
+      mockResponse: errorTerminal,
+      widgetOptions,
+    });
+
+    expect(await findByText(errorMessage)).toBeInTheDocument();
+    expect(queryByTestId('feedback-terminal')).not.toBeInTheDocument();
+    expect(queryByTestId('send-feedback-link')).not.toBeInTheDocument();
     consoleWarnSpy.mockRestore();
   });
 

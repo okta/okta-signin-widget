@@ -27,8 +27,11 @@
  * - Same Replay setup: masked, BUFFER mode (sample rates 0), `startBuffering()` right after
  *   init so fetch/XHR are instrumented before okta-auth-js binds fetch; network bodies only
  *   for the allow-listed URLs.
- * - Same `beforeSend` rule for non-error message events (the widget's feedback carrier
- *   event): kept only when replay is on, minus breadcrumbs / Referer.
+ * - Same `beforeSend` rule for the widget's feedback carrier event: a message tagged
+ *   `okta_feedback: true`, kept only when replay is on, minus breadcrumbs / Referer.
+ *   Untagged non-error messages are dropped, as in the real wrapper.
+ * - Publishes the same `window.okta.sentry` config okta-core sets (the widget only shows
+ *   feedback UI when `window.okta.sentry.replay` is true, i.e. on Okta's wrapper).
  * Intentionally omitted (no effect on feedback): BrowserTracing / tracesSampleRate,
  * the error allow/block lists, org-id URL redaction, and the i18n DOM interceptor.
  *
@@ -53,8 +56,13 @@ declare global {
   interface Window {
     // Published for the widget to consume.
     Sentry?: typeof Sentry;
+    // Set by okta-core on the login page; read by the real wrapper and the widget.
+    okta?: { sentry?: { replay?: boolean } };
   }
 }
+
+// Same tag name as okta-ui's FEEDBACK_TAG.
+const FEEDBACK_TAG = 'okta_feedback';
 
 /** Config precedence: `?sentryDsn=` URL override, then `.widgetrc.js` `sentryWrapper`. */
 const resolveConfig = (): PlaygroundSentryConfig => {
@@ -90,11 +98,11 @@ const getReplayNetworkDetailAllowUrls = ({ replayNetworkDetailAllowUrls }: Playg
   }
 };
 
-/** Same rule as okta-ui's isNonErrorMessageEvent: captureMessage below error level, no exception. */
-const isNonErrorMessageEvent = (event: Sentry.Event): boolean => (
+/** Same rule as okta-ui's isFeedbackCarrierEvent: a message tagged FEEDBACK_TAG, no exception. */
+const isFeedbackCarrierEvent = (event: Sentry.Event): boolean => (
   !event.exception
   && typeof event.message === 'string'
-  && !['error', 'fatal'].includes(event.level as string)
+  && event.tags?.[FEEDBACK_TAG] === true
 );
 
 const init = (): void => {
@@ -125,7 +133,7 @@ const init = (): void => {
       replaysOnErrorSampleRate: 0,
     }),
     beforeSend: (event) => {
-      if (replayEnabled && isNonErrorMessageEvent(event)) {
+      if (replayEnabled && isFeedbackCarrierEvent(event)) {
         delete event.breadcrumbs;
         if (event.request?.headers?.Referer) {
           delete event.request.headers.Referer;
@@ -158,6 +166,8 @@ const init = (): void => {
   scope?.setTag('sentry_source', 'playground-wrapper');
 
   window.Sentry = Sentry;
+  // What okta-core sets for the real wrapper; the widget gates its feedback UI on it.
+  window.okta = { ...window.okta, sentry: { ...window.okta?.sentry, replay: replayEnabled } };
 };
 
 init();

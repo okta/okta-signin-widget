@@ -11,9 +11,14 @@
  */
 
 import BrowserFeatures from '../../../util/BrowserFeatures';
-import { isFeedbackAvailable, resolveSentry, sendFeedbackToSentry } from './sentryFeedback';
+import {
+  isFeedbackAvailable,
+  REPLAY_FLUSH_TIMEOUT_MS,
+  resolveSentry,
+  sendFeedbackToSentry,
+} from './sentryFeedback';
 
-type AnyWindow = typeof window & { Sentry?: unknown };
+type AnyWindow = typeof window & { Sentry?: unknown; okta?: unknown };
 
 // A minimal v7 Sentry stand-in: records the calls the sender makes so we can
 // assert the tag set, the replay flush/link, and the user-feedback payload.
@@ -60,12 +65,15 @@ describe('sentryFeedback', () => {
 
   beforeEach(() => {
     delete w.Sentry;
+    // the config okta-core sets for Okta's Sentry wrapper (see isFeedbackAvailable)
+    w.okta = { sentry: { replay: true } };
     consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
     delete w.Sentry;
+    delete w.okta;
   });
 
   describe('resolveSentry', () => {
@@ -96,7 +104,7 @@ describe('sentryFeedback', () => {
     it('is false and warns when enabled but window.Sentry is missing', () => {
       const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
       expect(isFeedbackAvailable(true)).toBe(false);
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('window.Sentry is not initialized'));
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Sentry wrapper is not initialized'));
     });
 
     it('is false when the global exists but has no initialized client', () => {
@@ -110,6 +118,19 @@ describe('sentryFeedback', () => {
       w.Sentry = makeFakeSentry().Sentry;
       expect(isFeedbackAvailable(true)).toBe(true);
       expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    // An embedder's own window.Sentry: sending would go to the host's project
+    // while the UI says "to Okta".
+    it.each([
+      ['no window.okta config', undefined],
+      ['window.okta.sentry without replay', { sentry: {} }],
+      ['replay not strictly true', { sentry: { replay: 'true' } }],
+    ])('is false with a host-page window.Sentry and %s', (_, okta) => {
+      jest.spyOn(console, 'warn').mockImplementation(() => {});
+      w.okta = okta;
+      w.Sentry = makeFakeSentry().Sentry;
+      expect(isFeedbackAvailable(true)).toBe(false);
     });
 
     it('is false in IE11, even when enabled and the wrapper is initialized', () => {
@@ -240,6 +261,52 @@ describe('sentryFeedback', () => {
 
       expect(replay.flush).toHaveBeenCalledTimes(1);
       expect(result).toMatchObject({ ok: true, replayId: 'rep-7' });
+    });
+
+    // Never throws: a throw anywhere in the host's window.Sentry resolves to
+    // { ok: false } instead of an unhandled rejection.
+    it.each([
+      'withScope',
+      'captureMessage',
+      'captureUserFeedback',
+    ] as const)('resolves { ok: false } (never rejects) when %s throws', async (api) => {
+      const { Sentry } = makeFakeSentry();
+      Sentry[api].mockImplementation(() => { throw new Error('boom'); });
+      w.Sentry = Sentry;
+
+      await expect(sendFeedbackToSentry({ comment: 'x' })).resolves.toEqual({ ok: false });
+      expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringContaining('sending feedback failed'));
+    });
+
+    it('is not ok when captureMessage returns no event id', async () => {
+      const { Sentry } = makeFakeSentry();
+      Sentry.captureMessage.mockReturnValue(undefined);
+      w.Sentry = Sentry;
+
+      await expect(sendFeedbackToSentry({ comment: 'x' })).resolves.toEqual({ ok: false });
+      expect(Sentry.captureUserFeedback).not.toHaveBeenCalled();
+    });
+
+    it('sends without a replay link when the replay upload stalls past the timeout', async () => {
+      jest.useFakeTimers();
+      try {
+        const { Sentry, replay, getScope } = makeFakeSentry({ replayId: 'rep-7' });
+        replay.flush.mockReturnValue(new Promise(() => {})); // never settles
+        w.Sentry = Sentry;
+
+        const sending = sendFeedbackToSentry({ comment: 'x' });
+        // let the send reach the flush race, then fire its timeout
+        await Promise.resolve();
+        jest.advanceTimersByTime(REPLAY_FLUSH_TIMEOUT_MS);
+        const result = await sending;
+
+        expect(result).toEqual({ ok: true, eventId: 'event-abc', replayId: undefined });
+        expect(getScope()?.setTags.mock.calls[0][0]).toMatchObject({ hasReplay: false });
+        expect(getScope()?.setContext).not.toHaveBeenCalled();
+        expect(Sentry.captureUserFeedback).toHaveBeenCalled();
+      } finally {
+        jest.useRealTimers();
+      }
     });
   });
 });
