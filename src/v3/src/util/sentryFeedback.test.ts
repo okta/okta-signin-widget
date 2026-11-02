@@ -164,6 +164,8 @@ describe('sentryFeedback', () => {
         formName: 'challenge-authenticator',
         factor: 'okta_verify',
         hasReplay: true,
+        // the sentry-wrapper only lets the info-level carrier through with this tag
+        okta_feedback: true,
       });
       // Linked via the `replay` context, never a `replayId` tag (which would make
       // the buffer-mode SDK restart full session recording).

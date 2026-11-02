@@ -196,6 +196,9 @@ export const sendFeedbackToSentry = async (
       // `factor` (not `authenticatorKey`) — see FeedbackContext.
       factor,
       hasReplay: Boolean(replayId),
+      // Marks this as a user-sent feedback carrier. @okta/sentry-wrapper's beforeSend drops
+      // non-error messages unless they carry this tag, so untagged page messages never ride along.
+      okta_feedback: true,
     });
     // Link the replay explicitly: with `continueRecording: false` the replay
     // stays in buffer mode, so the SDK does not auto-link this event. Use the
