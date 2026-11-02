@@ -20,17 +20,18 @@ import {
 } from './constants';
 
 type FeedbackLegalTextProps = {
-  /** i18n key for the legal sentence; must use <$1>/<$2> link tokens and a <$3> emphasis token. */
+  /** i18n key for the legal sentence; must use a <$1> emphasis token and <$2>/<$3> link tokens. */
   i18nKey: string;
 };
 
 /**
- * Renders the feedback consent sentence with the "Send report/feedback" phrase
+ * Renders the feedback consent sentence with the "Send feedback" button name
  * emphasized and the Okta Privacy Policy / Master Subscription Agreement as real
- * Odyssey links. The source string embeds three tokens:
- *   <$1>…</$1>  Privacy Policy link text
- *   <$2>…</$2>  Master Subscription Agreement link text
- *   <$3>…</$3>  emphasized call-to-action phrase ("Send report"/"Send feedback")
+ * Odyssey links. The source string embeds three tokens, numbered in reading
+ * order (the SIW convention):
+ *   <$1>…</$1>  emphasized button name ("Send feedback")
+ *   <$2>…</$2>  Privacy Policy link text
+ *   <$3>…</$3>  Master Subscription Agreement link text
  * We split on those tokens rather than inject HTML, so no dangerouslySetInnerHTML
  * is needed and the links stay keyboard/screen-reader accessible.
  */
@@ -48,8 +49,8 @@ export const FeedbackLegalText = ({ i18nKey }: FeedbackLegalTextProps): h.JSX.El
       parts.push(raw.slice(lastIndex, match.index));
     }
     const [, token, text] = match;
-    if (token === '1' || token === '2') {
-      const href = token === '1'
+    if (token === '2' || token === '3') {
+      const href = token === '2'
         ? OKTA_PRIVACY_POLICY_URL
         : OKTA_MASTER_SUBSCRIPTION_AGREEMENT_URL;
       parts.push(
