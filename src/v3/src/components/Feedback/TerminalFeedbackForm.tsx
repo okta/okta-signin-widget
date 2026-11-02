@@ -28,14 +28,14 @@ import { FeedbackStack } from './FeedbackStack';
 import { useFeedbackForm } from './useFeedbackForm';
 
 /**
- * Inline "Send feedback to Okta" form for message-only terminal views (the
- * server message + "Back to sign in"). Terminal views have no actionable step,
- * so instead of the bottom-of-view "Send feedback" link + dialog, the transformer
- * inserts this form between the message and the back link. Same fields/copy as
- * the dialog; Send is gated on the diagnostic-logs consent checkbox. A successful
- * send flips `setTerminalFeedbackSent`, which re-runs the terminal transformer so
- * the whole view collapses to the green confirmation + back link (the original
- * terminal message is dropped).
+ * Inline "Send feedback to Okta" form for message-only views: terminal views (the
+ * server message + "Back to sign in") and unhandled errors (the specific error
+ * message). These have no actionable step, so instead of the bottom-of-view
+ * "Send feedback" link + dialog, the transformer inserts this form below the
+ * message. Same fields/copy as the dialog; Send is gated on the diagnostic-logs
+ * consent checkbox. A successful send flips `setFeedbackSent`, which re-runs the
+ * transformer to swap in the green confirmation (terminal views also drop their
+ * original message; error views keep it).
  *
  * Rendered inside the view's `<form>`: Enter in the email input is swallowed so
  * it doesn't trigger implicit submission of the (no-op) terminal form.
@@ -44,17 +44,18 @@ export const TerminalFeedbackForm: UISchemaElementComponent<{
   uischema: FeedbackFormElement
 }> = () => {
   const tokens = useOdysseyDesignTokens();
-  const { setTerminalFeedbackSent } = useWidgetContext();
+  const { setFeedbackSent } = useWidgetContext();
   const form = useFeedbackForm();
   const { canSubmit, submit, sent } = form;
 
   useEffect(() => {
     if (sent) {
-      setTerminalFeedbackSent(true);
+      setFeedbackSent(true);
     }
-  }, [sent, setTerminalFeedbackSent]);
+  }, [sent, setFeedbackSent]);
 
   const handleSubmit = useCallback(() => {
+    // submit never rejects (a failed send surfaces as `failed`), so no await
     submit();
   }, [submit]);
 

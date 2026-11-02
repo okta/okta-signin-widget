@@ -40,13 +40,8 @@ describe('useFeedbackForm', () => {
     mockSendFeedback.mockReset().mockResolvedValue({ ok: true });
   });
 
-  it('prefills the email when the IDX identifier is an email', () => {
+  it('does not prefill the email, even when the IDX identifier is an email (PII)', () => {
     const { result } = renderUseFeedbackForm(withIdentifier('user@example.com'));
-    expect(result.current?.email).toBe('user@example.com');
-  });
-
-  it('does not prefill the email when the identifier is a plain username', () => {
-    const { result } = renderUseFeedbackForm(withIdentifier('jdoe'));
     expect(result.current?.email).toBe('');
   });
 
@@ -102,15 +97,53 @@ describe('useFeedbackForm', () => {
     expect(result.current?.email).toBe('a@b.com');
   });
 
-  it('still reports sent when Sentry is unavailable (best-effort send)', async () => {
+  it('reports failed, not sent, when the send is not confirmed, and keeps the input', async () => {
     mockSendFeedback.mockResolvedValue({ ok: false });
+    const { result } = renderUseFeedbackForm();
+    act(() => {
+      result.current?.setComment('it broke');
+      result.current?.setConsent(true);
+    });
+
+    await act(async () => {
+      await result.current?.submit();
+    });
+
+    expect(result.current?.sent).toBe(false);
+    expect(result.current?.failed).toBe(true);
+    expect(result.current?.submitting).toBe(false);
+    // the user can retry without retyping
+    expect(result.current?.comment).toBe('it broke');
+    expect(result.current?.canSubmit).toBe(true);
+  });
+
+  it('never rejects, and reports failed, if sendFeedback throws', async () => {
+    mockSendFeedback.mockRejectedValue(new Error('boom'));
+    const { result } = renderUseFeedbackForm();
+    act(() => result.current?.setConsent(true));
+
+    await act(async () => {
+      await expect(result.current?.submit()).resolves.toBeUndefined();
+    });
+
+    expect(result.current?.failed).toBe(true);
+    expect(result.current?.submitting).toBe(false);
+  });
+
+  it('clears failed on the next successful send', async () => {
+    mockSendFeedback.mockResolvedValueOnce({ ok: false }).mockResolvedValueOnce({ ok: true });
     const { result } = renderUseFeedbackForm();
     act(() => result.current?.setConsent(true));
 
     await act(async () => {
       await result.current?.submit();
     });
+    expect(result.current?.failed).toBe(true);
 
+    await act(async () => {
+      await result.current?.submit();
+    });
+    expect(result.current?.failed).toBe(false);
     expect(result.current?.sent).toBe(true);
   });
 

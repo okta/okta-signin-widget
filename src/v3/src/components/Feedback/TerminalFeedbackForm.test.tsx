@@ -32,10 +32,10 @@ const pressEnter = (el: HTMLElement): KeyboardEvent => {
 };
 
 const renderInForm = () => {
-  const setTerminalFeedbackSent = jest.fn();
+  const setFeedbackSent = jest.fn();
   const widgetContext = {
     widgetProps: {},
-    setTerminalFeedbackSent,
+    setFeedbackSent,
   } as unknown as IWidgetContext;
   const result = render(
     <WidgetContextProvider value={widgetContext}>
@@ -45,7 +45,7 @@ const renderInForm = () => {
       </form>
     </WidgetContextProvider>,
   );
-  return { ...result, setTerminalFeedbackSent };
+  return { ...result, setFeedbackSent };
 };
 
 describe('TerminalFeedbackForm', () => {
@@ -92,9 +92,9 @@ describe('TerminalFeedbackForm', () => {
     expect(enter.defaultPrevented).toBe(false);
   });
 
-  it('sends the feedback and flips setTerminalFeedbackSent on success', async () => {
+  it('sends the feedback and flips setFeedbackSent on success', async () => {
     const user = userEvent.setup();
-    const { getByRole, getByTestId, setTerminalFeedbackSent } = renderInForm();
+    const { getByRole, getByTestId, setFeedbackSent } = renderInForm();
 
     await user.type(getByTestId('feedback-terminal-comment'), 'stuck here');
     await user.click(getByRole('checkbox'));
@@ -104,6 +104,28 @@ describe('TerminalFeedbackForm', () => {
       comment: 'stuck here',
       attachLogs: true,
     }));
-    await waitFor(() => expect(setTerminalFeedbackSent).toHaveBeenCalledWith(true));
+    await waitFor(() => expect(setFeedbackSent).toHaveBeenCalledWith(true));
+  });
+
+  it('shows "couldn\'t send" and no confirmation when the send is not confirmed', async () => {
+    mockSendFeedback.mockResolvedValue({ ok: false });
+    const user = userEvent.setup();
+    const {
+      getByRole, getByTestId, findByTestId, setFeedbackSent,
+    } = renderInForm();
+
+    await user.click(getByRole('checkbox'));
+    await user.click(getByTestId('feedback-terminal-submit'));
+
+    expect(await findByTestId('feedback-terminal-error')).toHaveTextContent('feedback.error');
+    expect(setFeedbackSent).not.toHaveBeenCalled();
+    // still retryable
+    expect(getByTestId('feedback-terminal-submit')).toBeEnabled();
+  });
+
+  it('warns not to include sensitive information in the comment', () => {
+    const { getByText } = renderInForm();
+
+    expect(getByText('feedback.description.hint')).toBeInTheDocument();
   });
 });

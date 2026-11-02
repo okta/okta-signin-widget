@@ -23,7 +23,7 @@ import {
   IdxTransaction,
   OAuthError,
 } from '@okta/okta-auth-js';
-import { Fragment, FunctionComponent, h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import {
   useCallback,
   useEffect,
@@ -64,7 +64,6 @@ import {
   buildAuthCoinProps,
   canBootstrapWidget,
   extractPageTitle,
-  getBackToSignInUri,
   getLanguageCode,
   getLanguageDirection,
   getOdysseyTranslationOverrides,
@@ -87,7 +86,7 @@ import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
 import ConsentHeader from '../ConsentHeader';
-import { ReportIssueForm, SendFeedbackLink } from '../Feedback';
+import { SendFeedbackLink } from '../Feedback';
 import Form from '../Form';
 import InitialSpinner from '../Spinner/InitialSpinner';
 import GlobalStyles from './GlobalStyles';
@@ -134,9 +133,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // permission re-check; flipping it re-runs the transformers to swap in the
   // LNA remediation UI (WebView2 iframe enhancement). See OKTA-1135857.
   const [chromeLNADenied, setChromeLNADenied] = useState<boolean>(false);
-  // Set by the inline terminal feedback form after a successful send; the
-  // terminal view then renders only the success message + back link.
-  const [terminalFeedbackSent, setTerminalFeedbackSent] = useState<boolean>(false);
+  // Set by the inline feedback form (terminal and error views) after a successful
+  // send; the view then swaps the form for the success message.
+  const [feedbackSent, setFeedbackSent] = useState<boolean>(false);
   // Feedback UI renders only when enabled AND the wrapper's window.Sentry is
   // initialized. Checked once at mount: the wrapper loads before the widget.
   const [feedbackAvailable] = useState<boolean>(() => isFeedbackAvailable(feedback?.enabled));
@@ -281,7 +280,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // Derived value from idxTransaction
   const formBag = useMemo<FormBag>(() => {
     if (responseError) {
-      return transformUnhandledErrors(widgetProps, responseError);
+      return transformUnhandledErrors(
+        widgetProps,
+        responseError,
+        { feedbackAvailable, feedbackSent },
+      );
     }
 
     if (idxTransaction === undefined) {
@@ -300,7 +303,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         idxTransaction,
         widgetProps,
         bootstrap,
-        { feedbackAvailable, feedbackSent: terminalFeedbackSent },
+        { feedbackAvailable, feedbackSent },
       );
     }
 
@@ -350,7 +353,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     widgetProps,
     bootstrap,
     chromeLNADenied,
-    terminalFeedbackSent,
+    feedbackSent,
   ]);
 
   // track previous idxTransaction
@@ -379,8 +382,13 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // prematurely. WebView2 iframe enhancement, OKTA-1135857.
   useEffect(() => {
     setChromeLNADenied(false);
-    setTerminalFeedbackSent(false);
   }, [idxTransaction]);
+
+  // A sent confirmation belongs to the view it was sent from: reset it on every
+  // new transaction or error so the next view shows its own message + form.
+  useEffect(() => {
+    setFeedbackSent(false);
+  }, [idxTransaction, responseError]);
 
   // update dataSchemaRef in context
   useEffect(() => {
@@ -541,12 +549,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
   }, [getDocumentTitle]);
 
-  // The crash / "Report issue" surface replaces the view on a fatal bootstrap
-  // error (responseError). Terminal views keep their message and get the inline
-  // feedback form from transformTerminalTransaction, so the "Send feedback" link
-  // shows only on normal, actionable steps — and not under the bootstrap spinner
-  // (no form rendered yet).
-  const showReportIssue = feedbackAvailable && Boolean(responseError);
+  // Error and terminal views keep their own message and get the inline feedback
+  // form from their transformers (transformUnhandledErrors /
+  // transformTerminalTransaction), so the "Send feedback" link shows only on
+  // normal, actionable steps — and not under the bootstrap spinner (no form yet).
   const showFeedbackLink = feedbackAvailable && !responseError
     && uischema.elements.length > 0
     && !isTerminalTransaction(idxTransaction);
@@ -581,7 +587,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       chromeLNADenied,
       setChromeLNADenied,
       feedbackAvailable,
-      setTerminalFeedbackSent,
+      setFeedbackSent,
     }}
     >
       <OdysseyProvider
@@ -611,29 +617,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
           <AuthContent>
             {isConsentStep(idxTransaction) && <ConsentHeader />}
             {
-              // Crash surface: a fatal bootstrap error ("Unable to load page") is
-              // replaced by the inline "Report issue to Okta" form. Otherwise render
-              // the normal form plus the "Send feedback" link on actionable steps.
-              showReportIssue
-                ? (
-                  <ReportIssueForm
-                    onBackToSignIn={() => {
-                      const uri = getBackToSignInUri(widgetProps);
-                      window.location.assign(uri || window.location.href);
-                    }}
-                  />
-                )
-                : (
-                  <Fragment>
-                    {
-                      uischema.elements.length > 0
-                        ? <Form uischema={uischema as UISchemaLayout} />
-                        : <InitialSpinner />
-                    }
-                    {showFeedbackLink && <SendFeedbackLink />}
-                  </Fragment>
-                )
+              uischema.elements.length > 0
+                ? <Form uischema={uischema as UISchemaLayout} />
+                : <InitialSpinner />
             }
+            {showFeedbackLink && <SendFeedbackLink />}
           </AuthContent>
         </AuthContainer>
       </OdysseyProvider>

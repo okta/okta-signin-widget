@@ -70,12 +70,12 @@ export type IWidgetContext = {
   chromeLNADenied: boolean;
   setChromeLNADenied: StateUpdater<boolean>;
   // `feedback.enabled` AND an initialized wrapper `window.Sentry`, evaluated once
-  // at mount. Gates every feedback surface (link, dialog, inline + crash forms).
+  // at mount. Gates every feedback surface (link, dialog, inline form).
   feedbackAvailable: boolean;
-  // Set by the inline terminal feedback form after a successful send. Flipping
-  // this re-runs the terminal transformer so the view collapses to just the
-  // success message + back link. Reset on every new transaction.
-  setTerminalFeedbackSent: StateUpdater<boolean>;
+  // Set by the inline feedback form (terminal and unhandled-error views) after a
+  // successful send. Flipping this re-runs the transformer so the form is
+  // replaced by the confirmation. Reset on every new transaction or error.
+  setFeedbackSent: StateUpdater<boolean>;
 };
 
 // Stepper context

@@ -62,6 +62,7 @@ export const SendFeedbackDialog = ({ isOpen, onClose }: SendFeedbackDialogProps)
   }, [sent, isOpen, onClose]);
 
   const handleSubmit = useCallback(() => {
+    // submit never rejects (a failed send surfaces as `failed`), so no await
     submit();
   }, [submit]);
 

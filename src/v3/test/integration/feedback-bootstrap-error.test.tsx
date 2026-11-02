@@ -23,22 +23,24 @@ describe('feedback-bootstrap-error', () => {
     uninstallFakeSentry();
   });
 
-  it('replaces the view with the "Report issue" form when bootstrap fails', async () => {
+  it('keeps the specific error message and adds the inline feedback form below it', async () => {
     const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     const mockRequestClient = jest.fn().mockRejectedValue({
       responseText: JSON.stringify({ errorSummary: 'Internal Server Error' }),
       status: 500,
       headers: {},
     });
-    const { findByTestId, queryByTestId, findByText } = await setup({
+    const { findByTestId, queryByTestId } = await setup({
       mockRequestClient,
       widgetOptions: { feedback: { enabled: true } },
     });
 
-    expect(await findByTestId('feedback-report-error')).toBeInTheDocument();
-    expect(await findByText('Report issue to Okta')).toBeInTheDocument();
+    // transformUnhandledErrors' own message for this error, not a generic
+    // "Unable to load page" (expected user errors must keep their message)
+    const callout = await findByTestId('callout');
+    expect(callout).toHaveTextContent('The server encountered an error. Please refresh the page and try again.');
+    expect(await findByTestId('feedback-terminal')).toBeInTheDocument();
     expect(queryByTestId('send-feedback-link')).not.toBeInTheDocument();
-    expect(queryByTestId('feedback-terminal')).not.toBeInTheDocument();
     consoleErrorSpy.mockRestore();
   });
 });

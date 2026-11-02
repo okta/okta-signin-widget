@@ -11,6 +11,7 @@
  */
 
 import {
+  Callout,
   Checkbox as OdyCheckbox,
   CheckboxGroup,
   TextField,
@@ -33,9 +34,9 @@ type FeedbackFieldsProps = {
 
 /**
  * The three shared inputs both feedback surfaces render: optional Email, a
- * multiline free-text area, and the diagnostic-logs consent checkbox. Layout and
- * labels that differ between the crash form and the dialog are passed in; the
- * field wiring itself is identical.
+ * multiline free-text area, and the diagnostic-logs consent checkbox, plus the
+ * "couldn't send" message after a failed send. Labels that differ between the
+ * inline form and the dialog are passed in; the field wiring itself is identical.
  */
 export const FeedbackFields = ({
   form,
@@ -44,11 +45,19 @@ export const FeedbackFields = ({
   testIdPrefix,
 }: FeedbackFieldsProps): h.JSX.Element => {
   const {
-    email, setEmail, comment, setComment, consent, setConsent,
+    email, setEmail, comment, setComment, consent, setConsent, failed,
   } = form;
 
   return (
     <FeedbackStack>
+      {failed && (
+        <Callout
+          severity="error"
+          role="alert"
+          text={loc('feedback.error', 'login')}
+          testId={`${testIdPrefix}-error`}
+        />
+      )}
       <TextField
         label={loc('feedback.email.label', 'login')}
         type="email"
@@ -60,6 +69,8 @@ export const FeedbackFields = ({
       />
       <TextField
         label={loc(descriptionLabelKey, 'login')}
+        // the comment is sent as typed (not scrubbed client-side)
+        hint={loc('feedback.description.hint', 'login')}
         isMultiline
         isOptional
         value={comment}
