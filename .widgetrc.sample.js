@@ -29,7 +29,7 @@ const config = {
     // local .widgetrc.js instead.
     enabled: false
   },
-  // Playground-only (NOT a widget option; stripped before the widget is created).
+  // Playground-only (NOT a widget option; the widget ignores it).
   // Config for playground/sentry-wrapper.ts, the local stand-in for okta-ui's
   // @okta/sentry-wrapper. Point `dsn` at your own dev Sentry project, or pass
   // ?sentryDsn=... in the URL. Empty DSN = Sentry disabled.
