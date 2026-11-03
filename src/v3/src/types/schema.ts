@@ -242,7 +242,7 @@ export type LanguageDirection = 'rtl' | 'ltr';
 /**
  * @description Token value to search for in a translated string
  */
-export type TokenSearchValue = '$1' | '$2';
+export type TokenSearchValue = '$1' | '$2' | '$3';
 /**
  * @description Record containing properties to use in the replacement of a translated string
  * @prop {string} element - Target element with which to replace a token

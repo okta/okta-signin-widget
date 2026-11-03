@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Link as OdyLink, Typography } from '@okta/odyssey-react-mui';
-import { Fragment, h } from 'preact';
+import { Typography } from '@okta/odyssey-react-mui';
+import { h } from 'preact';
 
-import { loc } from '../../util';
+import { loc, parseHtmlContent } from '../../util';
 import {
   OKTA_MASTER_SUBSCRIPTION_AGREEMENT_URL,
   OKTA_PRIVACY_POLICY_URL,
@@ -26,63 +26,28 @@ type FeedbackLegalTextProps = {
 
 /**
  * Renders the feedback consent sentence with the "Send feedback" button name
- * emphasized and the Okta Privacy Policy / Master Subscription Agreement as real
- * Odyssey links. The source string embeds three tokens, numbered in reading
- * order (the SIW convention):
- *   <$1>…</$1>  emphasized button name ("Send feedback")
- *   <$2>…</$2>  Privacy Policy link text
- *   <$3>…</$3>  Master Subscription Agreement link text
- * We split on those tokens rather than inject HTML, so no dangerouslySetInnerHTML
- * is needed and the links stay keyboard/screen-reader accessible.
+ * emphasized (<$1>) and the Okta Privacy Policy (<$2>) / Master Subscription
+ * Agreement (<$3>) as links.
  */
 export const FeedbackLegalText = ({ i18nKey }: FeedbackLegalTextProps): h.JSX.Element => {
-  const raw = loc(i18nKey, 'login');
-
-  // One regex pass splits the sentence into plain text and the three tokens.
-  const tokenRe = /<\$([123])>(.*?)<\/\$\1>/g;
-  const parts: Array<h.JSX.Element | string> = [];
-  let lastIndex = 0;
-  let match = tokenRe.exec(raw);
-  let key = 0;
-  while (match !== null) {
-    if (match.index > lastIndex) {
-      parts.push(raw.slice(lastIndex, match.index));
-    }
-    const [, token, text] = match;
-    if (token === '2' || token === '3') {
-      const href = token === '2'
-        ? OKTA_PRIVACY_POLICY_URL
-        : OKTA_MASTER_SUBSCRIPTION_AGREEMENT_URL;
-      parts.push(
-        <OdyLink
-          key={key}
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {text}
-        </OdyLink>,
-      );
-    } else {
-      parts.push(<strong key={key}>{text}</strong>);
-    }
-    key += 1;
-    lastIndex = match.index + match[0].length;
-    match = tokenRe.exec(raw);
-  }
-  if (lastIndex < raw.length) {
-    parts.push(raw.slice(lastIndex));
-  }
+  const content = loc(i18nKey, 'login', undefined, {
+    $1: { element: 'span', attributes: { class: 'strong' } },
+    $2: {
+      element: 'a',
+      attributes: { href: OKTA_PRIVACY_POLICY_URL, target: '_blank', rel: 'noopener noreferrer' },
+    },
+    $3: {
+      element: 'a',
+      attributes: { href: OKTA_MASTER_SUBSCRIPTION_AGREEMENT_URL, target: '_blank', rel: 'noopener noreferrer' },
+    },
+  });
 
   return (
     <Typography
       component="p"
       variant="body"
     >
-      {parts.map((part, i) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <Fragment key={i}>{part}</Fragment>
-      ))}
+      {parseHtmlContent(content)}
     </Typography>
   );
 };

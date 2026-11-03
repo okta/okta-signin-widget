@@ -18,18 +18,25 @@ import { OKTA_MASTER_SUBSCRIPTION_AGREEMENT_URL, OKTA_PRIVACY_POLICY_URL } from 
 import { FeedbackLegalText } from './FeedbackLegalText';
 
 // The real English `feedback.legal` string, so a token renumbering in
-// login.properties that the renderer doesn't follow fails here.
-jest.mock('../../util', () => ({
-  loc: (key: string) => (mockLoginStrings as Record<string, string>)[key],
-}));
-
+// login.properties that the renderer doesn't follow fails here. Only the bundle
+// lookup is mocked; token replacement and HTML parsing run for real.
 describe('FeedbackLegalText', () => {
+  beforeEach(() => {
+    // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
+    const mockedLoc = require('util/loc');
+    mockedLoc.loc = jest.fn().mockImplementation(
+      (key: string) => (mockLoginStrings as Record<string, string>)[key],
+    );
+  });
+
   it('renders <$1> as the emphasized button name and <$2>/<$3> as the legal links', () => {
     const { container, getByText } = render(<FeedbackLegalText i18nKey="feedback.legal" />);
 
-    expect(getByText('Send feedback').tagName).toBe('STRONG');
+    expect(getByText('Send feedback')).toHaveClass('strong');
     expect(getByText('Okta Privacy Policy').closest('a'))
       .toHaveAttribute('href', OKTA_PRIVACY_POLICY_URL);
+    expect(getByText('Okta Privacy Policy').closest('a')).toHaveAttribute('target', '_blank');
+    expect(getByText('Okta Privacy Policy').closest('a')).toHaveAttribute('rel', 'noopener noreferrer');
     expect(getByText('Master Subscription Agreement').closest('a'))
       .toHaveAttribute('href', OKTA_MASTER_SUBSCRIPTION_AGREEMENT_URL);
     // every token was consumed: no raw markup left for the user to see
