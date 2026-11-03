@@ -39,6 +39,13 @@ import BrowserFeatures from '../../../util/BrowserFeatures';
 type SentryNS = typeof import('@sentry/browser');
 
 /**
+ * Tag (value `true`) that marks the feedback carrier event. @okta/sentry-wrapper's
+ * beforeSend drops non-error messages unless they carry it, so it must match the
+ * wrapper's FEEDBACK_TAG.
+ */
+export const FEEDBACK_TAG = 'okta_feedback';
+
+/**
  * Fixed, enumerated, low-cardinality tag set attached to the feedback event.
  * Nothing here is free-form or PII (the only free-form field is the user's
  * comment). `factor` is deliberately NOT named `authenticator*`: the okta-prod
@@ -222,9 +229,8 @@ const send = async (options?: SendFeedbackOptions): Promise<SendFeedbackResult> 
       // `factor` (not `authenticatorKey`) — see FeedbackContext.
       factor,
       hasReplay: Boolean(replayId),
-      // Marks this as a user-sent feedback carrier. @okta/sentry-wrapper's beforeSend drops
-      // non-error messages unless they carry this tag, so untagged page messages never ride along.
-      okta_feedback: true,
+      // Marks this as a user-sent feedback carrier (see FEEDBACK_TAG).
+      [FEEDBACK_TAG]: true,
     });
     // Link the replay explicitly: with `continueRecording: false` the replay
     // stays in buffer mode, so the SDK does not auto-link this event. Use the
