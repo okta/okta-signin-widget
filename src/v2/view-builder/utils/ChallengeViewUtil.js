@@ -15,6 +15,7 @@ import Enums from 'util/Enums';
 import { ChromeLNADeniedError } from 'util/Errors';
 import Util from 'util/Util';
 import {
+  FASTPASS_ENROLLMENT_ON_OTHER_DEVICE_ERROR,
   FASTPASS_FALLBACK_SPINNER_TIMEOUT,
   IDENTIFIER_FLOW,
   LOOPBACK_RESPONSE_STATUS_CODE,
@@ -344,6 +345,32 @@ export function getBiometricsErrorOptions(error, isMessageObj) {
   }
 
   return null;
+}
+
+const FastPassEnrollmentOnOtherDeviceErrorContent = View.extend({
+  template: hbs`
+  <p>{{i18n code="idx.only.fastpass.enrollment.on.other.device.error.description" bundle="login"}}</p>
+  <ol>
+    <li>{{i18n code="idx.only.fastpass.enrollment.on.other.device.error.step1" bundle="login"}}</li>
+    <li>{{i18n code="idx.only.fastpass.enrollment.on.other.device.error.step2" bundle="login"}}</li>
+    <li>{{i18n code="idx.only.fastpass.enrollment.on.other.device.error.step3" bundle="login"}}</li>
+  </ol>
+  `,
+});
+
+export function getFastPassEnrollmentOnOtherDeviceErrorOptions(error, isMessageObj) {
+  const errorKeys = isMessageObj
+    ? error?.value?.map((message) => message?.i18n?.key)
+    : error?.responseJSON?.errorSummaryKeys;
+  if (!errorKeys?.includes(FASTPASS_ENROLLMENT_ON_OTHER_DEVICE_ERROR)) {
+    return null;
+  }
+
+  return {
+    type: 'error',
+    className: 'okta-verify-uv-callout-content',
+    content: new FastPassEnrollmentOnOtherDeviceErrorContent(),
+  };
 }
 
 export function createInvisibleIFrame(iFrameId, iFrameSrc) {

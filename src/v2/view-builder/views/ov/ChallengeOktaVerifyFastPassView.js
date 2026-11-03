@@ -1,6 +1,9 @@
 import { _, View, createCallout } from '@okta/courage';
 import { BaseOktaVerifyChallengeView } from '../../internals';
-import { getBiometricsErrorOptions } from '../../utils/ChallengeViewUtil';
+import {
+  getBiometricsErrorOptions,
+  getFastPassEnrollmentOnOtherDeviceErrorOptions,
+} from '../../utils/ChallengeViewUtil';
 import {
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
@@ -37,11 +40,19 @@ const Body = BaseOktaVerifyChallengeView.extend({
       }
     }
 
+    // Render numbered steps when the error arrives as a global IDX message (form re-render)
+    const fastPassEnrollmentOnOtherDeviceOptions = getFastPassEnrollmentOnOtherDeviceErrorOptions(
+      this.options.appState.get('messages'), true);
+    if (fastPassEnrollmentOnOtherDeviceOptions) {
+      options = createCallout(fastPassEnrollmentOnOtherDeviceOptions);
+    }
+
     BaseOktaVerifyChallengeView.prototype.showMessages.call(this, options);
   },
 
   showCustomFormErrorCallout(error) {
-    const options = getBiometricsErrorOptions(error, false);
+    const options = getBiometricsErrorOptions(error, false)
+      || getFastPassEnrollmentOnOtherDeviceErrorOptions(error);
     
     // If not biometrics error, just show the returned error message
     if (_.isEmpty(options)) {

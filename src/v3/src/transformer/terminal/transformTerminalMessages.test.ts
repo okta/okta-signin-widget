@@ -14,6 +14,7 @@ import { IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
 import { DescriptionElement, InfoboxElement } from 'src/types';
 
 import {
+  FASTPASS_ENROLLMENT_ON_OTHER_DEVICE_ERROR_KEY,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
@@ -365,5 +366,32 @@ describe('Terminal Message Transformer Tests', () => {
     expect(listMessages).toHaveLength(2);
     expect(listMessages[0].message).toBe('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.point1');
     expect(listMessages[1].message).toBe('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics_or_pin.point2');
+  });
+
+  it('should add error InfoBox with numbered steps for the fastpass enrollment on other device key', () => {
+    transaction.messages = [
+      getMockMessage(
+        'To continue, you\'ll need an additional security method to verify your identity. 1. Switch ... 2. Set up ... 3. Return ...',
+        'ERROR',
+        FASTPASS_ENROLLMENT_ON_OTHER_DEVICE_ERROR_KEY,
+      ),
+    ];
+    const updatedFormBag = transformTerminalMessages(transaction, formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    const infoBox = updatedFormBag.uischema.elements[0] as InfoboxElement;
+    expect(infoBox.type).toBe('InfoBox');
+    expect(infoBox.options.class).toBe('ERROR');
+    expect(infoBox.options.message).toEqual([
+      { message: 'idx.only.fastpass.enrollment.on.other.device.error.description' },
+      {
+        options: [
+          { type: 'text', label: 'idx.only.fastpass.enrollment.on.other.device.error.step1' },
+          { type: 'text', label: 'idx.only.fastpass.enrollment.on.other.device.error.step2' },
+          { type: 'text', label: 'idx.only.fastpass.enrollment.on.other.device.error.step3' },
+        ],
+        listStyleType: 'decimal',
+      },
+    ]);
   });
 });

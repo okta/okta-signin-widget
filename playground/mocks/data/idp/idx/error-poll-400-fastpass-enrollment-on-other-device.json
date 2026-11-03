@@ -1,0 +1,19 @@
+{
+  "errorCode": "E0000001",
+  "errorSummary": "Api validation failed: To continue, you'll need an additional security method to verify your identity. 1. Switch to your other device that already has Okta Verify with Okta FastPass set up. 2. Set up an additional security method. 3. Return here and try again with your new security method.",
+  "errorLink": "E0000001",
+  "errorId": "oaeWv1gdQ8yRYCZ1kCmfR_JKQ",
+  "errorCauses": [],
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "To continue, you'll need an additional security method to verify your identity. 1. Switch to your other device that already has Okta Verify with Okta FastPass set up. 2. Set up an additional security method. 3. Return here and try again with your new security method.",
+        "i18n": {
+          "key": "idx.only.fastpass.enrollment.on.other.device.error"
+        },
+        "class": "ERROR"
+      }
+    ]
+  }
+}

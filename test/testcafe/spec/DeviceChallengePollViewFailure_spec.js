@@ -4,6 +4,7 @@ import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChall
 import identifyWithDeviceProbingLoopback from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback';
 import error from '../../../playground/mocks/data/idp/idx/error-403-access-denied';
 import errorDeviceInvalid from '../../../playground/mocks/data/idp/idx/error-poll-400-device-account-invalid';
+import errorFastPassEnrollmentOnOtherDevice from '../../../playground/mocks/data/idp/idx/error-poll-400-fastpass-enrollment-on-other-device';
 import { Constants } from '../framework/shared';
 
 const logger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
@@ -61,6 +62,17 @@ const deviceInvalidatedErrorPoll = RequestMock()
       res.statusCode = '400';
       res.headers['content-type'] = 'application/json';
       res.setBody(errorDeviceInvalid);
+      resolve(res);
+    }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2000));
+  });
+
+const fastPassEnrollmentOnOtherDeviceErrorPoll = RequestMock()
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond((req, res) => {
+    return new Promise((resolve) => setTimeout(function() {
+      res.statusCode = '400';
+      res.headers['content-type'] = 'application/json';
+      res.setBody(errorFastPassEnrollmentOnOtherDevice);
       resolve(res);
     }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2000));
   });
@@ -125,4 +137,25 @@ test
 
     await t.expect(deviceChallengePollPageObject.getErrorBoxText()).contains(
       'There was an unsupported response from server.');
+  });
+
+test
+  .requestHooks(logger, baseMock, initialPoll)('renders numbered steps when FastPass is only enrolled on another device', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
+
+    await t.removeRequestHooks(initialPoll);
+    await t.addRequestHooks(fastPassEnrollmentOnOtherDeviceErrorPoll);
+
+    const errorBox = deviceChallengePollPageObject.form.getErrorBox();
+    await t.expect(errorBox.innerText).contains(
+      'To continue, you\'ll need an additional security method to verify your identity.');
+    await t.expect(errorBox.innerText).notContains('Api validation failed');
+
+    const steps = errorBox.find('li');
+    await t.expect(steps.count).eql(3);
+    await t.expect(steps.nth(0).innerText).eql('Switch to your other device that already has Okta Verify with Okta FastPass set up.');
+    await t.expect(steps.nth(1).innerText).eql('Set up an additional security method.');
+    await t.expect(steps.nth(2).innerText).eql('Return here and try again with your new security method.');
+    await checkA11y(t);
   });

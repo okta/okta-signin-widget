@@ -11,6 +11,7 @@
  */
 
 import {
+  FASTPASS_ENROLLMENT_ON_OTHER_DEVICE_ERROR_KEY,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_WINDOWS,
@@ -137,6 +138,38 @@ const appendWindowsBiometricsErrorBox = (uischema: UISchemaLayout) => {
   } as InfoboxElement);
 };
 
+const appendFastPassEnrollmentOnOtherDeviceErrorBox = (uischema: UISchemaLayout) => {
+  uischema.elements.push({
+    type: 'InfoBox',
+    options: {
+      class: 'ERROR',
+      dataSe: 'callout',
+      message: [
+        {
+          message: loc('idx.only.fastpass.enrollment.on.other.device.error.description', 'login'),
+        },
+        {
+          options: [
+            {
+              type: 'text',
+              label: loc('idx.only.fastpass.enrollment.on.other.device.error.step1', 'login'),
+            },
+            {
+              type: 'text',
+              label: loc('idx.only.fastpass.enrollment.on.other.device.error.step2', 'login'),
+            },
+            {
+              type: 'text',
+              label: loc('idx.only.fastpass.enrollment.on.other.device.error.step3', 'login'),
+            },
+          ],
+          listStyleType: 'decimal',
+        },
+      ],
+    },
+  } as InfoboxElement);
+};
+
 export const transformTerminalMessages: TerminalKeyTransformer = (transaction, formBag) => {
   const { messages, requestDidSucceed } = transaction;
   const { uischema } = formBag;
@@ -191,6 +224,9 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
   } else if (containsMessageKey(TERMINAL_KEY.SESSION_EXPIRED, displayedMessages)) {
     displayedMessages[0].class = 'ERROR';
     displayedMessages[0].message = loc(TERMINAL_KEY.SESSION_EXPIRED, 'login');
+  } else if (containsMessageKey(FASTPASS_ENROLLMENT_ON_OTHER_DEVICE_ERROR_KEY, displayedMessages)) {
+    appendFastPassEnrollmentOnOtherDeviceErrorBox(uischema);
+    return formBag;
   } else if (containsMessageKeyPrefix(TERMINAL_KEY.SIGNED_NONCE_ERROR, displayedMessages)) {
     // custom title for signed nonce errors
     displayedMessages[0].title = loc('user.fail.verifyIdentity', 'login');

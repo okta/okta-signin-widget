@@ -160,6 +160,8 @@ const isIdxSessionExpiredError = (response) => {
 
 export default {
   convertFormErrors,
+  getGlobalErrors,
+  getGlobalErrorKeys,
   isIonErrorResponse,
   isIdxSessionExpiredError
 };

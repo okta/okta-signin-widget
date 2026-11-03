@@ -1,4 +1,8 @@
-import {doChallenge, getBiometricsErrorOptions} from '../../../../../../src/v2/view-builder/utils/ChallengeViewUtil';
+import {
+  doChallenge,
+  getBiometricsErrorOptions,
+  getFastPassEnrollmentOnOtherDeviceErrorOptions,
+} from '../../../../../../src/v2/view-builder/utils/ChallengeViewUtil';
 import { loc, View, createButton, _ } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import BrowserFeatures from '../../../../../../src/util/BrowserFeatures';
@@ -510,6 +514,59 @@ describe('v2/utils/ChallengeViewUtil', function() {
         expect(result).toBeNull();
         expect(_.isEmpty(result)).toBe(true);
       });
+    });
+  });
+
+  describe('getFastPassEnrollmentOnOtherDeviceErrorOptions', function() {
+    it('returns callout options rendering the description and numbered steps', function() {
+      const error = {
+        responseJSON: {
+          errorSummary: 'To continue, ... 1. ... 2. ... 3. ...',
+          errorSummaryKeys: ['idx.only.fastpass.enrollment.on.other.device.error'],
+        },
+      };
+      const result = getFastPassEnrollmentOnOtherDeviceErrorOptions(error);
+      expect(result.type).toBe('error');
+      expect(result.className).toBe('okta-verify-uv-callout-content');
+
+      const content = result.content.render();
+      expect(content.$('p').text()).toBe(
+        loc('idx.only.fastpass.enrollment.on.other.device.error.description', 'login'));
+      expect(content.$('ol li').map((i, el) => el.textContent).get()).toEqual([
+        loc('idx.only.fastpass.enrollment.on.other.device.error.step1', 'login'),
+        loc('idx.only.fastpass.enrollment.on.other.device.error.step2', 'login'),
+        loc('idx.only.fastpass.enrollment.on.other.device.error.step3', 'login'),
+      ]);
+    });
+
+    it('returns null for other errors', function() {
+      const error = {
+        responseJSON: {
+          errorSummary: 'some other error',
+          errorSummaryKeys: ['some.other.key'],
+        },
+      };
+      expect(getFastPassEnrollmentOnOtherDeviceErrorOptions(error)).toBeNull();
+      expect(getFastPassEnrollmentOnOtherDeviceErrorOptions({})).toBeNull();
+    });
+
+    it('returns callout options when the key is in IDX messages', function() {
+      const messages = {
+        value: [{
+          message: 'To continue, ... 1. ... 2. ... 3. ...',
+          i18n: { key: 'idx.only.fastpass.enrollment.on.other.device.error' },
+          class: 'ERROR',
+        }],
+      };
+      const result = getFastPassEnrollmentOnOtherDeviceErrorOptions(messages, true);
+      expect(result.type).toBe('error');
+      expect(result.content.render().$('ol li').length).toBe(3);
+    });
+
+    it('returns null when IDX messages do not contain the key', function() {
+      const messages = { value: [{ message: 'other', i18n: { key: 'some.other.key' }, class: 'ERROR' }] };
+      expect(getFastPassEnrollmentOnOtherDeviceErrorOptions(messages, true)).toBeNull();
+      expect(getFastPassEnrollmentOnOtherDeviceErrorOptions(undefined, true)).toBeNull();
     });
   });
 
