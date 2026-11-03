@@ -1051,17 +1051,17 @@ test
   .requestHooks(loopbackEarlyCancelChallengeErrorLogger, loopbackEarlyCancelChallengeErrorMock)('expect no error message in view', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
-    
+
     await deviceChallengePollPageObject.clickCancelAndGoBackLink();
     const identifyPageObject = new IdentityPageObject(t);
     await t.expect(identifyPageObject.getFormTitle()).eql('Sign In');
 
     await t.wait(EARLY_CANCEL_CHALLENGE_REQUEST_WAIT_TIME + 1000); // wait for delayed challenge request
-    
+
     // no errors in form
     await t.expect(identifyPageObject.getErrorBoxText().exists).notOk();
     await t.expect(loopbackEarlyCancelChallengeErrorLogger.count(
-      record => record.response.statusCode === 400 && 
+      record => record.response.statusCode === 400 &&
         record.request.method === 'post' &&
         record.request.url.match(/challenge/)
     )).eql(1);
@@ -1152,11 +1152,11 @@ test
     const deviceChallengeFallbackPage = await setupLoopbackFallback(t, undefined, 'denied');
     await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Sign In');
 
-    await t.skipJsErrors({ message: 'Chrome Local Network Access permission was denied for FastPass.' });
+    await t.skipJsErrors({ message: 'Chrome Local Network Access permission was denied for Okta Verify.' });
     await deviceChallengeFallbackPage.clickOktaVerifyButton();
     await t.skipJsErrors(false);
 
-    await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Okta FastPass requires network permission');
+    await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Okta Verify requires network permission');
     const errorBox = userVariables.gen3 ? deviceChallengeFallbackPage.form.getErrorBox() : deviceChallengeFallbackPage.form.getErrorBoxCallout();
     await t.expect(errorBox.withText('Unable to sign in').exists).eql(true);
     await t.expect(errorBox.withText('The browser is blocking communication with Okta Verify.').exists).eql(true);
@@ -1255,7 +1255,7 @@ test
     // ChromeLNADeniedError (logged for Sentry) after all ports fail — but TestCafe's click waits
     // for that async work to settle, so the throw surfaces *within* the click action. Keep skipping
     // on for the rest of the test, since the Gen3 flicker re-throws it on each poll cycle.
-    await t.skipJsErrors({ message: 'Chrome Local Network Access permission was denied for FastPass.' });
+    await t.skipJsErrors({ message: 'Chrome Local Network Access permission was denied for Okta Verify.' });
     await deviceChallengeFallbackPage.clickOktaVerifyButton();
     await t.wait(2000);
 
@@ -1268,7 +1268,7 @@ test
 
     // ...and only after the probe fails does the LNA remediation view appear. The remediation UI
     // is identical to the flag-off flow, so assert the full contents like the existing test.
-    await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Okta FastPass requires network permission');
+    await t.expect(deviceChallengeFallbackPage.getFormTitle()).eql('Okta Verify requires network permission');
     const errorBox = userVariables.gen3 ? deviceChallengeFallbackPage.form.getErrorBox() : deviceChallengeFallbackPage.form.getErrorBoxCallout();
     await t.expect(errorBox.withText('Unable to sign in').exists).eql(true);
     await t.expect(errorBox.withText('The browser is blocking communication with Okta Verify.').exists).eql(true);
@@ -1283,4 +1283,3 @@ test
       record => record.request.url.match(/authenticators\/poll\/cancel/)
     )).eql(0);
   });
-  

@@ -270,7 +270,7 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
       expect(formBag).toMatchSnapshot();
       expect(formBag.uischema.elements.length).toBe(3);
       expect(formBag.uischema.elements[0].type).toBe('Title');
-      expect((formBag.uischema.elements[0] as TitleElement).options.content).toBe('chrome.lna.fastpass.requires.permission.title');
+      expect((formBag.uischema.elements[0] as TitleElement).options.content).toBe('chrome.lna.okta-verify.requires.permission.title');
       expect(formBag.uischema.elements[1].type).toBe('InfoBox');
       expect((
         formBag.uischema.elements[1] as InfoboxElement
@@ -383,7 +383,7 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
       expect(updatedFormBag.uischema.elements.length).toBe(3);
       expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
-        .toBe('chrome.lna.fastpass.requires.permission.title');
+        .toBe('chrome.lna.okta-verify.requires.permission.title');
       expect(updatedFormBag.uischema.elements[1].type).toBe('InfoBox');
       expect((updatedFormBag.uischema.elements[1] as InfoboxElement).options?.class).toBe('ERROR');
       expect(updatedFormBag.uischema.elements[2].type).toBe('Link');

@@ -132,7 +132,7 @@ describe('v2/utils/ChallengeViewUtil', function() {
         doChallenge(testView);
       }).toThrowError(ChromeLNADeniedError);
 
-      expect(testView.title).toBe(loc('chrome.lna.fastpass.requires.permission.title', 'login'));
+      expect(testView.title).toBe(loc('chrome.lna.okta-verify.requires.permission.title', 'login'));
       expect(expectedAddArg.options.title).toBe(loc('chrome.lna.error.title', 'login'));
       expect(expectedAddArg.options.content.options.chromeLNAHelpLink).toBe(deviceChallengeWithChromeLNADetails.chromeLocalNetworkAccessDetails.chromeLNAHelpLink);
     });
