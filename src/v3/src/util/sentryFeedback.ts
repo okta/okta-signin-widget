@@ -21,17 +21,20 @@
  * - Client data comes PURELY from the wrapper's masked Session Replay buffer.
  *   There is no custom diagnostic trail, no per-step span stack, no fetch tap,
  *   and no raw-response capture (all of which were POC-only and are dropped).
- * - Redaction is handled by Sentry org + project data-scrubbing rules, not by
- *   bespoke client-side payload scrubbing.
+ * - Redaction happens in @okta/sentry-wrapper on the client (request bodies
+ *   dropped, credential keys and token URLs redacted), then in Sentry org +
+ *   project data-scrubbing rules. This sender adds no scrubbing of its own.
  * - SIW does NOT bundle or initialize its own Sentry SDK. It REQUIRES a wrapper
  *   (prod `@okta/sentry-wrapper`, or the playground `sentry-wrapper.ts`) to have
  *   run `Sentry.init()` at page load and published a global `window.Sentry`.
  *   {@link resolveSentry} returns that global; if it is absent/uninitialized the
  *   sender HARD-FAILS loudly (a clear `console.error`) rather than silently
  *   falling back — a missing/late wrapper is a setup bug we want to see.
- * - IE11: the widget's consumption code targets v7 APIs (`getCurrentHub`,
- *   `Sentry.Replay`, `captureUserFeedback`) because Sentry v8+ dropped IE11.
- *   The feedback UI itself is disabled in IE11 (see {@link isFeedbackAvailable}).
+ * - Sentry v7 APIs (`getCurrentHub`, `Sentry.Replay`, `captureUserFeedback`):
+ *   the page must load the wrapper's ie11 bundle (Sentry 7.80.0). On the v10
+ *   bundle `getIntegration(Sentry.Replay)` finds nothing, so feedback would go
+ *   out with no replay attached and no error. The feedback UI itself is disabled
+ *   in IE11 (see {@link isFeedbackAvailable}).
  */
 
 import BrowserFeatures from '../../../util/BrowserFeatures';
@@ -180,8 +183,13 @@ const getReplay = (Sentry: SentryNS) => {
  * page, so a second send on the same page links the same (earlier) replay.
  *
  * Bounded by {@link REPLAY_FLUSH_TIMEOUT_MS}: if the upload hasn't finished by
- * then, the feedback is sent without a replay link (`hasReplay: false`) rather
- * than linking a replay that may never arrive.
+ * then, the feedback is sent without a replay link (`hasReplay: false`).
+ *
+ * The returned id (and so `hasReplay`) means a replay upload was requested, not
+ * that one arrived. Sentry 7.80.0 gives no way to tell:
+ * - A buffer shorter than ~5 s (Send right after page load) resolves the flush
+ *   without uploading, so the id links a replay that doesn't exist.
+ * - An upload past the timeout keeps going and may still land, unlinked.
  */
 const flushReplay = async (Sentry: SentryNS): Promise<string | undefined> => {
   const replay = getReplay(Sentry);
@@ -228,6 +236,7 @@ const send = async (options?: SendFeedbackOptions): Promise<SendFeedbackResult> 
       formName,
       // `factor` (not `authenticatorKey`) — see FeedbackContext.
       factor,
+      // Best effort: a replay upload was requested, not confirmed (see flushReplay).
       hasReplay: Boolean(replayId),
       // Marks this as a user-sent feedback carrier (see FEEDBACK_TAG).
       [FEEDBACK_TAG]: true,
