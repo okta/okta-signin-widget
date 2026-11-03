@@ -117,15 +117,15 @@ export const containsOneOfMessageKeys = (
 
 /**
  * A transaction renders as a "terminal" view (no further user action) when it is
- * TERMINAL/SUCCESS, has only a skip remediation, or has no next step. Mirrors the
- * branch in Widget's formBag derivation that routes to transformTerminalTransaction.
+ * TERMINAL/SUCCESS, has only a skip remediation, or has no next step. Widget's
+ * formBag derivation uses this to route to transformTerminalTransaction.
  */
 export const isTerminalTransaction = (transaction?: IdxTransaction): boolean => {
   if (!transaction) {
     return false;
   }
   return [IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(transaction.status)
-    || transaction.nextStep?.name === IDX_STEP.SKIP
+    || transaction.nextStep?.name === IDX_STEP.SKIP // force safe mode to be terminal
     || !transaction.nextStep;
 };
 

@@ -65,10 +65,10 @@ describe('useSendFeedback', () => {
     });
   });
 
-  it('accepts a plain comment string', async () => {
+  it('leaves attachLogs unset (no replay) when the caller omits it', async () => {
     const { result } = renderUseSendFeedback({ feedbackAvailable: true });
 
-    await result.current?.sendFeedback('just a comment');
+    await result.current?.sendFeedback({ comment: 'just a comment' });
 
     expect(mockSendFeedbackToSentry).toHaveBeenCalledWith(expect.objectContaining({
       comment: 'just a comment',

@@ -61,8 +61,8 @@ export interface SendFeedbackOptions {
   /**
    * Whether to attach the Session Replay buffer (the "diagnostic logs" the user
    * consents to). When false, no replay is flushed or linked — only the comment,
-   * email, and the fixed tag set are sent. DEFAULT: true (back-compat with the
-   * original always-flush behavior).
+   * email, and the fixed tag set are sent. Defaults to false: the replay is only
+   * attached when the caller passes the user's consent explicitly.
    */
   attachLogs?: boolean;
   /** Low-cardinality context tags (see {@link FeedbackContext}). */
@@ -207,8 +207,8 @@ const send = async (options?: SendFeedbackOptions): Promise<SendFeedbackResult> 
   }
 
   // Replay is the "diagnostic logs" the user consents to. Only flush/link it
-  // when the caller opted in (attachLogs). Defaults to true for back-compat.
-  const attachLogs = options?.attachLogs ?? true;
+  // when the caller opted in (attachLogs); no consent, no replay.
+  const attachLogs = options?.attachLogs ?? false;
   const replayId = attachLogs ? await flushReplay(Sentry) : undefined;
   const { flow, formName, factor } = options?.context ?? {};
 

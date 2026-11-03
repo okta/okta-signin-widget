@@ -155,6 +155,7 @@ describe('sentryFeedback', () => {
 
       const result = await sendFeedbackToSentry({
         comment: 'broken',
+        attachLogs: true,
         context: { flow: 'authenticate', formName: 'challenge-authenticator', factor: 'okta_verify' },
       });
 
@@ -174,6 +175,7 @@ describe('sentryFeedback', () => {
       w.Sentry = Sentry;
 
       await sendFeedbackToSentry({
+        attachLogs: true,
         context: { flow: 'authenticate', formName: 'challenge-authenticator', factor: 'okta_verify' },
       });
 
@@ -202,7 +204,7 @@ describe('sentryFeedback', () => {
       const { Sentry, getScope } = makeFakeSentry({ withReplay: false });
       w.Sentry = Sentry;
 
-      const result = await sendFeedbackToSentry({ comment: 'x' });
+      const result = await sendFeedbackToSentry({ comment: 'x', attachLogs: true });
 
       expect(result).toEqual({ ok: true, eventId: 'event-abc', replayId: undefined });
       expect(getScope()?.setTags.mock.calls[0][0]).toMatchObject({ hasReplay: false });
@@ -224,8 +226,9 @@ describe('sentryFeedback', () => {
       replay.flush.mockRejectedValueOnce(new Error('flush boom'));
       w.Sentry = Sentry;
 
-      const result = await sendFeedbackToSentry({ comment: 'x' });
+      const result = await sendFeedbackToSentry({ comment: 'x', attachLogs: true });
 
+      expect(replay.flush).toHaveBeenCalledTimes(1);
       expect(result.ok).toBe(true);
       expect(Sentry.captureUserFeedback).toHaveBeenCalled();
     });
@@ -250,6 +253,17 @@ describe('sentryFeedback', () => {
       expect(replay.flush).not.toHaveBeenCalled();
       expect(result).toEqual({ ok: true, eventId: 'event-abc', replayId: undefined });
       expect(getScope()?.setTags.mock.calls[0][0]).toMatchObject({ hasReplay: false });
+      expect(getScope()?.setContext).not.toHaveBeenCalled();
+    });
+
+    it('does NOT flush/link the replay when attachLogs is omitted (no consent by default)', async () => {
+      const { Sentry, replay, getScope } = makeFakeSentry({ replayId: 'rep-7' });
+      w.Sentry = Sentry;
+
+      const result = await sendFeedbackToSentry({ comment: 'x' });
+
+      expect(replay.flush).not.toHaveBeenCalled();
+      expect(result).toEqual({ ok: true, eventId: 'event-abc', replayId: undefined });
       expect(getScope()?.setContext).not.toHaveBeenCalled();
     });
 
@@ -294,7 +308,7 @@ describe('sentryFeedback', () => {
         replay.flush.mockReturnValue(new Promise(() => {})); // never settles
         w.Sentry = Sentry;
 
-        const sending = sendFeedbackToSentry({ comment: 'x' });
+        const sending = sendFeedbackToSentry({ comment: 'x', attachLogs: true });
         // let the send reach the flush race, then fire its timeout
         await Promise.resolve();
         jest.advanceTimersByTime(REPLAY_FLUSH_TIMEOUT_MS);

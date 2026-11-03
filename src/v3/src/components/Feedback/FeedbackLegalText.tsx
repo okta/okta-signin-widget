@@ -64,7 +64,6 @@ export const FeedbackLegalText = ({ i18nKey }: FeedbackLegalTextProps): h.JSX.El
         </OdyLink>,
       );
     } else {
-      // eslint-disable-next-line react/no-array-index-key
       parts.push(<strong key={key}>{text}</strong>);
     }
     key += 1;

@@ -296,9 +296,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setloginHint(null);
     }
 
-    if ([IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(idxTransaction.status)
-      || idxTransaction.nextStep?.name === IDX_STEP.SKIP // force safe mode to be terminal
-      || !idxTransaction.nextStep) {
+    if (isTerminalTransaction(idxTransaction)) {
       return transformTerminalTransaction(
         idxTransaction,
         widgetProps,

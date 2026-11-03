@@ -24,7 +24,7 @@ export type SendFeedbackInput = {
   email?: string;
   /**
    * Whether the user consented to attaching diagnostic logs (Session Replay).
-   * When omitted, defaults to the sender's behavior (attach).
+   * When omitted, no replay is attached.
    */
   attachLogs?: boolean;
 };
@@ -39,11 +39,10 @@ export type UseSendFeedback = {
   /**
    * Emit a linked Sentry User Feedback entry for the current flow/form, with
    * the user's comment/email and (when consented) the Session Replay buffer.
-   * Safe to call from any view. Accepts a plain comment string for convenience,
-   * or a full input object. Resolves with `{ ok: false }` (and logs) if the
+   * Safe to call from any view. Resolves with `{ ok: false }` (and logs) if the
    * wrapper global is absent; never throws.
    */
-  sendFeedback: (input?: string | SendFeedbackInput) => Promise<SendFeedbackResult>;
+  sendFeedback: (input?: SendFeedbackInput) => Promise<SendFeedbackResult>;
 };
 
 /**
@@ -59,14 +58,12 @@ export const useSendFeedback = (): UseSendFeedback => {
   const enabled = Boolean(feedbackAvailable);
 
   const sendFeedback = useCallback(async (
-    input?: string | SendFeedbackInput,
+    input?: SendFeedbackInput,
   ): Promise<SendFeedbackResult> => {
     if (!enabled) {
       return { ok: false };
     }
-    const { comment, email, attachLogs } = typeof input === 'string'
-      ? { comment: input, email: undefined, attachLogs: undefined }
-      : (input ?? {});
+    const { comment, email, attachLogs } = input ?? {};
     const { formName, authenticatorKey } = getEventContext(idxTransaction);
     return sendFeedbackToSentry({
       comment,

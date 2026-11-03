@@ -29,7 +29,7 @@ export type UseFeedbackForm = {
   sent: boolean;
   /** True after a send that wasn't confirmed; drives the "couldn't send" message. */
   failed: boolean;
-  /** Clear the `sent` flag (e.g. when the success toast auto-hides). */
+  /** Clear the `sent` flag once the caller has handled the success. */
   resetSent: () => void;
   /** Fire the send; no-ops if consent isn't given or a send is in flight. Never rejects. */
   submit: () => Promise<void>;

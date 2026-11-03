@@ -19,7 +19,7 @@ import {
   useOdysseyDesignTokens,
 } from '@okta/odyssey-react-mui';
 import { Fragment, h } from 'preact';
-import { useCallback, useEffect } from 'preact/hooks';
+import { useCallback, useEffect, useState } from 'preact/hooks';
 
 import { loc } from '../../util';
 import { FeedbackFields } from './FeedbackFields';
@@ -52,14 +52,24 @@ export const SendFeedbackDialog = ({ isOpen, onClose }: SendFeedbackDialogProps)
   const {
     canSubmit, submit, sent, resetSent,
   } = form;
+  const [isToastVisible, setIsToastVisible] = useState(false);
 
   // When the send succeeds, close the dialog; the ToastStack (a sibling) then
   // surfaces the confirmation at the viewport bottom, outside the dismissed modal.
+  // `sent` is consumed right away and the toast tracks its own visibility, so
+  // reopening the dialog while the toast is still up doesn't close it again.
   useEffect(() => {
-    if (sent && isOpen) {
+    if (!sent) {
+      return;
+    }
+    setIsToastVisible(true);
+    resetSent();
+    if (isOpen) {
       onClose();
     }
-  }, [sent, isOpen, onClose]);
+  }, [sent, isOpen, onClose, resetSent]);
+
+  const hideToast = useCallback(() => setIsToastVisible(false), []);
 
   const handleSubmit = useCallback(() => {
     // submit never rejects (a failed send surfaces as `failed`), so no await
@@ -104,14 +114,14 @@ export const SendFeedbackDialog = ({ isOpen, onClose }: SendFeedbackDialogProps)
           </Box>
         </FeedbackStack>
       </Dialog>
-      {sent && (
+      {isToastVisible && (
         <ToastStack>
           <Toast
             severity="success"
             text={loc('feedback.dialog.success', 'login')}
-            isVisible={sent}
+            isVisible={isToastVisible}
             autoHideDuration={SUCCESS_TOAST_DURATION}
-            onHide={resetSent}
+            onHide={hideToast}
             role="status"
             testId="feedback-dialog-success-toast"
           />

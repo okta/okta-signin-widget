@@ -79,4 +79,26 @@ describe('SendFeedbackLink + SendFeedbackDialog', () => {
     expect(await findByTestId('feedback-dialog-success-toast')).toBeInTheDocument();
     await waitFor(() => expect(queryByTestId('feedback-dialog')).not.toBeInTheDocument());
   });
+
+  it('keeps the dialog open when reopened while the success toast is still visible', async () => {
+    const user = userEvent.setup();
+    const {
+      getByTestId, findByTestId, getByRole, queryByTestId,
+    } = renderLink();
+
+    await user.click(getByTestId('send-feedback-link'));
+    await findByTestId('feedback-dialog');
+    await user.click(getByRole('checkbox'));
+    await user.click(getByTestId('feedback-dialog-submit'));
+    await findByTestId('feedback-dialog-success-toast');
+    await waitFor(() => expect(queryByTestId('feedback-dialog')).not.toBeInTheDocument());
+
+    await user.click(getByTestId('send-feedback-link'));
+
+    expect(await findByTestId('feedback-dialog')).toBeInTheDocument();
+    expect(getByTestId('feedback-dialog-success-toast')).toBeInTheDocument();
+    // A stray close only removes the dialog after MUI's exit transition, so wait past it.
+    await new Promise((resolve) => { setTimeout(resolve, 600); });
+    expect(getByTestId('feedback-dialog')).toBeInTheDocument();
+  });
 });
