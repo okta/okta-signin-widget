@@ -231,7 +231,7 @@ const send = async (options?: SendFeedbackOptions): Promise<SendFeedbackResult> 
   Sentry.withScope((scope) => {
     scope.setTags({
       engine: 'gen3',
-      siwVersion: typeof OKTA_SIW_VERSION === 'undefined' ? undefined : OKTA_SIW_VERSION,
+      siwVersion: OKTA_SIW_VERSION,
       flow,
       formName,
       // `factor` (not `authenticatorKey`) — see FeedbackContext.
