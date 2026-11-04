@@ -22,18 +22,22 @@
  *
  * Kept in sync with the real wrapper for everything the feedback feature depends on:
  * - Same SDK: `@sentry/browser` 7.80.0 (the ie11 bundle's version; v8+ dropped IE11).
- * - Same config contract: `replay` (opt-in, default off) and `replayNetworkDetailAllowUrls`
- *   (JSON Array String, default none) — the `window.okta.sentry` params okta-core sets.
+ * - Same config contract: `replay` (opt-in, default off), the `window.okta.sentry` param
+ *   okta-core sets.
  * - Same Replay setup: masked, BUFFER mode (sample rates 0), `startBuffering()` right after
- *   init so fetch/XHR are instrumented before okta-auth-js binds fetch; network bodies only
- *   for the allow-listed URLs.
+ *   init so fetch/XHR are instrumented before okta-auth-js binds fetch; no network headers
+ *   or bodies recorded.
+ * - Same recording scrubber: console breadcrumbs kept only for warn/error, message only
+ *   (arguments dropped), with URLs and token-like strings redacted and the length capped;
+ *   URLs in spans and breadcrumbs lose their query and token path segments.
  * - Same `beforeSend` rule for the widget's feedback carrier event: a message tagged
  *   `okta_feedback: true`, kept only when replay is on, minus breadcrumbs / Referer.
  *   Untagged non-error messages are dropped, as in the real wrapper.
  * - Publishes the same `window.okta.sentry` config okta-core sets (the widget only shows
  *   feedback UI when `window.okta.sentry.replay` is true, i.e. on Okta's wrapper).
  * Intentionally omitted (no effect on feedback): BrowserTracing / tracesSampleRate,
- * the error allow/block lists, org-id URL redaction, and the i18n DOM interceptor.
+ * the error allow/block lists, org host -> org id URL redaction (there's no org id
+ * locally), the replay_event URL scrubbing, and the i18n DOM interceptor.
  *
  * Config: the `sentryWrapper` block in `.widgetrc.js` (gitignored, so each engineer points
  * it at their own dev project); `?sentryDsn=...` in the URL overrides the DSN. With no DSN
@@ -49,7 +53,6 @@ interface PlaygroundSentryConfig {
   dsn?: string;
   environment?: string;
   replay?: boolean;
-  replayNetworkDetailAllowUrls?: string;
 }
 
 declare global {
@@ -63,6 +66,10 @@ declare global {
 
 // Same tag name as okta-ui's FEEDBACK_TAG.
 const FEEDBACK_TAG = 'okta_feedback';
+
+// Same as okta-ui: console breadcrumb levels kept in the replay (console.warn maps to 'warning').
+const CONSOLE_LEVELS_KEPT = ['warning', 'error'];
+const CONSOLE_MESSAGE_MAX_LENGTH = 1000;
 
 /** Config precedence: `?sentryDsn=` URL override, then `.widgetrc.js` `sentryWrapper`. */
 const resolveConfig = (): PlaygroundSentryConfig => {
@@ -85,17 +92,67 @@ const isInitialized = (): boolean => {
   }
 };
 
-/** Same parsing as okta-ui's getReplayNetworkDetailAllowUrls: invalid/missing -> []. */
-const getReplayNetworkDetailAllowUrls = ({ replayNetworkDetailAllowUrls }: PlaygroundSentryConfig): string[] => {
+/**
+ * okta-ui's getRedactedReplayUrl minus the org host -> org id step: query and hash query ->
+ * `?redacted`, token-like path segments (e.g. /signin/reset-password/<token>) -> `/redacted`.
+ */
+const redactUrl = (url: string): string => {
+  let parsed: URL;
   try {
-    const urls = JSON.parse(replayNetworkDetailAllowUrls as string);
-    if (!Array.isArray(urls)) {
-      return [];
-    }
-    return urls.filter((url) => typeof url === 'string' && url !== '');
+    parsed = new URL(url, window.location.href);
   } catch {
-    return [];
+    return url;
   }
+  const hash = parsed.hash.includes('?')
+    ? `${parsed.hash.substring(0, parsed.hash.indexOf('?'))}?redacted`
+    : parsed.hash;
+  const search = parsed.search && '?redacted';
+  return `${parsed.protocol}//${parsed.host}${parsed.pathname}${hash}${search}`
+    .replace(/\/[A-Za-z0-9_-]{20,}(?=\/|$|[?#])/g, '/redacted');
+};
+
+/** Same as okta-ui's getRedactedConsoleMessage. */
+const redactConsoleMessage = (message: string): string => {
+  const redacted = message
+    .replace(/https?:\/\/[^\s"'<>]+/g, redactUrl)
+    .replace(/[A-Za-z0-9_-]{20,}/g, (run) => (/\d/.test(run) ? '[redacted]' : run));
+  return redacted.length > CONSOLE_MESSAGE_MAX_LENGTH
+    ? `${redacted.substring(0, CONSOLE_MESSAGE_MAX_LENGTH)}…`
+    : redacted;
+};
+
+/** Same rules as okta-ui's scrubReplayRecordingEvent (see redactUrl for the one difference). */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const scrubReplayRecordingEvent = (event: any) => {
+  const { tag, payload } = event?.data ?? {};
+  if (!payload) {
+    return event;
+  }
+  if (tag === 'performanceSpan') {
+    if (payload.description) {
+      payload.description = redactUrl(payload.description);
+    }
+    if (payload.data?.previous) {
+      payload.data.previous = redactUrl(payload.data.previous);
+    }
+  } else if (tag === 'breadcrumb') {
+    if (payload.category === 'console') {
+      if (!CONSOLE_LEVELS_KEPT.includes(payload.level)) {
+        return null;
+      }
+      if (payload.data) {
+        delete payload.data.arguments;
+      }
+      payload.message = typeof payload.message === 'string' ? redactConsoleMessage(payload.message) : '';
+      return event;
+    }
+    ['url', 'from', 'to'].forEach((key) => {
+      if (typeof payload.data?.[key] === 'string') {
+        payload.data[key] = redactUrl(payload.data[key]);
+      }
+    });
+  }
+  return event;
 };
 
 /** Same rule as okta-ui's isFeedbackCarrierEvent: a message tagged FEEDBACK_TAG, no exception. */
@@ -111,20 +168,18 @@ const init = (): void => {
     return;
   }
   const replayEnabled = config.replay === true;
-  const networkDetailAllowUrls = getReplayNetworkDetailAllowUrls(config);
 
   Sentry.init({
     dsn: config.dsn,
     environment: config.environment ?? 'dev',
     sendDefaultPii: false,
     integrations: replayEnabled ? [
+      // No networkDetailAllowUrls: network requests are recorded without headers or bodies.
       new Sentry.Replay({
         maskAllText: true,
         maskAllInputs: true,
         blockAllMedia: true,
-        networkDetailAllowUrls,
-        // bodies are only captured for networkDetailAllowUrls, so this is a no-op when empty
-        networkCaptureBodies: networkDetailAllowUrls.length > 0,
+        beforeAddRecordingEvent: scrubReplayRecordingEvent,
       }),
     ] : [],
     ...(replayEnabled && {

@@ -33,13 +33,12 @@ const config = {
   // Config for playground/sentry-wrapper.ts, the local stand-in for okta-ui's
   // @okta/sentry-wrapper. Point `dsn` at your own dev Sentry project, or pass
   // ?sentryDsn=... in the URL. Empty DSN = Sentry disabled.
-  // `replay` / `replayNetworkDetailAllowUrls` match the real wrapper's
-  // window.okta.sentry params (values okta-core sets on the login page).
+  // `replay` matches the real wrapper's window.okta.sentry param (the value
+  // okta-core sets on the login page).
   sentryWrapper: {
     dsn: '',
     environment: 'dev',
-    replay: true,
-    replayNetworkDetailAllowUrls: '["/idp/idx/"]'
+    replay: true
   },
   // Hooks block processing and run custom logic before or after a form is rendered
   hooks: {
