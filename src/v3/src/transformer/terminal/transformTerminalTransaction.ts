@@ -47,6 +47,7 @@ import { createForm } from '../utils';
 import {
   createFeedbackFormElement,
   createFeedbackSuccessElement,
+  hasErrorMessage,
   InlineFeedbackOptions,
 } from './inlineFeedback';
 import { transformOdaEnrollment } from './odaEnrollment';
@@ -227,9 +228,10 @@ export const transformTerminalTransaction = (
 
   transformTerminalMessages(transaction, formBag);
 
-  // Terminal views have no actionable step to hang the "Send feedback" link off,
-  // so the feedback form renders inline, between the message and the back link.
-  if (feedbackAvailable) {
+  // Error terminals get the inline feedback form, between the message and the
+  // back link. Other terminals (success, interstitial) get the "Send feedback"
+  // link from the Widget instead, like any other view.
+  if (feedbackAvailable && hasErrorMessage(formBag.uischema)) {
     formBag.uischema.elements.push(createFeedbackFormElement());
   }
 

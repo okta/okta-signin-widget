@@ -1394,8 +1394,8 @@ module.exports = {
   //   multiStepThenTerminalMock -> 3-step journey (identify -> email code -> error terminal);
   //                                best for exercising the Sentry event + Session Replay
   //   activeStepMock            -> normal step with the "Send feedback" link + dialog
-  //   infoTerminalMock          -> terminal message + inline "Send feedback" form + back link
-  //   crashMock                 -> inline "Report issue to Okta" crash form (fatal bootstrap error)
+  //   infoTerminalMock          -> non-error terminal message + back link + "Send feedback" link
+  //   crashMock                 -> fatal bootstrap error + inline "Send feedback to Okta" form
   // mocks: Test.FeedbackDemo.multiStepThenTerminalMock,
   // mocks: Test.FeedbackDemo.activeStepMock,
   // mocks: Test.FeedbackDemo.infoTerminalMock,

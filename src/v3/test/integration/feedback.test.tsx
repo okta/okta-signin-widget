@@ -37,29 +37,34 @@ describe('feedback', () => {
     uninstallFakeSentry();
   });
 
-  describe.each([
-    ['error', errorTerminal, errorMessage],
-    ['info', infoTerminal, /You can now sign in with your existing username and new password/],
-  ])('%s terminal view', (_, mockResponse, message) => {
-    it('renders the inline form between the message and the back link', async () => {
-      const {
-        findByText, getByTestId, getByText, queryByTestId,
-      } = await setup({ mockResponse, widgetOptions });
+  it('renders the inline form between the message and the back link on an error terminal', async () => {
+    const {
+      findByText, getByTestId, getByText, queryByTestId,
+    } = await setup({ mockResponse: errorTerminal, widgetOptions });
 
-      const messageEl = await findByText(message);
-      const form = getByTestId('feedback-terminal');
-      const backLink = getByText(/Back to sign in/);
+    const messageEl = await findByText(errorMessage);
+    const form = getByTestId('feedback-terminal');
+    const backLink = getByText(/Back to sign in/);
 
-      expect(isBefore(messageEl, form)).toBe(true);
-      expect(isBefore(form, backLink)).toBe(true);
-      expect(getByText('Send feedback to Okta')).toBeInTheDocument();
-      // Terminal views get the inline form, not the bottom-of-view link.
-      expect(queryByTestId('send-feedback-link')).not.toBeInTheDocument();
+    expect(isBefore(messageEl, form)).toBe(true);
+    expect(isBefore(form, backLink)).toBe(true);
+    expect(getByText('Send feedback to Okta')).toBeInTheDocument();
+    // Error views get the inline form, not the bottom-of-view link.
+    expect(queryByTestId('send-feedback-link')).not.toBeInTheDocument();
+  });
+
+  it('shows the "Send feedback" link, not the inline form, on a non-error terminal', async () => {
+    const { findByText, findByTestId, queryByTestId } = await setup({
+      mockResponse: infoTerminal, widgetOptions,
     });
+
+    await findByText(/You can now sign in with your existing username and new password/);
+    expect(await findByTestId('send-feedback-link')).toBeInTheDocument();
+    expect(queryByTestId('feedback-terminal')).not.toBeInTheDocument();
   });
 
   // One full-widget send flow is enough (the collapse itself is unit-tested in
-  // transformTerminalTransaction for any terminal); a second copy made this file
+  // transformTerminalTransaction); a second copy made this file
   // the slowest on CI and pushed it past the 10s jest timeout.
   it('collapses a terminal view to the success message + back link after sending', async () => {
     const {
@@ -76,6 +81,8 @@ describe('feedback', () => {
     expect(await findByTestId('feedback-terminal-success')).toBeInTheDocument();
     expect(queryByText(errorMessage)).not.toBeInTheDocument();
     expect(queryByTestId('feedback-terminal')).not.toBeInTheDocument();
+    // already sent from this view: no "Send feedback" link under the confirmation
+    expect(queryByTestId('send-feedback-link')).not.toBeInTheDocument();
     expect(await findByText(/Back to sign in/)).toBeInTheDocument();
     expect(Sentry.captureUserFeedback).toHaveBeenCalledWith(expect.objectContaining({
       comments: 'stuck',

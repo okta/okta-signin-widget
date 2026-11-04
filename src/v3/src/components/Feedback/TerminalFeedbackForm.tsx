@@ -28,12 +28,11 @@ import { FeedbackStack } from './FeedbackStack';
 import { useFeedbackForm } from './useFeedbackForm';
 
 /**
- * Inline "Send feedback to Okta" form for message-only views: terminal views (the
- * server message + "Back to sign in") and unhandled errors (the specific error
- * message). These have no actionable step, so instead of the bottom-of-view
- * "Send feedback" link + dialog, the transformer inserts this form below the
- * message. Same fields/copy as the dialog; Send is gated on the diagnostic-logs
- * consent checkbox. A successful send flips `setFeedbackSent`, which re-runs the
+ * Inline "Send feedback to Okta" form for error views: error terminals (the
+ * server error + "Back to sign in") and unhandled errors (the specific error
+ * message). Instead of the bottom-of-view "Send feedback" link + dialog, the
+ * transformer inserts this form below the error. Same fields/copy as the dialog;
+ * Send is gated on the diagnostic-logs consent checkbox. A successful send flips `setFeedbackSent`, which re-runs the
  * transformer to swap in the green confirmation (terminal views also drop their
  * original message; error views keep it).
  *

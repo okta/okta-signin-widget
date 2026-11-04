@@ -35,8 +35,19 @@ const getMockMessage = (message: string, className: string, key: string) => ({
   },
 });
 
+// Set by a test to make the mocked transformTerminalMessages render a callout of
+// that class, as the real one would (e.g. 'ERROR' for an error terminal).
+let mockCalloutClass: string | undefined;
 jest.mock('./transformTerminalMessages', () => ({
-  transformTerminalMessages: (transaction: IdxTransaction, formBag: FormBag) => formBag,
+  transformTerminalMessages: (transaction: IdxTransaction, formBag: FormBag) => {
+    if (mockCalloutClass) {
+      formBag.uischema.elements.push({
+        type: 'InfoBox',
+        options: { class: mockCalloutClass, message: { class: mockCalloutClass, message: 'msg' } },
+      } as InfoboxElement);
+    }
+    return formBag;
+  },
 }));
 
 jest.mock('./odaEnrollment/transformOdaEnrollment', () => ({
@@ -67,6 +78,7 @@ describe('Terminal Transaction Transformer Tests', () => {
   const mockBootstrapFn = jest.fn();
 
   beforeEach(() => {
+    mockCalloutClass = undefined;
     transaction = getStubTransaction(IdxStatus.TERMINAL);
     transaction.messages = [];
     widgetProps = {} as WidgetProps;
@@ -259,12 +271,8 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect(assignMock).toHaveBeenCalledWith(loginPath);
   });
 
-  it('should insert the inline feedback form before the back link when feedback is available', () => {
-    transaction.messages?.push(getMockMessage(
-      'Your password reset was successful.',
-      'INFO',
-      'oie.reset.password.success',
-    ));
+  it('should insert the inline feedback form after the error callout, before the back link', () => {
+    mockCalloutClass = 'ERROR';
     const formBag = transformTerminalTransaction(
       transaction,
       widgetProps,
@@ -272,7 +280,23 @@ describe('Terminal Transaction Transformer Tests', () => {
       { feedbackAvailable: true },
     );
 
-    expect(formBag.uischema.elements.map(({ type }) => type)).toEqual(['FeedbackForm', 'Link']);
+    expect(formBag.uischema.elements.map(({ type }) => type)).toEqual(['InfoBox', 'FeedbackForm', 'Link']);
+  });
+
+  it.each([
+    ['INFO'],
+    ['WARNING'],
+    ['SUCCESS'],
+  ])('should not add the inline feedback form on a non-error (%s) terminal', (calloutClass) => {
+    mockCalloutClass = calloutClass;
+    const formBag = transformTerminalTransaction(
+      transaction,
+      widgetProps,
+      mockBootstrapFn,
+      { feedbackAvailable: true },
+    );
+
+    expect(formBag.uischema.elements.some(({ type }) => type === 'FeedbackForm')).toBe(false);
   });
 
   it('should render only the success message and back link once feedback is sent', () => {

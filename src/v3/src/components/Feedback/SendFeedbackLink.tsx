@@ -24,9 +24,9 @@ import { loc } from '../../util';
 import { SendFeedbackDialog } from './SendFeedbackDialog';
 
 /**
- * Persistent "Send feedback" trigger shown at the bottom of normal SIW steps
- * (every step EXCEPT the crash UI and terminal views, which render their own
- * inline forms). Renders nothing unless feedback is enabled. Opens {@link SendFeedbackDialog}.
+ * Persistent "Send feedback" trigger shown at the bottom of every view EXCEPT
+ * error views (unhandled errors and error terminals, which render the inline
+ * form instead). Renders nothing unless feedback is enabled. Opens {@link SendFeedbackDialog}.
  *
  * Portal scoping: Odyssey's component style overrides are stylis-scoped under
  * `#okta-sign-in` (see util/stylisPlugins), but a MUI Dialog portals to

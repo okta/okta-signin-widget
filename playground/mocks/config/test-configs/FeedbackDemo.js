@@ -1,8 +1,10 @@
 // Mock flows for exercising the gen3 "Send feedback" -> Sentry feature locally.
 //
-// The feature is invokable from ANY view (not just terminal errors). These mocks
-// just give a tester a deterministic flow to click through and then send feedback
-// from. Wire one in via a ONE-LINE change at the bottom of ../responseConfig.js:
+// Error views (unhandled errors, error terminals) get an inline "Send feedback to
+// Okta" form below the error; every other view gets a "Send feedback" link that
+// opens a dialog. These mocks give a tester a deterministic flow to click through
+// and then send feedback from. Wire one in via a ONE-LINE change at the bottom of
+// ../responseConfig.js:
 //   mocks: Test.FeedbackDemo.identifyThenTerminalMock  // a short flow + a view
 //   mocks: Test.FeedbackDemo.simpleTerminalMock        // land on a view immediately
 //
@@ -22,8 +24,8 @@ const base = {
   ],
 };
 
-// /introspect -> identify (username) view -> terminal. Load, enter any username,
-// click Next, then "Send feedback" from the resulting view.
+// /introspect -> identify (username) view -> error terminal. Load, enter any
+// username, click Next, then send from the inline form on the error terminal.
 const identifyThenTerminalMock = {
   ...base,
   '/idp/idx/introspect': [
@@ -34,8 +36,8 @@ const identifyThenTerminalMock = {
   ],
 };
 
-// Simplest: land directly on a view on page load (zero clicks before sending).
-// The "Send feedback" link + dialog surface is available on this (and any) view.
+// Simplest: land directly on an error terminal on page load (zero clicks before
+// sending), with the inline form below the error.
 const simpleTerminalMock = {
   ...base,
   '/idp/idx/introspect': [
@@ -45,9 +47,9 @@ const simpleTerminalMock = {
 
 // Crash surface: /introspect returns HTTP 500 (the filename's error-500- prefix
 // drives the status), so bootstrap throws and the widget sets responseError.
-// With feedback.enabled, the inline "Report issue to Okta" form renders in place
-// of the plain "Unable to load page" error view. Submit is gated on the consent
-// checkbox; a successful send swaps in the green "Report sent to Okta" confirmation.
+// With feedback.enabled, the inline "Send feedback to Okta" form renders below the
+// error message. Submit is gated on the consent checkbox; a successful send
+// replaces the form with the green "Feedback sent to Okta" confirmation.
 const crashMock = {
   ...base,
   '/idp/idx/introspect': [
@@ -66,8 +68,8 @@ const activeStepMock = {
   ],
 };
 
-// Non-error (INFO) terminal: message + "Back to sign in", with the inline
-// "Send feedback to Okta" form between them (every message-only terminal gets it).
+// Non-error (INFO) terminal: message + "Back to sign in", with the bottom-of-view
+// "Send feedback" link + dialog (only error terminals get the inline form).
 const infoTerminalMock = {
   ...base,
   '/idp/idx/introspect': [

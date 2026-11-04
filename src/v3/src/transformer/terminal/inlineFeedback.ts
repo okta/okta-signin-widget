@@ -10,8 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { FeedbackFormElement, InfoboxElement } from '../../types';
+import {
+  FeedbackFormElement, InfoboxElement, UISchemaElement, UISchemaLayout,
+} from '../../types';
 import { loc } from '../../util';
+import { traverseLayout } from '../util';
 
 /** Inline-feedback state passed to the terminal / unhandled-error transformers. */
 export type InlineFeedbackOptions = {
@@ -34,5 +37,39 @@ export const createFeedbackSuccessElement = (): InfoboxElement => ({
   },
 });
 
-/** Inline "Send feedback to Okta" form shown below a message-only view's message. */
+/** Inline "Send feedback to Okta" form shown below an error view's message. */
 export const createFeedbackFormElement = (): FeedbackFormElement => ({ type: 'FeedbackForm' });
+
+/** Whether any element in `layout` (including nested layouts) matches `predicate`. */
+export const containsElement = (
+  layout: UISchemaLayout,
+  predicate: (element: UISchemaElement) => boolean,
+): boolean => {
+  let found = false;
+  traverseLayout({
+    layout,
+    predicate,
+    callback: () => { found = true; },
+  });
+  return found;
+};
+
+/**
+ * Whether the view shows an error callout. Checked on the built view rather than
+ * the raw IDX messages, since transformTerminalMessages turns several cases into
+ * errors itself (unexpected error, unsupported response, expired session, ...).
+ */
+export const hasErrorMessage = (layout: UISchemaLayout): boolean => containsElement(
+  layout,
+  (element) => element.type === 'InfoBox' && (element as InfoboxElement).options?.class === 'ERROR',
+);
+
+/**
+ * Whether the view already has its own feedback surface (the inline form, or its
+ * "Feedback sent to Okta" confirmation), so the "Send feedback" link is not shown.
+ */
+export const hasInlineFeedback = (layout: UISchemaLayout): boolean => containsElement(
+  layout,
+  (element) => element.type === 'FeedbackForm'
+    || (element as InfoboxElement).options?.dataSe === 'feedback-terminal-success',
+);

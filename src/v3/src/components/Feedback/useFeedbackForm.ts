@@ -37,7 +37,7 @@ export type UseFeedbackForm = {
 
 /**
  * Shared state + submit logic for both feedback surfaces (the inline form on
- * message-only views and the "Send feedback" dialog). Gates submit on the
+ * error views and the "Send feedback" dialog). Gates submit on the
  * diagnostic-logs consent checkbox and delegates the actual send to
  * {@link useSendFeedback}. The consent checkbox also maps to `attachLogs`
  * (whether the Session Replay buffer is attached).

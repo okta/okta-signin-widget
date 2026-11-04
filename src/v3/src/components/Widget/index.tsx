@@ -48,6 +48,7 @@ import {
 } from '../../hooks';
 import { transformIdxTransaction } from '../../transformer';
 import {
+  hasInlineFeedback,
   transformTerminalTransaction,
   transformUnhandledErrors,
 } from '../../transformer/terminal';
@@ -547,13 +548,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
   }, [getDocumentTitle]);
 
-  // Error and terminal views keep their own message and get the inline feedback
-  // form from their transformers (transformUnhandledErrors /
-  // transformTerminalTransaction), so the "Send feedback" link shows only on
-  // normal, actionable steps — and not under the bootstrap spinner (no form yet).
+  // Error views (unhandled errors, error terminals) get the inline feedback form
+  // from their transformers; every other view gets the "Send feedback" link.
+  // Not under the bootstrap spinner (no form yet), and not on the redirect view,
+  // which only flashes by.
   const showFeedbackLink = feedbackAvailable && !responseError
     && uischema.elements.length > 0
-    && !isTerminalTransaction(idxTransaction);
+    && !hasInlineFeedback(uischema)
+    && !uischema.elements.some(({ type }) => type === 'Redirect');
 
   return (
     <WidgetContextProvider value={{
