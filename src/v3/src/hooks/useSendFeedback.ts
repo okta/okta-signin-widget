@@ -49,8 +49,8 @@ export type UseSendFeedback = {
  * Widget-level "Send feedback" entry point, invokable from ANY view (not just
  * terminal errors). Derives the fixed, low-cardinality tag context
  * (flow/formName/factor) from the current IDX transaction and delegates to
- * {@link sendFeedbackToSentry}. UI/i18n for the trigger itself lives in a
- * separate ticket (OKTA-1290987); this hook is the functional seam.
+ * {@link sendFeedbackToSentry}. The trigger UI (SendFeedbackLink,
+ * TerminalFeedbackForm) is built on top of this hook.
  */
 export const useSendFeedback = (): UseSendFeedback => {
   const { widgetProps, idxTransaction, feedbackAvailable } = useWidgetContext();
