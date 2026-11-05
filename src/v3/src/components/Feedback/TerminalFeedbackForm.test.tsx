@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { render, waitFor } from '@testing-library/preact';
+import { IdxTransaction } from '@okta/okta-auth-js';
+import { act, render, waitFor } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import { h } from 'preact';
 
@@ -31,21 +32,24 @@ const pressEnter = (el: HTMLElement): KeyboardEvent => {
   return event;
 };
 
+const terminalTransaction = { status: 'TERMINAL' } as IdxTransaction;
+
 const renderInForm = () => {
-  const setFeedbackSent = jest.fn();
-  const widgetContext = {
-    widgetProps: {},
-    setFeedbackSent,
-  } as unknown as IWidgetContext;
-  const result = render(
-    <WidgetContextProvider value={widgetContext}>
+  const setFeedbackSentFor = jest.fn();
+  const ui = (idxTransaction: IdxTransaction) => (
+    <WidgetContextProvider
+      value={{ widgetProps: {}, idxTransaction, setFeedbackSentFor } as unknown as IWidgetContext}
+    >
       {/* Rendered inside the terminal view's <form> in the real widget. */}
       <form onSubmit={(e) => e.preventDefault()}>
         <TerminalFeedbackForm uischema={uischema} />
       </form>
-    </WidgetContextProvider>,
+    </WidgetContextProvider>
   );
-  return { ...result, setFeedbackSent };
+  const result = render(ui(terminalTransaction));
+  // Swap the current transaction, keeping this TerminalFeedbackForm instance.
+  const rerenderWith = (idxTransaction: IdxTransaction) => result.rerender(ui(idxTransaction));
+  return { ...result, setFeedbackSentFor, rerenderWith };
 };
 
 describe('TerminalFeedbackForm', () => {
@@ -92,9 +96,9 @@ describe('TerminalFeedbackForm', () => {
     expect(enter.defaultPrevented).toBe(false);
   });
 
-  it('sends the feedback and flips setFeedbackSent on success', async () => {
+  it('sends the feedback and marks the current transaction as sent on success', async () => {
     const user = userEvent.setup();
-    const { getByRole, getByTestId, setFeedbackSent } = renderInForm();
+    const { getByRole, getByTestId, setFeedbackSentFor } = renderInForm();
 
     await user.type(getByTestId('feedback-terminal-comment'), 'stuck here');
     await user.click(getByRole('checkbox'));
@@ -104,21 +108,39 @@ describe('TerminalFeedbackForm', () => {
       comment: 'stuck here',
       attachLogs: true,
     }));
-    await waitFor(() => expect(setFeedbackSent).toHaveBeenCalledWith(true));
+    await waitFor(() => expect(setFeedbackSentFor).toHaveBeenCalledWith(terminalTransaction));
+  });
+
+  it('pins the confirmation to the view Send was pressed on if the view changes mid-send', async () => {
+    let resolveSend: (value: { ok: boolean }) => void = () => {};
+    mockSendFeedback.mockImplementation(() => new Promise((resolve) => { resolveSend = resolve; }));
+    const user = userEvent.setup();
+    const {
+      getByRole, getByTestId, setFeedbackSentFor, rerenderWith,
+    } = renderInForm();
+
+    await user.click(getByRole('checkbox'));
+    await user.click(getByTestId('feedback-terminal-submit'));
+    // a new error terminal arrives while the send is still in flight
+    rerenderWith({ status: 'TERMINAL', requestDidSucceed: false } as IdxTransaction);
+    await act(async () => { resolveSend({ ok: true }); });
+
+    await waitFor(() => expect(setFeedbackSentFor).toHaveBeenCalledTimes(1));
+    expect(setFeedbackSentFor.mock.calls[0][0]).toBe(terminalTransaction);
   });
 
   it('shows "couldn\'t send" and no confirmation when the send is not confirmed', async () => {
     mockSendFeedback.mockResolvedValue({ ok: false });
     const user = userEvent.setup();
     const {
-      getByRole, getByTestId, findByTestId, setFeedbackSent,
+      getByRole, getByTestId, findByTestId, setFeedbackSentFor,
     } = renderInForm();
 
     await user.click(getByRole('checkbox'));
     await user.click(getByTestId('feedback-terminal-submit'));
 
     expect(await findByTestId('feedback-terminal-error')).toHaveTextContent('feedback.error');
-    expect(setFeedbackSent).not.toHaveBeenCalled();
+    expect(setFeedbackSentFor).not.toHaveBeenCalled();
     // still retryable
     expect(getByTestId('feedback-terminal-submit')).toBeEnabled();
   });

@@ -16,8 +16,9 @@ import {
   Heading4,
   useOdysseyDesignTokens,
 } from '@okta/odyssey-react-mui';
+import { IdxTransaction } from '@okta/okta-auth-js';
 import { h } from 'preact';
-import { useCallback, useEffect } from 'preact/hooks';
+import { useCallback, useEffect, useRef } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import { FeedbackFormElement, UISchemaElementComponent } from '../../types';
@@ -28,13 +29,12 @@ import { FeedbackStack } from './FeedbackStack';
 import { useFeedbackForm } from './useFeedbackForm';
 
 /**
- * Inline "Send feedback to Okta" form for error views: error terminals (the
- * server error + "Back to sign in") and unhandled errors (the specific error
- * message). Instead of the bottom-of-view "Send feedback" link + dialog, the
- * transformer inserts this form below the error. Same fields/copy as the dialog;
- * Send is gated on the diagnostic-logs consent checkbox. A successful send flips `setFeedbackSent`, which re-runs the
- * transformer to swap in the green confirmation (terminal views also drop their
- * original message; error views keep it).
+ * Inline "Send feedback to Okta" form for error terminals (the server error +
+ * "Back to sign in"). Instead of the bottom-of-view "Send feedback" link + dialog,
+ * the transformer inserts this form below the error. Same fields/copy as the
+ * dialog; Send is gated on the diagnostic-logs consent checkbox. A successful send
+ * records the transaction it was sent from (`setFeedbackSentFor`), which re-runs
+ * the transformer to collapse that view to the green confirmation + back link.
  *
  * Rendered inside the view's `<form>`: Enter in the email input is swallowed so
  * it doesn't trigger implicit submission of the (no-op) terminal form.
@@ -43,20 +43,30 @@ export const TerminalFeedbackForm: UISchemaElementComponent<{
   uischema: FeedbackFormElement
 }> = () => {
   const tokens = useOdysseyDesignTokens();
-  const { setFeedbackSent } = useWidgetContext();
+  const { idxTransaction, setFeedbackSentFor } = useWidgetContext();
   const form = useFeedbackForm();
-  const { canSubmit, submit, sent } = form;
+  const {
+    canSubmit, submit, sent, resetSent,
+  } = form;
+  // The view the user pressed Send on. A send can take seconds; if the view
+  // changes meanwhile, the confirmation stays pinned to the original transaction
+  // instead of marking the new view as sent.
+  const submittedForRef = useRef<IdxTransaction | undefined>();
 
   useEffect(() => {
-    if (sent) {
-      setFeedbackSent(true);
+    if (!sent) {
+      return;
     }
-  }, [sent, setFeedbackSent]);
+    // Consume `sent` so a later send from this (possibly reused) instance fires again.
+    resetSent();
+    setFeedbackSentFor(submittedForRef.current);
+  }, [sent, resetSent, setFeedbackSentFor]);
 
   const handleSubmit = useCallback(() => {
+    submittedForRef.current = idxTransaction;
     // submit never rejects (a failed send surfaces as `failed`), so no await
     submit();
-  }, [submit]);
+  }, [idxTransaction, submit]);
 
   const preventImplicitSubmit = useCallback((e: h.JSX.TargetedKeyboardEvent<HTMLElement>) => {
     if (e.key === 'Enter' && (e.target as HTMLElement).tagName === 'INPUT') {

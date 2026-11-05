@@ -31,6 +31,12 @@ export type UseFeedbackForm = {
   failed: boolean;
   /** Clear the `sent` flag once the caller has handled the success. */
   resetSent: () => void;
+  /**
+   * Untick consent and clear the "couldn't send" message (email and comment are
+   * kept as a draft). Called when the dialog opens, so consent given on one view
+   * can't attach the replay on another.
+   */
+  resetConsent: () => void;
   /** Fire the send; no-ops if consent isn't given or a send is in flight. Never rejects. */
   submit: () => Promise<void>;
 };
@@ -100,6 +106,11 @@ export const useFeedbackForm = (): UseFeedbackForm => {
 
   const resetSent = useCallback(() => setSent(false), []);
 
+  const resetConsent = useCallback(() => {
+    setConsent(false);
+    setFailed(false);
+  }, []);
+
   return {
     email,
     setEmail,
@@ -112,6 +123,7 @@ export const useFeedbackForm = (): UseFeedbackForm => {
     sent,
     failed,
     resetSent,
+    resetConsent,
     submit,
   };
 };

@@ -10,7 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { installFakeSentry, setup, uninstallFakeSentry } from './util';
+import {
+  installFakeSentry, setup, uninstallFakeSentry, updateStateHandleInMock,
+} from './util';
 
 import identify from '../../src/mocks/response/idp/idx/introspect/identify-with-username.json';
 import errorTerminal from '../../src/mocks/response/idp/idx/introspect/terminal-return-email-error.json';
@@ -132,5 +134,49 @@ describe('feedback', () => {
 
     expect(await findByTestId('send-feedback-link')).toBeInTheDocument();
     expect(queryByTestId('feedback-terminal')).not.toBeInTheDocument();
+  });
+
+  // An unhandled submit error keeps idxTransaction (identify) set; the error view
+  // must stay a lone InfoBox so afterTransform hooks still see it as 'terminal'.
+  it('gives a failed submit the link (not the inline form) and runs terminal hooks', async () => {
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const mockRequestClient = jest.fn().mockImplementation((_, url: string) => {
+      updateStateHandleInMock(identify);
+      if (url.endsWith('/interact')) {
+        return Promise.resolve({
+          responseText: JSON.stringify({ interaction_handle: 'fake-interactionhandle' }),
+        });
+      }
+      if (url.endsWith('/introspect')) {
+        return Promise.resolve({ responseText: JSON.stringify(identify) });
+      }
+      // a network failure: auth-js rethrows it, so the widget sets responseError
+      return Promise.reject(new Error('Network down'));
+    });
+    const identifyHook = jest.fn();
+    const terminalHook = jest.fn();
+    const {
+      user, findByLabelText, findByTestId, findByText, queryByTestId,
+    } = await setup({
+      mockRequestClient,
+      widgetOptions: {
+        ...widgetOptions,
+        hooks: {
+          identify: { afterTransform: [identifyHook] },
+          terminal: { afterTransform: [terminalHook] },
+        },
+      },
+    });
+
+    await user.type(await findByLabelText('Username'), 'testuser');
+    identifyHook.mockClear();
+    await user.click(await findByText('Next', { selector: 'button' }));
+
+    expect(await findByTestId('callout')).toHaveTextContent('Unable to connect to the server.');
+    expect(await findByTestId('send-feedback-link')).toBeInTheDocument();
+    expect(queryByTestId('feedback-terminal')).not.toBeInTheDocument();
+    expect(terminalHook).toHaveBeenCalled();
+    expect(identifyHook).not.toHaveBeenCalled();
+    consoleErrorSpy.mockRestore();
   });
 });

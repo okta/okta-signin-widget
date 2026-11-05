@@ -789,7 +789,7 @@ export interface DividerElement extends UISchemaElement {
   options?: { text: string; };
 }
 
-/** Inline "Send feedback to Okta" form appended to error terminals and unhandled errors. */
+/** Inline "Send feedback to Okta" form appended to error terminals. */
 export interface FeedbackFormElement extends UISchemaElement {
   type: 'FeedbackForm';
 }

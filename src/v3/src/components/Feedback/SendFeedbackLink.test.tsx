@@ -60,6 +60,48 @@ describe('SendFeedbackLink + SendFeedbackDialog', () => {
     expect(mockSendFeedback).not.toHaveBeenCalled();
   });
 
+  it('asks for consent again on reopen, keeping the typed draft', async () => {
+    const user = userEvent.setup();
+    const {
+      getByTestId, findByTestId, getByRole, queryByTestId,
+    } = renderLink();
+
+    await user.click(getByTestId('send-feedback-link'));
+    await findByTestId('feedback-dialog');
+    await user.type(getByTestId('feedback-dialog-comment'), 'draft');
+    await user.click(getByRole('checkbox'));
+    await user.click(getByTestId('feedback-dialog-cancel'));
+    await waitFor(() => expect(queryByTestId('feedback-dialog')).not.toBeInTheDocument());
+
+    await user.click(getByTestId('send-feedback-link'));
+    await findByTestId('feedback-dialog');
+
+    expect(getByRole('checkbox')).not.toBeChecked();
+    expect(getByTestId('feedback-dialog-submit')).toBeDisabled();
+    expect(getByTestId('feedback-dialog-comment')).toHaveValue('draft');
+  });
+
+  it('clears the "couldn\'t send" message on reopen', async () => {
+    mockSendFeedback.mockResolvedValue({ ok: false });
+    const user = userEvent.setup();
+    const {
+      getByTestId, findByTestId, getByRole, queryByTestId,
+    } = renderLink();
+
+    await user.click(getByTestId('send-feedback-link'));
+    await findByTestId('feedback-dialog');
+    await user.click(getByRole('checkbox'));
+    await user.click(getByTestId('feedback-dialog-submit'));
+    expect(await findByTestId('feedback-dialog-error')).toBeInTheDocument();
+    await user.click(getByTestId('feedback-dialog-cancel'));
+    await waitFor(() => expect(queryByTestId('feedback-dialog')).not.toBeInTheDocument());
+
+    await user.click(getByTestId('send-feedback-link'));
+    await findByTestId('feedback-dialog');
+
+    expect(queryByTestId('feedback-dialog-error')).not.toBeInTheDocument();
+  });
+
   it('sends, closes the dialog and shows the success toast', async () => {
     const user = userEvent.setup();
     const {

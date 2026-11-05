@@ -22,17 +22,8 @@ import {
 } from '../../types';
 import { loc, SessionStorage } from '../../util';
 import { createForm } from '../utils';
-import {
-  createFeedbackFormElement,
-  createFeedbackSuccessElement,
-  InlineFeedbackOptions,
-} from './inlineFeedback';
 
-type ErrorTransformer = (
-  widgetProps: WidgetProps,
-  error?: (AuthApiError | OAuthError),
-  feedback?: InlineFeedbackOptions,
-) => FormBag;
+type ErrorTransformer = (widgetProps: WidgetProps, error?: (AuthApiError | OAuthError)) => FormBag;
 type ErrorTester<T extends (AuthApiError | OAuthError)> = {
   tester: (err?: T) => boolean,
   message: (err?: T) => WidgetMessage,
@@ -177,16 +168,9 @@ const getWidgetMessage = (
   };
 };
 
-export const transformUnhandledErrors: ErrorTransformer = (
-  widgetProps,
-  error,
-  { feedbackAvailable = false, feedbackSent = false } = {},
-) => {
+export const transformUnhandledErrors: ErrorTransformer = (widgetProps, error) => {
   const formBag: FormBag = createForm();
 
-  // The specific error message always stays (expected user errors like an
-  // invalid recovery token are not crashes); the inline feedback form, or its
-  // confirmation once sent, goes below it.
   formBag.uischema.elements = [{
     type: 'InfoBox',
     options: {
@@ -195,12 +179,6 @@ export const transformUnhandledErrors: ErrorTransformer = (
       dataSe: 'callout',
     },
   } as InfoboxElement];
-
-  if (feedbackAvailable) {
-    formBag.uischema.elements.push(
-      feedbackSent ? createFeedbackSuccessElement() : createFeedbackFormElement(),
-    );
-  }
 
   return formBag;
 };

@@ -1,7 +1,7 @@
 // Mock flows for exercising the gen3 "Send feedback" -> Sentry feature locally.
 //
-// Error views (unhandled errors, error terminals) get an inline "Send feedback to
-// Okta" form below the error; every other view gets a "Send feedback" link that
+// Error terminals get an inline "Send feedback to Okta" form below the error;
+// every other view (including unhandled errors) gets a "Send feedback" link that
 // opens a dialog. These mocks give a tester a deterministic flow to click through
 // and then send feedback from. Wire one in via a ONE-LINE change at the bottom of
 // ../responseConfig.js:
@@ -47,9 +47,8 @@ const simpleTerminalMock = {
 
 // Crash surface: /introspect returns HTTP 500 (the filename's error-500- prefix
 // drives the status), so bootstrap throws and the widget sets responseError.
-// With feedback.enabled, the inline "Send feedback to Okta" form renders below the
-// error message. Submit is gated on the consent checkbox; a successful send
-// replaces the form with the green "Feedback sent to Okta" confirmation.
+// With feedback.enabled, the error message gets the bottom-of-view "Send feedback"
+// link + dialog, like any non-terminal view.
 const crashMock = {
   ...base,
   '/idp/idx/introspect': [

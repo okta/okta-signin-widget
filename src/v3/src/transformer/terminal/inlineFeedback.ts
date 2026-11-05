@@ -16,7 +16,7 @@ import {
 import { loc } from '../../util';
 import { traverseLayout } from '../util';
 
-/** Inline-feedback state passed to the terminal / unhandled-error transformers. */
+/** Inline-feedback state passed to the terminal transformer. */
 export type InlineFeedbackOptions = {
   /** `feedback.enabled` AND the Okta Sentry wrapper is present (see isFeedbackAvailable). */
   feedbackAvailable?: boolean;
@@ -37,7 +37,7 @@ export const createFeedbackSuccessElement = (): InfoboxElement => ({
   },
 });
 
-/** Inline "Send feedback to Okta" form shown below an error view's message. */
+/** Inline "Send feedback to Okta" form shown below an error terminal's message. */
 export const createFeedbackFormElement = (): FeedbackFormElement => ({ type: 'FeedbackForm' });
 
 /** Whether any element in `layout` (including nested layouts) matches `predicate`. */

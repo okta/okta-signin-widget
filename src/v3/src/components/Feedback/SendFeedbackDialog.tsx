@@ -50,9 +50,18 @@ export const SendFeedbackDialog = ({ isOpen, onClose }: SendFeedbackDialogProps)
   const tokens = useOdysseyDesignTokens();
   const form = useFeedbackForm();
   const {
-    canSubmit, submit, sent, resetSent,
+    canSubmit, submit, sent, resetSent, resetConsent,
   } = form;
   const [isToastVisible, setIsToastVisible] = useState(false);
+
+  // The dialog stays mounted across views, so each opening asks for consent
+  // afresh: a box ticked (then cancelled) on one view must not attach the replay
+  // on another. The typed email/comment are kept as a draft.
+  useEffect(() => {
+    if (isOpen) {
+      resetConsent();
+    }
+  }, [isOpen, resetConsent]);
 
   // When the send succeeds, close the dialog; the ToastStack (a sibling) then
   // surfaces the confirmation at the viewport bottom, outside the dismissed modal.

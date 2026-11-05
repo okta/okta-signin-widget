@@ -72,10 +72,10 @@ export type IWidgetContext = {
   // `feedback.enabled` AND an initialized wrapper `window.Sentry`, evaluated once
   // at mount. Gates every feedback surface (link, dialog, inline form).
   feedbackAvailable: boolean;
-  // Set by the inline feedback form (terminal and unhandled-error views) after a
-  // successful send. Flipping this re-runs the transformer so the form is
-  // replaced by the confirmation. Reset on every new transaction or error.
-  setFeedbackSent: StateUpdater<boolean>;
+  // Set by the inline feedback form (error terminals) after a successful send, to
+  // the transaction it was sent from. While that transaction is current, the
+  // transformer replaces the form with the confirmation; other views are unaffected.
+  setFeedbackSentFor: StateUpdater<IdxTransaction | undefined>;
 };
 
 // Stepper context

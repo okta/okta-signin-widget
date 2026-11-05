@@ -23,7 +23,7 @@ describe('feedback-bootstrap-error', () => {
     uninstallFakeSentry();
   });
 
-  it('keeps the specific error message and adds the inline feedback form below it', async () => {
+  it('keeps the specific error message and shows the "Send feedback" link', async () => {
     const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     const mockRequestClient = jest.fn().mockRejectedValue({
       responseText: JSON.stringify({ errorSummary: 'Internal Server Error' }),
@@ -39,8 +39,9 @@ describe('feedback-bootstrap-error', () => {
     // "Unable to load page" (expected user errors must keep their message)
     const callout = await findByTestId('callout');
     expect(callout).toHaveTextContent('The server encountered an error. Please refresh the page and try again.');
-    expect(await findByTestId('feedback-terminal')).toBeInTheDocument();
-    expect(queryByTestId('send-feedback-link')).not.toBeInTheDocument();
+    // Unhandled errors get the link + dialog; only error terminals get the inline form.
+    expect(await findByTestId('send-feedback-link')).toBeInTheDocument();
+    expect(queryByTestId('feedback-terminal')).not.toBeInTheDocument();
     consoleErrorSpy.mockRestore();
   });
 });

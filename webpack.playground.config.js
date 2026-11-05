@@ -56,7 +56,14 @@ module.exports = {
     level: 'warn',
   },
   entry: {
-    'playground.js': [`${PLAYGROUND}/main.ts`]
+    'playground.js': [`${PLAYGROUND}/main.ts`],
+    // Local-dev Sentry "wrapper" loaded by playground/index.html (shared with
+    // gen3). gen2 shows no feedback UI; this only keeps the script from 404ing.
+    // See playground/sentry-wrapper.ts.
+    sentryWrapper: {
+      import: `${PLAYGROUND}/sentry-wrapper.ts`,
+      filename: 'js/sentry-wrapper.js',
+    },
   },
   output: {
     path: `${PLAYGROUND}/target`,

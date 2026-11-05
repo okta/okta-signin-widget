@@ -134,9 +134,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // permission re-check; flipping it re-runs the transformers to swap in the
   // LNA remediation UI (WebView2 iframe enhancement). See OKTA-1135857.
   const [chromeLNADenied, setChromeLNADenied] = useState<boolean>(false);
-  // Set by the inline feedback form (terminal and error views) after a successful
-  // send; the view then swaps the form for the success message.
-  const [feedbackSent, setFeedbackSent] = useState<boolean>(false);
+  // The error-terminal transaction the inline feedback form was sent from; that
+  // view then swaps the form for the success message. Matched by identity, so any
+  // other view (including the next transaction, or a send that lands after the
+  // view changed) shows its own message + form.
+  const [feedbackSentFor, setFeedbackSentFor] = useState<IdxTransaction | undefined>();
+  const feedbackSent = Boolean(idxTransaction) && feedbackSentFor === idxTransaction;
   // Feedback UI renders only when enabled AND the wrapper's window.Sentry is
   // initialized. Checked once at mount: the wrapper loads before the widget.
   const [feedbackAvailable] = useState<boolean>(() => isFeedbackAvailable(feedback?.enabled));
@@ -281,11 +284,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // Derived value from idxTransaction
   const formBag = useMemo<FormBag>(() => {
     if (responseError) {
-      return transformUnhandledErrors(
-        widgetProps,
-        responseError,
-        { feedbackAvailable, feedbackSent },
-      );
+      return transformUnhandledErrors(widgetProps, responseError);
     }
 
     if (idxTransaction === undefined) {
@@ -382,12 +381,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   useEffect(() => {
     setChromeLNADenied(false);
   }, [idxTransaction]);
-
-  // A sent confirmation belongs to the view it was sent from: reset it on every
-  // new transaction or error so the next view shows its own message + form.
-  useEffect(() => {
-    setFeedbackSent(false);
-  }, [idxTransaction, responseError]);
 
   // update dataSchemaRef in context
   useEffect(() => {
@@ -548,14 +541,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
   }, [getDocumentTitle]);
 
-  // Error views (unhandled errors, error terminals) get the inline feedback form
-  // from their transformers; every other view gets the "Send feedback" link.
+  // Error terminals get the inline feedback form from their transformer; every
+  // other view (including unhandled errors) gets the "Send feedback" link.
   // Not under the bootstrap spinner (no form yet), and not on the redirect view,
   // which only flashes by.
-  const showFeedbackLink = feedbackAvailable && !responseError
+  const showFeedbackLink = useMemo(() => feedbackAvailable
     && uischema.elements.length > 0
     && !hasInlineFeedback(uischema)
-    && !uischema.elements.some(({ type }) => type === 'Redirect');
+    && !uischema.elements.some(({ type }) => type === 'Redirect'), [feedbackAvailable, uischema]);
 
   return (
     <WidgetContextProvider value={{
@@ -587,7 +580,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       chromeLNADenied,
       setChromeLNADenied,
       feedbackAvailable,
-      setFeedbackSent,
+      setFeedbackSentFor,
     }}
     >
       <OdysseyProvider
