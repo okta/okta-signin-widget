@@ -101,4 +101,22 @@ describe('SendFeedbackLink + SendFeedbackDialog', () => {
     await new Promise((resolve) => { setTimeout(resolve, 600); });
     expect(getByTestId('feedback-dialog')).toBeInTheDocument();
   });
+
+  // MUI rewrites these nodes' inline style from script; Session Replay must skip
+  // them or its style diff trips the sign-in page CSP (see REPLAY_BLOCK_ATTRIBUTES).
+  it('blocks Session Replay on the dialog nodes MUI restyles', async () => {
+    const user = userEvent.setup();
+    const { getByTestId, findByTestId } = renderLink();
+
+    await user.click(getByTestId('send-feedback-link'));
+    const dialog = await findByTestId('feedback-dialog');
+
+    expect(getByTestId('feedback-dialog-container')).toHaveAttribute('data-sentry-block');
+    expect(dialog.querySelector('.MuiBackdrop-root')).toHaveAttribute('data-sentry-block');
+    expect(dialog.querySelector('.MuiDialog-container')).toHaveAttribute('data-sentry-block');
+    // the multiline comment field and its hidden autosize mirror
+    dialog.querySelectorAll('textarea').forEach((textarea) => expect(textarea).toHaveAttribute('data-sentry-block'));
+    // the dialog's content itself isn't blocked
+    expect(dialog.querySelector('.MuiDialog-paper')).not.toHaveAttribute('data-sentry-block');
+  });
 });

@@ -16,3 +16,16 @@
  */
 export const OKTA_PRIVACY_POLICY_URL = 'https://www.okta.com/legal/privacy-policy/';
 export const OKTA_MASTER_SUBSCRIPTION_AGREEMENT_URL = 'https://www.okta.com/legal/';
+
+/**
+ * Sentry Session Replay (rrweb) doesn't record mutations of elements carrying
+ * this attribute. Set on the feedback UI elements whose inline `style` MUI
+ * rewrites from script (dialog fades, scroll lock, the multiline field's
+ * autosize): to diff a style change, rrweb calls `setAttribute('style', oldValue)`
+ * on a scratch element, which the sign-in page CSP (`style-src` with a nonce)
+ * blocks and reports. rrweb checks the mutated element itself, not its
+ * ancestors, so each one needs it. These elements show as blank placeholders in
+ * the replay.
+ */
+export const REPLAY_BLOCK_ATTRIBUTE = 'data-sentry-block';
+export const REPLAY_BLOCK_ATTRIBUTES = { [REPLAY_BLOCK_ATTRIBUTE]: '' } as const;

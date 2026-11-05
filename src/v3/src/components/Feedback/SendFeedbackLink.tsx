@@ -14,6 +14,7 @@ import {
   Box,
   Link as OdyLink,
   OdysseyThemeProvider,
+  ThemeOptions,
   useOdysseyDesignTokens,
 } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
@@ -21,7 +22,24 @@ import { useCallback, useState } from 'preact/hooks';
 
 import { useSendFeedback } from '../../hooks';
 import { loc } from '../../util';
+import { REPLAY_BLOCK_ATTRIBUTES } from './constants';
 import { SendFeedbackDialog } from './SendFeedbackDialog';
+
+// Keep Session Replay off the dialog's backdrop and container, whose fade
+// rewrites their inline style (see REPLAY_BLOCK_ATTRIBUTES). Odyssey's Dialog
+// doesn't take these props, so set them as MuiDialog defaults for this dialog:
+// BackdropProps land on the backdrop div, TransitionProps on the container div
+// (via Fade).
+const replayBlockedDialogTheme = {
+  components: {
+    MuiDialog: {
+      defaultProps: {
+        BackdropProps: REPLAY_BLOCK_ATTRIBUTES,
+        TransitionProps: REPLAY_BLOCK_ATTRIBUTES,
+      },
+    },
+  },
+} as ThemeOptions;
 
 /**
  * Persistent "Send feedback" trigger shown at the bottom of every view EXCEPT
@@ -68,13 +86,18 @@ export const SendFeedbackLink = (): h.JSX.Element | null => {
         {loc('feedback.sendFeedback', 'login')}
       </OdyLink>
       {/* Portal target kept inside #okta-sign-in so the scoped Odyssey overrides
-          apply to the portaled dialog. */}
+          apply to the portaled dialog. Replay-blocked (REPLAY_BLOCK_ATTRIBUTES):
+          MUI's scroll lock sets its inline overflow. */}
       <div
         ref={setDialogContainer}
         data-se="feedback-dialog-container"
+        data-sentry-block=""
       />
       {dialogContainer && (
-        <OdysseyThemeProvider shadowRootElement={dialogContainer}>
+        <OdysseyThemeProvider
+          shadowRootElement={dialogContainer}
+          themeOverride={replayBlockedDialogTheme}
+        >
           <SendFeedbackDialog
             isOpen={isOpen}
             onClose={close}

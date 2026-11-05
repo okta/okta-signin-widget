@@ -128,4 +128,15 @@ describe('TerminalFeedbackForm', () => {
 
     expect(getByText('feedback.description.hint')).toBeInTheDocument();
   });
+
+  // MUI rewrites the autosize mirror's inline style as the user types; Session Replay
+  // must skip it or its style diff trips the sign-in page CSP (see REPLAY_BLOCK_ATTRIBUTES).
+  it('blocks Session Replay on the comment field, and only there', () => {
+    const { container } = renderInForm();
+
+    const textareas = container.querySelectorAll('textarea');
+    expect(textareas).toHaveLength(2); // the field + MUI's hidden autosize mirror
+    textareas.forEach((textarea) => expect(textarea).toHaveAttribute('data-sentry-block'));
+    expect(container.querySelector('input[type="email"]')).not.toHaveAttribute('data-sentry-block');
+  });
 });
