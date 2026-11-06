@@ -14,6 +14,7 @@ import { IdxContext, IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
 import { act } from '@testing-library/preact';
 import {
   FormBag,
+  InfoboxElement,
   LinkElement,
   TitleElement,
   WidgetProps,
@@ -34,8 +35,19 @@ const getMockMessage = (message: string, className: string, key: string) => ({
   },
 });
 
+// Set by a test to make the mocked transformTerminalMessages render a callout of
+// that class, as the real one would (e.g. 'ERROR' for an error terminal).
+let mockCalloutClass: string | undefined;
 jest.mock('./transformTerminalMessages', () => ({
-  transformTerminalMessages: (transaction: IdxTransaction, formBag: FormBag) => formBag,
+  transformTerminalMessages: (transaction: IdxTransaction, formBag: FormBag) => {
+    if (mockCalloutClass) {
+      formBag.uischema.elements.push({
+        type: 'InfoBox',
+        options: { class: mockCalloutClass, message: { class: mockCalloutClass, message: 'msg' } },
+      } as InfoboxElement);
+    }
+    return formBag;
+  },
 }));
 
 jest.mock('./odaEnrollment/transformOdaEnrollment', () => ({
@@ -66,6 +78,7 @@ describe('Terminal Transaction Transformer Tests', () => {
   const mockBootstrapFn = jest.fn();
 
   beforeEach(() => {
+    mockCalloutClass = undefined;
     transaction = getStubTransaction(IdxStatus.TERMINAL);
     transaction.messages = [];
     widgetProps = {} as WidgetProps;
@@ -256,6 +269,63 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect(mockAuthClient.transactionManager.clear).toHaveBeenCalledTimes(1);
     expect(assignMock).toHaveBeenCalledTimes(1);
     expect(assignMock).toHaveBeenCalledWith(loginPath);
+  });
+
+  it('should insert the inline feedback form after the error callout, before the back link', () => {
+    mockCalloutClass = 'ERROR';
+    const formBag = transformTerminalTransaction(
+      transaction,
+      widgetProps,
+      mockBootstrapFn,
+      { feedbackAvailable: true },
+    );
+
+    expect(formBag.uischema.elements.map(({ type }) => type)).toEqual(['InfoBox', 'FeedbackForm', 'Link']);
+  });
+
+  it.each([
+    ['INFO'],
+    ['WARNING'],
+    ['SUCCESS'],
+  ])('should not add the inline feedback form on a non-error (%s) terminal', (calloutClass) => {
+    mockCalloutClass = calloutClass;
+    const formBag = transformTerminalTransaction(
+      transaction,
+      widgetProps,
+      mockBootstrapFn,
+      { feedbackAvailable: true },
+    );
+
+    expect(formBag.uischema.elements.some(({ type }) => type === 'FeedbackForm')).toBe(false);
+  });
+
+  it('should render only the success message and back link once feedback is sent', () => {
+    transaction.messages?.push(getMockMessage(
+      'There was an unsupported response from server.',
+      'ERROR',
+      'error.unsupported.response',
+    ));
+    const formBag = transformTerminalTransaction(
+      transaction,
+      widgetProps,
+      mockBootstrapFn,
+      { feedbackAvailable: true, feedbackSent: true },
+    );
+
+    const [successBox, backLink] = formBag.uischema.elements as [InfoboxElement, LinkElement];
+    expect(formBag.uischema.elements.length).toBe(2);
+    expect(successBox.type).toBe('InfoBox');
+    expect(successBox.options.class).toBe('SUCCESS');
+    expect(successBox.options.dataSe).toBe('feedback-terminal-success');
+    expect(backLink.type).toBe('Link');
+  });
+
+  it('should not add the inline feedback form when feedback is not available', () => {
+    // e.g. feedback.enabled but no Sentry wrapper: the Widget passes feedbackAvailable=false.
+    widgetProps = { feedback: { enabled: true } } as WidgetProps;
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+
+    expect(formBag.uischema.elements.some(({ type }) => type === 'FeedbackForm')).toBe(false);
   });
 
   it('should not add back to sign in link when cancel is not available', () => {

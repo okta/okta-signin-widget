@@ -154,6 +154,7 @@
     "@rollup/plugin-node-resolve": "^13.2.1",
     "@rollup/plugin-replace": "^4.0.0",
     "@rollup/plugin-strip": "^2.1.0",
+    "@sentry/browser": "7.80.0",
     "@sentry/cli": "^2.58.2",
     "@testcafe-community/axe": "^3.5.0",
     "@testing-library/testcafe": "^4.4.1",

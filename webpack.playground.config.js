@@ -56,7 +56,14 @@ module.exports = {
     level: 'warn',
   },
   entry: {
-    'playground.js': [`${PLAYGROUND}/main.ts`]
+    'playground.js': [`${PLAYGROUND}/main.ts`],
+    // Local-dev Sentry "wrapper" loaded by playground/index.html (shared with
+    // gen3). gen2 shows no feedback UI; this only keeps the script from 404ing.
+    // See playground/sentry-wrapper.ts.
+    sentryWrapper: {
+      import: `${PLAYGROUND}/sentry-wrapper.ts`,
+      filename: 'js/sentry-wrapper.js',
+    },
   },
   output: {
     path: `${PLAYGROUND}/target`,
@@ -115,6 +122,11 @@ module.exports = {
   devServer: {
     ...hotReloadOptions,
     host: HOST,
+    // When bound to a non-localhost host (e.g. OKTA_SIW_HOST=0.0.0.0 for a
+    // BrowserStack Local tunnel), also accept the tunnel's Host header
+    // (bs-local.com) which wds would otherwise reject with "Invalid Host
+    // header". Localhost dev keeps the default 'auto' allow-list.
+    ...(process.env.OKTA_SIW_HOST ? { allowedHosts: ['localhost', '.bs-local.com', HOST] } : {}),
     watchFiles: [...staticDirs],
     static: [
       ...staticDirs

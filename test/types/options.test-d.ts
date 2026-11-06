@@ -201,6 +201,9 @@ const signIn2 = new OktaSignIn({
   consent: {
     cancel: () => {}
   },
+  feedback: {
+    enabled: true,
+  },
 });
 expectType<OktaSignIn>(signIn2);
 

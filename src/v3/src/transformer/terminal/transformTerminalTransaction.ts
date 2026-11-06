@@ -44,6 +44,12 @@ import { redirectTransformer } from '../redirect';
 import { setFocusOnFirstElement } from '../uischema';
 import { createIdentifierContainer } from '../uischema/createIdentifierContainer';
 import { createForm } from '../utils';
+import {
+  createFeedbackFormElement,
+  createFeedbackSuccessElement,
+  hasErrorMessage,
+  InlineFeedbackOptions,
+} from './inlineFeedback';
 import { transformOdaEnrollment } from './odaEnrollment';
 import { transformMdmTerminalView } from './transformMdmTerminalView';
 import { transformTerminalMessages } from './transformTerminalMessages';
@@ -157,6 +163,7 @@ export const transformTerminalTransaction = (
   transaction: IdxTransaction,
   widgetProps: WidgetProps,
   bootstrapFn: () => Promise<void>,
+  { feedbackAvailable = false, feedbackSent = false }: InlineFeedbackOptions = {},
 ): FormBag => {
   const { authClient } = widgetProps;
 
@@ -208,9 +215,25 @@ export const transformTerminalTransaction = (
     }
   }
 
+  // After the inline feedback form is sent, the view collapses to just the
+  // confirmation + back link; the original terminal message is dropped.
+  if (feedbackAvailable && feedbackSent) {
+    formBag.uischema.elements.push(createFeedbackSuccessElement());
+    appendViewLinks(transaction, formBag.uischema, widgetProps, bootstrapFn);
+    setFocusOnFirstElement(formBag);
+    return formBag;
+  }
+
   appendTitleElement(formBag.uischema, messages);
 
   transformTerminalMessages(transaction, formBag);
+
+  // Error terminals get the inline feedback form, between the message and the
+  // back link. Other terminals (success, interstitial) get the "Send feedback"
+  // link from the Widget instead, like any other view.
+  if (feedbackAvailable && hasErrorMessage(formBag.uischema)) {
+    formBag.uischema.elements.push(createFeedbackFormElement());
+  }
 
   appendViewLinks(transaction, formBag.uischema, widgetProps, bootstrapFn);
 

@@ -31,6 +31,7 @@ import Checkbox from '../Checkbox';
 import ChromeDtcContainer from '../ChromeDtcContainer';
 import Divider from '../Divider';
 import DuoWindow from '../DuoWindow';
+import { TerminalFeedbackForm } from '../Feedback';
 import Heading from '../Heading';
 import HiddenInput from '../HiddenInput';
 import IdentifierContainer from '../IdentifierContainer';
@@ -206,6 +207,10 @@ export default [
   {
     tester: ({ type }) => type === 'Divider',
     renderer: Divider,
+  },
+  {
+    tester: ({ type }) => type === 'FeedbackForm',
+    renderer: TerminalFeedbackForm,
   },
   {
     tester: (element: FieldElement) => isRadioFieldElement(element),

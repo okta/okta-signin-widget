@@ -69,6 +69,13 @@ export type IWidgetContext = {
   // when the WebView2 iframe enhancement is enabled. See OKTA-1135857.
   chromeLNADenied: boolean;
   setChromeLNADenied: StateUpdater<boolean>;
+  // `feedback.enabled` AND an initialized wrapper `window.Sentry`, evaluated once
+  // at mount. Gates every feedback surface (link, dialog, inline form).
+  feedbackAvailable: boolean;
+  // Set by the inline feedback form (error terminals) after a successful send, to
+  // the transaction it was sent from. While that transaction is current, the
+  // transformer replaces the form with the confirmation; other views are unaffected.
+  setFeedbackSentFor: StateUpdater<IdxTransaction | undefined>;
 };
 
 // Stepper context

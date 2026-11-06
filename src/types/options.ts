@@ -116,6 +116,14 @@ export interface WidgetOptions
   recaptcha?: {
     scriptSource?: string;
   };
+  // User feedback -> Okta (Gen3 only). For the Okta-hosted sign-in page only: the
+  // feedback UI renders only when `enabled` is true AND the page runs Okta's own
+  // Sentry wrapper (`@okta/sentry-wrapper`, configured by Okta via
+  // `window.okta.sentry`). Setting it on an embedded widget has no effect, so
+  // feedback can never be sent to a host page's own Sentry project.
+  feedback?: {
+    enabled?: boolean;
+  };
 
   /**
    * @deprecated since version 7.0
