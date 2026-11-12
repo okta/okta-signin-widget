@@ -63,7 +63,7 @@ const AuthenticatorRow = View.extend({
   }
 });
 
-export default ListView.extend({
+const AuthenticatorVerifyList = ListView.extend({
 
   className: 'authenticator-verify-list authenticator-list',
 
@@ -75,7 +75,55 @@ export default ListView.extend({
     this.listenTo(this.collection,'selectAuthenticator', this.handleSelect);
     this.listenTo(this.model, 'invalid', this.handleModelInvalid);
   },
+
+  postRender: function() {
+    ListView.prototype.postRender.apply(this, arguments);
+    // When the list mixes phishing resistant and other methods, the others are collapsed
+    // under a "More options" toggle.
+    const moreCollection = this.options.moreCollection;
+    if (!moreCollection || !moreCollection.length) {
+      return;
+    }
+    this.renderMoreOptions(moreCollection);
+  },
   
+  renderMoreOptions(moreCollection) {
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'authenticator-more-options-toggle';
+    toggle.setAttribute('aria-expanded', 'false');
+    const containerId = `authenticator-more-options-${this.cid}`;
+    toggle.setAttribute('aria-controls', containerId);
+    toggle.setAttribute('data-se', 'authenticator-more-options-toggle');
+    toggle.textContent = loc('oie.select.authenticators.verify.more.options', 'login');
+    const container = document.createElement('div');
+    container.id = containerId;
+    container.className = 'authenticator-more-options';
+    container.hidden = true;
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      container.hidden = expanded;
+    });
+    // Gray wrapper around the toggle and the collapsed list
+    this.el.appendChild(Object.assign(document.createElement('div'), {
+      className: 'authenticator-more-options-group',
+    })).append(toggle, container);
+    const moreList = new AuthenticatorVerifyList({
+      model: this.model,
+      collection: moreCollection,
+      name: this.options.name,
+      appState: this.options.appState,
+    });
+    container.appendChild(moreList.render().el);
+    this.moreList = moreList;
+  },
+
+  remove() {
+    this.moreList?.remove();
+    return ListView.prototype.remove.apply(this, arguments);
+  },
+
   handleModelInvalid(data, error) {
     if (this.options.name in error && !this.model.get(this.options.name)) {
       this.showAuthenticatorRequiredError();
@@ -104,3 +152,5 @@ export default ListView.extend({
   template: hbs`<div class="list-content"> </div>`,
 
 });
+
+export default AuthenticatorVerifyList;

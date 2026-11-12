@@ -2,7 +2,11 @@
 import { Collection } from '@okta/courage';
 import { BaseForm } from '../../internals';
 import AuthenticatorVerifyOptions from '../../components/AuthenticatorVerifyOptions';
-import { getAuthenticatorDataForVerification } from '../../utils/AuthenticatorUtil';
+import {
+  getAuthenticatorDataForVerification,
+  isPhishingResistantMethod,
+  partitionPhishingResistant,
+} from '../../utils/AuthenticatorUtil';
 import { Body as SelectAuthenticatorVerifyViewBody } from '../SelectAuthenticatorVerifyView';
 import { AUTHENTICATOR_KEY } from '../../../ion/RemediationConstants';
 
@@ -18,11 +22,24 @@ const Body = SelectAuthenticatorVerifyViewBody.extend({
       return Object.assign({}, option, getAuthenticatorDataForVerification({authenticatorKey:
             this.isOV() ? AUTHENTICATOR_KEY.OV : AUTHENTICATOR_KEY.CUSTOM_APP, value: { methodType: option.value } }));
     });
+    // Phishing resistant methods first; the rest are collapsed under "More options".
+    // Only grouped when the list has both kinds, otherwise the list is flat as before.
+    const authenticators = this.options.appState.get('idx')?.rawIdxState?.authenticators?.value;
+    const authenticatorId = this.options.currentViewState?.value
+      ?.find(v => v.name === 'authenticator')?.form?.value?.find(v => v.name === 'id')?.value;
+    const flagged = methodOptions.map(option => ({
+      ...option,
+      phishingResistant: isPhishingResistantMethod({
+        authenticators, authenticatorId, methodType: option.value,
+      }),
+    }));
+    const { items, moreItems } = partitionPhishingResistant(flagged);
     return [{
       View: AuthenticatorVerifyOptions,
       options: {
         name: methodsSchema.name,
-        collection: new Collection(methodOptions),
+        collection: new Collection(items),
+        ...(moreItems ? { moreCollection: new Collection(moreItems) } : {}),
       }
     }];
   },

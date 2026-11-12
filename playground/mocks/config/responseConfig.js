@@ -88,6 +88,8 @@ const idx = {
     // 'authenticator-verification-phone-voice',
     // 'authenticator-verification-security-question',
     // 'authenticator-verification-select-authenticator',
+    // 'authenticator-verification-select-authenticator-phishing-resistant',
+    // 'user-unlock-account-choose-auth-phishing-resistant',
     // 'authenticator-verification-select-authenticator-ov-m2',
     // 'authenticator-verification-webauthn',
     // 'authenticator-reset-password',
@@ -156,6 +158,7 @@ const idx = {
   ],
   '/idp/idx/identify': [
     // 'authenticator-verification-data-ov-only-without-device-known',
+    // 'authenticator-verification-data-ov-phishing-resistant',
     'authenticator-verification-email',
     // 'authenticator-enroll-select-authenticator',
     // 'authenticator-verification-email-without-emailmagiclink',

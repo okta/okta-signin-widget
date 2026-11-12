@@ -52,6 +52,10 @@ jest.mock('./utils', () => ({
   getAuthenticatorVerifyButtonElements: (
     options: IdxOption[],
   ) => (options?.length ? getMockAuthenticatorButtons() : []),
+  getAuthenticatorVerifyListElements: (buttons: unknown[]) => [{
+    type: 'AuthenticatorButtonList',
+    options: { buttons, dataSe: 'authenticator-verify-list' },
+  }],
 }));
 
 describe('Unlock Verification Authenticator Selector Tests', () => {

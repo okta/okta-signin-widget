@@ -33,6 +33,7 @@ const Accordion: FunctionComponent<AccordionProps> = ({ uischema }) => {
             key={element.key}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...(!(element).noMargin && { marginBlockEnd: tokens.Spacing4 })}
+            className={element.options.styleVariant === 'more-options' ? 'siw-more-options' : undefined}
           >
             <OdyAccordion
               label={element.options.summary}

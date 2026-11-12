@@ -435,6 +435,33 @@ export function getAuthenticatorDataForVerification(authenticator) {
   return getAuthenticatorData(authenticator, true);
 }
 
+/**
+ * Whether the backend marks an authenticator method as phishing resistant
+ * (`phishingResistantCapable` on top-level `authenticators[].methods[]`, joined by authenticator id).
+ * Relies only on the backend flag; `deviceKnown` is deliberately ignored (including for FastPass).
+ * Keep in sync with src/v3/src/transformer/selectAuthenticator/phishingResistant.ts.
+ */
+export function isPhishingResistantMethod({ authenticators, authenticatorId, methodType }) {
+  const methods = authenticators?.find(({ id }) => id === authenticatorId)?.methods || [];
+  return methodType
+    ? methods.some((m) => m.type === methodType && m.phishingResistantCapable === true)
+    : methods.some((m) => m.phishingResistantCapable === true);
+}
+
+/**
+ * Splits verify options into phishing resistant ones (listed first) and the rest (collapsed under
+ * "More options"). Returns a single flat list when the list has only one kind.
+ * @param {Array} items options carrying a `phishingResistant` flag
+ * @returns {{ items: Array, moreItems?: Array }}
+ */
+export function partitionPhishingResistant(items) {
+  const phishingResistant = items.filter(item => item.phishingResistant);
+  const others = items.filter(item => !item.phishingResistant);
+  return phishingResistant.length > 0 && others.length > 0
+    ? { items: phishingResistant, moreItems: others }
+    : { items };
+}
+
 export function getIconClassNameForBeacon(authenticatorKey, idvName, displayName) {
   // Handle WebAuthn with Passkeys displayName
   if (authenticatorKey === AUTHENTICATOR_KEY.WEBAUTHN &&
