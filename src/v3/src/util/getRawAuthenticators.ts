@@ -16,6 +16,6 @@ import { IdxAuthenticator, IdxTransaction } from '@okta/okta-auth-js';
 export const getRawAuthenticators = (
   transaction: IdxTransaction,
 ): IdxAuthenticator[] | undefined => (
-  // @ts-ignore authenticators missing from rawIdxState type
+  // @ts-expect-error authenticators missing from rawIdxState type
   transaction.rawIdxState?.authenticators?.value
 );

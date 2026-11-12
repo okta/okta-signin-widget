@@ -31,15 +31,14 @@ describe('v2/view-builder/components/AuthenticatorVerifyOptions', function() {
     expect(container.hidden).toBe(true);
   });
 
-  it('uses a unique container id per list and removes the nested list', () => {
+  it('uses a unique container id per list and renders the nested list inside the container', () => {
     const a = createView(new Collection([{ label: 'Phone', value: {} }]));
     const b = createView(new Collection([{ label: 'Phone', value: {} }]));
     a.render();
     b.render();
     expect(a.el.querySelector('.authenticator-more-options').id)
       .not.toBe(b.el.querySelector('.authenticator-more-options').id);
-    const removeSpy = jest.spyOn(a.moreList, 'remove');
-    a.remove();
-    expect(removeSpy).toHaveBeenCalled();
+    expect(a.el.querySelectorAll('.authenticator-more-options .authenticator-row').length).toBe(1);
+    expect(a.el.querySelectorAll('.authenticator-more-options-toggle').length).toBe(1);
   });
 });

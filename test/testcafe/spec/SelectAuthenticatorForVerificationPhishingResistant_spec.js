@@ -6,6 +6,10 @@ import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticato
 import xhrSelectAuthenticatorsPhishingResistant from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-phishing-resistant';
 import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
 
+import xhrOktaVerifyMethodsPhishingResistant from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-ov-phishing-resistant';
+import xhrOktaVerifyMethodsNoFlag from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-ov-only-without-device-known';
+import xhrUnlockAccountPhishingResistant from '../../../playground/mocks/data/idp/idx/user-unlock-account-choose-auth-phishing-resistant';
+
 const mockPhishingResistant = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorsPhishingResistant);
@@ -13,6 +17,18 @@ const mockPhishingResistant = RequestMock()
 const mockNoFlag = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticators);
+
+const mockOktaVerifyMethodsPhishingResistant = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrOktaVerifyMethodsPhishingResistant);
+
+const mockOktaVerifyMethodsNoFlag = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrOktaVerifyMethodsNoFlag);
+
+const mockUnlockAccountPhishingResistant = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrUnlockAccountPhishingResistant);
 
 fixture('Select Authenticator for verification - phishing resistant first');
 
@@ -60,4 +76,46 @@ test.requestHooks(mockNoFlag)('keeps a flat list when the backend sends no phish
 
   await t.expect(toggle.exists).notOk();
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
+});
+
+test.requestHooks(mockOktaVerifyMethodsPhishingResistant)('Okta Verify method picker lists FastPass first and collapses push and TOTP', async t => {
+  const selectFactorPage = await setup(t);
+  const toggle = getMoreOptionsToggle(selectFactorPage);
+
+  await t.expect(toggle.exists).ok();
+  await t.expect(toggle.getAttribute('aria-expanded')).eql('false');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(0))
+    .eql(userVariables.gen3 ? 'Okta Verify' : 'Use Okta FastPass');
+  // Gen3 does not render collapsed buttons; v2 renders them hidden
+  await t.expect(selectFactorPage.getFactorsCount()).eql(userVariables.gen3 ? 1 : 3);
+
+  await t.click(toggle);
+  await t.expect(toggle.getAttribute('aria-expanded')).eql('true');
+  await t.expect(selectFactorPage.getFactorsCount()).eql(3);
+  await t.expect(selectFactorPage.getFactorButtons().nth(1).visible).ok();
+  await t.expect(selectFactorPage.getFactorButtons().nth(2).visible).ok();
+});
+
+test.requestHooks(mockOktaVerifyMethodsNoFlag)('Okta Verify method picker stays flat when the backend sends no flag', async t => {
+  const selectFactorPage = await setup(t);
+  const toggle = getMoreOptionsToggle(selectFactorPage);
+
+  await t.expect(toggle.exists).notOk();
+  await t.expect(selectFactorPage.getFactorsCount()).eql(3);
+});
+
+test.requestHooks(mockUnlockAccountPhishingResistant)('unlock account lists phishing resistant methods first and collapses the rest', async t => {
+  const selectFactorPage = await setup(t);
+  const toggle = getMoreOptionsToggle(selectFactorPage);
+  const emailLabel = within(selectFactorPage.form.el).queryByText('Email');
+
+  await t.expect(toggle.exists).ok();
+  await t.expect(toggle.getAttribute('aria-expanded')).eql('false');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(0))
+    .eql(userVariables.gen3 ? 'Security Key or Biometric Authenticator' : 'Security Key or Biometric');
+  await t.expect(emailLabel.visible).notOk();
+
+  await t.click(toggle);
+  await t.expect(toggle.getAttribute('aria-expanded')).eql('true');
+  await t.expect(emailLabel.visible).ok();
 });

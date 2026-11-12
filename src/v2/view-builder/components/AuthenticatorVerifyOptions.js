@@ -63,6 +63,43 @@ const AuthenticatorRow = View.extend({
   }
 });
 
+const AuthenticatorMoreOptions = View.extend({
+
+  className: 'authenticator-more-options-group',
+
+  template: hbs`
+    <button type="button" class="authenticator-more-options-toggle" aria-expanded="false"
+      aria-controls="{{containerId}}" data-se="authenticator-more-options-toggle">
+      {{i18n code="oie.select.authenticators.verify.more.options" bundle="login"}}
+    </button>
+    <div id="{{containerId}}" class="authenticator-more-options" hidden></div>
+  `,
+
+  events: {
+    'click .authenticator-more-options-toggle': 'toggle',
+  },
+
+  getTemplateData() {
+    return { containerId: `authenticator-more-options-${this.cid}` };
+  },
+
+  initialize() {
+    View.prototype.initialize.apply(this, arguments);
+    const { ListViewClass, ...listOptions } = this.options;
+    this.add(ListViewClass, {
+      selector: '.authenticator-more-options',
+      options: listOptions,
+    });
+  },
+
+  toggle() {
+    const $toggle = this.$('.authenticator-more-options-toggle');
+    const expanded = $toggle.attr('aria-expanded') === 'true';
+    $toggle.attr('aria-expanded', String(!expanded));
+    this.$('.authenticator-more-options').prop('hidden', expanded);
+  },
+});
+
 const AuthenticatorVerifyList = ListView.extend({
 
   className: 'authenticator-verify-list authenticator-list',
@@ -81,47 +118,20 @@ const AuthenticatorVerifyList = ListView.extend({
     // When the list mixes phishing resistant and other methods, the others are collapsed
     // under a "More options" toggle.
     const moreCollection = this.options.moreCollection;
-    if (!moreCollection || !moreCollection.length) {
-      return;
+    if (moreCollection && moreCollection.length) {
+      // Courage merges the parent's options into children, so clear moreCollection to stop the
+      // nested list from grouping again.
+      this.add(AuthenticatorMoreOptions, {
+        options: {
+          ListViewClass: AuthenticatorVerifyList,
+          moreCollection: null,
+          model: this.model,
+          collection: moreCollection,
+          name: this.options.name,
+          appState: this.options.appState,
+        },
+      });
     }
-    this.renderMoreOptions(moreCollection);
-  },
-  
-  renderMoreOptions(moreCollection) {
-    const toggle = document.createElement('button');
-    toggle.type = 'button';
-    toggle.className = 'authenticator-more-options-toggle';
-    toggle.setAttribute('aria-expanded', 'false');
-    const containerId = `authenticator-more-options-${this.cid}`;
-    toggle.setAttribute('aria-controls', containerId);
-    toggle.setAttribute('data-se', 'authenticator-more-options-toggle');
-    toggle.textContent = loc('oie.select.authenticators.verify.more.options', 'login');
-    const container = document.createElement('div');
-    container.id = containerId;
-    container.className = 'authenticator-more-options';
-    container.hidden = true;
-    toggle.addEventListener('click', () => {
-      const expanded = toggle.getAttribute('aria-expanded') === 'true';
-      toggle.setAttribute('aria-expanded', String(!expanded));
-      container.hidden = expanded;
-    });
-    // Gray wrapper around the toggle and the collapsed list
-    this.el.appendChild(Object.assign(document.createElement('div'), {
-      className: 'authenticator-more-options-group',
-    })).append(toggle, container);
-    const moreList = new AuthenticatorVerifyList({
-      model: this.model,
-      collection: moreCollection,
-      name: this.options.name,
-      appState: this.options.appState,
-    });
-    container.appendChild(moreList.render().el);
-    this.moreList = moreList;
-  },
-
-  remove() {
-    this.moreList?.remove();
-    return ListView.prototype.remove.apply(this, arguments);
   },
 
   handleModelInvalid(data, error) {
