@@ -286,7 +286,7 @@ $authenticator-focus-outline: #1662dd;
 }
 
 .authenticator-more-options {
-  padding: 8px 24px 24px;
+  padding: 8px 16px 16px;
 
   .authenticator-row {
     @include authenticator-card(#fff);
@@ -300,6 +300,16 @@ $authenticator-focus-outline: #1662dd;
     .authenticator-description {
       flex: 1;
       min-width: 0;
+
+      > div {
+        margin: 0 2px;
+      }
+    }
+
+    // Keep the icon vertically centered on multi-line rows and give the label more room
+    .authenticator-icon-container {
+      align-self: center;
+      margin-right: 12px;
     }
 
     // The default fixed label width would push the Select button outside the card
