@@ -41,4 +41,36 @@ describe('v2/view-builder/components/AuthenticatorVerifyOptions', function() {
     expect(a.el.querySelectorAll('.authenticator-more-options .authenticator-row').length).toBe(1);
     expect(a.el.querySelectorAll('.authenticator-more-options-toggle').length).toBe(1);
   });
+
+  describe('grouped list', () => {
+    const createGrouped = (moreItems) => {
+      const model = new Model();
+      const view = new AuthenticatorVerifyOptions({
+        model,
+        name: 'authenticator',
+        appState: { trigger: jest.fn() },
+        collection: new Collection([{ label: 'Security Key', value: {} }]),
+        moreCollection: new Collection(moreItems),
+      });
+      return { model, view };
+    };
+
+    it('does not duplicate the "More options" group or rows when rendered again', () => {
+      const { view } = createGrouped([{ label: 'Phone', value: {} }, { label: 'Email', value: {} }]);
+      view.render();
+      view.render();
+      expect(view.el.querySelectorAll('.authenticator-more-options-group').length).toBe(1);
+      expect(view.el.querySelectorAll('.authenticator-more-options-toggle').length).toBe(1);
+      expect(view.el.querySelectorAll('.authenticator-row').length).toBe(3);
+    });
+
+    it('shows a single "required" error that counts methods in both lists', () => {
+      const { model, view } = createGrouped([{ label: 'Phone', value: {} }]);
+      view.render();
+      const errors = [];
+      model.on('error', (m, resp) => errors.push(resp.responseJSON.errorSummary));
+      model.trigger('invalid', model, { authenticator: 'required' });
+      expect(errors).toEqual(['To unlock your account, select one of the following authenticators.']);
+    });
+  });
 });

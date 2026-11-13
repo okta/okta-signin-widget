@@ -106,25 +106,27 @@ const AuthenticatorVerifyList = ListView.extend({
 
   item: AuthenticatorRow,
 
-  itemSelector: '.list-content',
+  itemSelector: '> .list-content',
 
   initialize: function() {
     this.listenTo(this.collection,'selectAuthenticator', this.handleSelect);
-    this.listenTo(this.model, 'invalid', this.handleModelInvalid);
-  },
+    // The nested "More options" list shares the model; only the primary list reports validation errors
+    // so the message is shown once and counts the methods of both lists.
+    if (!this.options.isMoreOptionsList) {
+      this.listenTo(this.model, 'invalid', this.handleModelInvalid);
+    }
 
-  postRender: function() {
-    ListView.prototype.postRender.apply(this, arguments);
     // When the list mixes phishing resistant and other methods, the others are collapsed
-    // under a "More options" toggle.
+    // under a "More options" toggle. Added once here (not in postRender) so re-renders don't duplicate it.
     const moreCollection = this.options.moreCollection;
     if (moreCollection && moreCollection.length) {
-      // Courage merges the parent's options into children, so clear moreCollection to stop the
-      // nested list from grouping again.
       this.add(AuthenticatorMoreOptions, {
         options: {
           ListViewClass: AuthenticatorVerifyList,
+          // Courage merges the parent's options into children, so clear moreCollection to stop the
+          // nested list from grouping again.
           moreCollection: null,
+          isMoreOptionsList: true,
           model: this.model,
           collection: moreCollection,
           name: this.options.name,
@@ -141,7 +143,8 @@ const AuthenticatorVerifyList = ListView.extend({
   },
 
   showAuthenticatorRequiredError() {
-    const errorSummary = this.collection.length > 1
+    const total = this.collection.length + (this.options.moreCollection?.length || 0);
+    const errorSummary = total > 1
       ? loc('account.unlock.authenticatorRequired.multiple', 'login')
       : loc('account.unlock.authenticatorRequired.single', 'login');
     this.model.trigger('error', this.model, { responseJSON: { errorSummary } });

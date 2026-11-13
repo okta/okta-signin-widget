@@ -244,7 +244,6 @@ $authenticator-focus-outline: #1662dd;
   color: $authenticator-more-options-text;
   font-size: 14px;
   font-weight: 400;
-  gap: 20px;
   padding: 24px 32px;
   text-align: left;
   width: 100%;
@@ -254,6 +253,7 @@ $authenticator-focus-outline: #1662dd;
     content: '';
     flex: 1;
     height: 2px;
+    margin: 0 20px;
     order: 1;
   }
 

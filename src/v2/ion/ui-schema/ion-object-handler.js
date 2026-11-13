@@ -70,12 +70,12 @@ export function createOVOptions(options = []) {
  * Whether the backend marks this option's method as phishing resistant
  * (`phishingResistantCapable` on top-level `authenticators[].methods[]`, joined by authenticator id).
  */
-function isPhishingResistantOption(option, valueObject, authenticators) {
-  // Join on the option's form `id` (the authenticator id). `relatesTo.id` is an enrollment id for
-  // most authenticators, which differs from `authenticators[].id`.
+function isPhishingResistantOption(valueObject, authenticators) {
+  // Join on the option's form `id` (the authenticator id), not `relatesTo.id`, which is an
+  // enrollment id for most authenticators and differs from `authenticators[].id`.
   return isPhishingResistantMethod({
     authenticators,
-    authenticatorId: valueObject.id ?? option.relatesTo?.id,
+    authenticatorId: valueObject.id,
     methodType: valueObject.methodType,
   });
 }
@@ -116,7 +116,7 @@ function createAuthenticatorOptions(options = [], { isEnroll = false, authentica
     }
     // Verify only: flag phishing resistant methods so the view can list them first.
     if (Array.isArray(authenticators)
-      && isPhishingResistantOption(option, valueObject, authenticators)) {
+      && isPhishingResistantOption(valueObject, authenticators)) {
       surfaced.phishingResistant = true;
     }
     return surfaced;
