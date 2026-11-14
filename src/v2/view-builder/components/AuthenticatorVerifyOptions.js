@@ -63,19 +63,79 @@ const AuthenticatorRow = View.extend({
   }
 });
 
-export default ListView.extend({
+const AuthenticatorMoreOptions = View.extend({
+
+  className: 'authenticator-more-options-group',
+
+  template: hbs`
+    <button type="button" class="authenticator-more-options-toggle" aria-expanded="false"
+      aria-controls="{{containerId}}" data-se="authenticator-more-options-toggle">
+      {{i18n code="oie.select.authenticators.verify.more.options" bundle="login"}}
+    </button>
+    <div id="{{containerId}}" class="authenticator-more-options" hidden></div>
+  `,
+
+  events: {
+    'click .authenticator-more-options-toggle': 'toggle',
+  },
+
+  getTemplateData() {
+    return { containerId: `authenticator-more-options-${this.cid}` };
+  },
+
+  initialize() {
+    View.prototype.initialize.apply(this, arguments);
+    const { ListViewClass, ...listOptions } = this.options;
+    this.add(ListViewClass, {
+      selector: '.authenticator-more-options',
+      options: listOptions,
+    });
+  },
+
+  toggle() {
+    const $toggle = this.$('.authenticator-more-options-toggle');
+    const expanded = $toggle.attr('aria-expanded') === 'true';
+    $toggle.attr('aria-expanded', String(!expanded));
+    this.$('.authenticator-more-options').prop('hidden', expanded);
+  },
+});
+
+const AuthenticatorVerifyList = ListView.extend({
 
   className: 'authenticator-verify-list authenticator-list',
 
   item: AuthenticatorRow,
 
-  itemSelector: '.list-content',
+  itemSelector: '> .list-content',
 
   initialize: function() {
     this.listenTo(this.collection,'selectAuthenticator', this.handleSelect);
-    this.listenTo(this.model, 'invalid', this.handleModelInvalid);
+    // The nested "More options" list shares the model; only the primary list reports validation errors
+    // so the message is shown once and counts the methods of both lists.
+    if (!this.options.isMoreOptionsList) {
+      this.listenTo(this.model, 'invalid', this.handleModelInvalid);
+    }
+
+    // When the list mixes phishing resistant and other methods, the others are collapsed
+    // under a "More options" toggle. Added once here (not in postRender) so re-renders don't duplicate it.
+    const moreCollection = this.options.moreCollection;
+    if (moreCollection && moreCollection.length) {
+      this.add(AuthenticatorMoreOptions, {
+        options: {
+          ListViewClass: AuthenticatorVerifyList,
+          // Courage merges the parent's options into children, so clear moreCollection to stop the
+          // nested list from grouping again.
+          moreCollection: null,
+          isMoreOptionsList: true,
+          model: this.model,
+          collection: moreCollection,
+          name: this.options.name,
+          appState: this.options.appState,
+        },
+      });
+    }
   },
-  
+
   handleModelInvalid(data, error) {
     if (this.options.name in error && !this.model.get(this.options.name)) {
       this.showAuthenticatorRequiredError();
@@ -83,7 +143,8 @@ export default ListView.extend({
   },
 
   showAuthenticatorRequiredError() {
-    const errorSummary = this.collection.length > 1
+    const total = this.collection.length + (this.options.moreCollection?.length || 0);
+    const errorSummary = total > 1
       ? loc('account.unlock.authenticatorRequired.multiple', 'login')
       : loc('account.unlock.authenticatorRequired.single', 'login');
     this.model.trigger('error', this.model, { responseJSON: { errorSummary } });
@@ -104,3 +165,5 @@ export default ListView.extend({
   template: hbs`<div class="list-content"> </div>`,
 
 });
+
+export default AuthenticatorVerifyList;

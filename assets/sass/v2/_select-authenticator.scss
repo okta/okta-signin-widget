@@ -13,6 +13,23 @@
   }
 }
 
+// Shared look for authenticator cards (N-of-M group card, "More options" rows).
+$authenticator-card-border-color: #e0e0e0;
+$authenticator-card-radius: 6px;
+$authenticator-card-padding: 12px;
+// Keep in sync with the v3 "More options" styles in src/v3/src/components/Widget/style.scss.
+$authenticator-more-options-bg: #f4f4f4;
+$authenticator-more-options-divider: #cbcbcb;
+$authenticator-more-options-text: #4b4b4b;
+$authenticator-focus-outline: #1662dd;
+
+@mixin authenticator-card($background) {
+  border: 1px solid $authenticator-card-border-color;
+  background-color: $background;
+  border-radius: $authenticator-card-radius;
+  padding: $authenticator-card-padding;
+}
+
 .authenticator-enroll-list,
 .authenticator-enroll-list-container {
   .authenticator-description {
@@ -168,10 +185,7 @@
 // .authenticator-row markup inside is unchanged; group cards nest under the
 // section's .authenticator-enroll-list.
 .authenticator-enroll-group-card {
-  border: 1px solid #e0e0e0;
-  background-color: #f3f3f3;
-  border-radius: 6px;
-  padding: 12px;
+  @include authenticator-card(#f3f3f3);
   margin-bottom: 24px;
 
   .authenticator-enroll-group-card__label {
@@ -217,5 +231,100 @@
   // the card supplies its own outer margin.
   .authenticator-row:last-child {
     margin-bottom: 0;
+  }
+}
+
+.authenticator-more-options-toggle {
+  align-items: center;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  color: $authenticator-more-options-text;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 24px 32px;
+  text-align: left;
+  width: 100%;
+
+  &::before {
+    background: $authenticator-more-options-divider;
+    content: '';
+    flex: 1;
+    height: 2px;
+    margin: 0 20px;
+    order: 1;
+  }
+
+  &::after {
+    order: 2;
+    border-bottom: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+    content: '';
+    height: 7px;
+    margin-right: 4px;
+    transform: rotate(45deg);
+    transition: transform 0.15s ease;
+    width: 7px;
+  }
+
+  &[aria-expanded='true']::after {
+    transform: rotate(-135deg);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $authenticator-focus-outline;
+    outline-offset: 2px;
+  }
+}
+
+.authenticator-more-options-group {
+  background: $authenticator-more-options-bg;
+  border-radius: 8px;
+  margin: 32px 0;
+}
+
+.authenticator-more-options {
+  padding: 8px 16px 16px;
+
+  .authenticator-row {
+    @include authenticator-card(#fff);
+    box-sizing: border-box;
+    margin-bottom: 16px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .authenticator-description {
+      flex: 1;
+      min-width: 0;
+
+      > div {
+        margin: 0 2px;
+      }
+    }
+
+    // Keep the icon vertically centered on multi-line rows and give the label more room
+    .authenticator-icon-container {
+      align-self: center;
+      margin-right: 12px;
+    }
+
+    // The default fixed label width would push the Select button outside the card
+    .authenticator-label {
+      width: auto;
+    }
+
+    // Label block fills the row so the Select button is right-aligned in every card
+    .authenticator-description > div:first-child {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .authenticator-description .authenticator-button {
+      margin-left: auto;
+    }
   }
 }

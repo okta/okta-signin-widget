@@ -677,6 +677,38 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
     });
   });
 
+  describe('authenticatorVerifySelect phishing resistant grouping', function() {
+    const item = (key, phishingResistant) => ({
+      label: key,
+      authenticatorKey: key,
+      value: { id: key },
+      ...(phishingResistant ? { phishingResistant } : {}),
+    });
+    const create = (options) => FormInputFactory.create({
+      type: 'authenticatorVerifySelect',
+      name: 'authenticator',
+      options,
+    });
+
+    it('splits phishing resistant options from the rest when both exist', function() {
+      const { options } = create([item('okta_password'), item('webauthn', true)]);
+      expect(options.collection.pluck('authenticatorKey')).toEqual(['webauthn']);
+      expect(options.moreCollection.pluck('authenticatorKey')).toEqual(['okta_password']);
+    });
+
+    it('keeps a flat list when none are phishing resistant', function() {
+      const { options } = create([item('okta_password'), item('okta_email')]);
+      expect(options.collection.length).toBe(2);
+      expect(options.moreCollection).toBeUndefined();
+    });
+
+    it('keeps a flat list when all are phishing resistant', function() {
+      const { options } = create([item('webauthn', true), item('custom_app', true)]);
+      expect(options.collection.length).toBe(2);
+      expect(options.moreCollection).toBeUndefined();
+    });
+  });
+
   it('filters custom app with same id for authenticatorVerify Select type', function() {
     const opt = {
       type: 'authenticatorVerifySelect',

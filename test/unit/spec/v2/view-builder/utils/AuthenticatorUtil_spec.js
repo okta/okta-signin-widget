@@ -6,6 +6,8 @@ import {
   getIconClassNameForBeacon,
   getWebAuthnTitle,
   getWebAuthnAdditionalInstructions,
+  isPhishingResistantMethod,
+  partitionPhishingResistant,
 } from 'v2/view-builder/utils/AuthenticatorUtil';
 import {
   getWebAuthnI18nKey,
@@ -347,6 +349,52 @@ describe('v2/utils/AuthenticatorUtil', function() {
       it('does not affect non-webauthn authenticators', function() {
         expect(getIconClassNameForBeacon('okta_email', undefined, WEBAUTHN_DISPLAY_NAMES.PASSKEYS)).toBe('mfa-okta-email');
       });
+    });
+  });
+
+  describe('phishing resistant helpers', () => {
+    const authenticators = [
+      { id: 'aut_webauthn', methods: [{ type: 'webauthn', phishingResistantCapable: true }] },
+      { id: 'okta_verify', methods: [
+        { type: 'push' }, { type: 'totp' }, { type: 'signed_nonce', phishingResistantCapable: true },
+      ] },
+    ];
+
+    it('joins on the authenticator id, not an enrollment id', () => {
+      expect(isPhishingResistantMethod({ authenticators, authenticatorId: 'aut_webauthn' })).toBe(true);
+      expect(isPhishingResistantMethod({ authenticators, authenticatorId: 'enrollment_id_1' })).toBe(false);
+    });
+
+    it('matches on method type', () => {
+      const args = { authenticators, authenticatorId: 'okta_verify' };
+      expect(isPhishingResistantMethod({ ...args, methodType: 'push' })).toBe(false);
+      expect(isPhishingResistantMethod({ ...args, methodType: 'signed_nonce' })).toBe(true);
+    });
+
+    it('ignores deviceKnown for FastPass', () => {
+      [true, false, undefined].forEach((deviceKnown) => {
+        expect(isPhishingResistantMethod({
+          authenticators, authenticatorId: 'okta_verify', methodType: 'signed_nonce', deviceKnown,
+        })).toBe(true);
+      });
+    });
+
+    it('returns false without authenticators', () => {
+      expect(isPhishingResistantMethod({ authenticatorId: 'x' })).toBe(false);
+    });
+
+    it('partitions mixed lists, keeping order', () => {
+      const a = { id: 'a', phishingResistant: true };
+      const b = { id: 'b' };
+      const c = { id: 'c', phishingResistant: true };
+      expect(partitionPhishingResistant([b, a, c])).toEqual({ items: [a, c], moreItems: [b] });
+    });
+
+    it('keeps a flat list when only one kind is present', () => {
+      const b = { id: 'b' };
+      expect(partitionPhishingResistant([b])).toEqual({ items: [b] });
+      const a = { id: 'a', phishingResistant: true };
+      expect(partitionPhishingResistant([a])).toEqual({ items: [a] });
     });
   });
 });

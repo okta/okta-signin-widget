@@ -438,6 +438,9 @@ export interface AuthenticatorButtonElement extends UISchemaElement {
     // N-of-M: opaque group affiliation surfaced from the wire so the transformer
     // can partition options into cards. Never rendered to end users.
     groupIds?: string[];
+    // Verify screens only: the backend marks this method as phishing resistant
+    // (`phishingResistantCapable` on the top-level `authenticators[].methods[]` entry).
+    phishingResistant?: boolean;
   };
 }
 
@@ -657,6 +660,9 @@ export interface AccordionPanelElement extends UISchemaElement {
   options: {
     id: string;
     summary: string;
+    // 'more-options': grey container with a divider line and chevron instead of the
+    // default underlined link style (see `.siw-more-options` in Widget/style.scss).
+    styleVariant?: 'more-options';
     content: Omit<UISchemaLayout, 'AccordionLayout'>;
   };
 }
