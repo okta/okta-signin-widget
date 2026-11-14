@@ -650,7 +650,6 @@ export const getAppAuthenticatorMethodButtonElements = (
 
   return markPhishingResistantButtons(
     reorderAuthenticatorButtons(authButtons, deviceKnown),
-    [],
     authenticators,
   );
 };
@@ -672,7 +671,6 @@ export const getAuthenticatorVerifyButtonElements = (
   authenticators?: IdxAuthenticator[],
 ):AuthenticatorButtonElement[] => markPhishingResistantButtons(
   getAuthenticatorButtonElements(authenticatorOptions, step),
-  authenticatorOptions,
   authenticators,
 );
 

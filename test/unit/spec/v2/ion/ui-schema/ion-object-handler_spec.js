@@ -41,6 +41,13 @@ describe('v2/ion/ui-schema/ion-object-handler phishing resistant flag', () => {
     expect(options.map(o => !!o.phishingResistant)).toEqual([false, true]);
   });
 
+  it('does not flag an option without a form id, even if relatesTo.id matches a capable authenticator', () => {
+    const noFormId = option('Key', 'wa', 'webauthn', 'webauthn');
+    noFormId.value.form.value = noFormId.value.form.value.filter(v => v.name !== 'id');
+    const { options } = build('select-authenticator-authenticate', [noFormId], authenticators);
+    expect(options[0].phishingResistant).toBeUndefined();
+  });
+
   it('flags FastPass regardless of deviceKnown', () => {
     [true, false].forEach((deviceKnown) => {
       const ovOptions = [option('OV', 'ov', 'okta_verify', 'signed_nonce', { deviceKnown })];

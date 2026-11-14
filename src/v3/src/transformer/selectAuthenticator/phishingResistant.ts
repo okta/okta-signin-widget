@@ -11,9 +11,7 @@
  */
 
 import { IdxAuthenticator } from '@okta/okta-auth-js';
-import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 
-import { AUTHENTICATOR_KEY } from '../../constants';
 import {
   AccordionLayout,
   AuthenticatorButtonElement,
@@ -37,7 +35,6 @@ type AuthenticatorMethodWithPhishingResistance = {
  */
 export const markPhishingResistantButtons = (
   buttons: AuthenticatorButtonElement[],
-  options: IdxOption[],
   authenticators?: IdxAuthenticator[],
 ): AuthenticatorButtonElement[] => {
   const hasAnyFlag = authenticators?.some((authenticator) => (
@@ -48,14 +45,13 @@ export const markPhishingResistantButtons = (
     return buttons;
   }
 
-  const ovRelatesTo = options
-    .find((option) => option.relatesTo?.key === AUTHENTICATOR_KEY.OV)?.relatesTo;
   return buttons.map((button) => {
     // Join on the option's form `id` (the authenticator id). `relatesTo.id` is an enrollment id for
-    // most authenticators, which differs from `authenticators[].id`.
-    const authenticatorId = button.options.actionParams?.['authenticator.id']
-      ?? (button.options.authenticator
-        ?? (button.options.key === AUTHENTICATOR_KEY.OV ? ovRelatesTo : undefined))?.id;
+    // most authenticators, which differs from `authenticators[].id`, so it is never used.
+    const authenticatorId = button.options.actionParams?.['authenticator.id'];
+    if (!authenticatorId) {
+      return button;
+    }
     const methodType = button.options.actionParams?.['authenticator.methodType'];
     const methods = (authenticators?.find(({ id }) => id === authenticatorId)?.methods
       ?? []) as AuthenticatorMethodWithPhishingResistance[];
