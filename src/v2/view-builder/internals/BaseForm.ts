@@ -27,6 +27,46 @@ export default Form.extend({
     'error': 'triggerAfterError',
   },
 
+  constructor(...args) {
+    Form.apply(this, args);
+    // Bound here rather than in `modelEvents`/`initialize`, which subclasses override.
+    this.listenTo(this.model, 'form:set-saving-state', this.disableInputsWhileSaving);
+    this.listenTo(this.model, 'form:clear-saving-state', this.restoreInputsAfterSaving);
+  },
+
+  /**
+   * The `o-form-saving` class only dims inputs and blocks pointer events, so an input that
+   * already has focus (e.g. the form was submitted with Enter) keeps accepting keystrokes
+   * while the request is in flight. Disable the inputs for real until the saving state clears.
+   * Only inputs enabled at this point are tracked, so intentionally disabled ones stay disabled.
+   */
+  disableInputsWhileSaving() {
+    // Saving state can be set more than once per submit (e.g. IdentifierView with device
+    // fingerprinting); keep the first snapshot so restore re-enables the right inputs.
+    if (this.inputsDisabledWhileSaving) {
+      return;
+    }
+    this.focusedBeforeSaving = document.activeElement;
+    this.inputsDisabledWhileSaving = this.$('.o-form-input :input:not(:disabled)');
+    this.inputsDisabledWhileSaving.prop('disabled', true);
+  },
+
+  restoreInputsAfterSaving() {
+    if (!this.inputsDisabledWhileSaving) {
+      return;
+    }
+    this.inputsDisabledWhileSaving.prop('disabled', false);
+    this.inputsDisabledWhileSaving = null;
+
+    // Disabling the focused input drops focus to <body>; put it back so keyboard and
+    // screen reader users don't lose their place when the form stays (e.g. on error).
+    const focused = this.focusedBeforeSaving;
+    this.focusedBeforeSaving = null;
+    if (focused && document.activeElement === document.body && this.el.contains(focused)) {
+      focused.focus();
+    }
+  },
+
   initialize() {
     const uiSchemas = this.getUISchema();
     const inputOptions = uiSchemas.map(FormInputFactory.create);
