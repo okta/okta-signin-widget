@@ -1,5 +1,16 @@
 import FormController from 'v2/controllers/FormController';
 
+// Stub module-level deps that handleSaveForm pulls in so we can exercise the
+// prototype method with a minimal fake `this` (no Backbone/view machinery).
+jest.mock('v2/ion/payloadTransformer', () => ({
+  __esModule: true,
+  default: jest.fn(() => ({})),
+}));
+jest.mock('util/CookieUtil', () => ({
+  __esModule: true,
+  default: { setUsernameCookie: jest.fn(), removeUsernameCookie: jest.fn() },
+}));
+
 describe('v2/controllers/FormController', () => {
   describe('handleSwitchForm', () => {
     let appState;
@@ -109,6 +120,108 @@ describe('v2/controllers/FormController', () => {
     it('still emits afterError when the form cannot restore inputs', () => {
       expect(callHandler(undefined).trigger).toHaveBeenCalledWith('afterError', expect.anything(), expect.anything());
       expect(callHandler({ form: {} }).trigger).toHaveBeenCalledWith('afterError', expect.anything(), expect.anything());
+    });
+  });
+
+  // OKTA-1152243 / OKTA-1272313: the widget resets a pinned auth-js flow to 'default'
+  // (and persists it to the saved transaction meta) at reset-authenticator for resetPassword
+  // and at enroll-profile for signup, so post-auth keep-me-signed-in — which is not part of
+  // PasswordRecoveryFlow / RegistrationFlow — does not make auth-js throw
+  // "No remediation can match current flow".
+  describe('handleSaveForm resets pinned flow for post-auth KMSI', () => {
+    let idx;
+    let authClient;
+    let savedMeta;
+
+    function runSaveForm(formName, flow) {
+      savedMeta = { flow, interactionHandle: 'abc' };
+      idx = {
+        getFlow: jest.fn(() => flow),
+        setFlow: jest.fn(),
+        getSavedTransactionMeta: jest.fn(() => savedMeta),
+        saveTransactionMeta: jest.fn(),
+        // reject to short-circuit right after the flow-reset block; the rejection
+        // is swallowed by handleSaveForm's try/catch -> showFormErrors (stubbed).
+        proceed: jest.fn(() => Promise.reject(new Error('stop-after-reset'))),
+      };
+      authClient = { idx };
+
+      const settings = {
+        get: jest.fn(() => false),
+        getAuthClient: jest.fn(() => authClient),
+        transformUsername: jest.fn((u) => u),
+      };
+      const appState = {
+        hasRemediationObject: jest.fn(() => true),
+        get: jest.fn((key) => (key === 'idx' ? { context: { stateHandle: 'x' } } : null)),
+      };
+      const model = {
+        get: jest.fn((key) => (key === 'formName' ? formName : undefined)),
+        trigger: jest.fn(),
+      };
+
+      const fakeThis = {
+        options: { settings, appState },
+        settings,
+        formView: { model, form: {} },
+        toggleFormButtonState: jest.fn(),
+        transformIdentifier: jest.fn((_formName, payload) => payload),
+        showFormErrors: jest.fn(() => Promise.resolve()),
+        handleIdxResponse: jest.fn(() => Promise.resolve()),
+      };
+
+      return FormController.prototype.handleSaveForm.call(fakeThis, model);
+    }
+
+    it('resets to default flow at reset-authenticator during resetPassword', async () => {
+      await runSaveForm('reset-authenticator', 'resetPassword');
+
+      expect(idx.setFlow).toHaveBeenCalledWith('default');
+      expect(idx.saveTransactionMeta).toHaveBeenCalledWith(
+        expect.objectContaining({ flow: 'default' }),
+      );
+      // the proceed call also carries flow: 'default'
+      expect(idx.proceed).toHaveBeenCalledWith(
+        expect.objectContaining({ step: 'reset-authenticator', flow: 'default' }),
+      );
+    });
+
+    it('resets to default flow at enroll-profile during signup', async () => {
+      await runSaveForm('enroll-profile', 'signup');
+
+      expect(idx.setFlow).toHaveBeenCalledWith('default');
+      expect(idx.saveTransactionMeta).toHaveBeenCalledWith(
+        expect.objectContaining({ flow: 'default' }),
+      );
+      expect(idx.proceed).toHaveBeenCalledWith(
+        expect.objectContaining({ step: 'enroll-profile', flow: 'default' }),
+      );
+    });
+
+    it('resets to default flow at enroll-profile during register', async () => {
+      await runSaveForm('enroll-profile', 'register');
+
+      expect(idx.setFlow).toHaveBeenCalledWith('default');
+      expect(idx.saveTransactionMeta).toHaveBeenCalledWith(
+        expect.objectContaining({ flow: 'default' }),
+      );
+    });
+
+    it('does NOT reset the flow for enroll-profile outside signup/register', async () => {
+      await runSaveForm('enroll-profile', 'default');
+
+      expect(idx.setFlow).not.toHaveBeenCalled();
+      expect(idx.saveTransactionMeta).not.toHaveBeenCalled();
+      expect(idx.proceed).toHaveBeenCalledWith(
+        expect.not.objectContaining({ flow: 'default' }),
+      );
+    });
+
+    it('does NOT reset the flow for a later registration step in signup', async () => {
+      await runSaveForm('enroll-authenticator', 'signup');
+
+      expect(idx.setFlow).not.toHaveBeenCalled();
+      expect(idx.saveTransactionMeta).not.toHaveBeenCalled();
     });
   });
 });
