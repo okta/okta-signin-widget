@@ -314,7 +314,7 @@ export const createThemeAndTokens = (
       },
       MuiLink: {
         styleOverrides: {
-          // OKTA-1030226 Odyssey only underlines links on hover; underline them by default
+          // Odyssey only underlines links on hover; underline them by default
           // so they are distinguishable without relying on color (WCAG 1.4.1)
           root: {
             textDecoration: 'underline',
