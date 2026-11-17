@@ -314,6 +314,13 @@ export const createThemeAndTokens = (
       },
       MuiLink: {
         styleOverrides: {
+          // Odyssey only underlines links on hover; underline them by default
+          // so they are distinguishable without relying on color (WCAG 1.4.1)
+          root: {
+            textDecoration: 'underline',
+            // MUI otherwise draws the underline at 40% opacity of the primary color
+            textDecorationColor: 'currentcolor',
+          },
           button: {
             verticalAlign: 'baseline',
           },
