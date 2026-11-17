@@ -104,6 +104,16 @@ describe('v2/view-builder/internals/BaseForm', function() {
       expect(isDisabled('rememberMe')).toBe(false);
       expect(isDisabled('locked')).toBe(true);
     });
+
+    it('can be restored early and is a no-op when the saving state then clears', () => {
+      form.model.trigger('request');
+      form.restoreInputsAfterSaving();
+      expect(isDisabled('identifier')).toBe(false);
+
+      form.model.trigger('error', form.model, {});
+      expect(isDisabled('identifier')).toBe(false);
+      expect(isDisabled('locked')).toBe(true);
+    });
   });
 
   it('applies to subclasses that override modelEvents and initialize', () => {

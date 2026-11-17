@@ -80,4 +80,35 @@ describe('v2/controllers/FormController', () => {
       expect(appState.unset).toHaveBeenCalledWith('messages');
     });
   });
+
+  describe('handleAfterError', () => {
+    function callHandler(formView, order = []) {
+      const ctx = {
+        formView,
+        createAfterEventContext: jest.fn(() => ({ formName: 'identify' })),
+        trigger: jest.fn(() => order.push('afterError')),
+      };
+      FormController.prototype.handleAfterError.call(ctx, { responseJSON: { errorSummary: 'oops' } });
+      return ctx;
+    }
+
+    it('re-enables form inputs before emitting afterError', () => {
+      const order = [];
+      const form = { restoreInputsAfterSaving: jest.fn(() => order.push('restore')) };
+
+      const ctx = callHandler({ form }, order);
+
+      expect(order).toEqual(['restore', 'afterError']);
+      expect(ctx.trigger).toHaveBeenCalledWith(
+        'afterError',
+        { formName: 'identify' },
+        expect.objectContaining({ errorSummary: 'oops' }),
+      );
+    });
+
+    it('still emits afterError when the form cannot restore inputs', () => {
+      expect(callHandler(undefined).trigger).toHaveBeenCalledWith('afterError', expect.anything(), expect.anything());
+      expect(callHandler({ form: {} }).trigger).toHaveBeenCalledWith('afterError', expect.anything(), expect.anything());
+    });
+  });
 });

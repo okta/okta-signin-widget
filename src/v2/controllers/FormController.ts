@@ -104,6 +104,9 @@ export default Controller.extend({
   },
 
   handleAfterError(error: HttpResponse) {
+    // The form's saving state (and disabled inputs) is cleared only after this event, so
+    // re-enable inputs first to let `afterError` handlers focus or edit them.
+    this.formView?.form?.restoreInputsAfterSaving?.();
     const contextData = this.createAfterEventContext();
     const errorContextData: EventErrorContext = {
       xhr: error,
