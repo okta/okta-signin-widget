@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { fireEvent } from '@testing-library/preact';
+
 import mockResponse from '../../../../playground/mocks/data/idp/idx/authenticator-verification-data-ov-phishing-resistant.json';
 import { setup } from './util';
 
@@ -22,5 +24,15 @@ describe('authenticator-verification-data-ov-phishing-resistant', () => {
     expect(list.textContent).not.toContain('push notification');
     const moreOptions = await findByText('More options');
     expect(moreOptions.closest('[aria-expanded]')?.getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('translates the method labels listed under "More options"', async () => {
+    const { container, findByRole, findByText } = await setup({ mockResponse });
+    await findByRole('heading', { level: 1 });
+    fireEvent.click(await findByText('More options'));
+    const moreList = container.querySelector('[data-se="authenticator-verify-more-options-list"]') as HTMLElement;
+    expect(moreList.textContent).toContain('Get a push notification');
+    expect(moreList.textContent).toContain('Enter a code');
+    expect(moreList.textContent).not.toContain('totp');
   });
 });

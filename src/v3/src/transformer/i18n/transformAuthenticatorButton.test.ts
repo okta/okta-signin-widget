@@ -21,6 +21,7 @@ import {
   FormBag,
   TitleElement,
   TranslationInfo,
+  UISchemaLayout,
   WidgetProps,
 } from 'src/types';
 
@@ -148,5 +149,41 @@ describe('Authenticator Button transformer tests', () => {
       .toEqual([{
         name: 'description', i18nKey: 'oie.custom.app.authenticator.title', value: 'oie.custom.app.authenticator.title',
       } as TranslationInfo]);
+  });
+
+  it('should add translations for buttons nested in a "More options" accordion', () => {
+    transaction.nextStep = {
+      name: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+      relatesTo: { type: '', value: { key: AUTHENTICATOR_KEY.EMAIL } as IdxAuthenticator },
+    };
+    const nestedList = {
+      type: 'AuthenticatorButtonList',
+      options: {
+        buttons: [{
+          type: 'AuthenticatorButton',
+          label: 'Okta Email',
+          options: { key: AUTHENTICATOR_KEY.EMAIL, ctaLabel: 'Verify' },
+        } as AuthenticatorButtonElement],
+      },
+    } as AuthenticatorButtonListElement;
+    formBag.uischema.elements = [{
+      type: 'Accordion',
+      elements: [{
+        type: 'AccordionPanel',
+        key: 'more-options',
+        options: {
+          id: 'more-options',
+          summary: 'More options',
+          content: { type: 'VerticalLayout', elements: [nestedList] },
+        },
+      }],
+    } as unknown as UISchemaLayout];
+
+    transformAuthenticatorButton({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: jest.fn(),
+    })(formBag);
+
+    expect(nestedList.options.buttons[0].translations)
+      .toEqual([{ name: 'label', i18nKey: 'oie.email.label', value: 'oie.email.label' } as TranslationInfo]);
   });
 });
