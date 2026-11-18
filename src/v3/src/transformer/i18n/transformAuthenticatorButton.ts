@@ -16,9 +16,13 @@ import {
 } from '../../../../v2/ion/i18nUtils';
 import { AUTHENTICATOR_KEY } from '../../constants';
 import {
+  AccordionLayout,
   AuthenticatorButtonElement,
   AuthenticatorButtonListElement,
   TransformStepFnWithOptions,
+  UISchemaElement,
+  UISchemaLayout,
+  UISchemaLayoutType,
 } from '../../types';
 import { traverseLayout } from '../util';
 import { addTranslation } from './util';
@@ -61,50 +65,66 @@ export const transformAuthenticatorButton: TransformStepFnWithOptions = ({
     AUTHENTICATOR_KEY.OV,
   ];
 
+  const translateList = (ele: UISchemaElement) => {
+    const { nextStep } = transaction;
+    const { relatesTo, name: stepName } = nextStep!;
+    const authenticatorKey = relatesTo?.value?.key;
+    const params = getI18NParams(nextStep, authenticatorKey);
+    const buttonListElement = ele as AuthenticatorButtonListElement;
+    buttonListElement.options.buttons.forEach(
+      (authenticatorButtonElement: AuthenticatorButtonElement) => {
+        const {
+          label,
+          options: {
+            key,
+            description,
+            isEnroll,
+            authenticator,
+          },
+        } = authenticatorButtonElement;
+
+        // Create a remediation-like object for v2's getI18nKey to access displayName
+        const remediation = authenticator ? {
+          relatesTo: {
+            value: authenticator,
+          },
+        } : null;
+
+        const i18nKey = getAuthenticatorButtonKey(
+          stepName,
+          authenticatorButtonElement.options,
+          remediation,
+        );
+        const translateDescription = !isEnroll
+          && AUTHENTICATORS_TO_TRANSLATE_DESCRIPTION.includes(key);
+        addTranslation({
+          element: authenticatorButtonElement,
+          name: translateDescription ? 'description' : 'label',
+          i18nKey,
+          params,
+          defaultValue: translateDescription ? description : label,
+        });
+      },
+    );
+  };
+  const isButtonList = (element: UISchemaElement) => element.type === 'AuthenticatorButtonList';
+
   traverseLayout({
     layout: formbag.uischema,
-    predicate: (element) => element.type === 'AuthenticatorButtonList',
-    callback: (ele) => {
-      const { nextStep } = transaction;
-      const { relatesTo, name: stepName } = nextStep!;
-      const authenticatorKey = relatesTo?.value?.key;
-      const params = getI18NParams(nextStep, authenticatorKey);
-      const buttonListElement = ele as AuthenticatorButtonListElement;
-      buttonListElement.options.buttons.forEach(
-        (authenticatorButtonElement: AuthenticatorButtonElement) => {
-          const {
-            label,
-            options: {
-              key,
-              description,
-              isEnroll,
-              authenticator,
-            },
-          } = authenticatorButtonElement;
+    predicate: isButtonList,
+    callback: translateList,
+  });
 
-          // Create a remediation-like object for v2's getI18nKey to access displayName
-          const remediation = authenticator ? {
-            relatesTo: {
-              value: authenticator,
-            },
-          } : null;
-
-          const i18nKey = getAuthenticatorButtonKey(
-            stepName,
-            authenticatorButtonElement.options,
-            remediation,
-          );
-          const translateDescription = !isEnroll
-            && AUTHENTICATORS_TO_TRANSLATE_DESCRIPTION.includes(key);
-          addTranslation({
-            element: authenticatorButtonElement,
-            name: translateDescription ? 'description' : 'label',
-            i18nKey,
-            params,
-            defaultValue: translateDescription ? description : label,
-          });
-        },
-      );
+  // traverseLayout does not descend into accordions, so translate the lists nested in
+  // accordion panels (e.g. "More options" on the verify screens) here.
+  traverseLayout({
+    layout: formbag.uischema,
+    predicate: (element) => element.type === UISchemaLayoutType.ACCORDION,
+    callback: (accordion) => {
+      (accordion as AccordionLayout).elements.forEach((panel) => {
+        const content = panel.options?.content as UISchemaLayout | undefined;
+        content?.elements?.filter(isButtonList).forEach(translateList);
+      });
     },
   });
   return formbag;

@@ -68,6 +68,10 @@ const getMockMethodTypes = (): AuthenticatorButtonElement[] => {
 };
 
 jest.mock('./utils', () => ({
+  getAuthenticatorVerifyListElements: (buttons: AuthenticatorButtonElement[]) => [{
+    type: 'AuthenticatorButtonList',
+    options: { buttons, dataSe: 'authenticator-verify-list' },
+  }],
   getAppAuthenticatorMethodButtonElements: jest.fn().mockImplementation(
     () => jest.fn().mockReturnValue(getMockMethodTypes()),
   ),

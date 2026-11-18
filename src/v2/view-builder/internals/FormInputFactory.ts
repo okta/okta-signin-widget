@@ -2,7 +2,11 @@ import { Collection, _, loc, createButton, InputOptions } from '@okta/courage';
 
 import AuthenticatorEnrollOptionsContainer from '../components/AuthenticatorEnrollOptionsContainer';
 import AuthenticatorVerifyOptions from '../components/AuthenticatorVerifyOptions';
-import { getAuthenticatorDataForEnroll, getAuthenticatorDataForVerification } from '../utils/AuthenticatorUtil';
+import {
+  getAuthenticatorDataForEnroll,
+  getAuthenticatorDataForVerification,
+  partitionPhishingResistant,
+} from '../utils/AuthenticatorUtil';
 import { AUTHENTICATOR_KEY, FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import IDP from 'util/IDP';
 import AdminScopeList from 'v1/views/admin-consent/ScopeList';
@@ -61,11 +65,15 @@ const createAuthenticatorVerifySelectView = (opt) => {
   optionItems = optionItems.map(opt => {
     return Object.assign({}, opt, getAuthenticatorDataForVerification(opt));
   });
+  // Phishing resistant methods first; the rest are collapsed under "More options".
+  // Only grouped when the list has both kinds, otherwise the list is flat as before.
+  const { items, moreItems } = partitionPhishingResistant(optionItems);
   return {
     View: AuthenticatorVerifyOptions,
     options: {
       name: opt.name,
-      collection: new Collection(optionItems),
+      collection: new Collection(items),
+      ...(moreItems ? { moreCollection: new Collection(moreItems) } : {}),
     }
   };
 };

@@ -32,6 +32,7 @@ export * from './getEventContext';
 export * from './getImmutableData';
 export * from './getLanguageDirection';
 export * from './getPasswordExpiryContentTitleAndParams';
+export * from './getRawAuthenticators';
 export * from './getTranslation';
 export * from './getValidationMessages';
 export * from './htmlContentParserUtils';

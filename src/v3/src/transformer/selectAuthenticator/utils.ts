@@ -32,6 +32,9 @@ import {
   ButtonType,
 } from '../../types';
 import { loc } from '../../util';
+import { getAuthenticatorVerifyListElements, markPhishingResistantButtons } from './phishingResistant';
+
+export { getAuthenticatorVerifyListElements };
 
 // N-of-M wire types for authenticatorGroups[]. Not yet in the auth-js SDK, so
 // declared inline; matches idx-authenticator-groups-siw-contract page 2.
@@ -608,6 +611,7 @@ export const getAppAuthenticatorMethodButtonElements = (
   step: string,
   authKey = AUTHENTICATOR_KEY.OV,
   deviceKnown?: boolean,
+  authenticators?: IdxAuthenticator[],
 ): AuthenticatorButtonElement[] => {
   const id = (authenticator.value as Input[])?.find(({ name }) => name === 'id')?.value as string;
   const methodType = (authenticator.value as Input[])?.find(({ name }) => name === 'methodType');
@@ -644,7 +648,10 @@ export const getAppAuthenticatorMethodButtonElements = (
     },
   })) as AuthenticatorButtonElement[];
 
-  return reorderAuthenticatorButtons(authButtons, deviceKnown);
+  return markPhishingResistantButtons(
+    reorderAuthenticatorButtons(authButtons, deviceKnown),
+    authenticators,
+  );
 };
 
 export const isOnlyPushWithAutoChallenge = (
@@ -661,9 +668,10 @@ export const isOnlyPushWithAutoChallenge = (
 export const getAuthenticatorVerifyButtonElements = (
   authenticatorOptions: IdxOption[],
   step: string,
-):AuthenticatorButtonElement[] => getAuthenticatorButtonElements(
-  authenticatorOptions,
-  step,
+  authenticators?: IdxAuthenticator[],
+):AuthenticatorButtonElement[] => markPhishingResistantButtons(
+  getAuthenticatorButtonElements(authenticatorOptions, step),
+  authenticators,
 );
 
 export const getAuthenticatorEnrollButtonElements = (

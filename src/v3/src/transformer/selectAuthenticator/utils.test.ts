@@ -21,6 +21,7 @@ import {
   getAppAuthenticatorMethodButtonElements,
   getAuthenticatorEnrollButtonElements,
   getAuthenticatorVerifyButtonElements,
+  getAuthenticatorVerifyListElements,
   isAuthenticatorButtonInGracePeriod,
   isOnlyPushWithAutoChallenge,
   normalizeAuthenticatorGroups,
@@ -32,6 +33,58 @@ describe('Select Authenticator Utility Tests', () => {
   describe('getAppAuthenticatorMethodButtonElements Tests', () => {
     it('should return an empty array when an empty array of options is provided', () => {
       expect(getAppAuthenticatorMethodButtonElements({ name: 'authenticator' }, stepName)).toEqual([]);
+    });
+
+    describe('phishing resistant flagging', () => {
+      const authenticator: Input = {
+        name: 'authenticator',
+        value: [
+          { name: 'id', value: 'okta_verify' },
+          {
+            name: 'methodType',
+            options: [
+              { label: 'Push', value: 'push' },
+              { label: 'FastPass', value: 'signed_nonce' },
+            ] as IdxOption[],
+          },
+        ],
+      };
+      const authenticators = [{
+        id: 'okta_verify',
+        methods: [{ type: 'push' }, { type: 'signed_nonce', phishingResistantCapable: true }],
+      }] as unknown as IdxAuthenticator[];
+
+      it('groups FastPass as phishing resistant when deviceKnown', () => {
+        const buttons = getAppAuthenticatorMethodButtonElements(
+          authenticator, stepName, AUTHENTICATOR_KEY.OV, true, authenticators,
+        );
+        expect(buttons[0].options.phishingResistant).toBe(true);
+        expect(buttons[1].options.phishingResistant).toBeUndefined();
+        const [list, accordion] = getAuthenticatorVerifyListElements(buttons);
+        expect((list as { options: { buttons: unknown[] } }).options.buttons).toHaveLength(1);
+        expect(accordion.type).toBe('Accordion');
+      });
+
+      it('still flags FastPass when the device is unknown', () => {
+        const buttons = getAppAuthenticatorMethodButtonElements(
+          authenticator, stepName, AUTHENTICATOR_KEY.OV, false, authenticators,
+        );
+        // FastPass moves to the end when the device is unknown, but is still grouped
+        expect(buttons.find(({ options }) => options.phishingResistant)?.options
+          .actionParams?.['authenticator.methodType']).toBe('signed_nonce');
+        const elements = getAuthenticatorVerifyListElements(buttons);
+        expect(elements).toHaveLength(2);
+        const list = elements[0] as { options: { buttons: unknown[] } };
+        expect(list.options.buttons).toHaveLength(1);
+      });
+
+      it('does not flag methods when authenticator ids do not match', () => {
+        const buttons = getAppAuthenticatorMethodButtonElements(
+          authenticator, stepName, AUTHENTICATOR_KEY.OV, true,
+          [{ ...authenticators[0], id: 'other' }] as unknown as IdxAuthenticator[],
+        );
+        expect(buttons.some(({ options }) => options.phishingResistant)).toBe(false);
+      });
     });
 
     it('should return formatted Authenticator Option Values '
@@ -1621,6 +1674,79 @@ describe('Select Authenticator Utility Tests', () => {
 
     it('returns false when no grace-period fields are set', () => {
       expect(isAuthenticatorButtonInGracePeriod(makeBtn({}))).toBe(false);
+    });
+  });
+
+  describe('phishing resistant verify grouping', () => {
+    const options = [
+      {
+        label: 'Password',
+        value: [{ name: 'id', value: 'pwd-id' }],
+        relatesTo: { key: 'okta_password', id: 'pwd-id' },
+      },
+      {
+        label: 'Security Key',
+        value: [{ name: 'id', value: 'wa-id' }],
+        relatesTo: { key: 'webauthn', id: 'wa-id' },
+      },
+    ] as unknown as IdxOption[];
+    const flagged = [
+      { id: 'pwd-id', key: 'okta_password', methods: [{ type: 'password' }] },
+      { id: 'wa-id', key: 'webauthn', methods: [{ type: 'webauthn', phishingResistantCapable: true }] },
+    ] as any;
+
+    it('keeps a flat list when the backend sends no flag', () => {
+      const buttons = getAuthenticatorVerifyButtonElements(options, stepName, [
+        { id: 'pwd-id', methods: [{ type: 'password' }] },
+      ] as any);
+      const elements = getAuthenticatorVerifyListElements(buttons);
+      expect(elements).toHaveLength(1);
+      expect(elements[0].type).toBe('AuthenticatorButtonList');
+    });
+
+    it('lists phishing resistant first and collapses the rest under More options', () => {
+      const buttons = getAuthenticatorVerifyButtonElements(options, stepName, flagged);
+      const elements = getAuthenticatorVerifyListElements(buttons) as any;
+      expect(elements).toHaveLength(2);
+      expect(elements[0].options.buttons.map((b: any) => b.options.key)).toEqual(['webauthn']);
+      expect(elements[1].type).toBe('Accordion');
+      expect(elements[1].elements[0].options.content.elements[0].options.buttons
+        .map((b: any) => b.options.key)).toEqual(['okta_password']);
+    });
+
+    it('keeps a flat list when every method is phishing resistant', () => {
+      const buttons = getAuthenticatorVerifyButtonElements([options[1]], stepName, flagged);
+      expect(getAuthenticatorVerifyListElements(buttons)).toHaveLength(1);
+    });
+
+    describe('Okta Verify FastPass', () => {
+      const ovOption = (deviceKnown: boolean) => ({
+        label: 'Okta Verify',
+        value: [
+          { name: 'id', value: 'ov-id' },
+          {
+            name: 'methodType',
+            options: [
+              { label: 'Get a push notification', value: 'push' },
+              { label: 'Use Okta FastPass', value: 'signed_nonce' },
+            ],
+          },
+        ],
+        relatesTo: { key: 'okta_verify', id: 'ov-id', deviceKnown },
+      }) as unknown as IdxOption;
+      const ovFlagged = [
+        { id: 'ov-id', key: 'okta_verify', methods: [{ type: 'push' }, { type: 'signed_nonce', phishingResistantCapable: true }] },
+      ] as any;
+
+      it.each([true, false])('groups FastPass as phishing resistant when deviceKnown is %s', (deviceKnown) => {
+        const buttons = getAuthenticatorVerifyButtonElements(
+          [ovOption(deviceKnown)], stepName, ovFlagged,
+        );
+        const elements = getAuthenticatorVerifyListElements(buttons) as any;
+        expect(elements).toHaveLength(2);
+        expect(elements[0].options.buttons.map((b: any) => b.options.actionParams?.['authenticator.methodType']))
+          .toEqual(['signed_nonce']);
+      });
     });
   });
 

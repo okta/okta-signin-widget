@@ -12,6 +12,7 @@
 
 import { _ } from '@okta/courage';
 import { AUTHENTICATOR_KEY } from '../RemediationConstants';
+import { isPhishingResistantMethod } from '../../view-builder/utils/AuthenticatorUtil';
 
 /**
  * Example of the option like
@@ -65,7 +66,21 @@ export function createOVOptions(options = []) {
   }
 }
 
-function createAuthenticatorOptions(options = [], { isEnroll = false } = {}) {
+/**
+ * Whether the backend marks this option's method as phishing resistant
+ * (`phishingResistantCapable` on top-level `authenticators[].methods[]`, joined by authenticator id).
+ */
+function isPhishingResistantOption(valueObject, authenticators) {
+  // Join on the option's form `id` (the authenticator id), not `relatesTo.id`, which is an
+  // enrollment id for most authenticators and differs from `authenticators[].id`.
+  return isPhishingResistantMethod({
+    authenticators,
+    authenticatorId: valueObject.id,
+    methodType: valueObject.methodType,
+  });
+}
+
+function createAuthenticatorOptions(options = [], { isEnroll = false, authenticators } = {}) {
   createOVOptions(options);
   return options.map(option => {
     const value = option.value?.form?.value || [];
@@ -99,6 +114,11 @@ function createAuthenticatorOptions(options = [], { isEnroll = false } = {}) {
       && option.relatesTo.groupIds.length > 0) {
       surfaced.groupIds = option.relatesTo.groupIds;
     }
+    // Verify only: flag phishing resistant methods so the view can list them first.
+    if (Array.isArray(authenticators)
+      && isPhishingResistantOption(valueObject, authenticators)) {
+      surfaced.phishingResistant = true;
+    }
     return surfaced;
   });
 }
@@ -110,10 +130,10 @@ function getAuthenticatorsEnrollUiSchema({ options }) {
   };
 }
 
-function getAuthenticatorsVerifyUiSchema({ options }) {
+function getAuthenticatorsVerifyUiSchema({ options }, authenticators) {
   return {
     type: 'authenticatorVerifySelect',
-    options: createAuthenticatorOptions(options),
+    options: createAuthenticatorOptions(options, { authenticators }),
   };
 }
 
@@ -129,7 +149,8 @@ export default function createUiSchemaForObject(ionFormField, remediationForm, t
     remediationForm.name === 'select-authenticator-unlock-account')) {
     // 1. when `select-authenticator-authenticator`,
     // create customize type so that display authenticator list as selectable list
-    Object.assign(uiSchema, getAuthenticatorsVerifyUiSchema(ionFormField));
+    const authenticators = transformedResp?.authenticators?.value;
+    Object.assign(uiSchema, getAuthenticatorsVerifyUiSchema(ionFormField, authenticators));
   } else if (ionFormField.name === 'authenticator' && remediationForm.name === 'select-authenticator-enroll') {
     // 2. when `select-authenticator-enroll`,
     // create customize type so that display authenticator list as selectable list

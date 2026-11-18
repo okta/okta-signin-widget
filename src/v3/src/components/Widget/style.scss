@@ -338,3 +338,62 @@ span.no-translate {
 span.shared-secret {
   letter-spacing: 0.3em;
 }
+
+/* "More options" accordion on select-authenticator verify screens (OKTA-1284634).
+ * Doubled selector + #okta-sign-in beat the MUI theme overrides for MuiAccordionSummary. */
+#okta-sign-in .siw-more-options.siw-more-options {
+  margin-block: -1rem 2rem; /* the preceding list already adds spacing */
+  background-color: map.get($ods-tokens, 'hue', 'neutral', '50');
+  border-radius: 8px;
+
+  .MuiAccordion-root,
+  .MuiAccordion-root::before {
+    border: 0;
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  .MuiAccordionSummary-root {
+    display: flex;
+    inline-size: 100%;
+    justify-content: space-between;
+    column-gap: 20px;
+    padding-block: 24px;
+    padding-inline: 32px;
+    border-radius: 8px; /* match the container so the focus ring is rounded */
+  }
+
+  /* label, then a divider line that fills the remaining width, then the chevron */
+  .MuiAccordionSummary-content {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 20px;
+
+    &::after {
+      content: '';
+      flex: 1;
+      block-size: 2px;
+      background-color: map.get($ods-tokens, 'hue', 'neutral', '300');
+    }
+
+    .MuiTypography-root {
+      text-decoration: none;
+      font-weight: 400;
+      color: map.get($ods-tokens, 'hue', 'neutral', '700');
+    }
+  }
+
+  .MuiAccordionSummary-expandIconWrapper {
+    display: flex;
+  }
+
+  .MuiAccordionDetails-root {
+    padding-block: 8px 16px;
+    padding-inline: 16px;
+
+    *:last-child {
+      margin-block-end: 0;
+    }
+  }
+}

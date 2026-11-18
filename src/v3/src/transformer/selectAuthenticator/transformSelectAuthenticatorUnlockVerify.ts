@@ -14,7 +14,6 @@ import { IdxMessage, NextStep } from '@okta/okta-auth-js';
 import { IDX_STEP } from 'src/constants';
 
 import {
-  AuthenticatorButtonListElement,
   AutoSubmitElement,
   ButtonType,
   DescriptionElement,
@@ -28,9 +27,11 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
-import { getUsernameCookie, loc, shouldHideIdentifier } from '../../util';
+import {
+  getRawAuthenticators, getUsernameCookie, loc, shouldHideIdentifier,
+} from '../../util';
 import { getUIElementWithName } from '../utils';
-import { getAuthenticatorVerifyButtonElements } from './utils';
+import { getAuthenticatorVerifyButtonElements, getAuthenticatorVerifyListElements } from './utils';
 
 export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
   prevTransaction,
@@ -50,6 +51,7 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
   const authenticatorButtons = getAuthenticatorVerifyButtonElements(
     authenticator.options,
     stepName,
+    getRawAuthenticators(transaction),
   );
 
   const verifyTitle: TitleElement = {
@@ -67,10 +69,7 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
     },
   };
 
-  const authenticatorList: AuthenticatorButtonListElement = {
-    type: 'AuthenticatorButtonList',
-    options: { buttons: authenticatorButtons, dataSe: 'authenticator-verify-list' },
-  };
+  const authenticatorListElements = getAuthenticatorVerifyListElements(authenticatorButtons);
 
   const identifier = getUIElementWithName('identifier', uischema.elements) as FieldElement;
 
@@ -79,7 +78,7 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
   // w/o backend changes. The backend changes ensure that this transformer is never hit with
   // an identifier UI schema element in the IDX response, so this can be used as a logical fork
   if (!identifier || prevStepName === IDX_STEP.UNLOCK_ACCOUNT) {
-    uischema.elements.unshift(verifyTitle, verifySubtitle, authenticatorList);
+    uischema.elements.unshift(verifyTitle, verifySubtitle, ...authenticatorListElements);
     return formBag;
   }
 
@@ -171,7 +170,7 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
     elements: [
       verifyTitle,
       verifySubtitle,
-      authenticatorList,
+      ...authenticatorListElements,
     ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
   };
 

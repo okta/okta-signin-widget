@@ -14,7 +14,6 @@ import { Input, NextStep } from '@okta/okta-auth-js';
 
 import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
 import {
-  AuthenticatorButtonListElement,
   ButtonElement,
   ButtonType,
   DescriptionElement,
@@ -26,10 +25,18 @@ import {
   UISchemaElement,
 } from '../../types';
 import {
-  getAuthenticatorKey, hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep,
+  getAuthenticatorKey,
+  getRawAuthenticators,
+  hasMinAuthenticatorOptions,
+  loc,
+  updateTransactionWithNextStep,
 } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
-import { getAppAuthenticatorMethodButtonElements, isOnlyPushWithAutoChallenge } from './utils';
+import {
+  getAppAuthenticatorMethodButtonElements,
+  getAuthenticatorVerifyListElements,
+  isOnlyPushWithAutoChallenge,
+} from './utils';
 
 export const transformSelectOVCustomAppMethodVerify: IdxStepTransformer = ({
   transaction,
@@ -113,16 +120,13 @@ export const transformSelectOVCustomAppMethodVerify: IdxStepTransformer = ({
       stepName,
       isOV ? AUTHENTICATOR_KEY.OV : AUTHENTICATOR_KEY.CUSTOM_APP,
       relatesTo?.value?.deviceKnown,
+      getRawAuthenticators(transaction),
     );
     uischema.elements = removeUIElementWithName(
       'authenticator.methodType',
       uischema.elements as UISchemaElement[],
     );
-    const authenticatorListElement: AuthenticatorButtonListElement = {
-      type: 'AuthenticatorButtonList',
-      options: { buttons: buttonElements, dataSe: 'authenticator-verify-list' },
-    };
-    uischema.elements.push(authenticatorListElement);
+    uischema.elements.push(...getAuthenticatorVerifyListElements(buttonElements));
 
     const titleElement: TitleElement = {
       type: 'Title',
