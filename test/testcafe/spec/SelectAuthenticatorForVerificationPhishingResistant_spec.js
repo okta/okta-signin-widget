@@ -39,6 +39,9 @@ async function setup(t) {
   return selectFactorPage;
 }
 
+// Gen3 also renders the label text in an svg <title>, so match the label element only.
+const PASSWORD_LABEL_SELECTOR = '.authenticator-label, [data-se="authenticator-button-label"]';
+
 // Gen2 renders a plain button; Gen3 renders the Odyssey accordion summary (also a button).
 const getMoreOptionsToggle = (selectFactorPage) => userVariables.gen3
   ? within(selectFactorPage.form.el).queryByRole('button', { name: 'More options' })
@@ -47,7 +50,7 @@ const getMoreOptionsToggle = (selectFactorPage) => userVariables.gen3
 test.requestHooks(mockPhishingResistant)('lists phishing resistant methods first and collapses the rest', async t => {
   const selectFactorPage = await setup(t);
   const toggle = getMoreOptionsToggle(selectFactorPage);
-  const passwordLabel = within(selectFactorPage.form.el).queryByText('Password');
+  const passwordLabel = within(selectFactorPage.form.el).queryByText('Password', { selector: PASSWORD_LABEL_SELECTOR });
 
   await t.expect(toggle.exists).ok();
   await t.expect(toggle.getAttribute('aria-expanded')).eql('false');
@@ -59,7 +62,7 @@ test.requestHooks(mockPhishingResistant)('lists phishing resistant methods first
 test.requestHooks(mockPhishingResistant)('expands and collapses "More options"', async t => {
   const selectFactorPage = await setup(t);
   const toggle = getMoreOptionsToggle(selectFactorPage);
-  const passwordLabel = within(selectFactorPage.form.el).queryByText('Password');
+  const passwordLabel = within(selectFactorPage.form.el).queryByText('Password', { selector: PASSWORD_LABEL_SELECTOR });
 
   await t.click(toggle);
   await t.expect(toggle.getAttribute('aria-expanded')).eql('true');
