@@ -16,6 +16,7 @@ import {
 } from '@okta/okta-auth-js';
 
 import IDP from '../../../util/IDP';
+import { getNfcPinLaunchButtonLabel } from '../../../util/nfcPinLaunchButtonUtils';
 import TimeUtil from '../../../util/TimeUtil';
 import Util from '../../../util/Util';
 import {
@@ -217,12 +218,14 @@ export const getNfcLaunchButtonElement = (
     return [];
   }
 
+  const { i18nKey, params } = getNfcPinLaunchButtonLabel(remediations);
   const nfcLaunchButton: LaunchAuthenticatorButtonElement = {
     type: 'LaunchAuthenticatorButton',
-    label: loc('oie.nfc_pin.launch.button', 'login'),
+    label: loc(i18nKey, 'login', params),
     options: {
       step: IDX_STEP.LAUNCH_NFC_AUTHENTICATOR,
-      i18nKey: 'oie.nfc_pin.launch.button',
+      i18nKey,
+      i18nParams: params,
       // @ts-expect-error authenticatorChallenge missing from transaction context type
       deviceChallengeUrl: context?.authenticatorChallenge?.value?.href,
       // @ts-expect-error authenticatorChallenge missing from transaction context type

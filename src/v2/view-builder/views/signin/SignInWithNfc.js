@@ -1,6 +1,7 @@
 import { View, createButton, loc } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import { FORMS } from '../../../ion/RemediationConstants';
+import { getNfcPinLaunchButtonLabel } from '../../../../util/nfcPinLaunchButtonUtils';
 
 export default View.extend({
   className: 'sign-in-with-nfc-option',
@@ -15,11 +16,12 @@ export default View.extend({
 
   initialize() {
     const appState = this.options.appState;
+    const { i18nKey, params } = getNfcPinLaunchButtonLabel(appState.get('idx')?.neededToProceed);
 
     this.add(createButton({
       className: 'button',
       icon: 'okta-nfc-authenticator',
-      title: loc('oie.nfc_pin.launch.button', 'login'),
+      title: loc(i18nKey, 'login', params),
       click() {
         if (this.model.get('identifier')) {
           this.options.settings.set('identifier', encodeURIComponent(this.model.get('identifier')));

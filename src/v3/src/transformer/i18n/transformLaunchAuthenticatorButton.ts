@@ -34,6 +34,7 @@ export const transformLaunchAuthenticatorButton: TransformStepFn = (
         element,
         name: 'label',
         i18nKey: labelKey,
+        params: options?.i18nParams,
       });
 
       addTranslation({

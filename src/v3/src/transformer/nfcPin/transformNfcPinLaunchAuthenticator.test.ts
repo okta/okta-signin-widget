@@ -25,6 +25,7 @@ describe('transformNfcPinLaunchAuthenticator', () => {
 
   beforeEach(() => {
     formBag.uischema.elements = [];
+    transaction.neededToProceed = [{ name: IDX_STEP.LAUNCH_NFC_AUTHENTICATOR }];
     transaction.context = {
       ...transaction.context,
       app: { type: 'object', value: { label: '' } },
@@ -63,6 +64,38 @@ describe('transformNfcPinLaunchAuthenticator', () => {
     const button = result.uischema.elements[2] as LaunchAuthenticatorButtonElement;
     expect(button.label).toBe('oie.nfc_pin.launch.button');
     expect(button.options.i18nKey).toBe('oie.nfc_pin.launch.button');
+    expect(button.options.i18nParams).toBeUndefined();
+  });
+
+  it('should use the custom button label when customAuthenticatorName is provided', () => {
+    transaction.neededToProceed = [
+      // @ts-expect-error customAuthenticatorName missing from IdxRemediation type
+      { name: IDX_STEP.LAUNCH_NFC_AUTHENTICATOR, customAuthenticatorName: 'Badge' },
+    ];
+
+    const result = transformNfcPinLaunchAuthenticator({
+      transaction, formBag, widgetProps,
+    });
+
+    const button = result.uischema.elements[2] as LaunchAuthenticatorButtonElement;
+    expect(button.label).toBe('oie.nfc_pin.launch.button.custom');
+    expect(button.options.i18nKey).toBe('oie.nfc_pin.launch.button.custom');
+    expect(button.options.i18nParams).toEqual(['Badge']);
+  });
+
+  it('should use the default button label when customAuthenticatorName is blank', () => {
+    transaction.neededToProceed = [
+      // @ts-expect-error customAuthenticatorName missing from IdxRemediation type
+      { name: IDX_STEP.LAUNCH_NFC_AUTHENTICATOR, customAuthenticatorName: '   ' },
+    ];
+
+    const result = transformNfcPinLaunchAuthenticator({
+      transaction, formBag, widgetProps,
+    });
+
+    const button = result.uischema.elements[2] as LaunchAuthenticatorButtonElement;
+    expect(button.options.i18nKey).toBe('oie.nfc_pin.launch.button');
+    expect(button.options.i18nParams).toBeUndefined();
   });
 
   it('should use launch-nfc-authenticator as the step', () => {

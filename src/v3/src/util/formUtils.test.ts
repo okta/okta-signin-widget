@@ -21,7 +21,36 @@ import {
   OV_UV_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY,
   OV_UV_RESEND_ENABLE_BIOMETRICS_OR_PIN_SERVER_KEY,
 } from '../constants/idxConstants';
-import { getBiometricsErrorMessageElement, getSignInWithPasskeyButtonElement } from './formUtils';
+import {
+  getBiometricsErrorMessageElement,
+  getNfcLaunchButtonElement,
+  getSignInWithPasskeyButtonElement,
+} from './formUtils';
+
+describe('getNfcLaunchButtonElement', () => {
+  it('returns empty array if no LAUNCH_NFC_AUTHENTICATOR remediation', () => {
+    const transaction = { neededToProceed: [{ name: 'identify' }], context: {} };
+    expect(getNfcLaunchButtonElement(transaction as any)).toEqual([]);
+  });
+
+  it('returns the default NFC button label', () => {
+    const transaction = { neededToProceed: [{ name: 'launch-nfc-authenticator' }], context: {} };
+    const [button] = getNfcLaunchButtonElement(transaction as any);
+    expect(button.options.i18nKey).toBe('oie.nfc_pin.launch.button');
+    expect(button.options.i18nParams).toBeUndefined();
+  });
+
+  it('returns the custom NFC button label when customAuthenticatorName is provided', () => {
+    const transaction = {
+      neededToProceed: [{ name: 'launch-nfc-authenticator', customAuthenticatorName: 'Badge' }],
+      context: {},
+    };
+    const [button] = getNfcLaunchButtonElement(transaction as any);
+    expect(button.label).toBe('oie.nfc_pin.launch.button.custom');
+    expect(button.options.i18nKey).toBe('oie.nfc_pin.launch.button.custom');
+    expect(button.options.i18nParams).toEqual(['Badge']);
+  });
+});
 
 describe('getSignInWithPasskeyButtonElement', () => {
   it('returns empty array if no LAUNCH_PASSKEYS_AUTHENTICATOR step', () => {

@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { getNfcPinLaunchButtonLabel } from '../../../../util/nfcPinLaunchButtonUtils';
 import { IDX_STEP } from '../../constants';
 import {
   DescriptionElement,
@@ -28,7 +29,7 @@ export const transformNfcPinLaunchAuthenticator: IdxStepTransformer = ({
   transaction,
 }) => {
   const { uischema } = formBag;
-  const { context } = transaction;
+  const { context, neededToProceed } = transaction;
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -48,16 +49,18 @@ export const transformNfcPinLaunchAuthenticator: IdxStepTransformer = ({
     },
   };
 
+  const { i18nKey, params } = getNfcPinLaunchButtonLabel(neededToProceed);
   const launchAuthenticatorButton: LaunchAuthenticatorButtonElement = {
     type: 'LaunchAuthenticatorButton',
-    label: loc('oie.nfc_pin.launch.button', 'login'),
+    label: loc(i18nKey, 'login', params),
     options: {
       step: IDX_STEP.LAUNCH_NFC_AUTHENTICATOR,
       // @ts-expect-error authenticatorChallenge missing from transaction context type
       deviceChallengeUrl: context?.authenticatorChallenge?.value?.href,
       // @ts-expect-error authenticatorChallenge missing from transaction context type
       challengeMethod: context?.authenticatorChallenge?.value?.challengeMethod,
-      i18nKey: 'oie.nfc_pin.launch.button',
+      i18nKey,
+      i18nParams: params,
     },
   };
 

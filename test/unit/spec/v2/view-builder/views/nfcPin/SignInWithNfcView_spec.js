@@ -12,11 +12,11 @@ describe('v2/view-builder/views/nfcPin/SignInWithNfcView', function() {
   });
 
   beforeEach(function() {
-    testContext.init = () => {
+    testContext.init = (launchRemediation = { name: 'launch-nfc-authenticator' }) => {
       const appState = new AppState({
         idx: {
           neededToProceed: [
-            { name: 'launch-nfc-authenticator' },
+            launchRemediation,
           ],
         },
         remediations: [
@@ -46,6 +46,21 @@ describe('v2/view-builder/views/nfcPin/SignInWithNfcView', function() {
     testContext.init();
     expect(testContext.view.$('.sign-in-with-nfc-option').length).toBe(1);
     expect(testContext.view.$('.button').length).toBe(1);
+  });
+
+  it('renders the default button label', function() {
+    testContext.init();
+    expect(testContext.view.$('.button').text()).toBe('Sign in with NFC');
+  });
+
+  it('renders the custom button label when customAuthenticatorName is provided', function() {
+    testContext.init({ name: 'launch-nfc-authenticator', customAuthenticatorName: 'Badge' });
+    expect(testContext.view.$('.button').text()).toBe('Sign in with Badge');
+  });
+
+  it('renders the default button label when customAuthenticatorName is blank', function() {
+    testContext.init({ name: 'launch-nfc-authenticator', customAuthenticatorName: '  ' });
+    expect(testContext.view.$('.button').text()).toBe('Sign in with NFC');
   });
 
   it('renders the NFC description', function() {
