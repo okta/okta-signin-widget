@@ -86,6 +86,21 @@ describe('transformNfcPinEnroll', () => {
       expect(buttonEl.options.challengeMethod).toBe('CUSTOM_URI');
     });
 
+    it.each(['APP_LINK', 'UNIVERSAL_LINK'])('should use the server %s challengeMethod for setupNfcUrl', (challengeMethod) => {
+      const setupNfcUrl = 'https://login.okta.com/actions/enroll?authenticator_key=nfc&nonce=mock';
+      // @ts-expect-error contextualData not fully typed
+      transaction.rawIdxState.currentAuthenticator.value.contextualData = {
+        setupNfcUrl,
+        challenge: { type: 'object', value: { challengeRequest: 'mock', challengeMethod } },
+      };
+
+      const result = transformNfcPinEnroll({ transaction, formBag, widgetProps });
+
+      const buttonEl = result.uischema.elements[2] as OpenOktaVerifyFPButtonElement;
+      expect(buttonEl.options.href).toBe(setupNfcUrl);
+      expect(buttonEl.options.challengeMethod).toBe(challengeMethod);
+    });
+
     it('should include "Return to authenticator list" link', () => {
       const result = transformNfcPinEnroll({ transaction, formBag, widgetProps });
 

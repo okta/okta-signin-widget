@@ -1,10 +1,15 @@
 import { View, loc, createButton } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import Enums from 'util/Enums';
+import Util from 'util/Util';
 import { BaseFooter, BaseOktaVerifyChallengeView } from '../../internals';
 import { appendLoginHint } from '../../utils/ChallengeViewUtil';
 import { getSwitchAuthenticatorLink } from '../../utils/LinksUtil';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
+
+const isLinkChallenge = (challengeMethod) => (
+  [Enums.APP_LINK_CHALLENGE, Enums.UNIVERSAL_LINK_CHALLENGE].includes(challengeMethod)
+);
 
 const Body = BaseOktaVerifyChallengeView.extend({
   getDeviceChallengePayload() {
@@ -39,12 +44,20 @@ const Body = BaseOktaVerifyChallengeView.extend({
       title: loc('oktaVerify.open.button', 'login'),
       id: 'launch-ov',
       click: () => {
-        this.doCustomURI();
+        if (!isLinkChallenge(deviceChallenge.challengeMethod)) {
+          this.doCustomURI();
+        } else {
+          Util.redirect(
+            appendLoginHint(deviceChallenge.href, loginHint),
+            window,
+            deviceChallenge.challengeMethod === Enums.APP_LINK_CHALLENGE,
+          );
+        }
       }
     }));
 
     // Launch CUS silently
-    if (deviceChallenge.href) {
+    if (!isLinkChallenge(deviceChallenge.challengeMethod) && deviceChallenge.href) {
       this.customURI = appendLoginHint(deviceChallenge.href, loginHint);
       this.doCustomURI();
     }

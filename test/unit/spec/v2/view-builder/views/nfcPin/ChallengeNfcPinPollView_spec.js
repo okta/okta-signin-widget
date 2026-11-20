@@ -2,19 +2,21 @@ import ChallengeNfcPinPollView from 'v2/view-builder/views/nfcPin/ChallengeNfcPi
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
 import $sandbox from 'sandbox';
+import Util from 'util/Util';
 import NfcPinDeviceChallengeResponse from '../../../../../../../playground/mocks/data/idp/idx/authenticator-verification-nfc-pin-device-challenge.json';
+import NfcPinDeviceChallengeAppLinkResponse from '../../../../../../../playground/mocks/data/idp/idx/authenticator-verification-nfc-pin-device-challenge-app-link.json';
 
 describe('v2/view-builder/views/nfcPin/ChallengeNfcPinPollView', function() {
   let testContext;
 
   beforeEach(function() {
     testContext = {};
-    testContext.init = () => {
-      const currentAuthenticatorEnrollment = NfcPinDeviceChallengeResponse.currentAuthenticatorEnrollment.value;
+    testContext.init = (response = NfcPinDeviceChallengeResponse) => {
+      const currentAuthenticatorEnrollment = response.currentAuthenticatorEnrollment.value;
       const appState = new AppState({
         currentAuthenticatorEnrollment,
-        authenticatorEnrollments: NfcPinDeviceChallengeResponse.authenticatorEnrollments?.value || [],
-        app: NfcPinDeviceChallengeResponse.app?.value || {},
+        authenticatorEnrollments: response.authenticatorEnrollments?.value || [],
+        app: response.app?.value || {},
       }, {});
 
       jest.spyOn(appState, 'getRemediationAuthenticationOptions').mockReturnValue([
@@ -75,5 +77,20 @@ describe('v2/view-builder/views/nfcPin/ChallengeNfcPinPollView', function() {
     testContext.init();
     // Should not contain download link or generic prompt text
     expect(testContext.view.$('#download-ov').length).toBe(0);
+  });
+
+  it('opens an APP_LINK challenge with a top-level redirect instead of a hidden iframe', function() {
+    jest.spyOn(Util, 'redirect').mockImplementation(() => {});
+    testContext.init(NfcPinDeviceChallengeAppLinkResponse);
+    expect(testContext.view.$('#custom-uri-container').length).toBe(0);
+
+    testContext.view.$('#launch-ov').click();
+
+    expect(Util.redirect).toHaveBeenCalledWith(
+      NfcPinDeviceChallengeAppLinkResponse.currentAuthenticatorEnrollment.value.contextualData.challenge.value.href,
+      window,
+      true,
+    );
+    expect(testContext.view.$('#custom-uri-container').length).toBe(0);
   });
 });

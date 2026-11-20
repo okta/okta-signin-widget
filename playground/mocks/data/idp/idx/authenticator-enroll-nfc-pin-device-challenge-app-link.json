@@ -1,0 +1,241 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02.id.GbemJn1lKWO5u5vQm-kTRR4rAOJBH2dy0wJLCdmj",
+  "expiresAt": "2026-11-19T21:19:55.000Z",
+  "intent": "CREDENTIAL_ENROLLMENT",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "enroll-poll",
+        "href": "http://localhost:3000/idp/idx/authenticators/poll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "refresh": 4000,
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.GbemJn1lKWO5u5vQm-kTRR4rAOJBH2dy0wJLCdmj",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "NFC",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut1x087Op592Np950g5",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "nfc_pin",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.GbemJn1lKWO5u5vQm-kTRR4rAOJBH2dy0wJLCdmj",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "cancel": {
+        "rel": [
+          "create-form"
+        ],
+        "name": "cancel-polling",
+        "href": "http://localhost:3000/idp/idx/authenticators/poll/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.GbemJn1lKWO5u5vQm-kTRR4rAOJBH2dy0wJLCdmj",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      "contextualData": {
+        "setupNfcUrl": "https://login.trexcloud.com/actions/enroll?authenticator_key=nfc&nonce=6050ce0e-0643-4353-9f65-0981837657e9&command_uri=http%3A%2F%2Flocalhost%3A3000%2Fidp%2Fauthenticators%2Fnfc%2Fnext-commands%3FtransactionId%3DftK8azJCfmMiintWS9IbnrrZUeHFBkJpnT",
+        "challenge": {
+          "type": "object",
+          "value": {
+            "challengeRequest": "ftK8azJCfmMiintWS9IbnrrZUeHFBkJpnT",
+            "challengeMethod": "APP_LINK"
+          }
+        }
+      },
+      "type": "proximity",
+      "key": "nfc_pin",
+      "id": "aut1x087Op592Np950g5",
+      "displayName": "NFC",
+      "methods": [
+        {
+          "type": "nfc_pin"
+        }
+      ]
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "proximity",
+        "key": "nfc_pin",
+        "id": "aut1x087Op592Np950g5",
+        "displayName": "NFC",
+        "methods": [
+          {
+            "type": "nfc_pin"
+          }
+        ],
+        "allowedFor": "none"
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "type": "email",
+        "key": "okta_email",
+        "id": "eae1vg30jpwIU3SUu0g5",
+        "displayName": "Email",
+        "methods": [
+          {
+            "type": "email"
+          }
+        ]
+      },
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "lae1vg30jnAqzv6xP0g5",
+        "displayName": "Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ]
+      },
+      {
+        "type": "phone",
+        "key": "phone_number",
+        "id": "sms1vg30k5Tw7sXr90g5",
+        "displayName": "Phone",
+        "methods": [
+          {
+            "type": "sms"
+          },
+          {
+            "type": "voice"
+          }
+        ]
+      }
+    ]
+  },
+  "enrollmentAuthenticator": {
+    "type": "object",
+    "value": {
+      "type": "proximity",
+      "key": "nfc_pin",
+      "id": "aut1x087Op592Np950g5",
+      "displayName": "NFC",
+      "methods": [
+        {
+          "type": "nfc_pin"
+        }
+      ]
+    }
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u1vg30jocUwD4VJ0g5",
+      "identifier": "testuser@okta.com",
+      "profile": {
+        "firstName": "Test",
+        "lastName": "User",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US",
+        "email": "t***r@okta.com"
+      }
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02.id.GbemJn1lKWO5u5vQm-kTRR4rAOJBH2dy0wJLCdmj",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_account_settings",
+      "label": "Okta End User Settings",
+      "id": "DEFAULT_APP"
+    }
+  },
+  "authentication": {
+    "type": "object",
+    "value": {
+      "protocol": "URL",
+      "request": {}
+    }
+  }
+}
