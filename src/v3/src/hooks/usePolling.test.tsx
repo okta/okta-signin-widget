@@ -409,4 +409,158 @@ describe('usePolling', () => {
       }));
     });
   });
+
+  // OKTA-1258733: LoopbackProbe.submitHandler moves idxTransaction from
+  // device-challenge-poll to challenge-poll after usePolling already holds an
+  // internal device-challenge-poll transaction. Without the reset the stale
+  // step's timer fires a proceed that auth-js rejects ("Unknown remediation
+  // choice") and the polling chain ends.
+  describe('features.resetStalePollStep', () => {
+    const STATE_HANDLE = 'state-handle-abc';
+    const buildTx = (name: string, extra: Record<string, unknown> = {}) => ({
+      nextStep: { name, refresh: 4000 },
+      context: { stateHandle: STATE_HANDLE },
+      ...extra,
+    }) as unknown as IdxTransaction;
+
+    const setup = (resetStalePollStep: boolean, proceed: jest.Mock) => {
+      const props: Partial<WidgetProps> = {
+        stateToken: 'fake-state-token',
+        authClient: { idx: { proceed } } as unknown as OktaAuth,
+        features: { resetStalePollStep },
+      };
+      return renderHook(
+        ({ tx }: { tx: IdxTransaction }) => usePolling(tx, props, mockData),
+        { initialProps: { tx: buildTx('device-challenge-poll') } },
+      );
+    };
+
+    // drives the hook into "internal transaction = device-challenge-poll"
+    const pollOnceAsDeviceChallenge = async (proceed: jest.Mock) => {
+      jest.advanceTimersByTime(4000);
+      await waitFor(() => expect(proceed).toHaveBeenCalledTimes(1));
+    };
+
+    it('FF off (baseline): keeps polling the stale step after an external step change (the bug)', async () => {
+      const proceed = jest.fn().mockResolvedValue(buildTx('device-challenge-poll'));
+      const { rerender } = setup(false, proceed);
+      await pollOnceAsDeviceChallenge(proceed);
+
+      rerender({ tx: buildTx('challenge-poll') });
+      jest.advanceTimersByTime(4000);
+
+      await waitFor(() => expect(proceed).toHaveBeenCalledTimes(2));
+      expect(proceed).toHaveBeenNthCalledWith(2, expect.objectContaining({ step: 'device-challenge-poll' }));
+    });
+
+    it('FF on: drops the stale internal transaction and polls the new external step', async () => {
+      const proceed = jest.fn()
+        .mockResolvedValueOnce(buildTx('device-challenge-poll'))
+        .mockResolvedValue(buildTx('challenge-poll'));
+      const { rerender, result } = setup(true, proceed);
+      await pollOnceAsDeviceChallenge(proceed);
+
+      rerender({ tx: buildTx('challenge-poll') });
+      expect(result.current).toBeUndefined();
+      jest.advanceTimersByTime(4000);
+
+      await waitFor(() => expect(proceed).toHaveBeenCalledTimes(2));
+      expect(proceed).toHaveBeenNthCalledWith(2, expect.objectContaining({ step: 'challenge-poll' }));
+      await waitFor(() => expect(result.current?.nextStep?.name).toBe('challenge-poll'));
+
+      // chain keeps going on the new step
+      jest.advanceTimersByTime(4000);
+      await waitFor(() => expect(proceed).toHaveBeenCalledTimes(3));
+      expect(proceed).toHaveBeenNthCalledWith(3, expect.objectContaining({ step: 'challenge-poll' }));
+    });
+
+    it('FF on: discards a stale-step response that resolves after the reset', async () => {
+      let resolveStale: (tx: IdxTransaction) => void = () => {};
+      const proceed = jest.fn()
+        .mockResolvedValueOnce(buildTx('device-challenge-poll'))
+        .mockImplementationOnce(() => new Promise((r) => { resolveStale = r; }))
+        .mockResolvedValue(buildTx('challenge-poll'));
+      const { rerender, result } = setup(true, proceed);
+      await pollOnceAsDeviceChallenge(proceed);
+
+      // stale device-challenge-poll tick fires and stays in flight
+      jest.advanceTimersByTime(4000);
+      await waitFor(() => expect(proceed).toHaveBeenCalledTimes(2));
+
+      rerender({ tx: buildTx('challenge-poll') });
+      resolveStale(buildTx('device-challenge-poll'));
+      await Promise.resolve();
+      expect(result.current).toBeUndefined();
+
+      jest.advanceTimersByTime(4000);
+      await waitFor(() => expect(proceed).toHaveBeenCalledTimes(3));
+      expect(proceed).toHaveBeenNthCalledWith(3, expect.objectContaining({ step: 'challenge-poll' }));
+    });
+
+    it('FF on: does not reset when the Widget echoes the hook result back as idxTransaction', async () => {
+      const dcp = buildTx('device-challenge-poll');
+      const proceed = jest.fn().mockResolvedValue(dcp);
+      const { rerender, result } = setup(true, proceed);
+      await pollOnceAsDeviceChallenge(proceed);
+      await waitFor(() => expect(result.current).toBe(dcp));
+
+      // same object reference as the internal transaction
+      rerender({ tx: dcp });
+      expect(result.current).toBe(dcp);
+    });
+
+    it('FF on: does not reset for a server-driven step change (OKTA-938817 path)', async () => {
+      const proceed = jest.fn()
+        .mockResolvedValueOnce(buildTx('challenge-poll'))
+        .mockResolvedValue(buildTx('challenge-poll'));
+      const { result } = setup(true, proceed);
+
+      // poll response itself switches device-challenge-poll -> challenge-poll;
+      // idxTransaction stays on device-challenge-poll
+      await pollOnceAsDeviceChallenge(proceed);
+      await waitFor(() => expect(result.current?.nextStep?.name).toBe('challenge-poll'));
+
+      jest.advanceTimersByTime(4000);
+      await waitFor(() => expect(proceed).toHaveBeenCalledTimes(2));
+      expect(proceed).toHaveBeenNthCalledWith(2, expect.objectContaining({ step: 'challenge-poll' }));
+    });
+
+    it('FF on: does not reset when the external transaction keeps the same poll step', async () => {
+      const internal = buildTx('device-challenge-poll');
+      const proceed = jest.fn().mockResolvedValue(internal);
+      const { rerender, result } = setup(true, proceed);
+      await pollOnceAsDeviceChallenge(proceed);
+      await waitFor(() => expect(result.current).toBe(internal));
+
+      rerender({ tx: buildTx('device-challenge-poll') });
+      expect(result.current).toBe(internal);
+    });
+
+    it('FF on: does not touch the 429 back-off', async () => {
+      const proceed = jest.fn()
+        .mockResolvedValueOnce(buildTx('device-challenge-poll', { messages: [{ i18n: { key: 'tooManyRequests' } }] }))
+        .mockResolvedValue(buildTx('device-challenge-poll'));
+      const { result } = setup(true, proceed);
+
+      await pollOnceAsDeviceChallenge(proceed);
+      await waitFor(() => expect(result.current?.nextStep?.refresh).toBe(60000));
+
+      jest.advanceTimersByTime(4000);
+      expect(proceed).toHaveBeenCalledTimes(1);
+      jest.advanceTimersByTime(56000);
+      await waitFor(() => expect(proceed).toHaveBeenCalledTimes(2));
+    });
+
+    it('FF on: stops polling when the external transaction moves to a non-poll step', async () => {
+      const proceed = jest.fn().mockResolvedValue(buildTx('device-challenge-poll'));
+      const { rerender, result } = setup(true, proceed);
+      await pollOnceAsDeviceChallenge(proceed);
+
+      rerender({ tx: buildTx('select-authenticator-authenticate') });
+      await waitFor(() => expect(result.current).toBeUndefined());
+
+      jest.advanceTimersByTime(8000);
+      expect(proceed).toHaveBeenCalledTimes(1);
+    });
+  });
 });

@@ -71,6 +71,36 @@ export const usePolling = (
   const { stateToken, authClient, features } = widgetProps;
   const [transaction, setTransaction] = useState<IdxTransaction | undefined>();
   const timerRef = useRef<NodeJS.Timeout>();
+  // Bumped whenever a stale internal poll transaction is dropped, so a poll
+  // that was already in flight cannot restore the stale step on resolve.
+  const pollGenerationRef = useRef<number>(0);
+
+  // When idxTransaction is set outside this hook (not the Widget echoing our
+  // own result back) to a different poll step, the internal transaction is
+  // stale: pollingStep keeps resolving to the old step and its timer fires a
+  // proceed for a remediation that no longer exists, which auth-js rejects
+  // and which ends the polling chain. Drop it so pollingStep falls back to
+  // idxTransaction. Server-driven step changes, same-step polls, 429 back-off
+  // and non-poll steps are left untouched. See OKTA-1258733.
+  useEffect(() => {
+    if (!features?.resetStalePollStep || !idxTransaction || !transaction
+      || idxTransaction === transaction) {
+      return;
+    }
+    const externalStepName = getPollingStep(idxTransaction)?.name;
+    const internalStepName = getPollingStep(transaction)?.name;
+    if (!externalStepName || !internalStepName || externalStepName === internalStepName) {
+      return;
+    }
+    fastpassPollingLog('external poll step changed, dropping stale poll transaction', {
+      from: internalStepName,
+      to: externalStepName,
+    });
+    clearTimeout(timerRef.current);
+    pollGenerationRef.current += 1;
+    setTransaction(undefined);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idxTransaction]);
 
   const pollingStep = useMemo(() => {
     if (chromeLNADenied) {
@@ -135,12 +165,25 @@ export const usePolling = (
         pollInFlightRef.current = true;
         fastpassPollingLog('poll claimed in-flight flag', { name });
       }
+      const pollGeneration = pollGenerationRef.current;
+      // True once the internal transaction was dropped as stale while this
+      // poll was in flight; the chain is already rescheduled from idxTransaction.
+      const isStaleGeneration = () => !!features?.resetStalePollStep
+        && pollGeneration !== pollGenerationRef.current;
       try {
         // TODO: Revert to use action once this fix is completed OKTA-512706
         const newTransaction = await authClient?.idx.proceed({
           stateHandle: stateToken && idxTransaction?.context?.stateHandle,
           ...payload,
         });
+
+        if (isStaleGeneration()) {
+          fastpassPollingLog('poll response discarded, step reset while in flight', {
+            name,
+            nextStep: newTransaction?.nextStep?.name,
+          });
+          return;
+        }
 
         // error code E0000047 is from a standard API error (unhandled)
         // TERMINAL_KEY.TOO_MANY_REQUESTS is error key from IDX API error message
