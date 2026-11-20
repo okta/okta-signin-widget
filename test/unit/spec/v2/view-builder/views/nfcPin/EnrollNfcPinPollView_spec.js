@@ -83,17 +83,22 @@ describe('v2/view-builder/views/nfcPin/EnrollNfcPinPollView', function() {
       .toBe(NfcPinEnrollDeviceChallengeResponse.currentAuthenticator.value.contextualData.setupNfcUrl);
   });
 
-  it('opens an APP_LINK setupNfcUrl with a top-level redirect instead of a hidden iframe', function() {
+  it.each([
+    ['APP_LINK', true],
+    ['UNIVERSAL_LINK', false],
+  ])('opens a %s setupNfcUrl with a top-level redirect instead of a hidden iframe', function(challengeMethod, isAppLink) {
+    const response = JSON.parse(JSON.stringify(NfcPinEnrollDeviceChallengeAppLinkResponse));
+    response.currentAuthenticator.value.contextualData.challenge.value.challengeMethod = challengeMethod;
     jest.spyOn(Util, 'redirect').mockImplementation(() => {});
-    testContext.init(NfcPinEnrollDeviceChallengeAppLinkResponse);
+    testContext.init(response);
     expect(testContext.view.$('#custom-uri-container').length).toBe(0);
 
     testContext.view.$('#launch-ov').click();
 
     expect(Util.redirect).toHaveBeenCalledWith(
-      NfcPinEnrollDeviceChallengeAppLinkResponse.currentAuthenticator.value.contextualData.setupNfcUrl,
+      response.currentAuthenticator.value.contextualData.setupNfcUrl,
       window,
-      true,
+      isAppLink,
     );
     expect(testContext.view.$('#custom-uri-container').length).toBe(0);
   });
