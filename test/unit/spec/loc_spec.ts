@@ -9,6 +9,7 @@ describe('util/loc (String interpolation)', () => {
     Bundles.login['test.repeated.param'] = '{0} plus {0} equals {1}';
     Bundles.login['test.omitted.param'] = 'Sign in using Windows Hello.';
     Bundles.login['test.partial.omitted.params'] = 'Hello {1}, welcome!';
+    Bundles.login['test.multidigit.param'] = 'Item {0} and Item {10}';
   });
 
   afterEach(() => {
@@ -18,6 +19,7 @@ describe('util/loc (String interpolation)', () => {
     delete Bundles.login['test.repeated.param'];
     delete Bundles.login['test.omitted.param'];
     delete Bundles.login['test.partial.omitted.params'];
+    delete Bundles.login['test.multidigit.param'];
   });
 
   it('checks if translation exists', () => {
@@ -73,5 +75,20 @@ describe('util/loc (String interpolation)', () => {
   it('handles extra unused parameters gracefully', () => {
     // Template only expects {0}, but caller provided 3 params
     expect(loc('test.single.param', 'login', ['Alice', 'extra1', 'extra2'])).toBe('Hello Alice!');
+  });
+
+  it('preserves acceptance of unused parameters when template has no placeholders', () => {
+    // Template has no placeholders, but caller provided params
+    expect(loc('test.simple', 'login', ['unusedParam1', 'unusedParam2'])).toBe('Simple text without parameters');
+  });
+
+  it('triggers L10N_ERROR fallback when multi-digit placeholder like {10} is unbound', () => {
+    // Template has {0} and {10}, but only 1 parameter is supplied -> {10} is unbound
+    expect(loc('test.multidigit.param', 'login', ['First'])).toBe('L10N_ERROR[test.multidigit.param]');
+  });
+
+  it('correctly interpolates multi-digit placeholder when all parameters are supplied', () => {
+    const params = ['P0', 'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10'];
+    expect(loc('test.multidigit.param', 'login', params)).toBe('Item P0 and Item P10');
   });
 });

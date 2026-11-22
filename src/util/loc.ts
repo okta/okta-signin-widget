@@ -201,7 +201,7 @@ function sprintf(value: string, params: Array<string | number | boolean | unknow
     }
   }
 
-  if (/\{[\d+]\}/.test(newValue)) {
+  if (/\{\d+\}/.test(newValue)) {
     triggerError();
   }
 
