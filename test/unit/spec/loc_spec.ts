@@ -91,4 +91,9 @@ describe('util/loc (String interpolation)', () => {
     const params = ['P0', 'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10'];
     expect(loc('test.multidigit.param', 'login', params)).toBe('Item P0 and Item P10');
   });
+
+  it('does not re-scan inserted parameter values containing placeholder syntax', () => {
+    // Template has {0}, parameter value itself contains '{10}' (e.g. team name or user input)
+    expect(loc('test.single.param', 'login', ['Team {10}'])).toBe('Hello Team {10}!');
+  });
 });
