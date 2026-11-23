@@ -198,16 +198,7 @@ describe('v2/controllers/FormController', () => {
       );
     });
 
-    it('resets to default flow at enroll-profile during register', async () => {
-      await runSaveForm('enroll-profile', 'register');
-
-      expect(idx.setFlow).toHaveBeenCalledWith('default');
-      expect(idx.saveTransactionMeta).toHaveBeenCalledWith(
-        expect.objectContaining({ flow: 'default' }),
-      );
-    });
-
-    it('does NOT reset the flow for enroll-profile outside signup/register', async () => {
+    it('does NOT reset the flow for enroll-profile outside signup', async () => {
       await runSaveForm('enroll-profile', 'default');
 
       expect(idx.setFlow).not.toHaveBeenCalled();

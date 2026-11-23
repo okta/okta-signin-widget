@@ -351,11 +351,9 @@ export default Controller.extend({
     // the default flow (which passes unmatched remediations through) once the pinned flow
     // has done its job, so KMSI is handled cleanly:
     // - resetPassword: at reset-authenticator, the last step of the recovery flow.
-    // - signup/register: at enroll-profile. RegistrationFlow is only needed to auto-select
-    //   the enroll profile on load; every step after the profile submit (authenticator
-    //   enrollment, skip, or KMSI directly when the password is collected on the profile
-    //   form) matches the login-first registration path, which already runs under the
-    //   default flow.
+    // - signup: at enroll-profile. RegistrationFlow is only needed to auto-select the enroll
+    //   profile on load; the steps after the profile submit (authenticator enrollment, skip)
+    //   match the login-first registration path, which already runs under the default flow.
     //
     // We also persist the change to the saved transaction meta — auth-js' proceed() falls
     // back to meta.flow whenever a proceed call omits the flow option (e.g. an MFA step-up
@@ -364,9 +362,8 @@ export default Controller.extend({
     // the KMSI step.
     const currentFlow = authClient.idx.getFlow?.();
     const shouldResetFlow =
-      (formName === FORMS.RESET_AUTHENTICATOR && currentFlow === 'resetPassword')
-      || (formName === FORMS.ENROLL_PROFILE
-        && (currentFlow === 'signup' || currentFlow === 'register'));
+      (formName === FORMS.RESET_AUTHENTICATOR && currentFlow === CONFIGURED_FLOW.RESET_PASSWORD)
+      || (formName === FORMS.ENROLL_PROFILE && currentFlow === CONFIGURED_FLOW.REGISTRATION);
     if (shouldResetFlow) {
       authClient.idx.setFlow('default');
       const savedMeta = authClient.idx.getSavedTransactionMeta?.();
