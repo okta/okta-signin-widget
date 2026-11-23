@@ -342,15 +342,28 @@ export default Controller.extend({
       exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
     };
 
-    // OKTA-1152243: After password reset, the server may return post-auth remediations
-    // (e.g. keep-me-signed-in) that are not in PasswordRecoveryFlow. Reset to default flow
-    // so auth-js does not throw when it encounters these in the recursive remediate() call.
+    // OKTA-1152243 / OKTA-1272313: When the widget is pinned to a non-default flow
+    // (resetPassword, or a `flow: 'signup'` embedded registration) the server may return
+    // post-auth remediations — notably keep-me-signed-in — once the flow completes. auth-js
+    // validates every remediation against the pinned flow's remediator map
+    // (PasswordRecoveryFlow / RegistrationFlow), neither of which contains
+    // keep-me-signed-in, so it throws "No remediation can match current flow". Reset to
+    // the default flow (which passes unmatched remediations through) once the pinned flow
+    // has done its job, so KMSI is handled cleanly:
+    // - resetPassword: at reset-authenticator, the last step of the recovery flow.
+    // - signup: at enroll-profile. RegistrationFlow is only needed to auto-select the enroll
+    //   profile on load; the steps after the profile submit (authenticator enrollment, skip)
+    //   match the login-first registration path, which already runs under the default flow.
+    //
     // We also persist the change to the saved transaction meta — auth-js' proceed() falls
-    // back to meta.flow whenever a proceed call omits the flow option (e.g. the MFA
-    // step-up hop between reset-authenticator and post-auth keep-me-signed-in), and
-    // without this update it would re-read 'resetPassword' and throw on the KMSI step.
-    const shouldResetFlow = formName === FORMS.RESET_AUTHENTICATOR
-      && authClient.idx.getFlow?.() === 'resetPassword';
+    // back to meta.flow whenever a proceed call omits the flow option (e.g. an MFA step-up
+    // after reset-authenticator, or the authenticator enrollment / skip hops during
+    // registration), and without this update it would re-read the pinned flow and throw on
+    // the KMSI step.
+    const currentFlow = authClient.idx.getFlow?.();
+    const shouldResetFlow =
+      (formName === FORMS.RESET_AUTHENTICATOR && currentFlow === CONFIGURED_FLOW.RESET_PASSWORD)
+      || (formName === FORMS.ENROLL_PROFILE && currentFlow === CONFIGURED_FLOW.REGISTRATION);
     if (shouldResetFlow) {
       authClient.idx.setFlow('default');
       const savedMeta = authClient.idx.getSavedTransactionMeta?.();
