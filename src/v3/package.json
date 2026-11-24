@@ -52,6 +52,7 @@
     "@formatjs/intl-getcanonicallocales": "^2.5.5",
     "@formatjs/intl-locale": "^4.2.11",
     "@formatjs/intl-numberformat": "^8.15.4",
+    "@formatjs/intl-pluralrules": "5.4.4",
     "@hcaptcha/react-hcaptcha": "^1.10.1",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.5",
