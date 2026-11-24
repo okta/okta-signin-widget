@@ -10,11 +10,18 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+/* eslint-disable simple-import-sort/imports -- polyfill load order matters */
+
 // Following https://github.com/formatjs/formatjs/blob/main/website/docs/polyfills/intl-datetimeformat.md#simple
+
+// Must run before any polyfill touches Intl (OKTA-1325408)
+import './intlGuard';
 
 // # Prerequisites
 import '@formatjs/intl-getcanonicallocales/polyfill';
 import '@formatjs/intl-locale/polyfill';
+import '@formatjs/intl-pluralrules/polyfill';
+import '@formatjs/intl-pluralrules/locale-data/en'; // locale-data for en
 import '@formatjs/intl-numberformat/polyfill';
 import '@formatjs/intl-numberformat/locale-data/en'; // locale-data for en
 // # Intl.DateTimeFormat
