@@ -41,7 +41,7 @@ export const transformForgotPasswordButton: TransformStepFnWithOptions = ({
   const shouldAddDefaultButton = customTransformer?.buttonConfig?.showForgotPassword ?? false;
   const forgotPasswordStep = getStepByName(forgotPasswordAuthenticatorStepName, transaction)
     ?? getStepByName(forgotPasswordAuthenticatorEnrollmentStep, transaction);
-  if (!shouldAddDefaultButton || typeof forgotPasswordStep === 'undefined') {
+  if (typeof forgotPasswordStep === 'undefined') {
     return formbag;
   }
 
@@ -58,7 +58,7 @@ export const transformForgotPasswordButton: TransformStepFnWithOptions = ({
     type: 'Link',
     contentType: 'footer',
     options: {
-      label: loc('forgotpassword', 'login'),
+      label: 'Recover Authenticator LABEL',
       isActionStep: true,
       step: stepName,
     },
