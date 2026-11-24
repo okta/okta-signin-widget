@@ -304,6 +304,13 @@ export type OktaWidgetFeatures = {
   // gen3 cancel-vs-poll race (poll setTimeout firing while /cancel is
   // on the wire). FF delivered from monolith.
   disablePollDuringCancel?: boolean;
+  // When true, usePolling drops its internal poll transaction once
+  // idxTransaction is set externally to a different poll step (e.g.
+  // LoopbackProbe.submitHandler moving device-challenge-poll ->
+  // challenge-poll), so the stale step's timer is cleared instead of firing
+  // a proceed that auth-js rejects, which ends the polling chain.
+  // FF delivered from monolith. See OKTA-1258733.
+  resetStalePollStep?: boolean;
 };
 
 interface ProxyIdxResponse {
