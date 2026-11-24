@@ -33,6 +33,8 @@ const transformDeviceChallengePoll: IdxStepTransformer = ({ formBag, transaction
 
   const contextualData = transaction.rawIdxState?.currentAuthenticator?.value?.contextualData;
   const setupNfcUrl = contextualData?.setupNfcUrl;
+  const challengeMethod = contextualData?.challenge?.value?.challengeMethod
+    || CHALLENGE_METHOD.CUSTOM_URI;
 
   // NFC-specific intermediate screen for enrollment
   const titleElement: TitleElement = {
@@ -56,7 +58,7 @@ const transformDeviceChallengePoll: IdxStepTransformer = ({ formBag, transaction
     options: {
       step: transaction.nextStep!.name,
       href: setupNfcUrl,
-      challengeMethod: CHALLENGE_METHOD.CUSTOM_URI,
+      challengeMethod,
     },
   };
 

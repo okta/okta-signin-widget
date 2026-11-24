@@ -1,10 +1,15 @@
 import { View, loc, createButton } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import Enums from 'util/Enums';
+import Util from 'util/Util';
 import { BaseFooter, BaseOktaVerifyChallengeView } from '../../internals';
 import { AUTHENTICATOR_CANCEL_ACTION } from '../../utils/Constants';
 import { getSwitchAuthenticatorLink } from '../../utils/LinksUtil';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
+
+const isLinkChallenge = (challengeMethod) => (
+  [Enums.APP_LINK_CHALLENGE, Enums.UNIVERSAL_LINK_CHALLENGE].includes(challengeMethod)
+);
 
 const Body = BaseOktaVerifyChallengeView.extend({
   pollingCancelAction: AUTHENTICATOR_CANCEL_ACTION,
@@ -13,7 +18,7 @@ const Body = BaseOktaVerifyChallengeView.extend({
     const contextualData = this.options.appState.get('currentAuthenticator')?.contextualData;
     if (contextualData?.setupNfcUrl) {
       return {
-        challengeMethod: Enums.CUSTOM_URI_CHALLENGE,
+        challengeMethod: contextualData.challenge?.value?.challengeMethod || Enums.CUSTOM_URI_CHALLENGE,
         href: contextualData.setupNfcUrl,
       };
     }
@@ -42,12 +47,16 @@ const Body = BaseOktaVerifyChallengeView.extend({
       title: loc('oie.enroll.nfc_pin.openOktaVerify', 'login'),
       id: 'launch-ov',
       click: () => {
-        this.doCustomURI();
+        if (!isLinkChallenge(deviceChallenge.challengeMethod)) {
+          this.doCustomURI();
+        } else {
+          Util.redirect(deviceChallenge.href, window, deviceChallenge.challengeMethod === Enums.APP_LINK_CHALLENGE);
+        }
       }
     }));
 
     // Launch CUS silently
-    if (deviceChallenge.href) {
+    if (!isLinkChallenge(deviceChallenge.challengeMethod) && deviceChallenge.href) {
       this.customURI = deviceChallenge.href;
       this.doCustomURI();
     }
