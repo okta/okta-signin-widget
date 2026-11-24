@@ -192,6 +192,7 @@ $enroll-content-spacing: 15px;
   .enroll-call-phone {
     width: 196px;
     float: left;
+    padding-right: 9px;
 
     @include device-mq(x-small) {
       width: 165px;
@@ -204,7 +205,7 @@ $enroll-content-spacing: 15px;
   }
 
   .enroll-call-extension {
-    float: right;
+    display: inline-block;
     width: 111px;
     margin-top: 0;
     padding: 0;
