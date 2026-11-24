@@ -188,22 +188,15 @@ function sprintf(value: string, params: Array<string | number | boolean | unknow
     throw new Error('Mismatch number of variables: ' + value + ', ' + JSON.stringify(params));
   }
 
-  let oldValue = value, newValue = value;
-  for (let i = 0, l = params.length; i < l; i++) {
-    const entity = String(params[i]);
-    const regex = new RegExp('\\{' + i + '\\}', 'g');
-    newValue = newValue.replace(regex, entity);
-
-    if (entity === undefined || entity === null || newValue === oldValue) {
+  return value.replace(/\{(\d+)\}/g, (match, indexStr) => {
+    const index = parseInt(indexStr, 10);
+    if (index >= params.length) {
       triggerError();
     }
-
-    oldValue = newValue;
-  }
-
-  if (/\{[\d+]\}/.test(newValue)) {
-    triggerError();
-  }
-
-  return newValue;
+    const entity = params[index];
+    if (entity === undefined || entity === null) {
+      triggerError();
+    }
+    return String(entity);
+  });
 }
